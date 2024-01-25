@@ -78,22 +78,22 @@ class HomeDrawerWidget extends StatelessWidget {
   }
 
   Widget _itemBuilder({required BuildContext context, required DrawerModel drawerData, required int index}) {
-    return Padding(
-      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.02,
-          bottom:  MediaQuery.of(context).size.width * 0.02),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              if(drawerData.sublist.isEmpty){
-                Navigator.pop(context);
-              }
-              if(drawerData.isSelected == false){
-                BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
-                    isSelected: true , index:  index, context: context));
-              }
-            },
-            child: Row(
+    return GestureDetector(
+      onTap: () {
+        if(drawerData.sublist.isEmpty){
+          Navigator.pop(context);
+        }
+        if(drawerData.isSelected == false){
+          BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
+              isSelected: true , index:  index, context: context));
+        }
+      },
+      child: Padding(
+        padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.02,
+            bottom:  MediaQuery.of(context).size.width * 0.02),
+        child: Column(
+          children: [
+            Row(
               children: [
                 Icon(drawerData.icon, color: drawerData.isSelected == true ? AppColor.themeColor :AppColor.black,),
                 SizedBox(
@@ -111,13 +111,13 @@ class HomeDrawerWidget extends StatelessWidget {
                 Icons.keyboard_arrow_down_sharp  : Icons.keyboard_arrow_right_sharp, color: AppColor.black,),
               ],
             ),
-          ),
-          drawerData.isSublistLoader == false
-              || drawerData.isSublistLoader == null ?
-          drawerData.sublist.isNotEmpty && drawerData.isSelected == true
-              ? _subListBuilder(context: context, drawerData: drawerData, listIndex: index)
-              : const SizedBox.shrink(): const DottedLoaderWidget(),
-        ],
+            drawerData.isSublistLoader == false
+                || drawerData.isSublistLoader == null ?
+            drawerData.sublist.isNotEmpty && drawerData.isSelected == true
+                ? _subListBuilder(context: context, drawerData: drawerData, listIndex: index)
+                : const SizedBox.shrink(): const DottedLoaderWidget(),
+          ],
+        ),
       ),
     );
   }
