@@ -71,22 +71,19 @@ class TabletDrawerWidget extends StatelessWidget {
   }
 
   Widget _itemBuilder({required BuildContext context, required DrawerModel drawerData, required int index}) {
-    return Padding(
-      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01,
-          bottom:  MediaQuery.of(context).size.width * 0.01),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-/*              if(drawerData.sublist.isEmpty){
-                Navigator.pop(context);
-              }*/
-              if(drawerData.isSelected == false){
-                BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
-                    isSelected: true , index:  index, context: context));
-              }
-            },
-            child: Row(
+    return GestureDetector(
+      onTap: () {
+        if(drawerData.isSelected == false){
+          BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
+              isSelected: true , index:  index, context: context));
+        }
+      },
+      child: Padding(
+        padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01,
+            bottom:  MediaQuery.of(context).size.width * 0.01),
+        child: Column(
+          children: [
+            Row(
               children: [
                 Icon(drawerData.icon, color: drawerData.isSelected == true ? AppColor.white :AppColor.black,),
                 SizedBox(
@@ -106,11 +103,11 @@ class TabletDrawerWidget extends StatelessWidget {
                 Icons.keyboard_arrow_down_sharp  : Icons.keyboard_arrow_right_sharp, color: AppColor.black,),
               ],
             ),
-          ),
-          drawerData.sublist.isNotEmpty && drawerData.isSelected == true
-              ? _subListBuilder(context: context, drawerData: drawerData, listIndex: index)
-              : const SizedBox.shrink(),
-        ],
+            drawerData.sublist.isNotEmpty && drawerData.isSelected == true
+                ? _subListBuilder(context: context, drawerData: drawerData, listIndex: index)
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
