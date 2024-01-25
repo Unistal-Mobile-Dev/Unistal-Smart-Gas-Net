@@ -95,6 +95,7 @@ class AppString {
   static get selectGaugingChecks => "Select Gauging Checks";
   static get selectDisbomdmentChecks => "Select Disbomdment Checks";
   static get selectHolidayChecks => "Select Holiday Checks";
+  static get selectWeather => "Select Weather";
   static get selectBendingType => "Select Bending Type";
   static get chainage => "Chainage";
   static get bending => "Bending";

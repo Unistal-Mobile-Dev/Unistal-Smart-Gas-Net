@@ -28,6 +28,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final File file;
   final List<JointNumberModel>  jointNumberList;
   final JointNumberModel jointNumberData;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -43,6 +45,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.file,
     required this.jointNumberData,
     required this.jointNumberList,
+    required this.weatherList,
+    required this.weatherData,
   });
 
   @override
@@ -60,5 +64,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     file,
     jointNumberData,
     jointNumberList,
+    weatherList,
+    weatherData,
   ];
 }

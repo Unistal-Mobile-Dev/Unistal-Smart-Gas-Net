@@ -46,6 +46,14 @@ class AddStringingAddImageEvent extends AddStringingEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddStringingEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
 class AddStringingSubmitDataEvent extends AddStringingEvent {
   final BuildContext context;
   const AddStringingSubmitDataEvent({required this.context});

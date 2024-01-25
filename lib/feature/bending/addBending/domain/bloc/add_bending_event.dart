@@ -74,6 +74,14 @@ class AddBendingAddImageEvent extends AddBendingEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddBendingEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
 class AddBendingSubmitDataEvent extends AddBendingEvent {
   final BuildContext context;
   const AddBendingSubmitDataEvent({required this.context});

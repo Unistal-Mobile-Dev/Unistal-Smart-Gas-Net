@@ -27,6 +27,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final ConcreteCoatingModel concreteCoatingData;
   final List<PipeModel> pipeList;
   final PipeModel pipeData;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddStringingDataState({
     required this.isLoader,
@@ -40,6 +42,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.pipeData,
     required this.concreteCoatingList,
     required this.concreteCoatingData,
+    required this.weatherList,
+    required this.weatherData,
   });
 
   @override
@@ -55,5 +59,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
     pipeData,
     concreteCoatingList,
     concreteCoatingData,
+    weatherList,
+    weatherData,
   ];
 }

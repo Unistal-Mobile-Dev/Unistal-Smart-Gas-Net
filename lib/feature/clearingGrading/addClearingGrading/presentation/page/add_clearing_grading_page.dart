@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 class AddClearingGradingPage extends StatefulWidget {
   const AddClearingGradingPage({super.key});
@@ -42,6 +43,8 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _dateController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
@@ -182,6 +185,23 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         BlocProvider.of<AddClearingGradingBloc>(context).add(
             AddClearingGradingSelectAlignmentEvent(alignmentData: value,));
       },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddClearingGradingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddClearingGradingBloc>(context).add(
+            SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

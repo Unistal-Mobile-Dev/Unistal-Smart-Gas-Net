@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -146,9 +147,16 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   bool _isJointNumberLoader = false;
   bool get isJointNumberLoader => _isJointNumberLoader;
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   AddWeldingBloc() : super(AddWeldingInitial()) {
     on<AddWeldingPageLoadEvent>(_pageLoadEvent);
     on<AddWeldingSelectWPSEvent>(_selectWPS);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
     on<AddWeldingSelectWelderEvent>(_selectWelder);
     on<AddWeldingSelectAlignmentEvent>(_selectAlignment);
@@ -243,6 +251,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     file =  File("");
     _jointTypeData =  JointTypeModel();
     _jointTypeList = [];
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     _isJointNumberLoader =  false;
 
@@ -270,6 +280,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
     _eventComplete(emit);
   }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
+    _eventComplete(emit);
+  }
+
 
   _selectWPS(AddWeldingSelectWPSEvent event, emit) async {
     _wpsData =  event.wpsData;
@@ -536,6 +552,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       weldVisualData: weldVisualData,
       file: file,
       userData: userData,
+      weatherData: weatherData
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -671,6 +688,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
         cappingWelder2Data: cappingWelder2Data,
         stripWelder1Data: stripWelder1Data,
         stripWelder2Data: stripWelder2Data,
+        weatherData:  weatherData,
+        weatherList:  weatherList,
     ));
   }
 

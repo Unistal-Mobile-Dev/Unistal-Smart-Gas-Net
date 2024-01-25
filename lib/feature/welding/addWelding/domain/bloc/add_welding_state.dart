@@ -105,6 +105,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final WelderModel cappingWelder2Data;
   final WelderModel stripWelder1Data;
   final WelderModel stripWelder2Data;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddWeldingDataState({
     required this.isLoader,
@@ -186,6 +188,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.cappingWelder2Data,
     required this.stripWelder1Data,
     required this.stripWelder2Data,
+    required this.weatherList,
+    required this.weatherData,
   });
 
   @override
@@ -269,5 +273,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     cappingWelder2Data,
     stripWelder1Data,
     stripWelder2Data,
+    weatherList,
+    weatherData,
   ];
 }

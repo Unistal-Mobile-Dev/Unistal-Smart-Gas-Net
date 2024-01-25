@@ -83,6 +83,14 @@ class AddWeldingSelectMultiWelderEvent extends AddWeldingEvent {
   List<Object?> get props => [welderData,name];
 }
 
+class SelectWeatherEvent extends AddWeldingEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
 class AddWeldingSubmitDataEvent extends AddWeldingEvent {
   final BuildContext context;
   const AddWeldingSubmitDataEvent({required this.context});

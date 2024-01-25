@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 
 class AddSoilResistivityPage extends StatefulWidget {
@@ -40,6 +41,8 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
             _dateController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
@@ -95,6 +98,23 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
         BlocProvider.of<AddSoilResistivityBloc>(context).add(
             AddSoilResistivitySelectAlignmentEvent(alignmentData: value,));
       },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddSoilResistivityDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddSoilResistivityBloc>(context).add(
+            SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

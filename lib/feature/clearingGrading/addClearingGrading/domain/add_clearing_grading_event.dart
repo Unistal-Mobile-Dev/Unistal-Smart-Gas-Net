@@ -32,6 +32,13 @@ class AddClearingGradingAddImageEvent extends AddClearingGradingEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddClearingGradingEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
 class AddClearingGradingSubmitDataEvent extends AddClearingGradingEvent {
   final BuildContext context;
   const AddClearingGradingSubmitDataEvent({required this.context});

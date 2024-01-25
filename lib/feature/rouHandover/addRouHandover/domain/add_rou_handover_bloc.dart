@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/helper/add_rou_handover_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
@@ -37,11 +38,18 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   File file = File("");
   
   AddRouHandoverBloc() : super(AddRouHandoverInitial()) {
     on<AddRouHandoverLoadEvent>(_pageLoadEvent);
     on<AddRouHandoverSubmitDataEvent>(_submitData);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddRouHandoverSelectAlignmentEvent>(_selectAlignment);
     on<AddRouHandoverSelectDateEvent>(_selectDate);
     on<AddRouHandoverAddImageEvent>(_selectFile);
@@ -60,6 +68,8 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     _isLoader =  false;
     _alignmentList =  [];
     file = File("");
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _alignmentData =  AlignmentModel();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -68,6 +78,12 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     }
     _eventComplete(emit);
   }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
+    _eventComplete(emit);
+  }
+
 
   _selectAlignment(AddRouHandoverSelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
@@ -126,7 +142,9 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
         bearing: bearingAngleController.text.toString(),
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file);
+        userData: userData,
+        file: file,
+        weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -158,6 +176,8 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       tpRemarkController: tpRemarkController,
       alignmentData: alignmentData,
       file: file,
+      weatherData:  weatherData,
+      weatherList:  weatherList,
     ));
   }
 }

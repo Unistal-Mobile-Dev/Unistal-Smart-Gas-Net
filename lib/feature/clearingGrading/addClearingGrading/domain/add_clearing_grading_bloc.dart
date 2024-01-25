@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
@@ -42,6 +43,12 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   LoginDataModel get userData => _userData;
 
   File file = File("");
+
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
   
   
   AddClearingGradingBloc() : super(AddClearingGradingInitial()) {
@@ -50,6 +57,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     on<AddClearingGradingSelectAlignmentEvent>(_selectAlignment);
     on<AddClearingGradingSelectDateEvent>(_selectDate);
     on<AddClearingGradingAddImageEvent>(_selectFile);
+    on<SelectWeatherEvent>(_selectWeather);
   }
 
   _pageLoadEvent(AddClearingGradingPageLoadEvent event, emit) async {
@@ -71,11 +79,18 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     boundaryLocationController.text = "";
     boundaryLocation.text = "";
     file = File("");
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
+    _eventComplete(emit);
+  }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
     _eventComplete(emit);
   }
 
@@ -143,7 +158,9 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         groundType: groundTypeController.text.toString(),
         userData: userData, file: file,
         ipNumber: ipNumberController.text.toString(),
-        ipNumberFrom: ipNumberFromController.text.toString());
+        ipNumberFrom: ipNumberFromController.text.toString(),
+        weatherData: weatherData
+     );
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -184,6 +201,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       boundaryLocationController: boundaryLocationController,
       ipNumberController: ipNumberController,
       ipNumberFromController: ipNumberFromController,
+      weatherData:  weatherData,
+      weatherList:  weatherList,
     ));
   }
 }

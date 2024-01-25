@@ -32,6 +32,13 @@ class AddRouHandoverAddImageEvent extends AddRouHandoverEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddRouHandoverEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
 class AddRouHandoverSubmitDataEvent extends AddRouHandoverEvent {
   final BuildContext context;
   const AddRouHandoverSubmitDataEvent({required this.context});

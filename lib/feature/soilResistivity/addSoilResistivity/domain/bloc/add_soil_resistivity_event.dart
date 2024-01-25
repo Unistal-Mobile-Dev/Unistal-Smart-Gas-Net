@@ -32,6 +32,15 @@ class AddSoilResistivityAddImageEvent extends AddSoilResistivityEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddSoilResistivityEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
+
 class AddSoilResistivitySubmitDataEvent extends AddSoilResistivityEvent {
   final BuildContext context;
   const AddSoilResistivitySubmitDataEvent({required this.context});

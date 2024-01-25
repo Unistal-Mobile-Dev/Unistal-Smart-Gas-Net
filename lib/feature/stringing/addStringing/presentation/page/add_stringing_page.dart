@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
@@ -42,6 +43,8 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _dateController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
@@ -137,6 +140,23 @@ class _AddStringingPageState extends State<AddStringingPage> {
         BlocProvider.of<AddStringingBloc>(context).add(
             AddStringingSelectAlignmentEvent(alignmentData: value,));
       },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddStringingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddStringingBloc>(context).add(
+            SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/bending_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 
 class AddBendingPage extends StatefulWidget {
@@ -44,6 +45,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
             _dateController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
@@ -268,6 +271,23 @@ class _AddBendingPageState extends State<AddBendingPage> {
         BlocProvider.of<AddBendingBloc>(context).add(
             AddBendingSelectAlignmentEvent(alignmentData: value,));
       },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddBendingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddBendingBloc>(context).add(
+            SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

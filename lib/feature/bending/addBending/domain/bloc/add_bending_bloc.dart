@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
@@ -81,8 +82,15 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   AddBendingBloc() : super(AddBendingInitial()) {
     on<AddBendingPageLoadEvent>(_pageLoad);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddBendingSelectAlignmentEvent>(_selectAlignment);
     on<AddBendingSelectDateEvent>(_selectDate);
     on<AddBendingSelectHolidayDataEvent>(_selectHolidayCheck);
@@ -122,6 +130,8 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
      file =  File("");
     _pipeList = [];
     _pipeData = PipeModel();
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -153,6 +163,10 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     _eventComplete(emit);
   }
 
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
+    _eventComplete(emit);
+  }
 
   _selectAlignment(AddBendingSelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
@@ -254,6 +268,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         disbomdmentCheckData: disbomdmentChecksData,
         holidayChecksData: holidayChecksData,
         pipeData: pipeData,
+        weatherData: weatherData,
         userData: userData, file: file);
     _isLoader =  false;
     _eventComplete(emit);
@@ -306,6 +321,8 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         visualChecksList: visualChecksList,
         pipeList: pipeList,
         pipeData: pipeData,
+        weatherData:  weatherData,
+        weatherList:  weatherList,
     ));
   }
 }

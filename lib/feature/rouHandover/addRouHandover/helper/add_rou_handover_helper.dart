@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 
@@ -50,7 +51,9 @@ class AddRouHandover {
     required String date, required String typeofGround,
     required String tpIpNOS, required String tpIpRemark, required String bearing,
     required String terrain, required String activityRemark,
-    required LoginDataModel userData, required File file}) async {
+    required LoginDataModel userData, required File file,
+    required WeatherModel weatherData,
+  }) async {
 
     try{
 
@@ -77,6 +80,7 @@ class AddRouHandover {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
+        "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attached_file",

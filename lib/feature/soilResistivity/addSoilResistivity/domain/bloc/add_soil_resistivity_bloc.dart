@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/helper/add_soil_resistivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
@@ -37,11 +38,18 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   File file = File("");
 
   AddSoilResistivityBloc() : super(AddSoilResistivityInitial()) {
     on<AddSoilResistivityPageLoadEvent>(_pageLoadEvent);
     on<AddSoilResistivitySubmitDataEvent>(_submitData);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddSoilResistivitySelectAlignmentEvent>(_selectAlignment);
     on<AddSoilResistivitySelectDateEvent>(_selectDate);
     on<AddSoilResistivityAddImageEvent>(_selectFile);
@@ -61,6 +69,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
     _alignmentList =  [];
     file = File("");
     _alignmentData =  AlignmentModel();
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -71,6 +81,11 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
 
   _selectAlignment(AddSoilResistivitySelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
     _eventComplete(emit);
   }
 
@@ -126,7 +141,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
         bearing: bearingAngleController.text.toString(),
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file);
+        userData: userData, file: file,
+        weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -158,6 +174,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       tpRemarkNumberController: tpRemarkNumberController,
       alignmentData: alignmentData,
       file: file,
+      weatherData:  weatherData,
+      weatherList:  weatherList,
     ));
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/hepler/add_tren_ching_helper.dart';
@@ -46,9 +47,16 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   File file = File("");
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
     on<AddTrenChingSelectAlignmentEvent>(_selectAlignment);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddTrenChingSelectDateEvent>(_selectDate);
     on<AddTrenChingAddImageEvent>(_selectFile);
     on<AddTrenChingSubmitDataEvent>(_submitData);
@@ -67,6 +75,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _isLoader =  false;
     _alignmentList =  [];
     file = File("");
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _alignmentData =  AlignmentModel();
     _jointNumberData =  JointNumberModel();
     _jointNumberList = [];
@@ -81,6 +91,11 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       _jointNumberList =  resJoint;
     }
 
+    _eventComplete(emit);
+  }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
     _eventComplete(emit);
   }
 
@@ -140,7 +155,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
         trenchingDepth:trenchingDepthController.text.toString(),
         terrainType: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file);
+        userData: userData, file: file,
+        weatherData: weatherData
+    );
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -172,6 +189,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       file: file,
       jointNumberList: jointNumberList,
       jointNumberData: jointNumberData,
+      weatherData:  weatherData,
+      weatherList:  weatherList,
     ));
   }
 }

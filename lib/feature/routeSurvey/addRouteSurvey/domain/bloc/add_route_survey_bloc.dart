@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
@@ -39,9 +40,16 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
 
   File file = File("");
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   AddRouteSurveyBloc() : super(AddRouteSurveyInitial()) {
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
     on<AddRouteSurveySubmitDataEvent>(_submitData);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddRouteSurveySelectAlignmentEvent>(_selectAlignment);
     on<AddRouteSurveySelectDateEvent>(_selectDate);
     on<AddRouteSurveyAddImageEvent>(_selectFile);
@@ -61,6 +69,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     _alignmentList =  [];
     file = File("");
     _alignmentData =  AlignmentModel();
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -71,6 +81,11 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
 
   _selectAlignment(AddRouteSurveySelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
     _eventComplete(emit);
   }
 
@@ -126,7 +141,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         bearing: bearingAngleController.text.toString(),
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file);
+        userData: userData, file: file,
+        weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -158,6 +174,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         tpRemarkNumberController: tpRemarkNumberController,
         alignmentData: alignmentData,
         file: file,
+        weatherData:  weatherData,
+        weatherList:  weatherList,
     ));
  }
 

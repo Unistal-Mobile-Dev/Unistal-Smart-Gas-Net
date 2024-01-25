@@ -27,6 +27,8 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
   final TextEditingController activityRemarkController;
   final AlignmentModel  alignmentData;
   final File file;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddSoilResistivityDataState({
     required this.isLoader,
@@ -41,6 +43,9 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     required this.tpRemarkNumberController,
     required this.alignmentData,
     required this.file,
+    required this.weatherList,
+    required this.weatherData,
+
   });
 
   @override
@@ -57,5 +62,7 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     tpRemarkNumberController,
     alignmentData,
     file,
+    weatherList,
+    weatherData,
   ];
 }

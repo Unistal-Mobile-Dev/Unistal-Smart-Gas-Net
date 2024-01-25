@@ -32,6 +32,14 @@ class AddRouteSurveyAddImageEvent extends AddRouteSurveyEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddRouteSurveyEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
 class AddRouteSurveySubmitDataEvent extends AddRouteSurveyEvent {
   final BuildContext context;
   const AddRouteSurveySubmitDataEvent({required this.context});

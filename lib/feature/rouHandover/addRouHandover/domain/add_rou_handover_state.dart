@@ -27,6 +27,8 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
   final TextEditingController activityRemarkController;
   final AlignmentModel  alignmentData;
   final File file;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddRouHandoverDataState({
     required this.isLoader,
@@ -41,6 +43,8 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
     required this.tpRemarkController,
     required this.alignmentData,
     required this.file,
+    required this.weatherList,
+    required this.weatherData,
   });
 
   @override
@@ -57,5 +61,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
     tpRemarkController,
     alignmentData,
     file,
+    weatherList,
+    weatherData,
   ];
 }

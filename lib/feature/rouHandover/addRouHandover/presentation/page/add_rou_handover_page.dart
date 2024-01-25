@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 class AddRouHandoverPage extends StatefulWidget {
   const AddRouHandoverPage({super.key});
@@ -40,6 +41,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
             _dateController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
@@ -126,6 +129,23 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
         BlocProvider.of<AddRouHandoverBloc>(context).add(
             AddRouHandoverSelectAlignmentEvent(alignmentData: value,));
       },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddRouHandoverDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRouHandoverBloc>(context).add(
+            SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
@@ -103,7 +104,9 @@ class AddBendingHelper {
     required HolidayChecksModel holidayChecksData,
     required PipeModel pipeData,
     required String activityRemark,
-    required LoginDataModel userData, required File file}) async {
+    required WeatherModel weatherData,
+    required LoginDataModel userData,
+    required File file}) async {
 
     try{
 
@@ -139,6 +142,7 @@ class AddBendingHelper {
         "bend_angle_degree" : bendDegree,
         "bend_angle_minute" : bendMinits,
         "bend_angle_second" : bendSecond,
+        "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attached_file",

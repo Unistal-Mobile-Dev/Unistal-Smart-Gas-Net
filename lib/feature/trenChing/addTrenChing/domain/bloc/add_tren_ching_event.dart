@@ -39,6 +39,14 @@ class AddTrenChingAddImageEvent extends AddTrenChingEvent {
   List<Object?> get props => [context];
 }
 
+class SelectWeatherEvent extends AddTrenChingEvent{
+  final WeatherModel weatherData;
+  const SelectWeatherEvent({required this.weatherData});
+  @override
+  List<Object?> get props => [weatherData];
+}
+
+
 class AddTrenChingSubmitDataEvent extends AddTrenChingEvent {
   final BuildContext context;
   const AddTrenChingSubmitDataEvent({required this.context});

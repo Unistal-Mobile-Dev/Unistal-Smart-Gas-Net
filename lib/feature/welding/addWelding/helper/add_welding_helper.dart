@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
@@ -171,6 +172,7 @@ class AddWeldingHelper {
     required VisualChecksModel weldVisualData,
     required LoginDataModel userData,
     required File file,
+    required WeatherModel weatherData,
   }) async {
     try{
 
@@ -232,6 +234,7 @@ class AddWeldingHelper {
         "electrode_dia_e9045p2_batch": electrodeDiaE9045p2Batch,
         "electrode_dia_e81t8g": electrodeDiaE81t8g,
         "electrode_dia_e81t8g_batch": electrodeDiaE81t8gBatch,
+        "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attached_file",

@@ -31,6 +31,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController ipNumberFromController;
   final AlignmentModel  alignmentData;
   final File file;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddClearingGradingDataState({
     required this.isLoader,
@@ -49,6 +51,9 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.ipNumberFromController,
     required this.alignmentData,
     required this.file,
+    required this.weatherList,
+    required this.weatherData,
+
   });
 
   @override
@@ -69,5 +74,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     file,
     ipNumberFromController,
     ipNumberController,
+    weatherList,
+    weatherData,
   ];
 }

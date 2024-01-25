@@ -40,6 +40,8 @@ class FetchAddBendingDataState extends AddBendingInitial {
   final File file;
   final List<PipeModel> pipeList;
   final PipeModel pipeData;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
 
   FetchAddBendingDataState({
     required this.isLoader,
@@ -67,6 +69,8 @@ class FetchAddBendingDataState extends AddBendingInitial {
     required this.visualChecksList,
     required this.pipeData,
     required this.pipeList,
+    required this.weatherList,
+    required this.weatherData,
   });
 
   @override
@@ -95,6 +99,8 @@ class FetchAddBendingDataState extends AddBendingInitial {
     visualChecksData,
     visualChecksList,
     pipeData,
-    pipeList
+    pipeList,
+    weatherList,
+    weatherData,
   ];
 }

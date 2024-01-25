@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
@@ -48,9 +49,16 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   File file = File("");
 
+  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> get weatherList => _weatherList;
+
+  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel get weatherData => _weatherData;
+
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
     on<AddStringingSubmitDataEvent>(_submitData);
+    on<SelectWeatherEvent>(_selectWeather);
     on<AddStringingSelectAlignmentEvent>(_selectAlignment);
     on<AddStringingSelectDateEvent>(_selectDate);
     on<AddStringingSelectPipeDataEvent>(_selectPipe);
@@ -71,6 +79,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _alignmentList =  [];
     file = File("");
     _alignmentData =  AlignmentModel();
+    _weatherData = WeatherModel();
+    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -106,6 +116,12 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     }
 
   }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    _weatherData =  event.weatherData;
+    _eventComplete(emit);
+  }
+
 
   _selectAlignment(AddStringingSelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
@@ -152,7 +168,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         concreteCoatingData: concreteCoatingData,
         pipeData: pipeData,
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file);
+        userData: userData, file: file,
+        weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -180,6 +197,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       concreteCoatingList: concreteCoatingList,
       pipeData: pipeData,
       pipeList: pipeList,
+      weatherData:  weatherData,
+      weatherList:  weatherList,
     ));
   }
 }
