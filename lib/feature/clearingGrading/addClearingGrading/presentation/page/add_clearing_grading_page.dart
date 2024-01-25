@@ -1,0 +1,262 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
+
+class AddClearingGradingPage extends StatefulWidget {
+  const AddClearingGradingPage({super.key});
+
+  @override
+  State<AddClearingGradingPage> createState() => _AddClearingGradingPageState();
+}
+
+class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      backgroundColor: AppColor.white,
+      appBar: AppBar(
+        title: TextWidget("Add Clearing & Grading",
+          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
+      ),
+      body: BlocBuilder<AddClearingGradingBloc, AddClearingGradingState>(
+        builder: (context, state) {
+          if(state is FetchAddClearingGradingDataState) {
+            return _itemBuilder(dataState: state);
+          } else{
+            return const Center(child: CenterLoaderWidget(),);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _itemBuilder({required FetchAddClearingGradingDataState dataState}){
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child : Column(
+          children: [
+            _verticalSpace(),
+            _dateController(dataState: dataState),
+            _verticalSpace(),
+            _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
+            _tpIpChainageController(dataState: dataState),
+            _verticalSpace(),
+            _tpIpNOSController(dataState: dataState),
+            _verticalSpace(),
+            _ipNumberController(dataState: dataState),
+            _verticalSpace(),
+            _ipNumberFrom(dataState: dataState),
+            _verticalSpace(),
+            _groundTypeController(dataState: dataState),
+            _verticalSpace(),
+            _structureDetailController(dataState: dataState),
+            _verticalSpace(),
+            _structureLocationController(dataState: dataState),
+            _verticalSpace(),
+            _boundaryLocationController(dataState: dataState),
+            _verticalSpace(),
+            _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _photo(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+            _button(dataState: dataState),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _dateController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.date,
+      controller: dataState.dateController,
+      onTap: () {
+        BlocProvider.of<AddClearingGradingBloc>(context).add(
+            AddClearingGradingSelectDateEvent(context: context,));
+      },
+    );
+  }
+
+  Widget _reportNumberController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _tpIpChainageController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.tpIpChainage,
+      controller: dataState.tpChainageController,
+    );
+  }
+
+  Widget _tpIpNOSController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.tpIpNos,
+      controller: dataState.tpChainageNumberController,
+    );
+  }
+
+  Widget _ipNumberController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.ipNumber,
+      controller: dataState.ipNumberController,
+    );
+  }
+
+  Widget _ipNumberFrom({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.ipNumberFrom,
+      controller: dataState.ipNumberFromController,
+    );
+  }
+
+  Widget _groundTypeController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      maxLine: 2,
+      labelText: AppString.groundType,
+      controller: dataState.groundTypeController,
+    );
+  }
+
+  Widget _structureDetailController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.structureDetailController,
+      controller: dataState.structureDetailController,
+    );
+  }
+
+  Widget _structureLocationController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.structureLocation,
+      controller: dataState.structureLocationController,
+    );
+  }
+
+  Widget _boundaryLocationController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.boundaryLocation,
+      controller: dataState.boundaryLocationController,
+    );
+  }
+
+  Widget _activityRemark({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      maxLine: 3,
+      labelText: AppString.activityRemark,
+      controller: dataState.activityRemarkController,
+    );
+  }
+
+  Widget _alignmentDropdown({required FetchAddClearingGradingDataState dataState}) {
+    return  DropDownSearchWidget(
+      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddClearingGradingBloc>(context).add(
+            AddClearingGradingSelectAlignmentEvent(alignmentData: value,));
+      },
+    );
+  }
+
+  Widget _photo({required FetchAddClearingGradingDataState dataState}) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width/3,
+      height:MediaQuery.of(context).size.width/3,
+      child: InkWell(
+        onTap: () {
+          BlocProvider.of<AddClearingGradingBloc>(context).add(AddClearingGradingAddImageEvent(context: context));
+        },
+        child: DottedBorder(
+          color: AppColor.grey,
+          strokeWidth: 1,
+          child: dataState.file == null
+              ||dataState.file.path.isEmpty ?
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(child: Icon(Icons.photo_camera_back_outlined),),
+              Padding(
+                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                child: TextWidget("Photo",
+                  fontSize: AppFont.font_12,
+                  color: AppColor.grey,),
+              ),
+            ],
+          ):Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  dataState.file.path.toString().toLowerCase().contains(".jpg")
+                      || dataState.file.path.toString().toLowerCase().contains(".png")
+                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
+                      ? Image.file(dataState.file,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width/3,
+                    height: MediaQuery.of(context).size.width/4.5 ,)
+                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
+                      ? Icon(Icons.picture_as_pdf_outlined)
+                      : Icon(Icons.document_scanner_outlined),
+                  TextWidget(dataState.file.path.split('/').last.toString(),
+                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
+                ],
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  height:MediaQuery.of(context).size.width/3,
+                  color : Colors.white.withOpacity(0.6),
+                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _button({required FetchAddClearingGradingDataState dataState}) {
+    return dataState.isLoader == false ?
+    ButtonWidget(text: AppString.submit,
+        onPressed: () {
+          BlocProvider.of<AddClearingGradingBloc>(context).add(AddClearingGradingSubmitDataEvent(context: context));
+        }
+    ): const DottedLoaderWidget();
+  }
+
+
+  Widget _verticalSpace() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.02,
+    );
+  }
+
+}
