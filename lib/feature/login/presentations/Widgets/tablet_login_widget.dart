@@ -152,7 +152,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
             child: TextWidget(
               "Forgot Password",
              textDecoration : TextDecoration.underline,
-              color: AppColor.themeColor,
+              color: AppColor.themeSecondary,
               fontWeight: FontWeight.w600
             ),
           ),
