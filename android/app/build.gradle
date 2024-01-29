@@ -23,6 +23,10 @@ if (flutterVersionName == null) {
 }
 
 def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace "com.unistalsmartgasnet.app.flutter_unistal_smart_gas_net"
@@ -47,20 +51,10 @@ android {
         unistal {
             resValue "string", "app_name", "Unistal Smart Gas Net"
             applicationIdSuffix ".unistalsmartgasnet.app"
-
-            def keystorePropertiesFile = rootProject.file('purvabhartiKey.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
         }
         purvaBharti {
             resValue "string", "app_name", "Purva Bharti Smart Gas Net"
             applicationIdSuffix ".purvabhartismartgasnet.app"
-
-            def keystorePropertiesFile = rootProject.file('purvabhartiKey.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
         }
     }
 
@@ -80,16 +74,15 @@ android {
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
