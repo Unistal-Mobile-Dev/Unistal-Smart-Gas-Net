@@ -33,6 +33,9 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+
 
   FetchAddClearingGradingDataState({
     required this.isLoader,
@@ -53,6 +56,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.file,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
 
   });
 
@@ -76,5 +81,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     ipNumberController,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
   ];
 }

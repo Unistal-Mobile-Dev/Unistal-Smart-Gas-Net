@@ -48,6 +48,10 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _tpIpChainageController(dataState: dataState),
             _verticalSpace(),
             _tpIpNOSController(dataState: dataState),
@@ -97,11 +101,29 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
+  Widget _chainageFromController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
+    );
+  }
+
   Widget _tpIpChainageController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.tpIpChainage,
+      labelText: AppString.tpFrom,
       controller: dataState.tpChainageController,
     );
   }
@@ -110,7 +132,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.tpIpNos,
+      labelText: AppString.tpTo,
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -119,7 +141,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.ipNumber,
+      labelText: AppString.ipNoFrom,
       controller: dataState.ipNumberController,
     );
   }
@@ -128,7 +150,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.ipNumberFrom,
+      labelText: AppString.ipNoTo,
       controller: dataState.ipNumberFromController,
     );
   }
@@ -145,7 +167,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _structureDetailController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.structureDetailController,
+      labelText: AppString.structureName,
       controller: dataState.structureDetailController,
     );
   }
@@ -153,7 +175,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _structureLocationController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.structureLocation,
+      labelText: AppString.chainage,
       controller: dataState.structureLocationController,
     );
   }

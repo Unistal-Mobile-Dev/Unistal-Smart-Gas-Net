@@ -55,6 +55,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
 
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
     on<AddStringingSubmitDataEvent>(_submitData);
@@ -80,6 +83,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     file = File("");
     _alignmentData =  AlignmentModel();
     _weatherData = WeatherModel();
+    chainageFromController.text = "";
+    chainageToController.text = "";
     _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -169,6 +174,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         pipeData: pipeData,
         activityRemark: activityRemarkController.text.toString(),
         userData: userData, file: file,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
         weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
@@ -179,6 +186,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       _concreteCoatingData =  ConcreteCoatingModel();
       activityRemarkController.text = "";
       _isLoader =  false;
+      file = File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _alignmentData =  AlignmentModel();
       _eventComplete(emit);
     }
@@ -199,6 +209,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       pipeList: pipeList,
       weatherData:  weatherData,
       weatherList:  weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
     ));
   }
 }

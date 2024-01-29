@@ -38,6 +38,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   TextEditingController boundaryLocationController = TextEditingController();
   TextEditingController ipNumberController = TextEditingController();
   TextEditingController ipNumberFromController = TextEditingController();
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -78,6 +80,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     ipNumberFromController.text = "";
     boundaryLocationController.text = "";
     boundaryLocation.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
     file = File("");
     _weatherData = WeatherModel();
     _weatherList = WeatherModel.getWeatherData();
@@ -159,7 +163,9 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         userData: userData, file: file,
         ipNumber: ipNumberController.text.toString(),
         ipNumberFrom: ipNumberFromController.text.toString(),
-        weatherData: weatherData
+        weatherData: weatherData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
      );
     _isLoader =  false;
     _eventComplete(emit);
@@ -179,6 +185,9 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       boundaryLocationController.text = "";
       boundaryLocation.text = "";
       _isLoader =  false;
+      file =  File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _eventComplete(emit);
     }
 
@@ -203,6 +212,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       ipNumberFromController: ipNumberFromController,
       weatherData:  weatherData,
       weatherList:  weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
     ));
   }
 }

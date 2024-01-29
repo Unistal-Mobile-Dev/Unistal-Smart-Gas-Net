@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
@@ -163,8 +164,8 @@ class AddWeldingHelper {
     required String electrodeDiaE9045p2,
     required String electrodeEiaE8010p1Batch,
     required String electrodeEiaE8010p1,
-    required String leftPipeNumber,
-    required String rightPipeNumber,
+    required PipeModel leftPipeData,
+    required PipeModel rightPipeData,
     required WPSModel wpsData,
     required JointTypeModel jointTypeData,
     required JointNumberModel jointNumberData,
@@ -173,6 +174,8 @@ class AddWeldingHelper {
     required LoginDataModel userData,
     required File file,
     required WeatherModel weatherData,
+    required String chainageFrom,
+    required String chainageTo,
   }) async {
     try{
 
@@ -187,45 +190,46 @@ class AddWeldingHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": alignmentData.chainageFrom.toString(),
-        "chainage_to": alignmentData.chainageTo.toString(),
+        "chainage_from": chainageFrom,
+        "chainage_to": chainageTo,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id.toString(),
-        "wps_id": wpsData.id.toString(),
-        "root_welder1": rootWelders1Data.welderName ??  "",
-        "root_welder2": rootWelders1Data.welderName ??  "",
-        "hot_welder1": hotWelders1Data.welderName ??  "",
-        "hot_welder2": hotWelders2Data.welderName ??  "",
-        "filler1_welder_one": filler1Welders1Data.welderName ??  "" ?? "",
-        "filler1_welder_two": filler1Welders2Data.welderName ??  "",
-        "filler2_welder_one": filler2Welders1Data.welderName ??  "",
-        "filler2_welder_two": filler2Welders2Data.welderName ??  "",
-        "filler3_welder_one": filler3Welders1Data.welderName ??  "",
-        "filler3_welder_two": filler3Welders2Data.welderName ??  "",
-        "filler4_welder_one": filler4Welders1Data.welderName ??  "",
-        "filler4_welder_two": filler4Welders2Data.welderName ??  "",
-        "filler5_welder_one": filler5Welders1Data.welderName ??  "",
-        "filler5_welder_two": filler5Welders2Data.welderName ??  "",
-        "filler6_welder_one": filler6Welders1Data.welderName ??  "",
-        "filler6_welder_two": filler6Welders2Data.welderName ??  "",
-        "filler7_welder_one": filler7Welders1Data.welderName ??  "",
-        "filler7_welder_two": filler7Welders2Data.welderName ??  "",
-        "filler8_welder_one": filler8Welders1Data.welderName ??  "",
-        "filler8_welder_two": filler8Welders2Data.welderName ??  "",
-        "left_pipe_id": leftPipeNumber,
-        "right_pipe_id": rightPipeNumber,
-        "joint_id": jointTypeData.id.toString(),
-        "fitup": fitupData.id.toString(),
-        "weld_visual": weldVisualData.id.toString(),
-        "strip_welder1": stripWelder1Data.welderName.toString(),
-        "strip_welder2": stripWelder2Data.welderName.toString(),
-        "capping_welder1": cappingWelder1Data.welderName.toString(),
-        "capping_welder2": cappingWelder2Data.welderName.toString(),
+        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
+        "root_welder1": rootWelders1Data.id ??  "",
+        "root_welder2": rootWelders1Data.id ??  "",
+        "hot_welder1": hotWelders1Data.id ??  "",
+        "hot_welder2": hotWelders2Data.id ??  "",
+        "filler1_welder_one": filler1Welders1Data.id ??  "" ?? "",
+        "filler1_welder_two": filler1Welders2Data.id ??  "",
+        "filler2_welder_one": filler2Welders1Data.id ??  "",
+        "filler2_welder_two": filler2Welders2Data.id ??  "",
+        "filler3_welder_one": filler3Welders1Data.id ??  "",
+        "filler3_welder_two": filler3Welders2Data.id ??  "",
+        "filler4_welder_one": filler4Welders1Data.id ??  "",
+        "filler4_welder_two": filler4Welders2Data.id ??  "",
+        "filler5_welder_one": filler5Welders1Data.id ??  "",
+        "filler5_welder_two": filler5Welders2Data.id ??  "",
+        "filler6_welder_one": filler6Welders1Data.id ??  "",
+        "filler6_welder_two": filler6Welders2Data.id ??  "",
+        "filler7_welder_one": filler7Welders1Data.id ??  "",
+        "filler7_welder_two": filler7Welders2Data.id ??  "",
+        "filler8_welder_one": filler8Welders1Data.id ??  "",
+        "filler8_welder_two": filler8Welders2Data.id ??  "",
+        "left_pipe_id": leftPipeData.id != null ? leftPipeData.id.toString() : "",
+        "right_pipe_id": rightPipeData.id != null ? rightPipeData.id.toString() : "",
+        "joint_id":  jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "fitup": fitupData.id != null ? fitupData.id.toString(): "",
+        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "strip_welder1": stripWelder1Data.id != null ? stripWelder1Data.id.toString(): "",
+        "strip_welder2": stripWelder2Data.id != null ? stripWelder2Data.id.toString() : "",
+        "capping_welder1": cappingWelder1Data.id != null ? cappingWelder1Data.id.toString() : "",
+        "capping_welder2": cappingWelder2Data.id != null ? cappingWelder2Data.id.toString():  "",
         "electrode_dia_e6010": electrodeDiaE6010,
         "electrode_dia_e6010_batch": electrodeDiaE6010Batch,
         "electrode_dia_e8010p1": electrodeEiaE8010p1,
@@ -246,6 +250,11 @@ class AddWeldingHelper {
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
+        return null;
+      } else  if(res != null && res['success'] != null
+          && res['success'] == 400 && res['data'] != null) {
+           String resPonse = res['data'];
+          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }
       return null;

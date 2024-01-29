@@ -30,6 +30,15 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final JointNumberModel jointNumberData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final JointNumberModel fromJointData;
+  final List<JointNumberModel> jointFromList;
+  final List<JointNumberModel> jointToList;
+  final JointNumberModel toJointData;
+  final List<JointTypeModel> jointTypeList;
+  final JointTypeModel jointTypeData;
+  final bool isJointNumberLoader;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -47,6 +56,15 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.jointNumberList,
     required this.weatherList,
     required this.weatherData,
+    required this.jointTypeData,
+    required this.jointTypeList,
+    required this.isJointNumberLoader,
+    required this.fromJointData,
+    required this.jointFromList,
+    required this.jointToList,
+    required this.toJointData,
+    required this.chainageFromController,
+    required this.chainageToController,
   });
 
   @override
@@ -66,5 +84,14 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     jointNumberList,
     weatherList,
     weatherData,
+    jointTypeData,
+    jointTypeList,
+    isJointNumberLoader,
+    fromJointData,
+    jointFromList,
+    jointToList,
+    toJointData,
+    chainageFromController,
+    chainageToController,
   ];
 }

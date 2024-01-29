@@ -29,6 +29,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
 
   FetchAddRouteSurveyDataState({
     required this.isLoader,
@@ -45,6 +47,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.file,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
   });
 
   @override
@@ -63,5 +67,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     file,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
   ];
 }

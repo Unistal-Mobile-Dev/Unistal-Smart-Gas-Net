@@ -107,6 +107,13 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final WelderModel stripWelder2Data;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+  final List<PipeModel> leftPipeList;
+  final List<PipeModel> rightPipeList;
+
+  final PipeModel leftPipeData;
+  final PipeModel rightPipeData;
 
   FetchAddWeldingDataState({
     required this.isLoader,
@@ -190,6 +197,12 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.stripWelder2Data,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
+    required this.leftPipeData,
+    required this.leftPipeList,
+    required this.rightPipeData,
+    required this.rightPipeList,
   });
 
   @override
@@ -275,5 +288,11 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     stripWelder2Data,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
+    leftPipeData,
+    rightPipeData,
+    leftPipeList,
+    rightPipeList
   ];
 }

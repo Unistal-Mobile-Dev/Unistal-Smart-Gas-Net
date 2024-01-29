@@ -46,6 +46,10 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _typeofGround(dataState: dataState),
             _verticalSpace(),
             _tpIpNOSController(dataState: dataState),
@@ -80,8 +84,26 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _reportNumberController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddRouHandoverDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddRouHandoverDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 
@@ -96,7 +118,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _tpIpNOSController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.tpIpNos,
+      labelText: AppString.tpTo,
       controller: dataState.tpChainageNumberController,
     );
   }

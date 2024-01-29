@@ -58,6 +58,8 @@ class AddRouteSurveyHelper {
     required String tpIpNOS, required String tpIpRemark, required String bearing,
     required String terrain, required String activityRemark,
     required LoginDataModel userData, required File file,
+    required String chainageFrom,
+    required String chainageTo,
     required WeatherModel weatherData,}) async {
 
     try{
@@ -73,8 +75,8 @@ class AddRouteSurveyHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": alignmentData.chainageFrom.toString(),
-        "chainage_to": alignmentData.chainageTo.toString(),
+        "chainage_from": chainageFrom,
+        "chainage_to": chainageTo,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "tp_ip_chainage": tpIpChainage.toString(),
@@ -96,6 +98,15 @@ class AddRouteSurveyHelper {
           && res['success'] == 200 && res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return res;
+      }else  if(res != null && res['success'] != null
+          && res['success'] == 415 && res['data'] != null) {
+        SnackBarErrorWidget(context).show(message: res['data']);
+        return null;
+      } else  if(res != null && res['success'] != null
+          && res['success'] == 400 && res['data'] != null) {
+           String resPonse = res['data'];
+          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        return null;
       }
       return null;
     }catch(e){

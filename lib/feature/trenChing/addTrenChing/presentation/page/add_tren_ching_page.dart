@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddTrenChingPage extends StatefulWidget {
   const AddTrenChingPage({super.key});
@@ -16,7 +18,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     return  Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        title: TextWidget("Add Tren Ching",
+        title: TextWidget("Add TrenChing",
           color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
       ),
       body: BlocBuilder<AddTrenChingBloc, AddTrenChingState>(
@@ -46,9 +48,15 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
-            _fromJointIdController(dataState: dataState),
+            _chainageFromController(dataState: dataState),
             _verticalSpace(),
-            _toJointId(dataState: dataState),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
+            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _fromJointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
+            _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
@@ -88,6 +96,24 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   }
 
 
+  Widget _chainageFromController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
+    );
+  }
+
   Widget _alignmentDropdown({required FetchAddTrenChingDataState dataState}) {
     return  DropDownSearchWidget(
       selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
@@ -117,24 +143,59 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       }).toList(),
     );
   }
+  
+    Widget _jointTypeDropDown({required FetchAddTrenChingDataState dataState}) {
+      return DropdownWidget(
+        hint: AppString.selectJointType,
+        dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddTrenChingBloc>(context).add(
+              AddTrenChingSelectJointTypeDataEvent(jointTypeData: value, context: context));
+        },
+        items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+          return DropdownMenuItem<JointTypeModel>(
+            value: jointTypeData,
+            child: Text(jointTypeData.name.toString()),
+          );
+        }).toList(),
+      );
+    }
 
-  Widget _fromJointIdController({required FetchAddTrenChingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.text,
-      labelText: AppString.fromJointId,
-      controller: dataState.fromJointIdController,
-    );
-  }
+    Widget _fromJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+      return dataState.isJointNumberLoader == false ?
+      DropdownWidget(
+        hint: AppString.selectFromJointNumber,
+        dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddTrenChingBloc>(context).add(
+              AddTrenChingSelectFromJointDataEvent(jointNumberData: value));
+        },
+        items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+          return DropdownMenuItem<JointNumberModel>(
+            value: jointNumberData,
+            child: Text(jointNumberData.jointNumber.toString()),
+          );
+        }).toList(),
+      ): const DottedLoaderWidget();
+    }
 
-  Widget _toJointId({required FetchAddTrenChingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.text,
-      labelText: AppString.toJointId,
-      controller: dataState.toJointIdController,
-    );
-  }
+    Widget _toJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+      return dataState.isJointNumberLoader == false ?
+      DropdownWidget(
+        hint: AppString.selectToJointNumber,
+        dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddTrenChingBloc>(context).add(
+              AddTrenChingSelectToJointDataEvent(jointNumberData: value));
+        },
+        items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+          return DropdownMenuItem<JointNumberModel>(
+            value: jointNumberData,
+            child: Text(jointNumberData.jointNumber.toString()),
+          );
+        }).toList(),
+      ): const DottedLoaderWidget();
+    }
 
   Widget _trenchingDepthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(

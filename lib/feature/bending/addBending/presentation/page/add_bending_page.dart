@@ -50,6 +50,10 @@ class _AddBendingPageState extends State<AddBendingPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _pipeDropDown(dataState: dataState),
             _verticalSpace(),
             _chainageController(dataState: dataState),
@@ -63,6 +67,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
             _bendingTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _bendNumberController(dataState: dataState),
             _verticalSpace(),
             _bendTpNumber(dataState: dataState),
             _verticalSpace(),
@@ -102,6 +108,24 @@ class _AddBendingPageState extends State<AddBendingPage> {
       isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddBendingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddBendingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 
@@ -216,9 +240,19 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
+  Widget _bendNumberController({required FetchAddBendingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.bendNumber,
+      controller: dataState.bendNumberController,
+    );
+  }
+
   Widget _bendTpNumber({required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.bendAngleTpNumber,
       controller: dataState.bendAngleTpNumberController,
     );

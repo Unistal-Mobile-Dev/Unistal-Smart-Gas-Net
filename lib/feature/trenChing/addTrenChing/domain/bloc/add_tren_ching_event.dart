@@ -46,6 +46,28 @@ class SelectWeatherEvent extends AddTrenChingEvent{
   List<Object?> get props => [weatherData];
 }
 
+class AddTrenChingSelectFromJointDataEvent extends AddTrenChingEvent {
+  final JointNumberModel jointNumberData;
+  const AddTrenChingSelectFromJointDataEvent({required this.jointNumberData});
+  @override
+  List<Object?> get props => [jointNumberData];
+}
+
+class AddTrenChingSelectJointTypeDataEvent extends AddTrenChingEvent {
+  final JointTypeModel jointTypeData;
+  final BuildContext context;
+  const AddTrenChingSelectJointTypeDataEvent({required this.jointTypeData, required this.context});
+  @override
+  List<Object?> get props => [jointTypeData, context];
+}
+
+class AddTrenChingSelectToJointDataEvent extends AddTrenChingEvent {
+  final JointNumberModel jointNumberData;
+  const AddTrenChingSelectToJointDataEvent({required this.jointNumberData});
+  @override
+  List<Object?> get props => [jointNumberData];
+}
+
 
 class AddTrenChingSubmitDataEvent extends AddTrenChingEvent {
   final BuildContext context;

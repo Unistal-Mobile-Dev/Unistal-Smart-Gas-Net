@@ -71,6 +71,10 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   HolidayChecksModel _holidayChecksData =  HolidayChecksModel();
   HolidayChecksModel get holidayChecksData => _holidayChecksData;
 
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController bendNumberController =  TextEditingController();
+
   File file =  File("");
 
   List<PipeModel> _pipeList = [];
@@ -117,6 +121,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     bendAngleSecondController.text = "";
     activityRemarkController.text = "";
     chainageController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
+    bendNumberController.text = "";
     _bendingTypeList = [];
     _bendingTypeData = BendingTypeModel();
     _visualChecksList =  [];
@@ -229,7 +236,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   }
 
   _submitData(AddBendingSubmitDataEvent event, emit) async {
-    var textFiledValidation =  await AddBendingHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddBendingHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -248,7 +255,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     );
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddBendingHelper.submitData(
@@ -269,6 +276,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         holidayChecksData: holidayChecksData,
         pipeData: pipeData,
         weatherData: weatherData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
+        bendNumber: bendNumberController.text.toString(),
         userData: userData, file: file);
     _isLoader =  false;
     _eventComplete(emit);
@@ -290,6 +300,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
       _disbomdmentChecksData =  VisualChecksModel();
       _holidayChecksData =  HolidayChecksModel();
       file =  File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      bendNumberController.text = "";
       _pipeData = PipeModel();
       _eventComplete(emit);
     }
@@ -323,6 +336,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         pipeData: pipeData,
         weatherData:  weatherData,
         weatherList:  weatherList,
+        chainageFromController: chainageFromController,
+        chainageToController: chainageToController,
+        bendNumberController: bendNumberController,
     ));
   }
 }

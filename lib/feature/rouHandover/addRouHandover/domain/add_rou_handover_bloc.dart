@@ -34,6 +34,8 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   TextEditingController bearingAngleController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -69,6 +71,8 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     _alignmentList =  [];
     file = File("");
     _weatherData = WeatherModel();
+    chainageFromController.text = "";
+    chainageToController.text = "";
     _weatherList = WeatherModel.getWeatherData();
     _alignmentData =  AlignmentModel();
     _userData =  UserInfo.instanceInit()!.userData!;
@@ -144,6 +148,8 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
         activityRemark: activityRemarkController.text.toString(),
         userData: userData,
         file: file,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
         weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
@@ -158,6 +164,9 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       activityRemarkController.text = "";
       _isLoader =  false;
       _alignmentData =  AlignmentModel();
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      file = File("");
       _eventComplete(emit);
     }
 
@@ -178,6 +187,9 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       file: file,
       weatherData:  weatherData,
       weatherList:  weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
+
     ));
   }
 }

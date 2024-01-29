@@ -35,6 +35,9 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
 
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
@@ -45,6 +48,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
 
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
+
+
 
   AddRouteSurveyBloc() : super(AddRouteSurveyInitial()) {
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
@@ -65,6 +70,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     bearingAngleController.text = "";
     terrainController.text = "";
     activityRemarkController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
     _isLoader =  false;
     _alignmentList =  [];
     file = File("");
@@ -115,7 +122,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   }
 
   _submitData(AddRouteSurveySubmitDataEvent event, emit) async  {
-    var textFiledValidation =  await AddRouteSurveyHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddRouteSurveyHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -127,7 +134,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         activityRemark: activityRemarkController.text.toString());
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddRouteSurveyHelper.submitData(
@@ -142,7 +149,10 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         userData: userData, file: file,
-        weatherData: weatherData);
+        weatherData: weatherData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
+    );
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -156,6 +166,9 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
       activityRemarkController.text = "";
       _isLoader =  false;
       _alignmentData =  AlignmentModel();
+      file =  File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _eventComplete(emit);
     }
 
@@ -176,6 +189,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         file: file,
         weatherData:  weatherData,
         weatherList:  weatherList,
+       chainageFromController: chainageFromController,
+       chainageToController: chainageToController,
     ));
  }
 

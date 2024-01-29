@@ -29,6 +29,8 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
 
   FetchAddRouHandoverDataState({
     required this.isLoader,
@@ -45,6 +47,8 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
     required this.file,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
   });
 
   @override
@@ -63,5 +67,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
     file,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
   ];
 }

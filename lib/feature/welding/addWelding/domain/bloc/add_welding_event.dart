@@ -32,6 +32,21 @@ class AddWeldingSelectWPSEvent extends AddWeldingEvent {
   List<Object?> get props => [wpsData, context];
 }
 
+class AddWeldingSelectLeftPipeDataEvent extends AddWeldingEvent {
+  final PipeModel leftPipeData;
+  const AddWeldingSelectLeftPipeDataEvent({required this.leftPipeData});
+  @override
+  List<Object?> get props => [leftPipeData];
+}
+
+class AddWeldingSelectRightPipeDataEvent extends AddWeldingEvent {
+  final PipeModel rightPipeData;
+  const AddWeldingSelectRightPipeDataEvent({required this.rightPipeData});
+  @override
+  List<Object?> get props => [rightPipeData];
+}
+
+
 class AddWeldingSelectJointTypeEvent extends AddWeldingEvent {
   final JointTypeModel  jointTypeData;
   final BuildContext context;

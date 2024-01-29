@@ -52,6 +52,10 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
              _verticalSpace(),
              _tpRemarkController(dataState: dataState),
              _verticalSpace(),
+             _chainageFromController(dataState: dataState),
+             _verticalSpace(),
+             _chainageToController(dataState: dataState),
+             _verticalSpace(),
              _bearingController(dataState: dataState),
              _verticalSpace(),
              _terrainController(dataState: dataState),
@@ -92,7 +96,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _tpIpChainageController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.tpIpChainage,
+      textInputType: TextInputType.number,
+      labelText: AppString.tpFrom,
       controller: dataState.tpChainageController,
     );
   }
@@ -100,7 +105,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _tpIpNOSController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.tpIpNos,
+      textInputType: TextInputType.number,
+      labelText: AppString.tpTo,
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -117,6 +123,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _bearingController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.bearingAngle,
       controller: dataState.bearingAngleController,
     );
@@ -127,6 +134,22 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       isRequired: true,
       labelText: AppString.terrain,
       controller: dataState.terrainController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddRouteSurveyDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddRouteSurveyDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 

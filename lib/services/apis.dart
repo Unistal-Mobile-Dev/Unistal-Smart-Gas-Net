@@ -30,6 +30,9 @@ class APIs {
   static get getJointNumberApi => "api/get-joints-chainage";
   static get getJointNumberWithTypeApi => "api/get-joint-by-type";
   static get addWeldingApi => "api/weldinginsert";
+  static get getPaddingCheckApi => "api/get-padding-checks";
+  static get addBackFillingApi => "api/backfillinginsert";
+  static get addLoweringApi => "api/loweringinsert";
 
 
 

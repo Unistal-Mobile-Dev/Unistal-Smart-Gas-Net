@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/presentation/page/add_bending_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
@@ -61,6 +63,9 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: _weldingActionButton(context: context)));
 
+       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.newspaper,
+           label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: _backFillingActionWidget(context: context)));
+
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
            label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/
@@ -111,6 +116,22 @@ class HomeHelper {
           BlocProvider.of<AddWeldingBloc>(context).add(AddWeldingPageLoadEvent(context: context));
           Navigator.push(context,
               MaterialPageRoute(builder: (_) => const  AddWeldingPage()));
+        }, icon: const Icon(Icons.add)),
+
+        IconButton(onPressed: () {
+
+        }, icon: const Icon(Icons.filter_alt_outlined)),
+      ],
+    );
+  }
+
+  static Widget _backFillingActionWidget({required BuildContext context}) {
+    return Row(
+      children: [
+        IconButton(onPressed: () {
+          BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingPageLoadEvent(context: context));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const  AddBackFillingPage()));
         }, icon: const Icon(Icons.add)),
 
         IconButton(onPressed: () {

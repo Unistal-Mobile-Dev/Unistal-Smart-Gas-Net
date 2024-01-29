@@ -120,6 +120,7 @@ class ServerRequest {
            body: jsonEncode(body)).timeout(const Duration(minutes: 1));
        log(response.body);
        if (response.statusCode == 200) {
+         updateCookie(response);
          return jsonDecode(response.body);
        } else if (response.statusCode == 500) {
          return jsonDecode(response.body);
@@ -208,6 +209,7 @@ class ServerRequest {
          request.files.add(uploadFile);
        }
        request.fields.addAll(body);
+       request.headers.addAll(header);
        var response = await request.send();
        if(response.statusCode == 200){
          var responseData = await response.stream.toBytes();
@@ -217,13 +219,28 @@ class ServerRequest {
        } else if(response.statusCode == 415){
          var responseData = await response.stream.toBytes();
          var result = json.decode(String.fromCharCodes(responseData));
+         log(result.toString());
          return result;
-       } else {
+       } else if(response.statusCode == 400){
+         var responseData = await response.stream.toBytes();
+         var result = json.decode(String.fromCharCodes(responseData));
+         log(result.toString());
+         return result;
+       }else {
          return null;
        }
      }catch(e){
        log(e.toString());
        return null;
+     }
+   }
+
+   static updateCookie(Response response) {
+     String? rawCookie = response.headers['set-cookie'];
+     if (rawCookie != null) {
+       int index = rawCookie.indexOf(';');
+       header['cookie'] =
+       (index == -1) ? rawCookie : rawCookie.substring(0, index);
      }
    }
 }

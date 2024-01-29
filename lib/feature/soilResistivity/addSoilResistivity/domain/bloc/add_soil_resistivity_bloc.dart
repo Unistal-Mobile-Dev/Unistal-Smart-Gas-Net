@@ -34,6 +34,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   TextEditingController bearingAngleController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -65,6 +67,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
     bearingAngleController.text = "";
     terrainController.text = "";
     activityRemarkController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
     _isLoader =  false;
     _alignmentList =  [];
     file = File("");
@@ -142,6 +146,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         userData: userData, file: file,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
         weatherData: weatherData);
     _isLoader =  false;
     _eventComplete(emit);
@@ -156,6 +162,9 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       activityRemarkController.text = "";
       _isLoader =  false;
       _alignmentData =  AlignmentModel();
+      file  =  File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _eventComplete(emit);
     }
 
@@ -176,6 +185,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       file: file,
       weatherData:  weatherData,
       weatherList:  weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
     ));
   }
 }

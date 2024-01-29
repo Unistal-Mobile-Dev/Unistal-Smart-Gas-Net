@@ -48,6 +48,10 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _pipeDropDown(dataState: dataState),
             _verticalSpace(),
             _concreteCoatingDropDown(dataState: dataState),
@@ -85,6 +89,23 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
+  Widget _chainageFromController({required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
+    );
+  }
 
 
   Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {

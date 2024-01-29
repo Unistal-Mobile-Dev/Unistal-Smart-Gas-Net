@@ -46,6 +46,10 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -76,6 +80,24 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
       isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddSoilResistivityDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+  Widget _chainageToController({required FetchAddSoilResistivityDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 

@@ -42,6 +42,9 @@ class FetchAddBendingDataState extends AddBendingInitial {
   final PipeModel pipeData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+  final TextEditingController bendNumberController;
 
   FetchAddBendingDataState({
     required this.isLoader,
@@ -71,6 +74,9 @@ class FetchAddBendingDataState extends AddBendingInitial {
     required this.pipeList,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
+    required this.bendNumberController,
   });
 
   @override
@@ -102,5 +108,8 @@ class FetchAddBendingDataState extends AddBendingInitial {
     pipeList,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
+    bendNumberController,
   ];
 }

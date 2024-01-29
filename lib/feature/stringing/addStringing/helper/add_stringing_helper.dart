@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddStringingHelper {
 
@@ -52,6 +53,8 @@ class AddStringingHelper {
     required String reportNumber,
     required String date,
     required String activityRemark,
+    required String chainageFrom,
+    required String chainageTo,
     required LoginDataModel userData, required File file, required WeatherModel weatherData,}) async {
 
     try{
@@ -67,8 +70,8 @@ class AddStringingHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": alignmentData.chainageFrom.toString(),
-        "chainage_to": alignmentData.chainageTo.toString(),
+        "chainage_from": chainageFrom,
+        "chainage_to": chainageTo,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "pipe_id" : pipeData.id.toString(),
@@ -85,8 +88,17 @@ class AddStringingHelper {
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
+      }else  if(res != null && res['success'] != null
+          && res['success'] == 415 && res['data'] != null) {
+        SnackBarErrorWidget(context).show(message: res['data']);
+        return null;
+      } else  if(res != null && res['success'] != null
+          && res['success'] == 400 && res['data'] != null) {
+          String resPonse = res['data'];
+          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        return null;
       }
       return null;
     }catch(e){

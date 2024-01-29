@@ -29,6 +29,8 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
 
   FetchAddSoilResistivityDataState({
     required this.isLoader,
@@ -45,6 +47,8 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     required this.file,
     required this.weatherList,
     required this.weatherData,
+    required this.chainageFromController,
+    required this.chainageToController,
 
   });
 
@@ -64,5 +68,7 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     file,
     weatherList,
     weatherData,
+    chainageFromController,
+    chainageToController,
   ];
 }

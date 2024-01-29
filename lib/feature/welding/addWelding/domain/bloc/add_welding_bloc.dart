@@ -10,6 +10,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
@@ -153,10 +155,21 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
 
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+
+  List<PipeModel> leftPipeList = [];
+  List<PipeModel> rightPipeList = [];
+
+  PipeModel leftPipeData =  PipeModel();
+  PipeModel rightPipeData =  PipeModel();
+
   AddWeldingBloc() : super(AddWeldingInitial()) {
     on<AddWeldingPageLoadEvent>(_pageLoadEvent);
     on<AddWeldingSelectWPSEvent>(_selectWPS);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddWeldingSelectLeftPipeDataEvent>(_selectLeftPipe);
+    on<AddWeldingSelectRightPipeDataEvent>(_selectRigthPipe);
     on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
     on<AddWeldingSelectWelderEvent>(_selectWelder);
     on<AddWeldingSelectAlignmentEvent>(_selectAlignment);
@@ -233,6 +246,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     electrodeEiaE8010p1Controller.text = "";
     leftPipeNumberController.text = "";
     rightPipeNumberController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
 
     _welderData =  WelderModel();
     _welderList = [];
@@ -255,6 +270,11 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     _isJointNumberLoader =  false;
+    leftPipeList = [];
+    rightPipeList = [];
+
+    leftPipeData =  PipeModel();
+    rightPipeData =  PipeModel();
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -278,6 +298,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
     _weldVisualList =  fitupList;
 
+    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context, userData: userData);
+    if(resPipe != null){
+      leftPipeList =  resPipe;
+      rightPipeList = leftPipeList;
+    }
+
     _eventComplete(emit);
   }
 
@@ -286,6 +312,16 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _eventComplete(emit);
   }
 
+  _selectLeftPipe(AddWeldingSelectLeftPipeDataEvent event, emit) {
+    leftPipeData = event.leftPipeData;
+    _eventComplete(emit);
+  }
+
+
+  _selectRigthPipe( event, emit) {
+    rightPipeData = event.rightPipeData;
+    _eventComplete(emit);
+  }
 
   _selectWPS(AddWeldingSelectWPSEvent event, emit) async {
     _wpsData =  event.wpsData;
@@ -453,7 +489,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   }
 
   _submit(AddWeldingSubmitDataEvent event, emit) async {
-    var textFieldValidation =  await AddWeldingHelper.textFiledValidation(
+/*    var textFieldValidation =  await AddWeldingHelper.textFiledValidation(
         context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
@@ -501,7 +537,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     );
     if(textFieldValidation == false){
       return;
-    }
+    }*/
 
     _isLoader =  true;
     _eventComplete(emit);
@@ -543,8 +579,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       electrodeDiaE9045p2: electrodeDiaE9045p2Controller.text.toString(),
       electrodeEiaE8010p1Batch: electrodeEiaE8010p1BatchController.text.toString(),
       electrodeEiaE8010p1: electrodeEiaE8010p1Controller.text.toString(),
-      leftPipeNumber: leftPipeNumberController.text.toString(),
-      rightPipeNumber: rightPipeNumberController.text.toString(),
+      leftPipeData: leftPipeData,
+      rightPipeData: rightPipeData,
       wpsData: wpsData,
       jointTypeData: jointTypeData,
       jointNumberData: jointNumberData,
@@ -552,7 +588,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       weldVisualData: weldVisualData,
       file: file,
       userData: userData,
-      weatherData: weatherData
+      weatherData: weatherData,
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -604,6 +642,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       cappingWelder2Data = WelderModel();
       stripWelder1Data = WelderModel();
       stripWelder2Data = WelderModel();
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      rightPipeData =  PipeModel();
+      leftPipeData =  PipeModel();
     }
     _eventComplete(emit);
   }
@@ -690,6 +732,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
         stripWelder2Data: stripWelder2Data,
         weatherData:  weatherData,
         weatherList:  weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
+      leftPipeData: leftPipeData,
+      rightPipeData: rightPipeData,
+      leftPipeList: leftPipeList,
+      rightPipeList: rightPipeList,
     ));
   }
 

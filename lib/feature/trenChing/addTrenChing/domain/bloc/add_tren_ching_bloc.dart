@@ -10,6 +10,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/hepler/add_tren_ching_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -53,12 +55,27 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
 
+  List<JointNumberModel> jointFromList = [];
+  List<JointNumberModel> jointToList = [];
+  List<JointTypeModel> jointTypeList = [];
+
+  JointNumberModel fromJointData = JointNumberModel();
+  JointNumberModel toJointData = JointNumberModel();
+  JointTypeModel jointTypeData =  JointTypeModel();
+  bool isJointNumberLoader = false;
+
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
     on<AddTrenChingSelectAlignmentEvent>(_selectAlignment);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddTrenChingSelectDateEvent>(_selectDate);
     on<AddTrenChingAddImageEvent>(_selectFile);
+    on<AddTrenChingSelectFromJointDataEvent>(_selectJointFrom);
+    on<AddTrenChingSelectToJointDataEvent>(_selectJointTo);
+    on<AddTrenChingSelectJointTypeDataEvent>(_selectJointType);
     on<AddTrenChingSubmitDataEvent>(_submitData);
   }
 
@@ -80,6 +97,15 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _alignmentData =  AlignmentModel();
     _jointNumberData =  JointNumberModel();
     _jointNumberList = [];
+    jointFromList = [];
+    jointToList = [];
+    jointTypeList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    jointTypeData =  JointTypeModel();
+    isJointNumberLoader = false;
+    chainageFromController.text = "";
+    chainageToController.text = "";
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -121,6 +147,34 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   }
 
+  _selectJointFrom(AddTrenChingSelectFromJointDataEvent event, emit) {
+    fromJointData =  event.jointNumberData;
+    _eventComplete(emit);
+  }
+
+  _selectJointTo(AddTrenChingSelectToJointDataEvent event, emit) {
+    toJointData = event.jointNumberData;
+    _eventComplete(emit);
+  }
+
+  _selectJointType(AddTrenChingSelectJointTypeDataEvent event, emit) async {
+    jointTypeData =  event.jointTypeData;
+    jointFromList = [];
+    jointToList  = [];
+    fromJointData =  JointNumberModel();
+    toJointData =  JointNumberModel();
+    isJointNumberLoader =  true;
+    _eventComplete(emit);
+    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+        jointTypeData: jointTypeData);
+    if(resJointNumber != null){
+      jointFromList =  resJointNumber;
+      jointToList =  jointFromList;
+    }
+    isJointNumberLoader =  false;
+    _eventComplete(emit);
+  }
+
   _selectFile(AddTrenChingAddImageEvent event, emit) async {
     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
     if(photo != null){
@@ -130,7 +184,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _submitData(AddTrenChingSubmitDataEvent event, emit) async {
-    var textFiledValidation =  await AddTrenChingHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddTrenChingHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -142,7 +196,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     );
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddTrenChingHelper.submitData(
@@ -150,13 +204,15 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
-        fromJointId: fromJointIdController.text.toString(),
-        toJointId: toJointIdController.text.toString(),
+        jointNumberFromModel: fromJointData,
+        jointNumberToModel: toJointData,
         trenchingDepth:trenchingDepthController.text.toString(),
         terrainType: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         userData: userData, file: file,
-        weatherData: weatherData
+        weatherData: weatherData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -171,6 +227,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       activityRemarkController.text = "";
       _isLoader =  false;
       _alignmentData =  AlignmentModel();
+      file =  File("");
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _eventComplete(emit);
     }
   }
@@ -191,6 +250,15 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       jointNumberData: jointNumberData,
       weatherData:  weatherData,
       weatherList:  weatherList,
+      jointTypeData: jointTypeData,
+      jointTypeList: jointTypeList,
+      isJointNumberLoader: isJointNumberLoader,
+      fromJointData: fromJointData,
+      jointFromList: jointFromList,
+      jointToList: jointToList,
+      toJointData: toJointData,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
     ));
   }
 }

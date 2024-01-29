@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -52,9 +53,13 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
              _verticalSpace(),
              _reportNumberController(dataState: dataState),
              _verticalSpace(),
-             _leftPipeNumberController(dataState: dataState),
+             _chainageFromController(dataState: dataState),
              _verticalSpace(),
-             _rightPipeNumberNumberController(dataState: dataState),
+             _chainageToController(dataState: dataState),
+             _verticalSpace(),
+             _leftPipeDropDown(dataState: dataState),
+             _verticalSpace(),
+             _rigthPipeDropDown(dataState: dataState),
              _verticalSpace(),
              _jointTypeDropDown(dataState: dataState),
              _verticalSpace(),
@@ -162,22 +167,58 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       controller: dataState.reportNumberController,
     );
   }
-  Widget _leftPipeNumberController({required FetchAddWeldingDataState dataState}) {
+
+  Widget _chainageFromController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.leftPipeNumber,
-      controller: dataState.leftPipeNumberController,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
     );
   }
 
-  Widget _rightPipeNumberNumberController({required FetchAddWeldingDataState dataState}) {
+  Widget _chainageToController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.rightPipeNumber,
-      controller: dataState.rightPipeNumberController,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 
+  Widget _leftPipeDropDown({required FetchAddWeldingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectLeftPipeNumber,
+      dropdownValue: dataState.leftPipeData.id != null ? dataState.leftPipeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingSelectLeftPipeDataEvent(leftPipeData: value));
+      },
+      items: dataState.leftPipeList.map<DropdownMenuItem<PipeModel>>((PipeModel leftPipeData) {
+        return DropdownMenuItem<PipeModel>(
+          value: leftPipeData,
+          child: Text(leftPipeData.pipeNumber.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _rigthPipeDropDown({required FetchAddWeldingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectRightPipeNumber,
+      dropdownValue: dataState.rightPipeData.id != null ? dataState.rightPipeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingSelectRightPipeDataEvent(rightPipeData: value));
+      },
+      items: dataState.rightPipeList.map<DropdownMenuItem<PipeModel>>((PipeModel leftPipeData) {
+        return DropdownMenuItem<PipeModel>(
+          value: leftPipeData,
+          child: Text(leftPipeData.pipeNumber.toString()),
+        );
+      }).toList(),
+    );
+  }
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
       hint: AppString.rootWelders1,
@@ -590,6 +631,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeDiaE6010Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010,
       controller: dataState.electrodeDiaE6010Controller,
     );
@@ -606,6 +648,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE8010p1,
       controller: dataState.electrodeEiaE8010p1Controller,
     );
@@ -622,6 +665,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeDiaE9045p2Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE9045p2,
       controller: dataState.electrodeDiaE9045p2Controller,
     );
@@ -638,6 +682,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeDiaE81t8gController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE81t8g,
       controller: dataState.electrodeDiaE81t8gController,
     );
