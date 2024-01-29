@@ -82,7 +82,7 @@ class AppString {
   static get groundType => "Ground Type";
   static get bearingAngle => "Bearing Angle";
   static get bendAngleSecond => "Bend Angle Second";
-  static get structureName => "=> Structure Name";
+  static get structureName => "Structure Name";
   static get terrain => "Terrain";
   static get structureLocation => "Structure Location";
   static get boundaryLocation => "Boundary Location";
