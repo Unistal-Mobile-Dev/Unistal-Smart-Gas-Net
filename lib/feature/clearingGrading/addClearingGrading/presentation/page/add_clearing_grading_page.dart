@@ -131,7 +131,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.tpTo,
+      labelText: "TP No. From",
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -140,7 +140,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.ipNoFrom,
+      labelText: "TP No. To",
       controller: dataState.ipNumberController,
     );
   }

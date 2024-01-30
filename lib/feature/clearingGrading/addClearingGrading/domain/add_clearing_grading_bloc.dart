@@ -129,7 +129,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   }
 
   _submitData(AddClearingGradingSubmitDataEvent event, emit) async  {
-    var textFiledValidation =  await AddClearingGradingHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddClearingGradingHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -145,7 +145,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     );
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddClearingGradingHelper.submitData(

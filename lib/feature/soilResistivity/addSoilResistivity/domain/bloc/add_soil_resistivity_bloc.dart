@@ -119,7 +119,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   }
 
   _submitData(AddSoilResistivitySubmitDataEvent event, emit) async  {
-    var textFiledValidation =  await AddSoilResistivityHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddSoilResistivityHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -131,7 +131,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
         activityRemark: activityRemarkController.text.toString());
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddSoilResistivityHelper.submitData(

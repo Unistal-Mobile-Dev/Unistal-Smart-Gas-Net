@@ -120,7 +120,7 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   }
 
   _submitData(AddRouHandoverSubmitDataEvent event, emit) async  {
-    var textFiledValidation =  await AddRouHandover.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddRouHandover.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -132,7 +132,7 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
         activityRemark: activityRemarkController.text.toString());
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddRouHandover.submitData(

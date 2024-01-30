@@ -51,8 +51,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
              _verticalSpace(),
              _weatherDropDown(dataState: dataState),
              _verticalSpace(),
-             _reportNumberController(dataState: dataState),
-             _verticalSpace(),
              _tpIpChainageController(dataState: dataState),
              _verticalSpace(),
              _tpIpNOSController(dataState: dataState),

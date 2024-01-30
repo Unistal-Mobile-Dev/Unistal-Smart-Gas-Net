@@ -153,7 +153,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   }
 
   _submitData(AddStringingSubmitDataEvent event, emit) async  {
-    var textFiledValidation =  await AddStringingHelper.textFiledValidation(context: event.context,
+/*    var textFiledValidation =  await AddStringingHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -162,7 +162,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         activityRemark: activityRemarkController.text.toString());
     if(textFiledValidation == false){
       return;
-    }
+    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddStringingHelper.submitData(
