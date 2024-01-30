@@ -200,6 +200,7 @@ class _AddDryingPageState extends State<AddDryingPage> {
   Widget _lengthController({required FetchAddDryingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.length,
       controller: dataState.lengthController,
     );

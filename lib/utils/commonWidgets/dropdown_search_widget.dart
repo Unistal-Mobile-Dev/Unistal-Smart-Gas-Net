@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class DropDownSearchWidget extends StatelessWidget {
 
@@ -20,7 +21,9 @@ class DropDownSearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: AppConfig.getDeviceType(context: context) == DeviceType.phone
+          ? MediaQuery.of(context).size.height * 0.07
+          : MediaQuery.of(context).size.height * 0.15,
       child: DropdownSearch<dynamic>(
         selectedItem: selectedItem,
         dropdownDecoratorProps: DropDownDecoratorProps(
@@ -36,8 +39,14 @@ class DropDownSearchWidget extends StatelessWidget {
             ),
             hintStyle: TextStyle(fontSize: AppFont.font_14, color: AppColor.themeColor),
             contentPadding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.018,
-              left: MediaQuery.of(context).size.height * 0.01,),
+              top: AppConfig.getDeviceType(context: context) == DeviceType.phone
+                  ? MediaQuery.of(context).size.height * 0.018
+                  : MediaQuery.of(context).size.height * 0.03,
+
+              left: AppConfig.getDeviceType(context: context) == DeviceType.phone
+                  ? MediaQuery.of(context).size.height * 0.01
+                  : MediaQuery.of(context).size.height * 0.02
+            ),
             hintText: hint,
             filled: false,
           ),

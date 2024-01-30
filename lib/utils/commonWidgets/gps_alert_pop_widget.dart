@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
 class GPSAlertPopWidget extends StatelessWidget {
-  const GPSAlertPopWidget();
+  const GPSAlertPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,6 @@ class GPSAlertPopWidget extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 _text(context: context),
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),

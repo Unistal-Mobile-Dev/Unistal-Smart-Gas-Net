@@ -36,7 +36,7 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
           itemBuilder: (context, index) {
             return index != 0 ?
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
+              height: MediaQuery.of(context).size.height * 0.20,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton.icon(
