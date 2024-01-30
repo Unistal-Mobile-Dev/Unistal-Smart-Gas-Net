@@ -77,7 +77,7 @@ class AppString {
   static get drying => "Drying";
   static get landType => "Land Type";
   static get jointPit => "	Coupler/End Cap/Joint Pit";
-  static get slopBreaker => "Slop Breaker";
+  static get slopBreaker => "Slope Breaker";
   static get warningMat => "Warning Mat";
   static get selectPlasticGrating => "Select Plastic Grating";
   static get selectRemovalOfSurplusMaterialData => "Select Removal Of Surplus Material";
@@ -85,10 +85,10 @@ class AppString {
   static get selectReinstallationBoundaryStonesData => "Select Reinstallation Boundary Stones";
   static get selectWarningMatMeter => "Select Warning Mat Meter";
   static get selectPaddingMeter => "Select Padding Meter";
-  static get tpFrom => "TP From";
+  static get tpFrom => "IP/TP No.";
   static get bendAngleTpNumber => "Bend Angle TP Number";
   static get typeofGround => "Type of ground";
-  static get tpTo => "TP To";
+  static get tpTo => "IP/TP Chainage";
   static get bendAngleDegree => "Bend Angle Degree";
   static get bendNumber => "Bend Number";
   static get ipNoFrom => "IP No. From";

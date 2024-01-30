@@ -230,6 +230,10 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       file =  File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      _weatherData =  WeatherModel();
+      fromJointData =  JointNumberModel();
+      toJointData =  JointNumberModel();
+      jointTypeData =  JointTypeModel();
       _eventComplete(emit);
     }
   }

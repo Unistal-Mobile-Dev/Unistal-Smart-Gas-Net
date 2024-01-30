@@ -201,7 +201,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _trenchingDepthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.text,
+      textInputType: TextInputType.number,
       labelText: AppString.trenchingDepth,
       controller: dataState.trenchingDepthController,
     );

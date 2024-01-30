@@ -120,7 +120,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _tpIpNOSController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.tpTo,
+      textInputType: TextInputType.number,
+      labelText: "IP/TP No.",
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -129,7 +130,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 2,
-      labelText: AppString.tpRemark,
+      labelText: "OTHER DETAILS (If Any) Details of Structures, P/L, HT, Crossing",
       controller: dataState.tpRemarkController,
     );
   }
