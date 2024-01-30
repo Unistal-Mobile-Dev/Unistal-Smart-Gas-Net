@@ -42,7 +42,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     
   Widget _itemBuilder({required FetchAddWeldingDataState dataState}) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
          child : Column(
            children: [
@@ -51,13 +51,13 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
              _verticalSpace(),
              _alignmentDropdown(dataState: dataState),
              _verticalSpace(),
-             _weatherDropDown(dataState: dataState),
-             _verticalSpace(),
-             _reportNumberController(dataState: dataState),
-             _verticalSpace(),
              _chainageFromController(dataState: dataState),
              _verticalSpace(),
              _chainageToController(dataState: dataState),
+             _verticalSpace(),
+             _weatherDropDown(dataState: dataState),
+             _verticalSpace(),
+             _reportNumberController(dataState: dataState),
              _verticalSpace(),
              _leftPipeDropDown(dataState: dataState),
              _verticalSpace(),

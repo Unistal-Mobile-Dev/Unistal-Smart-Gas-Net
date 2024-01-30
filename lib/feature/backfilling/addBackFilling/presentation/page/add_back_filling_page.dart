@@ -49,19 +49,17 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
-            _weatherDropDown(dataState: dataState),
+            _chainageFromController(dataState: dataState),
             _verticalSpace(),
-            _reportNumberController(dataState: dataState),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
             _verticalSpace(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
@@ -191,6 +189,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _chainageFromController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
@@ -199,6 +198,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _chainageToController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
     );

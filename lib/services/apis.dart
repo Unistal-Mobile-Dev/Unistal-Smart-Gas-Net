@@ -33,6 +33,10 @@ class APIs {
   static get getPaddingCheckApi => "api/get-padding-checks";
   static get addBackFillingApi => "api/backfillinginsert";
   static get addLoweringApi => "api/loweringinsert";
+  static get addHDPEDuctApi => "api/hdpeductinsert";
+  static get addOfcSpliceApi => "api/ofcspliceinsert";
+  static get addRestorationApi => "api/restorationinsert";
+  static get addLevellingApi => "api/levellinginsert";
 
 
 

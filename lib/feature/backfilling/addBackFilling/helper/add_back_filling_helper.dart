@@ -102,7 +102,7 @@ class AddBackFillingHelper {
         "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
-          keyWord: "attached_file",
+          keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
@@ -114,7 +114,7 @@ class AddBackFillingHelper {
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'];
+           String resPonse = res['data'].toString();
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }
@@ -126,24 +126,5 @@ class AddBackFillingHelper {
   }
 
 
-  static Future<dynamic> fetchPaddingData({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getPaddingCheckApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
-        List<PaddingModel> paddingList = [];
-        Map myMap = res['data'];
-        myMap.forEach((key, value) {
-          paddingList.add(PaddingModel(id: key, value: value));
-        });
-        return paddingList;
-      }
-      return null;
-    }catch(e){
-      return null;
-    }
-  }
 
 }

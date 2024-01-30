@@ -6,9 +6,13 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
@@ -101,6 +105,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddWeldingBloc()),
         BlocProvider(create: (BuildContext context) => AddBackFillingBloc()),
         BlocProvider(create: (BuildContext context) => AddLoweringBloc()),
+        BlocProvider(create: (BuildContext context) => AddHdpeDuctBloc()),
+        BlocProvider(create: (BuildContext context) => AddOfcSplicingBloc()),
+        BlocProvider(create: (BuildContext context) => AddRestorationBloc()),
+        BlocProvider(create: (BuildContext context) => AddLevellingBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

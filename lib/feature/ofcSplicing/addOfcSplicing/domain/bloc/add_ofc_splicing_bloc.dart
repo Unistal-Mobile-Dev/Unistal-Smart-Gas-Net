@@ -1,0 +1,206 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/helper/add_ofc_splicing_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:intl/intl.dart';
+
+part 'add_ofc_splicing_event.dart';
+part 'add_ofc_splicing_state.dart';
+
+class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> {
+
+  TextEditingController dateController =  TextEditingController();
+  TextEditingController reportNumberController =  TextEditingController();
+  TextEditingController activityRemarkController =  TextEditingController();
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController jointPitController =  TextEditingController();
+  TextEditingController srNumberSplicingMachineController = TextEditingController();
+  TextEditingController makeModelMachineController = TextEditingController();
+  TextEditingController ofcDrumNoPlusDirectionController = TextEditingController();
+  TextEditingController ofcDrumNoMinusDirectionController = TextEditingController();
+  TextEditingController cableReadingPlusDirectionController = TextEditingController();
+  TextEditingController cableReadingMinusDirectionController = TextEditingController();
+
+  List<JointTypeModel> jointTypeList = [];
+  List<WeatherModel> weatherList = [];
+
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel  alignmentData =  AlignmentModel();
+  bool isLoader =  false;
+  JointTypeModel jointTypeData =  JointTypeModel();
+  bool isJointNumberLoader = false;
+  File file =  File("");
+  WeatherModel weatherData =  WeatherModel();
+
+  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel get userData => _userData;
+
+  AddOfcSplicingBloc() : super(AddOfcSplicingInitial()) {
+    on<AddOfcSplicingPageLoadEvent>(_pageLoad);
+    on<SelectWeatherEvent>(_selectWeather);
+    on<AddOfcSplicingSelectAlignmentEvent>(_selectAlignment);
+    on<AddOfcSplicingSelectJointTypeDataEvent>(_selectJointType);
+    on<AddOfcSplicingSelectDateEvent>(_selectDate);
+    on<AddOfcSplicingAddImageEvent>(_selectFile);
+    on<AddOfcSplicingSubmitDataEvent>(_submitData);
+  }
+
+  _pageLoad(AddOfcSplicingPageLoadEvent event, emit) async {
+    emit(AddOfcSplicingPageLoadState());
+    dateController.text = "";
+    reportNumberController.text = "";
+    activityRemarkController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
+    jointPitController.text = "";
+    jointTypeList = [];
+    weatherList = [];
+    alignmentList = [];
+    alignmentData =  AlignmentModel();
+    isLoader =  false;
+    jointTypeData =  JointTypeModel();
+    isJointNumberLoader = false;
+    file =  File("");
+    weatherData =  WeatherModel();
+    srNumberSplicingMachineController.text = "";
+    makeModelMachineController.text = "";
+    ofcDrumNoPlusDirectionController.text = "";
+    ofcDrumNoMinusDirectionController.text = "";
+    cableReadingPlusDirectionController.text = "";
+    cableReadingMinusDirectionController.text = "";
+    weatherList =  WeatherModel.getWeatherData();
+    _userData =  UserInfo.instanceInit()!.userData!;
+
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    if(res != null){
+      alignmentList =  res;
+    }
+
+    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    if(resJointType != null){
+      jointTypeList =  resJointType;
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectWeather(SelectWeatherEvent event, emit) {
+    weatherData =  event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _selectAlignment(AddOfcSplicingSelectAlignmentEvent event, emit) {
+    alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectJointType(AddOfcSplicingSelectJointTypeDataEvent event, emit) async {
+    jointTypeData =  event.jointTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectDate(AddOfcSplicingSelectDateEvent event, emit) async {
+    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    DateTime? pickedDate = await showDatePicker(context: event.context,
+        initialDate: DateTime.now(),
+        firstDate:  DateTime(2023),
+        lastDate: DateTime.now());
+    if (pickedDate != null) {
+      String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
+      dateController.text =  formattedDateChange.toString();
+      _eventComplete(emit);
+    } else {
+      print("Date is not selected");
+    }
+  }
+
+  _selectFile(AddOfcSplicingAddImageEvent event, emit) async {
+    var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+    if(photo != null){
+      file  = photo;
+    }
+    _eventComplete(emit);
+  }
+
+  _submitData(AddOfcSplicingSubmitDataEvent event, emit) async {
+    isLoader =  true;
+    _eventComplete(emit);
+    var res =  await AddOfcSplicingHelper.submitData(context: event.context,
+        alignmentData: alignmentData,
+        reportNumber: reportNumberController.text.toString(),
+        date: dateController.text.toString(),
+        activityRemark: activityRemarkController.text.toString(),
+        weatherData: weatherData,
+        userData: userData,
+        jointTypeData: jointTypeData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
+        jointPit: jointPitController.text.toString(),
+        cableReadingMinusDirection: cableReadingMinusDirectionController.text.toString(),
+        cableReadingPlusDirection: cableReadingPlusDirectionController.text.toString(),
+        ofcDrumNoMinusDirection: ofcDrumNoMinusDirectionController.text.toString(),
+        ofcDrumNoPlusDirection: ofcDrumNoPlusDirectionController.text.toString(),
+        srNumberSplicingMachine: srNumberSplicingMachineController.text.toString(),
+        makeModelMachine: makeModelMachineController.text.toString(),
+        file: file);
+    isLoader =  false;
+    _eventComplete(emit);
+    if(res !=  null){
+      dateController.text = "";
+      reportNumberController.text = "";
+      activityRemarkController.text = "";
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      jointPitController.text = "";
+      alignmentData =  AlignmentModel();
+      isLoader =  false;
+      jointTypeData =  JointTypeModel();
+      isJointNumberLoader = false;
+      file =  File("");
+      weatherData =  WeatherModel();
+      srNumberSplicingMachineController.text = "";
+      makeModelMachineController.text = "";
+      ofcDrumNoPlusDirectionController.text = "";
+      ofcDrumNoMinusDirectionController.text = "";
+      cableReadingPlusDirectionController.text = "";
+      cableReadingMinusDirectionController.text = "";
+      _eventComplete(emit);
+    }
+  }
+  _eventComplete(Emitter<AddOfcSplicingState>emit) {
+    emit(FetchAddOfcSplicingDataState(isLoader: isLoader,
+        alignmentList: alignmentList,
+        dateController: dateController,
+        activityRemarkController: activityRemarkController,
+        reportNumberController: reportNumberController,
+        chainageFromController: chainageFromController,
+        chainageToController: chainageToController,
+        alignmentData: alignmentData,
+        file: file,
+        weatherList: weatherList,
+        weatherData: weatherData,
+        jointTypeData: jointTypeData,
+        jointTypeList: jointTypeList,
+        isJointNumberLoader: isJointNumberLoader,
+        jointPitController: jointPitController,
+        cableReadingMinusDirectionController: cableReadingMinusDirectionController,
+        cableReadingPlusDirectionController: cableReadingPlusDirectionController,
+        makeModelMachineController: makeModelMachineController,
+        ofcDrumNoMinusDirectionController: ofcDrumNoMinusDirectionController,
+        ofcDrumNoPlusDirectionController: ofcDrumNoPlusDirectionController,
+        srNumberSplicingMachineController: srNumberSplicingMachineController,
+    ));
+  }
+}

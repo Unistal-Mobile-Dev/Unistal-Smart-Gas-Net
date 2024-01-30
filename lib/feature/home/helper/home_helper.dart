@@ -8,8 +8,12 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/present
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/presentation/page/add_clearing_grading_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/presentation/page/add_rou_handover_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
@@ -47,18 +51,14 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
            label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
        drawerList.add(DrawerModel(widget: const AddTrenChingPage(), icon: Icons.comment_bank_outlined,
            label: AppString.trenChing, sublist: [],  isSelected: false, actionButtonWidget: null));
-
 
        drawerList.add(DrawerModel(widget: const AddStringingPage(), icon: Icons.stream,
            label: AppString.stringing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
            label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
-
 
        drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -66,6 +66,17 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
            label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+       drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
+           label: AppString.hdpeDuct, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
+           label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
+           label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
+           label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
            label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/

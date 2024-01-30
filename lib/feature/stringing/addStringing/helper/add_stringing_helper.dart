@@ -84,7 +84,7 @@ class AddStringingHelper {
         "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
-          keyWord: "attached_file",
+          keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
@@ -96,7 +96,7 @@ class AddStringingHelper {
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-          String resPonse = res['data'];
+          String resPonse = res['data'].toString();
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }
