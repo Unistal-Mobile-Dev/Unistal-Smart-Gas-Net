@@ -73,6 +73,8 @@ class AppString {
   static get levelling => "Levelling";
   static get srNoSplicingMachine => "S.No Splicing Machine";
   static get postPadding => "Post Padding";
+  static get length => "Length";
+  static get drying => "Drying";
   static get landType => "Land Type";
   static get jointPit => "	Coupler/End Cap/Joint Pit";
   static get slopBreaker => "Slop Breaker";

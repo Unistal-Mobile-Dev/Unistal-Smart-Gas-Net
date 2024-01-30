@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/present
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/presentation/page/add_clearing_grading_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/presentation/page/add_drying_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
@@ -77,6 +78,9 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
            label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
+           label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
            label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/

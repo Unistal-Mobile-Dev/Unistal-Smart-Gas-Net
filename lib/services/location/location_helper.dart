@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/camera_permission_pop_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/gps_alert_pop_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/gps_setting_permission_pop_widget.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,7 +14,7 @@ class LocationHelper {
   static Position? position;
   static String currentAddress = '';
 
-  static Future<bool> checkGps() async {
+  static Future<bool> checkGps({required BuildContext context}) async {
     bool serviceStatus = await Geolocator.isLocationServiceEnabled();
     if (serviceStatus) {
       LocationPermission permission = await Geolocator.checkPermission();
@@ -33,13 +34,16 @@ class LocationHelper {
         return true;
       }
     } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext mContext) => const GPSAlertPopWidget());
       print("GPS Service is not enabled, turn on GPS location");
       return false;
     }
   }
 
-  static Future<dynamic> getLocation() async {
-    if (await checkGps() == false) {
+  static Future<dynamic> getLocation({required BuildContext context}) async {
+    if (await checkGps(context: context) == false) {
       return null;
     } else {
       try {
@@ -57,8 +61,8 @@ class LocationHelper {
     }
   }
 
-  static Future<dynamic> getLocationOfflineMode() async {
-    if (await checkGps() == false) {
+  static Future<dynamic> getLocationOfflineMode({required BuildContext context}) async {
+    if (await checkGps(context: context) == false) {
       return null;
     } else {
       try {

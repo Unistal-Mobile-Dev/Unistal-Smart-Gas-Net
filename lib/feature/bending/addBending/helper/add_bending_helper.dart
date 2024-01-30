@@ -113,11 +113,11 @@ class AddBendingHelper {
 
     try{
 
-      var location =  await LocationHelper.getLocation();
+      var location =  await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
       if(location != null){
         locationData =  location;
-      }
+      } else{ return null; }
 
       String url =  APIs.addBendinginsertApi;
       var json = {

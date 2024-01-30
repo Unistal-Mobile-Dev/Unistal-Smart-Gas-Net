@@ -37,6 +37,7 @@ class APIs {
   static get addOfcSpliceApi => "api/ofcspliceinsert";
   static get addRestorationApi => "api/restorationinsert";
   static get addLevellingApi => "api/levellinginsert";
+  static get addDryingApi => "api/dryinginsert";
 
 
 

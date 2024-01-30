@@ -3,12 +3,13 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddOfcSplicingHelper {
+class AddDryingHelper {
 
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
@@ -17,18 +18,13 @@ class AddOfcSplicingHelper {
     required String activityRemark,
     required WeatherModel weatherData,
     required LoginDataModel userData,
+    required JointNumberModel fromJointData,
+    required JointNumberModel toJointData,
     required JointTypeModel jointTypeData,
     required String chainageFrom,
     required String chainageTo,
-    required String jointPit,
-    required File file,
-    required String srNumberSplicingMachine,
-    required String makeModelMachine,
-    required String ofcDrumNoPlusDirection,
-    required String ofcDrumNoMinusDirection,
-    required String cableReadingPlusDirection,
-    required String cableReadingMinusDirection,
-    }) async {
+    required String length,
+    required File file}) async {
 
     try{
 
@@ -38,7 +34,7 @@ class AddOfcSplicingHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.addOfcSpliceApi;
+      String url =  APIs.addDryingApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -53,14 +49,10 @@ class AddOfcSplicingHelper {
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "pit_number" : jointPit,
+        "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
+        "total_length" : length,
         "weather" : weatherData.name ?? "",
-        "splicing_machine_no" : srNumberSplicingMachine,
-        "make_model" : makeModelMachine,
-        "ofc_drum_no_plus_direction" : ofcDrumNoPlusDirection,
-        "ofc_drum_no_minus_direction" : ofcDrumNoMinusDirection,
-        "cable_reading_plus_direction" : cableReadingPlusDirection,
-        "cable_reading_minus_direction" : cableReadingMinusDirection,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

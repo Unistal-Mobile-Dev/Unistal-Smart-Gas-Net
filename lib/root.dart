@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/domain/bloc/add_drying_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
@@ -109,6 +110,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddOfcSplicingBloc()),
         BlocProvider(create: (BuildContext context) => AddRestorationBloc()),
         BlocProvider(create: (BuildContext context) => AddLevellingBloc()),
+        BlocProvider(create: (BuildContext context) => AddDryingBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
