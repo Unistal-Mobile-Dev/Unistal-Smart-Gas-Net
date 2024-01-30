@@ -13,14 +13,17 @@ class AddTrenChingPage extends StatefulWidget {
 }
 
 class _AddTrenChingPageState extends State<AddTrenChingPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddTrenChingBloc>(context).add(AddTrenChingPageLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add TrenChing",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddTrenChingBloc, AddTrenChingState>(
         builder: (context, state) {
           if(state is FetchAddTrenChingDataState) {

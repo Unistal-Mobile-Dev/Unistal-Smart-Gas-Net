@@ -35,36 +35,36 @@ class HomeHelper {
 
        List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.alt_route_sharp,
-           label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: _rousurveyInsertAction(context: context)));
+       drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
+           label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.auto_graph,
-           label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: _clearingGradingAction(context: context)));
+       drawerList.add(DrawerModel(widget: const AddClearingGradingPage(), icon: Icons.auto_graph,
+           label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.account_tree_outlined,
-           label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: _soilresistivityinsertActionWidget(context: context)));
+       drawerList.add(DrawerModel(widget: const AddSoilResistivityPage(), icon: Icons.account_tree_outlined,
+           label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.handshake_outlined,
-           label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: _rouHandoverActionWidget(context: context)));
-
-
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.comment_bank_outlined,
-           label: AppString.trenChing, sublist: [],  isSelected: false, actionButtonWidget: _trenchingActionWidget(context: context)));
+       drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
+           label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.stream,
-           label: AppString.stringing, sublist: [],  isSelected: false, actionButtonWidget: _stringingActionWidget(context: context)));
+       drawerList.add(DrawerModel(widget: const AddTrenChingPage(), icon: Icons.comment_bank_outlined,
+           label: AppString.trenChing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.webhook_rounded,
-           label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: _bendingActionWidget(context: context)));
+       drawerList.add(DrawerModel(widget: const AddStringingPage(), icon: Icons.stream,
+           label: AppString.stringing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.transgender_outlined,
-           label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: _weldingActionButton(context: context)));
+       drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
+           label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const Center(child: TextWidget("No Data")), icon: Icons.newspaper,
-           label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: _backFillingActionWidget(context: context)));
+
+       drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
+           label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
+           label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,

@@ -12,15 +12,16 @@ class AddClearingGradingPage extends StatefulWidget {
 
 class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
+  @override
+  void initState() {
+    BlocProvider.of<AddClearingGradingBloc>(context).add(AddClearingGradingPageLoadEvent(context: context));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Clearing & Grading",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddClearingGradingBloc, AddClearingGradingState>(
         builder: (context, state) {
           if(state is FetchAddClearingGradingDataState) {

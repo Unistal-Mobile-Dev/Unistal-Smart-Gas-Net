@@ -11,14 +11,17 @@ class AddSoilResistivityPage extends StatefulWidget {
 }
 
 class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddSoilResistivityBloc>(context).add(AddSoilResistivityPageLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Soil Resistivity",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddSoilResistivityBloc, AddSoilResistivityState>(
         builder: (context, state) {
           if(state is FetchAddSoilResistivityDataState) {

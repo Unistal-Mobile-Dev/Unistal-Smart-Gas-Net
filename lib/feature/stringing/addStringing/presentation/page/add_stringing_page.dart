@@ -13,14 +13,17 @@ class AddStringingPage extends StatefulWidget {
 }
 
 class _AddStringingPageState extends State<AddStringingPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddStringingBloc>(context).add(AddStringingPageLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Stringing",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddStringingBloc, AddStringingState>(
         builder: (context, state) {
           if(state is FetchAddStringingDataState) {

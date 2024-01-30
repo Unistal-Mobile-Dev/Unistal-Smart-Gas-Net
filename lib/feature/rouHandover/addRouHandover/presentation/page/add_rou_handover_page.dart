@@ -11,14 +11,17 @@ class AddRouHandoverPage extends StatefulWidget {
 }
 
 class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Rou Handover",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddRouHandoverBloc, AddRouHandoverState>(
         builder: (context, state) {
           if(state is FetchAddRouHandoverDataState) {
@@ -102,6 +105,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _chainageToController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
     );

@@ -12,7 +12,7 @@ class APIs {
 
   static get login => "api/auth";
   static get getAlignmentSheetApi => "api/get-alignment-sheet";
-  static get addRouteSurveyApi => "api/rouhandoverinsert";
+  static get addRouteSurveyApi => "api/rousurveyinsert";
   static get addCGinsertApi => "api/cginsert";
   static get addSoilResistivityinsertApi => "api/soilresistivityinsert";
   static get addRouHandoverinsertApi => "api/rouhandoverinsert";

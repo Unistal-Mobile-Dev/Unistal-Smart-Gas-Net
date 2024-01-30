@@ -112,9 +112,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       _alignmentList =  res;
     }
 
-    var resJoint    =  await AddTrenChingHelper.fetchjointNumberData(context: event.context, userData: userData);
-    if(resJoint != null){
-      _jointNumberList =  resJoint;
+    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    if(resJointType != null){
+      jointTypeList =  resJointType;
     }
 
     _eventComplete(emit);

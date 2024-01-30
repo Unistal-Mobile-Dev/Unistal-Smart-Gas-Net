@@ -15,14 +15,17 @@ class AddBendingPage extends StatefulWidget {
 }
 
 class _AddBendingPageState extends State<AddBendingPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddBendingBloc>(context).add(AddBendingPageLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Bending",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddBendingBloc, AddBendingState>(
         builder: (context, state) {
           if(state is FetchAddBendingDataState) {

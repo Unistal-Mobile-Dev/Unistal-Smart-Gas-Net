@@ -16,13 +16,15 @@ class AddBackFillingPage extends StatefulWidget {
 class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   @override
+  void initState() {
+    BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingPageLoadEvent(context: context));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add BackFilling",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddBackFillingBloc, AddBackFillingState>(
         builder: (context, state) {
           if(state is FetchAddBackFillingDataState) {

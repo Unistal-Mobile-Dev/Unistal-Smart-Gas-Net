@@ -17,15 +17,17 @@ class AddWeldingPage extends StatefulWidget {
 }
 
 class _AddWeldingPageState extends State<AddWeldingPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddWeldingBloc>(context).add(AddWeldingPageLoadEvent(context: context));
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
       return  Scaffold(
         backgroundColor: AppColor.white,
-        appBar: AppBar(
-          title: TextWidget("Add Welding",
-            color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-        ),
         body: BlocBuilder<AddWeldingBloc, AddWeldingState>(
           builder: (context, state) {
             if(state is FetchAddWeldingDataState) {

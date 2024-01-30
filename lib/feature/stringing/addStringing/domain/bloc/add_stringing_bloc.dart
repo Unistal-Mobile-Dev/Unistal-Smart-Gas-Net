@@ -190,6 +190,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       chainageFromController.text = "";
       chainageToController.text = "";
       _alignmentData =  AlignmentModel();
+      _weatherData =  WeatherModel();
       _eventComplete(emit);
     }
   }

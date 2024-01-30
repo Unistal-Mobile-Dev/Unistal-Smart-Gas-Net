@@ -11,14 +11,17 @@ class AddRouteSurveyPage extends StatefulWidget {
 }
 
 class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
+
+  @override
+  void initState() {
+    BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveyPageLoadEvent(context: context));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Route Survey",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddRouteSurveyBloc, AddRouteSurveyState>(
         builder: (context, state) {
           if(state is FetchAddRouteSurveyDataState) {
@@ -140,6 +143,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _chainageFromController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
@@ -148,6 +152,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _chainageToController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
     );
