@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddOfcSplicingPage extends StatefulWidget {
@@ -61,6 +62,8 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
             _cableReadingMinusDirectionController(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _jointPitController(dataState: dataState),
             _verticalSpace(),
@@ -145,6 +148,25 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
     );
   }
 
+
+  Widget _jointNumberDropDown({required FetchAddOfcSplicingDataState dataState}) {
+    return dataState.isJointNumberLoader == false ?
+    DropdownWidget(
+      hint: AppString.selectJointNumber,
+      dropdownValue: dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddOfcSplicingBloc>(context).add(
+            AddOfcSplicingSelectJointNumberDataEvent(jointNumberData: value));
+      },
+      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+        return DropdownMenuItem<JointNumberModel>(
+          value: jointNumberData,
+          child: Text(jointNumberData.jointNumber.toString()),
+        );
+      }).toList(),
+    ) : const DottedLoaderWidget();
+  }
+
   Widget _chainageFromController({required FetchAddOfcSplicingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -214,7 +236,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
   Widget _jointPitController({required FetchAddOfcSplicingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.jointPit,
+      labelText: AppString.pitNumber,
       controller: dataState.jointPitController,
     );
   }

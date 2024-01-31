@@ -68,6 +68,7 @@ class AddBackFillingHelper {
     required String warningMat,
     required String slopeBreaker,
     required String postPadding,
+    required String antiBuoyancy,
     required File file}) async {
 
     try{
@@ -101,6 +102,7 @@ class AddBackFillingHelper {
         "post_padding" : postPadding,
         "slope_breaker" : slopeBreaker,
         "warning_mat" : warningMat,
+        "anti_buoyancy" : antiBuoyancy,
         "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

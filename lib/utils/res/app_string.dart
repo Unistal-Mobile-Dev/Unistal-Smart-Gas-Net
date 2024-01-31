@@ -64,6 +64,7 @@ class AppString {
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";
   static get chainageFrom => "Chainage From";
+  static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
   static get gpsCoordinateNorth => "GPS Coordinate Northing";
   static get gpsCoordinateEast => "GPS Coordinate Easting";
@@ -76,9 +77,12 @@ class AppString {
   static get length => "Length";
   static get drying => "Drying";
   static get landType => "Land Type";
-  static get jointPit => "	Coupler/End Cap/Joint Pit";
+  static get lengthMeter => "Length(Meters)";
+  static get couplerEndCapJointPit => "Coupler/End Cap/Joint Pit";
+  static get pitNumber => "Pit Number";
   static get slopBreaker => "Slope Breaker";
   static get warningMat => "Warning Mat";
+  static get antiBuoyancy => "Anti Buoyancy";
   static get selectPlasticGrating => "Select Plastic Grating";
   static get selectRemovalOfSurplusMaterialData => "Select Removal Of Surplus Material";
   static get selectReplacementofTopSoilData => "Select Replacement of Top Soil";
@@ -137,7 +141,7 @@ class AppString {
   static get bending => "Bending";
   static get welding => "Welding";
   static get backFilling => "BackFilling";
-  static get hdpeDuct => "HDPE Duct";
+  static get hdpeDuctLaying => "HDPE Duct Laying";
   static get ofcSplicing => "OFC Splicing/Jointing";
   static get restoration => "Restoration";
   static get selectJointType => "Select Joint Type";

@@ -4,9 +4,10 @@ List<SegmentStatusModel> segmentStatusListResponse(var json) {
 
 class SegmentStatusModel {
   dynamic id;
+  int? groupType;
   String? status;
   String? selectedValue;
-  SegmentStatusModel({this.id, this.status, this.selectedValue});
+  SegmentStatusModel({this.id, this.status, this.selectedValue, this.groupType});
 
   factory SegmentStatusModel.fromJson(Map<String, dynamic> json) {
     return SegmentStatusModel();

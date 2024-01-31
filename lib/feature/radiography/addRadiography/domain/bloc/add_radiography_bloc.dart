@@ -86,7 +86,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
-    segmentList =  SegmentModel().getSegment();
+
+    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData);
+    if(resSegment != null){
+      segmentList =  resSegment;
+    }
+
+/*    segmentList =  SegmentModel().getSegment();*/
     selectedSegmentList = segmentList;
     _eventComplete(emit);
   }
@@ -111,16 +117,17 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     segmentData =  segmentList[event.segmentIndex];
     isLoader =  true;
     _eventComplete(emit);
-    for(int i = 0; i < segmentData.segmentStatusList!.length; i++){
-      print(segmentData.observationController!.text.toString());
+
+    for(int i = 0; i < segmentList[event.segmentIndex].segmentStatusList!.length; i++){
+      print("Id "+segmentData.segmentStatusList![i].selectedValue.toString());
        if(i == event.index){
-         segmentData.segmentStatusList![i].selectedValue
-         = segmentData.segmentStatusList![i].id.toString();
+         segmentList[event.segmentIndex].segmentStatusList![event.index].selectedValue
+         = segmentList[event.segmentIndex].segmentStatusList![event.index].groupType.toString();
        } else{
-         segmentData.segmentStatusList![i].selectedValue = "";
+         segmentList[event.segmentIndex].segmentStatusList![i].selectedValue = "";
        }
     }
-    selectedSegmentList[event.segmentIndex] = segmentData;
+
     isLoader =  false;
     _eventComplete(emit);
   }
@@ -162,7 +169,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
       for(var status in segmentDataValue.segmentStatusList!){
         if(status.selectedValue.toString().isNotEmpty){
-          segmentStatusDataList.add(status.selectedValue.toString());
+          segmentStatusDataList.add(status.id.toString());
         }
       }
     }

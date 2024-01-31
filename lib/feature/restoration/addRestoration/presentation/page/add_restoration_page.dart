@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -56,6 +57,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
+            _lengthController(dataState: dataState),
             _verticalSpace(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
@@ -182,6 +185,15 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     ): const DottedLoaderWidget();
   }
 
+  Widget _lengthController({required FetchAddRestorationDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.lengthMeter,
+      controller: dataState.lengthController,
+    );
+  }
+
+
   Widget _chainageFromController({required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -217,8 +229,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectRemovalOfSurplusMaterialDataEvent(removalOfSurplusMaterialData: value));
       },
-      items: dataState.removalOfSurplusMaterialList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel removalOfSurplusMaterialData) {
-        return DropdownMenuItem<VisualChecksModel>(
+      items: dataState.removalOfSurplusMaterialList.map<DropdownMenuItem<PaddingModel>>((PaddingModel removalOfSurplusMaterialData) {
+        return DropdownMenuItem<PaddingModel>(
           value: removalOfSurplusMaterialData,
           child: Text(removalOfSurplusMaterialData.value.toString()),
         );
@@ -234,8 +246,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectReplacementofTopSoilDataEvent(replacementofTopSoilData: value));
       },
-      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel replacementofTopSoilData) {
-        return DropdownMenuItem<VisualChecksModel>(
+      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<PaddingModel>>((PaddingModel replacementofTopSoilData) {
+        return DropdownMenuItem<PaddingModel>(
           value: replacementofTopSoilData,
           child: Text(replacementofTopSoilData.value.toString()),
         );
@@ -252,8 +264,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectReinstallationBoundaryStonesDataEvent(reinstallationBoundaryStonesData: value));
       },
-      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel reinstallationBoundaryStonesData) {
-        return DropdownMenuItem<VisualChecksModel>(
+      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<PaddingModel>>((PaddingModel reinstallationBoundaryStonesData) {
+        return DropdownMenuItem<PaddingModel>(
           value: reinstallationBoundaryStonesData,
           child: Text(reinstallationBoundaryStonesData.value.toString()),
         );

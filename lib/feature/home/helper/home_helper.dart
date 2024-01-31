@@ -44,14 +44,14 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
            label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+       drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
+           label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
+
        drawerList.add(DrawerModel(widget: const AddClearingGradingPage(), icon: Icons.auto_graph,
            label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddSoilResistivityPage(), icon: Icons.account_tree_outlined,
            label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-       drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
-           label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddTrenChingPage(), icon: Icons.comment_bank_outlined,
            label: AppString.trenChing, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -65,20 +65,20 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+       drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
+           label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
+
        drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
            label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-       drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
-           label: AppString.hdpeDuct, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
            label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
-           label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
-
        drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
            label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
+           label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
            label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));

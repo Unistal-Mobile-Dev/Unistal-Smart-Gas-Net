@@ -29,8 +29,9 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController jointPitController =  TextEditingController();
+  TextEditingController lengthController =  TextEditingController();
 
-  List<VisualChecksModel> warningMeterList = [];
+  List<PaddingModel> warningMeterList = [];
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
   List<JointTypeModel> jointTypeList = [];
@@ -40,7 +41,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
   List<AlignmentModel> alignmentList = [];
   AlignmentModel  alignmentData =  AlignmentModel();
   bool isLoader =  false;
-  VisualChecksModel warningMeterData = VisualChecksModel();
+  PaddingModel warningMeterData = PaddingModel();
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
   JointTypeModel jointTypeData =  JointTypeModel();
@@ -75,6 +76,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     chainageFromController.text = "";
     chainageToController.text = "";
     jointPitController.text = "";
+    lengthController.text = "";
     warningMeterList = [];
     jointFromList = [];
     jointToList = [];
@@ -83,7 +85,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     alignmentList = [];
     alignmentData =  AlignmentModel();
     isLoader =  false;
-    warningMeterData = VisualChecksModel();
+    warningMeterData = PaddingModel();
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
     jointTypeData =  JointTypeModel();
@@ -105,14 +107,10 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       jointTypeList =  resJointType;
     }
 
-    var resWarning =  await AddBendingHelper.fetchVisualChecks(context: event.context);
-    if(resWarning != null){
-      warningMeterList =  resWarning;
-    }
-
     var resPadding =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
     if(resPadding != null){
       paddingList =  resPadding;
+      warningMeterList = paddingList;
     }
     _eventComplete(emit);
   }
@@ -206,6 +204,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
         chainageTo: chainageToController.text.toString(),
         jointPit: jointPitController.text.toString(),
         paddingData: paddingData,
+        length: lengthController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -216,9 +215,10 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       chainageFromController.text = "";
       chainageToController.text = "";
       jointPitController.text = "";
+      lengthController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
-      warningMeterData = VisualChecksModel();
+      warningMeterData = PaddingModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData =  JointTypeModel();
@@ -251,7 +251,8 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
         warningMeterData: warningMeterData,
         warningMeterList: warningMeterList,
         jointPitController: jointPitController,
-        toJointData: toJointData, 
+        lengthController: lengthController,
+        toJointData: toJointData,
         paddingList: paddingList,
         paddingData: paddingData,
     ));

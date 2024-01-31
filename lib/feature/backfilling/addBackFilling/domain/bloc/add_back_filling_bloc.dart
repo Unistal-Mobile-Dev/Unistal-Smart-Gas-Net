@@ -31,6 +31,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   TextEditingController postPaddingController =  TextEditingController();
   TextEditingController slopeBreakerController =  TextEditingController();
   TextEditingController warningMatController =  TextEditingController();
+  TextEditingController antiBuoyancyController =  TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -76,6 +77,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         postPaddingController.text = "";
         slopeBreakerController.text = "";
         warningMatController.text = "";
+        antiBuoyancyController.text = "";
         plasticGratingList = [];
         jointFromList = [];
         jointToList = [];
@@ -196,8 +198,9 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         warningMat: warningMatController.text.toString(),
-        slopeBreaker: slopeBreakerController.text.toString()
-        , postPadding: postPaddingController.text.toString(),
+        slopeBreaker: slopeBreakerController.text.toString(),
+        postPadding: postPaddingController.text.toString(),
+        antiBuoyancy: antiBuoyancyController.text.toString(),
         file: file);
      isLoader =  false;
      _eventComplete(emit);
@@ -210,6 +213,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       postPaddingController.text = "";
       slopeBreakerController.text = "";
       warningMatController.text = "";
+      antiBuoyancyController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       plasticGratingData = VisualChecksModel();
@@ -247,6 +251,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         slopeBreakerController: slopeBreakerController, 
         toJointData: toJointData, 
         warningMatController: warningMatController,
+        antiBuoyancyController: antiBuoyancyController,
     ));
   }
 

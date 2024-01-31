@@ -33,7 +33,7 @@ class AddHdpeDuctSelectPaddingDataEvent extends AddHdpeDuctEvent {
 }
 
 class AddHdpeDuctSelectWarningMeterDataEvent extends AddHdpeDuctEvent {
-  final VisualChecksModel warningMeterData;
+  final PaddingModel warningMeterData;
   const AddHdpeDuctSelectWarningMeterDataEvent({required this.warningMeterData});
   @override
   List<Object?> get props => [warningMeterData];

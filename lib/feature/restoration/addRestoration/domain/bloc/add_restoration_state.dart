@@ -25,6 +25,7 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController landTypeController;
+  final TextEditingController lengthController;
   final JointNumberModel fromJointData;
   final List<JointNumberModel> jointFromList;
   final List<JointNumberModel> jointToList;
@@ -35,12 +36,12 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
-  final VisualChecksModel removalOfSurplusMaterialData;
-  final VisualChecksModel replacementofTopSoilData;
-  final VisualChecksModel reinstallationBoundaryStonesData;
-  final List<VisualChecksModel > removalOfSurplusMaterialList;
-  final List<VisualChecksModel > replacementofTopSoilList;
-  final List<VisualChecksModel > reinstallationBoundaryStonesList;
+  final PaddingModel removalOfSurplusMaterialData;
+  final PaddingModel replacementofTopSoilData;
+  final PaddingModel reinstallationBoundaryStonesData;
+  final List<PaddingModel > removalOfSurplusMaterialList;
+  final List<PaddingModel > replacementofTopSoilList;
+  final List<PaddingModel > reinstallationBoundaryStonesList;
 
   FetchAddRestorationDataState({
     required this.isLoader,
@@ -50,6 +51,7 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
     required this.reportNumberController,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.lengthController,
     required this.alignmentData,
     required this.file,
     required this.weatherList,
@@ -79,6 +81,7 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
     reportNumberController,
     chainageFromController,
     chainageToController,
+    lengthController,
     alignmentData,
     file,
     weatherList,

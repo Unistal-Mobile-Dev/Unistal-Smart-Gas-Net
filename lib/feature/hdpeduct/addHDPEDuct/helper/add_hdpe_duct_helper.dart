@@ -18,7 +18,7 @@ class AddHDPEDuctHelper {
     required AlignmentModel alignmentData,
     required String reportNumber,
     required String date,
-    required VisualChecksModel warningMeterData,
+    required PaddingModel warningMeterData,
     required String activityRemark,
     required WeatherModel weatherData,
     required LoginDataModel userData,
@@ -28,6 +28,7 @@ class AddHDPEDuctHelper {
     required String chainageFrom,
     required String chainageTo,
     required String jointPit,
+    required String length,
     required PaddingModel paddingData,
     required File file}) async {
 
@@ -57,6 +58,7 @@ class AddHDPEDuctHelper {
         "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
         "joint_pit" : jointPit,
+        "total_length" : length,
         "warning_mat_meter" : warningMeterData.id != null ? warningMeterData.id.toString() : "",
         "padding_meter" : paddingData.id != null ? paddingData.id.toString() : "",
         "weather" : weatherData.name ?? "",

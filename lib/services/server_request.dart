@@ -5,6 +5,8 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 import 'package:http/http.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ServerRequest {
 
@@ -203,9 +205,12 @@ class ServerRequest {
        log(url);
        log(body.toString());
 
-       var request = new MultipartRequest("POST", uri);
+       var request = MultipartRequest("POST", uri);
        if(filePath.isNotEmpty){
-         var uploadFile = await MultipartFile.fromPath(keyWord, filePath);
+         final mimeTypeData =
+         lookupMimeType(filePath, headerBytes: [0xFF, 0xD8])!.split('/');
+         var uploadFile = await MultipartFile.fromPath(keyWord, filePath,
+             contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
          request.files.add(uploadFile);
        }
        request.fields.addAll(body);

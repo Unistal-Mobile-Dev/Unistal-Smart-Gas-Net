@@ -164,8 +164,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           return Row(
             children: [
               Radio(
-                value: segmentData.segmentStatusList![index].selectedValue.toString(),
-                groupValue: segmentData.segmentStatusList![index].id.toString(),
+                value: segmentData.segmentStatusList![index].groupType.toString(),
+                groupValue: segmentData.segmentStatusList![index].selectedValue.toString(),
                 onChanged: (val) {
                   BlocProvider.of<AddRadiographyBloc>(context).add(
                       AddRadiographySelectSegmentDataEvent(index: index, segmentIndex: segmentIndex));

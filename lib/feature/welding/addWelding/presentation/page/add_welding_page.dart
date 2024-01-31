@@ -57,8 +57,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
              _verticalSpace(),
              _weatherDropDown(dataState: dataState),
              _verticalSpace(),
-             _reportNumberController(dataState: dataState),
-             _verticalSpace(),
              _leftPipeDropDown(dataState: dataState),
              _verticalSpace(),
              _rigthPipeDropDown(dataState: dataState),

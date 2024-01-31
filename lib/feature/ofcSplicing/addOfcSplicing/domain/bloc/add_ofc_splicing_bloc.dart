@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
@@ -44,6 +45,9 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
   File file =  File("");
   WeatherModel weatherData =  WeatherModel();
 
+  List<JointNumberModel> jointNumberList = [];
+  JointNumberModel jointNumberData =  JointNumberModel();
+
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
@@ -52,6 +56,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
     on<SelectWeatherEvent>(_selectWeather);
     on<AddOfcSplicingSelectAlignmentEvent>(_selectAlignment);
     on<AddOfcSplicingSelectJointTypeDataEvent>(_selectJointType);
+    on<AddOfcSplicingSelectJointNumberDataEvent>(_selectJointNumber);
     on<AddOfcSplicingSelectDateEvent>(_selectDate);
     on<AddOfcSplicingAddImageEvent>(_selectFile);
     on<AddOfcSplicingSubmitDataEvent>(_submitData);
@@ -80,6 +85,8 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
     ofcDrumNoMinusDirectionController.text = "";
     cableReadingPlusDirectionController.text = "";
     cableReadingMinusDirectionController.text = "";
+    jointNumberList = [];
+    jointNumberData = JointNumberModel();
     weatherList =  WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
@@ -108,6 +115,22 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
 
   _selectJointType(AddOfcSplicingSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
+    jointNumberList = [];
+    jointNumberData =  JointNumberModel();
+    isJointNumberLoader =  true;
+    _eventComplete(emit);
+    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+        jointTypeData: jointTypeData);
+    if(resJointNumber != null){
+      jointNumberList =  resJointNumber;
+    }
+    isJointNumberLoader =  false;
+    _eventComplete(emit);
+
+  }
+
+  _selectJointNumber(AddOfcSplicingSelectJointNumberDataEvent event, emit) async {
+    jointNumberData =  event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -145,6 +168,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
         weatherData: weatherData,
         userData: userData,
         jointTypeData: jointTypeData,
+        jointNumberData: jointNumberData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         jointPit: jointPitController.text.toString(),
@@ -176,6 +200,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
       ofcDrumNoMinusDirectionController.text = "";
       cableReadingPlusDirectionController.text = "";
       cableReadingMinusDirectionController.text = "";
+      jointNumberData = JointNumberModel();
       _eventComplete(emit);
     }
   }
@@ -201,6 +226,8 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
         ofcDrumNoMinusDirectionController: ofcDrumNoMinusDirectionController,
         ofcDrumNoPlusDirectionController: ofcDrumNoPlusDirectionController,
         srNumberSplicingMachineController: srNumberSplicingMachineController,
+        jointNumberData: jointNumberData,
+        jointNumberList: jointNumberList,
     ));
   }
 }

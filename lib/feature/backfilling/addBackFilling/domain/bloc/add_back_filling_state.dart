@@ -26,6 +26,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final TextEditingController postPaddingController;
   final TextEditingController slopeBreakerController;
   final TextEditingController warningMatController;
+  final TextEditingController antiBuoyancyController;
   final VisualChecksModel plasticGratingData;
   final List<VisualChecksModel> plasticGratingList;
   final JointNumberModel fromJointData;
@@ -63,6 +64,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     required this.slopeBreakerController,
     required this.toJointData,
     required this.warningMatController,
+    required this.antiBuoyancyController,
   });
 
   @override
@@ -90,5 +92,6 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     postPaddingController,
     slopeBreakerController,
     warningMatController,
+    antiBuoyancyController,
   ];
 }

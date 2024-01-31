@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -71,6 +72,43 @@ class AddRadiographyHelper {
       return null;
     }catch(e){
       SnackBarErrorWidget(context).show(message: e.toString());
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchSegmentData({required BuildContext context, required LoginDataModel userData}) async {
+
+    try{
+      String url =  APIs.getSegmentApi;
+      var param = {
+        "schema" : userData.schema,
+      };
+      String json =  Uri(queryParameters: param).query;
+      var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data']['segment'] != null && res['data']['status'] != null) {
+
+
+        int id = 1;
+        Map myMap = res['data']['status'];
+        List<SegmentModel> segmentList  = [];
+        List<SegmentModel> _segmentList  = [];
+        segmentList =  segmentListResponse(res['data']['segment']);
+        for(var segmentData in segmentList){
+          List<SegmentStatusModel> segmentStatusList = [];
+          myMap.forEach((key, value) {
+            segmentStatusList.add(SegmentStatusModel(id: key, status: value, selectedValue: "", groupType: id));
+            id++;
+          });
+          segmentData.segmentStatusList = segmentStatusList;
+          _segmentList.add(segmentData);
+        }
+
+        return _segmentList;
+      }
+      return null;
+    }catch(e){
+      print(e.toString());
       return null;
     }
   }

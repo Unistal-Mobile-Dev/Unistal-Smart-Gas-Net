@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -25,9 +26,10 @@ class AddRestorationHelper {
     required String chainageFrom,
     required String chainageTo,
     required String landType,
-    required VisualChecksModel removalOfSurplusMaterialData,
-    required VisualChecksModel replacementofTopSoilData,
-    required VisualChecksModel reinstallationBoundaryStonesData,
+    required String length,
+    required PaddingModel removalOfSurplusMaterialData,
+    required PaddingModel replacementofTopSoilData,
+    required PaddingModel reinstallationBoundaryStonesData,
     required File file}) async {
 
     try{
@@ -56,6 +58,7 @@ class AddRestorationHelper {
         "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
         "land_type" : landType,
+        "total_length" : length,
         "weather" : weatherData.name ?? "",
         "surplus_material_removal" : removalOfSurplusMaterialData.id != null ? removalOfSurplusMaterialData.id.toString() : "",
         "top_soil_replacement" : replacementofTopSoilData.id != null ? replacementofTopSoilData.id.toString() : "",

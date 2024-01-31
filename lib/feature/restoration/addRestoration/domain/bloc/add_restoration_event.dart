@@ -27,21 +27,21 @@ class AddRestorationSelectAlignmentEvent extends AddRestorationEvent {
 
 
 class AddRestorationSelectRemovalOfSurplusMaterialDataEvent extends AddRestorationEvent {
-  final VisualChecksModel removalOfSurplusMaterialData;
+  final PaddingModel removalOfSurplusMaterialData;
   const AddRestorationSelectRemovalOfSurplusMaterialDataEvent({required this.removalOfSurplusMaterialData});
   @override
   List<Object?> get props => [removalOfSurplusMaterialData];
 }
 
 class AddRestorationSelectReplacementofTopSoilDataEvent extends AddRestorationEvent {
-  final VisualChecksModel replacementofTopSoilData;
+  final PaddingModel replacementofTopSoilData;
   const AddRestorationSelectReplacementofTopSoilDataEvent({required this.replacementofTopSoilData});
   @override
   List<Object?> get props => [replacementofTopSoilData];
 }
 
 class AddRestorationSelectReinstallationBoundaryStonesDataEvent extends AddRestorationEvent {
-  final VisualChecksModel reinstallationBoundaryStonesData;
+  final PaddingModel reinstallationBoundaryStonesData;
   const AddRestorationSelectReinstallationBoundaryStonesDataEvent({required this.reinstallationBoundaryStonesData});
   @override
   List<Object?> get props => [reinstallationBoundaryStonesData];

@@ -67,6 +67,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _plasticGratingDropDown(dataState: dataState),
             _verticalSpace(),
+            _antiBuoyancyController(dataState: dataState),
+            _verticalSpace(),
             _warningMatController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -234,6 +236,14 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
           child: Text(plasticGratingData.value.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.antiBuoyancy,
+      controller: dataState.antiBuoyancyController,
     );
   }
 

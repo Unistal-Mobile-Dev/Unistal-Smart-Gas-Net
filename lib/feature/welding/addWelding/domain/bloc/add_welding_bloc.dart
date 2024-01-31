@@ -646,6 +646,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       chainageToController.text = "";
       rightPipeData =  PipeModel();
       leftPipeData =  PipeModel();
+      _weatherData =  WeatherModel();
     }
     _eventComplete(emit);
   }

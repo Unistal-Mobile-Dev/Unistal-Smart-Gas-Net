@@ -15,13 +15,13 @@ class SegmentModel {
 
   SegmentModel({this.id, this.name, this.segmentStatusList, this.observation, this.observationController});
 
-  factory SegmentModel.fromJson(Map<String, dynamic> json) {
+  factory SegmentModel.fromJson(Map<String, dynamic> json,) {
     return SegmentModel(
-      id :  "",
-      name :  "",
+      id :  json['id'] ?? "",
+      name :  json['name'] ?? "",
       observationController: TextEditingController(),
       observation: "Observation",
-      segmentStatusList: json [""] != null ? segmentStatusListResponse(json) : [],
+      segmentStatusList: [],
     );
   }
 
@@ -38,6 +38,7 @@ class SegmentModel {
         status: "Accept",
         selectedValue: ""
     ));
+
      segmentList.add(SegmentModel(
        id: "1",
        name: "Segment 1",
@@ -58,6 +59,7 @@ class SegmentModel {
         status: "RNA",
         selectedValue: ""
     ));
+
     segmentList.add(SegmentModel(
         id: "2",
         name: "Segment 2",
@@ -78,6 +80,7 @@ class SegmentModel {
         status: "RECAP",
         selectedValue: ""
     ));
+
     segmentList.add(SegmentModel(
         id: "3",
         name: "Segment 3",
@@ -85,6 +88,7 @@ class SegmentModel {
         observationController: TextEditingController(),
         segmentStatusList: segmentStatusList3
     ));
+
     return segmentList;
   }
 }

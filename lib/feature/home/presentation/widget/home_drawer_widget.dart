@@ -71,6 +71,7 @@ class HomeDrawerWidget extends StatelessWidget {
   Widget _listBuilder({required FetchHomeDataState dataState}) {
     return ListView.builder(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: dataState.drawerList.length,
         itemBuilder: (context, index) {
         return _itemBuilder(context: context, drawerData: dataState.drawerList[index], index: index);

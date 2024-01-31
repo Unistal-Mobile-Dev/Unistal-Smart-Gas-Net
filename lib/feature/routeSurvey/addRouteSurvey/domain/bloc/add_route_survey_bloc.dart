@@ -169,6 +169,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
       file =  File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      _weatherData =  WeatherModel();
       _eventComplete(emit);
     }
 

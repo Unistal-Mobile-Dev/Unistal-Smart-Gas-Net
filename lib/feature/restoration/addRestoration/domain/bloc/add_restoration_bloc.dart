@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/helper/add_restoration_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -29,6 +31,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController landTypeController =  TextEditingController();
+  TextEditingController lengthController =  TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -50,13 +53,13 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
-  List<VisualChecksModel> removalOfSurplusMaterialList = [];
-  List<VisualChecksModel> replacementofTopSoilList = [];
-  List<VisualChecksModel> reinstallationBoundaryStonesList = [];
+  List<PaddingModel> removalOfSurplusMaterialList = [];
+  List<PaddingModel> replacementofTopSoilList = [];
+  List<PaddingModel> reinstallationBoundaryStonesList = [];
 
-  VisualChecksModel removalOfSurplusMaterialData =  VisualChecksModel();
-  VisualChecksModel replacementofTopSoilData =  VisualChecksModel();
-  VisualChecksModel reinstallationBoundaryStonesData =  VisualChecksModel();
+  PaddingModel removalOfSurplusMaterialData =  PaddingModel();
+  PaddingModel replacementofTopSoilData =  PaddingModel();
+  PaddingModel reinstallationBoundaryStonesData =  PaddingModel();
 
   AddRestorationBloc() : super(AddRestorationInitial()) {
     on<AddRestorationPageLoadEvent>(_pageLoad);
@@ -81,6 +84,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     chainageFromController.text = "";
     chainageToController.text = "";
     landTypeController.text = "";
+    lengthController.text = "";
     plasticGratingList = [];
     jointFromList = [];
     jointToList = [];
@@ -100,9 +104,9 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     replacementofTopSoilList = [];
     reinstallationBoundaryStonesList = [];
 
-    removalOfSurplusMaterialData =  VisualChecksModel();
-    replacementofTopSoilData =  VisualChecksModel();
-    reinstallationBoundaryStonesData =  VisualChecksModel();
+    removalOfSurplusMaterialData =  PaddingModel();
+    replacementofTopSoilData =  PaddingModel();
+    reinstallationBoundaryStonesData =  PaddingModel();
     weatherList =  WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
@@ -116,11 +120,11 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
       jointTypeList =  resJointType;
     }
 
-    var resRemovalOfSurplusMaterial =  await AddBendingHelper.fetchVisualChecks(context: event.context);
-    if(resRemovalOfSurplusMaterial != null){
-      replacementofTopSoilList =  resRemovalOfSurplusMaterial;
-      removalOfSurplusMaterialList =  resRemovalOfSurplusMaterial;
-      reinstallationBoundaryStonesList =  resRemovalOfSurplusMaterial;
+    var resPadding =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    if(resPadding != null){
+      replacementofTopSoilList =  resPadding;
+      removalOfSurplusMaterialList =  resPadding;
+      reinstallationBoundaryStonesList =  resPadding;
     }
 
     _eventComplete(emit);
@@ -220,6 +224,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
         fromJointData: fromJointData,
         toJointData: toJointData,
         jointTypeData: jointTypeData,
+        length: lengthController.text.toString(),
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         file: file);
@@ -232,6 +237,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
       chainageFromController.text = "";
       chainageToController.text = "";
       landTypeController.text = "";
+      lengthController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       plasticGratingData = VisualChecksModel();
@@ -240,9 +246,9 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
       jointTypeData =  JointTypeModel();
       isJointNumberLoader = false;
       file =  File("");
-      removalOfSurplusMaterialData =  VisualChecksModel();
-      replacementofTopSoilData =  VisualChecksModel();
-      reinstallationBoundaryStonesData =  VisualChecksModel();
+      removalOfSurplusMaterialData =  PaddingModel();
+      replacementofTopSoilData =  PaddingModel();
+      reinstallationBoundaryStonesData =  PaddingModel();
       weatherData =  WeatherModel();
       _eventComplete(emit);
     }
@@ -274,6 +280,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
         removalOfSurplusMaterialList: removalOfSurplusMaterialList,
         replacementofTopSoilData: replacementofTopSoilData,
         replacementofTopSoilList: replacementofTopSoilList,
+        lengthController: lengthController,
     ));
   }
 

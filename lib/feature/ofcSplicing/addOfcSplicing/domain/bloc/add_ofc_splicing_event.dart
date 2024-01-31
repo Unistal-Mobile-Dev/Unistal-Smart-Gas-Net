@@ -33,6 +33,12 @@ class AddOfcSplicingSelectJointTypeDataEvent extends AddOfcSplicingEvent {
   List<Object?> get props => [jointTypeData, context];
 }
 
+class AddOfcSplicingSelectJointNumberDataEvent extends AddOfcSplicingEvent {
+  final JointNumberModel jointNumberData;
+  const AddOfcSplicingSelectJointNumberDataEvent({required this.jointNumberData});
+  @override
+  List<Object?> get props => [jointNumberData];
+}
 
 class AddOfcSplicingAddImageEvent extends AddOfcSplicingEvent {
   final BuildContext context;

@@ -24,8 +24,9 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController jointPitController;
-  final VisualChecksModel warningMeterData;
-  final List<VisualChecksModel> warningMeterList;
+  final TextEditingController lengthController;
+  final PaddingModel warningMeterData;
+  final List<PaddingModel> warningMeterList;
   final JointNumberModel fromJointData;
   final List<JointNumberModel> jointFromList;
   final List<JointNumberModel> jointToList;
@@ -47,6 +48,7 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
     required this.reportNumberController,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.lengthController,
     required this.alignmentData,
     required this.file,
     required this.weatherList,
@@ -74,6 +76,7 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
     reportNumberController,
     chainageFromController,
     chainageToController,
+    lengthController,
     alignmentData,
     file,
     weatherList,

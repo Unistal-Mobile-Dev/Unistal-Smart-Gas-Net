@@ -36,6 +36,8 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final List<JointNumberModel> jointNumberList;
+  final JointNumberModel jointNumberData;
 
   FetchAddOfcSplicingDataState({
     required this.isLoader,
@@ -59,6 +61,8 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
     required this.ofcDrumNoMinusDirectionController,
     required this.ofcDrumNoPlusDirectionController,
     required this.srNumberSplicingMachineController,
+    required this.jointNumberData,
+    required this.jointNumberList,
   });
 
   @override
@@ -84,5 +88,7 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
     ofcDrumNoMinusDirectionController,
     ofcDrumNoPlusDirectionController,
     srNumberSplicingMachineController,
+    jointNumberData,
+    jointNumberList
   ];
 }

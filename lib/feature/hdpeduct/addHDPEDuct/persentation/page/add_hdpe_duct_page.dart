@@ -50,10 +50,6 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
@@ -63,6 +59,8 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _jointPitController(dataState: dataState),
+            _verticalSpace(),
+            _lengthController(dataState: dataState),
             _verticalSpace(),
             _warningDropDown(dataState: dataState),
             _verticalSpace(),
@@ -185,6 +183,15 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
     ): const DottedLoaderWidget();
   }
 
+  Widget _lengthController({required FetchAddHdpeDuctDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.hdpeLayingLength,
+      controller: dataState.lengthController,
+    );
+  }
+
   Widget _chainageFromController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -206,7 +213,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _jointPitController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.jointPit,
+      labelText: AppString.couplerEndCapJointPit,
       controller: dataState.jointPitController,
     );
   }
@@ -220,8 +227,8 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
         BlocProvider.of<AddHdpeDuctBloc>(context).add(
             AddHdpeDuctSelectWarningMeterDataEvent(warningMeterData: value));
       },
-      items: dataState.warningMeterList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel warningMeterData) {
-        return DropdownMenuItem<VisualChecksModel>(
+      items: dataState.warningMeterList.map<DropdownMenuItem<PaddingModel>>((PaddingModel warningMeterData) {
+        return DropdownMenuItem<PaddingModel>(
           value: warningMeterData,
           child: Text(warningMeterData.value.toString()),
         );
