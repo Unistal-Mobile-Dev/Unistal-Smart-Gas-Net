@@ -38,6 +38,7 @@ class APIs {
   static get addRestorationApi => "api/restorationinsert";
   static get addLevellingApi => "api/levellinginsert";
   static get addDryingApi => "api/dryinginsert";
+  static get addRadiographyApi => "api/ndtrtinsert";
 
 
 

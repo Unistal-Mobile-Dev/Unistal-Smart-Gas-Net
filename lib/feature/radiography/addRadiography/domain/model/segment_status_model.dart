@@ -5,41 +5,10 @@ List<SegmentStatusModel> segmentStatusListResponse(var json) {
 class SegmentStatusModel {
   dynamic id;
   String? status;
-  SegmentStatusModel({this.id, this.status});
+  String? selectedValue;
+  SegmentStatusModel({this.id, this.status, this.selectedValue});
 
   factory SegmentStatusModel.fromJson(Map<String, dynamic> json) {
-    return SegmentStatusModel(
-
-    );
+    return SegmentStatusModel();
   }
-
-  getStatus() {
-    List<SegmentStatusModel> segmentStatusList = [];
-    segmentStatusList.add(SegmentStatusModel(
-      id: "1",
-      status: "R/S"
-    ));
-    segmentStatusList.add(SegmentStatusModel(
-        id: "2",
-        status: "Accept"
-    ));
-    segmentStatusList.add(SegmentStatusModel(
-        id: "3",
-        status: "Retake"
-    ));
-    segmentStatusList.add(SegmentStatusModel(
-        id: "4",
-        status: "RNA"
-    ));
-    segmentStatusList.add(SegmentStatusModel(
-        id: "5",
-        status: "CRS"
-    ));
-    segmentStatusList.add(SegmentStatusModel(
-        id: "6",
-        status: "RECAP"
-    ));
-    return;
-  }
-
 }

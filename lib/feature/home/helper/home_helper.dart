@@ -14,6 +14,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_m
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/persentation/page/add_radiography_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/presentation/page/add_rou_handover_page.dart';
@@ -81,6 +82,9 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
            label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
+           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
            label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/

@@ -13,6 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/dom
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
@@ -111,6 +112,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddRestorationBloc()),
         BlocProvider(create: (BuildContext context) => AddLevellingBloc()),
         BlocProvider(create: (BuildContext context) => AddDryingBloc()),
+        BlocProvider(create: (BuildContext context) => AddRadiographyBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
