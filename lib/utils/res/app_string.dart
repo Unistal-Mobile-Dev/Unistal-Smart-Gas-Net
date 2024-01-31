@@ -94,6 +94,7 @@ class AppString {
   static get typeofGround => "Type of ground";
   static get tpTo => "IP/TP Chainage";
   static get radiography => "Radiography";
+  static get ndtMut => "NDT Mut";
   static get bendAngleDegree => "Bend Angle Degree";
   static get bendNumber => "Bend Number";
   static get ipNoFrom => "IP No. From";

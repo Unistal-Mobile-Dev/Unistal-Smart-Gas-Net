@@ -39,6 +39,7 @@ class APIs {
   static get addLevellingApi => "api/levellinginsert";
   static get addDryingApi => "api/dryinginsert";
   static get addRadiographyApi => "api/ndtrtinsert";
+  static get addNdtMutApi => "api/ndtmutinsert";
   static get getSegmentApi => "api/get-segments";
 
 
