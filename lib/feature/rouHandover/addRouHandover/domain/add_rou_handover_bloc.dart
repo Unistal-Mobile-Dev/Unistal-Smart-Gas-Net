@@ -167,6 +167,7 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       chainageFromController.text = "";
       chainageToController.text = "";
       file = File("");
+      _weatherData =  WeatherModel();
       _eventComplete(emit);
     }
 
