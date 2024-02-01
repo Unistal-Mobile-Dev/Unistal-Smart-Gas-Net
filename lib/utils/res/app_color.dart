@@ -3,11 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static get themeColor => const Color(0xFF308133);
-  static get themeLightColor => const Color(0xFF59a65c);
 
- // static get themeColor => const Color(0xFF4CAF50);
- //  static get themeLightColor => const Color(0xFF65B268);
+  static dynamic theme_Color = 0xFF308133;
+  static dynamic theme_LightColor = 0xFF59a65c;
+
+  AppColor({required dynamic themeColor, required dynamic themeLightColor}){
+    theme_Color =  themeColor;
+    theme_LightColor =  themeLightColor;
+  }
+
+  static get themeColor => Color(theme_Color);
+  static get themeLightColor => Color(theme_LightColor);
 
   static get grey => Colors.grey;
   static get black => Colors.black;

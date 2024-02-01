@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
+  AppColor(themeColor:  0xFF0077bd, themeLightColor: 0xFF1AABFF);
   var configuredApp = const EnvironmentConfig(
       flavours: EnvironmentFlavours.productionUnistal,
       child: Root(client: Client.unistal,)

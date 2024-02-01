@@ -57,7 +57,7 @@ class _RootState extends State<Root> {
   }
 
    MaterialColor primaryColor =  MaterialColor(
-     0xFF308133,
+     AppColor.theme_Color,
      <int, Color>{
        50: AppColor.themeColor,
        100: AppColor.themeColor,
@@ -73,7 +73,7 @@ class _RootState extends State<Root> {
   );
 
   MaterialColor primarySwatch =  MaterialColor(
-    0xFF308133,
+    AppColor.theme_LightColor,
     <int, Color>{
       50: AppColor.themeLightColor,
       100: AppColor.themeLightColor,
