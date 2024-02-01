@@ -66,9 +66,9 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
               child: Image.asset(
-               AppConfig().client == Client.purvaBharti
+               AppConfig.instanceInit()!.client == Client.purvaBharti
                    ? AppIcon.appLogoPurvaBharti
-                 :AppConfig().client == Client.unistal
+                 :AppConfig.instanceInit()!.client == Client.unistal
                    ? AppIcon.appLogoUnistal
                  : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,

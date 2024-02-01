@@ -41,6 +41,8 @@ class APIs {
   static get addRadiographyApi => "api/ndtrtinsert";
   static get addNdtMutApi => "api/ndtmutinsert";
   static get getSegmentApi => "api/get-segments";
+  static get getLptStatusApi => "api/lptstatus";
+  static get addLptApi => "api/lptinsert";
 
 
 

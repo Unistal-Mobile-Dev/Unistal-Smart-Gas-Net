@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -16,22 +16,25 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
-part 'add_radiography_event.dart';
-part 'add_radiography_state.dart';
+import '../../helper/add_lpt_helper.dart';
 
-class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> {
+part 'add_lpt_event.dart';
+part 'add_lpt_state.dart';
 
+class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
 
   TextEditingController dateController =  TextEditingController();
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
 
+  List<JointNumberModel> jointList = [];
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel  alignmentData =  AlignmentModel();
   bool isLoader =  false;
+  JointNumberModel jointData = JointNumberModel();
   JointTypeModel jointTypeData =  JointTypeModel();
   bool isJointNumberLoader = false;
   File file =  File("");
@@ -39,46 +42,40 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
-
-  List<SegmentModel> segmentList = [];
-  SegmentModel segmentData =  SegmentModel();
-
-  List<SegmentModel> selectedSegmentList = [];
-
-  List<JointNumberModel> jointNumberList = [];
-  JointNumberModel jointNumberData =  JointNumberModel();
-
-  AddRadiographyBloc() : super(AddRadiographyInitial()) {
-
-    on<AddRadiographyPageLoadEvent>(_pageLoad);
+  
+  List<LptStatusModel> lptStatusList = [];
+  LptStatusModel lptStatusData = LptStatusModel();
+  
+  AddLptBloc() : super(AddLptInitial()) {
+    on<AddLptPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
-    on<AddRadiographySelectAlignmentEvent>(_selectAlignment);
-    on<AddRadiographySelectJointTypeDataEvent>(_selectJointType);
-    on<AddRadiographySelectJointNumberDataEvent>(_selectJointNumber);
-    on<AddRadiographySelectSegmentDataEvent>(_selectSegment);
-    on<AddRadiographySelectDateEvent>(_selectDate);
-    on<AddRadiographyAddImageEvent>(_selectFile);
-    on<AddRadiographySubmitDataEvent>(_submitData);
+    on<AddLptSelectAlignmentEvent>(_selectAlignment);
+    on<AddLptSelectJointDataEvent>(_selectJointTo);
+    on<AddLptSelectJointTypeDataEvent>(_selectJointType);
+    on<AddLptSelectLptStatusDataEvent>(_selectLptStatus);
+    on<AddLptSelectDateEvent>(_selectDate);
+    on<AddLptAddImageEvent>(_selectFile);
+    on<AddLptSubmitDataEvent>(_submitData);
   }
 
-  _pageLoad(AddRadiographyPageLoadEvent event, emit) async {
-    emit(AddRadiographyPageLoadState());
+  _pageLoad(AddLptPageLoadEvent event, emit) async {
+    emit(AddLptPageLoadState());
     dateController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
+    jointList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
     alignmentData =  AlignmentModel();
     isLoader =  false;
-    segmentData = SegmentModel();
-    segmentList = [];
+    jointData = JointNumberModel();
     jointTypeData =  JointTypeModel();
     isJointNumberLoader = false;
     file =  File("");
-    jointNumberList = [];
-    jointNumberData =  JointNumberModel();
     weatherData =  WeatherModel();
+    lptStatusData =  LptStatusModel();
+    lptStatusList = [];
     weatherList =  WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
@@ -92,13 +89,11 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       jointTypeList =  resJointType;
     }
 
-    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData);
-    if(resSegment != null){
-      segmentList =  resSegment;
+    var resLpt =  await AddLptHelper.fetchLptData(context: event.context);
+    if(resLpt != null){
+      lptStatusList =  resLpt;
     }
 
-
-    selectedSegmentList = segmentList;
     _eventComplete(emit);
   }
 
@@ -107,52 +102,37 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     _eventComplete(emit);
   }
 
-  _selectAlignment(AddRadiographySelectAlignmentEvent event, emit) {
+  _selectAlignment(AddLptSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
+  _selectJointTo(AddLptSelectJointDataEvent event, emit) {
+    jointData = event.jointNumberData;
+    _eventComplete(emit);
+  }
 
-  _selectJointType(AddRadiographySelectJointTypeDataEvent event, emit) async {
+  _selectJointType(AddLptSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
-    jointNumberList = [];
-    jointNumberData =  JointNumberModel();
+    jointList = [];
+    jointData =  JointNumberModel();
     isJointNumberLoader =  true;
     _eventComplete(emit);
     var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
         jointTypeData: jointTypeData);
     if(resJointNumber != null){
-      jointNumberList =  resJointNumber;
+      jointList =  resJointNumber;
     }
     isJointNumberLoader =  false;
     _eventComplete(emit);
   }
 
-  _selectJointNumber(AddRadiographySelectJointNumberDataEvent event, emit) {
-    jointNumberData =  event.jointNumberData;
+  _selectLptStatus(AddLptSelectLptStatusDataEvent event, emit) {
+    lptStatusData =  event.lptStatusData;
     _eventComplete(emit);
   }
 
-  _selectSegment(AddRadiographySelectSegmentDataEvent event, emit) async {
-    segmentData =  segmentList[event.segmentIndex];
-    isLoader =  true;
-    _eventComplete(emit);
-
-    for(int i = 0; i < segmentList[event.segmentIndex].segmentStatusList!.length; i++){
-      print("Id "+segmentData.segmentStatusList![i].selectedValue.toString());
-       if(i == event.index){
-         segmentList[event.segmentIndex].segmentStatusList![event.index].selectedValue
-         = segmentList[event.segmentIndex].segmentStatusList![event.index].groupType.toString();
-       } else{
-         segmentList[event.segmentIndex].segmentStatusList![i].selectedValue = "";
-       }
-    }
-
-    isLoader =  false;
-    _eventComplete(emit);
-  }
-
-  _selectDate(AddRadiographySelectDateEvent event, emit) async {
+  _selectDate(AddLptSelectDateEvent event, emit) async {
     DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
@@ -168,7 +148,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     }
   }
 
-  _selectFile(AddRadiographyAddImageEvent event, emit) async {
+  _selectFile(AddLptAddImageEvent event, emit) async {
     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
     if(photo != null){
       file  = photo;
@@ -176,25 +156,10 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     _eventComplete(emit);
   }
 
-  _submitData(AddRadiographySubmitDataEvent event, emit) async {
+  _submitData(AddLptSubmitDataEvent event, emit) async {
     isLoader =  true;
     _eventComplete(emit);
-
-    List<dynamic> segmentDataList = [];
-    List<dynamic> segmentStatusDataList = [];
-    List<dynamic> segmentObservationDataList = [];
-
-    for(var segmentDataValue in selectedSegmentList){
-      segmentDataList.add(segmentDataValue.id.toString());
-      segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
-      for(var status in segmentDataValue.segmentStatusList!){
-        if(status.selectedValue.toString().isNotEmpty){
-          segmentStatusDataList.add(status.id.toString());
-        }
-      }
-    }
-
-    var res =  await AddRadiographyHelper.submitData(context: event.context,
+    var res =  await AddLptHelper.submitData(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -202,10 +167,8 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         weatherData: weatherData,
         userData: userData,
         jointTypeData: jointTypeData,
-        segmentData: segmentDataList,
-        segmentObservationData: segmentObservationDataList,
-        segmentStatusData: segmentStatusDataList,
-        jointNumberData: jointNumberData,
+        jointData: jointData,
+        lptStatusData: lptStatusData,
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -215,30 +178,33 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       activityRemarkController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
+      jointData =  JointNumberModel();
       jointTypeData =  JointTypeModel();
       isJointNumberLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      lptStatusData = LptStatusModel();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddRadiographyState>emit) {
-    emit(FetchAddRadiographyDataState(isLoader: isLoader,
-      alignmentList: alignmentList,
-      dateController: dateController,
-      activityRemarkController: activityRemarkController,
-      reportNumberController: reportNumberController,
-      alignmentData: alignmentData,
-      file: file,
-      weatherList: weatherList,
-      weatherData: weatherData,
-      jointTypeData: jointTypeData,
-      jointTypeList: jointTypeList,
-      segmentData: segmentData,
-      segmentList: segmentList,
-      jointNumberList: jointNumberList,
-      jointNumberData: jointNumberData,
+  _eventComplete(Emitter<AddLptState>emit) {
+    emit(FetchAddLptDataState(isLoader: isLoader,
+        alignmentList: alignmentList,
+        dateController: dateController,
+        activityRemarkController: activityRemarkController,
+        reportNumberController: reportNumberController,
+        alignmentData: alignmentData,
+        file: file,
+        weatherList: weatherList,
+        weatherData: weatherData,
+        jointTypeData: jointTypeData,
+        jointTypeList: jointTypeList,
+        isJointNumberLoader: isJointNumberLoader,
+        jointData: jointData,
+        jointList: jointList,
+        lptStatusData: lptStatusData,
+        lptStatusList: lptStatusList,
     ));
   }
 }

@@ -99,8 +99,10 @@ class AddStringingHelper {
           String resPonse = res['data'].toString();
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
+      }else{
+        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
       }
-      return null;
     }catch(e){
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;

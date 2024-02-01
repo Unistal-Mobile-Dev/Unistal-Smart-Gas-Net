@@ -188,6 +188,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       file =  File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      _weatherData =  WeatherModel();
       _eventComplete(emit);
     }
 

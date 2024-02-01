@@ -95,6 +95,7 @@ class AppString {
   static get tpTo => "IP/TP Chainage";
   static get radiography => "Radiography";
   static get ndtMut => "NDT Mut";
+  static get lpt => "LPT";
   static get bendAngleDegree => "Bend Angle Degree";
   static get bendNumber => "Bend Number";
   static get ipNoFrom => "IP No. From";
@@ -147,6 +148,7 @@ class AppString {
   static get restoration => "Restoration";
   static get selectJointType => "Select Joint Type";
   static get selectJointNumber => "Select Joint Number";
+  static get selectLptStatus => "Select Lpt Status";
   static get selectFromJointNumber => "Select From Joint Number";
   static get selectToJointNumber => "Select To Joint Number";
   static get selectWPS => "Select WPS";

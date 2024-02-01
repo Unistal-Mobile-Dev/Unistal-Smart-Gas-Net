@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
-class AddRadioGraphyPage extends StatefulWidget {
-  const AddRadioGraphyPage({super.key});
+class AddLptPage extends StatefulWidget {
+  const AddLptPage({super.key});
 
   @override
-  State<AddRadioGraphyPage> createState() => _AddRadioGraphyPageState();
+  State<AddLptPage> createState() => _AddLptPageState();
 }
 
-class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
+class _AddLptPageState extends State<AddLptPage> {
 
   @override
   void initState() {
-    BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographyPageLoadEvent(context: context));
+    BlocProvider.of<AddLptBloc>(context).add(AddLptPageLoadEvent(context: context));
     super.initState();
   }
 
@@ -25,9 +25,9 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      body: BlocBuilder<AddRadiographyBloc, AddRadiographyState>(
+      body: BlocBuilder<AddLptBloc, AddLptState>(
         builder: (context, state) {
-          if(state is FetchAddRadiographyDataState) {
+          if(state is FetchAddLptDataState) {
             return _itemBuilder(dataState: state);
           } else{
             return const Center(child: CenterLoaderWidget(),);
@@ -37,7 +37,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _itemBuilder({required FetchAddRadiographyDataState dataState}){
+
+  Widget _itemBuilder({required FetchAddLptDataState dataState}){
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -54,7 +55,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _segmentListBuilder(dataState: dataState),
+            _lptStatusDropDown(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -68,38 +69,47 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _dateController({required FetchAddRadiographyDataState dataState}) {
+  Widget _dateController({required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectDateEvent(context: context,));
+        BlocProvider.of<AddLptBloc>(context).add(
+            AddLptSelectDateEvent(context: context,));
       },
     );
   }
 
-  Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
+  Widget _reportNumberController({required FetchAddLptDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
+    );
+  }
+
+
+  Widget _alignmentDropdown({required FetchAddLptDataState dataState}) {
     return  DropDownSearchWidget(
       selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddLptBloc>(context).add(
+            AddLptSelectAlignmentEvent(alignmentData: value,));
       },
     );
   }
 
-  Widget _weatherDropDown({required FetchAddRadiographyDataState dataState}) {
+  Widget _weatherDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
       dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
+        BlocProvider.of<AddLptBloc>(context).add(
             SelectWeatherEvent(weatherData: value));
       },
       items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
@@ -111,13 +121,13 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _jointTypeDropDown({required FetchAddRadiographyDataState dataState}) {
+  Widget _jointTypeDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
       dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectJointTypeDataEvent(jointTypeData: value, context: context));
+        BlocProvider.of<AddLptBloc>(context).add(
+            AddLptSelectJointTypeDataEvent(jointTypeData: value, context: context));
       },
       items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
@@ -128,76 +138,42 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _jointNumberDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+  Widget _jointNumberDropDown({required FetchAddLptDataState dataState}) {
+    return dataState.isJointNumberLoader == false ?
+    DropdownWidget(
       hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      dropdownValue: dataState.jointData.id != null ? dataState.jointData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectJointNumberDataEvent(jointNumberData: value));
+        BlocProvider.of<AddLptBloc>(context).add(
+            AddLptSelectJointDataEvent(jointNumberData: value));
       },
-      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+      items: dataState.jointList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
           value: jointNumberData,
           child: Text(jointNumberData.jointNumber.toString()),
         );
       }).toList(),
+    ): const DottedLoaderWidget();
+  }
+
+  Widget _lptStatusDropDown({required FetchAddLptDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectLptStatus,
+      dropdownValue: dataState.lptStatusData.id != null ? dataState.lptStatusData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddLptBloc>(context).add(
+            AddLptSelectLptStatusDataEvent(lptStatusData: value));
+      },
+      items: dataState.lptStatusList.map<DropdownMenuItem<LptStatusModel>>((LptStatusModel lptStatusData) {
+        return DropdownMenuItem<LptStatusModel>(
+          value: lptStatusData,
+          child: Text(lptStatusData.value.toString()),
+        );
+      }).toList(),
     );
   }
 
-  Widget _segmentListBuilder({required FetchAddRadiographyDataState dataState}) {
-    return ListView.builder(
-        itemCount: dataState.segmentList.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-        return _listItemBuilder(segmentData: dataState.segmentList[index], index: index);
-     });
-  }
-
-  Widget _listItemBuilder({required SegmentModel segmentData, required int index}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-         TextWidget("${segmentData.name}*", fontWeight: FontWeight.w700,
-           color: AppColor.black,),
-        _verticalSpace(),
-        _radioButtonList(segmentData: segmentData, segmentIndex: index),
-        TextFieldWidget(
-          isRequired: true,
-          labelText: "${segmentData.observation}",
-          controller: segmentData.observationController,
-        ),
-        _verticalSpace(),
-        const Divider(),
-      ],
-    );
-  }
-
-  Widget _radioButtonList({required SegmentModel segmentData, required int segmentIndex}) {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: segmentData.segmentStatusList!.length,
-        itemBuilder: (context, index) {
-          return Row(
-            children: [
-              Radio(
-                value: segmentData.segmentStatusList![index].groupType.toString(),
-                groupValue: segmentData.segmentStatusList![index].selectedValue.toString(),
-                onChanged: (val) {
-                  BlocProvider.of<AddRadiographyBloc>(context).add(
-                      AddRadiographySelectSegmentDataEvent(index: index, segmentIndex: segmentIndex));
-                },
-              ),
-              TextWidget(segmentData.segmentStatusList![index].status.toString()),
-            ],
-          );
-    });
-  }
-
-  Widget _activityRemark({required FetchAddRadiographyDataState dataState}) {
+  Widget _activityRemark({required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 3,
@@ -206,13 +182,13 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _photo({required FetchAddRadiographyDataState dataState}) {
+  Widget _photo({required FetchAddLptDataState dataState}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width/3,
       height:MediaQuery.of(context).size.width/3,
       child: InkWell(
         onTap: () {
-          BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographyAddImageEvent(context: context));
+          BlocProvider.of<AddLptBloc>(context).add(AddLptAddImageEvent(context: context));
         },
         child: DottedBorder(
           color: AppColor.grey,
@@ -265,11 +241,11 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
 
-  Widget _button({required FetchAddRadiographyDataState dataState}) {
+  Widget _button({required FetchAddLptDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
         onPressed: () {
-          BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographySubmitDataEvent(context: context));
+          BlocProvider.of<AddLptBloc>(context).add(AddLptSubmitDataEvent(context: context));
         }
     ): const DottedLoaderWidget();
   }

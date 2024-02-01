@@ -27,7 +27,7 @@ class TabletDrawerWidget extends StatelessWidget {
                  height: MediaQuery.of(context).size.height * 0.04,
                ),
                _listBuilder(dataState: dataState),
-               _changePassword(context: context),
+/*               _changePassword(context: context),*/
                _logout(context: context),
              ],
            ),
@@ -51,11 +51,11 @@ class TabletDrawerWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
-                AppConfig().client == Client.purvaBharti
-                    ? AppIcon.appLogoPurvaBharti
-                    :AppConfig().client == Client.unistal
-                    ? AppIcon.appLogoUnistal
-                    : AppIcon.appLogoIgl,
+		               AppConfig.instanceInit()!.client == Client.purvaBharti
+                   ? AppIcon.appLogoPurvaBharti
+                 :AppConfig.instanceInit()!.client == Client.unistal
+                   ? AppIcon.appLogoUnistal
+                 : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.13,
               ),
             ),

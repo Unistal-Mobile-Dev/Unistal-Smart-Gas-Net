@@ -32,6 +32,13 @@ class AddNdtMutSelectJointTypeDataEvent extends AddNdtMutEvent {
   List<Object?> get props => [jointTypeData, context];
 }
 
+class AddNdtMutSelectJointNumberDataEvent extends AddNdtMutEvent {
+  final JointNumberModel jointNumberData;
+  const AddNdtMutSelectJointNumberDataEvent({required this.jointNumberData,});
+  @override
+  List<Object?> get props => [jointNumberData,];
+}
+
 class AddNdtMutSelectSegmentDataEvent extends AddNdtMutEvent {
   final int index;
   final int segmentIndex;

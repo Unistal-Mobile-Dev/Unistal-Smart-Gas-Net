@@ -26,14 +26,6 @@ class AddLevellingSelectAlignmentEvent extends AddLevellingEvent {
   List<Object?> get props => [alignmentData];
 }
 
-
-class AddLevellingSelectFromJointDataEvent extends AddLevellingEvent {
-  final JointNumberModel jointNumberData;
-  const AddLevellingSelectFromJointDataEvent({required this.jointNumberData});
-  @override
-  List<Object?> get props => [jointNumberData];
-}
-
 class AddLevellingSelectJointTypeDataEvent extends AddLevellingEvent {
   final JointTypeModel jointTypeData;
   final BuildContext context;

@@ -43,6 +43,9 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   SegmentModel segmentData =  SegmentModel();
 
   List<SegmentModel> selectedSegmentList = [];
+
+  List<JointNumberModel> jointNumberList = [];
+  JointNumberModel jointNumberData =  JointNumberModel();
   
   AddNdtMutBloc() : super(AddNdtMutInitial()) {
 
@@ -50,6 +53,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     on<SelectWeatherEvent>(_selectWeather);
     on<AddNdtMutSelectAlignmentEvent>(_selectAlignment);
     on<AddNdtMutSelectJointTypeDataEvent>(_selectJointType);
+    on<AddNdtMutSelectJointNumberDataEvent>(_selectJointNumber);
     on<AddNdtMutSelectSegmentDataEvent>(_selectSegment);
     on<AddNdtMutSelectDateEvent>(_selectDate);
     on<AddNdtMutAddImageEvent>(_selectFile);
@@ -72,6 +76,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
+    jointNumberList = [];
+    jointNumberData =  JointNumberModel();
     weatherList =  WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
@@ -108,6 +114,21 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   _selectJointType(AddNdtMutSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
+    jointNumberList = [];
+    jointNumberData =  JointNumberModel();
+    isJointNumberLoader =  true;
+    _eventComplete(emit);
+    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+        jointTypeData: jointTypeData);
+    if(resJointNumber != null){
+      jointNumberList =  resJointNumber;
+    }
+    isJointNumberLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectJointNumber(AddNdtMutSelectJointNumberDataEvent event, emit) {
+    jointNumberData =  event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -183,6 +204,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         segmentData: segmentDataList,
         segmentObservationData: segmentObservationDataList,
         segmentStatusData: segmentStatusDataList,
+        jointNumberData: jointNumberData,
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -196,6 +218,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       isJointNumberLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      jointNumberData =  JointNumberModel();
       _eventComplete(emit);
     }
   }
@@ -214,6 +237,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       jointTypeList: jointTypeList,
       segmentData: segmentData,
       segmentList: segmentList,
+      jointNumberData: jointNumberData,
+      jointNumberList: jointNumberList,
     ));
   }
 }

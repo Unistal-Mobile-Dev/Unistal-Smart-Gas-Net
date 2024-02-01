@@ -27,7 +27,7 @@ class HomeDrawerWidget extends StatelessWidget {
             _header(context: context),
             const Divider(),
             _listBuilder(dataState: state),
-            _changePassword(context: context),
+/*            _changePassword(context: context),*/
             _logout(context: context),
           ],
           ),
@@ -45,9 +45,9 @@ class HomeDrawerWidget extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.asset(
-            AppConfig().client == Client.purvaBharti
+            AppConfig.instanceInit()!.client == Client.purvaBharti
                 ? AppIcon.appLogoPurvaBharti
-                :AppConfig().client == Client.unistal
+                :AppConfig.instanceInit()!.client == Client.unistal
                 ? AppIcon.appLogoUnistal
                 : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.12,

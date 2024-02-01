@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:http/http.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
@@ -12,7 +13,6 @@ class ServerRequest {
 
    static BuildContext? context =  Singleton.instanceInit()?.context;
    static var header = {
-     //"Authorization" : "Basic YmFzaWNBdXRoOlVuaXN0YWxAMTk5NA==",
      "Content-Type" : "application/x-www-form-urlencoded"
    };
 
@@ -21,6 +21,7 @@ class ServerRequest {
       if(await ConnectivityHelper.allConnectivityCheck(context: context!) == false){
         return null;
       }
+      addToken();
       String url = APIs.baseUrl+urlEndPoint;
       log(Uri.parse(url.toString()).toString());
       final response = await get(Uri.parse(url.toString()),
@@ -51,6 +52,7 @@ class ServerRequest {
       if(await ConnectivityHelper.allConnectivityCheck(context: context!) == false){
         return null;
       }
+      addToken();
       String url = APIs.baseUrl+urlEndPoint;
       log(url);
       final response = await put(Uri.parse(url), headers: header,
@@ -116,6 +118,7 @@ class ServerRequest {
      try {
        String url = APIs.baseUrl + urlEndPoint;
        log(url);
+       addToken();
        log(jsonEncode(body).toString());
        log(header.toString());
        final response = await post(Uri.parse(url), headers: header,
@@ -200,10 +203,12 @@ class ServerRequest {
    static Future<dynamic> postDataWithFile({required String urlEndPoint,
      required var body, required BuildContext context, required String filePath, required String keyWord}) async {
      try{
+       addToken();
        String url = APIs.baseUrl + urlEndPoint;
        Uri uri =  Uri.parse(url);
        log(url);
        log(body.toString());
+       log(header.toString());
 
        var request = MultipartRequest("POST", uri);
        if(filePath.isNotEmpty){
@@ -247,5 +252,10 @@ class ServerRequest {
        header['cookie'] =
        (index == -1) ? rawCookie : rawCookie.substring(0, index);
      }
+   }
+
+   static addToken() {
+     String token =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.token.toString() : "";
+    /* header["Authorization"] = "Bearer $token";*/
    }
 }

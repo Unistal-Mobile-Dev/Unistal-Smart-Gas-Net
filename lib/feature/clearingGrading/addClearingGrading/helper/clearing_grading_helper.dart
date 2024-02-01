@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddClearingGradingHelper {
 
@@ -113,7 +114,7 @@ class AddClearingGradingHelper {
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
       }else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
@@ -124,8 +125,10 @@ class AddClearingGradingHelper {
            String resPonse = res['data'].toString();
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
+      }else{
+        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
       }
-      return null;
     }catch(e){
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;

@@ -51,7 +51,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 _verticalSpace(),
                 _passwordTextField(dataState: dataState),
                 _verticalSpace(),
-                _forgotPassword(dataState: dataState),
+                // _forgotPassword(dataState: dataState),
                 _loginButton(dataState: dataState),
                 _verticalSpace(),
                 Padding(
@@ -80,11 +80,11 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
               child: Image.asset(
-                AppConfig().client == Client.purvaBharti
-                    ? AppIcon.appLogoPurvaBharti
-                    :AppConfig().client == Client.unistal
-                    ? AppIcon.appLogoUnistal
-                    : AppIcon.appLogoIgl,
+		               AppConfig.instanceInit()!.client == Client.purvaBharti
+                   ? AppIcon.appLogoPurvaBharti
+                 :AppConfig.instanceInit()!.client == Client.unistal
+                   ? AppIcon.appLogoUnistal
+                 : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),

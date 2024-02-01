@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
@@ -20,6 +21,7 @@ class AddNdtMutHelper {
     required WeatherModel weatherData,
     required LoginDataModel userData,
     required JointTypeModel jointTypeData,
+    required JointNumberModel jointNumberData,
     required List<dynamic> segmentData,
     required List<dynamic> segmentStatusData,
     required List<dynamic> segmentObservationData,
@@ -46,7 +48,8 @@ class AddNdtMutHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
+        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
+        "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
         "weather" : weatherData.name ?? "",
         "segment_ids": segmentData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_status" : segmentStatusData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
@@ -68,8 +71,10 @@ class AddNdtMutHelper {
         String resPonse = res['data'].toString();
         SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
+      }else{
+        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
       }
-      return null;
     }catch(e){
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;

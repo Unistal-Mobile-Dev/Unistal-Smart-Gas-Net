@@ -47,9 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
           Align(
             alignment: Alignment.center,
             child: Image.asset(
-              AppConfig().client == Client.purvaBharti
+              AppConfig.instanceInit()!.client == Client.purvaBharti
                   ? AppIcon.appLogoPurvaBharti
-                  :AppConfig().client == Client.unistal
+                  : AppConfig.instanceInit()!.client == Client.unistal
                   ? AppIcon.appLogoUnistal
                   : AppIcon.appLogoIgl,
               height: MediaQuery.of(context).size.width * 0.30,

@@ -33,6 +33,13 @@ class AddRadiographySelectJointTypeDataEvent extends AddRadiographyEvent {
   List<Object?> get props => [jointTypeData, context];
 }
 
+class AddRadiographySelectJointNumberDataEvent extends AddRadiographyEvent {
+  final JointNumberModel jointNumberData;
+  const AddRadiographySelectJointNumberDataEvent({required this.jointNumberData,});
+  @override
+  List<Object?> get props => [jointNumberData,];
+}
+
 class AddRadiographySelectSegmentDataEvent extends AddRadiographyEvent {
   final int index;
   final int segmentIndex;

@@ -28,6 +28,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final WeatherModel weatherData;
   final List<SegmentModel> segmentList;
   final SegmentModel segmentData;
+  final List<JointNumberModel> jointNumberList;
+  final JointNumberModel jointNumberData;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -43,6 +45,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.jointTypeList,
     required this.segmentList,
     required this.segmentData,
+    required this.jointNumberList,
+    required this.jointNumberData,
   });
 
   @override
@@ -60,5 +64,7 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     jointTypeList,
     segmentList,
     segmentData,
+    jointNumberList,
+    jointNumberData,
   ];
 }

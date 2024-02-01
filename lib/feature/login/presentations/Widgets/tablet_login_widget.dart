@@ -65,11 +65,11 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.13,
               child: Image.asset(
-                AppConfig().client == Client.purvaBharti
-                    ? AppIcon.appLogoPurvaBharti
-                    :AppConfig().client == Client.unistal
-                    ? AppIcon.appLogoUnistal
-                    : AppIcon.appLogoIgl,
+		               AppConfig.instanceInit()!.client == Client.purvaBharti
+                   ? AppIcon.appLogoPurvaBharti
+                 :AppConfig.instanceInit()!.client == Client.unistal
+                   ? AppIcon.appLogoUnistal
+                 : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -98,7 +98,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
           _verticalSpace(),
           _passwordTextField(dataState: dataState),
           _verticalSpace(),
-          _forgotPassword(dataState: dataState),
+/*          _forgotPassword(dataState: dataState),*/
           _loginButton(dataState: dataState),
         ],
       ),

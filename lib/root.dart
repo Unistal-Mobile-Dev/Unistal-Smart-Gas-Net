@@ -12,6 +12,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
@@ -115,10 +116,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddDryingBloc()),
         BlocProvider(create: (BuildContext context) => AddRadiographyBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtMutBloc()),
+        BlocProvider(create: (BuildContext context) => AddLptBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
-        title: 'Apna App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: AppFont.rubik,
