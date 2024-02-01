@@ -10,7 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
-  var configuredApp = EnvironmentConfig(
+  var configuredApp = const EnvironmentConfig(
       flavours: EnvironmentFlavours.developmentUnistal,
       child: Root(client: Client.unistal,)
   );

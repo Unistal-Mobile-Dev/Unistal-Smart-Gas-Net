@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class PhoneForgotPasswordWidget extends StatefulWidget {
   final FetchForgotPasswordDataState dataState;
@@ -65,7 +66,11 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
               child: Image.asset(
-                AppIcon.completeLogo,
+               AppConfig().client == Client.purvaBharti
+                   ? AppIcon.appLogoPurvaBharti
+                 :AppConfig().client == Client.unistal
+                   ? AppIcon.appLogoUnistal
+                 : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),

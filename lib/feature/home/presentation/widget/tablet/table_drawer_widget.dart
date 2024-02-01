@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class TabletDrawerWidget extends StatelessWidget {
   final FetchHomeDataState dataState;
@@ -50,7 +51,11 @@ class TabletDrawerWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
-                AppIcon.appLogo,
+                AppConfig().client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
+                    :AppConfig().client == Client.unistal
+                    ? AppIcon.appLogoUnistal
+                    : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.13,
               ),
             ),

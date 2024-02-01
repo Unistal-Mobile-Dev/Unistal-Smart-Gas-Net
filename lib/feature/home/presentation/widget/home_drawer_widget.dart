@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
@@ -44,7 +45,11 @@ class HomeDrawerWidget extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.asset(
-            AppIcon.appLogo,
+            AppConfig().client == Client.purvaBharti
+                ? AppIcon.appLogoPurvaBharti
+                :AppConfig().client == Client.unistal
+                ? AppIcon.appLogoUnistal
+                : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.12,
             width: MediaQuery.of(context).size.width * 0.12,
           ),

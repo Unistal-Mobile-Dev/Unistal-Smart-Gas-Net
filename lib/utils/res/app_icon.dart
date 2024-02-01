@@ -1,7 +1,6 @@
 class AppIcon{
-  static get appLogo => "assets/logo.png";
-  static get appLogo1 => "assets/logo_1.png";
-  static get completeLogo => "assets/ic_complete_logo.png";
+  static get appLogoPurvaBharti => "assets/logo.png";
+  static get appLogoUnistal => "assets/unistal_logo.png";
+  static get appLogoIgl => "assets/ic_launcher_igl.png";
   static get colourStrip => "assets/ic_strip.png";
-  static get iconLauncher => "assets/ic_launcher.png";
 }

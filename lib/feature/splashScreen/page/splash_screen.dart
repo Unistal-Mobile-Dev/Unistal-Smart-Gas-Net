@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bl
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,7 +47,11 @@ class _SplashScreenState extends State<SplashScreen> {
           Align(
             alignment: Alignment.center,
             child: Image.asset(
-              AppIcon.completeLogo,
+              AppConfig().client == Client.purvaBharti
+                  ? AppIcon.appLogoPurvaBharti
+                  :AppConfig().client == Client.unistal
+                  ? AppIcon.appLogoUnistal
+                  : AppIcon.appLogoIgl,
               height: MediaQuery.of(context).size.width * 0.30,
               width: MediaQuery.of(context).size.width * 0.30,
             ),

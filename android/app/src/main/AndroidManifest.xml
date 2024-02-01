@@ -30,7 +30,7 @@
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher_unistal">
+        android:icon="@mipmap/ic_launcher_igl">
         <activity
             android:name=".MainActivity"
             android:exported="true"

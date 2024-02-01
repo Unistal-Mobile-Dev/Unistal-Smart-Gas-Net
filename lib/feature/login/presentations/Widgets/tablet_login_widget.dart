@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/presentatio
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_state.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class TabletLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
@@ -64,7 +65,11 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.13,
               child: Image.asset(
-                AppIcon.completeLogo,
+                AppConfig().client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
+                    :AppConfig().client == Client.unistal
+                    ? AppIcon.appLogoUnistal
+                    : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
