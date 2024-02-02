@@ -1,6 +1,6 @@
 enum FieldStyle { underline, box }
 
-enum RoleType {engineer, admin}
+enum RoleType {engineer, admin, pmc, contactor}
 
 enum OrderStatus {pending, confirm, complete, cancel}
 
