@@ -7,8 +7,8 @@ class EnvironmentConfig extends InheritedWidget {
 
   const EnvironmentConfig({super.key,
     required this.flavours,
-    required Widget child,
-  }): super(child: child);
+    required super.child,
+  });
 
 
   static EnvironmentConfig? of(BuildContext context){
@@ -27,21 +27,16 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.productionUnistal:
       return "http://unistal.smartgasnet.com/";
       case EnvironmentFlavours.developmentPurvaBharti:
-        return "http://unistal.smartgasnet.com/";
+        return " https://pbgpl.smartgasnet.com/";
       case EnvironmentFlavours.productionPurvaBharti:
-        return "http://unistal.smartgasnet.com/";
-      case EnvironmentFlavours.productionPurvaBharti:
-        return "http://unistal.smartgasnet.com/";
+        return " https://pbgpl.smartgasnet.com/";
       case EnvironmentFlavours.developmentIgl:
-        return "http://unistal.smartgasnet.com/";
+        return "https://igl.smartgasnet.com/";
       case EnvironmentFlavours.productionIgl:
-        return "http://unistal.smartgasnet.com/";
+        return "https://igl.smartgasnet.com/";
     }
   }
-
 }
 
-
-
 enum EnvironmentFlavours{ developmentUnistal, productionUnistal, developmentPurvaBharti,
-  productionPurvaBharti, developmentIgl, productionIgl}
+  productionPurvaBharti, developmentIgl, productionIgl }
