@@ -256,6 +256,6 @@ class ServerRequest {
 
    static addToken() {
      String token =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.token.toString() : "";
-    /* header["Authorization"] = "Bearer $token";*/
+     header["Authorization"] = token;
    }
 }
