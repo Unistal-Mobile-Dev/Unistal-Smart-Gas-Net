@@ -124,8 +124,8 @@ class AddBendingHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": chainageFrom,
-        "chainage_to": chainageTo,
+/*        "chainage_from": chainageFrom,
+        "chainage_to": chainageTo,*/
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
