@@ -174,6 +174,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _structureLocationController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number, 
       labelText: AppString.chainage,
       controller: dataState.structureLocationController,
     );

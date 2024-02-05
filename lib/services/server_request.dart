@@ -210,12 +210,11 @@ class ServerRequest {
        log(body.toString());
        log(header.toString());
 
+       String fileExtention = filePath.split(".").last;
        var request = MultipartRequest("POST", uri);
        if(filePath.isNotEmpty){
-         final mimeTypeData =
-         lookupMimeType(filePath, headerBytes: [0xFF, 0xD8])!.split('/');
          var uploadFile = await MultipartFile.fromPath(keyWord, filePath,
-             contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+             contentType: MediaType("file", fileExtention));
          request.files.add(uploadFile);
        }
        request.fields.addAll(body);
