@@ -186,7 +186,12 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
 
     for(var segmentDataValue in selectedSegmentList){
       segmentDataList.add(segmentDataValue.id.toString());
-      segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
+      if(segmentDataValue.observationController!.text.toString().isNotEmpty){
+        segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
+      }else{
+        segmentObservationDataList.add("0");
+      }
+
       for(var status in segmentDataValue.segmentStatusList!){
         if(status.selectedValue.toString().isNotEmpty){
           segmentStatusDataList.add(status.id.toString());
