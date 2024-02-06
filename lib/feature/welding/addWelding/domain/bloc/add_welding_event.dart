@@ -85,9 +85,10 @@ class AddWeldingSelectWelderEvent extends AddWeldingEvent {
 
 class AddWeldingAddImageEvent extends AddWeldingEvent {
   final BuildContext context;
-  const AddWeldingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddWeldingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class AddWeldingSelectMultiWelderEvent extends AddWeldingEvent {

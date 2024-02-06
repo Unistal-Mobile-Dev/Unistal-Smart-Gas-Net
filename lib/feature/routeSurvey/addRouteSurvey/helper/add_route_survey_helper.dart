@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -140,6 +141,26 @@ class AddRouteSurveyHelper {
       }
   }
 
+
+  static Future<dynamic> imagePiker({required BuildContext context}) async {
+    try{
+      final ImagePicker _picker = ImagePicker();
+      final XFile? photo = await _picker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 60,
+          maxHeight: 1200,
+          maxWidth: 950,
+          preferredCameraDevice: CameraDevice.rear);
+      if(photo != null){
+        return File(photo.path);
+      } else{
+        return null;
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
   static Future<dynamic> filePiker({required BuildContext context}) async {
     try{
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -155,6 +176,29 @@ class AddRouteSurveyHelper {
     }catch(e){
       return null;
     }
+  }
+
+  void mediaType({required BuildContext context}) {
+    showModalBottomSheet(
+      context: context, // Also default
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.23,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextButton(onPressed: () {
+
+              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              const Divider(),
+              TextButton(onPressed: () {
+
+              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+            ],
+          ),
+        );
+      },
+    );
   }
 
 }

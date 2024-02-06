@@ -69,9 +69,10 @@ class AddBendingSelectDisbomdmentEvent extends AddBendingEvent {
 
 class AddBendingAddImageEvent extends AddBendingEvent {
   final BuildContext context;
-  const AddBendingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddBendingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddBendingEvent{

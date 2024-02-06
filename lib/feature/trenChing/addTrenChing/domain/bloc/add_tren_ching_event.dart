@@ -34,9 +34,10 @@ class AddTrenChingSelectJointEvent extends AddTrenChingEvent {
 
 class AddTrenChingAddImageEvent extends AddTrenChingEvent {
   final BuildContext context;
-  const AddTrenChingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddTrenChingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddTrenChingEvent{

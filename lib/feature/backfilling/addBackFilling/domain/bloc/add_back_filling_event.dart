@@ -65,9 +65,10 @@ class AddBackFillingSelectToJointDataEvent extends AddBackFillingEvent {
 
 class AddBackFillingAddImageEvent extends AddBackFillingEvent {
   final BuildContext context;
-  const AddBackFillingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddBackFillingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddBackFillingEvent{

@@ -65,9 +65,10 @@ class AddLoweringSelectToJointDataEvent extends AddLoweringEvent {
 
 class AddLoweringAddImageEvent extends AddLoweringEvent {
   final BuildContext context;
-  const AddLoweringAddImageEvent({required this.context});
+  final int mediaType;
+  const AddLoweringAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddLoweringEvent{

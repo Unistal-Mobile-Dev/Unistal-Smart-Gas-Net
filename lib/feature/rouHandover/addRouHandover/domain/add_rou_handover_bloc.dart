@@ -112,9 +112,16 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   }
 
   _selectFile(AddRouHandoverAddImageEvent event, emit) async {
-    var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-    if(photo != null){
-      file  = photo;
+    if(event.mediaType == 1) {
+      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    } else{
+      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
     }
     _eventComplete(emit);
   }

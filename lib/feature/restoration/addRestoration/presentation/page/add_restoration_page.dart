@@ -288,7 +288,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       height:MediaQuery.of(context).size.width/3,
       child: InkWell(
         onTap: () {
-          BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationAddImageEvent(context: context));
+          mediaType(context: context);
         },
         child: DottedBorder(
           color: AppColor.grey,
@@ -339,6 +339,30 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       ),
     );
   }
+
+  void mediaType({required BuildContext context}) {
+    showModalBottomSheet(
+      context: context, // Also default
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.23,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextButton(onPressed: () {
+                BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationAddImageEvent(context: context, mediaType: 1));
+              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              const Divider(),
+              TextButton(onPressed: () {
+                BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationAddImageEvent(context: context, mediaType: 2));
+              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 
 
   Widget _button({required FetchAddRestorationDataState dataState}) {

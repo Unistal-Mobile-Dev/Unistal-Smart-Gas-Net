@@ -56,7 +56,8 @@ class AddNdtMutSelectToJointDataEvent extends AddNdtMutEvent {
 
 class AddNdtMutAddImageEvent extends AddNdtMutEvent {
   final BuildContext context;
-  const AddNdtMutAddImageEvent({required this.context});
+  final int mediaType;
+  const AddNdtMutAddImageEvent({required this.context, required this.mediaType});
   @override
   List<Object?> get props => [context];
 }

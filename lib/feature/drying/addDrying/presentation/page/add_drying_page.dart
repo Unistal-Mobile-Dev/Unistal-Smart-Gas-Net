@@ -222,7 +222,7 @@ class _AddDryingPageState extends State<AddDryingPage> {
       height:MediaQuery.of(context).size.width/3,
       child: InkWell(
         onTap: () {
-          BlocProvider.of<AddDryingBloc>(context).add(AddDryingAddImageEvent(context: context));
+          mediaType(context: context);
         },
         child: DottedBorder(
           color: AppColor.grey,
@@ -274,6 +274,30 @@ class _AddDryingPageState extends State<AddDryingPage> {
     );
   }
 
+  void mediaType({required BuildContext context}) {
+    showModalBottomSheet(
+      context: context, // Also default
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.23,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextButton(onPressed: () {
+                BlocProvider.of<AddDryingBloc>(context).add(AddDryingAddImageEvent(context: context, mediaType: 1));
+              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              const Divider(),
+              TextButton(onPressed: () {
+                BlocProvider.of<AddDryingBloc>(context).add(AddDryingAddImageEvent(context: context, mediaType: 1));
+              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
 
   Widget _button({required FetchAddDryingDataState dataState}) {
     return dataState.isLoader == false ?
@@ -283,6 +307,8 @@ class _AddDryingPageState extends State<AddDryingPage> {
         }
     ): const DottedLoaderWidget();
   }
+
+
 
 
   Widget _verticalSpace() {

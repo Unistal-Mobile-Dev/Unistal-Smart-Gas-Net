@@ -50,9 +50,10 @@ class AddLptSelectLptStatusDataEvent extends AddLptEvent {
 
 class AddLptAddImageEvent extends AddLptEvent {
   final BuildContext context;
-  const AddLptAddImageEvent({required this.context});
+  final int mediaType;
+  const AddLptAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddLptEvent{

@@ -27,9 +27,10 @@ class AddClearingGradingSelectAlignmentEvent extends AddClearingGradingEvent {
 
 class AddClearingGradingAddImageEvent extends AddClearingGradingEvent {
   final BuildContext context;
-  const AddClearingGradingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddClearingGradingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddClearingGradingEvent{

@@ -27,9 +27,10 @@ class AddRouteSurveySelectAlignmentEvent extends AddRouteSurveyEvent {
 
 class AddRouteSurveyAddImageEvent extends AddRouteSurveyEvent {
   final BuildContext context;
-  const AddRouteSurveyAddImageEvent({required this.context});
+  final int mediaType;
+  const AddRouteSurveyAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddRouteSurveyEvent{

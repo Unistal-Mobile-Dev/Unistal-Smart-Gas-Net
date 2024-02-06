@@ -49,9 +49,10 @@ class AddDryingSelectToJointDataEvent extends AddDryingEvent {
 
 class AddDryingAddImageEvent extends AddDryingEvent {
   final BuildContext context;
-  const AddDryingAddImageEvent({required this.context});
+  final int mediaType;
+  const AddDryingAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context,mediaType];
 }
 
 class SelectWeatherEvent extends AddDryingEvent{

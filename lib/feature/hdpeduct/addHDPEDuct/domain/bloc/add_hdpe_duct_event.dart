@@ -64,9 +64,10 @@ class AddHdpeDuctSelectToJointDataEvent extends AddHdpeDuctEvent {
 
 class AddHdpeDuctAddImageEvent extends AddHdpeDuctEvent {
   final BuildContext context;
-  const AddHdpeDuctAddImageEvent({required this.context});
+  final int mediaType;
+  const AddHdpeDuctAddImageEvent({required this.context, required this.mediaType});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, mediaType];
 }
 
 class SelectWeatherEvent extends AddHdpeDuctEvent{
