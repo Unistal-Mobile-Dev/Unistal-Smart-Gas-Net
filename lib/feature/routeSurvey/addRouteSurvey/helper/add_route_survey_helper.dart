@@ -22,7 +22,7 @@ class AddRouteSurveyHelper {
           SnackBarErrorWidget(context).show(message: "Please select date");
           return false;
         } else if(alignmentData.id == null){
-          SnackBarErrorWidget(context).show(message: "Please select alignment");
+          SnackBarErrorWidget(context).show(message: "Please api/steel/ignment");
           return false;
         } else if(reportNumber.isEmpty){
           SnackBarErrorWidget(context).show(message: "Please enter report number");

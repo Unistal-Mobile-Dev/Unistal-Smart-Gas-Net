@@ -120,7 +120,7 @@ class AppString {
   static get calibarationDate => "Calibaration Date";
   static get repairCoatingDamage => "Repair Of Coating Damage";
   static get activityRemark => "Activity Remark";
-  static get selectAlignment => "select Alignment";
+  static get selectAlignment => "Select Alignment";
   static get soilResistivity => "Soil Resistivity";
   static get rouHandover => "Rou Handover";
   static get fromJointId => "From Joint Id";

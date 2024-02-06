@@ -52,8 +52,8 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddClearingGradingPage(), icon: Icons.auto_graph,
            label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddSoilResistivityPage(), icon: Icons.account_tree_outlined,
-           label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: null));
+/*       drawerList.add(DrawerModel(widget: const AddSoilResistivityPage(), icon: Icons.account_tree_outlined,
+           label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: null));*/
 
        drawerList.add(DrawerModel(widget: const AddTrenChingPage(), icon: Icons.comment_bank_outlined,
            label: AppString.trenChing, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -66,6 +66,15 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
+          label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
+          label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
+          label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
            label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -84,15 +93,6 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
            label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
-           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
-           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-       drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
-           label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 /*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
            label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/
