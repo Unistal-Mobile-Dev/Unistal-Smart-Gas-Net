@@ -188,6 +188,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   Widget _lengthController({required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.lengthMeter,
       controller: dataState.lengthController,
     );
