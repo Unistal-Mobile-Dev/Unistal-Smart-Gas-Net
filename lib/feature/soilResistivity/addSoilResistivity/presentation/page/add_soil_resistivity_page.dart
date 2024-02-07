@@ -227,6 +227,7 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
   Widget _button({required FetchAddSoilResistivityDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddSoilResistivityBloc>(context).add(AddSoilResistivitySubmitDataEvent(context: context));
         }

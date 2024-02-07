@@ -349,6 +349,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _button({required FetchAddHdpeDuctDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddHdpeDuctBloc>(context).add(AddHdpeDuctSubmitDataEvent(context: context));
         }

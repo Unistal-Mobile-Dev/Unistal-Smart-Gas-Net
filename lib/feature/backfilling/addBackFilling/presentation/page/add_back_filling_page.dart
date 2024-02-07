@@ -348,6 +348,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _button({required FetchAddBackFillingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingSubmitDataEvent(context: context));
         }

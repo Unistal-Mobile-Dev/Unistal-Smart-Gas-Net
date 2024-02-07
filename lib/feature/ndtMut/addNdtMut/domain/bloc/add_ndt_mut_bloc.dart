@@ -168,10 +168,18 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   }
 
   _selectFile(AddNdtMutAddImageEvent event, emit) async {
-    var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-    if(photo != null){
-      file  = photo;
+    if(event.mediaType == 1) {
+      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    } else{
+      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 
@@ -187,13 +195,14 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       segmentDataList.add(segmentDataValue.id.toString());
       if(segmentDataValue.observationController!.text.toString().isNotEmpty){
         segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
+        for(var status in segmentDataValue.segmentStatusList!){
+          if(status.selectedValue.toString().isNotEmpty){
+            segmentStatusDataList.add(status.id.toString());
+          }
+        }
       }else{
         segmentObservationDataList.add("0");
-      }
-      for(var status in segmentDataValue.segmentStatusList!){
-        if(status.selectedValue.toString().isNotEmpty){
-          segmentStatusDataList.add(status.id.toString());
-        }
+        segmentStatusDataList.add("0");
       }
     }
 
@@ -223,6 +232,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       file =  File("");
       weatherData =  WeatherModel();
       jointNumberData =  JointNumberModel();
+      selectedSegmentList = segmentList;
       _eventComplete(emit);
     }
   }

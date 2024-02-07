@@ -258,6 +258,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _button({required FetchAddRouHandoverDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverSubmitDataEvent(context: context));
         }

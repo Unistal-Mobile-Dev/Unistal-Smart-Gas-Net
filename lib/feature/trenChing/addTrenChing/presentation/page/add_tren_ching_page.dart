@@ -311,6 +311,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _button({required FetchAddTrenChingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddTrenChingBloc>(context).add(AddTrenChingSubmitDataEvent(context: context));
         }

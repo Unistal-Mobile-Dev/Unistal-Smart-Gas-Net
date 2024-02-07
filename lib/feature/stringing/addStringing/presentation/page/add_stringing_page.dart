@@ -267,6 +267,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
   Widget _button({required FetchAddStringingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddStringingBloc>(context).add(AddStringingSubmitDataEvent(context: context));
         }

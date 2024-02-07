@@ -311,6 +311,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _button({required FetchAddClearingGradingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddClearingGradingBloc>(context).add(AddClearingGradingSubmitDataEvent(context: context));
         }

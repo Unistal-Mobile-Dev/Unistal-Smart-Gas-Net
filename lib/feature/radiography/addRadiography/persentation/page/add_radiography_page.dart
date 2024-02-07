@@ -291,6 +291,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _button({required FetchAddRadiographyDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographySubmitDataEvent(context: context));
         }

@@ -907,6 +907,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _button({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddWeldingBloc>(context).add(AddWeldingSubmitDataEvent(context: context));
         }

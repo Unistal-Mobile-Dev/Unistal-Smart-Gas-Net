@@ -336,6 +336,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
   Widget _button({required FetchAddOfcSplicingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddOfcSplicingBloc>(context).add(AddOfcSplicingSubmitDataEvent(context: context));
         }

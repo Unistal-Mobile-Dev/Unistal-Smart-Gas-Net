@@ -267,6 +267,7 @@ class _AddLptPageState extends State<AddLptPage> {
   Widget _button({required FetchAddLptDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddLptBloc>(context).add(AddLptSubmitDataEvent(context: context));
         }

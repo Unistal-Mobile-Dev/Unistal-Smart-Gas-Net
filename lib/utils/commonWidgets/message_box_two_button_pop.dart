@@ -7,8 +7,9 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final String message;
   final String? okButtonText;
   final VoidCallback onPressed;
+  final double? width;
 
-  const MessageBoxTwoButtonPopWidget({super.key, required this.message, required this.onPressed, this.okButtonText});
+  const MessageBoxTwoButtonPopWidget({super.key, required this.message, required this.onPressed, this.okButtonText, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
       child: Wrap(
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: width ?? MediaQuery.of(context).size.width * 0.8,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),

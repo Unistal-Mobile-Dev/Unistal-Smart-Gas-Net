@@ -302,6 +302,7 @@ class _AddDryingPageState extends State<AddDryingPage> {
   Widget _button({required FetchAddDryingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddDryingBloc>(context).add(AddDryingSubmitDataEvent(context: context));
         }

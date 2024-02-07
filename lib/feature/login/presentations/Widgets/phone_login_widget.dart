@@ -44,8 +44,9 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 _verticalSpace(),
                 _logo(),
                 _verticalSpace(),
-                TextWidget("Login to your account",
-                  fontSize: AppFont.font_18, fontWeight: FontWeight.w700,),
+                _smartGasNetLogo(),
+/*                TextWidget("Login to your account",
+                  fontSize: AppFont.font_18, fontWeight: FontWeight.w700,),*/
                 _verticalSpace(),
                 _emailTextField(dataState: dataState),
                 _verticalSpace(),
@@ -100,6 +101,13 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _smartGasNetLogo(){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width/2,
+      child: Image.asset(AppIcon.smartgasnetLog),
     );
   }
 

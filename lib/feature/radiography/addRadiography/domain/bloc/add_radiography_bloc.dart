@@ -196,16 +196,17 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       segmentDataList.add(segmentDataValue.id.toString());
       if(segmentDataValue.observationController!.text.toString().isNotEmpty){
         segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
+        for(var status in segmentDataValue.segmentStatusList!){
+          if(status.selectedValue.toString().isNotEmpty){
+            segmentStatusDataList.add(status.id.toString());
+          }
+        }
       }else{
         segmentObservationDataList.add("0");
-      }
-
-      for(var status in segmentDataValue.segmentStatusList!){
-        if(status.selectedValue.toString().isNotEmpty){
-          segmentStatusDataList.add(status.id.toString());
-        }
+        segmentStatusDataList.add("0");
       }
     }
+
 
     var res =  await AddRadiographyHelper.submitData(context: event.context,
         alignmentData: alignmentData,
@@ -232,6 +233,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       isJointNumberLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      selectedSegmentList = segmentList;
       _eventComplete(emit);
     }
   }

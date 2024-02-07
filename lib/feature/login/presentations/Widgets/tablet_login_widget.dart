@@ -39,16 +39,27 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
   }
 
   Widget _logoWithTextWidget() {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _logo(),
-          _verticalSpace(),
-          TextWidget("Login to your account",
-            fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
-        ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+        child: Card(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _logo(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                  ),
+                  _smartGasNetLogo(),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -85,6 +96,13 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _smartGasNetLogo(){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width/4,
+      child: Image.asset(AppIcon.smartgasnetLog),
     );
   }
 

@@ -121,6 +121,7 @@ class _RootState extends State<Root> {
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
+        title: "Smart Gas Net",
         theme: ThemeData(
           fontFamily: AppFont.rubik,
           appBarTheme: AppBarTheme(

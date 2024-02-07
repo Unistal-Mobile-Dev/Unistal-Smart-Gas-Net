@@ -382,6 +382,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _button({required FetchAddLoweringDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringSubmitDataEvent(context: context));
         }

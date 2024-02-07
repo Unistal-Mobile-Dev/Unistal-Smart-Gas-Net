@@ -3,7 +3,9 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class TabletDrawerWidget extends StatelessWidget {
   final FetchHomeDataState dataState;
@@ -186,11 +188,33 @@ class TabletDrawerWidget extends StatelessWidget {
       padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01,
           bottom:  MediaQuery.of(context).size.width * 0.01),
       child: GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) => const LogoutWidget()
-          );
+        onTap: () async {
+          if(AppConfig.getDeviceType(context: context) == DeviceType.phone){
+            showModalBottomSheet(
+                context: context,
+                builder: (context) => const LogoutWidget()
+            );
+          }else{
+            bool isLogout =  (await showDialog(
+                      context: context,
+                      builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+                          width: MediaQuery.of(context).size.width/2.5,
+                          message: AppString.logoutMessage,
+                          okButtonText: AppString.logout,
+                          onPressed: () =>  Navigator.of(context).pop(true)
+                      ))
+                      ) ?? false;
+
+            if(isLogout == true){
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreenPage()),
+                      (route) => false
+              );
+              SharedPreferencesUtils.clearAll();
+            }
+          }
+
         },
         child: Row(
           children: [

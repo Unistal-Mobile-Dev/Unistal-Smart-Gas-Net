@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class AddRouteSurveyPage extends StatefulWidget {
   const AddRouteSurveyPage({super.key});
@@ -198,7 +199,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _photo({required FetchAddRouteSurveyDataState dataState}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      height: MediaQuery.of(context).size.width/3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -279,6 +280,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _button({required FetchAddRouteSurveyDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveySubmitDataEvent(context: context));
         }

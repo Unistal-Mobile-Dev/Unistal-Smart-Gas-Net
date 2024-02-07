@@ -292,6 +292,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _button({required FetchAddNdtMutDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutSubmitDataEvent(context: context));
         }

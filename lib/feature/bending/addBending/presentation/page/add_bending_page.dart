@@ -406,6 +406,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _button({required FetchAddBendingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddBendingBloc>(context).add(AddBendingSubmitDataEvent(context: context));
         }

@@ -26,9 +26,11 @@ class AppConfig {
  /*   return data.size.shortestSide <= 600
         ? DeviceType.phone
         : DeviceType.tablet;*/
+
     return isPortrait == true
         ? DeviceType.phone
         : DeviceType.tablet;
+
   }
 
 }

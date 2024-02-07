@@ -34,6 +34,7 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
+      resizeToAvoidBottomInset: true,
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           if(state is FetchLoginStateData){
