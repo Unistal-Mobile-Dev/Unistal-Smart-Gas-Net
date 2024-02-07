@@ -180,6 +180,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

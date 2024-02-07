@@ -125,6 +125,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

@@ -190,6 +190,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

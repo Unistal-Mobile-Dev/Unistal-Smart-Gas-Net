@@ -187,6 +187,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

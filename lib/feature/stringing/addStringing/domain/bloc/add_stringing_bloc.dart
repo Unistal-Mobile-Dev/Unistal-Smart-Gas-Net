@@ -156,6 +156,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

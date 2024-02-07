@@ -162,6 +162,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

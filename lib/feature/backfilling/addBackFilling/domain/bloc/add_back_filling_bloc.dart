@@ -185,7 +185,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         file  = photo;
       }
     }
-
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

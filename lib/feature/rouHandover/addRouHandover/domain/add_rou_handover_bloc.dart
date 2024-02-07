@@ -123,6 +123,7 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

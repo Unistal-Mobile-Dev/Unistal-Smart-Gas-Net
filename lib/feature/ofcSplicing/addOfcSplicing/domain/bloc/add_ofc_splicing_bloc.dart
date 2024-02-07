@@ -161,6 +161,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

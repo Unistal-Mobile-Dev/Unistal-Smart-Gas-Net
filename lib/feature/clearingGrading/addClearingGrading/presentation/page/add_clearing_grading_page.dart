@@ -61,9 +61,9 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _groundTypeController(dataState: dataState),
             _verticalSpace(),
-            _structureDetailController(dataState: dataState),
+            _structureNameController(dataState: dataState),
             _verticalSpace(),
-            _structureLocationController(dataState: dataState),
+            _chainageController(dataState: dataState),
             _verticalSpace(),
             _boundaryLocationController(dataState: dataState),
             _verticalSpace(),
@@ -163,20 +163,20 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _structureDetailController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _structureNameController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.structureName,
-      controller: dataState.structureDetailController,
+      controller: dataState.structureNameController,
     );
   }
 
-  Widget _structureLocationController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _chainageController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number, 
       labelText: AppString.chainage,
-      controller: dataState.structureLocationController,
+      controller: dataState.chainageController,
     );
   }
 
@@ -290,7 +290,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       context: context, // Also default
       builder: (context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.23,
+          height: MediaQuery.of(context).size.height * 0.18,
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [

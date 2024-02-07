@@ -23,8 +23,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController tpChainageNumberController;
   final TextEditingController tpRemarkNumberController;
   final TextEditingController groundTypeController;
-  final TextEditingController structureDetailController;
-  final TextEditingController structureLocationController;
+  final TextEditingController structureNameController;
+  final TextEditingController chainageController;
   final TextEditingController activityRemarkController;
   final TextEditingController boundaryLocationController;
   final TextEditingController ipNumberController;
@@ -44,8 +44,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.activityRemarkController,
     required this.groundTypeController,
     required this.reportNumberController,
-    required this.structureDetailController,
-    required this.structureLocationController,
+    required this.structureNameController,
+    required this.chainageController,
     required this.tpChainageController,
     required this.tpChainageNumberController,
     required this.tpRemarkNumberController,
@@ -69,8 +69,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     activityRemarkController,
     groundTypeController,
     reportNumberController,
-    structureDetailController,
-    structureLocationController,
+    structureNameController,
+    chainageController,
     tpChainageController,
     tpChainageNumberController,
     tpRemarkNumberController,

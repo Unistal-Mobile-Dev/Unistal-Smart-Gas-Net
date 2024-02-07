@@ -239,6 +239,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

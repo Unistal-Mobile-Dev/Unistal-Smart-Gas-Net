@@ -75,6 +75,7 @@ class AddClearingGradingHelper {
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
+    required String chainage,
    }) async {
 
     try{
@@ -92,7 +93,7 @@ class AddClearingGradingHelper {
         "section_id": userData.sectionId.toString(),
         "chainage_from": chainageFrom,
         "chainage_to": chainageTo,
-        "chainage": alignmentData.chainageFrom.toString(),
+        "chainage": chainage,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "tp_ip_from": tpIpChainage.toString(),

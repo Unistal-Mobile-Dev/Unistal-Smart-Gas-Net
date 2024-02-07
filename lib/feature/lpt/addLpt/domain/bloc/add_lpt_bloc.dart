@@ -160,6 +160,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

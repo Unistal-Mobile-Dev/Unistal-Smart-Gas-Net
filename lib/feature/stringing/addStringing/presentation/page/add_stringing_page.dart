@@ -246,7 +246,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
       context: context, // Also default
       builder: (context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.23,
+          height: MediaQuery.of(context).size.height * 0.18,
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [

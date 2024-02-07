@@ -122,6 +122,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

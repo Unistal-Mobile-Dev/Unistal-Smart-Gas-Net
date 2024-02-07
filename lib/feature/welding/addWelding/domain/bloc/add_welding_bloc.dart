@@ -492,6 +492,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

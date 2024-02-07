@@ -206,6 +206,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

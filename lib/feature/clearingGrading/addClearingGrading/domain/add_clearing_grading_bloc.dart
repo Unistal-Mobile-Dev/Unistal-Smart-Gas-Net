@@ -31,7 +31,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   TextEditingController tpChainageController = TextEditingController();
   TextEditingController tpChainageNumberController = TextEditingController();
   TextEditingController tpRemarkNumberController = TextEditingController();
-  TextEditingController structureDetailController = TextEditingController();
+  TextEditingController structureNameController = TextEditingController();
   TextEditingController boundaryLocation = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController groundTypeController = TextEditingController();
@@ -40,6 +40,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   TextEditingController ipNumberFromController = TextEditingController();
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
+  TextEditingController chainageController =  TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -69,7 +70,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     tpChainageController.text = "";
     tpChainageNumberController.text = "";
     tpRemarkNumberController.text = "";
-    structureDetailController.text = "";
+    structureNameController.text = "";
     boundaryLocation.text = "";
     activityRemarkController.text = "";
     groundTypeController.text = "";
@@ -82,6 +83,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     boundaryLocation.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
+    chainageController.text = "";
     file = File("");
     _weatherData = WeatherModel();
     _weatherList = WeatherModel.getWeatherData();
@@ -132,6 +134,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         file  = photo;
       }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 
@@ -163,7 +166,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         tpIpChainage: tpChainageController.text.toString(),
         tpIpNOS: tpChainageNumberController.text.toString(),
         tpIpRemark:tpRemarkNumberController.text.toString(),
-        structureDetail: structureDetailController.text.toString(),
+        structureDetail: structureNameController.text.toString(),
         boundaryLocation: boundaryLocationController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         groundType: groundTypeController.text.toString(),
@@ -173,6 +176,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         weatherData: weatherData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
+        chainage: chainageController.text.toString(),
      );
     _isLoader =  false;
     _eventComplete(emit);
@@ -182,7 +186,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       tpChainageController.text = "";
       tpChainageNumberController.text = "";
       tpRemarkNumberController.text = "";
-      structureDetailController.text = "";
+      structureNameController.text = "";
       boundaryLocation.text = "";
       activityRemarkController.text = "";
       groundTypeController.text = "";
@@ -195,6 +199,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       file =  File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      chainageController.text = "";
       _weatherData =  WeatherModel();
       _eventComplete(emit);
     }
@@ -206,9 +211,9 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
-      structureDetailController: structureDetailController,
+      structureNameController: structureNameController,
       reportNumberController: reportNumberController,
-      structureLocationController: boundaryLocation,
+      chainageController: chainageController,
       tpChainageController: tpChainageController,
       tpChainageNumberController: tpChainageNumberController,
       tpRemarkNumberController: tpRemarkNumberController,
