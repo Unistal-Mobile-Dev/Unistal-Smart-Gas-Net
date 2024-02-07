@@ -32,6 +32,7 @@ class AddLoweringHelper {
     required String testVoltage,
     required String calibarationDate,
     required String repairOfCoatingDamage,
+    required String length,
     required File file}) async {
 
     try{
@@ -63,6 +64,7 @@ class AddLoweringHelper {
         "post_padding" : postPadding,
         "location" : locationName,
         "make_model" : makeModel,
+        "total_length" : length,
         "test_voltage" : testVoltage,
         "holiday_detector" : holidayDetectorDetail,
         "coating_damage_repair" : repairOfCoatingDamage,

@@ -200,10 +200,18 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
   }
 
   _selectFile(AddRestorationAddImageEvent event, emit) async {
-    var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-    if(photo != null){
-      file  = photo;
+    if(event.mediaType == 1) {
+      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    } else{
+      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
     }
+    Navigator.pop(event.context);
     _eventComplete(emit);
   }
 

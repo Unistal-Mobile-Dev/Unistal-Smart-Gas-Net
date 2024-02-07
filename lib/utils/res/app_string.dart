@@ -144,6 +144,7 @@ class AppString {
   static get welding => "Welding";
   static get backFilling => "BackFilling";
   static get hdpeDuctLaying => "HDPE Duct Laying";
+  static get lowering => "Lowering";
   static get ofcSplicing => "OFC Splicing/Jointing";
   static get restoration => "Restoration";
   static get selectJointType => "Select Joint Type";

@@ -30,6 +30,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
   final TextEditingController testVoltageController;
   final TextEditingController repairCoatingController;
   final TextEditingController postPaddingController;
+  final TextEditingController lengthController;
   final HolidayChecksModel holidayChecksData;
   final List<HolidayChecksModel> holidayCheckList;
   final JointNumberModel fromJointData;
@@ -71,6 +72,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     required this.holidayCheckList,
     required this.repairCoatingController,
     required this.testVoltageController,
+    required this.lengthController,
   });
 
   @override
@@ -102,5 +104,6 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     holidayCheckList,
     repairCoatingController,
     testVoltageController,
+    lengthController,
   ];
 }

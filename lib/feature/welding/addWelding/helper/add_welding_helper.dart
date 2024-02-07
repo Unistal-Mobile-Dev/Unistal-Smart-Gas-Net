@@ -201,7 +201,7 @@ class AddWeldingHelper {
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
         "root_welder1": rootWelders1Data.id ??  "",
-        "root_welder2": rootWelders1Data.id ??  "",
+        "root_welder2": rootWelders2Data.id ??  "",
         "hot_welder1": hotWelders1Data.id ??  "",
         "hot_welder2": hotWelders2Data.id ??  "",
         "filler1_welder_one": filler1Welders1Data.id ??  "" ?? "",

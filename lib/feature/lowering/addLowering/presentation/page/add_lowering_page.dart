@@ -16,13 +16,15 @@ class AddLoweringPage extends StatefulWidget {
 class _AddLoweringPageState extends State<AddLoweringPage> {
 
   @override
+  void initState() {
+    BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringPageLoadEvent(context: context));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        title: TextWidget("Add Lowering",
-          color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
-      ),
       body: BlocBuilder<AddLoweringBloc, AddLoweringState>(
         builder: (context, state) {
           if(state is FetchAddLoweringDataState) {
@@ -70,6 +72,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
+            _lengthController(dataState: dataState),
             _verticalSpace(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
@@ -166,8 +170,18 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.testVoltage,
       controller: dataState.testVoltageController,
+    );
+  }
+
+  Widget _lengthController({required FetchAddLoweringDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.length,
+      controller: dataState.lengthController,
     );
   }
 
@@ -249,6 +263,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _chainageFromController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
@@ -257,6 +272,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _chainageToController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
     );

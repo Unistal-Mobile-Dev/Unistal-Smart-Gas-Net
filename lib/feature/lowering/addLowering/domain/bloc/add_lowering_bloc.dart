@@ -35,6 +35,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   TextEditingController testVoltageController = TextEditingController();
   TextEditingController repairCoatingController = TextEditingController();
   TextEditingController postPaddingController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -84,6 +85,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     testVoltageController.text = "";
     repairCoatingController.text = "";
     postPaddingController.text = "";
+    lengthController.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
@@ -233,6 +235,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         locationName: locationController.text.toString(),
         makeModel: modelController.text.toString(),
         repairOfCoatingDamage: repairCoatingController.text.toString(),
+        length: lengthController.text.toString(),
         testVoltage: testVoltageController.text.toString(),
     );
     isLoader =  false;
@@ -252,6 +255,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       holidayDetectorDetailsController.text = "";
       repairCoatingController.text = "";
       calibarationDateController.text = "";
+      lengthController.text = "";
       modelController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -292,6 +296,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
          repairCoatingController: repairCoatingController,
          testVoltageController: testVoltageController,
          postPaddingController: postPaddingController,
+         lengthController: lengthController,
      ));
   }
 

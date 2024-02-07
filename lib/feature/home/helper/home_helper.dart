@@ -13,6 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/perse
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
@@ -75,6 +76,9 @@ class HomeHelper {
 
       drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
           label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddLoweringPage(), icon: Icons.bookmark_added_outlined,
+          label: AppString.lowering, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
            label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
