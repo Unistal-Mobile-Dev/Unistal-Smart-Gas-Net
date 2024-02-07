@@ -71,11 +71,11 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
-          label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
-
       drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
           label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
+          label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       drawerList.add(DrawerModel(widget: const AddLoweringPage(), icon: Icons.bookmark_added_outlined,
           label: AppString.lowering, sublist: [],  isSelected: false, actionButtonWidget: null));
