@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddStringingPage extends StatefulWidget {
   const AddStringingPage({super.key});
@@ -108,21 +113,35 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-
-  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
-    return DropdownWidget(
+/*  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
+    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+    return  DropDownSearchWidget(
+      selectedItem: dataState.pipeData.id != null ? dataState.pipeData  : null,
       hint: AppString.selectPipeNumber,
-      dropdownValue: dataState.pipeData.id != null ? dataState.pipeData : null,
+      items: dataState.pipeList,
+      itemAsString: (pipeData) => pipeData.pipeNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddStringingBloc>(context).add(
             AddStringingSelectPipeDataEvent(pipeData: value));
       },
-      items: dataState.pipeList.map<DropdownMenuItem<PipeModel>>((PipeModel pipeData) {
-        return DropdownMenuItem<PipeModel>(
-          value: pipeData,
-          child: Text(pipeData.pipeNumber.toString()),
-        );
-      }).toList(),
+    );
+  }*/
+
+  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
+    return SearchTextField(
+        isLoader: dataState.searchPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddStringingBloc>(context).add(
+              AddStringingSearchPipeDataEvent(keyword: value, context: context)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddStringingBloc>(context).add(
+              AddStringingSelectPipeDataEvent(pipeData: value));
+        },
+        controller: dataState.searchPipeController,
+        label: AppString.selectPipeNumber,
+        list: dataState.searchPipeList
     );
   }
 

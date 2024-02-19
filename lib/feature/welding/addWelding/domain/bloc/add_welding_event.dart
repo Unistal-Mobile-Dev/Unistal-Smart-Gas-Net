@@ -106,6 +106,19 @@ class SelectWeatherEvent extends AddWeldingEvent{
   List<Object?> get props => [weatherData];
 }
 
+class AddWeldingSearchPipeDataEvent extends AddWeldingEvent {
+  final String keyword;
+  final BuildContext context;
+  final bool isLeftPipe;
+  final bool isRightPipe;
+  const AddWeldingSearchPipeDataEvent({required this.keyword, required this.context,
+    required this.isLeftPipe,
+    required this.isRightPipe});
+  @override
+  List<Object?> get props => [keyword, context, isLeftPipe, isRightPipe];
+}
+
+
 
 class AddWeldingSubmitDataEvent extends AddWeldingEvent {
   final BuildContext context;

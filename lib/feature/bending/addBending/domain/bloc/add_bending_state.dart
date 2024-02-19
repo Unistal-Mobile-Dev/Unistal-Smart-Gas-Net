@@ -45,6 +45,9 @@ class FetchAddBendingDataState extends AddBendingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController bendNumberController;
+  final List<dynamic> searchPipeList;
+  final bool searchPipeLoader;
+  final TextEditingController searchPipeController;
 
   FetchAddBendingDataState({
     required this.isLoader,
@@ -77,6 +80,9 @@ class FetchAddBendingDataState extends AddBendingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.bendNumberController,
+    required this.searchPipeLoader,
+    required this.searchPipeController,
+    required this.searchPipeList,
   });
 
   @override
@@ -111,5 +117,8 @@ class FetchAddBendingDataState extends AddBendingInitial {
     chainageFromController,
     chainageToController,
     bendNumberController,
+    searchPipeController,
+    searchPipeLoader,
+    searchPipeList,
   ];
 }

@@ -115,6 +115,14 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final PipeModel leftPipeData;
   final PipeModel rightPipeData;
 
+  final List<dynamic> searchLeftPipeList;
+  final bool searchLeftPipeLoader;
+  final TextEditingController searchLeftPipeController;
+
+  final List<dynamic> searchRightPipeList;
+  final bool searchRightPipeLoader;
+  final TextEditingController searchPipeRightController;
+
   FetchAddWeldingDataState({
     required this.isLoader,
     required this.alignmentList,
@@ -203,6 +211,12 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.leftPipeList,
     required this.rightPipeData,
     required this.rightPipeList,
+    required this.searchLeftPipeController,
+    required this.searchLeftPipeList,
+    required this.searchLeftPipeLoader,
+    required this.searchPipeRightController,
+    required this.searchRightPipeList,
+    required this.searchRightPipeLoader,
   });
 
   @override
@@ -293,6 +307,12 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     leftPipeData,
     rightPipeData,
     leftPipeList,
-    rightPipeList
+    rightPipeList,
+    searchLeftPipeController,
+    searchLeftPipeList,
+    searchLeftPipeLoader,
+    searchPipeRightController,
+    searchRightPipeList,
+    searchRightPipeLoader,
   ];
 }

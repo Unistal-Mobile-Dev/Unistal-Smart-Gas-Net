@@ -26,11 +26,15 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final List<ConcreteCoatingModel> concreteCoatingList;
   final ConcreteCoatingModel concreteCoatingData;
   final List<PipeModel> pipeList;
+  final List<dynamic> searchPipeList;
+  final bool searchPipeLoader;
+  final TextEditingController searchPipeController;
   final PipeModel pipeData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+
 
   FetchAddStringingDataState({
     required this.isLoader,
@@ -38,9 +42,11 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.dateController,
     required this.activityRemarkController,
     required this.reportNumberController,
+    required this.searchPipeController,
     required this.alignmentData,
     required this.file,
     required this.pipeList,
+    required this.searchPipeList,
     required this.pipeData,
     required this.concreteCoatingList,
     required this.concreteCoatingData,
@@ -48,6 +54,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.searchPipeLoader,
   });
 
   @override
@@ -57,6 +64,9 @@ class FetchAddStringingDataState extends AddStringingInitial {
     dateController,
     activityRemarkController,
     reportNumberController,
+    searchPipeController,
+    searchPipeLoader,
+    searchPipeList,
     alignmentData,
     file,
     pipeList,
@@ -67,5 +77,6 @@ class FetchAddStringingDataState extends AddStringingInitial {
     weatherData,
     chainageFromController,
     chainageToController,
+
   ];
 }

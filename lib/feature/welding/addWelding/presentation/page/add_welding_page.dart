@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddWeldingPage extends StatefulWidget {
   const AddWeldingPage({super.key});
@@ -185,40 +186,42 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       controller: dataState.chainageToController,
     );
   }
-
   Widget _leftPipeDropDown({required FetchAddWeldingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectLeftPipeNumber,
-      dropdownValue: dataState.leftPipeData.id != null ? dataState.leftPipeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectLeftPipeDataEvent(leftPipeData: value));
-      },
-      items: dataState.leftPipeList.map<DropdownMenuItem<PipeModel>>((PipeModel leftPipeData) {
-        return DropdownMenuItem<PipeModel>(
-          value: leftPipeData,
-          child: Text(leftPipeData.pipeNumber.toString()),
-        );
-      }).toList(),
+    return SearchTextField(
+        isLoader: dataState.searchLeftPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSearchPipeDataEvent(keyword: value, context: context, isLeftPipe: true, isRightPipe: false)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectLeftPipeDataEvent(leftPipeData: value));
+        },
+        controller: dataState.searchLeftPipeController,
+        label: AppString.selectLeftPipeNumber,
+        list: dataState.searchLeftPipeList
     );
   }
 
   Widget _rigthPipeDropDown({required FetchAddWeldingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectRightPipeNumber,
-      dropdownValue: dataState.rightPipeData.id != null ? dataState.rightPipeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectRightPipeDataEvent(rightPipeData: value));
-      },
-      items: dataState.rightPipeList.map<DropdownMenuItem<PipeModel>>((PipeModel leftPipeData) {
-        return DropdownMenuItem<PipeModel>(
-          value: leftPipeData,
-          child: Text(leftPipeData.pipeNumber.toString()),
-        );
-      }).toList(),
+    return SearchTextField(
+        isLoader: dataState.searchRightPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSearchPipeDataEvent(keyword: value, context: context, isLeftPipe: false, isRightPipe: true)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectRightPipeDataEvent(rightPipeData: value));
+        },
+        controller: dataState.searchPipeRightController,
+        label: AppString.selectRightPipeNumber,
+        list: dataState.searchRightPipeList
     );
   }
+
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
       hint: AppString.rootWelders1,

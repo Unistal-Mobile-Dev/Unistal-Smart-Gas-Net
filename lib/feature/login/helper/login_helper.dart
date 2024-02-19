@@ -50,13 +50,11 @@ class LoginHelper {
         ).toJson();
         String url = APIs.login;
         var res = await ServerRequest.postData(urlEndPoint: url, body: json);
-        if (res != null) {
-          if(res["status"] != null && res['status'] == 200 && res['user'] != null){
+          if(res != null && res["status"] != null && res['status'] == 200 && res['user'] != null){
             return res;
-          }else{
-            SnackBarErrorWidget(context).show(message:res['messages'].toString());
-            return null;
-          }
+        } else if (res != null && res["status"] != null && res['status'] == 401 && res['messages'] != null) {
+          SnackBarErrorWidget(context).show(message: res['messages']);
+          return null;
         } else {
           SnackBarErrorWidget(context).show(message:"Internal Server Error");
           return null;

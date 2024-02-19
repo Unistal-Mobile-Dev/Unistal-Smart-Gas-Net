@@ -129,6 +129,8 @@ class ServerRequest {
          return jsonDecode(response.body);
        } else if (response.statusCode == 500) {
          return jsonDecode(response.body);
+       }else if (response.statusCode == 401) {
+         return jsonDecode(response.body);
        }
      } catch (e) {
        print(e.toString() + "Post Data ");

@@ -164,9 +164,26 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   PipeModel leftPipeData =  PipeModel();
   PipeModel rightPipeData =  PipeModel();
 
+  List<dynamic> _searchLeftPipeList = [];
+  List<dynamic> get searchLeftPipeList => _searchLeftPipeList;
+
+  TextEditingController searchLeftPipeController =  TextEditingController();
+
+  bool _searchLeftPipeLoader =  false;
+  bool get searchLeftPipeLoader => _searchLeftPipeLoader;
+
+  List<dynamic> _searchRightPipeList = [];
+  List<dynamic> get searchRightPipeList => _searchRightPipeList;
+
+  TextEditingController searchRightPipeController =  TextEditingController();
+
+  bool _searchRightPipeLoader =  false;
+  bool get searchRightPipeLoader => _searchRightPipeLoader;
+
   AddWeldingBloc() : super(AddWeldingInitial()) {
     on<AddWeldingPageLoadEvent>(_pageLoadEvent);
     on<AddWeldingSelectWPSEvent>(_selectWPS);
+    on<AddWeldingSearchPipeDataEvent>(_searchPipeData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddWeldingSelectLeftPipeDataEvent>(_selectLeftPipe);
     on<AddWeldingSelectRightPipeDataEvent>(_selectRigthPipe);
@@ -248,6 +265,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     rightPipeNumberController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
+    searchLeftPipeController.text = "";
+    searchRightPipeController.text = "";
+    _searchRightPipeLoader =  false;
+    _searchLeftPipeLoader =  false;
 
     _welderData =  WelderModel();
     _welderList = [];
@@ -298,13 +319,35 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
     _weldVisualList =  fitupList;
 
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context, userData: userData);
-    if(resPipe != null){
-      leftPipeList =  resPipe;
-      rightPipeList = leftPipeList;
-    }
-
     _eventComplete(emit);
+  }
+
+  _searchPipeData(AddWeldingSearchPipeDataEvent event, emit) async {
+    if(event.isLeftPipe == true) {
+      leftPipeList = [];
+      _searchLeftPipeLoader =  true;
+      _eventComplete(emit);
+      var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+          userData: userData, searchKeyword: event.keyword.toString(), type: "welding");
+      if(resPipe != null){
+        leftPipeList =  resPipe;
+        _searchLeftPipeList = leftPipeList;
+      }
+      _searchLeftPipeLoader =  false;
+      _eventComplete(emit);
+    } else if(event.isRightPipe == true) {
+       rightPipeList = [];
+      _searchRightPipeLoader =  true;
+      _eventComplete(emit);
+      var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+          userData: userData, searchKeyword: event.keyword.toString(), type: "welding");
+      if(resPipe != null){
+        rightPipeList =  resPipe;
+        _searchRightPipeList = rightPipeList;
+      }
+       _searchRightPipeLoader =  false;
+      _eventComplete(emit);
+    }
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
@@ -314,12 +357,16 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   _selectLeftPipe(AddWeldingSelectLeftPipeDataEvent event, emit) {
     leftPipeData = event.leftPipeData;
+    _searchLeftPipeList = [];
+    searchLeftPipeController.text =  leftPipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
 
-  _selectRigthPipe( event, emit) {
+  _selectRigthPipe( AddWeldingSelectRightPipeDataEvent event, emit) {
     rightPipeData = event.rightPipeData;
+    _searchRightPipeList = [];
+    searchRightPipeController.text =  rightPipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
@@ -747,6 +794,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       rightPipeData: rightPipeData,
       leftPipeList: leftPipeList,
       rightPipeList: rightPipeList,
+      searchLeftPipeController: searchLeftPipeController,
+      searchLeftPipeList: searchLeftPipeList,
+      searchLeftPipeLoader: searchLeftPipeLoader,
+      searchPipeRightController: searchRightPipeController,
+      searchRightPipeList: searchRightPipeList,
+      searchRightPipeLoader: searchRightPipeLoader,
     ));
   }
 

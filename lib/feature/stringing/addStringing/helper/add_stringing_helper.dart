@@ -130,7 +130,7 @@ class AddStringingHelper {
   }
 
   static Future<dynamic> fetchPipeData({required BuildContext context,
-    required LoginDataModel userData}) async {
+    required LoginDataModel userData, String? type, String? searchKeyword}) async {
 
     try{
       String url =  APIs.getPipeDetailApi;
@@ -138,6 +138,8 @@ class AddStringingHelper {
         "schema" : userData.schema,
         "spread_id" : userData.spreadId,
         "section_id" : userData.sectionId,
+        "type" :  type ?? "",
+        "search_txt" : searchKeyword ?? ""
       };
       String json =  Uri(queryParameters: param).query;
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
@@ -145,9 +147,9 @@ class AddStringingHelper {
           && res['success'] == 200 && res['data'] != null) {
         return pipeResponseList(res['data']);
       }
-      return null;
+      return [];
     }catch(e){
-      return null;
+      return [];
     }
   }
 }

@@ -32,6 +32,14 @@ class AddStringingSelectPipeDataEvent extends AddStringingEvent {
   List<Object?> get props => [pipeData];
 }
 
+class AddStringingSearchPipeDataEvent extends AddStringingEvent {
+  final String keyword;
+  final BuildContext context;
+  const AddStringingSearchPipeDataEvent({required this.keyword, required this.context});
+  @override
+  List<Object?> get props => [keyword, context];
+}
+
 class AddStringingSelectConcreteCoatingEvent extends AddStringingEvent {
   final ConcreteCoatingModel concreteCoatingData;
   const AddStringingSelectConcreteCoatingEvent({required this.concreteCoatingData});

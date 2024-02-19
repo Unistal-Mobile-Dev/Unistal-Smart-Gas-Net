@@ -75,6 +75,14 @@ class AddBendingAddImageEvent extends AddBendingEvent {
   List<Object?> get props => [context, mediaType];
 }
 
+class AddBendingAddSearchPipeDataEvent extends AddBendingEvent {
+  final BuildContext context;
+  final String keyword;
+  const AddBendingAddSearchPipeDataEvent({required this.context, required this.keyword});
+  @override
+  List<Object?> get props => [context, keyword];
+}
+
 class SelectWeatherEvent extends AddBendingEvent{
   final WeatherModel weatherData;
   const SelectWeatherEvent({required this.weatherData});

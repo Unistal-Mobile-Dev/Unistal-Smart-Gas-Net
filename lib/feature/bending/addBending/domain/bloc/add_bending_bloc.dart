@@ -75,6 +75,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController bendNumberController =  TextEditingController();
 
+
   File file =  File("");
 
   List<PipeModel> _pipeList = [];
@@ -92,6 +93,14 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
 
+  List<dynamic> _searchPipeList = [];
+  List<dynamic> get searchPipeList => _searchPipeList;
+
+  TextEditingController searchPipeController =  TextEditingController();
+
+  bool _searchPipeLoader =  false;
+  bool get searchPipeLoader => _searchPipeLoader;
+
   AddBendingBloc() : super(AddBendingInitial()) {
     on<AddBendingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
@@ -102,6 +111,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     on<AddBendingSelectBendingTypeEvent>(_selectBendingType);
     on<AddBendingSelectGaugingEvent>(_selectGaugingChecks);
     on<AddBendingSelectDisbomdmentEvent>(_selectDisbomdmentChecks);
+    on<AddBendingAddSearchPipeDataEvent>(_searchPipeData);
     on<AddBendingSelectVisualDataEvent>(_selectVisualChecks);
     on<AddBendingAddImageEvent>(_selectFile);
     on<AddBendingSubmitDataEvent>(_submitData);
@@ -144,11 +154,6 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;
-    }
-
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context, userData: userData);
-    if(resPipe != null){
-      _pipeList =  resPipe;
     }
 
     var resBending =  await AddBendingHelper.fetchBendingType(context: event.context, userData: userData);
@@ -199,6 +204,8 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
 
   _selectPipeData(AddBendingSelectSelectPipeDataEvent event, emit) {
     _pipeData =  event.pipeData;
+    _searchPipeList = [];
+    searchPipeController.text = pipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
@@ -224,6 +231,20 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
 
   _selectDisbomdmentChecks(AddBendingSelectDisbomdmentEvent event, emit) {
     _disbomdmentChecksData =  event.disbomdmentChecksData;
+    _eventComplete(emit);
+  }
+
+  _searchPipeData(AddBendingAddSearchPipeDataEvent event, emit)  async {
+    _pipeList = [];
+    _searchPipeLoader =  true;
+    _eventComplete(emit);
+    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+        userData: userData, searchKeyword: event.keyword.toString(), type: "bending");
+    if(resPipe != null){
+      _pipeList =  resPipe;
+      _searchPipeList = pipeList;
+    }
+    _searchPipeLoader =  false;
     _eventComplete(emit);
   }
 
@@ -347,6 +368,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         chainageFromController: chainageFromController,
         chainageToController: chainageToController,
         bendNumberController: bendNumberController,
+       searchPipeLoader: searchPipeLoader,
+        searchPipeList: searchPipeList,
+        searchPipeController: searchPipeController,
     ));
   }
 }

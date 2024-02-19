@@ -1,7 +1,11 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 class DropDownSearchWidget extends StatelessWidget {
 
@@ -10,22 +14,24 @@ class DropDownSearchWidget extends StatelessWidget {
   final  DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
   final dynamic selectedItem;
+  final DropdownSearchOnFind<String>? asyncItems;
   const DropDownSearchWidget({super.key,
     required this.items,
     this.onChanged,
     required this.itemAsString,
     required this.hint,
     this.selectedItem,
+    this.asyncItems,
   });
 
   @override
   Widget build(BuildContext context) {
+    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
     return SizedBox(
       height: AppConfig.getDeviceType(context: context) == DeviceType.phone
           ? MediaQuery.of(context).size.height * 0.07
           : MediaQuery.of(context).size.height * 0.15,
       child: DropdownSearch<dynamic>(
-        selectedItem: selectedItem,
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
@@ -90,6 +96,23 @@ class DropDownSearchWidget extends StatelessWidget {
               );
             }
         ),
+      ),
+    );
+  }
+
+  Widget _customPopupItemBuilderExample2(BuildContext context, dynamic item, bool isSelected) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      decoration: !isSelected
+          ? null
+          : BoxDecoration(
+        border: Border.all(color: Theme.of(context).primaryColor),
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.white,
+      ),
+      child: ListTile(
+        selected: isSelected,
+        title: Text(item.pipeNumber.toString()),
       ),
     );
   }

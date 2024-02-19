@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddBendingPage extends StatefulWidget {
   const AddBendingPage({super.key});
@@ -127,19 +128,20 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _pipeDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeNumber,
-      dropdownValue: dataState.pipeData.id != null ? dataState.pipeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectSelectPipeDataEvent(pipeData: value));
-      },
-      items: dataState.pipeList.map<DropdownMenuItem<PipeModel>>((PipeModel pipeData) {
-        return DropdownMenuItem<PipeModel>(
-          value: pipeData,
-          child: Text(pipeData.pipeNumber.toString()),
-        );
-      }).toList(),
+    return SearchTextField(
+        isLoader: dataState.searchPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddBendingBloc>(context).add(
+              AddBendingAddSearchPipeDataEvent(keyword: value, context: context)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddBendingBloc>(context).add(
+              AddBendingSelectSelectPipeDataEvent(pipeData: value));
+        },
+        controller: dataState.searchPipeController,
+        label: AppString.selectPipeNumber,
+        list: dataState.searchPipeList
     );
   }
 

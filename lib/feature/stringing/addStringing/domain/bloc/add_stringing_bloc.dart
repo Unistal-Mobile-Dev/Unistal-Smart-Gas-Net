@@ -28,6 +28,12 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   List<PipeModel> _pipeList = [];
   List<PipeModel> get pipeList => _pipeList;
 
+  List<dynamic> _searchPipeList = [];
+  List<dynamic> get searchPipeList => _searchPipeList;
+
+  bool _searchPipeLoader =  false;
+  bool get searchPipeLoader => _searchPipeLoader;
+
   PipeModel _pipeData =  PipeModel();
   PipeModel get pipeData => _pipeData;
 
@@ -57,6 +63,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
+  TextEditingController searchPipeController =  TextEditingController();
+
 
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
@@ -65,6 +73,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     on<AddStringingSelectAlignmentEvent>(_selectAlignment);
     on<AddStringingSelectDateEvent>(_selectDate);
     on<AddStringingSelectPipeDataEvent>(_selectPipe);
+    on<AddStringingSearchPipeDataEvent>(_searchPipeData);
     on<AddStringingSelectConcreteCoatingEvent>(_selectConcreteCoating);
     on<AddStringingAddImageEvent>(_selectFile);
   }
@@ -85,6 +94,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
+    searchPipeController.text = "";
+    _searchPipeLoader =  false;
     _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -97,10 +108,6 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       _concreteCoatingList =  resConcreteCoating;
     }
 
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context, userData: userData);
-    if(resPipe != null){
-      _pipeList =  resPipe;
-    }
     _eventComplete(emit);
   }
 
@@ -141,6 +148,22 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   _selectPipe(AddStringingSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
+    _searchPipeList = [];
+    searchPipeController.text = pipeData.pipeNumber.toString();
+    _eventComplete(emit);
+  }
+
+  _searchPipeData(AddStringingSearchPipeDataEvent event, emit) async {
+    _pipeList = [];
+    _searchPipeLoader =  true;
+    _eventComplete(emit);
+    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+        userData: userData, searchKeyword: event.keyword.toString(), type: "stringing");
+    if(resPipe != null){
+      _pipeList =  resPipe;
+      _searchPipeList = pipeList;
+    }
+    _searchPipeLoader =  false;
     _eventComplete(emit);
   }
 
@@ -197,6 +220,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      searchPipeController.text = "";
       _alignmentData =  AlignmentModel();
       _weatherData =  WeatherModel();
       _eventComplete(emit);
@@ -220,6 +244,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       weatherList:  weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      searchPipeList: searchPipeList,
+      searchPipeController: searchPipeController,
+      searchPipeLoader: searchPipeLoader,
     ));
   }
 }
