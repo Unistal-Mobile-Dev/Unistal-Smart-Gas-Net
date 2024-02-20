@@ -66,6 +66,7 @@ class AppString {
   static get chainageFrom => "Chainage From";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
+  static get sectionLength => "Section Length";
   static get gpsCoordinateNorth => "GPS Coordinate Northing";
   static get gpsCoordinateEast => "GPS Coordinate Easting";
   static get elevationPipeTop => "Elevation/Pipetop";
@@ -148,6 +149,7 @@ class AppString {
   static get hdpeDuctLaying => "HDPE Duct Laying";
   static get lowering => "Lowering";
   static get ofcSplicing => "OFC Splicing/Jointing";
+  static get postHydrotest => "Post Hydrotest";
   static get restoration => "Restoration";
   static get restore => "Restore";
   static get concreteCoatingThickness => "Concrete Coating Thickness";

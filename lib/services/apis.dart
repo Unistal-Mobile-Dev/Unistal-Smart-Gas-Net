@@ -48,6 +48,7 @@ class APIs {
   static get updateCutePipeApi => "api/steel/cut-pipe/restore/";
   static get getPipeThicknessApi => "api/steel/pipe-thickness";
   static get addConcreteCoatingApi => "api/steel/concrete-coating";
+  static get addPostHydroTestApi => "api/steel/post-hydrotest";
 
 
 

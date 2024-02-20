@@ -20,6 +20,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/prese
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydrotest/presentation/page/add_post_hydrotest_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/persentation/page/add_radiography_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
@@ -97,6 +98,9 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
            label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
+          label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
        drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
            label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));

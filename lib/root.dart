@@ -18,6 +18,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domai
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydrotest/domain/bloc/add_post_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
@@ -123,6 +124,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddCutPipeBloc()),
         BlocProvider(create: (BuildContext context) => RestoreCutPipeBloc()),
         BlocProvider(create: (BuildContext context) => AddConcreteCoatingBloc()),
+        BlocProvider(create: (BuildContext context) => AddPostHydrotestBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
