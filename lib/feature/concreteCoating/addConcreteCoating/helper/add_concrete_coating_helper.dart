@@ -1,0 +1,129 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
+
+class AddConcreteCoatingHelper {
+
+  static Future<dynamic> textFiledValidation({required BuildContext context,
+    required AlignmentModel alignmentData,
+    required String reportNumber,
+    required String date,
+    required String concreteCoatingLength,
+    required String chainage,
+    required PipeModel pipeData,
+    required WeatherModel weatherData,
+    required ThicknessModel thicknessData,
+    required String activityRemark}) async {
+
+    try{
+      if(date.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please select date");
+        return false;
+      } else if(alignmentData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select alignment");
+        return false;
+      } else if(reportNumber.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter report number");
+        return false;
+      } else if(pipeData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select pipe data");
+        return false;
+      } else if(chainage.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter chainage");
+        return false;
+      }else if(thicknessData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select Concrete Coating Thickness data");
+        return false;
+      }
+      else if(concreteCoatingLength.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter concrete coating length");
+        return false;
+      }
+      else if(weatherData.id == null){
+        SnackBarErrorWidget(context).show(message: "Select weather");
+        return false;
+      }
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+
+  static Future<dynamic> fetchThicknessData({required BuildContext context}) async {
+
+    try{
+      String url =  APIs.getPipeThicknessApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['status'] != null
+          && res['status'] == true && res['data'] != null) {
+        return thicknessListResponse(res['data']);
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  static Future<dynamic> submitData({required BuildContext context,
+    required AlignmentModel alignmentData,
+    required String date,
+    required String concreteCoatingLength,
+    required String chainage,
+    required PipeModel pipeData,
+    required WeatherModel weatherData,
+    required String activityRemark,
+    required LoginDataModel userData,
+    required File file,
+    required String remark,
+    required ThicknessModel thicknessData
+  }) async {
+
+    try{
+          var location =  await LocationHelper.getLocation(context: context);
+          LocationModel locationData = LocationModel();
+          if(location != null){
+            locationData =  location;
+          } else{ return null; }
+
+        String url =  APIs.addConcreteCoatingApi;
+        var json =  {
+          "activityDate" : date,
+          "weather" : weatherData.name.toString(),
+          "alignmentSheet" : alignmentData.id.toString(),
+          "spreadId" : userData.spreadId.toString(),
+          "sectionId" : userData.sectionId.toString(),
+          "pipeId" : pipeData.id.toString(),
+          "chainage" : chainage.toString(),
+          "totalLength" : concreteCoatingLength.toString(),
+          "thicknessId" : thicknessData.id.toString(),
+          "remarks" : remark.toString(),
+          "latitude" : locationData.lat.toString(),
+          "longitude" : locationData.long.toString(),
+        };
+        var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+            keyWord: "attachFile",
+            filePath: file.path.toString());
+        if(res != null && res['status'] != null
+            && res['status'] == true && res['message'] != null) {
+          SnackBarSuccessWidget(context).show(message: res['message']);
+          return res;
+        } else  if(res != null && res['status'] != null && res['errors'] != null) {
+          SnackBarErrorWidget(context).show(message: res['errors']);
+          return null;
+        } else{
+          SnackBarErrorWidget(context).show(message: "Internal Server Error");
+          return null;
+        }
+    }catch(e){
+      return null;
+    }
+  }
+}

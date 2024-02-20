@@ -95,6 +95,7 @@ class AppString {
   static get tpTo => "IP/TP Chainage";
   static get radiography => "Radiography";
   static get ndtMut => "NDT Mut";
+  static get concreteCoating => "Concrete Coating";
   static get lpt => "LPT";
   static get bendAngleDegree => "Bend Angle Degree";
   static get bendNumber => "Bend Number";
@@ -149,6 +150,8 @@ class AppString {
   static get ofcSplicing => "OFC Splicing/Jointing";
   static get restoration => "Restoration";
   static get restore => "Restore";
+  static get concreteCoatingThickness => "Concrete Coating Thickness";
+  static get concreteCoatingLength => "Concrete Coating Length";
   static get cutPipe => "Cut Pipe";
   static get selectJointType => "Select Joint Type";
   static get selectJointNumber => "Select Joint Number";

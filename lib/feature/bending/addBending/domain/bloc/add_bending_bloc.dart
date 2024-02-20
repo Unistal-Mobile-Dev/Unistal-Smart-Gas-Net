@@ -265,26 +265,6 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   }
 
   _submitData(AddBendingSubmitDataEvent event, emit) async {
-/*    var textFiledValidation =  await AddBendingHelper.textFiledValidation(context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-      bendTpNumber: bendAngleTpNumberController.text.toString(),
-      bendDegree: bendAngleDegreeController.text.toString(),
-      bendMinits: bendAngleMinuteController.text.toString(),
-      bendSecond: bendAngleSecondController.text.toString(),
-      chainage: chainageController.text.toString(),
-      bendingTypeData: bendingTypeData,
-      visualChecksData: visualChecksData,
-      gaugingCheckData: gaugingChecksData,
-      disbomdmentCheckData: disbomdmentChecksData,
-      holidayChecksData: holidayChecksData,
-      pipeData: pipeData,
-    );
-    if(textFiledValidation == false){
-      return;
-    }*/
     _isLoader =  true;
     _eventComplete(emit);
     var res =  await AddBendingHelper.submitData(
