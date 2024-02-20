@@ -5,18 +5,23 @@ List<PipeModel> pipeResponseList(var json) {
 class PipeModel {
   String? id;
   String? pipeNumber;
+  dynamic pipeLength;
+  bool? isSelected;
 
   PipeModel({this.id, this.pipeNumber});
 
   PipeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
     pipeNumber = json['pipe_number'] ?? "";
+    pipeLength = json['pipe_length'] ?? "0.0";
+    isSelected =  false;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['pipe_number'] = this.pipeNumber;
+    data['id'] = id;
+    data['pipe_number'] = pipeNumber;
+    data['pipe_length'] = pipeLength;
     return data;
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -49,7 +50,7 @@ class LoginHelper {
           deviceId: deviceId,
         ).toJson();
         String url = APIs.login;
-        var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+        var res = await ServerRequest.postData(urlEndPoint: url, body: jsonEncode(json));
           if(res != null && res["status"] != null && res['status'] == 200 && res['user'] != null){
             return res;
         } else if (res != null && res["status"] != null && res['status'] == 401 && res['messages'] != null) {

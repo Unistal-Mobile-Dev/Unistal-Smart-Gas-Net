@@ -147,9 +147,9 @@ class AddStringingHelper {
           && res['success'] == 200 && res['data'] != null) {
         return pipeResponseList(res['data']);
       }
-      return [];
+      return null;
     }catch(e){
-      return [];
+      return null;
     }
   }
 }

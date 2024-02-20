@@ -122,7 +122,7 @@ class ServerRequest {
        log(jsonEncode(body).toString());
        log(header.toString());
        final response = await post(Uri.parse(url), headers: header,
-           body: jsonEncode(body)).timeout(const Duration(minutes: 1));
+           body: body).timeout(const Duration(minutes: 1));
        log(response.body);
        if (response.statusCode == 200) {
          updateCookie(response);

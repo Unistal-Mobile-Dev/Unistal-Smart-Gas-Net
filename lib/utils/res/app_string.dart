@@ -140,6 +140,7 @@ class AppString {
   static get selectWeather => "Select Weather";
   static get selectBendingType => "Select Bending Type";
   static get chainage => "Chainage";
+  static get cutPipeLength => "Cut Pipe Length";
   static get bending => "Bending";
   static get welding => "Welding";
   static get backFilling => "BackFilling";
@@ -147,6 +148,8 @@ class AppString {
   static get lowering => "Lowering";
   static get ofcSplicing => "OFC Splicing/Jointing";
   static get restoration => "Restoration";
+  static get restore => "Restore";
+  static get cutPipe => "Cut Pipe";
   static get selectJointType => "Select Joint Type";
   static get selectJointNumber => "Select Joint Number";
   static get selectLptStatus => "Select Lpt Status";

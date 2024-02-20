@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/domain/bloc/add_cut_pipe_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/domain/bloc/restore_cut_pipe_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/domain/bloc/add_drying_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
@@ -117,6 +119,8 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddRadiographyBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtMutBloc()),
         BlocProvider(create: (BuildContext context) => AddLptBloc()),
+        BlocProvider(create: (BuildContext context) => AddCutPipeBloc()),
+        BlocProvider(create: (BuildContext context) => RestoreCutPipeBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

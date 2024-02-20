@@ -43,6 +43,10 @@ class APIs {
   static get getSegmentApi => "api/steel/get-segments";
   static get getLptStatusApi => "api/steel/lptstatus";
   static get addLptApi => "api/steel/lptinsert";
+  static get addCutePipeApi => "api/steel/cut-pipe";
+  static get getCutePipeApi => "api/steel/cut-pipes";
+  static get updateCutePipeApi => "api/steel/cut-pipe/restore/";
+  static get getPipeThicknessApi => "api/steel/pipe-thickness";
 
 
 

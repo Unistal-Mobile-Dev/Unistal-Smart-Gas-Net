@@ -7,6 +7,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/presentation/page/add_bending_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/presentation/page/add_clearing_grading_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/presentation/page/add_cut_pipe_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/presentation/page/restore_cut_pipe_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/presentation/page/add_drying_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
@@ -65,6 +67,9 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
            label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+      drawerList.add(DrawerModel(widget: const AddCutPipePage(), icon: Icons.panorama_horizontal_rounded,
+          label: AppString.cutPipe, sublist: [],  isSelected: false, actionButtonWidget: _restoreActionWidget(context: context)));
+
        drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
 
@@ -108,18 +113,13 @@ class HomeHelper {
   }
 
 
-  static Widget _rousurveyInsertAction({required BuildContext context}) {
+  static Widget _restoreActionWidget({required BuildContext context}) {
     return Row(
       children: [
-         IconButton(onPressed: () {
-           BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveyPageLoadEvent(context: context));
-           Navigator.push(context,
-               MaterialPageRoute(builder: (_) => const  AddRouteSurveyPage()));
-         }, icon: const Icon(Icons.add)),
-
-        IconButton(onPressed: () {
-
-        }, icon: const Icon(Icons.filter_alt_outlined)),
+        TextButton(onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const  RestoreCutPipePage()));
+        }, child: TextWidget(AppString.restore, color: AppColor.white,)),
       ],
     );
   }
