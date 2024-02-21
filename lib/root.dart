@@ -10,8 +10,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/do
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/domain/bloc/add_drying_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hdpeduct/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuctTesting/domain/bloc/add_hdpe_duct_testing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/bloc/add_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
@@ -19,6 +21,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydrotest/domain/bloc/add_post_hydrotest_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/domain/bloc/add_pre_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
@@ -27,6 +30,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilRes
 import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
@@ -125,6 +129,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => RestoreCutPipeBloc()),
         BlocProvider(create: (BuildContext context) => AddConcreteCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddPostHydrotestBloc()),
+        BlocProvider(create: (BuildContext context) => AddPreHydrotestBloc()),
+        BlocProvider(create: (BuildContext context) => AddHydrotestBloc()),
+        BlocProvider(create: (BuildContext context) => AddHdpeDuctTestingBloc()),
+        BlocProvider(create: (BuildContext context) => AddSwabbingBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

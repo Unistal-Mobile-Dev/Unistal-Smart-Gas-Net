@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddPostHydroTestHelper {
+class AddPreHydroTestHelper {
 
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
@@ -21,6 +22,8 @@ class AddPostHydroTestHelper {
     required JointNumberModel toJointData,
     required JointTypeModel jointTypeData,
     required String length,
+    required String ndeClearance,
+    required ThicknessModel thicknessData,
     required File file}) async {
 
     try{
@@ -31,7 +34,7 @@ class AddPostHydroTestHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.addPostHydroTestApi;
+      String url =  APIs.addPreHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
         "spreadId": userData.spreadId.toString(),
@@ -45,6 +48,8 @@ class AddPostHydroTestHelper {
         "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
         "totalLength" : length,
+        "ndeClearance" : ndeClearance,
+        "thicknessId" : thicknessData.id != null ? thicknessData.id.toString() : "",
         "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
@@ -54,7 +59,8 @@ class AddPostHydroTestHelper {
           && res['status'] == true && res['message'] != null) {
         SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
-      } else  if(res != null && res['status'] != null && res['errors'] != null && res['message'] != null) {
+      } else  if(res != null && res['status'] != null  && res['status'] == false
+          && res['errors'] != null && res['message'] != null ) {
         SnackBarErrorWidget(context).show(message: res['message'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
@@ -66,6 +72,5 @@ class AddPostHydroTestHelper {
       return null;
     }
   }
-
-
+  
 }

@@ -9,8 +9,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/helper/add_restoration_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -18,74 +18,66 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+part 'add_hdpe_duct_event.dart';
+part 'add_hdpe_duct_state.dart';
 
-part 'add_restoration_event.dart';
-part 'add_restoration_state.dart';
-
-class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> {
+class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
 
   TextEditingController dateController =  TextEditingController();
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
-  TextEditingController landTypeController =  TextEditingController();
+  TextEditingController jointPitController =  TextEditingController();
   TextEditingController lengthController =  TextEditingController();
 
-  List<VisualChecksModel> plasticGratingList = [];
+  List<PaddingModel> warningMeterList = [];
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
+  List<PaddingModel> paddingList = [];
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel  alignmentData =  AlignmentModel();
   bool isLoader =  false;
-  VisualChecksModel plasticGratingData = VisualChecksModel();
+  PaddingModel warningMeterData = PaddingModel();
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
   JointTypeModel jointTypeData =  JointTypeModel();
   bool isJointNumberLoader = false;
   File file =  File("");
   WeatherModel weatherData =  WeatherModel();
+  PaddingModel paddingData =  PaddingModel();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
-  List<PaddingModel> removalOfSurplusMaterialList = [];
-  List<PaddingModel> replacementofTopSoilList = [];
-  List<PaddingModel> reinstallationBoundaryStonesList = [];
 
-  PaddingModel removalOfSurplusMaterialData =  PaddingModel();
-  PaddingModel replacementofTopSoilData =  PaddingModel();
-  PaddingModel reinstallationBoundaryStonesData =  PaddingModel();
-
-  AddRestorationBloc() : super(AddRestorationInitial()) {
-    on<AddRestorationPageLoadEvent>(_pageLoad);
+  AddHdpeDuctBloc() : super(AddHdpeDuctInitial()) {
+    on<AddHdpeDuctPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
-    on<AddRestorationSelectAlignmentEvent>(_selectAlignment);
-    on<AddRestorationSelectRemovalOfSurplusMaterialDataEvent>(_selectRemovalOfSurplusMaterialData);
-    on<AddRestorationSelectReplacementofTopSoilDataEvent>(_selectReplacementofTopSoilData);
-    on<AddRestorationSelectReinstallationBoundaryStonesDataEvent>(_selectReinstallationBoundaryStonesData);
-    on<AddRestorationSelectFromJointDataEvent>(_selectJointFrom);
-    on<AddRestorationSelectToJointDataEvent>(_selectJointTo);
-    on<AddRestorationSelectJointTypeDataEvent>(_selectJointType);
-    on<AddRestorationSelectDateEvent>(_selectDate);
-    on<AddRestorationAddImageEvent>(_selectFile);
-    on<AddRestorationSubmitDataEvent>(_submitData);
+    on<AddHdpeDuctSelectAlignmentEvent>(_selectAlignment);
+    on<AddHdpeDuctSelectPaddingDataEvent>(_selectPaddingData);
+    on<AddHdpeDuctSelectFromJointDataEvent>(_selectJointFrom);
+    on<AddHdpeDuctSelectToJointDataEvent>(_selectJointTo);
+    on<AddHdpeDuctSelectJointTypeDataEvent>(_selectJointType);
+    on<AddHdpeDuctSelectWarningMeterDataEvent>(_selectWarningData);
+    on<AddHdpeDuctSelectDateEvent>(_selectDate);
+    on<AddHdpeDuctAddImageEvent>(_selectFile);
+    on<AddHdpeDuctSubmitDataEvent>(_submitData);
   }
 
-  _pageLoad(AddRestorationPageLoadEvent event, emit) async {
-    emit(AddRestorationPageLoadState());
+  _pageLoad(AddHdpeDuctPageLoadEvent event, emit) async {
+    emit(AddHdpeDuctPageLoadState());
     dateController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
-    landTypeController.text = "";
+    jointPitController.text = "";
     lengthController.text = "";
-    plasticGratingList = [];
+    warningMeterList = [];
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
@@ -93,20 +85,15 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     alignmentList = [];
     alignmentData =  AlignmentModel();
     isLoader =  false;
-    plasticGratingData = VisualChecksModel();
+    warningMeterData = PaddingModel();
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
     jointTypeData =  JointTypeModel();
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
-    removalOfSurplusMaterialList = [];
-    replacementofTopSoilList = [];
-    reinstallationBoundaryStonesList = [];
-
-    removalOfSurplusMaterialData =  PaddingModel();
-    replacementofTopSoilData =  PaddingModel();
-    reinstallationBoundaryStonesData =  PaddingModel();
+    paddingList = [];
+    paddingData =  PaddingModel();
     weatherList =  WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
 
@@ -122,11 +109,9 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
 
     var resPadding =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
     if(resPadding != null){
-      replacementofTopSoilList =  resPadding;
-      removalOfSurplusMaterialList =  resPadding;
-      reinstallationBoundaryStonesList =  resPadding;
+      paddingList =  resPadding;
+      warningMeterList = paddingList;
     }
-
     _eventComplete(emit);
   }
 
@@ -135,37 +120,32 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     _eventComplete(emit);
   }
 
-  _selectAlignment(AddRestorationSelectAlignmentEvent event, emit) {
+  _selectAlignment(AddHdpeDuctSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-  _selectRemovalOfSurplusMaterialData(AddRestorationSelectRemovalOfSurplusMaterialDataEvent event, emit) {
-    removalOfSurplusMaterialData = event.removalOfSurplusMaterialData;
+  _selectPaddingData(AddHdpeDuctSelectPaddingDataEvent event, emit) {
+    paddingData = event.paddingData;
     _eventComplete(emit);
   }
 
-  _selectReplacementofTopSoilData(AddRestorationSelectReplacementofTopSoilDataEvent event, emit) {
-    replacementofTopSoilData = event.replacementofTopSoilData;
-    _eventComplete(emit);
-  }
-
-  _selectReinstallationBoundaryStonesData(AddRestorationSelectReinstallationBoundaryStonesDataEvent event, emit) {
-    reinstallationBoundaryStonesData = event.reinstallationBoundaryStonesData;
-    _eventComplete(emit);
-  }
-
-  _selectJointFrom(AddRestorationSelectFromJointDataEvent event, emit) {
+  _selectJointFrom(AddHdpeDuctSelectFromJointDataEvent event, emit) {
     fromJointData =  event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointTo(AddRestorationSelectToJointDataEvent event, emit) {
+  _selectJointTo(AddHdpeDuctSelectToJointDataEvent event, emit) {
     toJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointType(AddRestorationSelectJointTypeDataEvent event, emit) async {
+  _selectWarningData(AddHdpeDuctSelectWarningMeterDataEvent event, emit) {
+    warningMeterData =  event.warningMeterData;
+    _eventComplete(emit);
+  }
+
+  _selectJointType(AddHdpeDuctSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
     jointFromList = [];
     jointToList  = [];
@@ -183,13 +163,12 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     _eventComplete(emit);
   }
 
-  _selectDate(AddRestorationSelectDateEvent event, emit) async {
+  _selectDate(AddHdpeDuctSelectDateEvent event, emit) async {
     DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
         lastDate: DateTime.now());
-
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
       dateController.text =  formattedDateChange.toString();
@@ -199,7 +178,7 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     }
   }
 
-  _selectFile(AddRestorationAddImageEvent event, emit) async {
+  _selectFile(AddHdpeDuctAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
       if(photo != null){
@@ -215,26 +194,25 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
     _eventComplete(emit);
   }
 
-  _submitData(AddRestorationSubmitDataEvent event, emit) async {
+  _submitData(AddHdpeDuctSubmitDataEvent event, emit) async {
     isLoader =  true;
     _eventComplete(emit);
-    var res =  await AddRestorationHelper.submitData(context: event.context,
+    var res =  await AddHDPEDuctHelper.submitData(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
-        landType: landTypeController.text.toString(),
-        reinstallationBoundaryStonesData: replacementofTopSoilData,
-        removalOfSurplusMaterialData: replacementofTopSoilData,
-        replacementofTopSoilData: replacementofTopSoilData,
+        warningMeterData: warningMeterData,
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
         userData: userData,
         fromJointData: fromJointData,
         toJointData: toJointData,
         jointTypeData: jointTypeData,
-        length: lengthController.text.toString(),
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
+        jointPit: jointPitController.text.toString(),
+        paddingData: paddingData,
+        length: lengthController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -244,52 +222,47 @@ class AddRestorationBloc extends Bloc<AddRestorationEvent, AddRestorationState> 
       activityRemarkController.text = "";
       chainageFromController.text = "";
       chainageToController.text = "";
-      landTypeController.text = "";
+      jointPitController.text = "";
       lengthController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
-      plasticGratingData = VisualChecksModel();
+      warningMeterData = PaddingModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData =  JointTypeModel();
       isJointNumberLoader = false;
       file =  File("");
-      removalOfSurplusMaterialData =  PaddingModel();
-      replacementofTopSoilData =  PaddingModel();
-      reinstallationBoundaryStonesData =  PaddingModel();
       weatherData =  WeatherModel();
+      paddingData =  PaddingModel();
       _eventComplete(emit);
     }
   }
-
-  _eventComplete(Emitter<AddRestorationState>emit) {
-    emit(FetchAddRestorationDataState(isLoader: isLoader,
+  
+  _eventComplete(Emitter<AddHdpeDuctState>emit) {
+    emit(FetchAddHdpeDuctDataState(isLoader: isLoader,
         alignmentList: alignmentList,
         dateController: dateController,
         activityRemarkController: activityRemarkController,
-        reportNumberController: reportNumberController,
-        chainageFromController: chainageFromController,
+        reportNumberController: reportNumberController, 
+        chainageFromController: chainageFromController, 
         chainageToController: chainageToController,
-        alignmentData: alignmentData,
+        alignmentData: alignmentData, 
         file: file,
         weatherList: weatherList,
-        weatherData: weatherData,
-        jointTypeData: jointTypeData,
+        weatherData: weatherData, 
+        jointTypeData: jointTypeData, 
         jointTypeList: jointTypeList,
-        isJointNumberLoader: isJointNumberLoader,
-        fromJointData: fromJointData,
-        jointFromList: jointFromList,
+        isJointNumberLoader: isJointNumberLoader, 
+        fromJointData: fromJointData, 
+        jointFromList: jointFromList, 
         jointToList: jointToList,
-        landTypeController: landTypeController,
-        toJointData: toJointData,
-        reinstallationBoundaryStonesData: reinstallationBoundaryStonesData,
-        reinstallationBoundaryStonesList: reinstallationBoundaryStonesList,
-        removalOfSurplusMaterialData: removalOfSurplusMaterialData,
-        removalOfSurplusMaterialList: removalOfSurplusMaterialList,
-        replacementofTopSoilData: replacementofTopSoilData,
-        replacementofTopSoilList: replacementofTopSoilList,
+        warningMeterData: warningMeterData,
+        warningMeterList: warningMeterList,
+        jointPitController: jointPitController,
         lengthController: lengthController,
+        toJointData: toJointData,
+        paddingList: paddingList,
+        paddingData: paddingData,
     ));
   }
-
 }

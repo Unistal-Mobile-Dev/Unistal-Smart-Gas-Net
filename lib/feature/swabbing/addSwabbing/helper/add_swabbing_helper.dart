@@ -7,9 +7,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/services/server_request.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddPostHydroTestHelper {
+class AddSwabbingHelper {
 
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
@@ -31,31 +32,32 @@ class AddPostHydroTestHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.addPostHydroTestApi;
+      String url =  APIs.AddSwabbingApi;
       var json = {
         "schema": userData.schema.toString(),
-        "spreadId": userData.spreadId.toString(),
-        "sectionId": userData.sectionId.toString(),
-        "activityDate": date.toString(),
-        "remarks": activityRemark,
+        "spread_id": userData.spreadId.toString(),
+        "section_id": userData.sectionId.toString(),
+        "user_id": userData.userId.toString(),
+        "activity_date": date.toString(),
+        "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
-        "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
-        "totalLength" : length,
+        "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
+        "total_length" : length,
         "weather" : weatherData.name ?? "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
-          keyWord: "attachFile",
+          keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
+        SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['status'] != null && res['errors'] != null && res['message'] != null) {
-        SnackBarErrorWidget(context).show(message: res['message'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
+      } else  if(res != null && res['success'] != null && res['success'] == 400 && res['data'] != null) {
+        SnackBarErrorWidget(context).show(message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
         SnackBarErrorWidget(context).show(message: "Internal Server Error");

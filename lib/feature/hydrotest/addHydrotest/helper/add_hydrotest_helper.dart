@@ -1,27 +1,54 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddPostHydroTestHelper {
+class AddHydroTestHelper {
+
+  static Future<dynamic> fetchFilesData() async {
+
+     try{
+         List<FileModel> fileList = [];
+         fileList.add(FileModel(name: "DPR Hydrotest Plan", file: File(""), keyName: "planAttachFile"));
+         fileList.add(FileModel(name: "DPR Safety", file: File(""), keyName: "safetyAttachFile"));
+         fileList.add(FileModel(name: "DPR Civil/Mechanical Certificate Completion", file: File(""), keyName: "civilMechAttachFile"));
+         fileList.add(FileModel(name: "DPR Air Cleaning", file: File(""), keyName:  "airCleanAttachFile"));
+         fileList.add(FileModel(name: "DPR Brushing", file: File(""),  keyName: "brushingAttachFile"));
+         fileList.add(FileModel(name: "DPR Gauge Inspection Report", file: File(""),  keyName:  "inspectionAttachFile"));
+         fileList.add(FileModel(name: "DPR Water Filling", file: File(""), keyName:  "waterFillingAttachFile"));
+         fileList.add(FileModel(name: "DPR Thermal Stablization", file: File(""), keyName: "stabllizationAttachFile"));
+         fileList.add(FileModel(name: "DPR Pressurization Report 50%", file: File(""), keyName: "presurization50AttachFile"));
+         fileList.add(FileModel(name: "DPR Pressurization Report 75%", file: File(""), keyName: "presurization75AttachFile"));
+         fileList.add(FileModel(name: "DPR Pressurization Report 100%", file: File(""), keyName: "presurization100AttachFile"));
+         fileList.add(FileModel(name: "DPR Air Volume Calculation", file: File(""), keyName: "airvolumeAttachFile"));
+         fileList.add(FileModel(name: "DPR Pressure Hold for 24 hours", file: File(""), keyName: "hold24AttachFile"));
+         fileList.add(FileModel(name: "A ) DPR Hydrostatic Test Calculation", file: File(""), keyName: "testCalculateAttachFile"));
+         fileList.add(FileModel(name: "B ) DPR Hydrostatic Test Evaluation", file: File(""), keyName: "testEvalutionAttachFile"));
+         fileList.add(FileModel(name: "Depressurization File", file: File(""), keyName: "depressurizationAttachFile"));
+         return fileList;
+     }catch(e){
+       List<FileModel> fileList = [];
+       return fileList;
+     }
+  }
 
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
     required String date,
     required String activityRemark,
-    required WeatherModel weatherData,
     required LoginDataModel userData,
     required JointNumberModel fromJointData,
     required JointNumberModel toJointData,
     required JointTypeModel jointTypeData,
     required String length,
-    required File file}) async {
+    required List<FileModel> fileList}) async {
 
     try{
 
@@ -31,7 +58,7 @@ class AddPostHydroTestHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.addPostHydroTestApi;
+      String url =  APIs.addHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
         "spreadId": userData.spreadId.toString(),
@@ -45,11 +72,9 @@ class AddPostHydroTestHelper {
         "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
         "totalLength" : length,
-        "weather" : weatherData.name ?? "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
-          keyWord: "attachFile",
-          filePath: file.path.toString());
+      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json,
+          context: context, fileList: fileList);
       if(res != null && res['status'] != null
           && res['status'] == true && res['message'] != null) {
         SnackBarSuccessWidget(context).show(message: res['message']);

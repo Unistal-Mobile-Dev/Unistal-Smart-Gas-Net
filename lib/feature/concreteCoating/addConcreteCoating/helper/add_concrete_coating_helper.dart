@@ -103,7 +103,7 @@ class AddConcreteCoatingHelper {
           "pipeId" : pipeData.id.toString(),
           "chainage" : chainage.toString(),
           "totalLength" : concreteCoatingLength.toString(),
-          "thicknessId" : thicknessData.id.toString(),
+          "thicknessId" : thicknessData.id != null ? thicknessData.id.toString() : "",
           "remarks" : remark.toString(),
           "latitude" : locationData.lat.toString(),
           "longitude" : locationData.long.toString(),

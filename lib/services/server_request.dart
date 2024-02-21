@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
@@ -203,7 +204,8 @@ class ServerRequest {
    }
 
    static Future<dynamic> postDataWithFile({required String urlEndPoint,
-     required var body, required BuildContext context, required String filePath, required String keyWord}) async {
+     required var body, required BuildContext context,
+     String? filePath, String? keyWord, List<FileModel>? fileList}) async {
      try{
        addToken();
        String url = APIs.baseUrl + urlEndPoint;
@@ -212,13 +214,27 @@ class ServerRequest {
        log(body.toString());
        log(header.toString());
 
-       String fileExtention = filePath.split(".").last;
        var request = MultipartRequest("POST", uri);
-       if(filePath.isNotEmpty){
-         var uploadFile = await MultipartFile.fromPath(keyWord, filePath,
-             contentType: MediaType("file", fileExtention));
-         request.files.add(uploadFile);
+       if(fileList != null && fileList.isNotEmpty){
+         for(var fileData in fileList){
+           String fileExtention = fileData.file.path.split(".").last;
+           if(fileData.file.path.isNotEmpty){
+             var uploadFile = await MultipartFile.fromPath(fileData.keyName, fileData.file.path,
+                 contentType: MediaType("file", fileExtention));
+             request.files.add(uploadFile);
+           }
+         }
+       } else {
+         if(filePath != null && filePath.isNotEmpty && keyWord !=  null){
+           String fileExtention = filePath.split(".").last;
+           if(filePath.isNotEmpty){
+             var uploadFile = await MultipartFile.fromPath(keyWord, filePath,
+                 contentType: MediaType("file", fileExtention));
+             request.files.add(uploadFile);
+           }
+         }
        }
+
        request.fields.addAll(body);
        request.headers.addAll(header);
        var response = await request.send();
