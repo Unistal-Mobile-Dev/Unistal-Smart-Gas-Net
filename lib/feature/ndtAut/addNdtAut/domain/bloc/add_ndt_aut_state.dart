@@ -1,0 +1,100 @@
+part of 'add_ndt_aut_bloc.dart';
+
+abstract class AddNdtAutState extends Equatable {
+  const AddNdtAutState();
+}
+
+class AddNdtAutInitial extends AddNdtAutState {
+  @override
+  List<Object> get props => [];
+}
+
+class AddNdtAutPageLoadState extends AddNdtAutInitial {
+  @override
+  List<Object> get props => [];
+}
+
+class FetchAddNdtAutDataState extends AddNdtAutInitial {
+
+  final List<WelderModel> welderList;
+  final List<WelderModel> selectedWelderList;
+  final List<WPSModel> wpsTypeList;
+  final WPSModel wpsTypeData;
+  final List<AlignmentModel> alignmentList;
+  final AlignmentModel  alignmentData;
+  final TextEditingController dateController;
+  final TextEditingController activityRemarkController;
+  final TextEditingController defectLocationController;
+  final File file;
+  final bool isLoader;
+  final List<WeatherModel> weatherList;
+  final WeatherModel weatherData;
+  final List<JointTypeModel> jointTypeList;
+  final JointTypeModel jointTypeData;
+  final List<JointNumberModel> jointNumberList;
+  final JointNumberModel jointNumberData;
+  final bool isJointNumberLoader;
+  final bool isWelderLoader;
+  final List<AutStatusModel> autStatusList;
+  final AutStatusModel autStatusData;
+  final List<DefectLayerModel> defectLayerList;
+  final List<DefectLayerModel> selectedDefectLayerList;
+  final List<DefectTypeModel> defectTypeList;
+  final List<DefectTypeModel> selectedDefectTypeList;
+
+  FetchAddNdtAutDataState({
+    required this.selectedWelderList,
+    required this.welderList,
+    required this.wpsTypeData,
+    required this.wpsTypeList,
+    required this.dateController,
+    required this.file,
+    required this.activityRemarkController,
+    required this.alignmentData,
+    required this.alignmentList,
+    required this.isLoader,
+    required this.weatherData,
+    required this.weatherList,
+    required this.jointNumberList,
+    required this.jointNumberData,
+    required this.jointTypeData,
+    required this.jointTypeList,
+    required this.isJointNumberLoader,
+    required this.isWelderLoader,
+    required this.defectLocationController,
+    required this.autStatusData,
+    required this.autStatusList,
+    required this.defectLayerList,
+    required this.defectTypeList,
+    required this.selectedDefectLayerList,
+    required this.selectedDefectTypeList,
+  });
+
+  @override
+  List<Object> get props => [
+    selectedWelderList,
+    welderList,
+    wpsTypeData,
+    wpsTypeList,
+    dateController,
+    file,
+    activityRemarkController,
+    alignmentData,
+    alignmentList,
+    isLoader,
+    weatherData,
+    weatherList,
+    jointNumberList,
+    jointNumberData,
+    jointTypeData,
+    jointTypeList,
+    isJointNumberLoader,
+    isWelderLoader,
+    defectLocationController,
+    autStatusList,
+    defectLayerList,
+    defectTypeList,
+    selectedDefectLayerList,
+    selectedDefectTypeList,
+  ];
+}

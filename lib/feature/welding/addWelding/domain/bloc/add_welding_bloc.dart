@@ -544,56 +544,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   }
 
   _submit(AddWeldingSubmitDataEvent event, emit) async {
-/*    var textFieldValidation =  await AddWeldingHelper.textFiledValidation(
-        context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-        rootWelders1Data: rootWelders1Data,
-        rootWelders2Data: rootWelders2Data,
-        hotWelders1Data: hotWelders1Data,
-        hotWelders2Data: hotWelders2Data,
-        filler1Welders1Data: filler1Welders1Data,
-        filler1Welders2Data: filler1Welders2Data,
-        filler2Welders1Data: filler2Welders1Data,
-        filler2Welders2Data: filler2Welders2Data,
-        filler3Welders1Data: filler3Welders1Data,
-        filler3Welders2Data: filler3Welders2Data,
-        filler4Welders1Data: filler4Welders1Data,
-        filler4Welders2Data: filler4Welders2Data,
-        filler5Welders1Data: filler5Welders1Data,
-        filler5Welders2Data: filler5Welders2Data,
-        filler6Welders1Data: filler6Welders1Data,
-        filler6Welders2Data: filler6Welders2Data,
-        filler7Welders1Data: filler7Welders1Data,
-        filler7Welders2Data: filler7Welders2Data,
-        filler8Welders1Data: filler8Welders1Data,
-        filler8Welders2Data: filler8Welders2Data,
-        cappingWelder1Data: cappingWelder1Data,
-        cappingWelder2Data: cappingWelder2Data,
-        stripWelder1Data: stripWelder1Data,
-        stripWelder2Data: stripWelder2Data,
-        electrodeDiaE81t8gBatch: electrodeDiaE81t8gBatchController.text.toString(),
-        electrodeDiaE81t8g: electrodeDiaE81t8gController.text.toString(),
-        electrodeDiaE6010Batch: electrodeDiaE6010BatchController.text.toString(),
-        electrodeDiaE6010: electrodeDiaE6010Controller.text.toString(),
-        electrodeDiaE9045p2Batch: electrodeDiaE9045p2BatchController.text.toString(),
-        electrodeDiaE9045p2: electrodeDiaE9045p2Controller.text.toString(),
-        electrodeEiaE8010p1Batch: electrodeEiaE8010p1BatchController.text.toString(),
-        electrodeEiaE8010p1: electrodeEiaE8010p1Controller.text.toString(),
-        leftPipeNumber: leftPipeNumberController.text.toString(),
-        rightPipeNumber: rightPipeNumberController.text.toString(),
-        wpsData: wpsData,
-        jointTypeData: jointTypeData,
-        jointNumberData: jointNumberData,
-        fitupData: fitupData,
-        weldVisualData: weldVisualData,
-    );
-    if(textFieldValidation == false){
-      return;
-    }*/
-
     _isLoader =  true;
     _eventComplete(emit);
     var res = await AddWeldingHelper.submitData(
@@ -610,10 +560,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       filler1Welders2Data: filler1Welders2Data,
       filler2Welders1Data: filler2Welders1Data,
       filler2Welders2Data: filler2Welders2Data,
-      filler3Welders1Data: filler3Welders1Data,
       filler3Welders2Data: filler3Welders2Data,
       filler4Welders1Data: filler4Welders1Data,
-      filler4Welders2Data: filler4Welders2Data,
+      filler4Welders2Data: filler4Welders2Data,      filler3Welders1Data: filler3Welders1Data,
+
       filler5Welders1Data: filler5Welders1Data,
       filler5Welders2Data: filler5Welders2Data,
       filler6Welders1Data: filler6Welders1Data,

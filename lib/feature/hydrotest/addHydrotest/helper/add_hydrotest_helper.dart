@@ -64,14 +64,14 @@ class AddHydroTestHelper {
         "spreadId": userData.spreadId.toString(),
         "sectionId": userData.sectionId.toString(),
         "activityDate": date.toString(),
-        "remarks": activityRemark,
+        "remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
-        "totalLength" : length,
+        "totalLength" : length.toString(),
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json,
           context: context, fileList: fileList);

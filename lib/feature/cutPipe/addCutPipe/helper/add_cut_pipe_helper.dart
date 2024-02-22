@@ -26,7 +26,7 @@ class AddCutPipeHelper {
          var json = {
            "pipeId" : pipeData.id.toString(),
            "pipeLength" : pipeData.pipeLength.toString(),
-           "cutpipeLength" : cutePipeLength,
+           "cutpipeLength" : cutePipeLength.toString(),
          };
 
          var res =  await ServerRequest.postData(urlEndPoint: url, body: json);

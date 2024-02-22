@@ -238,18 +238,18 @@ class ServerRequest {
        request.fields.addAll(body);
        request.headers.addAll(header);
        var response = await request.send();
+       var responseData = await response.stream.toBytes();
+       var result = json.decode(String.fromCharCodes(responseData));
+       log(result.toString());
        if(response.statusCode == 200){
-         var responseData = await response.stream.toBytes();
          var result = json.decode(String.fromCharCodes(responseData));
          log(result.toString());
          return result;
        } else if(response.statusCode == 415){
-         var responseData = await response.stream.toBytes();
          var result = json.decode(String.fromCharCodes(responseData));
          log(result.toString());
          return result;
        } else if(response.statusCode == 400){
-         var responseData = await response.stream.toBytes();
          var result = json.decode(String.fromCharCodes(responseData));
          log(result.toString());
          return result;

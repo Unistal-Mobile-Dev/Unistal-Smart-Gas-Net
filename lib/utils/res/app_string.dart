@@ -60,6 +60,7 @@ class AppString {
   static get manufacturingDate => "Manufacturing Date";
   static get expectedDate => "Expected Date";
   static get selectCustomerComplaint => "Select Customer Complaint";
+  static get selectSegment => "Select Segment";
   static get routeSurvey => "Route Survey";
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";
@@ -151,6 +152,7 @@ class AppString {
   static get cutPipeLength => "Cut Pipe Length";
   static get bending => "Bending";
   static get welding => "Welding";
+  static get weldRepair => "Weld Repair";
   static get backFilling => "BackFilling";
   static get hdpeDuctLaying => "HDPE Duct Laying";
   static get hdpeDuctTesting => "HDPE Duct Testing";
@@ -167,7 +169,9 @@ class AppString {
   static get concreteCoatingLength => "Concrete Coating Length";
   static get cutPipe => "Cut Pipe";
   static get selectJointType => "Select Joint Type";
+  static get preHeatingTemperature => "Pre Heating Temperature";
   static get selectJointNumber => "Select Joint Number";
+  static get selectRepairStatus => "Select Repair Status";
   static get selectLptStatus => "Select Lpt Status";
   static get selectFromJointNumber => "Select From Joint Number";
   static get selectToJointNumber => "Select To Joint Number";
