@@ -103,6 +103,7 @@ class AppString {
   static get tpTo => "IP/TP Chainage";
   static get radiography => "Radiography";
   static get ndtMut => "NDT Mut";
+  static get ndtAut => "NDT Aut";
   static get concreteCoating => "Concrete Coating";
   static get lpt => "LPT";
   static get bendAngleDegree => "Bend Angle Degree";
