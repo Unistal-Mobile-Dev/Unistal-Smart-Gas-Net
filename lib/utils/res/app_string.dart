@@ -144,7 +144,7 @@ class AppString {
   static get terrainType => "Terrain Type";
   static get trenChing => "Trenching";
   static get stringing => "Stringing";
-  static get selectPipeNumber => "Select Pipe Number";
+  static get selectPipeNumber => "Enter Pipe Number";
   static get selectLeftPipeNumber => "Select Left Pipe Number";
   static get selectRightPipeNumber => "Select Right Pipe Number";
   static get selectConcreteCoating => "Select Concrete Coating";
