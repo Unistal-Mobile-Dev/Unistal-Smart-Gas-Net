@@ -58,6 +58,7 @@ class APIs {
   static get getAutStatusApi => "api/steel/autstatus";
   static get getDefectTypeApi => "api/steel/defecttype";
   static get getDefectLayerApi => "api/steel/defectlayer";
+  static get addNdtAutApi => "api/steel/ndtaut";
 
 
 

@@ -226,7 +226,43 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   }
 
   _submit(AddNdtAutSubmitDataEvent event, emit) async {
+    isLoader =  true;
+    _eventComplete(emit);
 
+    var res =  await AddNdtAutHelper.submitData(context: event.context,
+        alignmentData: alignmentData,
+        date: dateController.text.toString(),
+        activityRemark: activityRemarkController.text.toString(),
+        weatherData: weatherData,
+        userData: userData, jointTypeData: jointTypeData,
+        jointNumberData: jointNumberData, wpsTypeData: wpsTypeData,
+        selectedWelderList: selectedWelderList, selectedDefectTypeList: selectedDefectTypeList,
+        selectedDefectLayer: selectedDefectLayerList,
+        defectLocation: defectLocationController.text.toString(), autStatusData: autStatusData, file: file);
+
+    if( res != null ){
+      selectedWelderList = [];
+      wpsTypeData =  WPSModel();
+      alignmentData =  AlignmentModel();
+      dateController.text = "";
+      activityRemarkController.text = "";
+      defectLocationController.text = "";
+      file =  File("");
+      isLoader =  false;
+      weatherData = WeatherModel();
+      jointTypeData =  JointTypeModel();
+      jointNumberData  =  JointNumberModel();
+      isJointNumberLoader = false;
+      isWelderLoader =  false;
+      autStatusData =  AutStatusModel();
+      selectedDefectLayerList = [];
+      selectedDefectTypeList = [];
+      weatherList =  WeatherModel.getWeatherData();
+      _userData =  UserInfo.instanceInit()!.userData!;
+    }
+
+    isLoader =  false;
+    _eventComplete(emit);
   }
 
   _eventComplete(Emitter<AddNdtAutState>emit){

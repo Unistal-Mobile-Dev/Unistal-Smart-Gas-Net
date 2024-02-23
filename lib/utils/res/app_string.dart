@@ -61,6 +61,11 @@ class AppString {
   static get expectedDate => "Expected Date";
   static get selectCustomerComplaint => "Select Customer Complaint";
   static get selectSegment => "Select Segment";
+  static get defectWelder => "Defect Welder";
+  static get defectLayer => "Defect Layer";
+  static get defectType => "Defect Type";
+  static get defectLocation => "Defect Location";
+  static get autStatus => "Aut Status";
   static get routeSurvey => "Route Survey";
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";

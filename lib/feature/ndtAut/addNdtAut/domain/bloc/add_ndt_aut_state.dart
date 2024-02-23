@@ -92,6 +92,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
     isWelderLoader,
     defectLocationController,
     autStatusList,
+    autStatusData,
     defectLayerList,
     defectTypeList,
     selectedDefectLayerList,
