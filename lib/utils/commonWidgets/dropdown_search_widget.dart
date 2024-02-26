@@ -60,6 +60,7 @@ class DropDownSearchWidget extends StatelessWidget {
         items: items,
         itemAsString: itemAsString,
         onChanged: onChanged,
+        selectedItem: selectedItem,
         popupProps:  PopupProps.dialog(
             searchFieldProps: TextFieldProps(
               decoration:  InputDecoration(
