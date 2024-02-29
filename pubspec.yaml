@@ -41,6 +41,7 @@ dependencies:
   file_picker: ^5.2.11
   mime: ^1.0.4
   textfield_search: ^0.10.0
+  path_provider: ^2.1.2
 
 dependency_overrides:
   meta: ^1.11.0

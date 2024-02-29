@@ -32,6 +32,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_s
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/test/domain/bloc/test_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
@@ -137,6 +138,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddSwabbingBloc()),
         BlocProvider(create: (BuildContext context) => AddWelderRepairBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
+        BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

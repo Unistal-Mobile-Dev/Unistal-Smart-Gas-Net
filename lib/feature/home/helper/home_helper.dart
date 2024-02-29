@@ -36,6 +36,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilRes
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/presentation/page/add_stringing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/presentation/page/add_swabbing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/test/presentation/page/test_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/presentation/page/add_tren_ching_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
@@ -53,6 +54,9 @@ class HomeHelper {
            label: AppString.dashboard, sublist: [], isSelected: true));
 
        List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
+
+/*       drawerList.add(DrawerModel(widget: const TestPage(), icon: Icons.alt_route_sharp,
+           label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));*/
 
        drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
            label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));
