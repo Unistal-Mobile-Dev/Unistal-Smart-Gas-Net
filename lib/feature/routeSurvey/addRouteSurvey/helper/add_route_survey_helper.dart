@@ -79,7 +79,9 @@ class AddRouteSurveyHelper {
     required LoginDataModel userData, required File file,
     required String chainageFrom,
     required String chainageTo,
-    required WeatherModel weatherData,}) async {
+    required WeatherModel weatherData,
+    required GroundTypeModel groundTypeData,
+  }) async {
 
     try{
 
@@ -109,6 +111,7 @@ class AddRouteSurveyHelper {
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "ground_type_id" : groundTypeData.id != null ? groundTypeData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

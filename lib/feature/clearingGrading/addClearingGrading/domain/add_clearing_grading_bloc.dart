@@ -195,6 +195,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         chainage: chainageController.text.toString(),
+        terrainTypeData: terrainTypeData,
      );
     _isLoader =  false;
     _eventComplete(emit);

@@ -93,6 +93,7 @@ class AddClearingGradingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String chainage,
+    required TerrainTypeModel terrainTypeData,
    }) async {
 
     try{
@@ -126,6 +127,7 @@ class AddClearingGradingHelper {
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "terrain_id" : terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

@@ -176,6 +176,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         weatherData: weatherData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
+        groundTypeData: groundTypeData,
     );
     _isLoader =  false;
     _eventComplete(emit);
