@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/phone_dashboard_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/tablet_dashboard_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
