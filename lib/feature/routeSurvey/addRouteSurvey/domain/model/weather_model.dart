@@ -1,7 +1,19 @@
+List<WeatherModel> weatherListResponse(var json) {
+  return List<WeatherModel>.from(json.map((x) => WeatherModel.fromJson(x)));
+}
+
 class WeatherModel {
   dynamic id;
   String? name;
   WeatherModel({this.name, this.id});
+
+
+  factory WeatherModel.fromJson(Map<String, dynamic> json) {
+    return WeatherModel(
+      id: json['id'] ?? "",
+      name: json['name'] ?? ""
+    );
+  }
 
 
   static getWeatherData() {

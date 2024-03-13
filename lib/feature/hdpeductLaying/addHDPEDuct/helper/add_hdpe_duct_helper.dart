@@ -61,7 +61,7 @@ class AddHDPEDuctHelper {
         "total_length" : length,
         "warning_mat_meter" : warningMeterData.id != null ? warningMeterData.id.toString() : "",
         "padding_meter" : paddingData.id != null ? paddingData.id.toString() : "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

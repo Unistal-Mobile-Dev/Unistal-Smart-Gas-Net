@@ -31,6 +31,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final WeatherModel weatherData;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+  final List<GroundTypeModel> groundTypeList;
+  final GroundTypeModel groundTypeData;
 
   FetchAddRouteSurveyDataState({
     required this.isLoader,
@@ -49,6 +51,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.groundTypeList,
+    required this.groundTypeData,
   });
 
   @override
@@ -69,5 +73,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     weatherData,
     chainageFromController,
     chainageToController,
+    groundTypeList,
+    groundTypeData,
   ];
 }

@@ -34,6 +34,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final WeatherModel weatherData;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+  final TextEditingController pipeLengthController;
+  final List<String> pipeLengthList;
 
 
   FetchAddStringingDataState({
@@ -55,6 +57,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.searchPipeLoader,
+    required this.pipeLengthController,
+    required this.pipeLengthList,
   });
 
   @override
@@ -77,6 +81,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
     weatherData,
     chainageFromController,
     chainageToController,
+    pipeLengthController,
+    pipeLengthList,
 
   ];
 }

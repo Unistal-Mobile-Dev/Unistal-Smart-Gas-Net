@@ -50,7 +50,7 @@ class AddRadiographyHelper {
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "segment_ids": segmentData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_status" : segmentStatusData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_observation" : segmentObservationData.toString().replaceAll("]", "").toString().replaceAll("[", ""),

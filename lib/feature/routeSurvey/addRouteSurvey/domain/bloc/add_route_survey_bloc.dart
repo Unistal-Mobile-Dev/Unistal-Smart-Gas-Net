@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
@@ -49,13 +50,15 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
 
-
+  List<GroundTypeModel> groundTypeList = [];
+  GroundTypeModel groundTypeData =  GroundTypeModel();
 
   AddRouteSurveyBloc() : super(AddRouteSurveyInitial()) {
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
     on<AddRouteSurveySubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRouteSurveySelectAlignmentEvent>(_selectAlignment);
+    on<AddRouteSurveySelectGroundTypeEvent>(_selectGroundType);
     on<AddRouteSurveySelectDateEvent>(_selectDate);
     on<AddRouteSurveyAddImageEvent>(_selectFile);
   }
@@ -77,17 +80,30 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     file = File("");
     _alignmentData =  AlignmentModel();
     _weatherData = WeatherModel();
+    groundTypeList = [];
+    groundTypeData =  GroundTypeModel();
     _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
+
+    var groundTypeRes =  await AddRouteSurveyHelper.fetchGroundTypeData(context: event.context, userData: userData);
+    if(res != null){
+      groundTypeList =  groundTypeRes;
+    }
+
     _eventComplete(emit);
   }
 
   _selectAlignment(AddRouteSurveySelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectGroundType(AddRouteSurveySelectGroundTypeEvent event, emit) {
+    groundTypeData =  event.groundTypeData;
     _eventComplete(emit);
   }
 
@@ -178,6 +194,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
       chainageFromController.text = "";
       chainageToController.text = "";
       _weatherData =  WeatherModel();
+      groundTypeData =  GroundTypeModel();
       _eventComplete(emit);
     }
 
@@ -200,6 +217,8 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         weatherList:  weatherList,
        chainageFromController: chainageFromController,
        chainageToController: chainageToController,
+       groundTypeData: groundTypeData,
+       groundTypeList: groundTypeList,
     ));
  }
 

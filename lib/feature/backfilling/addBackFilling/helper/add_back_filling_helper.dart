@@ -103,7 +103,7 @@ class AddBackFillingHelper {
         "slope_breaker" : slopeBreaker,
         "warning_mat" : warningMat,
         "anti_buoyancy" : antiBuoyancy,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

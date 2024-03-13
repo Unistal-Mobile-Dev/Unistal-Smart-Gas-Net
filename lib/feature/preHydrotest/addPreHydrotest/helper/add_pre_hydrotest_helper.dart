@@ -50,7 +50,7 @@ class AddPreHydroTestHelper {
         "totalLength" : length.toString(),
         "ndeClearance" : ndeClearance.toString(),
         "thicknessId" : thicknessData.id != null ? thicknessData.id.toString() : "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",

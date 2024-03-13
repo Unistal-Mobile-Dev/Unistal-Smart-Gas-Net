@@ -55,7 +55,10 @@ class AddStringingHelper {
     required String activityRemark,
     required String chainageFrom,
     required String chainageTo,
-    required LoginDataModel userData, required File file, required WeatherModel weatherData,}) async {
+    required LoginDataModel userData, required File file,
+    required WeatherModel weatherData,
+    required List<String> pipeLength,
+   }) async {
 
     try{
 
@@ -77,11 +80,12 @@ class AddStringingHelper {
         "pipe_id" : pipeData.id.toString(),
         "concrete_coating" : concreteCoatingData.id.toString(),
         "activity_remarks": activityRemark,
+        "total_length " : pipeLength.toString().replaceAll("{", "").toString().replaceAll("}", ""),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

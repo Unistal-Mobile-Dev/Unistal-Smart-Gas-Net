@@ -93,7 +93,7 @@ class AddWelderRepairHelper {
         "joint" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
         "wpsId" : wpsTypeData.id != null ? wpsTypeData.id.toString(): "",
         "welderId" : welderData.id != null ? welderData.id.toString(): "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "repairStatus" : welderRepairStatusData.id.toString(),
         "preHeatingTemp" : preHeatingTempreature.toString(),
         "electrodeFillerE6010" : E6010.toString(),

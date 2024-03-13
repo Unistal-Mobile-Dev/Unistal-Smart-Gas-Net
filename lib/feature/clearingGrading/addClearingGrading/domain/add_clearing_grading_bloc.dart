@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -52,12 +53,15 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
 
   WeatherModel _weatherData =  WeatherModel();
   WeatherModel get weatherData => _weatherData;
-  
+
+  List<TerrainTypeModel> terrainTypeList = [];
+  TerrainTypeModel terrainTypeData =  TerrainTypeModel();
   
   AddClearingGradingBloc() : super(AddClearingGradingInitial()) {
     on<AddClearingGradingPageLoadEvent>(_pageLoadEvent);
     on<AddClearingGradingSubmitDataEvent>(_submitData);
     on<AddClearingGradingSelectAlignmentEvent>(_selectAlignment);
+    on<AddClearingGradingSelectTerrainEvent>(_selectTerrain);
     on<AddClearingGradingSelectDateEvent>(_selectDate);
     on<AddClearingGradingAddImageEvent>(_selectFile);
     on<SelectWeatherEvent>(_selectWeather);
@@ -84,6 +88,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     chainageFromController.text = "";
     chainageToController.text = "";
     chainageController.text = "";
+    terrainTypeList = [];
+    terrainTypeData =  TerrainTypeModel();
     file = File("");
     _weatherData = WeatherModel();
     _weatherList = WeatherModel.getWeatherData();
@@ -92,6 +98,13 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     if(res != null){
       _alignmentList =  res;
     }
+
+    var resTerrain =  await AddClearingGradingHelper.fetchTerrainData(
+         context: event.context, userData: userData);
+    if(resTerrain != null){
+      terrainTypeList =  resTerrain;
+    }
+
     _eventComplete(emit);
   }
 
@@ -102,6 +115,11 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
 
   _selectAlignment(AddClearingGradingSelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectTerrain(AddClearingGradingSelectTerrainEvent event, emit) {
+    terrainTypeData =  event.terrainTypeData;
     _eventComplete(emit);
   }
 
@@ -201,6 +219,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       chainageToController.text = "";
       chainageController.text = "";
       _weatherData =  WeatherModel();
+      terrainTypeData =  TerrainTypeModel();
       _eventComplete(emit);
     }
 
@@ -227,6 +246,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       weatherList:  weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      terrainTypeData: terrainTypeData,
+      terrainTypeList: terrainTypeList,
     ));
   }
 }

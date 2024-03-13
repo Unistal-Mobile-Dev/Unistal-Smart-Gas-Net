@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/helper/add_drying_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -80,7 +81,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
-    weatherList =  WeatherModel.getWeatherData();
+    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     _userData =  UserInfo.instanceInit()!.userData!;
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);

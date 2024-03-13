@@ -47,10 +47,6 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
@@ -59,10 +55,21 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
-            _terrainTypeController(dataState: dataState),
+
+            AppConfig.instanceInit()!.client !=  Client.purvaBharti
+             ? _terrainTypeController(dataState: dataState) : const SizedBox.shrink(),
+            AppConfig.instanceInit()!.client !=  Client.purvaBharti
+                ? _verticalSpace() : const SizedBox.shrink(),
+
+            _toWidthController(dataState: dataState),
             _verticalSpace(),
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -213,6 +220,15 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       textInputType: TextInputType.text,
       labelText: AppString.terrainType,
       controller: dataState.terrainController,
+    );
+  }
+
+  Widget _toWidthController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.widthMeter,
+      controller: dataState.toWidthController,
     );
   }
 

@@ -25,6 +25,13 @@ class AddRouteSurveySelectAlignmentEvent extends AddRouteSurveyEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddRouteSurveySelectGroundTypeEvent extends AddRouteSurveyEvent {
+  final GroundTypeModel  groundTypeData;
+  const AddRouteSurveySelectGroundTypeEvent({required this.groundTypeData});
+  @override
+  List<Object?> get props => [groundTypeData];
+}
+
 class AddRouteSurveyAddImageEvent extends AddRouteSurveyEvent {
   final BuildContext context;
   final int mediaType;

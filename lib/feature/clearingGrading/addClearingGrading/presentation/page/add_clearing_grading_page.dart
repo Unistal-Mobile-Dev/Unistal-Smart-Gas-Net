@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 class AddClearingGradingPage extends StatefulWidget {
@@ -45,28 +46,37 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-            _weatherDropDown(dataState: dataState),
+            _terrainDropDown(dataState: dataState),
             _verticalSpace(),
-            _tpIpChainageController(dataState: dataState),
-            _verticalSpace(),
-            _tpIpNOSController(dataState: dataState),
-            _verticalSpace(),
-            _ipNumberController(dataState: dataState),
-            _verticalSpace(),
-            _ipNumberFrom(dataState: dataState),
-            _verticalSpace(),
-            _groundTypeController(dataState: dataState),
-            _verticalSpace(),
-            _structureNameController(dataState: dataState),
-            _verticalSpace(),
-            _chainageController(dataState: dataState),
-            _verticalSpace(),
-            _boundaryLocationController(dataState: dataState),
-            _verticalSpace(),
+
+           AppConfig.instanceInit()!.client != Client.purvaBharti ?
+           Column(
+              children: [
+                _tpIpChainageController(dataState: dataState),
+                _verticalSpace(),
+                _tpIpNOSController(dataState: dataState),
+                _verticalSpace(),
+                _ipNumberController(dataState: dataState),
+                _verticalSpace(),
+                _ipNumberFrom(dataState: dataState),
+                _verticalSpace(),
+                _groundTypeController(dataState: dataState),
+                _verticalSpace(),
+                _structureNameController(dataState: dataState),
+                _verticalSpace(),
+                _chainageController(dataState: dataState),
+                _verticalSpace(),
+                _boundaryLocationController(dataState: dataState),
+                _verticalSpace(),
+              ],
+            ): const SizedBox.shrink(),
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -92,13 +102,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddClearingGradingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
-    );
-  }
 
   Widget _chainageFromController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
@@ -222,6 +225,23 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _terrainDropDown({required FetchAddClearingGradingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectTerrain,
+      dropdownValue: dataState.terrainTypeData.id != null ? dataState.terrainTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddClearingGradingBloc>(context).add(
+            AddClearingGradingSelectTerrainEvent(terrainTypeData: value));
+      },
+      items: dataState.terrainTypeList.map<DropdownMenuItem<TerrainTypeModel>>((TerrainTypeModel terrainTypeData) {
+        return DropdownMenuItem<TerrainTypeModel>(
+          value: terrainTypeData,
+          child: Text(terrainTypeData.name.toString()),
         );
       }).toList(),
     );

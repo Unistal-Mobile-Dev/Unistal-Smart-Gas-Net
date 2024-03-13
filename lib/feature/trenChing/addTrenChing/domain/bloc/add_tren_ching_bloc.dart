@@ -37,6 +37,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController fromJointIdController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController toWidthController = TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -89,6 +90,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     trenchingDepthController.text = "";
     terrainController.text = "";
     activityRemarkController.text = "";
+    toWidthController.text = "";
     _isLoader =  false;
     _alignmentList =  [];
     file = File("");
@@ -221,6 +223,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
         weatherData: weatherData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
+      toWidth: toWidthController.text.toString(),
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -233,6 +236,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       terrainController.text = "";
       trenchingDepthController.text = "";
       activityRemarkController.text = "";
+      toWidthController.text = "";
       _isLoader =  false;
       _alignmentData =  AlignmentModel();
       file =  File("");
@@ -271,6 +275,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       toJointData: toJointData,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      toWidthController: toWidthController,
     ));
   }
 }

@@ -64,6 +64,7 @@ class AddTrenChingHelper {
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
+    required String toWidth,
   }) async {
 
     try{
@@ -84,6 +85,7 @@ class AddTrenChingHelper {
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
+        "top_width": toWidth,
         "from_joint_id": jointNumberFromModel.id != null ? jointNumberFromModel.id.toString() : "",
         "to_joint_id": jointNumberToModel.id != null ? jointNumberToModel.id.toString() : "",
         "trenching_depth": trenchingDepth,
@@ -92,7 +94,7 @@ class AddTrenChingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

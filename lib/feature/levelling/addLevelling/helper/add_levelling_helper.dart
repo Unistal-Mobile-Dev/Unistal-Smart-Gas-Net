@@ -53,7 +53,7 @@ class AddLevellingHelper {
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointData.id  != null ? jointData.id.toString(): "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "gps_coordinate_northing" : gpsCoordinateNorth,
         "gps_coordinate_easting" : gpsCoordinateEast,
         "elevation_pipe_top" : elevationPipetop,

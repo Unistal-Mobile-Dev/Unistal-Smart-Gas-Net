@@ -238,7 +238,7 @@ class AddWeldingHelper {
         "electrode_dia_e9045p2_batch": electrodeDiaE9045p2Batch,
         "electrode_dia_e81t8g": electrodeDiaE81t8g,
         "electrode_dia_e81t8g_batch": electrodeDiaE81t8gBatch,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

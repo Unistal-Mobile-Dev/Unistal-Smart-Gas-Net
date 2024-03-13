@@ -61,8 +61,10 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
            label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
-           label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
+       if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+         drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
+             label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
+       }
 
        drawerList.add(DrawerModel(widget: const AddClearingGradingPage(), icon: Icons.auto_graph,
            label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -76,8 +78,11 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddStringingPage(), icon: Icons.stream,
            label: AppString.stringing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
-           label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
+            label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
+
 
       drawerList.add(DrawerModel(widget: const AddCutPipePage(), icon: Icons.panorama_horizontal_rounded,
           label: AppString.cutPipe, sublist: [],  isSelected: false, actionButtonWidget: _restoreActionWidget(context: context)));
@@ -85,8 +90,10 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
            label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddWelderRepairPage(), icon: Icons.tire_repair_sharp,
-          label: AppString.weldRepair, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+        drawerList.add(DrawerModel(widget: const AddWelderRepairPage(), icon: Icons.tire_repair_sharp,
+            label: AppString.weldRepair, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
 
       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -100,26 +107,34 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddConcreteCoatingPage(), icon: Icons.business,
-          label: AppString.concreteCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+        drawerList.add(DrawerModel(widget: const AddConcreteCoatingPage(), icon: Icons.business,
+            label: AppString.concreteCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
 
       drawerList.add(DrawerModel(widget: const AddLoweringPage(), icon: Icons.bookmark_added_outlined,
           label: AppString.lowering, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
-           label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
 
-      drawerList.add(DrawerModel(widget: const AddHDPEDuctTestingPage(), icon: Icons.pages_outlined,
-          label: AppString.hdpeDuctTesting, sublist: [],  isSelected: false, actionButtonWidget: null));
+        drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
+            label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+        drawerList.add(DrawerModel(widget: const AddHDPEDuctTestingPage(), icon: Icons.pages_outlined,
+            label: AppString.hdpeDuctTesting, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
 
        drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
            label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
-           label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+        drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
+            label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
-          label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
+        drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
+            label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
+
 
       drawerList.add(DrawerModel(widget: const AddPreHydroTestPage(), icon: Icons.precision_manufacturing,
           label: AppString.preHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -127,20 +142,22 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddHydroTestPage(), icon: Icons.fire_hydrant,
           label: AppString.hydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
-           label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
 
-       drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
-           label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
+        drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
+            label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
-          label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));
+        drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
+            label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
-           label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
+        drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
+            label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-/*       drawerList.add(DrawerModel(widget: Container(), icon: Icons.layers_outlined,
-           label: AppString.serviceCenter, sublist: serviceCenterList,  isSelected: false));*/
+        drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
+            label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
+
+
 
        return drawerList;
     }catch(e){

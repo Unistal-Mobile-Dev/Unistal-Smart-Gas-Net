@@ -83,7 +83,7 @@ class AddRouHandover {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

@@ -70,6 +70,7 @@ class AppString {
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";
   static get chainageFrom => "Chainage From";
+  static get pipeLength => "Pipe Length";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
   static get sectionLength => "Section Length";
@@ -132,6 +133,7 @@ class AppString {
   static get cableReadingPlusDirection => "Cable Reading (+ve Direction)";
   static get cableReadingMinusDirection => "Cable Reading (-ve Direction)";
   static get testVoltage => "Test Voltage";
+  static get add => "Add";
   static get calibarationDate => "Calibaration Date";
   static get repairCoatingDamage => "Repair Of Coating Damage";
   static get activityRemark => "Activity Remark";
@@ -142,6 +144,7 @@ class AppString {
   static get toJointId => "To Joint Id";
   static get trenchingDepth => "Trenching Depth";
   static get terrainType => "Terrain Type";
+  static get widthMeter => "Width(Meters)";
   static get trenChing => "Trenching";
   static get stringing => "Stringing";
   static get selectPipeNumber => "Enter Pipe Number";
@@ -153,6 +156,8 @@ class AppString {
   static get selectDisbomdmentChecks => "Select Disbomdment Checks";
   static get selectHolidayChecks => "Select Holiday Checks";
   static get selectWeather => "Select Weather";
+  static get selectTerrain => "Select Terrain";
+  static get selectGroundType=> "Select Ground Type";
   static get selectBendingType => "Select Bending Type";
   static get chainage => "Chainage";
   static get cutPipeLength => "Cut Pipe Length";

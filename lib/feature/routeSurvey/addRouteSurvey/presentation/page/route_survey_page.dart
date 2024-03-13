@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
@@ -46,21 +47,29 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
              _verticalSpace(),
              _alignmentDropdown(dataState: dataState),
              _verticalSpace(),
+             _weatherDropDown(dataState: dataState),
+             _verticalSpace(),
              _chainageFromController(dataState: dataState),
              _verticalSpace(),
              _chainageToController(dataState: dataState),
-             _verticalSpace(),
-             _weatherDropDown(dataState: dataState),
              _verticalSpace(),
              _tpIpChainageController(dataState: dataState),
              _verticalSpace(),
              _tpIpNOSController(dataState: dataState),
              _verticalSpace(),
-             _tpRemarkController(dataState: dataState),
-             _verticalSpace(),
-             _bearingController(dataState: dataState),
-             _verticalSpace(),
-             _terrainController(dataState: dataState),
+             _groundTypeDropDown(dataState: dataState),
+
+             AppConfig.instanceInit()!.client != Client.purvaBharti
+             ? Column(
+               children: [
+                 _tpRemarkController(dataState: dataState),
+                 _verticalSpace(),
+                 _bearingController(dataState: dataState),
+                 _verticalSpace(),
+                 _terrainController(dataState: dataState),
+               ],
+             ): const SizedBox.shrink(),
+
              _verticalSpace(),
              _activityRemark(dataState: dataState),
              _verticalSpace(),
@@ -195,6 +204,24 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       }).toList(),
     );
   }
+
+  Widget _groundTypeDropDown({required FetchAddRouteSurveyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectGroundType,
+      dropdownValue: dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRouteSurveyBloc>(context).add(
+            AddRouteSurveySelectGroundTypeEvent(groundTypeData: value));
+      },
+      items: dataState.groundTypeList.map<DropdownMenuItem<GroundTypeModel>>((GroundTypeModel groundTypeData) {
+        return DropdownMenuItem<GroundTypeModel>(
+          value: groundTypeData,
+          child: Text(groundTypeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
 
   Widget _photo({required FetchAddRouteSurveyDataState dataState}) {
     return SizedBox(

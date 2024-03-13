@@ -52,16 +52,27 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _pipeDropDown(dataState: dataState),
             _verticalSpace(),
-            _concreteCoatingDropDown(dataState: dataState),
+            _chainageFromController(dataState: dataState),
             _verticalSpace(),
+            _pipeLengthController(dataState: dataState),
+            _verticalSpace(),
+            _pipeLengthListWidget(dataState: dataState),
+            _verticalSpace(),
+
+            AppConfig.instanceInit()!.client != Client.purvaBharti
+            ? Column(
+              children: [
+                _chainageToController(dataState: dataState),
+                _verticalSpace(),
+                _concreteCoatingDropDown(dataState: dataState),
+                _verticalSpace(),
+              ],
+            ): const SizedBox.shrink(),
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -103,6 +114,49 @@ class _AddStringingPageState extends State<AddStringingPage> {
       controller: dataState.chainageFromController,
     );
   }
+
+  Widget _pipeLengthController({required FetchAddStringingDataState dataState}) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFieldWidget(
+            isRequired: true,
+            textInputType: TextInputType.number,
+            labelText: AppString.pipeLength,
+            controller: dataState.pipeLengthController,
+          ),
+        ),
+        ButtonWidget(text: AppString.add,
+            onPressed: () {
+            BlocProvider.of<AddStringingBloc>(context).add(AddStringingAddPipeLengthEvent(context: context));
+        })
+      ],
+    );
+  }
+
+  Widget _pipeLengthListWidget({required FetchAddStringingDataState dataState}) {
+    return dataState.pipeLengthList.isNotEmpty ?
+    ListView.builder(
+        itemCount: dataState.pipeLengthList.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+        return Container(
+           color: AppColor.lightGrey,
+           padding: const EdgeInsets.all(5.0),
+           child: Row(
+             children: [
+               Expanded(child: TextWidget("Pipe Length - ${dataState.pipeLengthList[index].toString()}")),
+               IconButton(
+                   onPressed: () {
+                     BlocProvider.of<AddStringingBloc>(context).add(AddStringingDeletePipeLengthEvent(context: context,index: index));
+               }, icon:  Icon(Icons.close, color: AppColor.themeLightColor,))
+             ],
+           ),
+        ) ;
+     }) : const SizedBox.shrink();
+  }
+
 
   Widget _chainageToController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
@@ -164,7 +218,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   Widget _activityRemark({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
+      isRequired: false,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

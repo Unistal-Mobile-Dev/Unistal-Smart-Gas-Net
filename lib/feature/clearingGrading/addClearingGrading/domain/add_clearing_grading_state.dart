@@ -35,7 +35,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final WeatherModel weatherData;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
-
+  final List<TerrainTypeModel> terrainTypeList;
+  final TerrainTypeModel terrainTypeData;
 
   FetchAddClearingGradingDataState({
     required this.isLoader,
@@ -58,7 +59,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
-
+    required this.terrainTypeData,
+    required this.terrainTypeList,
   });
 
   @override
@@ -83,5 +85,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     weatherData,
     chainageFromController,
     chainageToController,
+    terrainTypeData,
+    terrainTypeList
   ];
 }

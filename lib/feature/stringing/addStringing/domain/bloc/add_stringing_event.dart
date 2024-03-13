@@ -17,12 +17,26 @@ class AddStringingSelectDateEvent extends AddStringingEvent {
   @override
   List<Object?> get props => [context];
 }
-
 class AddStringingSelectAlignmentEvent extends AddStringingEvent {
   final AlignmentModel  alignmentData;
   const AddStringingSelectAlignmentEvent({required this.alignmentData});
   @override
   List<Object?> get props => [alignmentData];
+}
+
+class AddStringingAddPipeLengthEvent extends AddStringingEvent {
+  final BuildContext context;
+  const AddStringingAddPipeLengthEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddStringingDeletePipeLengthEvent extends AddStringingEvent {
+  final BuildContext context;
+  final int index;
+  const AddStringingDeletePipeLengthEvent({required this.context, required this.index});
+  @override
+  List<Object?> get props => [context,index];
 }
 
 class AddStringingSelectPipeDataEvent extends AddStringingEvent {

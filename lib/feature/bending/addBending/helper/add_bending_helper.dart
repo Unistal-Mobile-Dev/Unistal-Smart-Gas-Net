@@ -145,7 +145,7 @@ class AddBendingHelper {
         "bend_angle_degree" : bendDegree,
         "bend_angle_minute" : bendMinits,
         "bend_angle_second" : bendSecond,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

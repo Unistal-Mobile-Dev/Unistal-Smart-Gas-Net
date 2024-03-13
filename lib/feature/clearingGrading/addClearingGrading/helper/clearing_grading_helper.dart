@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -28,7 +29,7 @@ class AddClearingGradingHelper {
       } else if(alignmentData.id == null){
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
-      } else if(reportNumber.isEmpty){
+      }  if(reportNumber.isEmpty){
         SnackBarErrorWidget(context).show(message: "Please enter report number");
         return false;
       } else if(tpIpChainage.isEmpty){
@@ -61,6 +62,22 @@ class AddClearingGradingHelper {
       return true;
     }catch(e){
       return false;
+    }
+  }
+
+  static Future<dynamic> fetchTerrainData({required BuildContext context,
+    required LoginDataModel userData}) async {
+    try{
+      String url  =  APIs.getTerrianApi+"?schema=${userData.schema}";
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['success'] !=  null
+          && res['success'] == 200 && res['data'] != null) {
+        return terrainListResponse(res['data']);
+      } else{
+        return null;
+      }
+    }catch(e){
+      return null;
     }
   }
 
@@ -108,7 +125,7 @@ class AddClearingGradingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

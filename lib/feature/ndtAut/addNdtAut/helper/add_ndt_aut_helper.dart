@@ -129,7 +129,7 @@ class AddNdtAutHelper {
         "defect_welder_ids" : defectWelderList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "defect_layer_ids" : defectLayerList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "defect_type_ids" : defectTypeList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

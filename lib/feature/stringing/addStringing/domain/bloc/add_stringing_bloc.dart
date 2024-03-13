@@ -49,6 +49,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController pipeLengthController = TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -65,6 +66,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController searchPipeController =  TextEditingController();
 
+  List<String> pipeLengthList = [];
 
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
@@ -73,6 +75,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     on<AddStringingSelectAlignmentEvent>(_selectAlignment);
     on<AddStringingSelectDateEvent>(_selectDate);
     on<AddStringingSelectPipeDataEvent>(_selectPipe);
+    on<AddStringingAddPipeLengthEvent>(_addPipeLength);
+    on<AddStringingDeletePipeLengthEvent>(_deletePipeLength);
     on<AddStringingSearchPipeDataEvent>(_searchPipeData);
     on<AddStringingSelectConcreteCoatingEvent>(_selectConcreteCoating);
     on<AddStringingAddImageEvent>(_selectFile);
@@ -83,9 +87,11 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     dateController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
+    pipeLengthController.text = "";
     _pipeData =  PipeModel();
     _pipeList = [];
     _concreteCoatingList = [];
+    pipeLengthList = [];
     _concreteCoatingData  =  ConcreteCoatingModel();
     _isLoader =  false;
     _alignmentList =  [];
@@ -153,6 +159,27 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _eventComplete(emit);
   }
 
+  _addPipeLength(AddStringingAddPipeLengthEvent event, emit) {
+    if(pipeLengthController.text.toString().isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please enter pipe length");
+      return;
+    }
+    _isLoader =  true;
+    _eventComplete(emit);
+    pipeLengthList.add(pipeLengthController.text.toString());
+    pipeLengthController.text = "";
+    _isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _deletePipeLength(AddStringingDeletePipeLengthEvent event, emit) {
+    _isLoader =  true;
+    _eventComplete(emit);
+    pipeLengthList.removeAt(event.index);
+    _isLoader =  false;
+    _eventComplete(emit);
+  }
+
   _searchPipeData(AddStringingSearchPipeDataEvent event, emit) async {
     _pipeList = [];
     _searchPipeLoader =  true;
@@ -207,7 +234,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         userData: userData, file: file,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
-        weatherData: weatherData);
+        weatherData: weatherData,
+        pipeLength: pipeLengthList,
+    );
     _isLoader =  false;
     _eventComplete(emit);
     if(res != null){
@@ -221,8 +250,10 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       chainageFromController.text = "";
       chainageToController.text = "";
       searchPipeController.text = "";
+      pipeLengthController.text = "";
       _alignmentData =  AlignmentModel();
       _weatherData =  WeatherModel();
+      pipeLengthList = [];
       _eventComplete(emit);
     }
   }
@@ -246,7 +277,10 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       chainageToController: chainageToController,
       searchPipeList: searchPipeList,
       searchPipeController: searchPipeController,
+      pipeLengthController: pipeLengthController,
       searchPipeLoader: searchPipeLoader,
+      pipeLengthList: pipeLengthList,
+
     ));
   }
 }

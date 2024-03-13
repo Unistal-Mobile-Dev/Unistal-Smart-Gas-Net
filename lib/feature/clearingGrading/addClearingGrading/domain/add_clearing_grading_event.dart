@@ -25,6 +25,13 @@ class AddClearingGradingSelectAlignmentEvent extends AddClearingGradingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddClearingGradingSelectTerrainEvent extends AddClearingGradingEvent {
+  final TerrainTypeModel  terrainTypeData;
+  const AddClearingGradingSelectTerrainEvent({required this.terrainTypeData});
+  @override
+  List<Object?> get props => [terrainTypeData];
+}
+
 class AddClearingGradingAddImageEvent extends AddClearingGradingEvent {
   final BuildContext context;
   final int mediaType;

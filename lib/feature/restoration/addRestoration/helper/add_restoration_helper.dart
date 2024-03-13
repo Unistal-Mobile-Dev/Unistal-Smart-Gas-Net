@@ -59,7 +59,7 @@ class AddRestorationHelper {
         "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
         "land_type" : landType,
         "total_length" : length,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "surplus_material_removal" : removalOfSurplusMaterialData.id != null ? removalOfSurplusMaterialData.id.toString() : "",
         "top_soil_replacement" : replacementofTopSoilData.id != null ? replacementofTopSoilData.id.toString() : "",
         "boundary_stone_reinstall" : reinstallationBoundaryStonesData.id != null ? reinstallationBoundaryStonesData.id.toString() : "",

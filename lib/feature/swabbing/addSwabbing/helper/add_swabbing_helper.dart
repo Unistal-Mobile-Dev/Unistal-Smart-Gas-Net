@@ -47,7 +47,7 @@ class AddSwabbingHelper {
         "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
         "total_length" : length,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

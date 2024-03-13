@@ -39,6 +39,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final bool isJointNumberLoader;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+  final TextEditingController toWidthController;
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -65,6 +66,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.toJointData,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.toWidthController,
   });
 
   @override
@@ -93,5 +95,6 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     toJointData,
     chainageFromController,
     chainageToController,
+    toWidthController,
   ];
 }

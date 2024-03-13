@@ -7,29 +7,49 @@ class DropdownWidget extends StatelessWidget {
   final String hint;
   final ValueChanged<dynamic>? onChanged;
   final List<DropdownMenuItem<dynamic>>? items;
+  final bool? isRequired;
 
-  const DropdownWidget({
+  const DropdownWidget({super.key,
     required this.dropdownValue,
     required this.onChanged,
     required this.items,
-    required this.hint});
+    required this.hint,
+    this.isRequired,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
             color: AppColor.grey, style: BorderStyle.solid, width: 0.80),
       ),
-      child: DropdownButton<dynamic>(
-        hint: TextWidget("$hint", color: AppColor.themeColor,),
-        underline: SizedBox(),
-        isExpanded: true,
-        value: dropdownValue,
-        items: items,
-        onChanged: onChanged,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          dropdownValue != null ?
+          Padding(
+            padding: const EdgeInsets.only(top: 2, bottom: 2),
+            child: Text.rich(TextSpan(children: [
+              TextSpan(text: hint, style: TextStyle(color: AppColor.themeColor)),
+              TextSpan(text: isRequired == false ? "" : ' *', style: TextStyle(color: Colors.red)),
+            ])),
+          ): const SizedBox.shrink(),
+          DropdownButton<dynamic>(
+            hint: Text.rich(TextSpan(children: [
+              TextSpan(text: hint, style: TextStyle(color: AppColor.themeColor)),
+              TextSpan(text: isRequired == true ? " *" : '', style: TextStyle(color: Colors.red)),
+            ])),
+            underline: const SizedBox(),
+            isExpanded: true,
+            value: dropdownValue,
+            items: items,
+            onChanged: onChanged,
+          ),
+        ],
       ),
     );
   }

@@ -59,8 +59,9 @@ class APIs {
   static get getDefectTypeApi => "api/steel/defecttype";
   static get getDefectLayerApi => "api/steel/defectlayer";
   static get addNdtAutApi => "api/steel/ndtaut";
-
-
+  static get getWeatherApi => "api/steel/weather";
+  static get getTerrianApi => "api/steel/terrian";
+  static get getGroundTypeApi => "api/steel/groundtype";
 
 
   static get productTypeApi => "admin/rest/getItemType";

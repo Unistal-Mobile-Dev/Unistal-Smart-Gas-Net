@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
@@ -53,6 +54,22 @@ class AddRouteSurveyHelper {
      }
   }
 
+  static Future<dynamic> fetchGroundTypeData({required BuildContext context,
+    required LoginDataModel userData}) async {
+    try{
+      String url  =  APIs.getGroundTypeApi+"?schema=${userData.schema}";
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['success'] !=  null
+          && res['success'] == 200 && res['data'] != null) {
+        return groundTypeListResponse(res['data']);
+      } else{
+        return null;
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
@@ -91,7 +108,7 @@ class AddRouteSurveyHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

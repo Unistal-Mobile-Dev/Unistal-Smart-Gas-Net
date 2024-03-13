@@ -57,17 +57,19 @@ class HomeDrawerWidget extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.03,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextWidget(userData.name.toString(),
-              fontSize: AppFont.font_14,
-            ),
-            TextWidget(userData.email.toString(),
-              color: AppColor.grey,
-              fontSize: AppFont.font_12,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextWidget(userData.name.toString(),
+                fontSize: AppFont.font_14,
+              ),
+              TextWidget(userData.email.toString(),
+                color: AppColor.grey,
+                fontSize: AppFont.font_12,
+              ),
+            ],
+          ),
         )
       ],
     );

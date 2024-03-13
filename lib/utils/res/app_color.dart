@@ -16,6 +16,7 @@ class AppColor {
   static get themeLightColor => Color(theme_LightColor);
 
   static get grey => Colors.grey;
+  static get lightGrey => Colors.black12;
   static get black => Colors.black;
   static get white => Colors.white;
   static get red => Colors.red;

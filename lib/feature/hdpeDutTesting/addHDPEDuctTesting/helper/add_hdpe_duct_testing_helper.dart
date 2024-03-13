@@ -51,7 +51,7 @@ class AddHdpeDuctTestingHelper {
         "ductCleaning" : ductCleaning.toString(),
         "ductIntegrityTest" : ductIntegrityTest.toString(),
         "airPressureTest" : airPressureTest.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",

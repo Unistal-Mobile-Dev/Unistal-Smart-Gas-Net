@@ -45,7 +45,7 @@ class AddPostHydroTestHelper {
         "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
         "totalLength" : length.toString(),
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",

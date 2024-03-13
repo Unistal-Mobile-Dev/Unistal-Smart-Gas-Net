@@ -68,7 +68,7 @@ class AddLptHelper {
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointData.id  != null ? jointData.id.toString(): "",
         "lpt_status" : lptStatusData.id  != null ? lptStatusData.id.toString(): "",
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

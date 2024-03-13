@@ -57,7 +57,7 @@ class AddOfcSplicingHelper {
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
         "pit_number" : jointPit,
-        "weather" : weatherData.name ?? "",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "splicing_machine_no" : srNumberSplicingMachine,
         "make_model" : makeModelMachine,
         "ofc_drum_no_plus_direction" : ofcDrumNoPlusDirection,
