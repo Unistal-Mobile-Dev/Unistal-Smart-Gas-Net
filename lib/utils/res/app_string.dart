@@ -61,6 +61,7 @@ class AppString {
   static get expectedDate => "Expected Date";
   static get selectCustomerComplaint => "Select Customer Complaint";
   static get selectSegment => "Select Segment";
+  static get selectCrossingType => "Select Crossing Type";
   static get defectWelder => "Defect Welder";
   static get defectLayer => "Defect Layer";
   static get defectType => "Defect Type";
@@ -71,10 +72,13 @@ class AppString {
   static get reportNumber => "Report Number";
   static get onWeld => "On Weld";
   static get chainageFrom => "Chainage From";
+  static get sectionLengthMeter  => "Section Length(Meter)";
+  static get casingPipeLengthMeter  => "Casing Pipe Length(Meter)";
   static get pipeLength => "Pipe Length";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
   static get sectionLength => "Section Length";
+  static get casingPipeLength => "casing Pipe Length(Meters)";
   static get hydrotestingLength => "Hydrotesting Length(Meter)";
   static get hdpeLayinglength => "HDPE Laying Length(Meters)";
   static get ndeClearance => "NDE/ UT Clearance";
@@ -133,6 +137,7 @@ class AppString {
   static get holidayDetectorDetails => "Holiday Detector Details";
   static get makeModel => "Make/Model";
   static get primerABatch => "Primer A Batch";
+  static get concreteCoatingLengthMeter => "Concrete Coating Length(Meter)";
   static get primerBBatch => "Primer B Batch";
   static get holidayTestNo => "Holiday Tester No";
   static get ofcDrumNoPlusDirection => "Ofc Drum No.(+ve Direction)";
@@ -168,6 +173,8 @@ class AppString {
   static get selectTerrain => "Select Terrain";
   static get selectCoatingType => "Select Coating Type";
   static get selectPeelTest => "Select Peel Test";
+  static get selectPrePadding => "Select Pre Padding";
+  static get selectPostPadding => "Select Post Padding";
   static get selectPipeDia => "Select Pipe Dia";
   static get selectPipeMaterial => "Select Pipe Material";
   static get selectPipeThickness => "Select Pipe Thickness";
@@ -179,6 +186,8 @@ class AppString {
   static get welding => "Welding";
   static get weldRepair => "Weld Repair";
   static get backFilling => "BackFilling";
+  static get crossing => "Crossing";
+  static get crossingName => "Crossing Name";
   static get hdpeDuctLaying => "HDPE Duct Laying";
   static get hdpeDuctTesting => "HDPE Duct Testing";
   static get lowering => "Lowering";

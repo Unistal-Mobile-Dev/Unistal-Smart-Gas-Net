@@ -67,6 +67,8 @@ class APIs {
   static get getPipeTypeApi => "api/steel/get-pipe-type";
   static get getCoatingTypeApi => "api/steel/get-coating-type";
   static get getPipeMaterialApi => "api/steel/get-pipe-material";
+  static get getCrossingTypeApi => "api/steel/crossing-type";
+  static get addCrossingApi => "api/steel/crossinginsert";
 
 
   static get productTypeApi => "admin/rest/getItemType";

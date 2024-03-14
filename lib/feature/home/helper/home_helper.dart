@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/present
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/presentation/page/add_clearing_grading_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/presentation/page/add_concrete_coating_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/presentation/page/add_crossing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/presentation/page/add_cut_pipe_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/presentation/page/restore_cut_pipe_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
@@ -130,6 +131,9 @@ class HomeHelper {
 
        drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
            label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddCrossingPage(), icon: Icons.format_line_spacing_sharp,
+          label: AppString.crossing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       if(AppConfig.instanceInit()!.client != Client.purvaBharti){
         drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,

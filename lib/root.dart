@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/bloc/add_concrete_coating_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/bloc/add_crossing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/domain/bloc/add_cut_pipe_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/domain/bloc/restore_cut_pipe_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
@@ -140,6 +141,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddWelderRepairBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
         BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
+        BlocProvider(create: (BuildContext context) => AddCrossingBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(
