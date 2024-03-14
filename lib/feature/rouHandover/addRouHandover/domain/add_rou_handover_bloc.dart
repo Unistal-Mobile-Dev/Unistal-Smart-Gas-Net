@@ -73,7 +73,7 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
-    _weatherList = WeatherModel.getWeatherData();
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     _alignmentData =  AlignmentModel();
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);

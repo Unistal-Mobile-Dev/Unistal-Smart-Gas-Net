@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:http/http.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class ServerRequest {
 
@@ -217,9 +218,10 @@ class ServerRequest {
        var request = MultipartRequest("POST", uri);
        if(fileList != null && fileList.isNotEmpty){
          for(var fileData in fileList){
+           String _filePath =  await fileCompress(file:  fileData.file);
            String fileExtention = fileData.file.path.split(".").last;
-           if(fileData.file.path.isNotEmpty){
-             var uploadFile = await MultipartFile.fromPath(fileData.keyName, fileData.file.path,
+           if(_filePath.isNotEmpty){
+             var uploadFile = await MultipartFile.fromPath(fileData.keyName, _filePath,
                  contentType: MediaType("file", fileExtention));
              request.files.add(uploadFile);
            }
@@ -228,7 +230,9 @@ class ServerRequest {
          if(filePath != null && filePath.isNotEmpty && keyWord !=  null){
            String fileExtention = filePath.split(".").last;
            if(filePath.isNotEmpty){
-             var uploadFile = await MultipartFile.fromPath(keyWord, filePath,
+             File file =  File(filePath);
+             String _filePath =  await fileCompress(file:  file);
+             var uploadFile = await MultipartFile.fromPath(keyWord, _filePath,
                  contentType: MediaType("file", fileExtention));
              request.files.add(uploadFile);
            }
@@ -274,5 +278,19 @@ class ServerRequest {
    static addToken() {
      String token =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.token.toString() : "";
      header["Authorization"] = token;
+   }
+
+
+   static Future<String> fileCompress({required File file}) async {
+     final filePath = file.path;
+     final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+     final splitted = filePath.substring(0, (lastIndex));
+     final outPath = '${splitted}_out${filePath.substring(lastIndex)}';
+     var result = await FlutterImageCompress.compressAndGetFile(
+       file.path,
+       outPath,
+       quality: 70,
+     );
+     return result!.path.toString();
    }
 }

@@ -148,8 +148,8 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     _pipeList = [];
     _pipeData = PipeModel();
     _weatherData = WeatherModel();
-    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){

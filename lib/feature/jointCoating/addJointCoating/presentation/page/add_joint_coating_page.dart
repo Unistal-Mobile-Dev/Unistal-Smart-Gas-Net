@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/bloc/add_joint_coating_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
-class AddLoweringPage extends StatefulWidget {
-  const AddLoweringPage({super.key});
+class AddJointCoatingPage extends StatefulWidget {
+  const AddJointCoatingPage({super.key});
 
   @override
-  State<AddLoweringPage> createState() => _AddLoweringPageState();
+  State<AddJointCoatingPage> createState() => _AddJointCoatingPageState();
 }
 
-class _AddLoweringPageState extends State<AddLoweringPage> {
+class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   @override
   void initState() {
-    BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringPageLoadEvent(context: context));
+    BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingPageLoadEvent(context: context));
     super.initState();
   }
 
@@ -27,9 +31,9 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      body: BlocBuilder<AddLoweringBloc, AddLoweringState>(
+      body: BlocBuilder<AddJointCoatingBloc, AddJointCoatingState>(
         builder: (context, state) {
-          if(state is FetchAddLoweringDataState) {
+          if(state is FetchAddJointCoatingDataState) {
             return _itemBuilder(dataState: state);
           } else{
             return const Center(child: CenterLoaderWidget(),);
@@ -40,7 +44,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
 
-  Widget _itemBuilder({required FetchAddLoweringDataState dataState}){
+  Widget _itemBuilder({required FetchAddJointCoatingDataState dataState}){
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -53,50 +57,46 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _pipeMaterialDropDown(dataState: dataState),
+            _verticalSpace(),
             _pipeDiaDropDown(dataState: dataState),
             _verticalSpace(),
             _thicknessDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
-            _fromJointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
-            _toJointNumberDropDown(dataState: dataState),
+            _coatingTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-            ? Column(
-              children: [
-                _locatinController(dataState: dataState),
-                _verticalSpace(),
-                _holidayDetectorDetailsController(dataState: dataState),
-                _verticalSpace(),
-                _modelController(dataState: dataState),
-                _verticalSpace(),
-                _testVoltageController(dataState: dataState),
-                _verticalSpace(),
-                _calibarationDateController(dataState: dataState),
-                _verticalSpace(),
-                _repairCoatingController(dataState: dataState),
-                _verticalSpace(),
-              ],
-            ) : const SizedBox.shrink(),
-
-
-            _lengthController(dataState: dataState),
+            _primaryAbatchController(dataState: dataState),
             _verticalSpace(),
-            _postPaddingController(dataState: dataState),
+            _primaryBbatchController(dataState: dataState),
             _verticalSpace(),
-
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _holidayChecksDropDown(dataState: dataState) : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ?  _verticalSpace(): const SizedBox.shrink(),
-
+            _holidayTestNoController(dataState: dataState),
+            _verticalSpace(),
+            _locatinController(dataState: dataState),
+            _verticalSpace(),
+            _electrometerNoController(dataState: dataState),
+            _verticalSpace(),
+            _batchNoController(dataState: dataState),
+            _verticalSpace(),
+            _peelTestDropDown(dataState: dataState),
+            _verticalSpace(),
+            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _fromJointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
+            _surfaceController(dataState: dataState),
+            _verticalSpace(),
+            _visualChecksDropDown(dataState: dataState),
+            _verticalSpace(),
+            _holidayChecksDropDown(dataState: dataState),
+            _verticalSpace(),
+            _onBodyController(dataState: dataState),
+            _verticalSpace(),
+            _onWeldController(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -109,47 +109,47 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _dateController({required FetchAddLoweringDataState dataState}) {
+  Widget _dateController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectDateEvent(context: context,));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectDateEvent(context: context,));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddLoweringDataState dataState}) {
+  Widget _onWeldController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
+      labelText: AppString.onWeld,
+      controller: dataState.onWeldController,
     );
   }
 
 
-  Widget _alignmentDropdown({required FetchAddLoweringDataState dataState}) {
+  Widget _alignmentDropdown({required FetchAddJointCoatingDataState dataState}) {
     return  DropDownSearchWidget(
       selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectAlignmentEvent(alignmentData: value,));
       },
     );
   }
 
-  Widget _weatherDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _weatherDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
       dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
             SelectWeatherEvent(weatherData: value));
       },
       items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
@@ -161,13 +161,30 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _pipeDiaDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _pipeMaterialDropDown({required FetchAddJointCoatingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPipeMaterial,
+      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectPipeMaterialDataEvent(pipeMaterialData: value));
+      },
+      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
+        return DropdownMenuItem<PipeMaterialModel>(
+          value: pipeMaterialData,
+          child: Text(pipeMaterialData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _pipeDiaDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeDia,
       dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectPipeDiaDataEvent(pipeDiaData: value));
       },
       items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
         return DropdownMenuItem<PipeDiaModel>(
@@ -178,13 +195,13 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _thicknessDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _thicknessDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeThickness,
       dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectThicknessDataEvent(thicknessData: value));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectThicknessDataEvent(thicknessData: value));
       },
       items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
@@ -195,7 +212,41 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _locatinController({required FetchAddLoweringDataState dataState}) {
+  Widget _coatingTypeDropDown({required FetchAddJointCoatingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectCoatingType,
+      dropdownValue: dataState.coatingTypeData.id != null ? dataState.coatingTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectCoatingTypeDataEvent(coatingTypeData: value));
+      },
+      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>((CoatingTypeModel coatingTypeData) {
+        return DropdownMenuItem<CoatingTypeModel>(
+          value: coatingTypeData,
+          child: Text(coatingTypeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _peelTestDropDown({required FetchAddJointCoatingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPeelTest,
+      dropdownValue: dataState.peelTestData.id != null ? dataState.peelTestData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectPeelTestDataEvent(peelTestData: value));
+      },
+      items: dataState.peelTestList.map<DropdownMenuItem<PaddingModel>>((PaddingModel peelTestData) {
+        return DropdownMenuItem<PaddingModel>(
+          value: peelTestData,
+          child: Text(peelTestData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _locatinController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.location,
@@ -203,69 +254,80 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _holidayDetectorDetailsController({required FetchAddLoweringDataState dataState}) {
+  Widget _holidayTestNoController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.holidayDetectorDetails,
-      controller: dataState.holidayDetectorDetailsController,
+      labelText: AppString.holidayTestNo,
+      controller: dataState.holidayTestNoController,
     );
   }
 
-  Widget _modelController({required FetchAddLoweringDataState dataState}) {
+  Widget _primaryAbatchController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.makeModel,
-      controller: dataState.modelController,
+      labelText: AppString.primerABatch,
+      controller: dataState.primaryAbatchController,
     );
   }
 
-  Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
+  Widget _primaryBbatchController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.testVoltage,
-      controller: dataState.testVoltageController,
+      labelText: AppString.primerBBatch,
+      controller: dataState.primaryBbatchController,
     );
   }
 
-  Widget _lengthController({required FetchAddLoweringDataState dataState}) {
+  Widget _surfaceController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.length,
-      controller: dataState.lengthController,
+      labelText: AppString.surface,
+      controller: dataState.surfaceController,
     );
   }
 
-  Widget _calibarationDateController({required FetchAddLoweringDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      enabled: false,
-      labelText: AppString.calibarationDate,
-      controller: dataState.calibarationDateController,
-      onTap: () {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringCalibarationDataEvent(context: context,));
+  Widget _visualChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectVisualChecks,
+      dropdownValue: dataState.visualChecksData.id != null ? dataState.visualChecksData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectVisualChecksDataEvent(visualChecksData: value));
       },
+      items: dataState.visualsChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksData) {
+        return DropdownMenuItem<VisualChecksModel>(
+          value: visualChecksData,
+          child: Text(visualChecksData.value.toString()),
+        );
+      }).toList(),
     );
   }
 
-  Widget _repairCoatingController({required FetchAddLoweringDataState dataState}) {
+  Widget _onBodyController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.repairCoatingDamage,
-      controller: dataState.repairCoatingController,
+      labelText: AppString.onBody,
+      controller: dataState.onBodyController,
     );
   }
 
 
-  Widget _jointTypeDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _electrometerNoController({required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.electrometerNo,
+      controller: dataState.electrometerNoController,
+    );
+  }
+
+
+  Widget _jointTypeDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
       dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectJointTypeDataEvent(jointTypeData: value, context: context));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectJointTypeDataEvent(jointTypeData: value, context: context));
       },
       items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
@@ -276,14 +338,14 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _fromJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
     return dataState.isJointNumberLoader == false ?
     DropdownWidget(
-      hint: AppString.selectFromJointNumber,
+      hint: AppString.selectJointNumber,
       dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectFromJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectFromJointDataEvent(jointNumberData: value));
       },
       items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
@@ -294,14 +356,14 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _toJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
     return dataState.isJointNumberLoader == false ?
     DropdownWidget(
       hint: AppString.selectToJointNumber,
       dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectToJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectToJointDataEvent(jointNumberData: value));
       },
       items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
@@ -312,7 +374,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _chainageFromController({required FetchAddLoweringDataState dataState}) {
+  Widget _chainageFromController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -321,7 +383,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddLoweringDataState dataState}) {
+  Widget _chainageToController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -330,21 +392,21 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _postPaddingController({required FetchAddLoweringDataState dataState}) {
+  Widget _batchNoController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.postPadding,
-      controller: dataState.postPaddingController,
+      labelText: AppString.batchNo,
+      controller: dataState.batchNoController,
     );
   }
 
-  Widget _holidayChecksDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _holidayChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectHolidayDataEvent(holidayChecksData: value));
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectHolidayDataEvent(holidayChecksData: value));
       },
       items: dataState.holidayCheckList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
         return DropdownMenuItem<HolidayChecksModel>(
@@ -356,7 +418,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
 
-  Widget _activityRemark({required FetchAddLoweringDataState dataState}) {
+  Widget _activityRemark({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 3,
@@ -365,7 +427,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _photo({required FetchAddLoweringDataState dataState}) {
+  Widget _photo({required FetchAddJointCoatingDataState dataState}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width/3,
       height:MediaQuery.of(context).size.width/3,
@@ -433,11 +495,11 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
           child: Column(
             children: [
               TextButton(onPressed: () {
-                BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringAddImageEvent(context: context, mediaType: 1));
+                BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingAddImageEvent(context: context, mediaType: 1));
               }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
               const Divider(),
               TextButton(onPressed: () {
-                BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringAddImageEvent(context: context, mediaType: 2));
+                BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingAddImageEvent(context: context, mediaType: 2));
               }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
             ],
           ),
@@ -447,12 +509,12 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
 
-  Widget _button({required FetchAddLoweringDataState dataState}) {
+  Widget _button({required FetchAddJointCoatingDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
         height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
-          BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringSubmitDataEvent(context: context));
+          BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingSubmitDataEvent(context: context));
         }
     ): const DottedLoaderWidget();
   }

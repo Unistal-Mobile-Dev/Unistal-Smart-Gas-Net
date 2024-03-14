@@ -288,7 +288,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _jointTypeData =  JointTypeModel();
     _jointTypeList = [];
     _weatherData = WeatherModel();
-    _weatherList = WeatherModel.getWeatherData();
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     _userData =  UserInfo.instanceInit()!.userData!;
     _isJointNumberLoader =  false;
     leftPipeList = [];

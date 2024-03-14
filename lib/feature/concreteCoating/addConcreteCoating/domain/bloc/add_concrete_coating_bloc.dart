@@ -94,15 +94,15 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
     _weatherData = WeatherModel();
     _thicknessList = [];
     _thicknessData =  ThicknessModel();
-    _weatherList = WeatherModel.getWeatherData();
     _userData =  UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
 
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context);
+    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context, userData: userData);
     if(res != null){
       _thicknessList =  thicknessRes;
     }

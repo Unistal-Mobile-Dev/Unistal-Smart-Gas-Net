@@ -57,13 +57,13 @@ class AddConcreteCoatingHelper {
   }
 
 
-  static Future<dynamic> fetchThicknessData({required BuildContext context}) async {
+  static Future<dynamic> fetchThicknessData({required BuildContext context, required LoginDataModel userData}) async {
 
     try{
-      String url =  APIs.getPipeThicknessApi;
+      String url =  APIs.getPipeThicknessApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['data'] != null) {
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
         return thicknessListResponse(res['data']);
       }
       return null;

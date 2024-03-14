@@ -14,6 +14,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuct
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/bloc/add_hydrotest_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/bloc/add_joint_coating_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
@@ -138,6 +139,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddSwabbingBloc()),
         BlocProvider(create: (BuildContext context) => AddWelderRepairBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
+        BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(

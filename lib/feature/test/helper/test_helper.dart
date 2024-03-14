@@ -110,10 +110,10 @@ class TestHelper {
            widgetData.child =  searchDropdown(testData: widgetData, context: context, testList: testList, index: index);
            widgetList.add(widgetData);
          }
-         else if(testData.type.toString() == "normalDropDown") {
+/*         else if(testData.type.toString() == "normalDropDown") {
            TestModel widgetData =  testData;
            if(widgetData.api.toString() == "weather"){
-             var res =  WeatherModel.getWeatherData();
+             var res =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
              if(res != null){
                List<WeatherModel>  weatherList =  res;
                widgetData.list =  testListModelResponse(weatherList.map((v) => v.toJson()).toList());
@@ -121,7 +121,7 @@ class TestHelper {
            }
            widgetData.child =  normalDropDown(testData: widgetData, index: index, testList: testList, context: context);
            widgetList.add(widgetData);
-         }
+         }*/
          index++ ;
       }
     }catch(e){

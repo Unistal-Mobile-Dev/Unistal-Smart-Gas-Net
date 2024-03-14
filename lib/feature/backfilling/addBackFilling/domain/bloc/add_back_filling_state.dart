@@ -39,6 +39,10 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final List<ThicknessModel> thicknessList;
+  final ThicknessModel thicknessData;
+  final List<PipeDiaModel> pipeDialList;
+  final PipeDiaModel pipeDiaData;
 
   FetchAddBackFillingDataState({
     required this.isLoader,
@@ -65,6 +69,10 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     required this.toJointData,
     required this.warningMatController,
     required this.antiBuoyancyController,
+    required this.thicknessData,
+    required this.thicknessList,
+    required this.pipeDiaData,
+    required this.pipeDialList
   });
 
   @override
@@ -93,5 +101,9 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     slopeBreakerController,
     warningMatController,
     antiBuoyancyController,
+    thicknessData,
+    thicknessList,
+    pipeDiaData,
+    pipeDialList,
   ];
 }

@@ -78,6 +78,19 @@ class SelectWeatherEvent extends AddLoweringEvent{
   List<Object?> get props => [weatherData];
 }
 
+class AddLoweringSelectPipeDiaDataEvent extends AddLoweringEvent {
+  final PipeDiaModel pipeDiaData;
+  const AddLoweringSelectPipeDiaDataEvent({required this.pipeDiaData});
+  @override
+  List<Object?> get props => [pipeDiaData];
+}
+
+class AddLoweringSelectThicknessDataEvent extends AddLoweringEvent {
+  final ThicknessModel thicknessData;
+  const AddLoweringSelectThicknessDataEvent({required this.thicknessData});
+  @override
+  List<Object?> get props => [thicknessData];
+}
 
 class AddLoweringSubmitDataEvent extends AddLoweringEvent {
   final BuildContext context;

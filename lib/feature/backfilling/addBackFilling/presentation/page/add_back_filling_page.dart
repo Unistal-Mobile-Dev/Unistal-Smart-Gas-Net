@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -49,11 +51,11 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
             _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
+            _pipeDiaDropDown(dataState: dataState),
+            _verticalSpace(),
+            _thicknessDropDown(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -61,16 +63,27 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _postPaddingController(dataState: dataState),
+            _chainageFromController(dataState: dataState),
             _verticalSpace(),
-            _slopeBreakerController(dataState: dataState),
+            _chainageToController(dataState: dataState),
             _verticalSpace(),
-            _plasticGratingDropDown(dataState: dataState),
-            _verticalSpace(),
-            _antiBuoyancyController(dataState: dataState),
-            _verticalSpace(),
-            _warningMatController(dataState: dataState),
-            _verticalSpace(),
+
+            AppConfig.instanceInit()!.client !=  Client.purvaBharti
+            ? Column(
+              children: [
+                _postPaddingController(dataState: dataState),
+                _verticalSpace(),
+                _slopeBreakerController(dataState: dataState),
+                _verticalSpace(),
+                _plasticGratingDropDown(dataState: dataState),
+                _verticalSpace(),
+                _antiBuoyancyController(dataState: dataState),
+                _verticalSpace(),
+                _warningMatController(dataState: dataState),
+                _verticalSpace(),
+              ],
+            ) : const SizedBox.shrink(),
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -130,6 +143,40 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _pipeDiaDropDown({required FetchAddBackFillingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPipeDia,
+      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddBackFillingBloc>(context).add(
+            AddBackFillingSelectPipeDiaDataEvent(pipeDiaData: value));
+      },
+      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
+        return DropdownMenuItem<PipeDiaModel>(
+          value: pipeDiaData,
+          child: Text(pipeDiaData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _thicknessDropDown({required FetchAddBackFillingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPipeThickness,
+      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddBackFillingBloc>(context).add(
+            AddBackFillingSelectThicknessDataEvent(thicknessData: value));
+      },
+      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
+        return DropdownMenuItem<ThicknessModel>(
+          value: thicknessData,
+          child: Text(thicknessData.value.toString()),
         );
       }).toList(),
     );

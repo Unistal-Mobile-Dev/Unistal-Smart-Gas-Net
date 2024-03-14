@@ -8,7 +8,11 @@ import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/helper/add_back_filling_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -53,6 +57,11 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+  List<ThicknessModel> thicknessList = [];
+  ThicknessModel thicknessData =  ThicknessModel();
+
+  List<PipeDiaModel> pipeDiaList = [];
+  PipeDiaModel pipeDiaData =  PipeDiaModel();
 
   AddBackFillingBloc() : super(AddBackFillingInitial()) {
     on<AddBackFillingPageLoadEvent>(_pageLoad);
@@ -62,6 +71,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
     on<AddBackFillingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddBackFillingSelectToJointDataEvent>(_selectJointTo);
     on<AddBackFillingSelectJointTypeDataEvent>(_selectJointType);
+    on<AddBackFillingSelectPipeDiaDataEvent>(_selectPipeDia);
+    on<AddBackFillingSelectThicknessDataEvent>(_selectThickness);
     on<AddBackFillingSelectDateEvent>(_selectDate);
     on<AddBackFillingAddImageEvent>(_selectFile);
     on<AddBackFillingSubmitDataEvent>(_submitData);
@@ -92,8 +103,12 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         jointTypeData =  JointTypeModel();
         isJointNumberLoader = false;
         file =  File("");
+        thicknessList = [];
+        thicknessData =  ThicknessModel();
+        pipeDiaData =  PipeDiaModel();
+        pipeDiaList = [];
         weatherData =  WeatherModel();
-        weatherList =  WeatherModel.getWeatherData();
+        weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
         _userData =  UserInfo.instanceInit()!.userData!;
 
         var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -110,6 +125,16 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         if(resPlasticGrating != null){
           plasticGratingList =  resPlasticGrating;
         }
+
+      var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
+      if(thicknessRes != null){
+        thicknessList =  thicknessRes;
+      }
+
+      var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
+      if(pipeDiaRes != null){
+        pipeDiaList =  pipeDiaRes;
+      }
 
      _eventComplete(emit);
   }
@@ -154,6 +179,16 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       jointToList =  jointFromList;
     }
     isJointNumberLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectPipeDia(AddBackFillingSelectPipeDiaDataEvent event, emit) {
+    pipeDiaData =  event.pipeDiaData;
+    _eventComplete(emit);
+  }
+
+  _selectThickness(AddBackFillingSelectThicknessDataEvent event, emit) {
+    thicknessData =  event.thicknessData;
     _eventComplete(emit);
   }
 
@@ -209,7 +244,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         slopeBreaker: slopeBreakerController.text.toString(),
         postPadding: postPaddingController.text.toString(),
         antiBuoyancy: antiBuoyancyController.text.toString(),
-        file: file);
+        file: file, pipeDiaData: pipeDiaData,
+        thicknessData: thicknessData);
      isLoader =  false;
      _eventComplete(emit);
     if(res !=  null){
@@ -231,6 +267,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       isJointNumberLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      thicknessData =  ThicknessModel();
+      pipeDiaData =  PipeDiaModel();
       _eventComplete(emit);
     }
   }
@@ -260,6 +298,10 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         toJointData: toJointData, 
         warningMatController: warningMatController,
         antiBuoyancyController: antiBuoyancyController,
+        pipeDiaData: pipeDiaData,
+        pipeDialList: pipeDiaList,
+        thicknessData: thicknessData,
+        thicknessList: thicknessList,
     ));
   }
 

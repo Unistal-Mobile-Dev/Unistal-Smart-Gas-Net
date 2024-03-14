@@ -69,6 +69,7 @@ class AppString {
   static get routeSurvey => "Route Survey";
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";
+  static get onWeld => "On Weld";
   static get chainageFrom => "Chainage From";
   static get pipeLength => "Pipe Length";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
@@ -88,7 +89,9 @@ class AppString {
   static get levelling => "Levelling";
   static get srNoSplicingMachine => "S.No Splicing Machine";
   static get postPadding => "Post Padding";
+  static get batchNo => "Batch No";
   static get length => "Length";
+  static get surface => "Surface";
   static get drying => "Drying";
   static get landType => "Land Type";
   static get lengthMeter => "Length(Meters)";
@@ -110,6 +113,7 @@ class AppString {
   static get radiography => "Radiography";
   static get ndtMut => "NDT Mut";
   static get ndtAut => "NDT Aut";
+  static get jointCoating => "Joint Coating";
   static get concreteCoating => "Concrete Coating";
   static get lpt => "LPT";
   static get bendAngleDegree => "Bend Angle Degree";
@@ -128,6 +132,9 @@ class AppString {
   static get location => "Location";
   static get holidayDetectorDetails => "Holiday Detector Details";
   static get makeModel => "Make/Model";
+  static get primerABatch => "Primer A Batch";
+  static get primerBBatch => "Primer B Batch";
+  static get holidayTestNo => "Holiday Tester No";
   static get ofcDrumNoPlusDirection => "Ofc Drum No.(+ve Direction)";
   static get ofcDrumNoMinusDirection => "Ofc Drum No.(-ve Direction)";
   static get cableReadingPlusDirection => "Cable Reading (+ve Direction)";
@@ -135,7 +142,9 @@ class AppString {
   static get testVoltage => "Test Voltage";
   static get add => "Add";
   static get calibarationDate => "Calibaration Date";
+  static get onBody => "On Body";
   static get repairCoatingDamage => "Repair Of Coating Damage";
+  static get electrometerNo => "Electrometer No";
   static get activityRemark => "Activity Remark";
   static get selectAlignment => "Select Alignment";
   static get soilResistivity => "Soil Resistivity";
@@ -157,6 +166,11 @@ class AppString {
   static get selectHolidayChecks => "Select Holiday Checks";
   static get selectWeather => "Select Weather";
   static get selectTerrain => "Select Terrain";
+  static get selectCoatingType => "Select Coating Type";
+  static get selectPeelTest => "Select Peel Test";
+  static get selectPipeDia => "Select Pipe Dia";
+  static get selectPipeMaterial => "Select Pipe Material";
+  static get selectPipeThickness => "Select Pipe Thickness";
   static get selectGroundType=> "Select Ground Type";
   static get selectBendingType => "Select Bending Type";
   static get chainage => "Chainage";

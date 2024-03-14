@@ -1,15 +1,15 @@
-List<ThicknessModel> thicknessListResponse(var json) {
-  return List<ThicknessModel>.from(json.map((x) => ThicknessModel.fromJson(x)));
+List<PipeDiaModel> pipeDiaListResponse(var json) {
+  return List<PipeDiaModel>.from(json.map((x) => PipeDiaModel.fromJson(x)));
 }
 
-class ThicknessModel {
+class PipeDiaModel {
   String? id;
   dynamic name;
   String? value;
 
-  ThicknessModel({this.id, this.name, this.value});
+  PipeDiaModel({this.id, this.name, this.value});
 
-  ThicknessModel.fromJson(Map<String, dynamic> json) {
+  PipeDiaModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
     name = json['name'] ?? "";
     value = json['value'] ?? "";

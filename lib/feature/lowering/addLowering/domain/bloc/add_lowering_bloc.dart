@@ -7,11 +7,17 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
@@ -57,6 +63,12 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+  List<ThicknessModel> thicknessList = [];
+  ThicknessModel thicknessData =  ThicknessModel();
+
+  List<PipeDiaModel> pipeDiaList = [];
+  PipeDiaModel pipeDiaData =  PipeDiaModel();
+
   AddLoweringBloc() : super(AddLoweringInitial()) {
     on<AddLoweringPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
@@ -66,6 +78,8 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     on<AddLoweringSelectToJointDataEvent>(_selectJointTo);
     on<AddLoweringSelectJointTypeDataEvent>(_selectJointType);
     on<AddLoweringSelectDateEvent>(_selectDate);
+    on<AddLoweringSelectPipeDiaDataEvent>(_selectPipeDia);
+    on<AddLoweringSelectThicknessDataEvent>(_selectThickness);
     on<AddLoweringCalibarationDataEvent>(_selectCabilabrationData);
     on<AddLoweringAddImageEvent>(_selectFile);
     on<AddLoweringSubmitDataEvent>(_submitData);
@@ -100,9 +114,13 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     jointTypeData =  JointTypeModel();
     isJointNumberLoader = false;
     file =  File("");
+    thicknessList = [];
+    thicknessData =  ThicknessModel();
+    pipeDiaData =  PipeDiaModel();
+    pipeDiaList = [];
     weatherData =  WeatherModel();
-    weatherList =  WeatherModel.getWeatherData();
-    _userData =  UserInfo.instanceInit()!.userData!;
+     _userData =  UserInfo.instanceInit()!.userData!;
+    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -117,6 +135,17 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     if(resHoliday != null){
       holidayCheckList =  resHoliday;
     }
+
+    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
+    if(thicknessRes != null){
+      thicknessList =  thicknessRes;
+    }
+
+    var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
+    if(pipeDiaRes != null){
+      pipeDiaList =  pipeDiaRes;
+    }
+
     _eventComplete(emit);
   }
 
@@ -179,6 +208,16 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     }
   }
 
+  _selectPipeDia(AddLoweringSelectPipeDiaDataEvent event, emit) {
+    pipeDiaData =  event.pipeDiaData;
+    _eventComplete(emit);
+  }
+
+  _selectThickness(AddLoweringSelectThicknessDataEvent event, emit) {
+     thicknessData =  event.thicknessData;
+     _eventComplete(emit);
+  }
+
   _selectCabilabrationData(AddLoweringCalibarationDataEvent event, emit) async {
     DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
     DateTime? pickedDate = await showDatePicker(context: event.context,
@@ -237,6 +276,8 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         repairOfCoatingDamage: repairCoatingController.text.toString(),
         length: lengthController.text.toString(),
         testVoltage: testVoltageController.text.toString(),
+        pipeDiaData: pipeDiaData,
+        thicknessData: thicknessData,
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -263,6 +304,8 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       isJointNumberLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      thicknessData =  ThicknessModel();
+      pipeDiaData =  PipeDiaModel();
       _eventComplete(emit);
     }
   }
@@ -297,6 +340,10 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
          testVoltageController: testVoltageController,
          postPaddingController: postPaddingController,
          lengthController: lengthController,
+         pipeDiaData: pipeDiaData,
+         pipeDialList: pipeDiaList,
+         thicknessData: thicknessData,
+         thicknessList: thicknessList,
      ));
   }
 

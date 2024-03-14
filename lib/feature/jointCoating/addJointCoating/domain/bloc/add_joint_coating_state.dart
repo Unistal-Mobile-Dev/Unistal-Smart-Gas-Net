@@ -1,36 +1,36 @@
-part of 'add_lowering_bloc.dart';
+part of 'add_joint_coating_bloc.dart';
 
-abstract class AddLoweringState extends Equatable {
-  const AddLoweringState();
+abstract class AddJointCoatingState extends Equatable {
+  const AddJointCoatingState();
 }
 
-class AddLoweringInitial extends AddLoweringState {
+class AddJointCoatingInitial extends AddJointCoatingState {
   @override
   List<Object> get props => [];
 }
 
-class AddLoweringPageLoadState extends AddLoweringInitial {
+class AddJointCoatingPageLoadState extends AddJointCoatingInitial {
   @override
   List<Object> get props => [];
 }
 
-class FetchAddLoweringDataState extends AddLoweringInitial {
+class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel  alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
-  final TextEditingController calibarationDateController;
-  final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
-  final TextEditingController modelController;
+  final TextEditingController primaryAbatchController;
+  final TextEditingController primaryBbatchController;
   final TextEditingController locationController;
-  final TextEditingController holidayDetectorDetailsController;
-  final TextEditingController testVoltageController;
-  final TextEditingController repairCoatingController;
-  final TextEditingController postPaddingController;
-  final TextEditingController lengthController;
+  final TextEditingController holidayTestNoController;
+  final TextEditingController electrometerNoController;
+  final TextEditingController batchNoController;
+  final TextEditingController surfaceController;
+  final TextEditingController onBodyController;
+  final TextEditingController onWeldController;
   final HolidayChecksModel holidayChecksData;
   final List<HolidayChecksModel> holidayCheckList;
   final JointNumberModel fromJointData;
@@ -47,17 +47,25 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
   final ThicknessModel thicknessData;
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
+  final List<CoatingTypeModel> coatingTypeList;
+  final CoatingTypeModel coatingTypeData;
+  final List<PaddingModel > peelTestList;
+  final PaddingModel peelTestData;
+  final List<PipeMaterialModel> pipeMaterialList;
+  final PipeMaterialModel pipeMaterialData;
+  final List<VisualChecksModel> visualsChecksList;
+  final VisualChecksModel visualChecksData;
 
 
-  FetchAddLoweringDataState({
+  FetchAddJointCoatingDataState({
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
     required this.activityRemarkController,
-    required this.reportNumberController,
+    required this.onWeldController,
     required this.chainageFromController,
     required this.chainageToController,
-    required this.postPaddingController,
+    required this.batchNoController,
     required this.alignmentData,
     required this.file,
     required this.weatherList,
@@ -68,20 +76,28 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     required this.fromJointData,
     required this.jointFromList,
     required this.jointToList,
-    required this.modelController,
+    required this.primaryAbatchController,
     required this.locationController,
     required this.toJointData,
-    required this.holidayDetectorDetailsController,
+    required this.holidayTestNoController,
     required this.holidayChecksData,
-    required this.calibarationDateController,
+    required this.onBodyController,
     required this.holidayCheckList,
-    required this.repairCoatingController,
-    required this.testVoltageController,
-    required this.lengthController,
+    required this.electrometerNoController,
+    required this.primaryBbatchController,
+    required this.surfaceController,
     required this.thicknessData,
     required this.thicknessList,
     required this.pipeDiaData,
-    required this.pipeDialList
+    required this.pipeDialList,
+    required this.coatingTypeData,
+    required this.coatingTypeList,
+    required this.peelTestData,
+    required this.peelTestList,
+    required this.pipeMaterialData,
+    required this.pipeMaterialList,
+    required this.visualChecksData,
+    required this.visualsChecksList,
   });
 
   @override
@@ -90,10 +106,10 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     alignmentList,
     dateController,
     activityRemarkController,
-    reportNumberController,
+    onWeldController,
     chainageFromController,
     chainageToController,
-    postPaddingController,
+    batchNoController,
     alignmentData,
     file,
     weatherList,
@@ -104,19 +120,27 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     fromJointData,
     jointFromList,
     jointToList,
-    modelController,
+    primaryAbatchController,
     locationController,
     toJointData,
-    holidayDetectorDetailsController,
+    holidayTestNoController,
     holidayChecksData,
-    calibarationDateController,
+    onBodyController,
     holidayCheckList,
-    repairCoatingController,
-    testVoltageController,
-    lengthController,
+    electrometerNoController,
+    primaryBbatchController,
+    surfaceController,
     thicknessData,
     thicknessList,
     pipeDiaData,
     pipeDialList,
+    coatingTypeData,
+    coatingTypeList,
+    peelTestData,
+    peelTestList,
+    pipeMaterialList,
+    pipeMaterialData,
+    visualChecksData,
+    visualsChecksList,
   ];
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -69,7 +71,10 @@ class AddBackFillingHelper {
     required String slopeBreaker,
     required String postPadding,
     required String antiBuoyancy,
-    required File file}) async {
+    required File file,
+    required PipeDiaModel pipeDiaData,
+    required ThicknessModel thicknessData,
+  }) async {
 
     try{
 
@@ -104,6 +109,8 @@ class AddBackFillingHelper {
         "warning_mat" : warningMat,
         "anti_buoyancy" : antiBuoyancy,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "pipe_dia_id" : pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
+        "pipe_thickness_id" : thicknessData.id != null ? thicknessData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

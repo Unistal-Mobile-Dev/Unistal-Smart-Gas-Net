@@ -97,7 +97,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
      selectedDefectLayerList = [];
      defectTypeList = [];
      selectedDefectTypeList = [];
-     weatherList =  WeatherModel.getWeatherData();
+     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
      _userData =  UserInfo.instanceInit()!.userData!;
 
      var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -257,7 +257,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       autStatusData =  AutStatusModel();
       selectedDefectLayerList = [];
       selectedDefectTypeList = [];
-      weatherList =  WeatherModel.getWeatherData();
+      weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
       _userData =  UserInfo.instanceInit()!.userData!;
     }
 

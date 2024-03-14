@@ -46,7 +46,7 @@ class APIs {
   static get addCutePipeApi => "api/steel/cut-pipe";
   static get getCutePipeApi => "api/steel/cut-pipes";
   static get updateCutePipeApi => "api/steel/cut-pipe/restore/";
-  static get getPipeThicknessApi => "api/steel/pipe-thickness";
+  static get getPipeThicknessApi => "api/steel/get-pipe-thickness";
   static get addConcreteCoatingApi => "api/steel/concrete-coating";
   static get addPostHydroTestApi => "api/steel/post-hydrotest";
   static get addPreHydroTestApi => "api/steel/pre-hydrotest";
@@ -62,6 +62,11 @@ class APIs {
   static get getWeatherApi => "api/steel/weather";
   static get getTerrianApi => "api/steel/terrian";
   static get getGroundTypeApi => "api/steel/groundtype";
+  static get getPipeDiaApi => "api/steel/get-pipe-dia";
+  static get addJointCoatingApi => "api/steel/jointcoatinginsert";
+  static get getPipeTypeApi => "api/steel/get-pipe-type";
+  static get getCoatingTypeApi => "api/steel/get-coating-type";
+  static get getPipeMaterialApi => "api/steel/get-pipe-material";
 
 
   static get productTypeApi => "admin/rest/getItemType";

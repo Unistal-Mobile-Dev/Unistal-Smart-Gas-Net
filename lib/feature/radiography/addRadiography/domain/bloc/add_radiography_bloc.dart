@@ -79,8 +79,8 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     jointNumberList = [];
     jointNumberData =  JointNumberModel();
     weatherData =  WeatherModel();
-    weatherList =  WeatherModel.getWeatherData();
-    _userData =  UserInfo.instanceInit()!.userData!;
+     _userData =  UserInfo.instanceInit()!.userData!;
+    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){

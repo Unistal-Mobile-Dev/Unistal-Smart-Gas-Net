@@ -33,6 +33,20 @@ class AddBackFillingSelectPaddingDataEvent extends AddBackFillingEvent {
   List<Object?> get props => [paddingData];
 }
 
+class AddBackFillingSelectPipeDiaDataEvent extends AddBackFillingEvent {
+  final PipeDiaModel pipeDiaData;
+  const AddBackFillingSelectPipeDiaDataEvent({required this.pipeDiaData});
+  @override
+  List<Object?> get props => [pipeDiaData];
+}
+
+class AddBackFillingSelectThicknessDataEvent extends AddBackFillingEvent {
+  final ThicknessModel thicknessData;
+  const AddBackFillingSelectThicknessDataEvent({required this.thicknessData});
+  @override
+  List<Object?> get props => [thicknessData];
+}
+
 class AddBackFillingSelectPlasticGratingEvent extends AddBackFillingEvent {
   final VisualChecksModel plasticGratingData;
   const AddBackFillingSelectPlasticGratingEvent({required this.plasticGratingData});

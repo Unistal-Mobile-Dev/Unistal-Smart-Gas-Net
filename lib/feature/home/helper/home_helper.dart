@@ -16,6 +16,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuct
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/presentation/page/add_hydrotest_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/presentation/page/add_joint_coating_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
@@ -106,6 +107,9 @@ class HomeHelper {
 
       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddJointCoatingPage(), icon: Icons.join_inner_outlined,
+          label: AppString.jointCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       if(AppConfig.instanceInit()!.client != Client.purvaBharti){
         drawerList.add(DrawerModel(widget: const AddConcreteCoatingPage(), icon: Icons.business,

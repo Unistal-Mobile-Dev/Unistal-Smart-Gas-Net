@@ -95,7 +95,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _alignmentList =  [];
     file = File("");
     _weatherData = WeatherModel();
-    _weatherList = WeatherModel.getWeatherData();
+    _userData =  UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     _alignmentData =  AlignmentModel();
     _jointNumberData =  JointNumberModel();
     _jointNumberList = [];
@@ -108,7 +109,6 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     isJointNumberLoader = false;
     chainageFromController.text = "";
     chainageToController.text = "";
-    _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;

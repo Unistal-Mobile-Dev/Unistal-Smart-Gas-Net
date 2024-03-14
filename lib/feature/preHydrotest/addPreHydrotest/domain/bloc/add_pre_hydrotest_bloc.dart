@@ -84,8 +84,8 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
-    weatherList =  WeatherModel.getWeatherData();
-    _userData =  UserInfo.instanceInit()!.userData!;
+     _userData =  UserInfo.instanceInit()!.userData!;
+    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
@@ -97,7 +97,7 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       jointTypeList =  resJointType;
     }
 
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context);
+    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
     if(thicknessRes != null){
       _thicknessList =  thicknessRes;
     }

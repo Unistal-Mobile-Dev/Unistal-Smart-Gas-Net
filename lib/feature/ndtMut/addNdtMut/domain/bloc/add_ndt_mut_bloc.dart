@@ -78,8 +78,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     weatherData =  WeatherModel();
     jointNumberList = [];
     jointNumberData =  JointNumberModel();
-    weatherList =  WeatherModel.getWeatherData();
-    _userData =  UserInfo.instanceInit()!.userData!;
+    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){

@@ -82,7 +82,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     _weatherData = WeatherModel();
     groundTypeList = [];
     groundTypeData =  GroundTypeModel();
-    _weatherList = WeatherModel.getWeatherData();
+    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     _userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
