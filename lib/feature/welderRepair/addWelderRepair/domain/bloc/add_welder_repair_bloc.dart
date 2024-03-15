@@ -116,7 +116,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       jointTypeList =  resJointType;
     }
 
-    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData);
+    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData, welderList: welderList);
     if(resSegment != null){
       segmentStatusList =  resSegment;
     }

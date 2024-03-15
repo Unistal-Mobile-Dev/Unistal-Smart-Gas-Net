@@ -110,7 +110,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.chainageFrom,
+      labelText: AppString.chainage,
       controller: dataState.chainageFromController,
     );
   }

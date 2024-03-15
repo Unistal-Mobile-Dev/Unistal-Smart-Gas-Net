@@ -26,6 +26,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   TextEditingController dateController =  TextEditingController();
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
+  TextEditingController observationResultsController =  TextEditingController();
 
   List<JointNumberModel> jointList = [];
   List<JointTypeModel> jointTypeList = [];
@@ -63,6 +64,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     dateController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
+    observationResultsController.text = "";
     jointList = [];
     jointTypeList = [];
     weatherList = [];
@@ -177,6 +179,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         jointTypeData: jointTypeData,
         jointData: jointData,
         lptStatusData: lptStatusData,
+        observationResults: observationResultsController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -184,6 +187,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
+      observationResultsController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       jointData =  JointNumberModel();
@@ -202,6 +206,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         dateController: dateController,
         activityRemarkController: activityRemarkController,
         reportNumberController: reportNumberController,
+        observationResultsController: observationResultsController,
         alignmentData: alignmentData,
         file: file,
         weatherList: weatherList,

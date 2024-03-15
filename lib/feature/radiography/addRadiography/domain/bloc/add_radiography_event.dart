@@ -40,6 +40,7 @@ class AddRadiographySelectJointNumberDataEvent extends AddRadiographyEvent {
   List<Object?> get props => [jointNumberData,];
 }
 
+
 class AddRadiographySelectSegmentDataEvent extends AddRadiographyEvent {
   final int index;
   final int segmentIndex;
@@ -62,6 +63,62 @@ class AddRadiographyAddImageEvent extends AddRadiographyEvent {
   @override
   List<Object?> get props => [context,mediaType];
 }
+
+class AddRadiographySelectRootWelderEvent extends AddRadiographyEvent {
+  final int index;
+  final int welderIndex;
+  final WelderModel welderData;
+  const AddRadiographySelectRootWelderEvent({required this.index, required this.welderData, required this.welderIndex});
+  @override
+  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData, welderIndex];
+}
+class AddRadiographySelectHotPassWelderEvent extends AddRadiographyEvent {
+  final int index;
+  final WelderModel welderData;
+  const AddRadiographySelectHotPassWelderEvent({required this.index, required this.welderData});
+  @override
+  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+}
+class AddRadiographySelectFillerWelderEvent extends AddRadiographyEvent {
+  final int index;
+  final WelderModel welderData;
+  const AddRadiographySelectFillerWelderEvent({required this.index, required this.welderData});
+  @override
+  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+}
+
+class AddRadiographySelectNdtAgencyDataEvent extends AddRadiographyEvent {
+  final NdtStatusModel ndtAgencyData;
+  const AddRadiographySelectNdtAgencyDataEvent({required this.ndtAgencyData});
+  @override
+  List<Object?> get props => [ndtAgencyData];
+}
+
+class AddRadiographySelectDspplDataEvent extends AddRadiographyEvent {
+  final NdtStatusModel dspplData;
+  const AddRadiographySelectDspplDataEvent({required this.dspplData});
+  @override
+  List<Object?> get props => [dspplData];
+}
+
+
+class AddRadiographySelectMeconPbgplDataEvent extends AddRadiographyEvent {
+  final NdtStatusModel meconPbgplData;
+  const AddRadiographySelectMeconPbgplDataEvent({required this.meconPbgplData});
+  @override
+  List<Object?> get props => [meconPbgplData];
+}
+
+class AddRadiographySelectCappingWelderEvent extends AddRadiographyEvent {
+  final int index;
+  final WelderModel welderData;
+  const AddRadiographySelectCappingWelderEvent({required this.index, required this.welderData});
+  @override
+  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+}
+
+
+
 
 class SelectWeatherEvent extends AddRadiographyEvent{
   final WeatherModel weatherData;

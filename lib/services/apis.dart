@@ -69,6 +69,7 @@ class APIs {
   static get getPipeMaterialApi => "api/steel/get-pipe-material";
   static get getCrossingTypeApi => "api/steel/crossing-type";
   static get addCrossingApi => "api/steel/crossinginsert";
+  static get getNdtStatusApi => "api/steel/ndtstatus";
 
 
   static get productTypeApi => "admin/rest/getItemType";

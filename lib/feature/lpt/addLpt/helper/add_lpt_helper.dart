@@ -43,6 +43,7 @@ class AddLptHelper {
     required JointNumberModel jointData,
     required JointTypeModel jointTypeData,
     required LptStatusModel lptStatusData,
+    required String observationResults,
     required File file}) async {
 
     try{
@@ -61,6 +62,7 @@ class AddLptHelper {
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
+        "Observation": observationResults,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -12,6 +13,26 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddNdtMutHelper {
+
+  static Future<dynamic> fetchNdtStatusData({required BuildContext context}) async {
+
+    try{
+      String url =  APIs.getNdtStatusApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
+        List<NdtStatusModel> ndtStatusList = [];
+        Map myMap = res['data'];
+        myMap.forEach((key, value) {
+          ndtStatusList.add(NdtStatusModel(id: key, value: value));
+        });
+        return ndtStatusList;
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
 
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
@@ -25,6 +46,11 @@ class AddNdtMutHelper {
     required List<dynamic> segmentData,
     required List<dynamic> segmentStatusData,
     required List<dynamic> segmentObservationData,
+    required List<dynamic> segmentRemarkData,
+    required NdtStatusModel ndtAgencyData,
+    required NdtStatusModel dSPPLAgencyData,
+    required NdtStatusModel meconPbgplData,
+    required String locationDefect,
 
     required File file}) async {
 
@@ -54,6 +80,11 @@ class AddNdtMutHelper {
         "segment_ids": segmentData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_status" : segmentStatusData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_observation" : segmentObservationData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
+        "segment_remark" : segmentRemarkData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
+        "ndt_agency_status" : ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
+        "contractor_agency_status" : dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
+        "pmc_agency_status" : meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
+        "defects": locationDefect,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
@@ -91,24 +122,8 @@ class AddNdtMutHelper {
       String json =  Uri(queryParameters: param).query;
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
       if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data']['segment'] != null && res['data']['status'] != null) {
-
-
-        int id = 1;
-        Map myMap = res['data']['status'];
-        List<SegmentModel> segmentList  = [];
-        List<SegmentModel> _segmentList  = [];
-        segmentList =  segmentListResponse(res['data']['segment']);
-        for(var segmentData in segmentList){
-          List<SegmentStatusModel> segmentStatusList = [];
-          myMap.forEach((key, value) {
-            segmentStatusList.add(SegmentStatusModel(id: key, status: value, selectedValue: "", groupType: id));
-            id++;
-          });
-          segmentData.segmentStatusList = segmentStatusList;
-          _segmentList.add(segmentData);
-        }
-
+          && res['success'] == 200 && res['data']['segment'] != null) {
+        List<SegmentModel> _segmentList  = segmentListResponse(res['segment'], []);
         return _segmentList;
       }
       return null;

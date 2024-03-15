@@ -103,8 +103,10 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
           label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddNdtAutPage(), icon: Icons.auto_awesome_mosaic_outlined,
-          label: AppString.ndtAut, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+        drawerList.add(DrawerModel(widget: const AddNdtAutPage(), icon: Icons.auto_awesome_mosaic_outlined,
+            label: AppString.ndtAut, sublist: [],  isSelected: false, actionButtonWidget: null));
+      }
 
       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));

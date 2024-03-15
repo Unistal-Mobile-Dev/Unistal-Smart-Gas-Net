@@ -21,6 +21,7 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
+  final TextEditingController locationDiscoverDefectController;
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
   final File file;
@@ -30,6 +31,12 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final SegmentModel segmentData;
   final List<JointNumberModel> jointNumberList;
   final JointNumberModel jointNumberData;
+  final List<NdtStatusModel> ndtAgencyList;
+  final List<NdtStatusModel> meconPbgplList;
+  final List<NdtStatusModel> dSPPLAgencyList;
+  final NdtStatusModel ndtAgencyData;
+  final NdtStatusModel meconPbgplData;
+  final NdtStatusModel dSPPLAgencyData;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -47,6 +54,13 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.segmentData,
     required this.jointNumberList,
     required this.jointNumberData,
+    required this.dSPPLAgencyData,
+    required this.dSPPLAgencyList,
+    required this.locationDiscoverDefectController,
+    required this.meconPbgplData,
+    required this.meconPbgplList,
+    required this.ndtAgencyData,
+    required this.ndtAgencyList
   });
 
   @override
@@ -66,5 +80,12 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     segmentData,
     jointNumberList,
     jointNumberData,
+    dSPPLAgencyData,
+    dSPPLAgencyList,
+    locationDiscoverDefectController,
+    meconPbgplData,
+    meconPbgplList,
+    ndtAgencyData,
+    ndtAgencyList,
   ];
 }

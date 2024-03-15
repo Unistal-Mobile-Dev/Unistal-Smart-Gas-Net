@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +28,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   TextEditingController dateController =  TextEditingController();
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
+  TextEditingController locationDiscoverDefectController =  TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -48,11 +52,29 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   List<JointNumberModel> jointNumberList = [];
   JointNumberModel jointNumberData =  JointNumberModel();
 
+  List<WelderModel> welderList =[];
+
+  List<NdtStatusModel> ndtAgencyList = [];
+  List<NdtStatusModel> meconPbgplList = [];
+  List<NdtStatusModel> dSPPLAgencyList = [];
+  NdtStatusModel ndtAgencyData  =  NdtStatusModel();
+  NdtStatusModel meconPbgplData   =  NdtStatusModel();
+  NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
+
   AddRadiographyBloc() : super(AddRadiographyInitial()) {
 
     on<AddRadiographyPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRadiographySelectAlignmentEvent>(_selectAlignment);
+
+    on<AddRadiographySelectRootWelderEvent>(_selectRootWelder);
+    on<AddRadiographySelectHotPassWelderEvent>(_selectHotPassWelder);
+    on<AddRadiographySelectFillerWelderEvent>(_selectFillerWelder);
+    on<AddRadiographySelectCappingWelderEvent>(_selectCappingWelder);
+    on<AddRadiographySelectNdtAgencyDataEvent>(_selectNdtAgency);
+    on<AddRadiographySelectDspplDataEvent>(_selectDsppl);
+    on<AddRadiographySelectMeconPbgplDataEvent>(_selectMeconPbgpl);
+
     on<AddRadiographySelectJointTypeDataEvent>(_selectJointType);
     on<AddRadiographySelectJointNumberDataEvent>(_selectJointNumber);
     on<AddRadiographySelectSegmentDataEvent>(_selectSegment);
@@ -79,6 +101,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     jointNumberList = [];
     jointNumberData =  JointNumberModel();
     weatherData =  WeatherModel();
+    ndtAgencyList = [];
+    meconPbgplList = [];
+    dSPPLAgencyList = [];
+    ndtAgencyData  =  NdtStatusModel();
+    meconPbgplData   =  NdtStatusModel();
+    dSPPLAgencyData   =  NdtStatusModel();
+    locationDiscoverDefectController.text = "";
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
@@ -92,7 +121,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       jointTypeList =  resJointType;
     }
 
-    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData);
+    var resWelder =  await AddWeldingHelper.fetchWelderData(context: event.context, userData: userData, wpsData: WPSModel());
+    if(resWelder != null){
+      welderList =  resWelder;
+    }
+
+    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context,
+         userData: userData, welderList: welderList);
     if(resSegment != null){
       segmentList =  resSegment;
     }
@@ -112,6 +147,37 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     _eventComplete(emit);
   }
 
+  _selectRootWelder(AddRadiographySelectRootWelderEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    segmentList[event.index].segmentWelderList![event.welderIndex].welderData =  event.welderData;
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectHotPassWelder(AddRadiographySelectHotPassWelderEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    segmentList[event.index].hootPassWelderData =  event.welderData;
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectFillerWelder(AddRadiographySelectFillerWelderEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    segmentList[event.index].fillerWelderData =  event.welderData;
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectCappingWelder(AddRadiographySelectCappingWelderEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    segmentList[event.index].cappingWelderData =  event.welderData;
+    isLoader =  false;
+    _eventComplete(emit);
+  }
 
   _selectJointType(AddRadiographySelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
@@ -130,6 +196,21 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
 
   _selectJointNumber(AddRadiographySelectJointNumberDataEvent event, emit) {
     jointNumberData =  event.jointNumberData;
+    _eventComplete(emit);
+  }
+
+  _selectNdtAgency(AddRadiographySelectNdtAgencyDataEvent event, emit) {
+    ndtAgencyData =  event.ndtAgencyData;
+    _eventComplete(emit);
+  }
+
+  _selectDsppl(AddRadiographySelectDspplDataEvent event, emit) {
+    dSPPLAgencyData =  event.dspplData;
+    _eventComplete(emit);
+  }
+
+  _selectMeconPbgpl(AddRadiographySelectMeconPbgplDataEvent event, emit) {
+    meconPbgplData =  event.meconPbgplData;
     _eventComplete(emit);
   }
 
@@ -220,6 +301,10 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         segmentObservationData: segmentObservationDataList,
         segmentStatusData: segmentStatusDataList,
         jointNumberData: jointNumberData,
+        ndtAgencyData: ndtAgencyData,
+        dSPPLAgencyData: dSPPLAgencyData,
+        meconPbgplData: meconPbgplData,
+        locationDefect: locationDiscoverDefectController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -234,6 +319,10 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       file =  File("");
       weatherData =  WeatherModel();
       selectedSegmentList = segmentList;
+      ndtAgencyData  =  NdtStatusModel();
+      meconPbgplData   =  NdtStatusModel();
+      dSPPLAgencyData   =  NdtStatusModel();
+      locationDiscoverDefectController.text = "";
       _eventComplete(emit);
     }
   }
@@ -254,6 +343,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       segmentList: segmentList,
       jointNumberList: jointNumberList,
       jointNumberData: jointNumberData,
+      ndtAgencyData: ndtAgencyData,
+      ndtAgencyList: ndtAgencyList,
+      dSPPLAgencyData: dSPPLAgencyData,
+      dSPPLAgencyList: dSPPLAgencyList,
+      locationDiscoverDefectController: locationDiscoverDefectController,
+      meconPbgplData: meconPbgplData,
+      meconPbgplList: meconPbgplList
     ));
   }
 }

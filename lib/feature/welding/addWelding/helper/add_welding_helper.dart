@@ -339,7 +339,7 @@ class AddWeldingHelper {
         "schema" : userData.schema,
         "spread_id" : userData.spreadId,
         "section_id" : userData.sectionId,
-        "wps_id" :   wpsData.id.toString(),
+        "wps_id" :   wpsData.id != null ? wpsData.id.toString() : "",
       };
       String json =  Uri(queryParameters: param).query;
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");

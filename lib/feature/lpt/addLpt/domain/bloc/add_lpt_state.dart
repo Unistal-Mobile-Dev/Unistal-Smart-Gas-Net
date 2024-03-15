@@ -31,6 +31,7 @@ class FetchAddLptDataState extends AddLptInitial {
   final WeatherModel weatherData;
   final List<LptStatusModel> lptStatusList;
   final LptStatusModel lptStatusData;
+  final TextEditingController observationResultsController;
 
   FetchAddLptDataState({
     required this.isLoader,
@@ -38,6 +39,7 @@ class FetchAddLptDataState extends AddLptInitial {
     required this.dateController,
     required this.activityRemarkController,
     required this.reportNumberController,
+    required this.observationResultsController,
     required this.alignmentData,
     required this.file,
     required this.weatherList,
@@ -58,6 +60,7 @@ class FetchAddLptDataState extends AddLptInitial {
     dateController,
     activityRemarkController,
     reportNumberController,
+    observationResultsController,
     alignmentData,
     file,
     weatherList,

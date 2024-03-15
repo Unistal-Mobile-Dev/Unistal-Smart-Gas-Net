@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_welder_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 
-List<SegmentModel> segmentListResponse(var json) {
-  return List<SegmentModel>.from(json.map((x) => SegmentModel.fromJson(x)));
+List<SegmentModel> segmentListResponse(var json, List<WelderModel> welderList) {
+  return List<SegmentModel>.from(json.map((x) => SegmentModel.fromJson(x, welderList)));
 }
 
 class SegmentModel {
@@ -10,85 +12,70 @@ class SegmentModel {
   dynamic id;
   String? name;
   String? observation;
+  String? remark;
   List<SegmentStatusModel>? segmentStatusList;
   TextEditingController? observationController;
+  TextEditingController? remarkController;
+  List<SegmentWelderModel>? segmentWelderList;
 
-  SegmentModel({this.id, this.name, this.segmentStatusList, this.observation, this.observationController});
+  String? rootType;
+  List<WelderModel>? rootWelderList;
+  WelderModel? rootWelderData;
+  String? hootPassType;
+  List<WelderModel>? hootPassWelderList;
+  WelderModel? hootPassWelderData;
+  String? fillerType;
+  List<WelderModel>? fillerWelderList;
+  WelderModel? fillerWelderData;
+  String? cappingType;
+  List<WelderModel>? cappingWelderList;
+  WelderModel? cappingWelderData;
 
-  factory SegmentModel.fromJson(Map<String, dynamic> json,) {
+  SegmentModel({
+    this.id,
+    this.name,
+    this.segmentStatusList,
+    this.observation,
+    this.remark,
+    this.observationController,
+    this.remarkController,
+    this.cappingType,
+    this.cappingWelderData,
+    this.cappingWelderList,
+    this.fillerType,
+    this.fillerWelderData,
+    this.fillerWelderList,
+    this.hootPassType,
+    this.hootPassWelderData,
+    this.hootPassWelderList,
+    this.rootType,
+    this.rootWelderData,
+    this.rootWelderList,
+    this.segmentWelderList,
+  });
+
+  factory SegmentModel.fromJson(Map<String, dynamic> json, List<WelderModel> welderList) {
+    int id = 1;
     return SegmentModel(
       id :  json['id'] ?? "",
       name :  json['name'] ?? "",
       observationController: TextEditingController(),
+      remarkController: TextEditingController(),
       observation: "Observation",
-      segmentStatusList: [],
+      remark: "Remark",
+      segmentStatusList: json['status'] != null ? getSegmentStatusData(json['status'], id) : [],
+      segmentWelderList:  json['weld'] !=  null ? segmentWelderListResponse(json['weld'], welderList) : []
     );
   }
 
-  getSegment() {
-    List<SegmentModel> segmentList = [];
-    List<SegmentStatusModel> segmentStatusList1 = [];
-    segmentStatusList1.add(SegmentStatusModel(
-        id: "1",
-        status: "R/S",
-        selectedValue: ""
-    ));
-    segmentStatusList1.add(SegmentStatusModel(
-        id: "2",
-        status: "Accept",
-        selectedValue: ""
-    ));
-
-     segmentList.add(SegmentModel(
-       id: "1",
-       name: "Segment 1",
-       observation: "Observation 1",
-       observationController: TextEditingController(),
-       segmentStatusList: segmentStatusList1
-     ));
-
-
-    List<SegmentStatusModel> segmentStatusList2 = [];
-    segmentStatusList2.add(SegmentStatusModel(
-        id: "3",
-        status: "Retake",
-        selectedValue: ""
-    ));
-    segmentStatusList2.add(SegmentStatusModel(
-        id: "4",
-        status: "RNA",
-        selectedValue: ""
-    ));
-
-    segmentList.add(SegmentModel(
-        id: "2",
-        name: "Segment 2",
-        observation: "Observation 2",
-        observationController: TextEditingController(),
-        segmentStatusList: segmentStatusList2
-    ));
-
-
-    List<SegmentStatusModel> segmentStatusList3 = [];
-    segmentStatusList3.add(SegmentStatusModel(
-        id: "5",
-        status: "CRS",
-        selectedValue: ""
-    ));
-    segmentStatusList3.add(SegmentStatusModel(
-        id: "6",
-        status: "RECAP",
-        selectedValue: ""
-    ));
-
-    segmentList.add(SegmentModel(
-        id: "3",
-        name: "Segment 3",
-        observation: "Observation 3",
-        observationController: TextEditingController(),
-        segmentStatusList: segmentStatusList3
-    ));
-
-    return segmentList;
+  static dynamic getSegmentStatusData(Map segmentStatusData, int id) {
+    List<SegmentStatusModel> segmentStatusList = [];
+         Map myMap = segmentStatusData;
+            myMap.forEach((key, value) {
+              segmentStatusList.add(SegmentStatusModel(id: key, status: value, selectedValue: "", groupType: id));
+              id++;
+            });
+     return segmentStatusList;
   }
+
 }

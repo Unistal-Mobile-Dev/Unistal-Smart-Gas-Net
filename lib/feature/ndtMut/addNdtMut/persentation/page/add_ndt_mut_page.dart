@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -57,6 +58,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _segmentListBuilder(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _locationDiscoverDefectController(dataState: dataState),
+            _verticalSpace(),
+            _ndtAgencyDropDown(dataState: dataState),
+            _verticalSpace(),
+            _dSPPLDropDown(dataState: dataState),
+            _verticalSpace(),
+            _mECONPBGPLDropDown(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
             _verticalSpace(),
@@ -169,6 +178,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           labelText: "${segmentData.observation}",
           controller: segmentData.observationController,
         ),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.03,
+        ),
+        TextFieldWidget(
+          isRequired: false,
+          labelText: "${segmentData.remark}",
+          controller: segmentData.remarkController,
+        ),
         _verticalSpace(),
         const Divider(),
       ],
@@ -203,6 +220,65 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
+    );
+  }
+
+  Widget _locationDiscoverDefectController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: false,
+      labelText: AppString.locationOfDiscoveredDefect,
+      controller: dataState.locationDiscoverDefectController,
+    );
+  }
+
+  Widget _ndtAgencyDropDown({required FetchAddNdtMutDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectNdtAgency,
+      dropdownValue: dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddNdtMutBloc>(context).add(
+            AddNdtMutSelectNdtAgencyDataEvent(ndtAgencyData: value));
+      },
+      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _dSPPLDropDown({required FetchAddNdtMutDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectDSPPL,
+      dropdownValue: dataState.dSPPLAgencyData.id != null ? dataState.dSPPLAgencyData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddNdtMutBloc>(context).add(
+            AddNdtMutSelectDspplDataEvent(dspplData: value));
+      },
+      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _mECONPBGPLDropDown({required FetchAddNdtMutDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectMECONPBGPL,
+      dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddNdtMutBloc>(context).add(
+            AddNdtMutSelectMeconPbgplDataEvent(meconPbgplData: value));
+      },
+      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
     );
   }
 

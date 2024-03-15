@@ -252,7 +252,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
-      hint: AppString.rootWelders1,
+      hint: AppString.rootWelders,
       dropdownValue: dataState.rootWelders1Data.id != null ? dataState.rootWelders1Data : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
@@ -286,7 +286,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _hotWelders1Controller({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
-      hint: AppString.hotWelders1,
+      hint: AppString.hotWelders,
       dropdownValue: dataState.hotWelders1Data.id != null ? dataState.hotWelders1Data : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
@@ -320,7 +320,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _filler1Welders1Controller({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
-      hint: AppString.filler1Welders1,
+      hint: AppString.fillerWelders,
       dropdownValue: dataState.filler1Welders1Data.id != null ? dataState.filler1Welders1Data : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
@@ -627,7 +627,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _cappingWelder1Controller({required FetchAddWeldingDataState dataState}) {
     return  DropdownWidget(
-      hint: AppString.cappingWelder1,
+      hint: AppString.cappingWelder,
       dropdownValue: dataState.cappingWelder1Data.id != null ? dataState.cappingWelder1Data : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
@@ -680,7 +680,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE8010p1,
+      labelText: AppString.electrodeDiaE7010P1,
       controller: dataState.electrodeEiaE8010p1Controller,
     );
   }
@@ -688,7 +688,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.electrodeDiaE8010p1Batch,
+      labelText: AppString.electrodeDiaE7010P1Batch,
       controller: dataState.electrodeEiaE8010p1BatchController,
     );
   }

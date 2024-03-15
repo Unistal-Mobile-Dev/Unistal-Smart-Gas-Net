@@ -21,6 +21,7 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
+  final TextEditingController locationDiscoverDefectController;
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
   final File file;
@@ -30,6 +31,12 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final SegmentModel segmentData;
   final List<JointNumberModel> jointNumberList;
   final JointNumberModel jointNumberData;
+  final List<NdtStatusModel> ndtAgencyList;
+  final List<NdtStatusModel> meconPbgplList;
+  final List<NdtStatusModel> dSPPLAgencyList;
+  final NdtStatusModel ndtAgencyData;
+  final NdtStatusModel meconPbgplData;
+  final NdtStatusModel dSPPLAgencyData;
 
   FetchAddNdtMutDataState({
     required this.isLoader,
@@ -47,6 +54,13 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     required this.segmentData,
     required this.jointNumberList,
     required this.jointNumberData,
+    required this.dSPPLAgencyData,
+    required this.dSPPLAgencyList,
+    required this.locationDiscoverDefectController,
+    required this.meconPbgplData,
+    required this.meconPbgplList,
+    required this.ndtAgencyData,
+    required this.ndtAgencyList
   });
 
   @override
@@ -66,5 +80,12 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     segmentData,
     jointNumberList,
     jointNumberData,
+    dSPPLAgencyData,
+    dSPPLAgencyList,
+    locationDiscoverDefectController,
+    meconPbgplData,
+    meconPbgplList,
+    ndtAgencyData,
+    ndtAgencyList,
   ];
 }

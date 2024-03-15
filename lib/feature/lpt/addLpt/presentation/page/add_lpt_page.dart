@@ -57,6 +57,8 @@ class _AddLptPageState extends State<AddLptPage> {
             _verticalSpace(),
             _lptStatusDropDown(dataState: dataState),
             _verticalSpace(),
+            _observationResultsController(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -170,6 +172,14 @@ class _AddLptPageState extends State<AddLptPage> {
           child: Text(lptStatusData.value.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _observationResultsController({required FetchAddLptDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: false,
+      labelText: AppString.observationResult,
+      controller: dataState.observationResultsController,
     );
   }
 

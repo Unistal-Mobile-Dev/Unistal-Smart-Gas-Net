@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 
 class AddRadioGraphyPage extends StatefulWidget {
   const AddRadioGraphyPage({super.key});
@@ -57,6 +59,12 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _segmentListBuilder(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _ndtAgencyDropDown(dataState: dataState),
+            _verticalSpace(),
+            _dSPPLDropDown(dataState: dataState),
+            _verticalSpace(),
+            _mECONPBGPLDropDown(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
             _verticalSpace(),
@@ -170,6 +178,31 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           controller: segmentData.observationController,
         ),
         _verticalSpace(),
+        segmentData.segmentWelderList != null &&
+            segmentData.segmentWelderList!.isNotEmpty ?
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: segmentData.segmentWelderList!.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, welderIndex) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextWidget("${segmentData.segmentWelderList![welderIndex].name}", fontWeight: FontWeight.w700,
+                    color: AppColor.black,),
+                  _rootWelderDropDown(welderData: segmentData.segmentWelderList![welderIndex].welderData!,
+                      welderList: segmentData.segmentWelderList![welderIndex].welderList!, index: index, welderIndex: welderIndex),
+                  _verticalSpace(),
+                ],
+              );
+        }): const SizedBox.shrink(),
+        TextFieldWidget(
+          isRequired: false,
+          labelText: "${segmentData.remark}",
+          controller: segmentData.remarkController,
+        ),
+        _verticalSpace(),
         const Divider(),
       ],
     );
@@ -197,6 +230,76 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     });
   }
 
+  Widget _rootWelderDropDown({required WelderModel welderData,
+    required List<WelderModel> welderList, required int index, required int welderIndex}) {
+    return DropdownWidget(
+      hint: AppString.selectWelder,
+      dropdownValue: welderData.id != null ? welderData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectRootWelderEvent(welderData: value, index: index, welderIndex: welderIndex));
+      },
+      items: welderList.map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
+        return DropdownMenuItem<WelderModel>(
+          value: welderData,
+          child: Text(welderData.welderName.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+
+  Widget _ndtAgencyDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectNdtAgency,
+      dropdownValue: dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value));
+      },
+      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectDSPPL,
+      dropdownValue: dataState.dSPPLAgencyData.id != null ? dataState.dSPPLAgencyData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectDspplDataEvent(dspplData: value));
+      },
+      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _mECONPBGPLDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectMECONPBGPL,
+      dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectMeconPbgplDataEvent(meconPbgplData: value));
+      },
+      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+        return DropdownMenuItem<NdtStatusModel>(
+          value: ndtAgencyData,
+          child: Text(ndtAgencyData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+  
   Widget _activityRemark({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,

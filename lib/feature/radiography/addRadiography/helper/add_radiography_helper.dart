@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
@@ -25,6 +27,10 @@ class AddRadiographyHelper {
     required List<dynamic> segmentData,
     required List<dynamic> segmentStatusData,
     required List<dynamic> segmentObservationData,
+    required NdtStatusModel ndtAgencyData,
+    required NdtStatusModel dSPPLAgencyData,
+    required NdtStatusModel meconPbgplData,
+    required String locationDefect,
 
     required File file}) async {
 
@@ -54,6 +60,10 @@ class AddRadiographyHelper {
         "segment_ids": segmentData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_status" : segmentStatusData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "segment_observation" : segmentObservationData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
+        "ndt_agency_status" : ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
+        "contractor_agency_status" : dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
+        "pmc_agency_status" : meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
+        "defects": locationDefect,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
@@ -79,34 +89,20 @@ class AddRadiographyHelper {
     }
   }
 
-  static Future<dynamic> fetchSegmentData({required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchSegmentData({
+    required BuildContext context, required LoginDataModel userData, required List<WelderModel> welderList}) async {
 
     try{
       String url =  APIs.getSegmentApi;
       var param = {
         "schema" : userData.schema,
       };
+
       String json =  Uri(queryParameters: param).query;
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
       if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data']['segment'] != null && res['data']['status'] != null) {
-
-
-        int id = 1;
-        Map myMap = res['data']['status'];
-        List<SegmentModel> segmentList  = [];
-        List<SegmentModel> _segmentList  = [];
-        segmentList =  segmentListResponse(res['data']['segment']);
-        for(var segmentData in segmentList){
-          List<SegmentStatusModel> segmentStatusList = [];
-          myMap.forEach((key, value) {
-            segmentStatusList.add(SegmentStatusModel(id: key, status: value, selectedValue: "", groupType: id));
-            id++;
-          });
-          segmentData.segmentStatusList = segmentStatusList;
-          _segmentList.add(segmentData);
-        }
-
+          && res['success'] == 200 && res['segment'] != null) {
+        List<SegmentModel> _segmentList  = segmentListResponse(res['segment'], welderList);
         return _segmentList;
       }
       return null;

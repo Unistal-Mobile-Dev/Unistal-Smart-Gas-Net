@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/helper/add_ndt_mut_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -24,6 +25,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   TextEditingController dateController =  TextEditingController();
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
+  TextEditingController locationDiscoverDefectController =  TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -46,6 +48,13 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   List<JointNumberModel> jointNumberList = [];
   JointNumberModel jointNumberData =  JointNumberModel();
+
+  List<NdtStatusModel> ndtAgencyList = [];
+  List<NdtStatusModel> meconPbgplList = [];
+  List<NdtStatusModel> dSPPLAgencyList = [];
+  NdtStatusModel ndtAgencyData  =  NdtStatusModel();
+  NdtStatusModel meconPbgplData   =  NdtStatusModel();
+  NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
   
   AddNdtMutBloc() : super(AddNdtMutInitial()) {
 
@@ -54,6 +63,9 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     on<AddNdtMutSelectAlignmentEvent>(_selectAlignment);
     on<AddNdtMutSelectJointTypeDataEvent>(_selectJointType);
     on<AddNdtMutSelectJointNumberDataEvent>(_selectJointNumber);
+    on<AddNdtMutSelectNdtAgencyDataEvent>(_selectNdtAgency);
+    on<AddNdtMutSelectDspplDataEvent>(_selectDsppl);
+    on<AddNdtMutSelectMeconPbgplDataEvent>(_selectMeconPbgpl);
     on<AddNdtMutSelectSegmentDataEvent>(_selectSegment);
     on<AddNdtMutSelectDateEvent>(_selectDate);
     on<AddNdtMutAddImageEvent>(_selectFile);
@@ -78,6 +90,14 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     weatherData =  WeatherModel();
     jointNumberList = [];
     jointNumberData =  JointNumberModel();
+    ndtAgencyList = [];
+    meconPbgplList = [];
+    dSPPLAgencyList = [];
+    ndtAgencyData  =  NdtStatusModel();
+    meconPbgplData   =  NdtStatusModel();
+    dSPPLAgencyData   =  NdtStatusModel();
+    locationDiscoverDefectController.text = "";
+    _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -95,7 +115,14 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       segmentList =  resSegment;
     }
 
-/*    segmentList =  SegmentModel().getSegment();*/
+    var resNdtStatus =  await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
+    if(resNdtStatus != null){
+      ndtAgencyList =  resNdtStatus;
+      dSPPLAgencyList =  resNdtStatus;
+      meconPbgplList =  resNdtStatus;
+    }
+
+
     selectedSegmentList = segmentList;
     _eventComplete(emit);
   }
@@ -128,6 +155,21 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   _selectJointNumber(AddNdtMutSelectJointNumberDataEvent event, emit) {
     jointNumberData =  event.jointNumberData;
+    _eventComplete(emit);
+  }
+
+  _selectNdtAgency(AddNdtMutSelectNdtAgencyDataEvent event, emit) {
+    ndtAgencyData =  event.ndtAgencyData;
+    _eventComplete(emit);
+  }
+
+  _selectDsppl(AddNdtMutSelectDspplDataEvent event, emit) {
+    dSPPLAgencyData =  event.dspplData;
+    _eventComplete(emit);
+  }
+
+  _selectMeconPbgpl(AddNdtMutSelectMeconPbgplDataEvent event, emit) {
+    meconPbgplData =  event.meconPbgplData;
     _eventComplete(emit);
   }
 
@@ -189,17 +231,20 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     List<dynamic> segmentDataList = [];
     List<dynamic> segmentStatusDataList = [];
     List<dynamic> segmentObservationDataList = [];
+    List<dynamic> segmentRemarkDataList = [];
 
     for(var segmentDataValue in selectedSegmentList){
       segmentDataList.add(segmentDataValue.id.toString());
       if(segmentDataValue.observationController!.text.toString().isNotEmpty){
         segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
+        segmentRemarkDataList.add(segmentDataValue.remarkController!.text.toString());
         for(var status in segmentDataValue.segmentStatusList!){
           if(status.selectedValue.toString().isNotEmpty){
             segmentStatusDataList.add(status.id.toString());
           }
         }
       }else{
+        segmentRemarkDataList.add("0");
         segmentObservationDataList.add("0");
         segmentStatusDataList.add("0");
       }
@@ -216,7 +261,12 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         segmentData: segmentDataList,
         segmentObservationData: segmentObservationDataList,
         segmentStatusData: segmentStatusDataList,
+        segmentRemarkData: segmentRemarkDataList,
         jointNumberData: jointNumberData,
+        dSPPLAgencyData: dSPPLAgencyData,
+        ndtAgencyData: ndtAgencyData,
+        meconPbgplData: meconPbgplData,
+        locationDefect: locationDiscoverDefectController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -232,6 +282,10 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       weatherData =  WeatherModel();
       jointNumberData =  JointNumberModel();
       selectedSegmentList = segmentList;
+      ndtAgencyData  =  NdtStatusModel();
+      meconPbgplData   =  NdtStatusModel();
+      dSPPLAgencyData   =  NdtStatusModel();
+      locationDiscoverDefectController.text = "";
       _eventComplete(emit);
     }
   }
@@ -252,6 +306,13 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       segmentList: segmentList,
       jointNumberData: jointNumberData,
       jointNumberList: jointNumberList,
+      ndtAgencyData: ndtAgencyData,
+      ndtAgencyList: ndtAgencyList,
+      dSPPLAgencyData: dSPPLAgencyData,
+      dSPPLAgencyList: dSPPLAgencyList,
+      locationDiscoverDefectController: locationDiscoverDefectController,
+      meconPbgplData: meconPbgplData,
+      meconPbgplList: meconPbgplList
     ));
   }
 }

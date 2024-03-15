@@ -69,6 +69,27 @@ class SelectWeatherEvent extends AddNdtMutEvent{
   List<Object?> get props => [weatherData];
 }
 
+class AddNdtMutSelectNdtAgencyDataEvent extends AddNdtMutEvent {
+  final NdtStatusModel ndtAgencyData;
+  const AddNdtMutSelectNdtAgencyDataEvent({required this.ndtAgencyData});
+  @override
+  List<Object?> get props => [ndtAgencyData];
+}
+
+class AddNdtMutSelectDspplDataEvent extends AddNdtMutEvent {
+  final NdtStatusModel dspplData;
+  const AddNdtMutSelectDspplDataEvent({required this.dspplData});
+  @override
+  List<Object?> get props => [dspplData];
+}
+
+
+class AddNdtMutSelectMeconPbgplDataEvent extends AddNdtMutEvent {
+  final NdtStatusModel meconPbgplData;
+  const AddNdtMutSelectMeconPbgplDataEvent({required this.meconPbgplData});
+  @override
+  List<Object?> get props => [meconPbgplData];
+}
 
 class AddNdtMutSubmitDataEvent extends AddNdtMutEvent {
   final BuildContext context;
