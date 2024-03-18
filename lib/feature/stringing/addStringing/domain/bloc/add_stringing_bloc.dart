@@ -66,7 +66,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController searchPipeController =  TextEditingController();
 
-  List<String> pipeLengthList = [];
+  List<PipeModel> pipeLengthList = [];
 
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
@@ -155,19 +155,19 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   _selectPipe(AddStringingSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
     _searchPipeList = [];
-    searchPipeController.text = pipeData.pipeNumber.toString();
+    searchPipeController.text = "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
   _addPipeLength(AddStringingAddPipeLengthEvent event, emit) {
-    if(pipeLengthController.text.toString().isEmpty){
+    if(searchPipeController.text.toString().isEmpty){
       SnackBarErrorWidget(event.context).show(message: "Please enter pipe length");
       return;
     }
     _isLoader =  true;
     _eventComplete(emit);
-    pipeLengthList.add(pipeLengthController.text.toString());
-    pipeLengthController.text = "";
+    pipeLengthList.add(pipeData);
+    searchPipeController.text = "";
     _isLoader =  false;
     _eventComplete(emit);
   }

@@ -54,8 +54,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _pipeDropDown(dataState: dataState),
-            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _pipeLengthController(dataState: dataState),
@@ -98,14 +96,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddStringingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
-    );
-  }
-
   Widget _chainageFromController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -119,11 +109,20 @@ class _AddStringingPageState extends State<AddStringingPage> {
     return Row(
       children: [
         Expanded(
-          child: TextFieldWidget(
-            isRequired: true,
-            textInputType: TextInputType.number,
-            labelText: AppString.pipeLength,
-            controller: dataState.pipeLengthController,
+          child: SearchTextField(
+              isLoader: dataState.searchPipeLoader,
+              onChange: (value) {
+                BlocProvider.of<AddStringingBloc>(context).add(
+                    AddStringingSearchPipeDataEvent(keyword: value, context: context)
+                );
+              },
+              onClick: (value) {
+                BlocProvider.of<AddStringingBloc>(context).add(
+                    AddStringingSelectPipeDataEvent(pipeData: value));
+              },
+              controller: dataState.searchPipeController,
+              label: AppString.selectPipeNumber,
+              list: dataState.searchPipeList
           ),
         ),
         ButtonWidget(text: AppString.add,
@@ -141,12 +140,13 @@ class _AddStringingPageState extends State<AddStringingPage> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
+          PipeModel pipeData =  dataState.pipeLengthList[index];
         return Container(
            color: AppColor.lightGrey,
            padding: const EdgeInsets.all(5.0),
            child: Row(
              children: [
-               Expanded(child: TextWidget("Pipe Length - ${dataState.pipeLengthList[index].toString()}")),
+               Expanded(child: TextWidget("${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
                IconButton(
                    onPressed: () {
                      BlocProvider.of<AddStringingBloc>(context).add(AddStringingDeletePipeLengthEvent(context: context,index: index));
@@ -180,24 +180,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
       },
     );
   }*/
-
-  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
-    return SearchTextField(
-        isLoader: dataState.searchPipeLoader,
-        onChange: (value) {
-          BlocProvider.of<AddStringingBloc>(context).add(
-              AddStringingSearchPipeDataEvent(keyword: value, context: context)
-          );
-        },
-        onClick: (value) {
-          BlocProvider.of<AddStringingBloc>(context).add(
-              AddStringingSelectPipeDataEvent(pipeData: value));
-        },
-        controller: dataState.searchPipeController,
-        label: AppString.selectPipeNumber,
-        list: dataState.searchPipeList
-    );
-  }
 
   Widget _concreteCoatingDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget(

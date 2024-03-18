@@ -70,7 +70,7 @@ class SearchTextField extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(list[index].pipeNumber,
+                        Text("${list[index].pipeNumber}|${list[index].heatNumber}|${list[index].pipeLength}",
                            style: const TextStyle(color: Colors.black,
                                fontSize: 12.0,
                                fontWeight: FontWeight.w400),),

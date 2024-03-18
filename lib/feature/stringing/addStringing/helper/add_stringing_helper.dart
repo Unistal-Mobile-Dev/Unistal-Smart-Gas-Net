@@ -57,7 +57,7 @@ class AddStringingHelper {
     required String chainageTo,
     required LoginDataModel userData, required File file,
     required WeatherModel weatherData,
-    required List<String> pipeLength,
+    required List<PipeModel> pipeLength,
    }) async {
 
     try{
@@ -68,6 +68,11 @@ class AddStringingHelper {
         locationData =  location;
       } else{ return null; }
 
+      List<dynamic> pipeId = [];
+      for(var pipeData in pipeLength){
+        pipeId.add(pipeData.id.toString());
+      }
+
       String url =  APIs.addStringingApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -77,10 +82,10 @@ class AddStringingHelper {
         "chainage_to": chainageTo,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
-        "pipe_id" : pipeData.id.toString(),
-        "concrete_coating" : concreteCoatingData.id.toString(),
+        "pipe_id" : pipeId.isNotEmpty ? pipeId.toString().replaceAll("[", "").toString().replaceAll("]", "") : "",
+        "concrete_coating" : concreteCoatingData.id != null ? concreteCoatingData.id.toString() : "",
         "activity_remarks": activityRemark,
-        "total_length " : pipeLength.toString().replaceAll("{", "").toString().replaceAll("}", ""),
+        "total_length " : "",
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),

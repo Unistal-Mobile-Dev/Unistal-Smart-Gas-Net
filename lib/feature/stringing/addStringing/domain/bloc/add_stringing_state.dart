@@ -35,7 +35,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController pipeLengthController;
-  final List<String> pipeLengthList;
+  final List<PipeModel> pipeLengthList;
 
 
   FetchAddStringingDataState({
