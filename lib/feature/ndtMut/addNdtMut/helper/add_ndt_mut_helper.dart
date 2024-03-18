@@ -122,7 +122,7 @@ class AddNdtMutHelper {
       String json =  Uri(queryParameters: param).query;
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
       if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data']['segment'] != null) {
+          && res['success'] == 200 && res['segment'] != null) {
         List<SegmentModel> _segmentList  = segmentListResponse(res['segment'], []);
         return _segmentList;
       }
