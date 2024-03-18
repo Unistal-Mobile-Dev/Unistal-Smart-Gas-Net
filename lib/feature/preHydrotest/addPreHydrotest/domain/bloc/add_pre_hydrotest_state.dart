@@ -35,6 +35,18 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final WeatherModel weatherData;
   final ThicknessModel thicknessData;
   final List<ThicknessModel> thicknessList;
+  final TextEditingController pressureGaugeNoController;
+  final TextEditingController pressureGaugeCalibrationDateController;
+  final TextEditingController testPressureController;
+  final TextEditingController rangeController;
+  final TextEditingController pipeSizeController;
+  final TextEditingController durationController;
+  final TextEditingController timeOnController;
+  final TextEditingController timeOffController;
+  final TextEditingController timeInHoursController;
+  final TextEditingController pressureReading1KGController;
+  final TextEditingController pressureReading2KGController;
+  final TextEditingController tempController;
 
   FetchAddPreHydrotestDataState({
     required this.isLoader,
@@ -56,6 +68,18 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     required this.toJointData,
     required this.thicknessData,
     required this.thicknessList,
+    required this.durationController,
+    required this.pipeSizeController,
+    required this.pressureGaugeCalibrationDateController,
+    required this.pressureGaugeNoController,
+    required this.pressureReading1KGController,
+    required this.pressureReading2KGController,
+    required this.rangeController,
+    required this.tempController,
+    required this.testPressureController,
+    required this.timeInHoursController,
+    required this.timeOffController,
+    required this.timeOnController,
   });
 
   @override
@@ -79,5 +103,17 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     toJointData,
     thicknessData,
     thicknessList,
+    durationController,
+    pipeSizeController,
+    pressureGaugeCalibrationDateController,
+    pressureGaugeNoController,
+    pressureReading1KGController,
+    pressureReading2KGController,
+    rangeController,
+    tempController,
+    testPressureController,
+    timeInHoursController,
+    timeOffController,
+    timeOnController,
   ];
 }

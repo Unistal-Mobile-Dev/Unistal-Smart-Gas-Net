@@ -49,7 +49,7 @@ class APIs {
   static get getPipeThicknessApi => "api/steel/get-pipe-thickness";
   static get addConcreteCoatingApi => "api/steel/concrete-coating";
   static get addPostHydroTestApi => "api/steel/post-hydrotest";
-  static get addPreHydroTestApi => "api/steel/pre-hydrotest";
+  static get addPreHydroTestApi => "api/steel/prehydrotestinsert";
   static get addHydroTestApi => "api/steel/hydrotest";
   static get addHDPEDuctTestingApi => "api/steel/hdpe-duct-testing";
   static get AddSwabbingApi => "api/steel/swabbing";

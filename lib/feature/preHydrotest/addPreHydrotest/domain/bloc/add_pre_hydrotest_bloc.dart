@@ -26,6 +26,18 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController lengthController =  TextEditingController();
   TextEditingController ndeClearanceController =  TextEditingController();
+  TextEditingController pressureGaugeNoController  = TextEditingController();
+  TextEditingController pressureGaugeCalibrationDateController  = TextEditingController();
+  TextEditingController testPressureController  = TextEditingController();
+  TextEditingController rangeController  = TextEditingController();
+  TextEditingController pipeSizeController  = TextEditingController();
+  TextEditingController durationController  = TextEditingController();
+  TextEditingController timeOnController  = TextEditingController();
+  TextEditingController timeOffController  = TextEditingController();
+  TextEditingController timeInHoursController  = TextEditingController();
+  TextEditingController pressureReading1KGController  = TextEditingController();
+  TextEditingController pressureReading2KGController  = TextEditingController();
+  TextEditingController tempController  = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -59,6 +71,7 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     on<AddPreHydrotestSelectToJointDataEvent>(_selectJointTo);
     on<AddPreHydrotestSelectJointTypeDataEvent>(_selectJointType);
     on<AddPreHydrotestSelectDateEvent>(_selectDate);
+    on<AddPreHydrotestSelectPressureDateEvent>(_selectPressureDate);
     on<AddPreHydrotestAddImageEvent>(_selectFile);
     on<AddPreHydrotestSelectSelectThicknessDataEvent>(_selectThickness);
     on<AddPreHydrotestSubmitDataEvent>(_submitData);
@@ -84,6 +97,18 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
+    pressureGaugeNoController.text = "";
+    pressureGaugeCalibrationDateController.text = "";
+    testPressureController.text = "";
+    rangeController.text = "";
+    pipeSizeController.text = "";
+    durationController.text = "";
+    timeOnController.text = "";
+    timeOffController.text = "";
+    timeInHoursController.text = "";
+    pressureReading1KGController.text = "";
+    pressureReading2KGController.text = "";
+    tempController.text = "";
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     
@@ -159,6 +184,22 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     }
   }
 
+  _selectPressureDate(AddPreHydrotestSelectPressureDateEvent event, emit) async {
+    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    DateTime? pickedDate = await showDatePicker(context: event.context,
+        initialDate: DateTime.now(),
+        firstDate:  DateTime(2023),
+        lastDate: DateTime.now());
+    if (pickedDate != null) {
+      String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
+      pressureGaugeCalibrationDateController.text =  formattedDateChange.toString();
+      _eventComplete(emit);
+    } else {
+      print("Date is not selected");
+    }
+  }
+
+
   _selectThickness(AddPreHydrotestSelectSelectThicknessDataEvent event, emit) {
     _thicknessData =  event.thicknessData;
     _eventComplete(emit);
@@ -195,7 +236,20 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
         ndeClearance: ndeClearanceController.text.toString(),
         length: lengthController.text.toString(),
         thicknessData: thicknessData,
-        file: file);
+        file: file,
+        duration: durationController.text.toString(),
+        pipeSize: pipeSizeController.text.toString(),
+        pressureGaugeCalibrationDate: pressureGaugeCalibrationDateController.text.toString(),
+        pressureGaugeNo: pressureGaugeNoController.text.toString(),
+        pressureReading1KG: pressureReading1KGController.text.toString(),
+        pressureReading2KG: pressureReading2KGController.text.toString(),
+        range: rangeController.text.toString(),
+        temp: tempController.text.toString(),
+        testPressure: testPressureController.text.toString(),
+        timeInHours: timeInHoursController.text.toString(),
+        timeOff: timeOffController.text.toString(),
+        timeOn: timeOnController.text.toString()
+    );
     isLoader =  false;
     _eventComplete(emit);
     if(res !=  null){
@@ -212,6 +266,18 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       file =  File("");
       weatherData =  WeatherModel();
       _thicknessData =  ThicknessModel();
+      pressureGaugeNoController.text = "";
+      pressureGaugeCalibrationDateController.text = "";
+      testPressureController.text = "";
+      rangeController.text = "";
+      pipeSizeController.text = "";
+      durationController.text = "";
+      timeOnController.text = "";
+      timeOffController.text = "";
+      timeInHoursController.text = "";
+      pressureReading1KGController.text = "";
+      pressureReading2KGController.text = "";
+      tempController.text = "";
       _eventComplete(emit);
     }
   }
@@ -236,6 +302,18 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       ndeClearanceController: ndeClearanceController,
       thicknessData: thicknessData,
       thicknessList: thicknessList,
+      durationController: durationController,
+      pipeSizeController: pipeSizeController,
+      pressureGaugeCalibrationDateController: pressureGaugeCalibrationDateController,
+      pressureGaugeNoController: pressureGaugeNoController,
+      pressureReading1KGController: pressureReading1KGController,
+      pressureReading2KGController: pressureReading2KGController,
+      rangeController: rangeController,
+      tempController: tempController,
+      testPressureController: testPressureController,
+      timeInHoursController: timeInHoursController,
+      timeOffController: timeOffController,
+      timeOnController: timeOnController
     ));
   }
 }

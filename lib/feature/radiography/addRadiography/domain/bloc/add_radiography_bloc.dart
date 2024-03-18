@@ -67,7 +67,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRadiographySelectAlignmentEvent>(_selectAlignment);
 
-    on<AddRadiographySelectRootWelderEvent>(_selectRootWelder);
+    on<AddRadiographySelectWelderDataEvent>(_selectRootWelder);
     on<AddRadiographySelectHotPassWelderEvent>(_selectHotPassWelder);
     on<AddRadiographySelectFillerWelderEvent>(_selectFillerWelder);
     on<AddRadiographySelectCappingWelderEvent>(_selectCappingWelder);
@@ -147,7 +147,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     _eventComplete(emit);
   }
 
-  _selectRootWelder(AddRadiographySelectRootWelderEvent event, emit) {
+  _selectRootWelder(AddRadiographySelectWelderDataEvent event, emit) {
     isLoader =  true;
     _eventComplete(emit);
     segmentList[event.index].segmentWelderList![event.welderIndex].welderData =  event.welderData;

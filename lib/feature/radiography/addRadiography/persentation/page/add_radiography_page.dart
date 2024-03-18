@@ -191,7 +191,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                 children: [
                   TextWidget("${segmentData.segmentWelderList![welderIndex].name}", fontWeight: FontWeight.w700,
                     color: AppColor.black,),
-                  _rootWelderDropDown(welderData: segmentData.segmentWelderList![welderIndex].welderData!,
+                  _welderDropDown(welderData: segmentData.segmentWelderList![welderIndex].welderData!,
                       welderList: segmentData.segmentWelderList![welderIndex].welderList!, index: index, welderIndex: welderIndex),
                   _verticalSpace(),
                 ],
@@ -230,14 +230,14 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     });
   }
 
-  Widget _rootWelderDropDown({required WelderModel welderData,
+  Widget _welderDropDown({required WelderModel welderData,
     required List<WelderModel> welderList, required int index, required int welderIndex}) {
     return DropdownWidget(
       hint: AppString.selectWelder,
       dropdownValue: welderData.id != null ? welderData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectRootWelderEvent(welderData: value, index: index, welderIndex: welderIndex));
+            AddRadiographySelectWelderDataEvent(welderData: value, index: index, welderIndex: welderIndex));
       },
       items: welderList.map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(

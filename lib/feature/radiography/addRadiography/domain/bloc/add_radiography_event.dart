@@ -64,27 +64,27 @@ class AddRadiographyAddImageEvent extends AddRadiographyEvent {
   List<Object?> get props => [context,mediaType];
 }
 
-class AddRadiographySelectRootWelderEvent extends AddRadiographyEvent {
+class AddRadiographySelectWelderDataEvent extends AddRadiographyEvent {
   final int index;
   final int welderIndex;
   final WelderModel welderData;
-  const AddRadiographySelectRootWelderEvent({required this.index, required this.welderData, required this.welderIndex});
+  const AddRadiographySelectWelderDataEvent({required this.index, required this.welderData, required this.welderIndex});
   @override
-  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData, welderIndex];
+  List<Object?> get props => [AddRadiographySelectWelderDataEvent,welderData, welderIndex];
 }
 class AddRadiographySelectHotPassWelderEvent extends AddRadiographyEvent {
   final int index;
   final WelderModel welderData;
   const AddRadiographySelectHotPassWelderEvent({required this.index, required this.welderData});
   @override
-  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+  List<Object?> get props => [AddRadiographySelectWelderDataEvent,welderData];
 }
 class AddRadiographySelectFillerWelderEvent extends AddRadiographyEvent {
   final int index;
   final WelderModel welderData;
   const AddRadiographySelectFillerWelderEvent({required this.index, required this.welderData});
   @override
-  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+  List<Object?> get props => [AddRadiographySelectWelderDataEvent,welderData];
 }
 
 class AddRadiographySelectNdtAgencyDataEvent extends AddRadiographyEvent {
@@ -114,7 +114,7 @@ class AddRadiographySelectCappingWelderEvent extends AddRadiographyEvent {
   final WelderModel welderData;
   const AddRadiographySelectCappingWelderEvent({required this.index, required this.welderData});
   @override
-  List<Object?> get props => [AddRadiographySelectRootWelderEvent,welderData];
+  List<Object?> get props => [AddRadiographySelectWelderDataEvent,welderData];
 }
 
 

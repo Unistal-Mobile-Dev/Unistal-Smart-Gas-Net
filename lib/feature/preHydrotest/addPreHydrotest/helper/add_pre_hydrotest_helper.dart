@@ -24,7 +24,20 @@ class AddPreHydroTestHelper {
     required String length,
     required String ndeClearance,
     required ThicknessModel thicknessData,
-    required File file}) async {
+    required File file,
+    required String pressureGaugeNo,
+    required String pressureGaugeCalibrationDate,
+    required String testPressure,
+    required String range,
+    required String pipeSize,
+    required String duration,
+    required String timeOn,
+    required String timeOff,
+    required String timeInHours,
+    required String pressureReading1KG,
+    required String pressureReading2KG,
+    required String temp,
+  }) async {
 
     try{
 
@@ -37,31 +50,41 @@ class AddPreHydroTestHelper {
       String url =  APIs.addPreHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
-        "spreadId": userData.spreadId.toString(),
-        "sectionId": userData.sectionId.toString(),
-        "activityDate": date.toString(),
-        "remarks": activityRemark.toString(),
+        "spread_id": userData.spreadId.toString(),
+        "section_id": userData.sectionId.toString(),
+        "activity_date": date.toString(),
+        "user_id": userData.userId.toString(),
+        "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "jointFrom" : fromJointData.id != null ? fromJointData.id.toString() : "",
+        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "to_joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
+        "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
-        "totalLength" : length.toString(),
-        "ndeClearance" : ndeClearance.toString(),
-        "thicknessId" : thicknessData.id != null ? thicknessData.id.toString() : "",
+        "total_length" : length.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "pressure_gauge_no" : pressureGaugeNo.toString(),
+        "gauge_calibaration_date" : pressureGaugeCalibrationDate.toString(),
+        "test_pressure" : testPressure.toString(),
+        "range" : range.toString(),
+        "pipe_size" : pipeSize.toString(),
+        "duration" : duration.toString(),
+        "time_on" : timeOn.toString(),
+        "time_off" : timeOff.toString(),
+        "time" : timeInHours.toString(),
+        "temp" : temp.toString(),
+        "pressure_reading_1" : pressureReading1KG.toString(),
+        "pressure_reading_2" : pressureReading2KG.toString(),
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",
           filePath: file.path.toString());
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
-      } else  if(res != null && res['status'] != null  && res['status'] == false
-          && res['errors'] != null && res['message'] != null ) {
-        SnackBarErrorWidget(context).show(message: res['message'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
+      } else  if(res != null && res['data'] != null ) {
+        SnackBarErrorWidget(context).show(message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
         SnackBarErrorWidget(context).show(message: "Internal Server Error");

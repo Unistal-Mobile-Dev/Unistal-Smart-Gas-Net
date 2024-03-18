@@ -51,17 +51,37 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _pressureGaugeNoController(dataState: dataState),
+            _verticalSpace(),
+            _pressureGaugeCalibrationDateController(dataState: dataState),
+            _verticalSpace(),
+            _testPressureController(dataState: dataState),
+            _verticalSpace(),
+            _rangeController(dataState: dataState),
+            _verticalSpace(),
+            _pipeSizeController(dataState: dataState),
+            _verticalSpace(),
+            _durationController(dataState: dataState),
+            _verticalSpace(),
+            _timeOnController(dataState: dataState),
+            _verticalSpace(),
+            _timeOffController(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _ndeClearanceController(dataState: dataState),
+            _timeInHoursController(dataState: dataState),
+            _verticalSpace(),
+            _pressureReading1KGController(dataState: dataState),
+            _verticalSpace(),
+            _pressureReading2KGController(dataState: dataState),
+            _verticalSpace(),
+            _tempController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -172,22 +192,119 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _thicknessDropDown({required FetchAddPreHydrotestDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.wallThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddPreHydrotestBloc>(context).add(
-            AddPreHydrotestSelectSelectThicknessDataEvent(thicknessData: value));
-      },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
+
+  Widget _pressureGaugeNoController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.text,
+      labelText: AppString.pressureGaugeNo,
+      controller: dataState.pressureGaugeNoController,
     );
   }
+
+  Widget _pressureGaugeCalibrationDateController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.pressureGaugeCalibrationDate,
+      controller: dataState.pressureGaugeCalibrationDateController,
+      onTap: () {
+        BlocProvider.of<AddPreHydrotestBloc>(context).add(
+            AddPreHydrotestSelectPressureDateEvent(context: context,));
+      },
+    );
+  }
+
+  Widget _testPressureController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.text,
+      labelText: AppString.testPressure,
+      controller: dataState.testPressureController,
+    );
+  }
+
+  Widget _rangeController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.range,
+      controller: dataState.rangeController,
+    );
+  }
+
+  Widget _pipeSizeController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.text,
+      labelText: AppString.pipeSize,
+      controller: dataState.pipeSizeController,
+    );
+  }
+
+  Widget _durationController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.duration,
+      controller: dataState.durationController,
+    );
+  }
+
+  Widget _timeOnController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.timeOn,
+      controller: dataState.timeOnController,
+    );
+  }
+
+  Widget _timeOffController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.timeOff,
+      controller: dataState.timeOffController,
+    );
+  }
+
+  Widget _timeInHoursController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.timeInHours,
+      controller: dataState.timeInHoursController,
+    );
+  }
+
+  Widget _pressureReading1KGController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.pressureReading1Kg,
+      controller: dataState.pressureReading1KGController,
+    );
+  }
+
+  Widget _pressureReading2KGController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.pressureReading2Kg,
+      controller: dataState.pressureReading2KGController,
+    );
+  }
+
+  Widget _tempController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.temp,
+      controller: dataState.tempController,
+    );
+  }
+
 
   Widget _lengthController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
@@ -198,17 +315,9 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     );
   }
 
-  Widget _ndeClearanceController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.ndeClearance,
-      controller: dataState.ndeClearanceController,
-    );
-  }
-
   Widget _activityRemark({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
+      isRequired: false,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
