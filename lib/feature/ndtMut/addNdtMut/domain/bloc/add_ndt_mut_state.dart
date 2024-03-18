@@ -37,6 +37,10 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final NdtStatusModel ndtAgencyData;
   final NdtStatusModel meconPbgplData;
   final NdtStatusModel dSPPLAgencyData;
+  final TextEditingController typeOfFlawDetectorController;
+  final TextEditingController angleOfRayInputController;
+  final TextEditingController operatingFrequencyController;
+  final TextEditingController leveOfInspectionController;
 
   FetchAddNdtMutDataState({
     required this.isLoader,
@@ -60,7 +64,11 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     required this.meconPbgplData,
     required this.meconPbgplList,
     required this.ndtAgencyData,
-    required this.ndtAgencyList
+    required this.ndtAgencyList,
+    required this.typeOfFlawDetectorController,
+    required this.angleOfRayInputController,
+    required this.operatingFrequencyController,
+    required this.leveOfInspectionController,
   });
 
   @override
@@ -87,5 +95,9 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     meconPbgplList,
     ndtAgencyData,
     ndtAgencyList,
+    typeOfFlawDetectorController,
+    angleOfRayInputController,
+    operatingFrequencyController,
+    leveOfInspectionController,
   ];
 }

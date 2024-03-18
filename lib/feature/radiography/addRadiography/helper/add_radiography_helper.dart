@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
@@ -24,15 +27,20 @@ class AddRadiographyHelper {
     required LoginDataModel userData,
     required JointTypeModel jointTypeData,
     required JointNumberModel jointNumberData,
-    required List<dynamic> segmentData,
-    required List<dynamic> segmentStatusData,
-    required List<dynamic> segmentObservationData,
     required NdtStatusModel ndtAgencyData,
     required NdtStatusModel dSPPLAgencyData,
     required NdtStatusModel meconPbgplData,
     required String locationDefect,
-
-    required File file}) async {
+    required List<SegmentModel> selectedSegmentList,
+    required NdtSourceModel ndtSourceData,
+    required File file,
+    required String chainage,
+    required String filmType,
+    required String inspectTechnique,
+    required String sensivity,
+    required String density,
+    required String equipment,
+  }) async {
 
     try{
 
@@ -41,6 +49,14 @@ class AddRadiographyHelper {
       if(location != null){
         locationData =  location;
       } else{ return null; }
+
+      List<dynamic> data = [];
+      for(var segmentData in selectedSegmentList){
+        if(segmentData.toJson().isNotEmpty){
+          data.add(segmentData.toJson());
+        }
+      }
+      print(data);
 
       String url =  APIs.addRadiographyApi;
       var json = {
@@ -57,13 +73,18 @@ class AddRadiographyHelper {
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "segment_ids": segmentData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
-        "segment_status" : segmentStatusData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
-        "segment_observation" : segmentObservationData.toString().replaceAll("]", "").toString().replaceAll("[", ""),
         "ndt_agency_status" : ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
         "contractor_agency_status" : dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
         "pmc_agency_status" : meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
+        "rt_source" : ndtSourceData.id != null ? ndtSourceData.id.toString() : "",
+        "segments" : jsonEncode(data),
         "defects": locationDefect,
+        "flaw_detector_type": filmType,
+        "inspection_technique": inspectTechnique,
+        "sensivity": sensivity,
+        "density": density,
+        "chainage": chainage,
+        "equipment": equipment,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

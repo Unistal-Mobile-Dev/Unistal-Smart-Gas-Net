@@ -19,4 +19,11 @@ class SegmentWelderModel {
         welderData: WelderModel(),
       );
     }
+
+    Map<String, dynamic> toJson() {
+      final Map<String, dynamic> data = <String, dynamic>{};
+      data['weld_qual'] = id;
+      data['weld_id'] = welderData!.id != null ? welderData!.id.toString() : "0";
+      return data;
+    }
 }

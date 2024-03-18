@@ -5,7 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/helper/add_ndt_mut_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -29,6 +31,12 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController locationDiscoverDefectController =  TextEditingController();
+  TextEditingController chainageController = TextEditingController();
+  TextEditingController filmTypeController = TextEditingController();
+  TextEditingController inspectTechniqueController = TextEditingController();
+  TextEditingController sensivityController = TextEditingController();
+  TextEditingController densityController = TextEditingController();
+  TextEditingController equipmentController = TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -61,6 +69,9 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   NdtStatusModel meconPbgplData   =  NdtStatusModel();
   NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
 
+  List<NdtSourceModel> ndtSourceList = [];
+  NdtSourceModel ndtSourceData =  NdtSourceModel();
+
   AddRadiographyBloc() : super(AddRadiographyInitial()) {
 
     on<AddRadiographyPageLoadEvent>(_pageLoad);
@@ -79,6 +90,7 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     on<AddRadiographySelectJointNumberDataEvent>(_selectJointNumber);
     on<AddRadiographySelectSegmentDataEvent>(_selectSegment);
     on<AddRadiographySelectDateEvent>(_selectDate);
+    on<AddRadiographySelectNdtSourceDataEvent>(_selectNdtSource);
     on<AddRadiographyAddImageEvent>(_selectFile);
     on<AddRadiographySubmitDataEvent>(_submitData);
   }
@@ -104,9 +116,17 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     ndtAgencyList = [];
     meconPbgplList = [];
     dSPPLAgencyList = [];
+    ndtSourceList = [];
+    ndtSourceData =  NdtSourceModel();
     ndtAgencyData  =  NdtStatusModel();
     meconPbgplData   =  NdtStatusModel();
     dSPPLAgencyData   =  NdtStatusModel();
+    chainageController.text = "";
+    filmTypeController.text = "";
+    inspectTechniqueController.text = "";
+    sensivityController.text = "";
+    densityController.text = "";
+    equipmentController.text = "";
     locationDiscoverDefectController.text = "";
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -130,6 +150,18 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
          userData: userData, welderList: welderList);
     if(resSegment != null){
       segmentList =  resSegment;
+    }
+
+    var resNdtStatus =  await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
+    if(resNdtStatus != null){
+      ndtAgencyList =  resNdtStatus;
+      dSPPLAgencyList =  resNdtStatus;
+      meconPbgplList =  resNdtStatus;
+    }
+
+    var resNdtSource =  await AddNdtMutHelper.fetchNdtSourceData(context: event.context);
+    if(resNdtSource != null){
+      ndtSourceList =  resNdtSource;
     }
 
 
@@ -249,6 +281,11 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     }
   }
 
+  _selectNdtSource(AddRadiographySelectNdtSourceDataEvent event, emit) {
+    ndtSourceData =  event.ndtSourceData;
+    _eventComplete(emit);
+  }
+
   _selectFile(AddRadiographyAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
@@ -266,28 +303,9 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   }
 
   _submitData(AddRadiographySubmitDataEvent event, emit) async {
+
     isLoader =  true;
     _eventComplete(emit);
-
-    List<dynamic> segmentDataList = [];
-    List<dynamic> segmentStatusDataList = [];
-    List<dynamic> segmentObservationDataList = [];
-
-    for(var segmentDataValue in selectedSegmentList){
-      segmentDataList.add(segmentDataValue.id.toString());
-      if(segmentDataValue.observationController!.text.toString().isNotEmpty){
-        segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
-        for(var status in segmentDataValue.segmentStatusList!){
-          if(status.selectedValue.toString().isNotEmpty){
-            segmentStatusDataList.add(status.id.toString());
-          }
-        }
-      }else{
-        segmentObservationDataList.add("0");
-        segmentStatusDataList.add("0");
-      }
-    }
-
 
     var res =  await AddRadiographyHelper.submitData(context: event.context,
         alignmentData: alignmentData,
@@ -297,14 +315,19 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         weatherData: weatherData,
         userData: userData,
         jointTypeData: jointTypeData,
-        segmentData: segmentDataList,
-        segmentObservationData: segmentObservationDataList,
-        segmentStatusData: segmentStatusDataList,
+        selectedSegmentList: selectedSegmentList,
         jointNumberData: jointNumberData,
         ndtAgencyData: ndtAgencyData,
         dSPPLAgencyData: dSPPLAgencyData,
         meconPbgplData: meconPbgplData,
         locationDefect: locationDiscoverDefectController.text.toString(),
+        ndtSourceData: ndtSourceData,
+        chainage: chainageController.text.toString(),
+        density: densityController.text.toString(),
+        equipment: equipmentController.text.toString(),
+        filmType: filmTypeController.text.toString(),
+        inspectTechnique: inspectTechniqueController.text.toString(),
+        sensivity: sensivityController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -322,7 +345,14 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       ndtAgencyData  =  NdtStatusModel();
       meconPbgplData   =  NdtStatusModel();
       dSPPLAgencyData   =  NdtStatusModel();
+      ndtSourceData =  NdtSourceModel();
       locationDiscoverDefectController.text = "";
+      chainageController.text = "";
+      filmTypeController.text = "";
+      inspectTechniqueController.text = "";
+      sensivityController.text = "";
+      densityController.text = "";
+      equipmentController.text = "";
       _eventComplete(emit);
     }
   }
@@ -349,7 +379,15 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       dSPPLAgencyList: dSPPLAgencyList,
       locationDiscoverDefectController: locationDiscoverDefectController,
       meconPbgplData: meconPbgplData,
-      meconPbgplList: meconPbgplList
+      meconPbgplList: meconPbgplList,
+      ndtSourceData: ndtSourceData,
+      ndtSourceList: ndtSourceList,
+      chainageController: chainageController,
+      densityController: densityController,
+      equipmentController: equipmentController,
+      filmTypeController: filmTypeController,
+      inspectTechniqueController: inspectTechniqueController,
+      sensivityController: sensivityController,
     ));
   }
 }

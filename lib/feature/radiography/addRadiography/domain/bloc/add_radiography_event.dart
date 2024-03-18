@@ -109,6 +109,13 @@ class AddRadiographySelectMeconPbgplDataEvent extends AddRadiographyEvent {
   List<Object?> get props => [meconPbgplData];
 }
 
+class AddRadiographySelectNdtSourceDataEvent extends AddRadiographyEvent {
+  final NdtSourceModel ndtSourceData;
+  const AddRadiographySelectNdtSourceDataEvent({required this.ndtSourceData});
+  @override
+  List<Object?> get props => [ndtSourceData];
+}
+
 class AddRadiographySelectCappingWelderEvent extends AddRadiographyEvent {
   final int index;
   final WelderModel welderData;

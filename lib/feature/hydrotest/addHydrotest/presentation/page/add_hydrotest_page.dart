@@ -46,8 +46,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
-            _alignmentDropdown(dataState: dataState),
-            _verticalSpace(),
+/*            _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),*/
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),

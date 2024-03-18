@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
@@ -51,6 +52,20 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
+            _chainageController(dataState: dataState),
+            _verticalSpace(),
+            _ndtSourceDropDown(dataState: dataState),
+            _verticalSpace(),
+            _filmTypeController(dataState: dataState),
+            _verticalSpace(),
+            _inspectTechniqueController(dataState: dataState),
+            _verticalSpace(),
+            _sensivityController(dataState: dataState),
+            _verticalSpace(),
+            _densityController(dataState: dataState),
+            _verticalSpace(),
+            _equipmentController(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -116,6 +131,66 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           child: Text(weatherData.name.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectRtSource,
+      dropdownValue: dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectNdtSourceDataEvent(ndtSourceData: value));
+      },
+      items: dataState.ndtSourceList.map<DropdownMenuItem<NdtSourceModel>>((NdtSourceModel ndtSourceData) {
+        return DropdownMenuItem<NdtSourceModel>(
+          value: ndtSourceData,
+          child: Text(ndtSourceData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _chainageController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.number,
+      labelText: AppString.chainage,
+      controller: dataState.chainageController,
+    );
+  }
+
+  Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.filmType,
+      controller: dataState.filmTypeController,
+    );
+  }
+
+  Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.inspectionTechnique,
+      controller: dataState.inspectTechniqueController,
+    );
+  }
+
+  Widget _sensivityController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.sensivity,
+      controller: dataState.sensivityController,
+    );
+  }
+
+  Widget _densityController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.density,
+      controller: dataState.densityController,
+    );
+  }
+
+  Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.equipment,
+      controller: dataState.equipmentController,
     );
   }
 
@@ -299,7 +374,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       }).toList(),
     );
   }
-  
+
   Widget _activityRemark({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,

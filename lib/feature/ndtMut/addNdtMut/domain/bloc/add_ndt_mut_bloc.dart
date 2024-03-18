@@ -26,6 +26,10 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController locationDiscoverDefectController =  TextEditingController();
+  TextEditingController typeOfFlawDetectorController = TextEditingController();
+  TextEditingController angleOfRayInputController = TextEditingController();
+  TextEditingController operatingFrequencyController = TextEditingController();
+  TextEditingController leveOfInspectionController = TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -96,6 +100,10 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     ndtAgencyData  =  NdtStatusModel();
     meconPbgplData   =  NdtStatusModel();
     dSPPLAgencyData   =  NdtStatusModel();
+    typeOfFlawDetectorController.text = "";
+    angleOfRayInputController.text = "";
+    operatingFrequencyController.text = "";
+    leveOfInspectionController.text = "";
     locationDiscoverDefectController.text = "";
     _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -267,6 +275,10 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         ndtAgencyData: ndtAgencyData,
         meconPbgplData: meconPbgplData,
         locationDefect: locationDiscoverDefectController.text.toString(),
+        angleOfRayInput: angleOfRayInputController.text.toString(),
+        leveOfInspection: leveOfInspectionController.text.toString(),
+        operatingFrequency: operatingFrequencyController.text.toString(),
+        typeOfFlawDetector: typeOfFlawDetectorController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -286,6 +298,10 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       meconPbgplData   =  NdtStatusModel();
       dSPPLAgencyData   =  NdtStatusModel();
       locationDiscoverDefectController.text = "";
+      typeOfFlawDetectorController.text = "";
+      angleOfRayInputController.text = "";
+      operatingFrequencyController.text = "";
+      leveOfInspectionController.text = "";
       _eventComplete(emit);
     }
   }
@@ -312,7 +328,11 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       dSPPLAgencyList: dSPPLAgencyList,
       locationDiscoverDefectController: locationDiscoverDefectController,
       meconPbgplData: meconPbgplData,
-      meconPbgplList: meconPbgplList
+      meconPbgplList: meconPbgplList,
+      angleOfRayInputController: angleOfRayInputController,
+      leveOfInspectionController: leveOfInspectionController,
+      operatingFrequencyController: operatingFrequencyController,
+      typeOfFlawDetectorController: typeOfFlawDetectorController,
     ));
   }
 }

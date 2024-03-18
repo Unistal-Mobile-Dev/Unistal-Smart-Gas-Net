@@ -37,6 +37,14 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final NdtStatusModel ndtAgencyData;
   final NdtStatusModel meconPbgplData;
   final NdtStatusModel dSPPLAgencyData;
+  final List<NdtSourceModel> ndtSourceList;
+  final NdtSourceModel ndtSourceData;
+  final TextEditingController chainageController;
+  final TextEditingController filmTypeController;
+  final TextEditingController inspectTechniqueController;
+  final TextEditingController sensivityController;
+  final TextEditingController densityController;
+  final TextEditingController equipmentController;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -60,7 +68,15 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.meconPbgplData,
     required this.meconPbgplList,
     required this.ndtAgencyData,
-    required this.ndtAgencyList
+    required this.ndtAgencyList,
+    required this.ndtSourceData,
+    required this.ndtSourceList,
+    required this.chainageController,
+    required this.densityController,
+    required this.equipmentController,
+    required this.filmTypeController,
+    required this.inspectTechniqueController,
+    required this.sensivityController,
   });
 
   @override
@@ -87,5 +103,13 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     meconPbgplList,
     ndtAgencyData,
     ndtAgencyList,
+    ndtSourceList,
+    ndtSourceData,
+    chainageController,
+    densityController,
+    equipmentController,
+    filmTypeController,
+    inspectTechniqueController,
+    sensivityController,
   ];
 }

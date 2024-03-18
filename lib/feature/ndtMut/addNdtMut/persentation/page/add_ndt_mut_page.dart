@@ -51,6 +51,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _typeOfFlawDetectorController(dataState: dataState),
+            _verticalSpace(),
+            _angleOfRayInputController(dataState: dataState),
+            _verticalSpace(),
+            _operatingFrequencyController(dataState: dataState),
+            _verticalSpace(),
+            _leveOfInspectionController(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
@@ -117,6 +125,34 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           child: Text(weatherData.name.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _typeOfFlawDetectorController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.typeOfFlawDetector,
+      controller: dataState.typeOfFlawDetectorController,
+    );
+  }
+
+  Widget _angleOfRayInputController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.angleOfRayInput,
+      controller: dataState.angleOfRayInputController,
+    );
+  }
+
+  Widget _operatingFrequencyController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.operatingFrequency,
+      controller: dataState.operatingFrequencyController,
+    );
+  }
+
+  Widget _leveOfInspectionController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.operatingFrequency,
+      controller: dataState.leveOfInspectionController,
     );
   }
 

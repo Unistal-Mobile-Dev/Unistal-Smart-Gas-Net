@@ -163,6 +163,11 @@ class AppString {
   static get repairCoatingDamage => "Repair Of Coating Damage";
   static get electrometerNo => "Electrometer No";
   static get activityRemark => "Activity Remark";
+  static get filmType => "Film Type";
+  static get inspectionTechnique => "Inspection Technique";
+  static get sensivity => "Sensivity";
+  static get density => "Density";
+  static get equipment => "Equipment";
   static get observationResult => "Observation/Results";
   static get locationOfDiscoveredDefect => "Location Of Discovered Defects";
   static get selectAlignment => "Select Alignment";
@@ -222,6 +227,7 @@ class AppString {
   static get selectJointType => "Select Joint Type";
   static get preHeatingTemperature => "Pre Heating Temperature";
   static get selectJointNumber => "Select Joint Number";
+  static get selectRtSource => "Select RT Source";
   static get selectRepairStatus => "Select Repair Status";
   static get selectLptStatus => "Select Lpt Status";
   static get selectFromJointNumber => "Select From Joint Number";
@@ -270,6 +276,10 @@ class AppString {
   static get electrodeDiaE9045p2Batch => "Electrode Dia E9045P2 Batch";
   static get electrodeDiaE81t8g => "Electrode Dia E8118G";
   static get electrodeDiaE81t8gBatch => "Electrode Dia E8118G Batch";
+  static get typeOfFlawDetector => "Type Of Flaw Detector";
+  static get angleOfRayInput => "Angle Of Ray Input";
+  static get operatingFrequency => "Operating Frequency";
+  static get levelOfInspection => "Level of Inspection";
 
 
 

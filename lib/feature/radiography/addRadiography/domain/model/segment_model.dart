@@ -78,4 +78,32 @@ class SegmentModel {
      return segmentStatusList;
   }
 
+  dynamic toJson() {
+    List<dynamic> segmentStatusDataList = [];
+    for(var status in segmentStatusList!){
+      if(status.selectedValue.toString().isNotEmpty){
+        segmentStatusDataList.add(status.id.toString());
+      }
+    }
+   var  data ;
+    if(segmentStatusDataList.isNotEmpty){
+
+      var json = {
+        "segment_id" : id.toString(),
+        "observation" : observationController!.text.toString(),
+        "status" :segmentStatusDataList.isNotEmpty ? segmentStatusDataList.toString().replaceAll("[", "").toString().replaceAll("]", "") : "0",
+        "remarks" : remarkController!.text.toString(),
+        "weld_details" : segmentWelderList!.map((v) => v.toJson()).toList(),
+      };
+      return json;
+
+/*      data['segment_id'] = id;
+      data['observation'] = observationController!.text.toString();
+      data['status'] = segmentStatusDataList.isNotEmpty ? segmentStatusDataList.toString().replaceAll("[", "").toString().replaceAll("]", "") : "0";
+      data['remarks'] = remarkController!.text.toString();
+      data['weld_details'] = segmentWelderList!.map((v) => v.toJson()).toList();*/
+    }
+    return "";
+  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
@@ -34,6 +35,27 @@ class AddNdtMutHelper {
     }
   }
 
+  static Future<dynamic> fetchNdtSourceData({required BuildContext context}) async {
+
+    try{
+      String url =  APIs.getNdtSourceApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
+        List<NdtSourceModel> ndtSourceList = [];
+        Map myMap = res['data'];
+        myMap.forEach((key, value) {
+          ndtSourceList.add(NdtSourceModel(id: key, value: value));
+        });
+        return ndtSourceList;
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
+
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
@@ -51,7 +73,10 @@ class AddNdtMutHelper {
     required NdtStatusModel dSPPLAgencyData,
     required NdtStatusModel meconPbgplData,
     required String locationDefect,
-
+    required String typeOfFlawDetector,
+    required String angleOfRayInput,
+    required String operatingFrequency,
+    required String leveOfInspection,
     required File file}) async {
 
     try{
@@ -85,6 +110,10 @@ class AddNdtMutHelper {
         "contractor_agency_status" : dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
         "pmc_agency_status" : meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
         "defects": locationDefect,
+        "flaw_detector_type": typeOfFlawDetector,
+        "angle_ray_input": angleOfRayInput,
+        "operating_frequency": operatingFrequency,
+        "inspection_level": leveOfInspection,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
