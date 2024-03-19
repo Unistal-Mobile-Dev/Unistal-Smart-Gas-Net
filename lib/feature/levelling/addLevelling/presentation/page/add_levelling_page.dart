@@ -195,7 +195,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _coverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.cover,
+      labelText: AppString.topCover,
       controller: dataState.coverController,
     );
   }

@@ -102,6 +102,7 @@ class AppString {
   static get elevationPipeTop => "Elevation/Pipetop";
   static get naturalGroundLeve => "Natural Ground Level";
   static get cover => "Cover";
+  static get topCover => "Top Cover";
   static get levelling => "Levelling";
   static get srNoSplicingMachine => "S.No Splicing Machine";
   static get postPadding => "Post Padding";
