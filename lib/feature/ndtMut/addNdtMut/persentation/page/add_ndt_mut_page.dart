@@ -151,7 +151,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _leveOfInspectionController({required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.operatingFrequency,
+      labelText: AppString.levelOfInspection,
       controller: dataState.leveOfInspectionController,
     );
   }

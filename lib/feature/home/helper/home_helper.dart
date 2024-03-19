@@ -152,10 +152,10 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddHydroTestPage(), icon: Icons.fire_hydrant,
           label: AppString.hydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+      drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
+          label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-        drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
-            label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
+      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
 
         drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
             label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -166,8 +166,6 @@ class HomeHelper {
         drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
             label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
       }
-
-
 
        return drawerList;
     }catch(e){

@@ -64,8 +64,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _elevationPipetopController(dataState: dataState),
             _verticalSpace(),
-            _natureGroundLeveController(dataState: dataState),
-            _verticalSpace(),
             _coverController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -92,15 +90,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       },
     );
   }
-
-  Widget _reportNumberController({required FetchAddLevellingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
-    );
-  }
-
 
   Widget _alignmentDropdown({required FetchAddLevellingDataState dataState}) {
     return  DropDownSearchWidget(
