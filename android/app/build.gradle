@@ -46,7 +46,7 @@ android {
     flavorDimensions "default"
     productFlavors {
         unistal {
-            resValue "string", "app_name", "Unistal Smart Gas Net"
+            resValue "string", "app_name", "Unistal Steel"
             applicationIdSuffix ".unistalsmartgasnet.app"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher_unistal",
@@ -58,7 +58,7 @@ android {
             }
         }
         purvaBharti {
-            resValue "string", "app_name", "Purva Bharti Smart Gas Net"
+            resValue "string", "app_name", "PBG Steel"
             applicationIdSuffix ".purvabhartismartgasnet.app"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher",
@@ -70,7 +70,7 @@ android {
             }
         }
         igl {
-            resValue "string", "app_name", "IGL Smart Gas Net"
+            resValue "string", "app_name", "IGL Steel"
             applicationIdSuffix ".iglsmartgasnet.app"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher_igl",
