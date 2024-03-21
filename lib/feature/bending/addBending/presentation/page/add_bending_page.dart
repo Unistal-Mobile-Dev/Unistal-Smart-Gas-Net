@@ -5,7 +5,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddBendingPage extends StatefulWidget {
@@ -335,8 +334,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

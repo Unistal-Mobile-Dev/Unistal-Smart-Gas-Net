@@ -34,9 +34,11 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://igl.smartgasnet.com/";
       case EnvironmentFlavours.productionIgl:
         return "https://igl.smartgasnet.com/";
+      case EnvironmentFlavours.productionIglMz:
+        return "https://igl.smartgasnet.com/";
     }
   }
 }
 
 enum EnvironmentFlavours{ developmentUnistal, productionUnistal, developmentPurvaBharti,
-  productionPurvaBharti, developmentIgl, productionIgl }
+  productionPurvaBharti, developmentIgl, productionIgl, productionIglMz }

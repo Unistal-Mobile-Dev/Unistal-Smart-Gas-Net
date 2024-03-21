@@ -33,10 +33,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   TextEditingController locationDiscoverDefectController =  TextEditingController();
   TextEditingController chainageController = TextEditingController();
   TextEditingController filmTypeController = TextEditingController();
-  TextEditingController inspectTechniqueController = TextEditingController();
+  TextEditingController rtTechController = TextEditingController();
   TextEditingController sensivityController = TextEditingController();
   TextEditingController densityController = TextEditingController();
-  TextEditingController equipmentController = TextEditingController();
+  TextEditingController pentameterController = TextEditingController();
+  TextEditingController acceptanceController = TextEditingController();
+  TextEditingController strengthController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -123,10 +126,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     dSPPLAgencyData   =  NdtStatusModel();
     chainageController.text = "";
     filmTypeController.text = "";
-    inspectTechniqueController.text = "";
+    rtTechController.text = "";
     sensivityController.text = "";
     densityController.text = "";
-    equipmentController.text = "";
+    pentameterController.text = "";
+    acceptanceController.text = "";
+    strengthController.text = "";
+    typeController.text = "";
     locationDiscoverDefectController.text = "";
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -324,11 +330,15 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         ndtSourceData: ndtSourceData,
         chainage: chainageController.text.toString(),
         density: densityController.text.toString(),
-        equipment: equipmentController.text.toString(),
+        pentameter: pentameterController.text.toString(),
         filmType: filmTypeController.text.toString(),
-        inspectTechnique: inspectTechniqueController.text.toString(),
+        rtTech: rtTechController.text.toString(),
         sensivity: sensivityController.text.toString(),
-        file: file);
+        file: file,
+        type: typeController.text.toString(),
+        acceptanceStandard: acceptanceController.text.toString(),
+        strength: strengthController.text.toString(),
+    );
     isLoader =  false;
     _eventComplete(emit);
     if(res !=  null){
@@ -349,10 +359,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       locationDiscoverDefectController.text = "";
       chainageController.text = "";
       filmTypeController.text = "";
-      inspectTechniqueController.text = "";
+      rtTechController.text = "";
       sensivityController.text = "";
       densityController.text = "";
-      equipmentController.text = "";
+      pentameterController.text = "";
+      acceptanceController.text = "";
+      strengthController.text = "";
+      typeController.text = "";
       _eventComplete(emit);
     }
   }
@@ -384,10 +397,13 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
       ndtSourceList: ndtSourceList,
       chainageController: chainageController,
       densityController: densityController,
-      equipmentController: equipmentController,
+      pentameterController: pentameterController,
       filmTypeController: filmTypeController,
-      inspectTechniqueController: inspectTechniqueController,
+      rtTechController: rtTechController,
       sensivityController: sensivityController,
+      typeController: typeController,
+      acceptanceController: acceptanceController,
+      strengthController: strengthController,
     ));
   }
 }

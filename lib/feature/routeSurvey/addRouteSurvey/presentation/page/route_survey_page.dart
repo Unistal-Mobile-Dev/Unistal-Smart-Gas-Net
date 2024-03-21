@@ -59,7 +59,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
              _verticalSpace(),
              _groundTypeDropDown(dataState: dataState),
 
-             AppConfig.instanceInit()!.client != Client.purvaBharti
+             AppConfig.instanceInit()!.client != Client.iglMZ
              ? Column(
                children: [
                  _tpRemarkController(dataState: dataState),

@@ -68,7 +68,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _chainageToController(dataState: dataState),
             _verticalSpace(),
 
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.iglMZ
             ? Column(
               children: [
                 _locatinController(dataState: dataState),
@@ -92,9 +92,9 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
 
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.iglMZ
                 ? _holidayChecksDropDown(dataState: dataState) : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.iglMZ
                 ?  _verticalSpace(): const SizedBox.shrink(),
 
             _activityRemark(dataState: dataState),

@@ -56,21 +56,21 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
-            _pipeLengthController(dataState: dataState),
-            _verticalSpace(),
-            _pipeLengthListWidget(dataState: dataState),
+            _chainageToController(dataState: dataState),
             _verticalSpace(),
 
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-            ? Column(
+            AppConfig.instanceInit()!.client != Client.iglMZ
+                ? Column(
               children: [
-                _chainageToController(dataState: dataState),
-                _verticalSpace(),
                 _concreteCoatingDropDown(dataState: dataState),
                 _verticalSpace(),
               ],
             ): const SizedBox.shrink(),
 
+            _pipeLengthController(dataState: dataState),
+            _verticalSpace(),
+            _pipeLengthListWidget(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -100,7 +100,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.chainage,
+      labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
   }

@@ -41,10 +41,13 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final NdtSourceModel ndtSourceData;
   final TextEditingController chainageController;
   final TextEditingController filmTypeController;
-  final TextEditingController inspectTechniqueController;
+  final TextEditingController rtTechController;
   final TextEditingController sensivityController;
   final TextEditingController densityController;
-  final TextEditingController equipmentController;
+  final TextEditingController pentameterController;
+  final TextEditingController acceptanceController;
+  final TextEditingController strengthController;
+  final TextEditingController typeController;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -73,10 +76,13 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.ndtSourceList,
     required this.chainageController,
     required this.densityController,
-    required this.equipmentController,
+    required this.pentameterController,
     required this.filmTypeController,
-    required this.inspectTechniqueController,
+    required this.rtTechController,
     required this.sensivityController,
+    required this.acceptanceController,
+    required this.strengthController,
+    required this.typeController,
   });
 
   @override
@@ -107,9 +113,12 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     ndtSourceData,
     chainageController,
     densityController,
-    equipmentController,
+    pentameterController,
     filmTypeController,
-    inspectTechniqueController,
+    rtTechController,
     sensivityController,
+    acceptanceController,
+    strengthController,
+    typeController,
   ];
 }

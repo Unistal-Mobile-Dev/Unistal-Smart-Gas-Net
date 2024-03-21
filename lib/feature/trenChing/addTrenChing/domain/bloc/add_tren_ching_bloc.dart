@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/soil_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/hepler/add_tren_ching_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
@@ -68,12 +69,16 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
 
+  List<SoilTypeModel> soilTypeList = [];
+  SoilTypeModel soilTypeData =  SoilTypeModel();
+
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
     on<AddTrenChingSelectAlignmentEvent>(_selectAlignment);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddTrenChingSelectDateEvent>(_selectDate);
     on<AddTrenChingAddImageEvent>(_selectFile);
+    on<AddTrenChingSelectSoilTypeDataEvent>(_selectSoilType);
     on<AddTrenChingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddTrenChingSelectToJointDataEvent>(_selectJointTo);
     on<AddTrenChingSelectJointTypeDataEvent>(_selectJointType);
@@ -109,6 +114,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     isJointNumberLoader = false;
     chainageFromController.text = "";
     chainageToController.text = "";
+    soilTypeList = [];
+    soilTypeData =  SoilTypeModel();
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
     if(res != null){
       _alignmentList =  res;
@@ -117,6 +124,11 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
+    }
+
+    var resSoilType =  await AddTrenChingHelper.fetchSoilTypeData(context: event.context, userData: userData);
+    if(resSoilType != null){
+      soilTypeList =  resSoilType;
     }
 
     _eventComplete(emit);
@@ -193,6 +205,11 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _eventComplete(emit);
   }
 
+  _selectSoilType(AddTrenChingSelectSoilTypeDataEvent event, emit) {
+    soilTypeData =  event.soilTypeData;
+    _eventComplete(emit);
+  }
+
   _submitData(AddTrenChingSubmitDataEvent event, emit) async {
 /*    var textFiledValidation =  await AddTrenChingHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
@@ -223,7 +240,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
         weatherData: weatherData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
-      toWidth: toWidthController.text.toString(),
+       toWidth: toWidthController.text.toString(),
+       soilTypeData: soilTypeData,
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -276,6 +294,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       toWidthController: toWidthController,
+      soilTypeData: soilTypeData,
+      soilTypeList: soilTypeList,
     ));
   }
 }

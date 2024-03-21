@@ -25,6 +25,13 @@ class AddTrenChingSelectAlignmentEvent extends AddTrenChingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddTrenChingSelectSoilTypeDataEvent extends AddTrenChingEvent {
+  final SoilTypeModel  soilTypeData;
+  const AddTrenChingSelectSoilTypeDataEvent({required this.soilTypeData});
+  @override
+  List<Object?> get props => [soilTypeData];
+}
+
 class AddTrenChingSelectJointEvent extends AddTrenChingEvent {
   final JointNumberModel  jointNumberData;
   const AddTrenChingSelectJointEvent({required this.jointNumberData});

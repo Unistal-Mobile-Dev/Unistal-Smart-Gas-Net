@@ -165,8 +165,14 @@ class AppString {
   static get electrometerNo => "Electrometer No";
   static get activityRemark => "Activity Remark";
   static get filmType => "Film Type";
+  static get film => "Film";
+  static get acceptanceStandard => "Acceptance Standard";
   static get inspectionTechnique => "Inspection Technique";
+  static get rtTech => "RT Tech";
+  static get pentameter => "Pentameter";
   static get sensivity => "Sensivity";
+  static get type => "Type";
+  static get strength => "Strength";
   static get density => "Density";
   static get equipment => "Equipment";
   static get observationResult => "Observation/Results";
@@ -190,6 +196,7 @@ class AppString {
   static get selectDisbomdmentChecks => "Select Disbomdment Checks";
   static get selectHolidayChecks => "Select Holiday Checks";
   static get selectWeather => "Select Weather";
+  static get selectSoilType => "Select Soil Type";
   static get selectNdtAgency => "Select NDT Agency";
   static get selectDSPPL => "Select DSPPL";
   static get selectMECONPBGPL => "Select MECON/PBGPL";
@@ -229,6 +236,7 @@ class AppString {
   static get preHeatingTemperature => "Pre Heating Temperature";
   static get selectJointNumber => "Select Joint Number";
   static get selectRtSource => "Select RT Source";
+  static get selectSource => "Select Source";
   static get selectRepairStatus => "Select Repair Status";
   static get selectLptStatus => "Select Lpt Status";
   static get selectFromJointNumber => "Select From Joint Number";

@@ -9,8 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
   var configuredApp = const EnvironmentConfig(
-      flavours: EnvironmentFlavours.developmentIgl,
-      child: Root(client: Client.igl,)
+      flavours: EnvironmentFlavours.productionIglMz,
+      child: Root(client: Client.iglMZ,)
   );
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
     SystemUiOverlay.bottom

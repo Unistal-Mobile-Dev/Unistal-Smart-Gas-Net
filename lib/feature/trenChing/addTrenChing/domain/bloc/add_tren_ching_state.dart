@@ -40,6 +40,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController toWidthController;
+  final List<SoilTypeModel> soilTypeList;
+  final SoilTypeModel soilTypeData;
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -67,6 +69,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.toWidthController,
+    required this.soilTypeData,
+    required this.soilTypeList,
   });
 
   @override
@@ -96,5 +100,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     chainageFromController,
     chainageToController,
     toWidthController,
+    soilTypeList,
+    soilTypeData,
   ];
 }

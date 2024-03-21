@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/soil_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddTrenChingPage extends StatefulWidget {
@@ -49,12 +50,21 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
-            _fromJointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
-            _toJointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
+
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+            ? _jointTypeDropDown(dataState: dataState) : const SizedBox.shrink(),
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+             ? _verticalSpace() : const SizedBox.shrink(),
+
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+            ? _fromJointNumberDropDown(dataState: dataState) : const SizedBox.shrink(),
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+                ? _verticalSpace() : const SizedBox.shrink(),
+
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+            ? _toJointNumberDropDown(dataState: dataState) : const SizedBox.shrink(),
+            AppConfig.instanceInit()!.client !=  Client.iglMZ
+                ? _verticalSpace() : const SizedBox.shrink(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
@@ -63,13 +73,16 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
 
             AppConfig.instanceInit()!.client !=  Client.purvaBharti
+           && AppConfig.instanceInit()!.client !=  Client.iglMZ
              ? _terrainTypeController(dataState: dataState) : const SizedBox.shrink(),
             AppConfig.instanceInit()!.client !=  Client.purvaBharti
+                && AppConfig.instanceInit()!.client !=  Client.iglMZ
                 ? _verticalSpace() : const SizedBox.shrink(),
 
             _toWidthController(dataState: dataState),
             _verticalSpace(),
-
+            _soilTypeDropDown(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -229,6 +242,23 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.widthMeter,
       controller: dataState.toWidthController,
+    );
+  }
+
+  Widget _soilTypeDropDown({required FetchAddTrenChingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectSoilType,
+      dropdownValue: dataState.soilTypeData.id != null ? dataState.soilTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddTrenChingBloc>(context).add(
+            AddTrenChingSelectSoilTypeDataEvent(soilTypeData: value));
+      },
+      items: dataState.soilTypeList.map<DropdownMenuItem<SoilTypeModel>>((SoilTypeModel soilTypeData) {
+        return DropdownMenuItem<SoilTypeModel>(
+          value: soilTypeData,
+          child: Text(soilTypeData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

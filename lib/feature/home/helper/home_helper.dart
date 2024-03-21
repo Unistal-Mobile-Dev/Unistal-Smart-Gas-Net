@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
@@ -19,7 +18,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_m
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/presentation/page/add_hydrotest_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/presentation/page/add_joint_coating_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/presentation/page/add_ndt_aut_page.dart';
@@ -31,14 +29,12 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/domain/add_rou_handover_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/presentation/page/add_rou_handover_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/presentation/page/route_survey_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/presentation/page/add_soil_resistivity_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/presentation/page/add_stringing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/presentation/page/add_swabbing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/test/presentation/page/test_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/presentation/page/add_tren_ching_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
@@ -57,19 +53,16 @@ class HomeHelper {
 
        List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
 
-/*       drawerList.add(DrawerModel(widget: const TestPage(), icon: Icons.alt_route_sharp,
-           label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));*/
-
-       drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
+/*       drawerList.add(DrawerModel(widget: const AddRouteSurveyPage(), icon: Icons.alt_route_sharp,
            label: AppString.routeSurvey, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-       if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+       if(AppConfig.instanceInit()!.client != Client.iglMZ){
          drawerList.add(DrawerModel(widget: const AddRouHandoverPage(), icon: Icons.handshake_outlined,
              label: AppString.rouHandover, sublist: [],  isSelected: false, actionButtonWidget: null));
        }
 
        drawerList.add(DrawerModel(widget: const AddClearingGradingPage(), icon: Icons.auto_graph,
-           label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));
+           label: AppString.clearingGrading, sublist: [],  isSelected: false, actionButtonWidget: null));*/
 
 /*       drawerList.add(DrawerModel(widget: const AddSoilResistivityPage(), icon: Icons.account_tree_outlined,
            label: AppString.soilResistivity, sublist: [],  isSelected: false, actionButtonWidget: null));*/
@@ -80,93 +73,90 @@ class HomeHelper {
        drawerList.add(DrawerModel(widget: const AddStringingPage(), icon: Icons.stream,
            label: AppString.stringing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
-        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
-            label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
-
-
       drawerList.add(DrawerModel(widget: const AddCutPipePage(), icon: Icons.panorama_horizontal_rounded,
           label: AppString.cutPipe, sublist: [],  isSelected: false, actionButtonWidget: _restoreActionWidget(context: context)));
 
-       drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
-           label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
-        drawerList.add(DrawerModel(widget: const AddWelderRepairPage(), icon: Icons.tire_repair_sharp,
-            label: AppString.weldRepair, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
+      drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
+          label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
-          label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
-        drawerList.add(DrawerModel(widget: const AddNdtAutPage(), icon: Icons.auto_awesome_mosaic_outlined,
-            label: AppString.ndtAut, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
 
       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+
       drawerList.add(DrawerModel(widget: const AddJointCoatingPage(), icon: Icons.join_inner_outlined,
           label: AppString.jointCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
-        drawerList.add(DrawerModel(widget: const AddConcreteCoatingPage(), icon: Icons.business,
-            label: AppString.concreteCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
 
       drawerList.add(DrawerModel(widget: const AddLoweringPage(), icon: Icons.bookmark_added_outlined,
           label: AppString.lowering, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
+      drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
+          label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-        drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
-            label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-        drawerList.add(DrawerModel(widget: const AddHDPEDuctTestingPage(), icon: Icons.pages_outlined,
-            label: AppString.hdpeDuctTesting, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
-
-       drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
-           label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
+      drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
+          label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       drawerList.add(DrawerModel(widget: const AddCrossingPage(), icon: Icons.format_line_spacing_sharp,
           label: AppString.crossing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
-        drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
-            label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
-
-        drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
-            label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
-
-
       drawerList.add(DrawerModel(widget: const AddPreHydroTestPage(), icon: Icons.precision_manufacturing,
           label: AppString.preHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+      drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
+          label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
+
 
       drawerList.add(DrawerModel(widget: const AddHydroTestPage(), icon: Icons.fire_hydrant,
           label: AppString.hydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+      drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
+          label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+/*        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
+            label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));*/
+
+    /*  drawerList.add(DrawerModel(widget: const AddWeldingPage(), icon: Icons.transgender_outlined,
+          label: AppString.welding, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+        drawerList.add(DrawerModel(widget: const AddWelderRepairPage(), icon: Icons.tire_repair_sharp,
+            label: AppString.weldRepair, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+      drawerList.add(DrawerModel(widget: const AddLptPage(), icon: Icons.local_play_outlined,
+          label: AppString.lpt, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+        drawerList.add(DrawerModel(widget: const AddNdtAutPage(), icon: Icons.auto_awesome_mosaic_outlined,
+            label: AppString.ndtAut, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+        drawerList.add(DrawerModel(widget: const AddConcreteCoatingPage(), icon: Icons.business,
+            label: AppString.concreteCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+        drawerList.add(DrawerModel(widget: const AddHDPEDuctTestingPage(), icon: Icons.pages_outlined,
+            label: AppString.hdpeDuctTesting, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
+        drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,
+            label: AppString.ofcSplicing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+
       drawerList.add(DrawerModel(widget: const AddLevellingPage(), icon: Icons.file_present,
           label: AppString.levelling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-      if(AppConfig.instanceInit()!.client != Client.purvaBharti){
 
         drawerList.add(DrawerModel(widget: const AddRestorationPage(), icon: Icons.present_to_all_sharp,
             label: AppString.restoration, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-        drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
-            label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));
-
         drawerList.add(DrawerModel(widget: const AddDryingPage(), icon: Icons.dry_outlined,
             label: AppString.drying, sublist: [],  isSelected: false, actionButtonWidget: null));
-      }
-
+*/
        return drawerList;
     }catch(e){
       return null;

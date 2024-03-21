@@ -57,15 +57,21 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _ndtSourceDropDown(dataState: dataState),
             _verticalSpace(),
+            _acceptanceController(dataState: dataState),
+            _verticalSpace(),
             _filmTypeController(dataState: dataState),
             _verticalSpace(),
-            _inspectTechniqueController(dataState: dataState),
+            _rtTechController(dataState: dataState),
             _verticalSpace(),
             _sensivityController(dataState: dataState),
             _verticalSpace(),
             _densityController(dataState: dataState),
             _verticalSpace(),
-            _equipmentController(dataState: dataState),
+            _pentameterController(dataState: dataState),
+            _verticalSpace(),
+            _strengthController(dataState: dataState),
+            _verticalSpace(),
+            _typeController(dataState: dataState),
             _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -75,8 +81,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
-            _ndtAgencyDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _ndtAgencyDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _dSPPLDropDown(dataState: dataState),
             _verticalSpace(),
             _mECONPBGPLDropDown(dataState: dataState),
@@ -136,7 +142,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectRtSource,
+      hint: AppString.selectSource,
       dropdownValue: dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
@@ -159,17 +165,24 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
+  Widget _acceptanceController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.acceptanceStandard,
+      controller: dataState.acceptanceController,
+    );
+  }
+
   Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.filmType,
+      labelText: AppString.film,
       controller: dataState.filmTypeController,
     );
   }
 
-  Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
+  Widget _rtTechController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.inspectionTechnique,
-      controller: dataState.inspectTechniqueController,
+      labelText: AppString.rtTech,
+      controller: dataState.rtTechController,
     );
   }
 
@@ -187,10 +200,24 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
+  Widget _pentameterController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.equipment,
-      controller: dataState.equipmentController,
+      labelText: AppString.pentameter,
+      controller: dataState.pentameterController,
+    );
+  }
+
+  Widget _strengthController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.strength,
+      controller: dataState.strengthController,
+    );
+  }
+
+  Widget _typeController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.type,
+      controller: dataState.typeController,
     );
   }
 

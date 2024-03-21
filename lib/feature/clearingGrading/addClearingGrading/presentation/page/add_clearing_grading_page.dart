@@ -55,7 +55,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _terrainDropDown(dataState: dataState),
             _verticalSpace(),
 
-           AppConfig.instanceInit()!.client != Client.purvaBharti ?
+           AppConfig.instanceInit()!.client != Client.iglMZ ?
            Column(
               children: [
                 _tpIpChainageController(dataState: dataState),

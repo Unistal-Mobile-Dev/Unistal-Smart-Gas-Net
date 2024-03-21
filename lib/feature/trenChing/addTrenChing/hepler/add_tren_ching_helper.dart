@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/soil_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 
@@ -54,6 +55,22 @@ class AddTrenChingHelper {
     }
   }
 
+  static Future<dynamic> fetchSoilTypeData({required BuildContext context,
+    required LoginDataModel userData}) async {
+
+    try{
+      String url =  APIs.getSoilTypeApi+"?schema=${userData.schema}";
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['success'] != null
+          && res['success'] == 200 && res['data'] != null) {
+        return soilTypeListResponse(res['data']);
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
   static Future<dynamic> submitData({required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
@@ -65,6 +82,7 @@ class AddTrenChingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String toWidth,
+    required SoilTypeModel soilTypeData,
   }) async {
 
     try{
@@ -95,6 +113,7 @@ class AddTrenChingHelper {
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "Soil_type_id" : soilTypeData.id != null ? soilTypeData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",

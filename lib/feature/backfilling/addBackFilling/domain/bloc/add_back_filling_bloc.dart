@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -193,7 +190,6 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   }
 
   _selectDate(AddBackFillingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
