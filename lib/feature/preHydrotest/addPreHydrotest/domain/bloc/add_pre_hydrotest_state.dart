@@ -47,6 +47,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final TextEditingController pressureReading1KGController;
   final TextEditingController pressureReading2KGController;
   final TextEditingController tempController;
+  final TextEditingController clearanceController;
 
   FetchAddPreHydrotestDataState({
     required this.isLoader,
@@ -80,6 +81,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     required this.timeInHoursController,
     required this.timeOffController,
     required this.timeOnController,
+    required this.clearanceController,
   });
 
   @override
@@ -115,5 +117,6 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     timeInHoursController,
     timeOffController,
     timeOnController,
+    clearanceController,
   ];
 }

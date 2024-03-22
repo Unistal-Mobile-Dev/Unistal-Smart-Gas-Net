@@ -20,6 +20,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/dom
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/molling/addMolling/domain/bloc/add_molling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/bloc/add_ndt_aut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/domain/bloc/add_ofc_splicing_bloc.dart';
@@ -142,6 +143,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
         BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddCrossingBloc()),
+        BlocProvider(create: (BuildContext context) => AddMollingBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(

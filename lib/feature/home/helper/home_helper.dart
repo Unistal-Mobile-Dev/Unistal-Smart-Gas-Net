@@ -20,6 +20,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/molling/addMolling/presentation/page/add_molling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/presentation/page/add_ndt_aut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
@@ -82,14 +83,11 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddRadioGraphyPage(), icon: Icons.graphic_eq,
           label: AppString.radiography, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
       drawerList.add(DrawerModel(widget: const AddNdtMutPage(), icon: Icons.nearby_error_rounded,
           label: AppString.ndtMut, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
       drawerList.add(DrawerModel(widget: const AddJointCoatingPage(), icon: Icons.join_inner_outlined,
           label: AppString.jointCoating, sublist: [],  isSelected: false, actionButtonWidget: null));
-
 
       drawerList.add(DrawerModel(widget: const AddLoweringPage(), icon: Icons.bookmark_added_outlined,
           label: AppString.lowering, sublist: [],  isSelected: false, actionButtonWidget: null));
@@ -106,13 +104,14 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddPreHydroTestPage(), icon: Icons.precision_manufacturing,
           label: AppString.preHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
       drawerList.add(DrawerModel(widget: const AddPostHydroTestPage(), icon: Icons.fire_hydrant_alt_outlined,
           label: AppString.postHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-
       drawerList.add(DrawerModel(widget: const AddHydroTestPage(), icon: Icons.fire_hydrant,
           label: AppString.hydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddMollingPage(), icon: Icons.auto_awesome_mosaic_outlined,
+          label: AppString.molling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
           label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));

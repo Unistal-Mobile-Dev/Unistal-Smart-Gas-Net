@@ -51,11 +51,15 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _pressureGaugeNoController(dataState: dataState),
+            _testPressureController(dataState: dataState),
             _verticalSpace(),
             _pressureGaugeCalibrationDateController(dataState: dataState),
             _verticalSpace(),
-            _testPressureController(dataState: dataState),
+            _timeOnController(dataState: dataState),
+            _verticalSpace(),
+/*            _pressureGaugeNoController(dataState: dataState),
+            _verticalSpace(),
+            _pressureGaugeCalibrationDateController(dataState: dataState),
             _verticalSpace(),
             _rangeController(dataState: dataState),
             _verticalSpace(),
@@ -66,7 +70,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _timeOnController(dataState: dataState),
             _verticalSpace(),
             _timeOffController(dataState: dataState),
-            _verticalSpace(),
+            _verticalSpace(),*/
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
@@ -74,6 +78,8 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _lengthController(dataState: dataState),
+            _verticalSpace(),
+            _clearanceController(dataState: dataState),
             _verticalSpace(),
             _timeInHoursController(dataState: dataState),
             _verticalSpace(),
@@ -206,7 +212,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
-      labelText: AppString.pressureGaugeCalibrationDate,
+      labelText: AppString.date,
       controller: dataState.pressureGaugeCalibrationDateController,
       onTap: () {
         BlocProvider.of<AddPreHydrotestBloc>(context).add(
@@ -255,7 +261,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.timeOn,
+      labelText: AppString.time,
       controller: dataState.timeOnController,
     );
   }
@@ -266,6 +272,14 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
       textInputType: TextInputType.number,
       labelText: AppString.timeOff,
       controller: dataState.timeOffController,
+    );
+  }
+
+  Widget _clearanceController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.WeldVisualClearance,
+      controller: dataState.clearanceController,
     );
   }
 
@@ -282,7 +296,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.pressureReading1Kg,
+      labelText: AppString.pressure1,
       controller: dataState.pressureReading1KGController,
     );
   }
@@ -291,7 +305,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.pressureReading2Kg,
+      labelText: AppString.pressure2,
       controller: dataState.pressureReading2KGController,
     );
   }
@@ -300,7 +314,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.temp,
+      labelText: AppString.ambTemp,
       controller: dataState.tempController,
     );
   }

@@ -33,6 +33,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   TextEditingController slopeBreakerController =  TextEditingController();
   TextEditingController warningMatController =  TextEditingController();
   TextEditingController antiBuoyancyController =  TextEditingController();
+  TextEditingController coverMeterController = TextEditingController();
+  TextEditingController crownController = TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -86,6 +88,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         slopeBreakerController.text = "";
         warningMatController.text = "";
         antiBuoyancyController.text = "";
+        coverMeterController.text = "";
+        crownController.text = "";
         plasticGratingList = [];
         jointFromList = [];
         jointToList = [];
@@ -241,7 +245,10 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         postPadding: postPaddingController.text.toString(),
         antiBuoyancy: antiBuoyancyController.text.toString(),
         file: file, pipeDiaData: pipeDiaData,
-        thicknessData: thicknessData);
+        thicknessData: thicknessData,
+        coverMeter: coverMeterController.text.toString(),
+        crownMeter: crownController.text.toString(),
+    );
      isLoader =  false;
      _eventComplete(emit);
     if(res !=  null){
@@ -254,6 +261,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       slopeBreakerController.text = "";
       warningMatController.text = "";
       antiBuoyancyController.text = "";
+      coverMeterController.text = "";
+      crownController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       plasticGratingData = VisualChecksModel();
@@ -298,6 +307,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         pipeDialList: pipeDiaList,
         thicknessData: thicknessData,
         thicknessList: thicknessList,
+        crownController: crownController,
+        coverMeterController: coverMeterController,
     ));
   }
 

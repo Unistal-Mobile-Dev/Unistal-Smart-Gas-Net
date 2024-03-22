@@ -73,6 +73,8 @@ class AddBackFillingHelper {
     required File file,
     required PipeDiaModel pipeDiaData,
     required ThicknessModel thicknessData,
+    required String coverMeter,
+    required String crownMeter,
   }) async {
 
     try{
@@ -107,6 +109,8 @@ class AddBackFillingHelper {
         "slope_breaker" : slopeBreaker,
         "warning_mat" : warningMat,
         "anti_buoyancy" : antiBuoyancy,
+        "cover" : coverMeter,
+        "crown" : crownMeter,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "pipe_dia_id" : pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
         "pipe_thickness_id" : thicknessData.id != null ? thicknessData.id.toString() : "",

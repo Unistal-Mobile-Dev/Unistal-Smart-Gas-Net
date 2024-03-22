@@ -84,6 +84,13 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
               ],
             ) : const SizedBox.shrink(),
 
+
+            _coverMeterController(dataState: dataState),
+            _verticalSpace(),
+            _crownController(dataState: dataState),
+            _verticalSpace(),
+
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -299,6 +306,23 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       isRequired: true,
       labelText: AppString.warningMat,
       controller: dataState.warningMatController,
+    );
+  }
+
+
+  Widget _coverMeterController({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.coverMeter,
+      controller: dataState.coverMeterController,
+    );
+  }
+
+  Widget _crownController({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.crowMeter,
+      controller: dataState.crownController,
     );
   }
 

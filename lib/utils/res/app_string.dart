@@ -85,11 +85,16 @@ class AppString {
   static get pipeSize => "Pipe Size";
   static get duration => "Duration";
   static get timeOn => "Time On";
+  static get time => "Time";
   static get timeOff => "Time Off";
   static get timeInHours => "Time In Hours";
+  static get WeldVisualClearance => "Weld Visual& NDT Clearance";
   static get pressureReading1Kg => "Pressure Reading 1(Kg/Cm)";
+  static get pressure1 => "Pressure 1";
   static get pressureReading2Kg => "Pressure Reading 2(Kg/Cm)";
+  static get pressure2 => "Pressure 2";
   static get temp => "Temp";
+  static get ambTemp => "AMB Temp";
   static get casingPipeLength => "casing Pipe Length(Meters)";
   static get hydrotestingLength => "Hydrotesting Length(Meter)";
   static get hdpeLayinglength => "HDPE Laying Length(Meters)";
@@ -114,9 +119,12 @@ class AppString {
   static get lengthMeter => "Length(Meters)";
   static get couplerEndCapJointPit => "Coupler/End Cap/Joint Pit";
   static get pitNumber => "Pit Number";
+  static get ductCouplersLocation => "Duct Couplers Location";
   static get slopBreaker => "Slope Breaker";
   static get warningMat => "Warning Mat";
   static get antiBuoyancy => "Anti Buoyancy";
+  static get coverMeter => "Cover(Mtrs)";
+  static get crowMeter => "Crown(Mtrs)";
   static get selectPlasticGrating => "Select Plastic Grating";
   static get selectRemovalOfSurplusMaterialData => "Select Removal Of Surplus Material";
   static get selectReplacementofTopSoilData => "Select Replacement of Top Soil";
@@ -164,6 +172,7 @@ class AppString {
   static get repairCoatingDamage => "Repair Of Coating Damage";
   static get electrometerNo => "Electrometer No";
   static get activityRemark => "Activity Remark";
+  static get description => "Description";
   static get filmType => "Film Type";
   static get film => "Film";
   static get acceptanceStandard => "Acceptance Standard";
@@ -225,6 +234,7 @@ class AppString {
   static get postHydrotest => "Post Hydrotest";
   static get preHydrotest => "Pre Hydrotest";
   static get hydrotest => "Hydrotest";
+  static get molling => "Molling";
   static get restoration => "Restoration";
   static get swabbing => "Swabbing";
   static get restore => "Restore";

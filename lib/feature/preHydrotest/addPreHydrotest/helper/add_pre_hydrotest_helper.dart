@@ -37,6 +37,7 @@ class AddPreHydroTestHelper {
     required String pressureReading1KG,
     required String pressureReading2KG,
     required String temp,
+    required String clearance,
   }) async {
 
     try{
@@ -73,6 +74,7 @@ class AddPreHydroTestHelper {
         "time_off" : timeOff.toString(),
         "time" : timeInHours.toString(),
         "temp" : temp.toString(),
+        "ndt_clearance" : clearance.toString(),
         "pressure_reading_1" : pressureReading1KG.toString(),
         "pressure_reading_2" : pressureReading2KG.toString(),
       };

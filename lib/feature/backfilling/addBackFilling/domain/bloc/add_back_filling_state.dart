@@ -44,6 +44,9 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
 
+  final TextEditingController coverMeterController;
+  final TextEditingController crownController;
+
   FetchAddBackFillingDataState({
     required this.isLoader,
     required this.alignmentList,
@@ -72,7 +75,9 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     required this.thicknessData,
     required this.thicknessList,
     required this.pipeDiaData,
-    required this.pipeDialList
+    required this.pipeDialList,
+    required this.coverMeterController,
+    required this.crownController,
   });
 
   @override
@@ -105,5 +110,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
     thicknessList,
     pipeDiaData,
     pipeDialList,
+    coverMeterController,
+    crownController,
   ];
 }

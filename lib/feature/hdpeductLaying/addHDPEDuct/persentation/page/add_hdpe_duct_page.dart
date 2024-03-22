@@ -58,14 +58,14 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointPitController(dataState: dataState),
-            _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _warningDropDown(dataState: dataState),
+            _jointPitController(dataState: dataState),
+            _verticalSpace(),
+/*            _warningDropDown(dataState: dataState),
             _verticalSpace(),
             _paddingDropDown(dataState: dataState),
-            _verticalSpace(),
+            _verticalSpace(),*/
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -213,7 +213,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _jointPitController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.couplerEndCapJointPit,
+      labelText: AppString.ductCouplersLocation,
       controller: dataState.jointPitController,
     );
   }
