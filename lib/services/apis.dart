@@ -73,6 +73,9 @@ class APIs {
   static get getNdtSourceApi => "api/steel/ndtsource";
   static get getSoilTypeApi => "api/steel/soiltype";
   static get addMollingApi => "api/steel/mollinginsert";
+  static get addDptApi => "api/steel/dptinsert";
+  static get addSteelStructureApi => "api/steel/steelstructureinsert";
+  static get addValveChamberApi => "api/steel/valvechamberinsert";
 
 
   static get productTypeApi => "admin/rest/getItemType";

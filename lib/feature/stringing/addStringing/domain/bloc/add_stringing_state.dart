@@ -47,7 +47,6 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.searchPipeController,
     required this.alignmentData,
     required this.file,
-    required this.pipeList,
     required this.searchPipeList,
     required this.pipeData,
     required this.concreteCoatingList,
@@ -59,6 +58,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.searchPipeLoader,
     required this.pipeLengthController,
     required this.pipeLengthList,
+    required this.pipeList,
   });
 
   @override

@@ -90,6 +90,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     pipeLengthController.text = "";
     _pipeData =  PipeModel();
     _pipeList = [];
+    _searchPipeLoader =  false;
     _concreteCoatingList = [];
     pipeLengthList = [];
     _concreteCoatingData  =  ConcreteCoatingModel();
@@ -101,7 +102,6 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     chainageFromController.text = "";
     chainageToController.text = "";
     searchPipeController.text = "";
-    _searchPipeLoader =  false;
     _userData =  UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);

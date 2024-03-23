@@ -74,6 +74,7 @@ class AppString {
   static get chainageFrom => "Chainage From";
   static get sectionLengthMeter  => "Section Length(Meter)";
   static get casingPipeLengthMeter  => "Casing Pipe Length(Meter)";
+  static get dptTest  => "	Result After DP Test";
   static get pipeLength => "Pipe Length";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
@@ -192,6 +193,10 @@ class AppString {
   static get fromJointId => "From Joint Id";
   static get toJointId => "To Joint Id";
   static get trenchingDepth => "Trenching Depth";
+  static get descriptionOfStructureMember => "Description Of Structure Member";
+  static get unitWeight => "Unit Weight(KG)";
+  static get weight => "Weight(Kg)";
+  static get height => "Height";
   static get terrainType => "Terrain Type";
   static get widthMeter => "Width(Meters)";
   static get trenChing => "Trenching";
@@ -228,6 +233,7 @@ class AppString {
   static get crossing => "Crossing";
   static get crossingName => "Crossing Name";
   static get hdpeDuctLaying => "HDPE Duct Laying";
+  static get dpt => "DPT";
   static get hdpeDuctTesting => "HDPE Duct Testing";
   static get lowering => "Lowering";
   static get ofcSplicing => "OFC Splicing/Jointing";
@@ -237,6 +243,8 @@ class AppString {
   static get molling => "Molling";
   static get restoration => "Restoration";
   static get swabbing => "Swabbing";
+  static get steelStructure => "Steel Structure";
+  static get valveChamber => "Valve Chamber";
   static get restore => "Restore";
   static get concreteCoatingThickness => "Concrete Coating Thickness";
   static get wallThickness => "Wall Thickness";

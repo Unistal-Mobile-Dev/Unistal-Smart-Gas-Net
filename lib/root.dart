@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domai
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/domain/bloc/add_cut_pipe_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/domain/bloc/restore_cut_pipe_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dpt/addDpt/domain/bloc/add_dpt_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/domain/bloc/add_drying_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuctTesting/domain/bloc/add_hdpe_duct_testing_bloc.dart';
@@ -33,10 +34,12 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/steelStructure/addStreelStructure/domain/bloc/add_steel_structure_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/test/domain/bloc/test_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/valveChamber/addValveChamber/domain/bloc/add_valve_chamber_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
@@ -144,6 +147,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddCrossingBloc()),
         BlocProvider(create: (BuildContext context) => AddMollingBloc()),
+        BlocProvider(create: (BuildContext context) => AddMollingBloc()),
+        BlocProvider(create: (BuildContext context) => AddDptBloc()),
+        BlocProvider(create: (BuildContext context) => AddSteelStructureBloc()),
+        BlocProvider(create: (BuildContext context) => AddValveChamberBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(

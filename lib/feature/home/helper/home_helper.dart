@@ -11,6 +11,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/prese
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/addCutPipe/presentation/page/add_cut_pipe_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/presentation/page/restore_cut_pipe_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dpt/addDpt/presentation/page/add_dpt_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/drying/addDrying/presentation/page/add_drying_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuctTesting/presentation/page/add_hdpe_duct_testing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
@@ -33,11 +34,13 @@ import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/presentation/page/route_survey_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/presentation/page/add_soil_resistivity_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/steelStructure/addStreelStructure/presentation/page/add_steel_structure_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/presentation/page/add_stringing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/presentation/page/add_swabbing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/presentation/page/add_tren_ching_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/valveChamber/addValveChamber/presentation/page/add_valve_chamber_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/presentation/page/add_welding_page.dart';
@@ -95,6 +98,9 @@ class HomeHelper {
       drawerList.add(DrawerModel(widget: const AddHdpeDuctPage(), icon: Icons.padding_outlined,
           label: AppString.hdpeDuctLaying, sublist: [],  isSelected: false, actionButtonWidget: null));
 
+      drawerList.add(DrawerModel(widget: const AddDptPage(), icon: Icons.dashboard_customize_outlined,
+          label: AppString.dpt, sublist: [],  isSelected: false, actionButtonWidget: null));
+
       drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
           label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
@@ -115,6 +121,12 @@ class HomeHelper {
 
       drawerList.add(DrawerModel(widget: const AddSwabbingPage(), icon: Icons.swap_horizontal_circle_outlined,
           label: AppString.swabbing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddValveChamberPage(), icon: Icons.calendar_view_month_sharp,
+          label: AppString.valveChamber, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddSteelStructurePage(), icon: Icons.streetview,
+          label: AppString.steelStructure, sublist: [],  isSelected: false, actionButtonWidget: null));
 
 /*        drawerList.add(DrawerModel(widget: const AddBendingPage(), icon: Icons.webhook_rounded,
             label: AppString.bending, sublist: [],  isSelected: false, actionButtonWidget: null));*/
