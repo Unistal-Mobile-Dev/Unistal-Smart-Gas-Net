@@ -67,30 +67,10 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-
-            AppConfig.instanceInit()!.client !=  Client.purvaBharti
-            ? Column(
-              children: [
-                _postPaddingController(dataState: dataState),
-                _verticalSpace(),
-                _slopeBreakerController(dataState: dataState),
-                _verticalSpace(),
-                _plasticGratingDropDown(dataState: dataState),
-                _verticalSpace(),
-                _antiBuoyancyController(dataState: dataState),
-                _verticalSpace(),
-                _warningMatController(dataState: dataState),
-                _verticalSpace(),
-              ],
-            ) : const SizedBox.shrink(),
-
-
             _coverMeterController(dataState: dataState),
             _verticalSpace(),
             _crownController(dataState: dataState),
             _verticalSpace(),
-
-
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -292,11 +272,12 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _warningMatController({required FetchAddBackFillingDataState dataState}) {
+  Widget _lengthMeterController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.warningMat,
-      controller: dataState.warningMatController,
+      textInputType: TextInputType.number,
+      labelText: AppString.lengthMeter,
+      controller: dataState.lengthMeterController,
     );
   }
 
@@ -304,6 +285,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _coverMeterController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.coverMeter,
       controller: dataState.coverMeterController,
     );
@@ -312,6 +294,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _crownController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.crowMeter,
       controller: dataState.crownController,
     );

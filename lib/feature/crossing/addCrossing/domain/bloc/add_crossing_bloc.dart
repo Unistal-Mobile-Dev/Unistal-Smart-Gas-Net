@@ -30,15 +30,15 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   TextEditingController onBodyController = TextEditingController();
   TextEditingController onWeldController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController sectionLengthController = TextEditingController();
-  TextEditingController casingPipeLengthController = TextEditingController();
-  TextEditingController concreteCoatingLengthController = TextEditingController();
+  TextEditingController weldingReportNumberController = TextEditingController();
+  TextEditingController radiographyReportNoController = TextEditingController();
+  TextEditingController coatingReportNoController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController holidayTestNoController = TextEditingController();
-  TextEditingController crossingNameController = TextEditingController();
-  TextEditingController electrometerNoController = TextEditingController();
-  TextEditingController batchNoController = TextEditingController();
-  TextEditingController surfaceController = TextEditingController();
+  TextEditingController preHydroReportNoController = TextEditingController();
+  TextEditingController hddSectionPreparationController = TextEditingController();
+  TextEditingController hddWithCashingController = TextEditingController();
+  TextEditingController casingLengthController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -113,15 +113,15 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     onBodyController.text = "";
     onWeldController.text = "";
     activityRemarkController.text = "";
-    sectionLengthController.text = "";
-    casingPipeLengthController.text = "";
-    concreteCoatingLengthController.text = "";
+    weldingReportNumberController.text = "";
+    radiographyReportNoController.text = "";
+    coatingReportNoController.text = "";
     locationController.text = "";
     holidayTestNoController.text = "";
-    crossingNameController.text = "";
-    electrometerNoController.text = "";
-    batchNoController.text = "";
-    surfaceController.text = "";
+    preHydroReportNoController.text = "";
+    hddSectionPreparationController.text = "";
+    hddWithCashingController.text = "";
+    casingLengthController.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
@@ -338,17 +338,17 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       fromJointData: fromJointData,
       toJointData: toJointData,
       jointTypeData: jointTypeData,
-      sectionLength: sectionLengthController.text.toString(),
-      casingPipeLength: casingPipeLengthController.text.toString(),
-      batchNo: batchNoController.text.toString(),
+      weldingReportNumber: weldingReportNumberController.text.toString(),
+      radiographyReportNo: radiographyReportNoController.text.toString(),
+      hddWithCashing: hddWithCashingController.text.toString(),
       file: file,
       onBody: onBodyController.text.toString(),
       holidayTestNo: holidayTestNoController.text.toString(),
       locationName: locationController.text.toString(),
-      concreteCoatingLength: concreteCoatingLengthController.text.toString(),
-      electrometerNo: electrometerNoController.text.toString(),
-      surface: surfaceController.text.toString(),
-      crossingName: crossingNameController.text.toString(),
+      coatingReportNo: coatingReportNoController.text.toString(),
+      hddSectionPreparation: hddSectionPreparationController.text.toString(),
+      casingLength: casingLengthController.text.toString(),
+      preHydroReportNo: preHydroReportNoController.text.toString(),
       pipeDiaData: pipeDiaData,
       thicknessData: thicknessData,
       visualChecksData: visualChecksData,
@@ -364,19 +364,19 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       dateController.text = "";
       onWeldController.text = "";
       activityRemarkController.text = "";
-      sectionLengthController.text = "";
-      casingPipeLengthController.text = "";
-      batchNoController.text = "";
+      weldingReportNumberController.text = "";
+      radiographyReportNoController.text = "";
+      hddWithCashingController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       holidayChecksData = HolidayChecksModel();
-      crossingNameController.text = "";
+      preHydroReportNoController.text = "";
       locationController.text = "";
       holidayTestNoController.text = "";
-      electrometerNoController.text = "";
+      hddSectionPreparationController.text = "";
       onBodyController.text = "";
-      surfaceController.text = "";
-      concreteCoatingLengthController.text = "";
+      casingLengthController.text = "";
+      coatingReportNoController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData =  JointTypeModel();
@@ -402,8 +402,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       onWeldController: onWeldController,
-      sectionLengthController: sectionLengthController,
-      casingPipeLengthController: casingPipeLengthController,
+      weldingReportNumberController: weldingReportNumberController,
+      radiographyReportNoController: radiographyReportNoController,
       alignmentData: alignmentData,
       file: file,
       weatherList: weatherList,
@@ -414,17 +414,17 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       fromJointData: fromJointData,
       jointFromList: jointFromList,
       jointToList: jointToList,
-      concreteCoatingLengthController: concreteCoatingLengthController,
+      coatingReportNoController: coatingReportNoController,
       locationController: locationController,
       toJointData: toJointData,
       holidayTestNoController: holidayTestNoController,
       holidayChecksData: holidayChecksData,
       onBodyController: onBodyController,
       holidayCheckList: holidayCheckList,
-      electrometerNoController: electrometerNoController,
-      crossingNameController: crossingNameController,
-      batchNoController: batchNoController,
-      surfaceController: surfaceController,
+      hddSectionPreparationController: hddSectionPreparationController,
+      preHydroReportNoController: preHydroReportNoController,
+      hddWithCashingController: hddWithCashingController,
+      casingLengthController: casingLengthController,
       pipeDiaData: pipeDiaData,
       pipeDialList: pipeDiaList,
       thicknessData: thicknessData,

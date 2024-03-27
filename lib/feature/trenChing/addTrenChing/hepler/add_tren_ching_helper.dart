@@ -112,7 +112,7 @@ class AddTrenChingHelper {
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "Soil_type_id" : soilTypeData.id != null ? soilTypeData.id.toString() : "",
+        "soil_type_id" : soilTypeData.id != null ? soilTypeData.id.toString() : "",
       };
       if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
@@ -122,13 +122,13 @@ class AddTrenChingHelper {
           && res['success'] == 200 && res['data'] != null) {
         if(!context.mounted) return res;
          if(!context.mounted) return null;
- SnackBarErrorWidget(context).show(message: res['data'].toString());
+        SnackBarErrorWidget(context).show(message: res['data'].toString());
         return res;
       }else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
         if(!context.mounted) return null;
          if(!context.mounted) return null;
- SnackBarErrorWidget(context).show(message: res['data'].toString());
+         SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
@@ -19,10 +20,12 @@ class AddCutPipeHelper {
   }
 
   static Future<dynamic> submitData({required BuildContext context,
-    required String cutePipeLength, required PipeModel pipeData}) async {
+    required String cutePipeLength, required PipeModel pipeData, required LoginDataModel userData}) async {
     try{
          String url =  APIs.addCutePipeApi;
          var json = {
+           "spreadId" : userData.spreadId.toString(),
+           "sectionId" : userData.sectionId.toString(),
            "pipeId" : pipeData.id.toString(),
            "pipeLength" : pipeData.pipeLength.toString(),
            "cutpipeLength" : cutePipeLength.toString(),
@@ -37,7 +40,12 @@ class AddCutPipeHelper {
          } else  if(res != null && res['status'] != null
              && res['error'] != null) {
            if(!context.mounted) return null;
-           SnackBarErrorWidget(context).show(message: res['error']);
+           SnackBarErrorWidget(context).show(message: res['error'].toString());
+           return null;
+         }  else  if(res != null && res['status'] != null
+             && res['message'] != null) {
+           if(!context.mounted) return null;
+           SnackBarErrorWidget(context).show(message: res['message'].toString());
            return null;
          } else{
            if(!context.mounted) return null;

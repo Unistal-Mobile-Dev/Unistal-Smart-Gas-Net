@@ -31,7 +31,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController postPaddingController =  TextEditingController();
   TextEditingController slopeBreakerController =  TextEditingController();
-  TextEditingController warningMatController =  TextEditingController();
+  TextEditingController lengthMeterController =  TextEditingController();
   TextEditingController antiBuoyancyController =  TextEditingController();
   TextEditingController coverMeterController = TextEditingController();
   TextEditingController crownController = TextEditingController();
@@ -86,7 +86,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         chainageToController.text = "";
         postPaddingController.text = "";
         slopeBreakerController.text = "";
-        warningMatController.text = "";
+        lengthMeterController.text = "";
         antiBuoyancyController.text = "";
         coverMeterController.text = "";
         crownController.text = "";
@@ -241,7 +241,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         jointTypeData: jointTypeData,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
-        warningMat: warningMatController.text.toString(),
+        lengthMeter: lengthMeterController.text.toString(),
         slopeBreaker: slopeBreakerController.text.toString(),
         postPadding: postPaddingController.text.toString(),
         antiBuoyancy: antiBuoyancyController.text.toString(),
@@ -260,7 +260,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       chainageToController.text = "";
       postPaddingController.text = "";
       slopeBreakerController.text = "";
-      warningMatController.text = "";
+      lengthMeterController.text = "";
       antiBuoyancyController.text = "";
       coverMeterController.text = "";
       crownController.text = "";
@@ -302,7 +302,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         postPaddingController: postPaddingController,
         slopeBreakerController: slopeBreakerController, 
         toJointData: toJointData, 
-        warningMatController: warningMatController,
+        lengthMeterController: lengthMeterController,
         antiBuoyancyController: antiBuoyancyController,
         pipeDiaData: pipeDiaData,
         pipeDialList: pipeDiaList,

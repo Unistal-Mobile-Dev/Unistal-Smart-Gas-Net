@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
@@ -53,9 +54,15 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
              _verticalSpace(),
              _weatherDropDown(dataState: dataState),
              _verticalSpace(),
-             _chainageFromController(dataState: dataState),
+             _pipeMaterialDropDown(dataState: dataState),
              _verticalSpace(),
-             _chainageToController(dataState: dataState),
+             _electrodeDiaE6010Controller(dataState: dataState),
+             _verticalSpace(),
+             _electrodeDiaE6010BatchController(dataState: dataState),
+             _verticalSpace(),
+             _electrodeEiaE7010p1Controller(dataState: dataState),
+             _verticalSpace(),
+             _electrodeEiaE7010p1BatchController(dataState: dataState),
              _verticalSpace(),
              _leftPipeDropDown(dataState: dataState),
              _verticalSpace(),
@@ -65,103 +72,15 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
              _verticalSpace(),
              _jointNumberDropDown(dataState: dataState),
              _verticalSpace(),
-             _wpsDropDown(dataState: dataState),
-             _verticalSpace(),
-             _rootWelders1Dropdown(dataState: dataState),
-             _verticalSpace(),
-
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ?   _rootWelders2Dropdown(dataState: dataState) : const SizedBox.shrink(),
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ?  _verticalSpace() : const SizedBox.shrink(),
-
-
-             _hotWelders1Controller(dataState: dataState),
-             _verticalSpace(),
-
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ?  _hotWelders2Controller(dataState: dataState) : const SizedBox.shrink(),
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ?  _verticalSpace() : const SizedBox.shrink(),
-
-             _filler1Welders1Controller(dataState: dataState),
-             _verticalSpace(),
-
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-           ? Column(
-               children: [
-                 _filler1Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler2Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler2Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler3Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler3Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler4Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler4Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler5Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler5Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler6Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler6Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler7Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler7Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler8Welders1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _filler8Welders2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _stripWelder1Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _stripWelder2Controller(dataState: dataState),
-                 _verticalSpace(),
-               ],
-             ) : const SizedBox.shrink(),
-
-             _cappingWelder1Controller(dataState: dataState),
-             _verticalSpace(),
-
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ? _cappingWelder2Controller(dataState: dataState) : const SizedBox.shrink(),
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ? _verticalSpace() : const SizedBox.shrink(),
-
-             _electrodeDiaE6010Controller(dataState: dataState),
-             _verticalSpace(),
-             _electrodeDiaE6010BatchController(dataState: dataState),
-             _verticalSpace(),
-             _electrodeEiaE8010p1Controller(dataState: dataState),
-             _verticalSpace(),
-             _electrodeEiaE8010p1BatchController(dataState: dataState),
-             _verticalSpace(),
-
-             AppConfig.instanceInit()!.client !=  Client.purvaBharti
-                 ? Column(
-               children: [
-                 _electrodeDiaE9045p2Controller(dataState: dataState),
-                 _verticalSpace(),
-                 _electrodeDiaE9045p2BatchController(dataState: dataState),
-                 _verticalSpace(),
-                 _electrodeDiaE81t8gController(dataState: dataState),
-                 _verticalSpace(),
-                 _electrodeDiaE81t8gBatchController(dataState: dataState),
-                 _verticalSpace(),
-               ],
-             ) : const SizedBox.shrink(),
-
-
              _fitupDropDown(dataState: dataState),
              _verticalSpace(),
+             _preHeatDropDown(dataState: dataState),
+             _verticalSpace(),
              _weldVisualDropDown(dataState: dataState),
+             _verticalSpace(),
+             _wpsDropDown(dataState: dataState),
+             _verticalSpace(),
+             _weldersDropdown(dataState: dataState),
              _verticalSpace(),
              _activityRemark(dataState: dataState),
              _verticalSpace(),
@@ -242,13 +161,31 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
-    return  DropdownWidget(
-      hint: AppString.rootWelders,
-      dropdownValue: dataState.rootWelders1Data.id != null ? dataState.rootWelders1Data : null,
+  Widget _pipeMaterialDropDown({required FetchAddWeldingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPipeMaterial,
+      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(welderData: value, name: AppString.rootWelders1));
+            AddWeldingSelectPipeMaterialDataEvent(pipeMaterialData: value));
+      },
+      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
+        return DropdownMenuItem<PipeMaterialModel>(
+          value: pipeMaterialData,
+          child: Text(pipeMaterialData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _weldersDropdown({required FetchAddWeldingDataState dataState}) {
+    return  dataState.isWelderLoader == false ?
+    DropdownWidget(
+      hint: AppString.selectWelder,
+      dropdownValue: dataState.welderData.id != null ? dataState.welderData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingSelectWelderEvent(welderData: value));
       },
       items: dataState.rootWelders1List.map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
@@ -256,7 +193,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           child: Text(welderData.welderName.toString()),
         );
       }).toList(),
-    );
+    ): const DottedLoaderWidget();
   }
 
   Widget _rootWelders2Dropdown({required FetchAddWeldingDataState dataState}) {
@@ -654,7 +591,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _electrodeDiaE6010Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010,
       controller: dataState.electrodeDiaE6010Controller,
     );
@@ -668,20 +604,19 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE7010p1Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE7010P1,
-      controller: dataState.electrodeEiaE8010p1Controller,
+      controller: dataState.electrodeEiaE7010p1Controller,
     );
   }
 
-  Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE7010p1BatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE7010P1Batch,
-      controller: dataState.electrodeEiaE8010p1BatchController,
+      controller: dataState.electrodeEiaE7010p1BatchController,
     );
   }
 
@@ -819,6 +754,23 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
             AddWeldingSelectFitupDataEvent(fitupData: value));
+      },
+      items: dataState.fitupList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel fitupData) {
+        return DropdownMenuItem<VisualChecksModel>(
+          value: fitupData,
+          child: Text(fitupData.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _preHeatDropDown({required FetchAddWeldingDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPreHeat,
+      dropdownValue: dataState.preHeatData.id != null ? dataState.preHeatData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingSelectPreHeatDataEvent(preHeatData: value));
       },
       items: dataState.fitupList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel fitupData) {
         return DropdownMenuItem<VisualChecksModel>(

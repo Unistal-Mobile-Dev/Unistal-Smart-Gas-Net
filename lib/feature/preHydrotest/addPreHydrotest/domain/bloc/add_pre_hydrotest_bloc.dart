@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/helper/add_joint_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/helper/add_pre_hydrotest_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -61,10 +63,14 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   ThicknessModel _thicknessData =  ThicknessModel();
   ThicknessModel get thicknessData => _thicknessData;
 
+  List<PipeMaterialModel> pipeMaterialList = [];
+  PipeMaterialModel pipeMaterialData =  PipeMaterialModel();
+
   AddPreHydrotestBloc() : super(AddPreHydrotestInitial()) {
     on<AddPreHydrotestPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddPreHydrotestSelectAlignmentEvent>(_selectAlignment);
+    on<AddPreHydrotestSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddPreHydrotestSelectFromJointDataEvent>(_selectJointFrom);
     on<AddPreHydrotestSelectToJointDataEvent>(_selectJointTo);
     on<AddPreHydrotestSelectJointTypeDataEvent>(_selectJointType);
@@ -96,6 +102,8 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     isJointNumberLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
+    pipeMaterialList = [];
+    pipeMaterialData =  PipeMaterialModel();
     pressureGaugeNoController.text = "";
     pressureGaugeCalibrationDateController.text = "";
     testPressureController.text = "";
@@ -126,6 +134,11 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       _thicknessList =  thicknessRes;
     }
 
+    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(userData: userData);
+    if(pipeMaterialRes != null){
+      pipeMaterialList =  pipeMaterialRes;
+    }
+
     _eventComplete(emit);
   }
 
@@ -149,6 +162,10 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     _eventComplete(emit);
   }
 
+  _selectPipeMaterial(AddPreHydrotestSelectPipeMaterialDataEvent event, emit) {
+    pipeMaterialData =  event.pipeMaterialData;
+    _eventComplete(emit);
+  }
 
   _selectJointType(AddPreHydrotestSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
@@ -249,6 +266,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
         timeOff: timeOffController.text.toString(),
         timeOn: timeOnController.text.toString(),
         clearance: clearanceController.text.toString(),
+        pipeMaterialData: pipeMaterialData
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -266,6 +284,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       file =  File("");
       weatherData =  WeatherModel();
       _thicknessData =  ThicknessModel();
+      pipeMaterialData =  PipeMaterialModel();
       pressureGaugeNoController.text = "";
       pressureGaugeCalibrationDateController.text = "";
       testPressureController.text = "";
@@ -316,6 +335,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       timeOffController: timeOffController,
       timeOnController: timeOnController,
       clearanceController: clearanceController,
+      pipeMaterialData: pipeMaterialData,
+      pipeMaterialList: pipeMaterialList,
     ));
   }
 }

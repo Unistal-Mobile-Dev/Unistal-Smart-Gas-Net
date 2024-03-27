@@ -73,9 +73,16 @@ class AppString {
   static get onWeld => "On Weld";
   static get chainageFrom => "Chainage From";
   static get sectionLengthMeter  => "Section Length(Meter)";
+  static get weldingReportNumber  => "Welding Report No";
+  static get radiographyRepostNo  => "Radiography Report No";
+  static get preHydroReportNo  => "Pre Hydro Report No";
+  static get coatingReportNo  => "Coating Report No";
   static get casingPipeLengthMeter  => "Casing Pipe Length(Meter)";
   static get dptTest  => "	Result After DP Test";
   static get pipeLength => "Pipe Length";
+  static get hddSectionPreparation => "HDD SECTION PREPARATION (MTRS)";
+  static get hddWithCasingWithOutCasingLength => "HDD WITH CASING/WITHOUT CASING LENGTH (MTRS)";
+  static get casingLength => "CASING LENGTH";
   static get hdpeLayingLength => "HDPE Laying Length(Meters)";
   static get chainageTo => "Chainage To";
   static get sectionLength => "Section Length";
@@ -87,15 +94,19 @@ class AppString {
   static get duration => "Duration";
   static get timeOn => "Time On";
   static get time => "Time";
+  static get timeHRS => "Time(HRS)";
   static get timeOff => "Time Off";
   static get timeInHours => "Time In Hours";
   static get weldVisualClearance => "Weld Visual& NDT Clearance";
   static get pressureReading1Kg => "Pressure Reading 1(Kg/Cm)";
   static get pressure1 => "Pressure 1";
+  static get pressureP1KGMG => "Pressure(P1)KG/MG²";
+  static get pressureP2KGMG => "Pressure(P2)KG/MG²";
   static get pressureReading2Kg => "Pressure Reading 2(Kg/Cm)";
   static get pressure2 => "Pressure 2";
   static get temp => "Temp";
   static get ambTemp => "AMB Temp";
+  static get ambTempO => "AMB Temp²O";
   static get casingPipeLength => "casing Pipe Length(Meters)";
   static get hydrotestingLength => "Hydrotesting Length(Meter)";
   static get hdpeLayinglength => "HDPE Laying Length(Meters)";
@@ -113,6 +124,7 @@ class AppString {
   static get srNoSplicingMachine => "S.No Splicing Machine";
   static get postPadding => "Post Padding";
   static get batchNo => "Batch No";
+  static get batchNoSleeve => "Batch No.Of Sleeve";
   static get length => "Length";
   static get surface => "Surface";
   static get drying => "Drying";
@@ -172,8 +184,10 @@ class AppString {
   static get onBody => "On Body";
   static get repairCoatingDamage => "Repair Of Coating Damage";
   static get electrometerNo => "Electrometer No";
+  static get surfacePreparation => "Surface Preparation";
   static get activityRemark => "Activity Remark";
   static get description => "Description";
+  static get descriptionLocationPipeSection => "Description/Location/Pipe Section";
   static get filmType => "Film Type";
   static get film => "Film";
   static get acceptanceStandard => "Acceptance Standard";
@@ -206,6 +220,7 @@ class AppString {
   static get selectRightPipeNumber => "Select Right Pipe Number";
   static get selectConcreteCoating => "Select Concrete Coating";
   static get selectVisualChecks => "Select Visual Checks";
+  static get selectMarkerType => "Select Marker Type";
   static get selectGaugingChecks => "Select Gauging Checks";
   static get selectDisbomdmentChecks => "Select Disbomdment Checks";
   static get selectHolidayChecks => "Select Holiday Checks";
@@ -218,6 +233,7 @@ class AppString {
   static get selectPMCTPIAL => "Select PMC/TPIA";
   static get selectTerrain => "Select Terrain";
   static get selectCoatingType => "Select Coating Type";
+  static get selectCoatingThickness => "Select Coating Thickness";
   static get selectPeelTest => "Select Peel Test";
   static get selectPrePadding => "Select Pre Padding";
   static get selectPostPadding => "Select Post Padding";
@@ -233,6 +249,7 @@ class AppString {
   static get weldRepair => "Weld Repair";
   static get backFilling => "BackFilling";
   static get crossing => "Crossing";
+  static get marker => "Marker";
   static get crossingName => "Crossing Name";
   static get hdpeDuctLaying => "HDPE Duct Laying";
   static get dpt => "DPT";
@@ -289,6 +306,7 @@ class AppString {
   static get filler8Welders1 => "Filler 8 Welders 1";
   static get filler8Welders2 => "Filler 8 Welders 2";
   static get selectFitup => "Select Fitup";
+  static get selectPreHeat => "Select Pre Heat";
   static get selectWeldVisual => "Select Weld Visual";
   static get stripWelder1 => "Strip Welder1";
   static get stripWelder2 => "Strip Welder2";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -24,6 +25,7 @@ class AddPreHydroTestHelper {
     required String length,
     required String ndeClearance,
     required ThicknessModel thicknessData,
+    required PipeMaterialModel pipeMaterialData,
     required File file,
     required String pressureGaugeNo,
     required String pressureGaugeCalibrationDate,
@@ -62,6 +64,7 @@ class AddPreHydroTestHelper {
         "to_joint_id" : toJointData.id != null ? toJointData.id.toString(): "",
         "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
         "jointTo" : jointTypeData.id  != null ? jointTypeData.id.toString(): "",
+        "pipe_material_id" : pipeMaterialData.id  != null ? pipeMaterialData.id.toString(): "",
         "total_length" : length.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "pressure_gauge_no" : pressureGaugeNo.toString(),

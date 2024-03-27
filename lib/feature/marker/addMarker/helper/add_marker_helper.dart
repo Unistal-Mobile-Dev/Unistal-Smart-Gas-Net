@@ -1,68 +1,36 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/model/marker_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddJointCoatingHelper {
+class AddMarkerHelper {
 
-  static Future<dynamic> fetchPipeTypeData({required BuildContext context,
-    required LoginDataModel userData}) async {
-    try{
-      String url  =  APIs.getPipeTypeApi+"?schema=${userData.schema}";
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] !=  null
-          && res['success'] == 200 && res['data'] != null) {
-        return pipeTypeListResponse(res['data']);
-      } else{
+  static Future<dynamic> fetchMarkerData() async{
+      try{
+          String url =  APIs.getMarkerTypeApi;
+          var res =  await ServerRequest.getData(urlEndPoint: url);
+          if(res != null && res['success'] !=  null && res['success'] == 200 && res['data'] != null){
+             return markerListResponse(res['data']);
+          } else{
+            return null;
+          }
+      }catch(e){
+        log(e.toString());
         return null;
       }
-    }catch(e){
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchCoatingTypeData({required LoginDataModel userData}) async {
-    try{
-      String url  =  APIs.getCoatingTypeApi+"?schema=${userData.schema}";
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] !=  null
-          && res['success'] == 200 && res['data'] != null) {
-        return coatingTypeListResponse(res['data']);
-      } else{
-        return null;
-      }
-    }catch(e){
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchPipeMaterialData({required LoginDataModel userData}) async {
-    try{
-      String url  =  APIs.getPipeMaterialApi+"?schema=${userData.schema}";
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] !=  null
-          && res['success'] == 200 && res['data'] != null) {
-        return pipeMaterialListResponse(res['data']);
-      } else{
-        return null;
-      }
-    }catch(e){
-      return null;
-    }
   }
 
   static Future<dynamic> submitData({required BuildContext context,
@@ -78,7 +46,7 @@ class AddJointCoatingHelper {
     required JointTypeModel jointTypeData,
     required String chainageFrom,
     required String chainageTo,
-    required String batchNo,
+    required String description,
     required String locationName,
     required String holidayTestNo,
     required String primaryAbatch,
@@ -92,6 +60,7 @@ class AddJointCoatingHelper {
     required PipeMaterialModel pipeMaterialData,
     required ThicknessModel coatingThicknessData,
     required PaddingModel peelTestData,
+    required MarkerTypeModel markerTypeData,
     required File file}) async {
 
     try{
@@ -102,40 +71,25 @@ class AddJointCoatingHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.addJointCoatingApi;
+      String url =  APIs.addMarkerApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": chainageFrom,
-        "chainage_to": chainageTo,
+        "chainage": chainageFrom,
+        "description": description,
         "activity_date": date.toString(),
-        "joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
-        "pipe_type_id" : pipeMaterialData.id != null ? pipeMaterialData.id.toString() : "",
+        "joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "0",
+        "pipe_type_id" : pipeMaterialData.id != null ? pipeMaterialData.id.toString() : "0",
         "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
-        "pipe_thickness_id" : thicknessData.id != null ? thicknessData.id.toString() : "",
-        "coating_type_id" : coatingThicknessData.id != null ? coatingThicknessData.id.toString() : "",
-        "holiday_test" : holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
-        "visuals" : visualChecksData.id != null ? visualChecksData.id.toString() : "",
-        "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
-        "location" : locationName,
-        "primer_a_batch" : primaryAbatch,
-        "primer_b_batch" : primaryBbatch,
-        "sleeve" : batchNo,
-        "surface_contamination" : "",
-        "surface_roughness" : surface,
-        "test_voltage" : primaryBbatch,
-        "holiday_detector" : holidayTestNo,
-        "surface" : surfacePreparation,
-        "thickness_on_body" : onBody,
-        "thickness_on_weld": onWeld.toString(),
-        "peeltest" : peelTestData.id !=  null ? peelTestData.id.toString() : "",
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "0",
+        "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "0",
+        "pipe_thickness_id": thicknessData.id != null ? thicknessData.id.toString() : "0",
+        "weather" : weatherData.id != null ? weatherData.id.toString() : "0",
+        "marker_type" : markerTypeData.id != null ? markerTypeData.id.toString() : "0",
       };
       if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
@@ -148,13 +102,13 @@ class AddJointCoatingHelper {
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-         if(!context.mounted) return null;
-          SnackBarErrorWidget(context).show(message: res['data'].toString());
+        if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
-		         && res['success'] == 400 && res['data'] != null) {
-		        String response = res['data'].toString();
-				if(!context.mounted) return null;
+          && res['success'] == 400 && res['data'] != null) {
+        String response = res['data'].toString();
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
@@ -167,5 +121,4 @@ class AddJointCoatingHelper {
       return null;
     }
   }
-
 }

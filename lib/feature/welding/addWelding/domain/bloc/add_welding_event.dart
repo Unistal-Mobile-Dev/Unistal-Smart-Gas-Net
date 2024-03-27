@@ -17,6 +17,13 @@ class AddWeldingSelectDateEvent extends AddWeldingEvent {
   List<Object?> get props => [context];
 }
 
+class AddWeldingSelectPipeMaterialDataEvent extends AddWeldingEvent {
+  final PipeMaterialModel pipeMaterialData;
+  const AddWeldingSelectPipeMaterialDataEvent({required this.pipeMaterialData});
+  @override
+  List<Object?> get props => [pipeMaterialData];
+}
+
 class AddWeldingSelectAlignmentEvent extends AddWeldingEvent {
   final AlignmentModel  alignmentData;
   const AddWeldingSelectAlignmentEvent({required this.alignmentData});
@@ -67,6 +74,13 @@ class AddWeldingSelectFitupDataEvent extends AddWeldingEvent {
   const AddWeldingSelectFitupDataEvent({required this.fitupData});
   @override
   List<Object?> get props => [fitupData];
+}
+
+class AddWeldingSelectPreHeatDataEvent extends AddWeldingEvent {
+  final VisualChecksModel  preHeatData;
+  const AddWeldingSelectPreHeatDataEvent({required this.preHeatData});
+  @override
+  List<Object?> get props => [preHeatData];
 }
 
 class AddWeldingSelectWeldVisualEvent extends AddWeldingEvent {

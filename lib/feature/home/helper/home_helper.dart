@@ -11,6 +11,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_m
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/presentation/page/add_hydrotest_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/presentation/page/add_joint_coating_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/presentation/page/add_marker_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/molling/addMolling/presentation/page/add_molling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydrotest/presentation/page/add_post_hydrotest_page.dart';
@@ -84,6 +85,9 @@ class HomeHelper {
 
       drawerList.add(DrawerModel(widget: const AddCrossingPage(), icon: Icons.format_line_spacing_sharp,
           label: AppString.crossing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddMarkerPage(), icon: Icons.location_disabled,
+          label: AppString.marker, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       drawerList.add(DrawerModel(widget: const AddPreHydroTestPage(), icon: Icons.precision_manufacturing,
           label: AppString.preHydrotest, sublist: [],  isSelected: false, actionButtonWidget: null));

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/bloc/add_crossing_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/model/crossing_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -53,27 +51,27 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _hddSectionPreparationController(dataState: dataState),
+            _verticalSpace(),
+            _hddWithCashingController(dataState: dataState),
+            _verticalSpace(),
+            _casingLengthController(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _sectionLengthController(dataState: dataState),
+            _weldingReportNumberController(dataState: dataState),
             _verticalSpace(),
-            _casingPipeLength(dataState: dataState),
+            _radiographyReportNoController(dataState: dataState),
             _verticalSpace(),
-            _concreteCoatingLengthController(dataState: dataState),
+            _preHydroReportNoController(dataState: dataState),
             _verticalSpace(),
-            _crossingTypeDropDown(dataState: dataState),
-            _verticalSpace(),
-            _crossingNameController(dataState: dataState),
+            _coatingReportNoController(dataState: dataState),
             _verticalSpace(),
             _holidayChecksDropDown(dataState: dataState),
-            _verticalSpace(),
-            _prePaddingDropDown(dataState: dataState),
-            _verticalSpace(),
-            _postPaddingDropDown(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -131,56 +129,31 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _prePaddingDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPrePadding,
-      dropdownValue: dataState.prePaddingData.id != null ? dataState.prePaddingData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPrePaddingDataEvent(prePaddingData: value));
-      },
-      items: dataState.prePaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel prePaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: prePaddingData,
-          child: Text(prePaddingData.value.toString()),
-        );
-      }).toList(),
+  Widget _hddSectionPreparationController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.hddSectionPreparation,
+      controller: dataState.hddSectionPreparationController,
     );
   }
 
-  Widget _postPaddingDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPostPadding,
-      dropdownValue: dataState.postPaddingData.id != null ? dataState.postPaddingData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPostPaddingDataEvent(postPaddingData: value));
-      },
-      items: dataState.postPaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel postPaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: postPaddingData,
-          child: Text(postPaddingData.value.toString()),
-        );
-      }).toList(),
+  Widget _hddWithCashingController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.hddWithCasingWithOutCasingLength,
+      controller: dataState.hddWithCashingController,
     );
   }
 
-  Widget _concreteCoatingLengthController({required FetchAddCrossingDataState dataState}) {
+  Widget _casingLengthController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.concreteCoatingLengthMeter,
-      controller: dataState.concreteCoatingLengthController,
+      labelText: AppString.casingLength,
+      controller: dataState.casingLengthController,
     );
   }
 
-  Widget _crossingNameController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.crossingName,
-      controller: dataState.crossingNameController,
-    );
-  }
 
   Widget _jointTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
@@ -235,38 +208,35 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _sectionLengthController({required FetchAddCrossingDataState dataState}) {
+  Widget _weldingReportNumberController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.sectionLengthMeter,
-      controller: dataState.sectionLengthController,
+      labelText: AppString.weldingReportNumber,
+      controller: dataState.weldingReportNumberController,
     );
   }
 
-  Widget _casingPipeLength({required FetchAddCrossingDataState dataState}) {
+  Widget _radiographyReportNoController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.casingPipeLengthMeter,
-      controller: dataState.casingPipeLengthController,
+      labelText: AppString.radiographyRepostNo,
+      controller: dataState.radiographyReportNoController,
     );
   }
 
-  Widget _crossingTypeDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectCrossingType,
-      dropdownValue: dataState.crossingTypeData.id != null ? dataState.crossingTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectCrossingTypeDataEvent(crossingTypeData: value));
-      },
-      items: dataState.crossingTyeList.map<DropdownMenuItem<CrossingTypeModel>>((CrossingTypeModel crossingTypeData) {
-        return DropdownMenuItem<CrossingTypeModel>(
-          value: crossingTypeData,
-          child: Text(crossingTypeData.name.toString()),
-        );
-      }).toList(),
+  Widget _preHydroReportNoController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.preHydroReportNo,
+      controller: dataState.preHydroReportNoController,
+    );
+  }
+
+  Widget _coatingReportNoController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.coatingReportNo,
+      controller: dataState.coatingReportNoController,
     );
   }
 

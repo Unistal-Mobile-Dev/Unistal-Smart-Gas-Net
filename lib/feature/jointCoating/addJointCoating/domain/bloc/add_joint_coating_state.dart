@@ -26,7 +26,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final TextEditingController primaryBbatchController;
   final TextEditingController locationController;
   final TextEditingController holidayTestNoController;
-  final TextEditingController electrometerNoController;
+  final TextEditingController surfacePreparationController;
   final TextEditingController batchNoController;
   final TextEditingController surfaceController;
   final TextEditingController onBodyController;
@@ -45,6 +45,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final WeatherModel weatherData;
   final List<ThicknessModel> thicknessList;
   final ThicknessModel thicknessData;
+  final ThicknessModel coatingThicknessData;
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
   final List<CoatingTypeModel> coatingTypeList;
@@ -83,7 +84,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.holidayChecksData,
     required this.onBodyController,
     required this.holidayCheckList,
-    required this.electrometerNoController,
+    required this.surfacePreparationController,
     required this.primaryBbatchController,
     required this.surfaceController,
     required this.thicknessData,
@@ -98,6 +99,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.pipeMaterialList,
     required this.visualChecksData,
     required this.visualsChecksList,
+    required this.coatingThicknessData,
   });
 
   @override
@@ -127,7 +129,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     holidayChecksData,
     onBodyController,
     holidayCheckList,
-    electrometerNoController,
+    surfacePreparationController,
     primaryBbatchController,
     surfaceController,
     thicknessData,
@@ -142,5 +144,6 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     pipeMaterialData,
     visualChecksData,
     visualsChecksList,
+    coatingThicknessData,
   ];
 }

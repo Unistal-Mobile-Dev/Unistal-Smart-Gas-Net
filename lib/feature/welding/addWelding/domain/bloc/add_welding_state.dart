@@ -57,8 +57,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
 
   final TextEditingController electrodeDiaE6010Controller;
   final TextEditingController electrodeDiaE6010BatchController;
-  final TextEditingController electrodeEiaE8010p1BatchController;
-  final TextEditingController electrodeEiaE8010p1Controller;
+  final TextEditingController electrodeEiaE7010p1BatchController;
+  final TextEditingController electrodeEiaE7010p1Controller;
   final TextEditingController electrodeDiaE9045p2Controller;
   final TextEditingController electrodeDiaE9045p2BatchController;
   final TextEditingController electrodeDiaE81t8gBatchController;
@@ -66,6 +66,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
 
   final List<VisualChecksModel>  fitupList;
   final VisualChecksModel fitupData;
+  final VisualChecksModel preHeatData;
 
   final List<VisualChecksModel>  weldVisualList;
   final VisualChecksModel weldVisualData;
@@ -123,6 +124,9 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final bool searchRightPipeLoader;
   final TextEditingController searchPipeRightController;
 
+  final List<PipeMaterialModel> pipeMaterialList;
+  final PipeMaterialModel pipeMaterialData;
+
   FetchAddWeldingDataState({
     required this.isLoader,
     required this.alignmentList,
@@ -171,8 +175,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.electrodeDiaE6010Controller,
     required this.electrodeDiaE9045p2BatchController,
     required this.electrodeDiaE9045p2Controller,
-    required this.electrodeEiaE8010p1BatchController,
-    required this.electrodeEiaE8010p1Controller,
+    required this.electrodeEiaE7010p1BatchController,
+    required this.electrodeEiaE7010p1Controller,
     required this.isWelderLoader,
     required this.jointTypeData,
     required this.jointTypeList,
@@ -217,6 +221,9 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.searchPipeRightController,
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
+    required this.pipeMaterialData,
+    required this.pipeMaterialList,
+    required this.preHeatData,
   });
 
   @override
@@ -268,8 +275,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     electrodeDiaE6010Controller,
     electrodeDiaE9045p2BatchController,
     electrodeDiaE9045p2Controller,
-    electrodeEiaE8010p1BatchController,
-    electrodeEiaE8010p1Controller,
+    electrodeEiaE7010p1BatchController,
+    electrodeEiaE7010p1Controller,
     isWelderLoader,
     jointTypeData,
     jointTypeList,
@@ -314,5 +321,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     searchPipeRightController,
     searchRightPipeList,
     searchRightPipeLoader,
+    pipeMaterialData,
+    pipeMaterialList,
+    preHeatData,
   ];
 }

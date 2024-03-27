@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/domain/bloc/add_pre_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -51,6 +52,8 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _testPressureController(dataState: dataState),
+            _verticalSpace(),
+            _pipeMaterialDropDown(dataState: dataState),
             _verticalSpace(),
             _pressureGaugeCalibrationDateController(dataState: dataState),
             _verticalSpace(),
@@ -197,6 +200,23 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     ): const DottedLoaderWidget();
   }
 
+  Widget _pipeMaterialDropDown({required FetchAddPreHydrotestDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPipeMaterial,
+      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPreHydrotestBloc>(context).add(
+            AddPreHydrotestSelectPipeMaterialDataEvent(pipeMaterialData: value));
+      },
+      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
+        return DropdownMenuItem<PipeMaterialModel>(
+          value: pipeMaterialData,
+          child: Text(pipeMaterialData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
   Widget _pressureGaugeCalibrationDateController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -223,7 +243,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.time,
+      labelText: AppString.timeHRS,
       controller: dataState.timeOnController,
     );
   }
@@ -249,7 +269,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.pressure1,
+      labelText: AppString.pressureP1KGMG,
       controller: dataState.pressureReading1KGController,
     );
   }
@@ -258,7 +278,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.pressure2,
+      labelText: AppString.pressureP2KGMG,
       controller: dataState.pressureReading2KGController,
     );
   }
@@ -267,7 +287,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.ambTemp,
+      labelText: AppString.ambTempO,
       controller: dataState.tempController,
     );
   }

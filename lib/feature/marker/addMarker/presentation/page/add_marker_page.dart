@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/bloc/add_marker_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/model/marker_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/bloc/add_joint_coating_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
-class AddJointCoatingPage extends StatefulWidget {
-  const AddJointCoatingPage({super.key});
+class AddMarkerPage extends StatefulWidget {
+  const AddMarkerPage({super.key});
 
   @override
-  State<AddJointCoatingPage> createState() => _AddJointCoatingPageState();
+  State<AddMarkerPage> createState() => _AddMarkerPageState();
 }
 
-class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
+class _AddMarkerPageState extends State<AddMarkerPage> {
 
   @override
   void initState() {
-    BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingPageLoadEvent(context: context));
+    BlocProvider.of<AddMarkerBloc>(context).add(AddMarkerPageLoadEvent(context: context));
     super.initState();
   }
 
@@ -31,9 +31,9 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColor.white,
-      body: BlocBuilder<AddJointCoatingBloc, AddJointCoatingState>(
+      body: BlocBuilder<AddMarkerBloc, AddMarkerState>(
         builder: (context, state) {
-          if(state is FetchAddJointCoatingDataState) {
+          if(state is FetchAddMarkerDataState) {
             return _itemBuilder(dataState: state);
           } else{
             return const Center(child: CenterLoaderWidget(),);
@@ -44,7 +44,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   }
 
 
-  Widget _itemBuilder({required FetchAddJointCoatingDataState dataState}){
+  Widget _itemBuilder({required FetchAddMarkerDataState dataState}){
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -61,42 +61,12 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _thicknessDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
+            _descriptionController(dataState: dataState),
             _verticalSpace(),
-            _fromJointNumberDropDown(dataState: dataState),
+            _chainageFromController(dataState: dataState),
             _verticalSpace(),
-            _surfacePreparationController(dataState: dataState),
+            _markerTypeDropDown(dataState: dataState),
             _verticalSpace(),
-            _batchNoController(dataState: dataState),
-            _verticalSpace(),
-            _visualChecksDropDown(dataState: dataState),
-            _verticalSpace(),
-            _holidayChecksDropDown(dataState: dataState),
-            _verticalSpace(),
-            _coatingThicknessDropDown(dataState: dataState),
-            _verticalSpace(),
-            _peelTestDropDown(dataState: dataState),
-            _verticalSpace(),
-/*            _pipeMaterialDropDown(dataState: dataState),
-            _verticalSpace(),*/
-/*            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),*/
-/*            _primaryAbatchController(dataState: dataState),
-            _verticalSpace(),
-            _primaryBbatchController(dataState: dataState),
-            _verticalSpace(),*/
-/*            _holidayTestNoController(dataState: dataState),
-            _verticalSpace(),
-            _locatinController(dataState: dataState),
-            _verticalSpace(),
-            _surfaceController(dataState: dataState),
-            _verticalSpace(),
-            _onBodyController(dataState: dataState),
-            _verticalSpace(),
-            _onWeldController(dataState: dataState),
-            _verticalSpace(),*/
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -109,47 +79,39 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _dateController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _dateController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectDateEvent(context: context,));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectDateEvent(context: context,));
       },
     );
   }
 
-  Widget _onWeldController({required FetchAddJointCoatingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.onWeld,
-      controller: dataState.onWeldController,
-    );
-  }
 
-
-  Widget _alignmentDropdown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _alignmentDropdown({required FetchAddMarkerDataState dataState}) {
     return  DropDownSearchWidget(
       selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectAlignmentEvent(alignmentData: value,));
       },
     );
   }
 
-  Widget _weatherDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _weatherDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
       dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
+        BlocProvider.of<AddMarkerBloc>(context).add(
             SelectWeatherEvent(weatherData: value));
       },
       items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
@@ -161,13 +123,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _pipeMaterialDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _pipeMaterialDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeMaterial,
       dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectPipeMaterialDataEvent(pipeMaterialData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectPipeMaterialDataEvent(pipeMaterialData: value));
       },
       items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
         return DropdownMenuItem<PipeMaterialModel>(
@@ -178,13 +140,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _pipeDiaDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _pipeDiaDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeDia,
       dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectPipeDiaDataEvent(pipeDiaData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectPipeDiaDataEvent(pipeDiaData: value));
       },
       items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
         return DropdownMenuItem<PipeDiaModel>(
@@ -195,13 +157,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _thicknessDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _thicknessDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeThickness,
       dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectPipeThicknessDataEvent(thicknessData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectPipeThicknessDataEvent(thicknessData: value));
       },
       items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
@@ -212,13 +174,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _coatingThicknessDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _coatingThicknessDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectCoatingThickness,
       dropdownValue: dataState.coatingThicknessData.id != null ? dataState.coatingThicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectThicknessDataEvent(coatingThicknessData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectThicknessDataEvent(coatingThicknessData: value));
       },
       items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
@@ -229,13 +191,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _coatingTypeDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _coatingTypeDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectCoatingType,
       dropdownValue: dataState.coatingTypeData.id != null ? dataState.coatingTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectCoatingTypeDataEvent(coatingTypeData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectCoatingTypeDataEvent(coatingTypeData: value));
       },
       items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>((CoatingTypeModel coatingTypeData) {
         return DropdownMenuItem<CoatingTypeModel>(
@@ -246,13 +208,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _peelTestDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _peelTestDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPeelTest,
       dropdownValue: dataState.peelTestData.id != null ? dataState.peelTestData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectPeelTestDataEvent(peelTestData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectPeelTestDataEvent(peelTestData: value));
       },
       items: dataState.peelTestList.map<DropdownMenuItem<PaddingModel>>((PaddingModel peelTestData) {
         return DropdownMenuItem<PaddingModel>(
@@ -263,7 +225,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _locatinController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _locatinController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.location,
@@ -271,7 +233,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _holidayTestNoController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _holidayTestNoController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.holidayTestNo,
@@ -279,7 +241,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _primaryAbatchController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _primaryAbatchController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.primerABatch,
@@ -287,7 +249,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _primaryBbatchController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _primaryBbatchController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.primerBBatch,
@@ -295,7 +257,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _surfaceController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _surfaceController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.surface,
@@ -303,24 +265,24 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _visualChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _markerTypeDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectVisualChecks,
-      dropdownValue: dataState.visualChecksData.id != null ? dataState.visualChecksData : null,
+      hint: AppString.selectMarkerType,
+      dropdownValue: dataState.markerTypeData.id != null ? dataState.markerTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectVisualChecksDataEvent(visualChecksData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectMarkerEvent(markerTypeData: value));
       },
-      items: dataState.visualsChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksData,
-          child: Text(visualChecksData.value.toString()),
+      items: dataState.markerTypeList.map<DropdownMenuItem<MarkerTypeModel>>((MarkerTypeModel markerTypeData) {
+        return DropdownMenuItem<MarkerTypeModel>(
+          value: markerTypeData,
+          child: Text(markerTypeData.name.toString()),
         );
       }).toList(),
     );
   }
 
-  Widget _onBodyController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _onBodyController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.onBody,
@@ -329,7 +291,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   }
 
 
-  Widget _surfacePreparationController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _surfacePreparationController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.surfacePreparation,
@@ -338,13 +300,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   }
 
 
-  Widget _jointTypeDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _jointTypeDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
       dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectJointTypeDataEvent(jointTypeData: value, context: context));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectJointTypeDataEvent(jointTypeData: value, context: context));
       },
       items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
@@ -355,14 +317,14 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _fromJointNumberDropDown({required FetchAddMarkerDataState dataState}) {
     return dataState.isJointNumberLoader == false ?
     DropdownWidget(
       hint: AppString.selectJointNumber,
       dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectFromJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectFromJointDataEvent(jointNumberData: value));
       },
       items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
@@ -373,16 +335,16 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _chainageFromController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _chainageFromController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.chainageFrom,
+      labelText: AppString.chainage,
       controller: dataState.chainageFromController,
     );
   }
 
-  Widget _chainageToController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _chainageToController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -391,21 +353,21 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _batchNoController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _descriptionController({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.batchNoSleeve,
-      controller: dataState.batchNoController,
+      labelText: AppString.descriptionLocationPipeSection,
+      controller: dataState.descriptionController,
     );
   }
 
-  Widget _holidayChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _holidayChecksDropDown({required FetchAddMarkerDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
       onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectHolidayDataEvent(holidayChecksData: value));
+        BlocProvider.of<AddMarkerBloc>(context).add(
+            AddMarkerSelectHolidayDataEvent(holidayChecksData: value));
       },
       items: dataState.holidayCheckList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
         return DropdownMenuItem<HolidayChecksModel>(
@@ -417,7 +379,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   }
 
 
-  Widget _activityRemark({required FetchAddJointCoatingDataState dataState}) {
+  Widget _activityRemark({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 3,
@@ -426,7 +388,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _photo({required FetchAddJointCoatingDataState dataState}) {
+  Widget _photo({required FetchAddMarkerDataState dataState}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width/3,
       height:MediaQuery.of(context).size.width/3,
@@ -493,11 +455,11 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
           child: Column(
             children: [
               TextButton(onPressed: () {
-                BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingAddImageEvent(context: context, mediaType: 1));
+                BlocProvider.of<AddMarkerBloc>(context).add(AddMarkerAddImageEvent(context: context, mediaType: 1));
               }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
               const Divider(),
               TextButton(onPressed: () {
-                BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingAddImageEvent(context: context, mediaType: 2));
+                BlocProvider.of<AddMarkerBloc>(context).add(AddMarkerAddImageEvent(context: context, mediaType: 2));
               }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
             ],
           ),
@@ -507,12 +469,12 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   }
 
 
-  Widget _button({required FetchAddJointCoatingDataState dataState}) {
+  Widget _button({required FetchAddMarkerDataState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
         height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
-          BlocProvider.of<AddJointCoatingBloc>(context).add(AddJointCoatingSubmitDataEvent(context: context));
+          BlocProvider.of<AddMarkerBloc>(context).add(AddMarkerSubmitDataEvent(context: context));
         }
     ): const DottedLoaderWidget();
   }

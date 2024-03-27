@@ -113,11 +113,19 @@ class AddJointCoatingSelectPipeDiaDataEvent extends AddJointCoatingEvent {
 }
 
 class AddJointCoatingSelectThicknessDataEvent extends AddJointCoatingEvent {
+  final ThicknessModel coatingThicknessData;
+  const AddJointCoatingSelectThicknessDataEvent({required this.coatingThicknessData});
+  @override
+  List<Object?> get props => [coatingThicknessData];
+}
+
+class AddJointCoatingSelectPipeThicknessDataEvent extends AddJointCoatingEvent {
   final ThicknessModel thicknessData;
-  const AddJointCoatingSelectThicknessDataEvent({required this.thicknessData});
+  const AddJointCoatingSelectPipeThicknessDataEvent({required this.thicknessData});
   @override
   List<Object?> get props => [thicknessData];
 }
+
 
 class AddJointCoatingSubmitDataEvent extends AddJointCoatingEvent {
   final BuildContext context;

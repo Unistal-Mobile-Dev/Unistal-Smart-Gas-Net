@@ -18,6 +18,13 @@ class AddPreHydrotestSelectDateEvent extends AddPreHydrotestEvent {
   List<Object?> get props => [context];
 }
 
+class AddPreHydrotestSelectPipeMaterialDataEvent extends AddPreHydrotestEvent {
+  final PipeMaterialModel pipeMaterialData;
+  const AddPreHydrotestSelectPipeMaterialDataEvent({required this.pipeMaterialData});
+  @override
+  List<Object?> get props => [pipeMaterialData];
+}
+
 class AddPreHydrotestSelectPressureDateEvent extends AddPreHydrotestEvent {
   final BuildContext context;
   const AddPreHydrotestSelectPressureDateEvent({required this.context});

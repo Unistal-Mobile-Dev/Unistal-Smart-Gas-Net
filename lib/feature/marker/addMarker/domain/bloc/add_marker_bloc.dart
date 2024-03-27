@@ -14,6 +14,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/model/marker_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/helper/add_marker_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -23,10 +25,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
-part 'add_joint_coating_event.dart';
-part 'add_joint_coating_state.dart';
+part 'add_marker_event.dart';
+part 'add_marker_state.dart';
 
-class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingState> {
+class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
 
   TextEditingController dateController = TextEditingController();
   TextEditingController onBodyController = TextEditingController();
@@ -39,7 +41,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   TextEditingController holidayTestNoController = TextEditingController();
   TextEditingController primaryBbatchController = TextEditingController();
   TextEditingController surfacePreparationController = TextEditingController();
-  TextEditingController batchNoController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
@@ -81,30 +83,33 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   List<VisualChecksModel> visualsChecksList = [];
   VisualChecksModel visualChecksData =  VisualChecksModel();
 
+  List<MarkerTypeModel> markerTypeList = [];
+  MarkerTypeModel markerTypeData =  MarkerTypeModel();
 
-  AddJointCoatingBloc() : super(AddJointCoatingInitial()) {
-    on<AddJointCoatingPageLoadEvent>(_pageLoader);
+  AddMarkerBloc() : super(AddMarkerInitial()) {
+    on<AddMarkerPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
-    on<AddJointCoatingSelectAlignmentEvent>(_selectAlignment);
-    on<AddJointCoatingSelectCoatingTypeDataEvent>(_selectCoatingType);
-    on<AddJointCoatingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
-    on<AddJointCoatingSelectVisualChecksDataEvent>(_selectVisualCheck);
-    on<AddJointCoatingSelectPeelTestDataEvent>(_selectPeelTest);
-    on<AddJointCoatingSelectHolidayDataEvent>(_selectHolidayData);
-    on<AddJointCoatingSelectFromJointDataEvent>(_selectJointFrom);
-    on<AddJointCoatingSelectToJointDataEvent>(_selectJointTo);
-    on<AddJointCoatingSelectJointTypeDataEvent>(_selectJointType);
-    on<AddJointCoatingSelectDateEvent>(_selectDate);
-    on<AddJointCoatingSelectPipeDiaDataEvent>(_selectPipeDia);
-    on<AddJointCoatingSelectThicknessDataEvent>(_selectThickness);
-    on<AddJointCoatingSelectPipeThicknessDataEvent>(_selectPipeThickness);
-    on<AddJointCoatingCalibarationDataEvent>(_selectCabilabrationData);
-    on<AddJointCoatingAddImageEvent>(_selectFile);
-    on<AddJointCoatingSubmitDataEvent>(_submitData);
+    on<AddMarkerSelectAlignmentEvent>(_selectAlignment);
+    on<AddMarkerSelectCoatingTypeDataEvent>(_selectCoatingType);
+    on<AddMarkerSelectPipeMaterialDataEvent>(_selectPipeMaterial);
+    on<AddMarkerSelectVisualChecksDataEvent>(_selectVisualCheck);
+    on<AddMarkerSelectPeelTestDataEvent>(_selectPeelTest);
+    on<AddMarkerSelectHolidayDataEvent>(_selectHolidayData);
+    on<AddMarkerSelectFromJointDataEvent>(_selectJointFrom);
+    on<AddMarkerSelectToJointDataEvent>(_selectJointTo);
+    on<AddMarkerSelectJointTypeDataEvent>(_selectJointType);
+    on<AddMarkerSelectDateEvent>(_selectDate);
+    on<AddMarkerSelectPipeDiaDataEvent>(_selectPipeDia);
+    on<AddMarkerSelectThicknessDataEvent>(_selectThickness);
+    on<AddMarkerSelectPipeThicknessDataEvent>(_selectPipeThickness);
+    on<AddMarkerCalibarationDataEvent>(_selectCabilabrationData);
+    on<AddMarkerAddImageEvent>(_selectFile);
+    on<AddMarkerSelectMarkerEvent>(_selectMarker);
+    on<AddMarkerSubmitDataEvent>(_submitData);
   }
 
-  _pageLoader(AddJointCoatingPageLoadEvent event, emit) async {
-    emit(AddJointCoatingPageLoadState());
+  _pageLoader(AddMarkerPageLoadEvent event, emit) async {
+    emit(AddMarkerPageLoadState());
     dateController.text = "";
     onBodyController.text = "";
     onWeldController.text = "";
@@ -116,7 +121,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     holidayTestNoController.text = "";
     primaryBbatchController.text = "";
     surfacePreparationController.text = "";
-    batchNoController.text = "";
+    descriptionController.text = "";
     surfaceController.text = "";
     holidayCheckList = [];
     jointFromList = [];
@@ -145,6 +150,8 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     pipeMaterialList = [];
     pipeMaterialData =  PipeMaterialModel();
     visualsChecksList = [];
+    markerTypeList = [];
+    markerTypeData =  MarkerTypeModel();
     visualChecksData = VisualChecksModel();
     _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
@@ -193,6 +200,11 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       visualsChecksList =  visualsChecksRes;
     }
 
+    var markerTypeRes =  await AddMarkerHelper.fetchMarkerData();
+    if(markerTypeRes != null){
+      markerTypeList =  markerTypeRes;
+    }
+
     _eventComplete(emit);
   }
 
@@ -201,47 +213,47 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     _eventComplete(emit);
   }
 
-  _selectAlignment(AddJointCoatingSelectAlignmentEvent event, emit) {
+  _selectAlignment(AddMarkerSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-  _selectCoatingType(AddJointCoatingSelectCoatingTypeDataEvent event, emit) {
+  _selectCoatingType(AddMarkerSelectCoatingTypeDataEvent event, emit) {
     coatingTypeData =  event.coatingTypeData;
     _eventComplete(emit);
   }
 
-  _selectPipeMaterial(AddJointCoatingSelectPipeMaterialDataEvent event, emit) {
+  _selectPipeMaterial(AddMarkerSelectPipeMaterialDataEvent event, emit) {
     pipeMaterialData =  event.pipeMaterialData;
     _eventComplete(emit);
   }
 
-  _selectVisualCheck(AddJointCoatingSelectVisualChecksDataEvent event, emit) {
+  _selectVisualCheck(AddMarkerSelectVisualChecksDataEvent event, emit) {
     visualChecksData =  event.visualChecksData;
     _eventComplete(emit);
   }
 
-  _selectPeelTest(AddJointCoatingSelectPeelTestDataEvent event, emit) {
+  _selectPeelTest(AddMarkerSelectPeelTestDataEvent event, emit) {
     peelTestData =  event.peelTestData;
     _eventComplete(emit);
   }
 
-  _selectHolidayData(AddJointCoatingSelectHolidayDataEvent event, emit) {
+  _selectHolidayData(AddMarkerSelectHolidayDataEvent event, emit) {
     holidayChecksData = event.holidayChecksData;
     _eventComplete(emit);
   }
 
-  _selectJointFrom(AddJointCoatingSelectFromJointDataEvent event, emit) {
+  _selectJointFrom(AddMarkerSelectFromJointDataEvent event, emit) {
     fromJointData =  event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointTo(AddJointCoatingSelectToJointDataEvent event, emit) {
+  _selectJointTo(AddMarkerSelectToJointDataEvent event, emit) {
     toJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointType(AddJointCoatingSelectJointTypeDataEvent event, emit) async {
+  _selectJointType(AddMarkerSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
     jointFromList = [];
     jointToList  = [];
@@ -259,8 +271,8 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     _eventComplete(emit);
   }
 
-  _selectDate(AddJointCoatingSelectDateEvent event, emit) async {
-    
+  _selectDate(AddMarkerSelectDateEvent event, emit) async {
+
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -275,23 +287,23 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     }
   }
 
-  _selectPipeDia(AddJointCoatingSelectPipeDiaDataEvent event, emit) {
+  _selectPipeDia(AddMarkerSelectPipeDiaDataEvent event, emit) {
     pipeDiaData =  event.pipeDiaData;
     _eventComplete(emit);
   }
 
-  _selectThickness(AddJointCoatingSelectThicknessDataEvent event, emit) {
+  _selectThickness(AddMarkerSelectThicknessDataEvent event, emit) {
     coatingThicknessData =  event.coatingThicknessData;
     _eventComplete(emit);
   }
 
-  _selectPipeThickness(AddJointCoatingSelectPipeThicknessDataEvent event, emit) {
+  _selectPipeThickness(AddMarkerSelectPipeThicknessDataEvent event, emit) {
     thicknessData =  event.thicknessData;
     _eventComplete(emit);
   }
 
-  _selectCabilabrationData(AddJointCoatingCalibarationDataEvent event, emit) async {
-    
+  _selectCabilabrationData(AddMarkerCalibarationDataEvent event, emit) async {
+
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -306,8 +318,12 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     }
   }
 
+  _selectMarker(AddMarkerSelectMarkerEvent event, emit) {
+    markerTypeData =  event.markerTypeData;
+    _eventComplete(emit);
+  }
 
-  _selectFile(AddJointCoatingAddImageEvent event, emit) async {
+  _selectFile(AddMarkerAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
       if(photo != null){
@@ -319,14 +335,14 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
         file  = photo;
       }
     }
-Navigator.pop(event.context.mounted ? event.context : event.context);
+    Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
-  _submitData(AddJointCoatingSubmitDataEvent event, emit) async {
+  _submitData(AddMarkerSubmitDataEvent event, emit) async {
     isLoader =  true;
     _eventComplete(emit);
-    var res =  await AddJointCoatingHelper.submitData(context: event.context,
+    var res =  await AddMarkerHelper.submitData(context: event.context,
       alignmentData: alignmentData,
       onWeld: onWeldController.text.toString(),
       date: dateController.text.toString(),
@@ -339,7 +355,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       jointTypeData: jointTypeData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
-      batchNo: batchNoController.text.toString(),
+      description: descriptionController.text.toString(),
       file: file,
       onBody: onBodyController.text.toString(),
       holidayTestNo: holidayTestNoController.text.toString(),
@@ -354,6 +370,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       coatingThicknessData: coatingThicknessData,
       pipeMaterialData: pipeMaterialData,
       peelTestData: peelTestData,
+      markerTypeData: markerTypeData,
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -363,7 +380,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       activityRemarkController.text = "";
       chainageFromController.text = "";
       chainageToController.text = "";
-      batchNoController.text = "";
+      descriptionController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       holidayChecksData = HolidayChecksModel();
@@ -387,13 +404,14 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       coatingTypeData =  CoatingTypeModel();
       pipeMaterialData =  PipeMaterialModel();
       visualChecksData =  VisualChecksModel();
+      markerTypeData =  MarkerTypeModel();
       _eventComplete(emit);
     }
   }
 
 
-  _eventComplete(Emitter<AddJointCoatingState>emit) {
-    emit(FetchAddJointCoatingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddMarkerState>emit) {
+    emit(FetchAddMarkerDataState(isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -419,7 +437,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       holidayCheckList: holidayCheckList,
       surfacePreparationController: surfacePreparationController,
       primaryBbatchController: primaryBbatchController,
-      batchNoController: batchNoController,
+      descriptionController: descriptionController,
       surfaceController: surfaceController,
       pipeDiaData: pipeDiaData,
       pipeDialList: pipeDiaList,
@@ -434,6 +452,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       pipeMaterialList: pipeMaterialList,
       visualChecksData: visualChecksData,
       visualsChecksList: visualsChecksList,
+      markerTypeData: markerTypeData,
+      markerTypeList: markerTypeList
     ));
   }
 

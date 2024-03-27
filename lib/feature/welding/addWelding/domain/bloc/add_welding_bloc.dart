@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/helper/add_joint_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -80,8 +82,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   TextEditingController electrodeDiaE6010Controller = TextEditingController();
   TextEditingController electrodeDiaE6010BatchController = TextEditingController();
-  TextEditingController electrodeEiaE8010p1BatchController = TextEditingController();
-  TextEditingController electrodeEiaE8010p1Controller = TextEditingController();
+  TextEditingController electrodeEiaE7010p1BatchController = TextEditingController();
+  TextEditingController electrodeEiaE7010p1Controller = TextEditingController();
   TextEditingController electrodeDiaE9045p2Controller = TextEditingController();
   TextEditingController electrodeDiaE9045p2BatchController = TextEditingController();
   TextEditingController electrodeDiaE81t8gBatchController = TextEditingController();
@@ -95,6 +97,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   VisualChecksModel _fitupData =  VisualChecksModel();
   VisualChecksModel get fitupData => _fitupData;
+
+  VisualChecksModel  preHeatData  = VisualChecksModel();
 
   List<VisualChecksModel>  _weldVisualList = [];
   List<VisualChecksModel>  get weldVisualList => _weldVisualList;
@@ -177,20 +181,24 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   bool _searchRightPipeLoader =  false;
   bool get searchRightPipeLoader => _searchRightPipeLoader;
 
+  List<PipeMaterialModel> pipeMaterialList = [];
+  PipeMaterialModel pipeMaterialData =  PipeMaterialModel();
+
   AddWeldingBloc() : super(AddWeldingInitial()) {
     on<AddWeldingPageLoadEvent>(_pageLoadEvent);
     on<AddWeldingSelectWPSEvent>(_selectWPS);
+    on<AddWeldingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddWeldingSearchPipeDataEvent>(_searchPipeData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddWeldingSelectLeftPipeDataEvent>(_selectLeftPipe);
     on<AddWeldingSelectRightPipeDataEvent>(_selectRigthPipe);
-    on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
     on<AddWeldingSelectWelderEvent>(_selectWelder);
     on<AddWeldingSelectAlignmentEvent>(_selectAlignment);
     on<AddWeldingSelectDateEvent>(_selectDate);
     on<AddWeldingSelectJointTypeEvent>(_selectJointType);
     on<AddWeldingSelectJointNumberEvent>(_selectJointNumber);
     on<AddWeldingSelectFitupDataEvent>(_selectFitUp);
+    on<AddWeldingSelectPreHeatDataEvent>(_selectPreHeat);
     on<AddWeldingSelectWeldVisualEvent>(_selectWeldVisual);
     on<AddWeldingAddImageEvent>(_selectFile);
     on<AddWeldingSubmitDataEvent>(_submit);
@@ -225,6 +233,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     cappingWelder2List = [];
     stripWelder1List = [];
     stripWelder2List = [];
+    pipeMaterialList = [];
+    pipeMaterialData =  PipeMaterialModel();
     rootWelders1Data = WelderModel();
     rootWelders2Data = WelderModel();
     hotWelders1Data = WelderModel();
@@ -256,8 +266,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     electrodeDiaE6010Controller.text = "";
     electrodeDiaE9045p2BatchController.text = "";
     electrodeDiaE9045p2Controller.text = "";
-    electrodeEiaE8010p1BatchController.text = "";
-    electrodeEiaE8010p1Controller.text = "";
+    electrodeEiaE7010p1BatchController.text = "";
+    electrodeEiaE7010p1Controller.text = "";
     leftPipeNumberController.text = "";
     rightPipeNumberController.text = "";
     chainageFromController.text = "";
@@ -278,6 +288,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _weldVisualData =  VisualChecksModel();
     _weldVisualList = [];
     _fitupData =  VisualChecksModel();
+     preHeatData =  VisualChecksModel();
     _fitupList = [];
     _isLoader =  false;
     _isWelderLoader = false;
@@ -314,8 +325,19 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _fitupList =  resVisual;
     }
 
+    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(userData: userData);
+    if(pipeMaterialRes != null){
+      pipeMaterialList =  pipeMaterialRes;
+    }
+
     _weldVisualList =  fitupList;
 
+    _eventComplete(emit);
+  }
+
+
+  _selectPipeMaterial(AddWeldingSelectPipeMaterialDataEvent event, emit){
+    pipeMaterialData =  event.pipeMaterialData;
     _eventComplete(emit);
   }
 
@@ -378,86 +400,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _welderList =  resWelder;
     }
     rootWelders1List = welderList;
-    rootWelders2List = welderList;
-    hotWelders1List = welderList;
-    hotWelders2List = welderList;
-    filler1Welders1List = welderList;
-    filler1Welders2List = welderList;
-    filler2Welders1List = welderList;
-    filler2Welders2List = welderList;
-    filler3Welders1List = welderList;
-    filler3Welders2List = welderList;
-    filler4Welders1List = welderList;
-    filler4Welders2List = welderList;
-    filler5Welders1List = welderList;
-    filler5Welders2List = welderList;
-    filler6Welders1List = welderList;
-    filler6Welders2List = welderList;
-    filler7Welders1List = welderList;
-    filler7Welders2List = welderList;
-    filler8Welders1List = welderList;
-    filler8Welders2List = welderList;
-    cappingWelder1List = welderList;
-    cappingWelder2List = welderList;
-    stripWelder1List = welderList;
-    stripWelder2List = welderList;
-
     _isWelderLoader =  false;
-    _eventComplete(emit);
-  }
-
-  _selectMultiWelder(AddWeldingSelectMultiWelderEvent event, emit) {
-
-    if(event.name == AppString.rootWelders1){
-      rootWelders1Data =  event.welderData;
-    } else if(event.name == AppString.rootWelders2){
-      rootWelders2Data =  event.welderData;
-    } else if(event.name == AppString.hotWelders1){
-      hotWelders1Data =  event.welderData;
-    }else if(event.name == AppString.hotWelders2){
-      hotWelders2Data =  event.welderData;
-    }else if(event.name == AppString.filler1Welders1){
-      filler1Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler1Welders2){
-      filler1Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler2Welders1){
-      filler2Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler2Welders2){
-      filler2Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler3Welders1){
-      filler3Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler3Welders2){
-      filler3Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler4Welders1){
-      filler4Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler4Welders2){
-      filler4Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler5Welders1){
-      filler5Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler5Welders2){
-      filler5Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler6Welders1){
-      filler6Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler6Welders2){
-      filler6Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler7Welders1){
-      filler7Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler7Welders2){
-      filler7Welders2Data =  event.welderData;
-    }else if(event.name == AppString.filler8Welders1){
-      filler8Welders1Data =  event.welderData;
-    }else if(event.name == AppString.filler8Welders2){
-      filler8Welders2Data =  event.welderData;
-    }else if(event.name == AppString.stripWelder1){
-      stripWelder1Data =  event.welderData;
-    }else if(event.name == AppString.stripWelder2){
-      stripWelder2Data =  event.welderData;
-    }else if(event.name == AppString.cappingWelder1){
-      cappingWelder1Data =  event.welderData;
-    }else if(event.name == AppString.cappingWelder2){
-      cappingWelder2Data =  event.welderData;
-    }
-
     _eventComplete(emit);
   }
 
@@ -512,6 +455,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _fitupData =  event.fitupData;
     _eventComplete(emit);
   }
+
+  _selectPreHeat(AddWeldingSelectPreHeatDataEvent event, emit) {
+    preHeatData =  event.preHeatData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeldVisual(AddWeldingSelectWeldVisualEvent event, emit) {
     _weldVisualData = event.weldVisualData;
@@ -573,8 +522,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       electrodeDiaE6010: electrodeDiaE6010Controller.text.toString(),
       electrodeDiaE9045p2Batch: electrodeDiaE9045p2BatchController.text.toString(),
       electrodeDiaE9045p2: electrodeDiaE9045p2Controller.text.toString(),
-      electrodeEiaE8010p1Batch: electrodeEiaE8010p1BatchController.text.toString(),
-      electrodeEiaE8010p1: electrodeEiaE8010p1Controller.text.toString(),
+      electrodeEiaE7010p1Batch: electrodeEiaE7010p1BatchController.text.toString(),
+      electrodeEiaE7010p1: electrodeEiaE7010p1Controller.text.toString(),
       leftPipeData: leftPipeData,
       rightPipeData: rightPipeData,
       wpsData: wpsData,
@@ -587,6 +536,9 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       weatherData: weatherData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
+      preHeatData: preHeatData,
+      welderData: welderData,
+      pipeMaterialData: pipeMaterialData,
     );
     _isLoader =  false;
     _eventComplete(emit);
@@ -600,8 +552,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       electrodeDiaE6010Controller.text = "";
       electrodeDiaE9045p2BatchController.text = "";
       electrodeDiaE9045p2Controller.text = "";
-      electrodeEiaE8010p1BatchController.text = "";
-      electrodeEiaE8010p1Controller.text = "";
+      electrodeEiaE7010p1BatchController.text = "";
+      electrodeEiaE7010p1Controller.text = "";
       leftPipeNumberController.text = "";
       rightPipeNumberController.text = "";
       _welderData =  WelderModel();
@@ -610,6 +562,7 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       _wpsData =  WPSModel();
       _weldVisualData =  VisualChecksModel();
       _fitupData =  VisualChecksModel();
+      preHeatData =  VisualChecksModel();
       _isLoader =  false;
       _isWelderLoader = false;
       file =  File("");
@@ -695,8 +648,8 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
         electrodeDiaE6010Controller: electrodeDiaE6010Controller,
         electrodeDiaE9045p2BatchController: electrodeDiaE9045p2BatchController,
         electrodeDiaE9045p2Controller: electrodeDiaE9045p2Controller,
-        electrodeEiaE8010p1BatchController: electrodeEiaE8010p1BatchController,
-        electrodeEiaE8010p1Controller: electrodeEiaE8010p1Controller,
+        electrodeEiaE7010p1BatchController: electrodeEiaE7010p1BatchController,
+        electrodeEiaE7010p1Controller: electrodeEiaE7010p1Controller,
         isWelderLoader: isWelderLoader,
         jointTypeData: jointTypeData,
         jointTypeList: jointTypeList,
@@ -741,6 +694,9 @@ Navigator.pop(event.context.mounted ? event.context : event.context);
       searchPipeRightController: searchRightPipeController,
       searchRightPipeList: searchRightPipeList,
       searchRightPipeLoader: searchRightPipeLoader,
+      pipeMaterialData: pipeMaterialData,
+      pipeMaterialList: pipeMaterialList,
+      preHeatData: preHeatData
     ));
   }
 

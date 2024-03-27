@@ -1,34 +1,34 @@
-part of 'add_crossing_bloc.dart';
+part of 'add_marker_bloc.dart';
 
-abstract class AddCrossingState extends Equatable {
-  const AddCrossingState();
+abstract class AddMarkerState extends Equatable {
+  const AddMarkerState();
 }
 
-class AddCrossingInitial extends AddCrossingState {
+class AddMarkerInitial extends AddMarkerState {
   @override
   List<Object> get props => [];
 }
 
-class AddCrossingPageLoadState extends AddCrossingInitial {
+class AddMarkerPageLoadState extends AddMarkerInitial {
   @override
   List<Object> get props => [];
 }
 
-class FetchAddCrossingDataState extends AddCrossingInitial {
+class FetchAddMarkerDataState extends AddMarkerInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel  alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
-  final TextEditingController weldingReportNumberController;
-  final TextEditingController radiographyReportNoController;
-  final TextEditingController coatingReportNoController;
-  final TextEditingController preHydroReportNoController;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+  final TextEditingController primaryAbatchController;
+  final TextEditingController primaryBbatchController;
   final TextEditingController locationController;
   final TextEditingController holidayTestNoController;
-  final TextEditingController hddSectionPreparationController;
-  final TextEditingController hddWithCashingController;
-  final TextEditingController casingLengthController;
+  final TextEditingController surfacePreparationController;
+  final TextEditingController descriptionController;
+  final TextEditingController surfaceController;
   final TextEditingController onBodyController;
   final TextEditingController onWeldController;
   final HolidayChecksModel holidayChecksData;
@@ -45,31 +45,29 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final WeatherModel weatherData;
   final List<ThicknessModel> thicknessList;
   final ThicknessModel thicknessData;
+  final ThicknessModel coatingThicknessData;
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
   final List<CoatingTypeModel> coatingTypeList;
   final CoatingTypeModel coatingTypeData;
-  final List<PaddingModel > prePaddingList;
-  final PaddingModel prePaddingData;
-  final List<PaddingModel > postPaddingList;
-  final PaddingModel postPaddingData;
+  final List<PaddingModel > peelTestList;
+  final PaddingModel peelTestData;
   final List<PipeMaterialModel> pipeMaterialList;
   final PipeMaterialModel pipeMaterialData;
   final List<VisualChecksModel> visualsChecksList;
   final VisualChecksModel visualChecksData;
-  final List<CrossingTypeModel> crossingTyeList;
-  final CrossingTypeModel crossingTypeData;
+  final List<MarkerTypeModel> markerTypeList;
+  final MarkerTypeModel markerTypeData;
 
-
-  FetchAddCrossingDataState({
+  FetchAddMarkerDataState({
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
     required this.activityRemarkController,
     required this.onWeldController,
-    required this.weldingReportNumberController,
-    required this.radiographyReportNoController,
-    required this.hddWithCashingController,
+    required this.chainageFromController,
+    required this.chainageToController,
+    required this.descriptionController,
     required this.alignmentData,
     required this.file,
     required this.weatherList,
@@ -80,32 +78,31 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     required this.fromJointData,
     required this.jointFromList,
     required this.jointToList,
-    required this.coatingReportNoController,
+    required this.primaryAbatchController,
     required this.locationController,
     required this.toJointData,
     required this.holidayTestNoController,
     required this.holidayChecksData,
     required this.onBodyController,
     required this.holidayCheckList,
-    required this.hddSectionPreparationController,
-    required this.preHydroReportNoController,
-    required this.casingLengthController,
+    required this.surfacePreparationController,
+    required this.primaryBbatchController,
+    required this.surfaceController,
     required this.thicknessData,
     required this.thicknessList,
     required this.pipeDiaData,
     required this.pipeDialList,
     required this.coatingTypeData,
     required this.coatingTypeList,
-    required this.prePaddingData,
-    required this.prePaddingList,
+    required this.peelTestData,
+    required this.peelTestList,
     required this.pipeMaterialData,
     required this.pipeMaterialList,
     required this.visualChecksData,
     required this.visualsChecksList,
-    required this.crossingTypeData,
-    required this.crossingTyeList,
-    required this.postPaddingData,
-    required this.postPaddingList,
+    required this.coatingThicknessData,
+    required this.markerTypeData,
+    required this.markerTypeList,
   });
 
   @override
@@ -115,9 +112,9 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     dateController,
     activityRemarkController,
     onWeldController,
-    weldingReportNumberController,
-    radiographyReportNoController,
-    hddWithCashingController,
+    chainageFromController,
+    chainageToController,
+    descriptionController,
     alignmentData,
     file,
     weatherList,
@@ -128,31 +125,30 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     fromJointData,
     jointFromList,
     jointToList,
-    coatingReportNoController,
+    primaryAbatchController,
     locationController,
     toJointData,
     holidayTestNoController,
     holidayChecksData,
     onBodyController,
     holidayCheckList,
-    hddSectionPreparationController,
-    preHydroReportNoController,
-    casingLengthController,
+    surfacePreparationController,
+    primaryBbatchController,
+    surfaceController,
     thicknessData,
     thicknessList,
     pipeDiaData,
     pipeDialList,
     coatingTypeData,
     coatingTypeList,
-    prePaddingData,
-    prePaddingList,
+    peelTestData,
+    peelTestList,
     pipeMaterialList,
     pipeMaterialData,
     visualChecksData,
     visualsChecksList,
-    crossingTyeList,
-    crossingTypeData,
-    postPaddingData,
-    postPaddingList,
+    coatingThicknessData,
+    markerTypeData,
+    markerTypeList,
   ];
 }

@@ -76,6 +76,8 @@ class APIs {
   static get addDptApi => "api/steel/dptinsert";
   static get addSteelStructureApi => "api/steel/steelstructureinsert";
   static get addValveChamberApi => "api/steel/valvechamberinsert";
+  static get getMarkerTypeApi => "api/steel/marker-types";
+  static get addMarkerApi => "api/steel/marker";
 
 
   static get productTypeApi => "admin/rest/getItemType";

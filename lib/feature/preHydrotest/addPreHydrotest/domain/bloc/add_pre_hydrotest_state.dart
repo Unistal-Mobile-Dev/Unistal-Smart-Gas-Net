@@ -48,6 +48,8 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final TextEditingController pressureReading2KGController;
   final TextEditingController tempController;
   final TextEditingController clearanceController;
+  final List<PipeMaterialModel> pipeMaterialList;
+  final PipeMaterialModel pipeMaterialData;
 
   FetchAddPreHydrotestDataState({
     required this.isLoader,
@@ -82,6 +84,8 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     required this.timeOffController,
     required this.timeOnController,
     required this.clearanceController,
+    required this.pipeMaterialData,
+    required this.pipeMaterialList,
   });
 
   @override
@@ -118,5 +122,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     timeOffController,
     timeOnController,
     clearanceController,
+    pipeMaterialList,
+    pipeMaterialData,
   ];
 }
