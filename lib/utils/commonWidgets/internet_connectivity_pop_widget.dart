@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
 class InternetConnectivityPopWidget extends StatelessWidget {
-  const InternetConnectivityPopWidget();
+  const InternetConnectivityPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

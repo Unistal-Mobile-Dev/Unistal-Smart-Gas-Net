@@ -204,7 +204,7 @@ class AddWeldingHelper {
         "root_welder2": rootWelders2Data.id ??  "",
         "hot_welder1": hotWelders1Data.id ??  "",
         "hot_welder2": hotWelders2Data.id ??  "",
-        "filler1_welder_one": filler1Welders1Data.id ??  "" ?? "",
+        "filler1_welder_one": filler1Welders1Data.id ??  "" ,
         "filler1_welder_two": filler1Welders2Data.id ??  "",
         "filler2_welder_one": filler2Welders1Data.id ??  "",
         "filler2_welder_two": filler2Welders2Data.id ??  "",
@@ -240,23 +240,28 @@ class AddWeldingHelper {
         "electrode_dia_e81t8g_batch": electrodeDiaE81t8gBatch,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+           String response = res['data'].toString();
+           if(!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
@@ -266,8 +271,7 @@ class AddWeldingHelper {
     }
   }
 
-  static Future<dynamic> fetchWPSType({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchWPSType({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getWPSApi;
@@ -288,9 +292,7 @@ class AddWeldingHelper {
     }
   }
 
-  static Future<dynamic> fetchJointType({required BuildContext context,
-    required LoginDataModel userData}) async {
-
+  static Future<dynamic> fetchJointType({required LoginDataModel userData}) async {
     try{
       String url =  APIs.getJointTypeApi;
       var param = {
@@ -330,8 +332,7 @@ class AddWeldingHelper {
     }
   }
 
-  static Future<dynamic> fetchWelderData({required BuildContext context,
-    required LoginDataModel userData, required WPSModel wpsData}) async {
+  static Future<dynamic> fetchWelderData({required LoginDataModel userData, required WPSModel wpsData}) async {
 
     try{
       String url =  APIs.getWelderApi;

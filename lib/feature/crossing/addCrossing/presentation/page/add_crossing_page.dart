@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/bloc/add_crossing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/model/crossing_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -105,14 +100,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _onWeldController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.onWeld,
-      controller: dataState.onWeldController,
-    );
-  }
-
 
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
     return  DropDownSearchWidget(
@@ -139,74 +126,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _pipeMaterialDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeMaterial,
-      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPipeMaterialDataEvent(pipeMaterialData: value));
-      },
-      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
-        return DropdownMenuItem<PipeMaterialModel>(
-          value: pipeMaterialData,
-          child: Text(pipeMaterialData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _pipeDiaDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeDia,
-      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPipeDiaDataEvent(pipeDiaData: value));
-      },
-      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
-        return DropdownMenuItem<PipeDiaModel>(
-          value: pipeDiaData,
-          child: Text(pipeDiaData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _thicknessDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectThicknessDataEvent(thicknessData: value));
-      },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _coatingTypeDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectCoatingType,
-      dropdownValue: dataState.coatingTypeData.id != null ? dataState.coatingTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectCoatingTypeDataEvent(coatingTypeData: value));
-      },
-      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>((CoatingTypeModel coatingTypeData) {
-        return DropdownMenuItem<CoatingTypeModel>(
-          value: coatingTypeData,
-          child: Text(coatingTypeData.name.toString()),
         );
       }).toList(),
     );
@@ -246,22 +165,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _locatinController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.location,
-      controller: dataState.locationController,
-    );
-  }
-
-  Widget _holidayTestNoController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.holidayTestNo,
-      controller: dataState.holidayTestNoController,
-    );
-  }
-
   Widget _concreteCoatingLengthController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -278,49 +181,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       controller: dataState.crossingNameController,
     );
   }
-
-  Widget _surfaceController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.surface,
-      controller: dataState.surfaceController,
-    );
-  }
-
-  Widget _visualChecksDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectVisualChecks,
-      dropdownValue: dataState.visualChecksData.id != null ? dataState.visualChecksData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectVisualChecksDataEvent(visualChecksData: value));
-      },
-      items: dataState.visualsChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksData,
-          child: Text(visualChecksData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _onBodyController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.onBody,
-      controller: dataState.onBodyController,
-    );
-  }
-
-
-  Widget _electrometerNoController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.electrometerNo,
-      controller: dataState.electrometerNoController,
-    );
-  }
-
 
   Widget _jointTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
@@ -393,15 +253,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _batchNoController({required FetchAddCrossingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.batchNo,
-      controller: dataState.batchNoController,
-    );
-  }
-
-
   Widget _crossingTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectCrossingType,
@@ -457,8 +308,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -485,8 +335,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      : const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

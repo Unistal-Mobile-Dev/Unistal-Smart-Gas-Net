@@ -83,20 +83,6 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-
-  Widget _alignmentDropdown({required FetchAddHydrotestDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectAlignmentEvent(alignmentData: value,));
-      },
-    );
-  }
-
   Widget _jointTypeDropDown({required FetchAddHydrotestDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
@@ -193,8 +179,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
           child: DottedBorder(
             color: AppColor.grey,
             strokeWidth: 1,
-            child: fileData.file == null
-                ||fileData.file.path.isEmpty ?
+            child: fileData.file.path.isEmpty ?
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -222,8 +207,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
                       width: MediaQuery.of(context).size.width/3,
                       height: MediaQuery.of(context).size.width/4.5 ,)
                         : fileData.file.path.toString().toLowerCase().contains(".pdf")
-                        ? Icon(Icons.picture_as_pdf_outlined)
-                        : Icon(Icons.document_scanner_outlined),
+                        ? const Icon(Icons.picture_as_pdf_outlined)
+                        : const Icon(Icons.document_scanner_outlined),
                     TextWidget(fileData.name,
                       textAlign: TextAlign.center,
                       color: AppColor.themeColor, fontSize: AppFont.font_12,),

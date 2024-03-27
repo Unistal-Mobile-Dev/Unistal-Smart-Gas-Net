@@ -4,7 +4,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 
 class AddNdtMutHelper {
 
-  static Future<dynamic> fetchNdtStatusData({required BuildContext context}) async {
+  static Future<dynamic> fetchNdtStatusData() async {
 
     try{
       String url =  APIs.getNdtStatusApi;
@@ -35,7 +34,7 @@ class AddNdtMutHelper {
     }
   }
 
-  static Future<dynamic> fetchNdtSourceData({required BuildContext context}) async {
+  static Future<dynamic> fetchNdtSourceData() async {
 
     try{
       String url =  APIs.getNdtSourceApi;
@@ -115,23 +114,28 @@ class AddNdtMutHelper {
         "operating_frequency": operatingFrequency,
         "inspection_level": leveOfInspection,
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+         if(!context.mounted) return null;
+      SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+		         && res['success'] == 400 && res['data'] != null) {
+		        String response = res['data'].toString();
+				if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
@@ -141,7 +145,7 @@ class AddNdtMutHelper {
     }
   }
 
-  static Future<dynamic> fetchSegmentData({required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchSegmentData({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getSegmentApi;
@@ -152,12 +156,12 @@ class AddNdtMutHelper {
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['segment'] != null) {
-        List<SegmentModel> _segmentList  = segmentListResponse(res['segment'], []);
-        return _segmentList;
+        List<SegmentModel> segmentList  = segmentListResponse(res['segment'], []);
+        return segmentList;
       }
       return null;
     }catch(e){
-      print(e.toString());
+      log(e.toString());
       return null;
     }
   }

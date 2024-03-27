@@ -1,13 +1,8 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -104,29 +99,29 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     isLoader = false;
     file =  File("");
     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
-    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context, userData: userData, welderList: welderList);
+    var resSegment =  await AddRadiographyHelper.fetchSegmentData(userData: userData, welderList: welderList);
     if(resSegment != null){
       segmentStatusList =  resSegment;
     }
 
-    var resweldStatus =  await AddWelderRepairHelper.fetchWelderRepairStatusData(context: event.context);
+    var resweldStatus =  await AddWelderRepairHelper.fetchWelderRepairStatusData();
     if(resweldStatus != null){
       welderRepairStatusList =  resweldStatus;
     }
 
-    var resWPS =  await AddWeldingHelper.fetchWPSType(context: event.context, userData: userData);
+    var resWPS =  await AddWeldingHelper.fetchWPSType( userData: userData);
     if(resWPS != null){
       wpsTypeList =  resWPS;
     }
@@ -135,7 +130,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
   }
 
   _selectDate(AddWelderRepairSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -146,7 +141,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -196,7 +191,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     isWelderLoader =  true;
     _eventComplete(emit);
     welderData =  WelderModel();
-    var resWelder =  await AddWeldingHelper.fetchWelderData(context: event.context, userData: userData, wpsData: wpsTypeData);
+    var resWelder =  await AddWeldingHelper.fetchWelderData( userData: userData, wpsData: wpsTypeData);
     if(resWelder != null){
       welderList =  resWelder;
     }
@@ -221,7 +216,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
@@ -239,12 +234,12 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
         segmentList: selectedSegmentStatusList,
         welderRepairStatusData: welderRepairStatusData,
         wpsTypeData: wpsTypeData, welderData: welderData,
-        E6010: e6010Controller.text.toString(),
-        E8010P1: e8010P1Controller.text.toString(),
-        E9045P2: e9045P2Controller.text.toString(),
-        Er70s6: er70s6Controller.text.toString(),
-        E81TM21AB: e81TM21ABController.text.toString(),
-        preHeatingTempreature: preHeatingTemperatureController.text.toString(), file: file);
+        e6010: e6010Controller.text.toString(),
+        e8010P1: e8010P1Controller.text.toString(),
+        e9045P2: e9045P2Controller.text.toString(),
+        er70s6: er70s6Controller.text.toString(),
+        e81TM21AB: e81TM21ABController.text.toString(),
+        preHeatingTemperature: preHeatingTemperatureController.text.toString(), file: file);
     if(res != null){
       welderData =  WelderModel();
       wpsTypeData =  WPSModel();
@@ -267,7 +262,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       isLoader = false;
       file =  File("");
       _userData =  UserInfo.instanceInit()!.userData!;
-      weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+      weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
     }
 
     isLoader = false;

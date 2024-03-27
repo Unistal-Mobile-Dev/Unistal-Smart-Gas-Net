@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dpt/addDpt/domain/bloc/add_dpt_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dpt/addDpt/domain/bloc/add_dpt_state.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -96,15 +90,6 @@ class _AddDptPageState extends State<AddDptPage> {
     );
   }
 
-  Widget _onWeldController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.onWeld,
-      controller: dataState.onWeldController,
-    );
-  }
-
-
   Widget _alignmentDropdown({required FetchAddDptDataState dataState}) {
     return  DropDownSearchWidget(
       selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
@@ -132,149 +117,6 @@ class _AddDptPageState extends State<AddDptPage> {
           child: Text(weatherData.name.toString()),
         );
       }).toList(),
-    );
-  }
-
-  Widget _pipeMaterialDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeMaterial,
-      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectPipeMaterialDataEvent(pipeMaterialData: value));
-      },
-      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
-        return DropdownMenuItem<PipeMaterialModel>(
-          value: pipeMaterialData,
-          child: Text(pipeMaterialData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _pipeDiaDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeDia,
-      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectPipeDiaDataEvent(pipeDiaData: value));
-      },
-      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
-        return DropdownMenuItem<PipeDiaModel>(
-          value: pipeDiaData,
-          child: Text(pipeDiaData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _thicknessDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPipeThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectThicknessDataEvent(thicknessData: value));
-      },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _coatingTypeDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectCoatingType,
-      dropdownValue: dataState.coatingTypeData.id != null ? dataState.coatingTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectCoatingTypeDataEvent(coatingTypeData: value));
-      },
-      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>((CoatingTypeModel coatingTypeData) {
-        return DropdownMenuItem<CoatingTypeModel>(
-          value: coatingTypeData,
-          child: Text(coatingTypeData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _prePaddingDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPrePadding,
-      dropdownValue: dataState.prePaddingData.id != null ? dataState.prePaddingData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectPrePaddingDataEvent(prePaddingData: value));
-      },
-      items: dataState.prePaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel prePaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: prePaddingData,
-          child: Text(prePaddingData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _postPaddingDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPostPadding,
-      dropdownValue: dataState.postPaddingData.id != null ? dataState.postPaddingData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectPostPaddingDataEvent(postPaddingData: value));
-      },
-      items: dataState.postPaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel postPaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: postPaddingData,
-          child: Text(postPaddingData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _locatinController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.location,
-      controller: dataState.locationController,
-    );
-  }
-
-  Widget _holidayTestNoController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.holidayTestNo,
-      controller: dataState.holidayTestNoController,
-    );
-  }
-
-  Widget _concreteCoatingLengthController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.concreteCoatingLengthMeter,
-      controller: dataState.concreteCoatingLengthController,
-    );
-  }
-
-  Widget _crossingNameController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.crossingName,
-      controller: dataState.crossingNameController,
-    );
-  }
-
-  Widget _surfaceController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.surface,
-      controller: dataState.surfaceController,
     );
   }
 
@@ -310,23 +152,6 @@ class _AddDptPageState extends State<AddDptPage> {
           child: Text(visualChecksData.value.toString()),
         );
       }).toList(),
-    );
-  }
-
-  Widget _onBodyController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.onBody,
-      controller: dataState.onBodyController,
-    );
-  }
-
-
-  Widget _electrometerNoController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.electrometerNo,
-      controller: dataState.electrometerNoController,
     );
   }
 
@@ -366,65 +191,12 @@ class _AddDptPageState extends State<AddDptPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddDptDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
-  }
-
-  Widget _sectionLengthController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.sectionLengthMeter,
-      controller: dataState.sectionLengthController,
-    );
-  }
-
   Widget _dptTestController({required FetchAddDptDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.dptTest,
       controller: dataState.dptTestController,
-    );
-  }
-
-  Widget _batchNoController({required FetchAddDptDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.batchNo,
-      controller: dataState.batchNoController,
-    );
-  }
-
-
-  Widget _holidayChecksDropDown({required FetchAddDptDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectHolidayChecks,
-      dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddDptBloc>(context).add(
-            AddDptSelectHolidayDataEvent(holidayChecksData: value));
-      },
-      items: dataState.holidayCheckList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
-        return DropdownMenuItem<HolidayChecksModel>(
-          value: holidayChecksData,
-          child: Text(holidayChecksData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -449,8 +221,7 @@ class _AddDptPageState extends State<AddDptPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -477,8 +248,8 @@ class _AddDptPageState extends State<AddDptPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

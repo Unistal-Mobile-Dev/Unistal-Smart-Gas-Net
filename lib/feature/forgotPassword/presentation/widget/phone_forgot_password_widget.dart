@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class PhoneForgotPasswordWidget extends StatefulWidget {
   final FetchForgotPasswordDataState dataState;
@@ -29,7 +28,7 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
             elevation: 2,
             shadowColor: AppColor.themeLightColor,
             color: AppColor.white,
-            shape: RoundedRectangleBorder(
+            shape:  RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
             child: Column(

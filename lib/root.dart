@@ -33,7 +33,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_screen.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/steelStructure/addStreelStructure/domain/bloc/add_steel_structure_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
@@ -42,18 +41,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/valveChamber/addValveChamber/domain/bloc/add_valve_chamber_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:provider/provider.dart';
 import 'ExportFile/app_export_file.dart';
 
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications',
-    importance: Importance.high,
-    playSound: true);
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class Root extends StatefulWidget {
   final Client client;
@@ -74,7 +65,7 @@ class _RootState extends State<Root> {
   }
 
    MaterialColor primaryColor =  MaterialColor(
-     AppColor.theme_Color,
+     AppColor.themeColor0,
      <int, Color>{
        50: AppColor.themeColor,
        100: AppColor.themeColor,
@@ -90,7 +81,7 @@ class _RootState extends State<Root> {
   );
 
   MaterialColor primarySwatch =  MaterialColor(
-    AppColor.theme_LightColor,
+    AppColor.themeLightColor0,
     <int, Color>{
       50: AppColor.themeLightColor,
       100: AppColor.themeLightColor,

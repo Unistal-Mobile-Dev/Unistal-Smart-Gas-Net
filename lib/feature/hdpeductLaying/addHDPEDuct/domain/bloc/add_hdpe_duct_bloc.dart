@@ -1,12 +1,7 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -95,19 +90,19 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     paddingList = [];
     paddingData =  PaddingModel();
      _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
-    var resPadding =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    var resPadding =  await AddHDPEDuctHelper.fetchPaddingData();
     if(resPadding != null){
       paddingList =  resPadding;
       warningMeterList = paddingList;
@@ -164,7 +159,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
   }
 
   _selectDate(AddHdpeDuctSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -174,7 +169,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -190,7 +185,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

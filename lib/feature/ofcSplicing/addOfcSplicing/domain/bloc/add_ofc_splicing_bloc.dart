@@ -1,10 +1,6 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/helper/add_ofc_splicing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -88,14 +84,14 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
     jointNumberList = [];
     jointNumberData = JointNumberModel();
      _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
@@ -135,7 +131,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
   }
 
   _selectDate(AddOfcSplicingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -145,7 +141,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -161,7 +157,7 @@ class AddOfcSplicingBloc extends Bloc<AddOfcSplicingEvent, AddOfcSplicingState> 
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

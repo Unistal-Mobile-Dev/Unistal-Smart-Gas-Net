@@ -38,7 +38,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
 
   Widget _itemBuilder({required FetchAddConcreteCoatingDataState dataState}){
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child : Column(
           children: [
@@ -187,8 +187,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -215,8 +214,8 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

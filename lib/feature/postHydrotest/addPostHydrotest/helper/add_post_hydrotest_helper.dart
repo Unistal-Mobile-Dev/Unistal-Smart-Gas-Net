@@ -47,17 +47,21 @@ class AddPostHydroTestHelper {
         "totalLength" : length.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",
           filePath: file.path.toString());
       if(res != null && res['status'] != null
           && res['status'] == true && res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+         if(!context.mounted) return res;
+          SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;
       } else  if(res != null && res['status'] != null && res['errors'] != null && res['message'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['message'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

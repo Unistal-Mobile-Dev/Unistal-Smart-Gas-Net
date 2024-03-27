@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NetworkImageWidget extends StatelessWidget {
@@ -6,8 +5,8 @@ class NetworkImageWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final BoxFit? fit;
-  const NetworkImageWidget({Key? key,
-    required this.imageUrl, this.height, this.width, this.fit}) : super(key: key);
+  const NetworkImageWidget({super.key,
+    required this.imageUrl, this.height, this.width, this.fit});
 
   @override
   Widget build(BuildContext context) {

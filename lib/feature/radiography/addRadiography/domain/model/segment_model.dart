@@ -85,7 +85,6 @@ class SegmentModel {
         segmentStatusDataList.add(status.id.toString());
       }
     }
-   var  data ;
     if(segmentStatusDataList.isNotEmpty){
 
       var json = {

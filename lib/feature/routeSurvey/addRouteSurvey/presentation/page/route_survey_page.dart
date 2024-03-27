@@ -3,7 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class AddRouteSurveyPage extends StatefulWidget {
   const AddRouteSurveyPage({super.key});
@@ -38,7 +37,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _itemBuilder({required FetchAddRouteSurveyDataState dataState}){
     return Container(
-       margin: EdgeInsets.all(10),
+       margin: const EdgeInsets.all(10),
        child: SingleChildScrollView(
          child : Column(
            children: [
@@ -93,14 +92,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
         BlocProvider.of<AddRouteSurveyBloc>(context).add(
             AddRouteSurveySelectDateEvent(context: context,));
       },
-    );
-  }
-
-  Widget _reportNumberController({required FetchAddRouteSurveyDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
     );
   }
 
@@ -234,8 +225,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -262,8 +252,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

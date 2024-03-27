@@ -61,7 +61,6 @@ class AddStringingHelper {
    }) async {
 
     try{
-
       var location =  await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
       if(location != null){
@@ -92,23 +91,28 @@ class AddStringingHelper {
         "alignment_sheet_id": alignmentData.id.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
       }else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-          String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+          String response = res['data'].toString();
+          if(!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
@@ -118,7 +122,7 @@ class AddStringingHelper {
     }
   }
 
-  static Future<dynamic> fetchConcreteCoatingData({required BuildContext context}) async {
+  static Future<dynamic> fetchConcreteCoatingData() async {
 
     try{
       String url =  APIs.getConcreteCoatingApi;

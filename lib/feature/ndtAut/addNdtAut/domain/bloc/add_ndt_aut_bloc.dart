@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -97,31 +94,31 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
      selectedDefectLayerList = [];
      defectTypeList = [];
      selectedDefectTypeList = [];
-     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+     weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
      _userData =  UserInfo.instanceInit()!.userData!;
 
-     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+     var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
      if(res != null){
        alignmentList =  res;
      }
-     var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+     var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
      if(resJointType != null){
        jointTypeList =  resJointType;
      }
-     var resWPS =  await AddWeldingHelper.fetchWPSType(context: event.context, userData: userData);
+     var resWPS =  await AddWeldingHelper.fetchWPSType( userData: userData);
      if(resWPS != null){
        wpsTypeList =  resWPS;
      }
      
-     var resDefectType =  await AddNdtAutHelper.fetchDefectTypeData(context: event.context, userData: userData);
+     var resDefectType =  await AddNdtAutHelper.fetchDefectTypeData(userData: userData);
      if(resDefectType != null){
        defectTypeList =  resDefectType;
      }
-     var resDefectLayer =  await AddNdtAutHelper.fetchDefectLayerData(context: event.context);
+     var resDefectLayer =  await AddNdtAutHelper.fetchDefectLayerData();
      if(resDefectLayer != null){
        defectLayerList =  resDefectLayer;
      }
-     var resAut =  await AddNdtAutHelper.fetchAutStatusData(context: event.context);
+     var resAut =  await AddNdtAutHelper.fetchAutStatusData();
      if(resAut != null){
        autStatusList =  resAut;
      }
@@ -129,7 +126,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   }
 
   _selectDate(AddNdtAutSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -140,7 +137,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -196,7 +193,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     isWelderLoader =  true;
     _eventComplete(emit);
     selectedWelderList =  [];
-    var resWelder =  await AddWeldingHelper.fetchWelderData(context: event.context, userData: userData, wpsData: wpsTypeData);
+    var resWelder =  await AddWeldingHelper.fetchWelderData( userData: userData, wpsData: wpsTypeData);
     if(resWelder != null){
       welderList =  resWelder;
     }
@@ -221,7 +218,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
@@ -257,7 +254,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       autStatusData =  AutStatusModel();
       selectedDefectLayerList = [];
       selectedDefectTypeList = [];
-      weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+      weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
       _userData =  UserInfo.instanceInit()!.userData!;
     }
 

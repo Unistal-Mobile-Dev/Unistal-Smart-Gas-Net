@@ -35,8 +35,7 @@ class AddJointCoatingHelper {
     }
   }
 
-  static Future<dynamic> fetchCoatingTypeData({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchCoatingTypeData({required LoginDataModel userData}) async {
     try{
       String url  =  APIs.getCoatingTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
@@ -51,8 +50,7 @@ class AddJointCoatingHelper {
     }
   }
 
-  static Future<dynamic> fetchPipeMaterialData({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchPipeMaterialData({required LoginDataModel userData}) async {
     try{
       String url  =  APIs.getPipeMaterialApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
@@ -140,23 +138,28 @@ class AddJointCoatingHelper {
         "peel_test" : peelTestData.id !=  null ? peelTestData.id.toString() : "",
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+         if(!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+		         && res['success'] == 400 && res['data'] != null) {
+		        String response = res['data'].toString();
+				if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

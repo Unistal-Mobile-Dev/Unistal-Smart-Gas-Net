@@ -109,30 +109,30 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         pipeDiaData =  PipeDiaModel();
         pipeDiaList = [];
         weatherData =  WeatherModel();
-        weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+        weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
         _userData =  UserInfo.instanceInit()!.userData!;
 
-        var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+        var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
         if(res != null){
           alignmentList =  res;
         }
 
-      var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+      var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
       if(resJointType != null){
         jointTypeList =  resJointType;
       }
 
-        var resPlasticGrating =  await AddBendingHelper.fetchVisualChecks(context: event.context);
+        var resPlasticGrating =  await AddBendingHelper.fetchVisualChecks();
         if(resPlasticGrating != null){
           plasticGratingList =  resPlasticGrating;
         }
 
-      var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
+      var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(userData: userData);
       if(thicknessRes != null){
         thicknessList =  thicknessRes;
       }
 
-      var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
+      var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData( userData: userData);
       if(pipeDiaRes != null){
         pipeDiaList =  pipeDiaRes;
       }
@@ -204,7 +204,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -220,7 +220,8 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+
+    Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

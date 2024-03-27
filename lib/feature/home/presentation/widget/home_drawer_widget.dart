@@ -4,7 +4,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
@@ -168,31 +167,6 @@ class HomeDrawerWidget extends StatelessWidget {
               ),
             );
           }),
-    );
-  }
-
-  Widget _changePassword({required BuildContext context}) {
-    return Padding(
-      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.02,
-          bottom:  MediaQuery.of(context).size.width * 0.02),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-/*          Navigator.push(context,
-              MaterialPageRoute(builder: (_) =>  const ChangePasswordPage()));*/
-        },
-        child: Row(
-          children: [
-            Icon(Icons.password_rounded, color: AppColor.black,),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.03,
-            ),
-            TextWidget(AppString.changePassword,
-              fontSize: AppFont.font_12,
-            ),
-          ],
-        ),
-      ),
     );
   }
 

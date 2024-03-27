@@ -12,7 +12,7 @@ Widget topRightCircle(BuildContext context){
         child: Card(
           elevation: 5,
           shadowColor: AppColor.themeColor,
-          shape: RoundedRectangleBorder(
+          shape:  RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(80),
           ),
           child: Container(
@@ -21,7 +21,7 @@ Widget topRightCircle(BuildContext context){
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
                 // color: Colors.pink,
-                borderRadius: BorderRadius.all(Radius.circular(80))),
+                borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
       ),
@@ -31,7 +31,7 @@ Widget topRightCircle(BuildContext context){
         child: Container(
           height: height * 0.17,
           width: width * 0.33,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             //  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[Color(0xFF4348bf), Color(0xFF7fd4f5)]),
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(80))),
@@ -52,7 +52,7 @@ Widget topRightCircle(BuildContext context){
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
                 // color: Colors.pink,
-                borderRadius: BorderRadius.all(Radius.circular(80))),
+                borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
       ),

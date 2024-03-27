@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 import '../domain/models/login_model.dart';
 
 class LoginHelper {
@@ -40,7 +37,7 @@ class LoginHelper {
     var deviceId = await getUniqueDeviceId();
 /*    var firebaseToken = await FirebaseMessaging.instance.getToken();*/
     var firebaseToken = "";
-    print(firebaseToken.toString());
+    log(firebaseToken.toString());
     try {
       if (await isInternetConnected() == true) {
         var json =  LoginScreenRequestModel(
@@ -54,16 +51,20 @@ class LoginHelper {
           if(res != null && res["status"] != null && res['status'] == 200 && res['user'] != null){
             return res;
         } else if (res != null && res["status"] != null && res['status'] == 401 && res['messages'] != null) {
+            if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: res['messages']);
           return null;
         } else {
+            if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message:"Internal Server Error");
           return null;
         }
       }
+      if(!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "No internet Connection");
       return null;
     } catch (e) {
+      if(!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "Internal server error");
       return null;
     }

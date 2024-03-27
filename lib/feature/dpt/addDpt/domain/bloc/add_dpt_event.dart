@@ -55,10 +55,10 @@ class AddDptSelectHolidayDataEvent extends AddDptEvent {
 }
 
 class AddDptSelectDptTypeDataEvent extends AddDptEvent {
-  final CrossingTypeModel DptTypeData;
-  const AddDptSelectDptTypeDataEvent({required this.DptTypeData});
+  final CrossingTypeModel dptTypeData;
+  const AddDptSelectDptTypeDataEvent({required this.dptTypeData});
   @override
-  List<Object?> get props => [DptTypeData];
+  List<Object?> get props => [dptTypeData];
 }
 
 class AddDptSelectCoatingTypeDataEvent extends AddDptEvent {

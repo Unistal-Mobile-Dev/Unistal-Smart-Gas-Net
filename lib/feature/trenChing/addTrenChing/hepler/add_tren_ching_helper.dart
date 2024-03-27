@@ -55,8 +55,7 @@ class AddTrenChingHelper {
     }
   }
 
-  static Future<dynamic> fetchSoilTypeData({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchSoilTypeData({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getSoilTypeApi+"?schema=${userData.schema}";
@@ -115,23 +114,30 @@ class AddTrenChingHelper {
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "Soil_type_id" : soilTypeData.id != null ? soilTypeData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+         if(!context.mounted) return null;
+ SnackBarErrorWidget(context).show(message: res['data'].toString());
         return res;
       }else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        if(!context.mounted) return null;
+         if(!context.mounted) return null;
+ SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
            String resPonse = res['data'].toString();
+           if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

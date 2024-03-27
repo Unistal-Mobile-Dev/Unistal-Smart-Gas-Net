@@ -14,9 +14,9 @@ class WelderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['welder_name'] = this.welderName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['welder_name'] = welderName;
     return data;
   }
 }

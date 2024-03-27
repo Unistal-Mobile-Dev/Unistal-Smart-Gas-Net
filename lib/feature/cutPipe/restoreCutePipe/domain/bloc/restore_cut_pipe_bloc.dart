@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -25,7 +25,7 @@ class RestoreCutPipeBloc extends Bloc<RestoreCutPipeEvent, RestoreCutPipeState> 
   _pageLoad(RestoreCutePipePageLoadEvent event, emit) async {
     emit(RestoreCutPipePageLoadState());
     _pipeList = [];
-    var res =  await RestoreCutPipeHelper.fetchCutePipeList(context: event.context);
+    var res =  await RestoreCutPipeHelper.fetchCutePipeList();
     if(res != null) {
       _pipeList = res;
     }
@@ -40,7 +40,7 @@ class RestoreCutPipeBloc extends Bloc<RestoreCutPipeEvent, RestoreCutPipeState> 
      var res =  await RestoreCutPipeHelper.submitData(context: event.context, pipeData: pipeData);
      if(res != null){
        _pipeList = [];
-       var resPipe =  await RestoreCutPipeHelper.fetchCutePipeList(context: event.context);
+       var resPipe =  await RestoreCutPipeHelper.fetchCutePipeList();
        if(resPipe != null) {
          _pipeList = resPipe;
        }

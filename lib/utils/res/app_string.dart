@@ -89,7 +89,7 @@ class AppString {
   static get time => "Time";
   static get timeOff => "Time Off";
   static get timeInHours => "Time In Hours";
-  static get WeldVisualClearance => "Weld Visual& NDT Clearance";
+  static get weldVisualClearance => "Weld Visual& NDT Clearance";
   static get pressureReading1Kg => "Pressure Reading 1(Kg/Cm)";
   static get pressure1 => "Pressure 1";
   static get pressureReading2Kg => "Pressure Reading 2(Kg/Cm)";
@@ -213,7 +213,9 @@ class AppString {
   static get selectSoilType => "Select Soil Type";
   static get selectNdtAgency => "Select NDT Agency";
   static get selectDSPPL => "Select DSPPL";
+  static get selectContractor => "Select Contractor";
   static get selectMECONPBGPL => "Select MECON/PBGPL";
+  static get selectPMCTPIAL => "Select PMC/TPIA";
   static get selectTerrain => "Select Terrain";
   static get selectCoatingType => "Select Coating Type";
   static get selectPeelTest => "Select Peel Test";

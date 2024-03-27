@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -94,14 +90,13 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     file = File("");
     _weatherData = WeatherModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData( userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
 
-    var resTerrain =  await AddClearingGradingHelper.fetchTerrainData(
-         context: event.context, userData: userData);
+    var resTerrain =  await AddClearingGradingHelper.fetchTerrainData(userData: userData);
     if(resTerrain != null){
       terrainTypeList =  resTerrain;
     }
@@ -125,7 +120,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   }
 
   _selectDate(AddClearingGradingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -136,7 +131,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
 
   }
@@ -153,7 +148,7 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

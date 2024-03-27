@@ -3,8 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,10 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
     String userName = await SharedPreferencesUtils.getString(key: PreferencesName.userName);
     if(userName.isEmpty){
       await Future.delayed(const Duration(seconds: 2));
+      if(!context.mounted) return;
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => LoginScreenPage()), (route) => false);
+          MaterialPageRoute(builder: (_) => const LoginScreenPage()), (route) => false);
     } else{
       String password = await SharedPreferencesUtils.getString(key: PreferencesName.password);
+      if(!context.mounted) return;
       BlocProvider.of<LoginBloc>(context).add(LoginSetPasswordEvent(
           password: password));
       BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(

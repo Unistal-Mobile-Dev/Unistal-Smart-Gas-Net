@@ -16,7 +16,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 
 class AddNdtAutHelper {
 
-  static Future<dynamic> fetchAutStatusData({required BuildContext context}) async {
+  static Future<dynamic> fetchAutStatusData() async {
 
     try{
       String url =  APIs.getAutStatusApi;
@@ -36,7 +36,7 @@ class AddNdtAutHelper {
     }
   }
 
-  static Future<dynamic> fetchDefectLayerData({required BuildContext context}) async {
+  static Future<dynamic> fetchDefectLayerData() async {
 
     try{
       String url =  APIs.getDefectLayerApi;
@@ -56,7 +56,7 @@ class AddNdtAutHelper {
     }
   }
 
-  static Future<dynamic> fetchDefectTypeData({required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchDefectTypeData({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getDefectTypeApi+"?schema=${userData.schema}";
@@ -131,25 +131,30 @@ class AddNdtAutHelper {
         "defect_type_ids" : defectTypeList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+         if(!context.mounted) return null;
+ SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+		         && res['success'] == 400 && res['data'] != null) {
+		        String response = res['data'].toString();
+				if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }
       return null;
     }catch(e){
+      if(!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

@@ -303,7 +303,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _mECONPBGPLDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectMECONPBGPL,
+      hint: AppString.selectPMCTPIAL,
       dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context).add(

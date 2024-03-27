@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -9,16 +6,13 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/model/crossing_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/helper/add_crossing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/helper/add_joint_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -162,35 +156,35 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     crossingTypeList = [];
     crossingTypeData =  CrossingTypeModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
 
-    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context);
+    var resHoliday =  await AddBendingHelper.fetchHolidayData();
     if(resHoliday != null){
       holidayCheckList =  resHoliday;
     }
 
 
-    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks();
     if(visualsChecksRes != null){
       visualsChecksList =  visualsChecksRes;
     }
 
-    var resCrossingType =  await AddCrossingHelper.fetchCrossingData(context: event.context, userData: userData);
+    var resCrossingType =  await AddCrossingHelper.fetchCrossingData(userData: userData);
     if(resCrossingType != null){
       crossingTypeList =  resCrossingType;
     }
 
-    var prePaddingRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    var prePaddingRes =  await AddHDPEDuctHelper.fetchPaddingData();
     if(prePaddingRes != null){
       prePaddingList =  prePaddingRes;
       postPaddingList = prePaddingRes;
@@ -273,7 +267,6 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   }
 
   _selectDate(AddCrossingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -284,7 +277,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -299,7 +292,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   }
 
   _selectCabilabrationData(AddCrossingCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -310,7 +303,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       onBodyController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -327,7 +320,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

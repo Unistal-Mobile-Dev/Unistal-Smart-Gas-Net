@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/page/home_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/helper/login_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -38,8 +36,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   String _appLogo = "";
   String get appLogo => _appLogo;
 
-  List<LoginDataModel> _loginScreenResponse = [];
-  List<LoginDataModel> get loginScreenResponse => _loginScreenResponse;
 
   LoginDataModel _loginData =  LoginDataModel();
   LoginDataModel get loginData => _loginData;
@@ -75,7 +71,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try{
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       _appVersion = packageInfo.version;
-    }catch(e){}
+    }catch(e){
+      log(e.toString());
+    }
 
     _eventCompleted(emit);
     _appLogoLoader =  false;
@@ -91,26 +89,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     _loginData =  LoginDataModel();
     var textFieldValidationCheck = await LoginHelper.textFieldValidation(emilId: email,
-        password: password, context: event.context);
+        password: password, context: event.context.mounted ? event.context : event.context);
     if (textFieldValidationCheck == true) {
       _isLoader =  true;
       _eventCompleted(emit);
-      var res = await LoginHelper.getLoginData(emilId: email, password: password, context: event.context);
+      var res = await LoginHelper.getLoginData(emilId: email, password: password,
+          context: event.context.mounted ? event.context : event.context);
       _isLoader =  false;
       _eventCompleted(emit);
       if(res != null){
         _loginData = loginResponse(res['user']);
-        String _token =  res['token'] ?? "";
-        _loginData.token =  _token;
+        String token =  res['token'] ?? "";
+        _loginData.token =  token;
         SharedPreferencesUtils.setString(key: PreferencesName.userName, value : email.toString());
         SharedPreferencesUtils.setString(key: PreferencesName.password, value : password.toString());
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData =  loginData;
-        Navigator.pushAndRemoveUntil(event.context,
+        Navigator.pushAndRemoveUntil(event.context.mounted ? event.context : event.context,
             MaterialPageRoute(builder: (_) => const HomePage()), (route) => false);
       } else {
         if(event.isLoginPage == false) {
-          Navigator.pushAndRemoveUntil(event.context,
+          Navigator.pushAndRemoveUntil(event.context.mounted ? event.context : event.context,
               MaterialPageRoute(builder: (_) => const LoginScreenPage()), (route) => false);
         }
       }

@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 class DashboardHelper {
 
-  static Future<dynamic> fetchWeatherData({required BuildContext context,
-       required LoginDataModel userData}) async {
+  static Future<dynamic> fetchWeatherData({required LoginDataModel userData}) async {
       try{
           String url  =  APIs.getWeatherApi+"?schema=${userData.schema}";
           var res =  await ServerRequest.getData(urlEndPoint: url);

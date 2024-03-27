@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GPSSettingPermissionPopWidget extends StatelessWidget {
-  const GPSSettingPermissionPopWidget();
+  const GPSSettingPermissionPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +59,8 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
 
   Widget _settingButton({required BuildContext context,}) {
     return TextButton(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: TextWidget(
-            "Open Setting",
-            textAlign: TextAlign.center,
-            fontSize: AppFont.font_16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.themeColor,
-          ),
-        ),
         style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor: MaterialStateProperty.all<Color>(AppColor.themeColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -82,8 +71,19 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
         ),
         onPressed: () async {
           await openAppSettings();
+          if(!context.mounted) return;
           Navigator.pop(context);
-        }
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.30,
+          child: TextWidget(
+            "Open Setting",
+            textAlign: TextAlign.center,
+            fontSize: AppFont.font_16,
+            fontWeight: FontWeight.w500,
+            color: AppColor.themeColor,
+          ),
+        )
     );
   }
 

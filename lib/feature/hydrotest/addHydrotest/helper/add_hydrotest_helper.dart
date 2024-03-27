@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
@@ -73,16 +72,20 @@ class AddHydroTestHelper {
         "jointTo" : toJointData.id  != null ? toJointData.id.toString(): "",
         "totalLength" : length.toString(),
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json,
           context: context, fileList: fileList);
       if(res != null && res['status'] != null
           && res['status'] == true && res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+         if(!context.mounted) return res;
+          SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;
       } else  if(res != null && res['status'] != null && res['errors'] != null && res['message'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['message'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

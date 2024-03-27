@@ -5,7 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 
 class RestoreCutPipeHelper {
 
-  static Future<dynamic> fetchCutePipeList({required BuildContext context}) async {
+  static Future<dynamic> fetchCutePipeList() async {
     try{
       String url =  APIs.getCutePipeApi;
       var res =  await ServerRequest.getData(urlEndPoint: url);
@@ -24,9 +24,11 @@ class RestoreCutPipeHelper {
       String url =  APIs.updateCutePipeApi+"${pipeData.id}";
       var res =  await ServerRequest.putData(urlEndPoint: url, body: "");
       if(res != null && res['status'] != null && res['status'] == true && res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+         if(!context.mounted) return res;
+          SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;
       } else if(res != null && res['error'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['error']);
         return null;
       }

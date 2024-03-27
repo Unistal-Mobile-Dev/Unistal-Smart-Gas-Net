@@ -52,7 +52,7 @@ class APIs {
   static get addPreHydroTestApi => "api/steel/prehydrotestinsert";
   static get addHydroTestApi => "api/steel/hydrotest";
   static get addHDPEDuctTestingApi => "api/steel/hdpe-duct-testing";
-  static get AddSwabbingApi => "api/steel/swabbing";
+  static get addSwabbingApi => "api/steel/swabbing";
   static get getWelderRepairStatusApi => "api/steel/wp-status";
   static get addWeldRepairApi => "api/steel/weld-repair";
   static get getAutStatusApi => "api/steel/autstatus";

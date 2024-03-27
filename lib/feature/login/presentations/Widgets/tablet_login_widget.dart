@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/presentation/pages/forgot_password_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_state.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class TabletLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
@@ -154,34 +151,6 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
         onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetPasswordEvent(password: value)),
       ),
     );
-  }
-
-  Widget _forgotPassword({required FetchLoginStateData dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.00,
-              bottom: MediaQuery.of(context).size.width * 0.02),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-              );
-            },
-            child: TextWidget(
-              "Forgot Password",
-             textDecoration : TextDecoration.underline,
-              color: AppColor.themeSecondary,
-              fontWeight: FontWeight.w600
-            ),
-          ),
-        ),
-      ),
-    ): const SizedBox.shrink();
   }
 
   Widget _loginButton({required FetchLoginStateData dataState}) {

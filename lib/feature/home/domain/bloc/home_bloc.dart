@@ -1,15 +1,10 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/page/home_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 part 'home_event.dart';
@@ -67,6 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _restaurantMenu = [];
     _pageWidgetList = [];
     _title =  "Dashboard";
+    _isLoader =  false;
     _childWidget = const DashboardPage();
     _actionButtonWidget =  const SizedBox.shrink();
     _drawerList  =  await HomeHelper.fetchDrawerList(context: event.context);
@@ -79,8 +75,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<DrawerModel> tempList = drawerList;
     _drawerList = [];
     _eventCompleted(emit);
-
-    int index = userData.roleType == RoleType.engineer ?  1 : 3;
 
     for(int i = 0; i < tempList.length; i++){
       if(i == event.index){

@@ -350,27 +350,9 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-
-  Widget _ndtAgencyDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectNdtAgency,
-      dropdownValue: dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value));
-      },
-      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectDSPPL,
+      hint: AppString.selectContractor,
       dropdownValue: dataState.dSPPLAgencyData.id != null ? dataState.dSPPLAgencyData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
@@ -387,7 +369,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _mECONPBGPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectMECONPBGPL,
+      hint: AppString.selectPMCTPIAL,
       dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
@@ -422,8 +404,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -450,8 +431,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

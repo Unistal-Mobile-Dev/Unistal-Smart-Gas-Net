@@ -147,23 +147,28 @@ class AddBendingHelper {
         "bend_angle_second" : bendSecond,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
            String resPonse = res['data'].toString();
+           if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       } else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
@@ -173,8 +178,7 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchBendingType({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchBendingType({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getBendingTypeApi;
@@ -193,7 +197,7 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchVisualChecks({required BuildContext context}) async {
+  static Future<dynamic> fetchVisualChecks() async {
 
     try{
       String url =  APIs.getVisualChecksApi;
@@ -213,7 +217,7 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchHolidayData({required BuildContext context}) async {
+  static Future<dynamic> fetchHolidayData() async {
 
     try{
       String url =  APIs.getHolidayChecksApi;

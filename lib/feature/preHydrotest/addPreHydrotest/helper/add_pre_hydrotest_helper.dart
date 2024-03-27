@@ -78,17 +78,21 @@ class AddPreHydroTestHelper {
         "pressure_reading_1" : pressureReading1KG.toString(),
         "pressure_reading_2" : pressureReading2KG.toString(),
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['data'] != null ) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

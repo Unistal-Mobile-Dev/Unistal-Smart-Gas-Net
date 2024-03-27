@@ -74,8 +74,8 @@ class FetchAddDptDataState extends AddDptInitial {
   final PipeMaterialModel pipeMaterialData;
   final List<VisualChecksModel> visualsChecksList;
   final VisualChecksModel visualChecksData;
-  final List<CrossingTypeModel> DptTyeList;
-  final CrossingTypeModel DptTypeData;
+  final List<CrossingTypeModel> dptTyeList;
+  final CrossingTypeModel dptTypeData;
   final List<PipeModel> pipeList;
   final List<dynamic> searchPipeList;
   final bool searchPipeLoader;
@@ -122,8 +122,8 @@ class FetchAddDptDataState extends AddDptInitial {
     required this.pipeMaterialList,
     required this.visualChecksData,
     required this.visualsChecksList,
-    required this.DptTypeData,
-    required this.DptTyeList,
+    required this.dptTypeData,
+    required this.dptTyeList,
     required this.postPaddingData,
     required this.postPaddingList,
     required this.dptTestController,
@@ -175,8 +175,8 @@ class FetchAddDptDataState extends AddDptInitial {
     pipeMaterialData,
     visualChecksData,
     visualsChecksList,
-    DptTyeList,
-    DptTypeData,
+    dptTyeList,
+    dptTypeData,
     postPaddingData,
     postPaddingList,
     dptTestController,

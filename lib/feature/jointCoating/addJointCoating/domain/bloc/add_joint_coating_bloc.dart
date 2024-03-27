@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -145,48 +144,48 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     visualsChecksList = [];
     visualChecksData = VisualChecksModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
+    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(userData: userData);
     if(thicknessRes != null){
       thicknessList =  thicknessRes;
     }
 
-    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context);
+    var resHoliday =  await AddBendingHelper.fetchHolidayData();
     if(resHoliday != null){
       holidayCheckList =  resHoliday;
     }
 
-    var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
+    var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData( userData: userData);
     if(pipeDiaRes != null){
       pipeDiaList =  pipeDiaRes;
     }
 
-    var coatingRes =  await AddJointCoatingHelper.fetchCoatingTypeData(context: event.context, userData: userData);
+    var coatingRes =  await AddJointCoatingHelper.fetchCoatingTypeData(userData: userData);
     if(coatingRes != null){
       coatingTypeList =  coatingRes;
     }
 
-    var peelTestRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    var peelTestRes =  await AddHDPEDuctHelper.fetchPaddingData();
     if(peelTestRes != null){
       peelTestList =  peelTestRes;
     }
 
-    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(context: event.context, userData: userData);
+    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(userData: userData);
     if(pipeMaterialRes != null){
       pipeMaterialList =  pipeMaterialRes;
     }
 
-    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks();
     if(visualsChecksRes != null){
       visualsChecksList =  visualsChecksRes;
     }
@@ -258,7 +257,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectDate(AddJointCoatingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -269,7 +268,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -284,7 +283,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectCabilabrationData(AddJointCoatingCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -295,7 +294,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       onBodyController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -312,7 +311,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -54,8 +53,7 @@ class AddRouteSurveyHelper {
      }
   }
 
-  static Future<dynamic> fetchGroundTypeData({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchGroundTypeData({required LoginDataModel userData}) async {
     try{
       String url  =  APIs.getGroundTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
@@ -113,23 +111,28 @@ class AddRouteSurveyHelper {
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "ground_type_id" : groundTypeData.id != null ? groundTypeData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       }else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+           String response = res['data'].toString();
+           if(!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
@@ -139,8 +142,7 @@ class AddRouteSurveyHelper {
     }
   }
 
-  static Future<dynamic> fetchAlignmentData({required BuildContext context,
-       required LoginDataModel userData}) async {
+  static Future<dynamic> fetchAlignmentData({required LoginDataModel userData}) async {
 
       try{
          String url =  APIs.getAlignmentSheetApi;
@@ -164,8 +166,8 @@ class AddRouteSurveyHelper {
 
   static Future<dynamic> imagePiker({required BuildContext context}) async {
     try{
-      final ImagePicker _picker = ImagePicker();
-      final XFile? photo = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? photo = await picker.pickImage(
           source: ImageSource.camera,
           imageQuality: 60,
           maxHeight: 1200,

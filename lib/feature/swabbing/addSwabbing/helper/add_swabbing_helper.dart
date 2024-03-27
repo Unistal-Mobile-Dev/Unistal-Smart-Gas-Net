@@ -7,7 +7,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
-import 'package:flutter_unistal_smart_gas_net/services/server_request.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddSwabbingHelper {
@@ -32,7 +31,7 @@ class AddSwabbingHelper {
         locationData =  location;
       } else{ return null; }
 
-      String url =  APIs.AddSwabbingApi;
+      String url =  APIs.addSwabbingApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -49,17 +48,21 @@ class AddSwabbingHelper {
         "total_length" : length,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
       } else  if(res != null && res['success'] != null && res['success'] == 400 && res['data'] != null) {
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

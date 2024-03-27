@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -86,7 +86,7 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
     }
     _isLoader =  true;
     _eventComplete(emit);
-    var res =  await AddCutPipeHelper.submitData(context: event.context,
+    var res =  await AddCutPipeHelper.submitData(context: event.context.mounted ? event.context : event.context,
         cutePipeLength: cutPipeLengthController.text.toString(), pipeData: pipeData);
     if(res != null){
       _pipeData = PipeModel();

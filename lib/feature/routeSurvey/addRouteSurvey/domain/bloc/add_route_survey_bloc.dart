@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -82,14 +78,14 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     _weatherData = WeatherModel();
     groundTypeList = [];
     groundTypeData =  GroundTypeModel();
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData( userData: userData);
     _userData =  UserInfo.instanceInit()!.userData!;
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
 
-    var groundTypeRes =  await AddRouteSurveyHelper.fetchGroundTypeData(context: event.context, userData: userData);
+    var groundTypeRes =  await AddRouteSurveyHelper.fetchGroundTypeData(userData: userData);
     if(res != null){
       groundTypeList =  groundTypeRes;
     }
@@ -113,7 +109,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   }
 
   _selectDate(AddRouteSurveySelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -124,7 +120,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
 
   }
@@ -141,7 +137,7 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

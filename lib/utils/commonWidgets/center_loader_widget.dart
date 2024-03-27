@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
 class CenterLoaderWidget extends StatelessWidget {
-  const CenterLoaderWidget({Key? key}) : super(key: key);
+  const CenterLoaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

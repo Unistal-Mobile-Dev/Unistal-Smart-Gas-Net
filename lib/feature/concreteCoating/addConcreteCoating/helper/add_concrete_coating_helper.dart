@@ -57,7 +57,7 @@ class AddConcreteCoatingHelper {
   }
 
 
-  static Future<dynamic> fetchThicknessData({required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchThicknessData({required LoginDataModel userData}) async {
 
     try{
       String url =  APIs.getPipeThicknessApi+"?schema=${userData.schema}";
@@ -108,17 +108,21 @@ class AddConcreteCoatingHelper {
           "latitude" : locationData.lat.toString(),
           "longitude" : locationData.long.toString(),
         };
+          if(!context.mounted) return null;
         var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
             keyWord: "attachFile",
             filePath: file.path.toString());
         if(res != null && res['status'] != null
             && res['status'] == true && res['message'] != null) {
-          SnackBarSuccessWidget(context).show(message: res['message']);
+           if(!context.mounted) return res;
+           SnackBarSuccessWidget(context).show(message: res['message'].toString());
           return res;
         } else  if(res != null && res['status'] != null && res['errors'] != null) {
+          if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: res['errors']);
           return null;
         } else{
+          if(!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: "Internal Server Error");
           return null;
         }

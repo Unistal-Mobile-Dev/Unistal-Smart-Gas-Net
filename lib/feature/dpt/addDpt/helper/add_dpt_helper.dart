@@ -79,27 +79,34 @@ class AddDptHelper {
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
         "pipe_id" : pipeData.id != null ? pipeData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+        if(!context.mounted) return null;
+         if(!context.mounted) return null;
+ SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
         String resPonse = res['data'].toString();
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
     }catch(e){
+      if(!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

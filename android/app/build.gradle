@@ -27,7 +27,7 @@ def keystoreProperties = new Properties()
 
 android {
     namespace "com.unistalsmartgasnet.app.flutter_unistal_smart_gas_net"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

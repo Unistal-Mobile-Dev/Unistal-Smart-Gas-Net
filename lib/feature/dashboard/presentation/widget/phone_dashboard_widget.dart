@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/domain/bloc/dashboard_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/profile_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/report_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/service_center_network_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 
 class PhoneDashboardWidget extends StatefulWidget {

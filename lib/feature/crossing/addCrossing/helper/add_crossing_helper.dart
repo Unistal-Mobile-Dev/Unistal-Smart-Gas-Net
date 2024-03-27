@@ -19,8 +19,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 
 class AddCrossingHelper {
 
-  static Future<dynamic> fetchCrossingData({required BuildContext context,
-    required LoginDataModel userData}) async {
+  static Future<dynamic> fetchCrossingData({required LoginDataModel userData}) async {
     try{
       String url  =  APIs.getCrossingTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
@@ -97,23 +96,28 @@ class AddCrossingHelper {
         "crossing_name": crossingName,
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
+        if(!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+        if(!context.mounted) return null;
+       SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        String response = res['data'].toString();
+        if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }

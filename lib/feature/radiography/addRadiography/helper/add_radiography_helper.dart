@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -59,8 +57,6 @@ class AddRadiographyHelper {
           data.add(segmentData.toJson());
         }
       }
-      print(data);
-
       String url =  APIs.addRadiographyApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -93,32 +89,37 @@ class AddRadiographyHelper {
         "chainage": chainage,
         "equipment": pentameter,
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+        if(!context.mounted) return null;
+         if(!context.mounted) return null;
+ SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        String response = res['data'].toString();
+        if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }
       return null;
     }catch(e){
+      if(!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
 
-  static Future<dynamic> fetchSegmentData({
-    required BuildContext context, required LoginDataModel userData, required List<WelderModel> welderList}) async {
+  static Future<dynamic> fetchSegmentData({required LoginDataModel userData, required List<WelderModel> welderList}) async {
 
     try{
       String url =  APIs.getSegmentApi;
@@ -130,12 +131,12 @@ class AddRadiographyHelper {
       var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['segment'] != null) {
-        List<SegmentModel> _segmentList  = segmentListResponse(res['segment'], welderList);
-        return _segmentList;
+        List<SegmentModel> segmentList  = segmentListResponse(res['segment'], welderList);
+        return segmentList;
       }
       return null;
     }catch(e){
-      print(e.toString());
+      log(e.toString());
       return null;
     }
   }

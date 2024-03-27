@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -92,15 +91,6 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       },
     );
   }
-
-  Widget _reportNumberController({required FetchAddRestorationDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
-    );
-  }
-
 
   Widget _alignmentDropdown({required FetchAddRestorationDataState dataState}) {
     return  DropDownSearchWidget(
@@ -195,24 +185,6 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   }
 
 
-  Widget _chainageFromController({required FetchAddRestorationDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.chainageFrom,
-      controller: dataState.chainageFromController,
-    );
-  }
-
-  Widget _chainageToController({required FetchAddRestorationDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.chainageTo,
-      controller: dataState.chainageToController,
-    );
-  }
-
   Widget _postPaddingController({required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -294,8 +266,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -322,8 +293,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

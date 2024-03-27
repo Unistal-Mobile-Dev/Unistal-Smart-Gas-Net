@@ -4,7 +4,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class TabletDrawerWidget extends StatelessWidget {
@@ -159,30 +158,6 @@ class TabletDrawerWidget extends StatelessWidget {
           }),
     );
   }
-
-  Widget _changePassword({required BuildContext context}) {
-    return Padding(
-      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01,
-          bottom:  MediaQuery.of(context).size.width * 0.01),
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.pop(context);
-        },
-        child: Row(
-          children: [
-            Icon(Icons.password_rounded, color: AppColor.black,),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.01,
-            ),
-            TextWidget(AppString.changePassword,
-              fontSize: AppFont.font_12,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _logout({required BuildContext context}) {
     return Padding(
       padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.01,
@@ -206,6 +181,7 @@ class TabletDrawerWidget extends StatelessWidget {
                       ) ?? false;
 
             if(isLogout == true){
+              if(!context.mounted) return;
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreenPage()),

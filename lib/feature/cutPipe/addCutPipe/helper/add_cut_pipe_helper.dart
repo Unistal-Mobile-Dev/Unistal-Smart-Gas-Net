@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
@@ -32,13 +31,16 @@ class AddCutPipeHelper {
          var res =  await ServerRequest.postData(urlEndPoint: url, body: json);
          if(res != null && res['status'] != null
              && res['status'] == true && res['message'] != null) {
-           SnackBarSuccessWidget(context).show(message: res['message']);
+            if(!context.mounted) return res;
+            SnackBarSuccessWidget(context).show(message: res['message'].toString());
            return res;
          } else  if(res != null && res['status'] != null
              && res['error'] != null) {
+           if(!context.mounted) return null;
            SnackBarErrorWidget(context).show(message: res['error']);
            return null;
          } else{
+           if(!context.mounted) return null;
            SnackBarErrorWidget(context).show(message: "Internal Server Error");
            return null;
          }

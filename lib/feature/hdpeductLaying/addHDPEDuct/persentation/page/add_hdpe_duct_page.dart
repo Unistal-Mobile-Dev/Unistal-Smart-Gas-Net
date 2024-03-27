@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/domain/bloc/add_hdpe_duct_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -90,15 +88,6 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
       },
     );
   }
-
-  Widget _reportNumberController({required FetchAddHdpeDuctDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.reportNumber,
-      controller: dataState.reportNumberController,
-    );
-  }
-
 
   Widget _alignmentDropdown({required FetchAddHdpeDuctDataState dataState}) {
     return  DropDownSearchWidget(
@@ -192,23 +181,6 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
     );
   }
 
-  Widget _chainageFromController({required FetchAddHdpeDuctDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.chainageFrom,
-      controller: dataState.chainageFromController,
-    );
-  }
-
-  Widget _chainageToController({required FetchAddHdpeDuctDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.chainageTo,
-      controller: dataState.chainageToController,
-    );
-  }
 
   Widget _jointPitController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
@@ -217,42 +189,6 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
       controller: dataState.jointPitController,
     );
   }
-
-
-  Widget _warningDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectWarningMatMeter,
-      dropdownValue: dataState.warningMeterData.id != null ? dataState.warningMeterData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddHdpeDuctBloc>(context).add(
-            AddHdpeDuctSelectWarningMeterDataEvent(warningMeterData: value));
-      },
-      items: dataState.warningMeterList.map<DropdownMenuItem<PaddingModel>>((PaddingModel warningMeterData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: warningMeterData,
-          child: Text(warningMeterData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _paddingDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectPaddingMeter,
-      dropdownValue: dataState.paddingData.id != null ? dataState.paddingData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddHdpeDuctBloc>(context).add(
-            AddHdpeDuctSelectPaddingDataEvent(paddingData: value));
-      },
-      items: dataState.paddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel paddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: paddingData,
-          child: Text(paddingData.value.toString()),
-        );
-      }).toList(),
-    );
-  }
-
 
 
   Widget _activityRemark({required FetchAddHdpeDuctDataState dataState}) {
@@ -275,8 +211,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -303,8 +238,8 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

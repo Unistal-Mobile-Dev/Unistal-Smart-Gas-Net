@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -75,8 +72,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
     _alignmentData =  AlignmentModel();
     _weatherData = WeatherModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData( userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
@@ -94,7 +91,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   }
 
   _selectDate(AddSoilResistivitySelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -105,7 +102,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
 
   }
@@ -122,7 +119,7 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

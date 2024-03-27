@@ -1,5 +1,3 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
@@ -96,8 +94,8 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
   List<VisualChecksModel> visualsChecksList = [];
   VisualChecksModel visualChecksData =  VisualChecksModel();
 
-  List<CrossingTypeModel> DptTypeList = [];
-  CrossingTypeModel DptTypeData =  CrossingTypeModel();
+  List<CrossingTypeModel> dptTypeList = [];
+  CrossingTypeModel dptTypeData =  CrossingTypeModel();
 
   PipeModel _pipeData =  PipeModel();
   PipeModel get pipeData => _pipeData;
@@ -153,8 +151,8 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
     _pipeData =  PipeModel();
     _searchPipeLoader =  false;
     alignmentData =  AlignmentModel();
-    DptTypeList = [];
-    DptTypeData =  CrossingTypeModel();
+    dptTypeList = [];
+    dptTypeData =  CrossingTypeModel();
     isLoader =  false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
@@ -177,34 +175,34 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
     pipeMaterialData =  PipeMaterialModel();
     visualsChecksList = [];
     visualChecksData = VisualChecksModel();
-    DptTypeList = [];
-    DptTypeData =  CrossingTypeModel();
+    dptTypeList = [];
+    dptTypeData =  CrossingTypeModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList =  await DashboardHelper.fetchWeatherData( userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
+    var resJointType =  await AddWeldingHelper.fetchJointType( userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
 
-    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context);
+    var resHoliday =  await AddBendingHelper.fetchHolidayData();
     if(resHoliday != null){
       holidayCheckList =  resHoliday;
     }
 
 
-    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks();
     if(visualsChecksRes != null){
       visualsChecksList =  visualsChecksRes;
     }
 
 
-    var prePaddingRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    var prePaddingRes =  await AddHDPEDuctHelper.fetchPaddingData();
     if(prePaddingRes != null){
       prePaddingList =  prePaddingRes;
       postPaddingList = prePaddingRes;
@@ -254,7 +252,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
   }
 
   _selectDptType(AddDptSelectDptTypeDataEvent event, emit) {
-    DptTypeData =  event.DptTypeData;
+    dptTypeData =  event.dptTypeData;
     _eventComplete(emit);
   }
 
@@ -307,7 +305,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
   }
 
   _selectDate(AddDptSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -318,7 +316,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -333,7 +331,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
   }
 
   _selectCabilabrationData(AddDptCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -344,7 +342,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
       onBodyController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
@@ -361,7 +359,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
@@ -397,7 +395,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
       pipeMaterialData: pipeMaterialData,
       prePaddingData: prePaddingData,
       postPaddingData: postPaddingData,
-      crossingTypeData: DptTypeData,
+      crossingTypeData: dptTypeData,
       dptTest: dptTestController.text.toString(),
       pipeData: pipeData,
     );
@@ -433,7 +431,7 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
       coatingTypeData =  CoatingTypeModel();
       pipeMaterialData =  PipeMaterialModel();
       visualChecksData =  VisualChecksModel();
-      DptTypeData =  CrossingTypeModel();
+      dptTypeData =  CrossingTypeModel();
       PaddingModel();
       _eventComplete(emit);
     }
@@ -481,8 +479,8 @@ class AddDptBloc extends Bloc<AddDptEvent, AddDptState> {
         pipeMaterialList: pipeMaterialList,
         visualChecksData: visualChecksData,
         visualsChecksList: visualsChecksList,
-        DptTypeData: DptTypeData,
-        DptTyeList: DptTypeList,
+        dptTypeData: dptTypeData,
+        dptTyeList: dptTypeList,
         postPaddingData: postPaddingData,
         postPaddingList: postPaddingList,
         dptTestController: dptTestController,

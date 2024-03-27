@@ -1,19 +1,17 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class AppColor {
 
-  static dynamic theme_Color = 0xFF308133;
-  static dynamic theme_LightColor = 0xFF59a65c;
+  static dynamic themeColor0 = 0xFF308133;
+  static dynamic themeLightColor0 = 0xFF59a65c;
 
   AppColor({required dynamic themeColor, required dynamic themeLightColor}){
-    theme_Color =  themeColor;
-    theme_LightColor =  themeLightColor;
+    themeColor0 =  themeColor;
+    themeLightColor0 =  themeLightColor;
   }
 
-  static get themeColor => Color(theme_Color);
-  static get themeLightColor => Color(theme_LightColor);
+  static get themeColor => Color(themeColor0);
+  static get themeLightColor => Color(themeLightColor0);
 
   static get grey => Colors.grey;
   static get lightGrey => Colors.black12;

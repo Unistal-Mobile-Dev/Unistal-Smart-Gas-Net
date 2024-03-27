@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/domain/bloc/add_pre_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -198,16 +197,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     ): const DottedLoaderWidget();
   }
 
-
-  Widget _pressureGaugeNoController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.text,
-      labelText: AppString.pressureGaugeNo,
-      controller: dataState.pressureGaugeNoController,
-    );
-  }
-
   Widget _pressureGaugeCalibrationDateController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -230,33 +219,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     );
   }
 
-  Widget _rangeController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.range,
-      controller: dataState.rangeController,
-    );
-  }
-
-  Widget _pipeSizeController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.text,
-      labelText: AppString.pipeSize,
-      controller: dataState.pipeSizeController,
-    );
-  }
-
-  Widget _durationController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.duration,
-      controller: dataState.durationController,
-    );
-  }
-
   Widget _timeOnController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -266,19 +228,10 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     );
   }
 
-  Widget _timeOffController({required FetchAddPreHydrotestDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.timeOff,
-      controller: dataState.timeOffController,
-    );
-  }
-
   Widget _clearanceController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.WeldVisualClearance,
+      labelText: AppString.weldVisualClearance,
       controller: dataState.clearanceController,
     );
   }
@@ -349,8 +302,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -377,8 +329,8 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      :  const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

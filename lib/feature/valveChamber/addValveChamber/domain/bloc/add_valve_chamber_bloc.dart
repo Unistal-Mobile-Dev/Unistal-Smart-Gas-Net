@@ -79,13 +79,13 @@ class AddValveChamberBloc extends Bloc<AddValveChamberEvent, AddValveChamberStat
     file = File("");
     _weatherData = WeatherModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData( userData: userData);
     _alignmentData =  AlignmentModel();
     isJointNumberLoader = false;
     chainageFromController.text = "";
     weightController.text = "";
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       _alignmentList =  res;
     }
@@ -104,7 +104,7 @@ class AddValveChamberBloc extends Bloc<AddValveChamberEvent, AddValveChamberStat
   }
 
   _selectDate(AddValveChamberSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+    
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -115,7 +115,7 @@ class AddValveChamberBloc extends Bloc<AddValveChamberEvent, AddValveChamberStat
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
 
   }
@@ -133,7 +133,7 @@ class AddValveChamberBloc extends Bloc<AddValveChamberEvent, AddValveChamberStat
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

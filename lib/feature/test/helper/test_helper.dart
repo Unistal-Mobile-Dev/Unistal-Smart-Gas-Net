@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/test/domain/bloc/test_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/test/domain/model/file_model.dart';
@@ -101,7 +100,7 @@ class TestHelper {
          else if(testData.type.toString() == "searchDropDown") {
            TestModel widgetData =  testData;
            if(widgetData.api.toString() == "alignment"){
-             var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: context, userData: userData);
+             var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
              if(res != null){
                List<AlignmentModel>  alignmentList =  res;
                widgetData.list =  testListModelResponse(alignmentList.map((v) => v.toJson()).toList());
@@ -113,7 +112,7 @@ class TestHelper {
 /*         else if(testData.type.toString() == "normalDropDown") {
            TestModel widgetData =  testData;
            if(widgetData.api.toString() == "weather"){
-             var res =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+             var res =  await DashboardHelper.fetchWeatherData( userData: userData);
              if(res != null){
                List<WeatherModel>  weatherList =  res;
                widgetData.list =  testListModelResponse(weatherList.map((v) => v.toJson()).toList());

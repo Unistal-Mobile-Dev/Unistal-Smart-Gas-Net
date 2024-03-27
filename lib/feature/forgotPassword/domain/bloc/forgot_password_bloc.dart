@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -34,7 +34,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
       _isLoader =  false;
       _eventCompleted(emit);
       if(res == true){
-        Navigator.pop(event.context);
+    Navigator.pop(event.context.mounted ? event.context : event.context);
       }
   }
 

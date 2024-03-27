@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:http/http.dart';
-import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
@@ -87,7 +85,7 @@ class ServerRequest {
       }*/
 
       String baseUrl =  await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
-      print("Base Url ====================  ${baseUrl}");
+      log("Base Url ====================  $baseUrl");
       String url = baseUrl+urlEndPoint;
       log(url);
       log(jsonEncode(body).toString());
@@ -101,7 +99,7 @@ class ServerRequest {
         return jsonDecode(response.body);
       }
     } catch (e) {
-      print(e.toString() + "Post Data ");
+      log("${e}Post Data ");
       if (e is SocketException) {
         log("SocketException : ${e.toString()}");
         return e.toString();
@@ -135,7 +133,7 @@ class ServerRequest {
          return jsonDecode(response.body);
        }
      } catch (e) {
-       print(e.toString() + "Post Data ");
+       log("${e}Post Data ");
        if (e is SocketException) {
          log("SocketException : ${e.toString()}");
          return e.toString();
@@ -218,12 +216,12 @@ class ServerRequest {
        var request = MultipartRequest("POST", uri);
        if(fileList != null && fileList.isNotEmpty){
          for(var fileData in fileList){
-           String fileExtention = fileData.file.path.split(".").last;
-           String _filePath =  fileExtention.toString().toLowerCase() != "pdf"
+           String fileExtension = fileData.file.path.split(".").last;
+           String filePath0 =  fileExtension.toString().toLowerCase() != "pdf"
                 ? await fileCompress(file:  fileData.file) : fileData.file.path.toString();
            if(fileData.file.toString().isNotEmpty){
-             var uploadFile = await MultipartFile.fromPath(fileData.keyName, _filePath,
-                 contentType: MediaType("file", fileExtention));
+             var uploadFile = await MultipartFile.fromPath(fileData.keyName, filePath0,
+                 contentType: MediaType("file", fileExtension));
              request.files.add(uploadFile);
            }
          }
@@ -231,11 +229,11 @@ class ServerRequest {
          if(filePath != null && filePath.isNotEmpty && keyWord !=  null){
            if(filePath.isNotEmpty){
              File file =  File(filePath);
-             String fileExtention = filePath.split(".").last;
-             String _filePath =  fileExtention.toString().toLowerCase() != "pdf"
+             String fileExtension = filePath.split(".").last;
+             String filePath0 =  fileExtension.toString().toLowerCase() != "pdf"
                  ?  await fileCompress(file:  file) : file.path.toString();
-             var uploadFile = await MultipartFile.fromPath(keyWord, _filePath,
-                 contentType: MediaType("file", fileExtention));
+             var uploadFile = await MultipartFile.fromPath(keyWord, filePath0,
+                 contentType: MediaType("file", fileExtension));
              request.files.add(uploadFile);
            }
          }

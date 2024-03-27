@@ -14,8 +14,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 
 class AddLoweringHelper {
 
-  static Future<dynamic> fetchPipeDiaData({required BuildContext context,
-    required LoginDataModel userData, String? type, String? searchKeyword}) async {
+  static Future<dynamic> fetchPipeDiaData({required LoginDataModel userData,
+     String? type, String? searchKeyword}) async {
 
     try{
       String url =  APIs.getPipeDiaApi;
@@ -97,23 +97,28 @@ class AddLoweringHelper {
         "pipe_thickness_id" : thicknessData.id != null ? thicknessData.id.toString() : "",
         "pipe_dia_id" : pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
       };
+      if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        if(!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
       } else  if(res != null && res['success'] != null
           && res['success'] == 415 && res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        if(!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
       } else  if(res != null && res['success'] != null
           && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+           String response = res['data'].toString();
+           if(!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: response.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{
+        if(!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
