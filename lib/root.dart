@@ -31,10 +31,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/domain/bloc/add_soil_resistivity_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_screen.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/test/domain/bloc/test_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/domain/bloc/add_tiein_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
@@ -43,13 +43,6 @@ import 'package:provider/provider.dart';
 import 'ExportFile/app_export_file.dart';
 
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications',
-    importance: Importance.high,
-    playSound: true);
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class Root extends StatefulWidget {
   final Client client;
@@ -142,6 +135,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
         BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddCrossingBloc()),
+        BlocProvider(create: (BuildContext context) => AddTieinBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(

@@ -70,6 +70,7 @@ class AppString {
   static get routeSurvey => "Route Survey";
   static get clearingGrading => "Clearing & Grading";
   static get reportNumber => "Report Number";
+  static get preHeatTemperature => "Preheat Temperature";
   static get onWeld => "On Weld";
   static get chainageFrom => "Chainage From";
   static get sectionLengthMeter  => "Section Length(Meter)";
@@ -128,6 +129,7 @@ class AppString {
   static get typeofGround => "Type of ground";
   static get tpTo => "IP To";
   static get radiography => "Radiography";
+  static get tiein => "Tie In";
   static get ndtMut => "NDT Mut";
   static get ndtAut => "NDT Aut";
   static get jointCoating => "Joint Coating";
