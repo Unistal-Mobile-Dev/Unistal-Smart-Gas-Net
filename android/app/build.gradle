@@ -59,7 +59,7 @@ android {
         }
         purvaBharti {
             resValue "string", "app_name", "PBG Steel"
-            applicationIdSuffix ".purvabhartismartgasnet.app"
+            applicationIdSuffix ".purvabhartisteel.app"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_launcher",
                     appIconRound: "@mipmap/ic_launcher"
@@ -113,4 +113,8 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+}
