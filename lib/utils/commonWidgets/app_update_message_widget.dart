@@ -17,7 +17,7 @@ class AppUpdateMessage {
         color: AppColor.themeColor, fontWeight: FontWeight.w700,),
       onPressed:  () async {
         if (!await launchUrl(
-          Uri.parse("https://play.google.com/store/apps/details?id="),
+          Uri.parse("https://play.google.com/store/apps/details?id=com.purvabhartisteel.app"),
           mode: LaunchMode.externalApplication,)) {
           throw Exception('Could not launch ');
         }
