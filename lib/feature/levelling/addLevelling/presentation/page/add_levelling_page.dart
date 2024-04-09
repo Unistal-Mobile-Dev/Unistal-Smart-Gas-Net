@@ -63,21 +63,13 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _northingLongController(dataState: dataState),
             _verticalSpace(),
-            _eastCoordinateButton(dataState: dataState),
-            _eastingLatController(dataState: dataState),
-            _verticalSpace(),
-            _eastingLongController(dataState: dataState),
-            _verticalSpace(),
-            _elevationPipetopController(dataState: dataState),
-            _verticalSpace(),
             _coverController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
-            _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
+            _verticalSpace(),
           ],
         ),
       ),
@@ -164,7 +156,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _northCoordinateButton({required FetchAddLevellingDataState dataState}) {
     return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.gpsCoordinateNorth,
+    ButtonWidget(text: AppString.captureGPS,
         height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddLevellingBloc>(context).add(AddLevellingCaptureNorthingLocationEvent(context: context));
@@ -177,7 +169,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.latitude,
+      labelText: AppString.northing,
       controller: dataState.northingLatController,
     );
   }
@@ -187,7 +179,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.longitude,
+      labelText: AppString.easting,
       controller: dataState.northingLongController,
     );
   }
@@ -234,7 +226,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _coverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.topCover,
+      labelText: AppString.pipeCover,
       controller: dataState.coverController,
     );
   }

@@ -228,8 +228,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         chainageTo: chainageToController.text.toString(),
         jointData: jointData,
         cover: coverController.text.toString(),
-        gpsCoordinateEast: "${eastingLatController.text},${eastingLongController.text}",
-        gpsCoordinateNorth: "${northingLatController.text},${northingLongController.text}",
+        gpsCoordinateEast: northingLatController.text.toString(),
+        gpsCoordinateNorth: northingLongController.text.toString(),
         elevationPipetop: elevationPipetopController.text.toString(),
         natureGroundLeve: natureGroundLeveController.text.toString(),
         file: file);

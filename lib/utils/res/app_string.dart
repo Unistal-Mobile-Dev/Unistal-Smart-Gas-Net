@@ -115,11 +115,15 @@ class AppString {
   static get ductIntegrityTest => "Duct Integrity Test";
   static get airPressureTest => "Air Pressure Test";
   static get gpsCoordinateNorth => "GPS Coordinate Northing";
+  static get captureGPS => "Capture GPS";
+  static get northing  => "Northing ";
+  static get easting  => "Easting ";
   static get gpsCoordinateEast => "GPS Coordinate Easting";
   static get elevationPipeTop => "Elevation/Pipetop";
   static get naturalGroundLeve => "Natural Ground Level";
   static get cover => "Cover";
   static get topCover => "Top Cover";
+  static get pipeCover => "Pipe Cover";
   static get levelling => "Levelling";
   static get srNoSplicingMachine => "S.No Splicing Machine";
   static get postPadding => "Post Padding";
