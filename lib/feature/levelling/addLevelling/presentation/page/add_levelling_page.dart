@@ -72,14 +72,13 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _northingLongController(dataState: dataState),
             _verticalSpace(),
-            _coverController(dataState: dataState),
+            _pipeCoverController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
-            _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
+            _verticalSpace(),
           ],
         ),
       ),
@@ -212,11 +211,11 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _coverController({required FetchAddLevellingDataState dataState}) {
+  Widget _pipeCoverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.topCover,
+      labelText: AppString.pipeCover,
       controller: dataState.coverController,
     );
   }
