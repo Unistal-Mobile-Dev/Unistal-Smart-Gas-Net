@@ -37,6 +37,11 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final TextEditingController northingLatController;
+  final TextEditingController northingLongController;
+  final TextEditingController eastingLatController;
+  final TextEditingController eastingLongController;
+  final String accuracy;
 
   FetchAddLevellingDataState({
     required this.isLoader,
@@ -59,7 +64,12 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
     required this.elevationPipetopController,
     required this.natureGroundLeveController,
     required this.coverController,
-    required this.gpsCoordinateEastController
+    required this.gpsCoordinateEastController,
+    required this.eastingLatController,
+    required this.eastingLongController,
+    required this.northingLatController,
+    required this.northingLongController,
+    required this.accuracy,
   });
 
   @override
@@ -84,6 +94,11 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
     elevationPipetopController,
     natureGroundLeveController,
     coverController,
-    gpsCoordinateEastController
+    gpsCoordinateEastController,
+    eastingLatController,
+    eastingLongController,
+    northingLatController,
+    northingLongController,
+    accuracy,
   ];
 }
