@@ -57,6 +57,20 @@ class SelectWeatherEvent extends AddLevellingEvent{
 }
 
 
+class AddLevellingCaptureNorthingLocationEvent extends AddLevellingEvent{
+  final BuildContext context;
+  const AddLevellingCaptureNorthingLocationEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddLevellingCaptureEastingLocationEvent extends AddLevellingEvent{
+  final BuildContext context;
+  const AddLevellingCaptureEastingLocationEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 class AddLevellingSubmitDataEvent extends AddLevellingEvent {
   final BuildContext context;
   const AddLevellingSubmitDataEvent({required this.context});

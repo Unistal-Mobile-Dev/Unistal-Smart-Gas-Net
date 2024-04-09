@@ -28,6 +28,11 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
   final TextEditingController gpsCoordinateEastController;
   final TextEditingController elevationPipetopController;
   final TextEditingController natureGroundLeveController;
+  final TextEditingController northingLatController;
+  final TextEditingController northingLongController;
+  final TextEditingController eastingLatController;
+  final TextEditingController eastingLongController;
+  final String accuracy;
   final TextEditingController coverController;
   final JointNumberModel jointData;
   final List<JointNumberModel> jointList;
@@ -59,7 +64,12 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
     required this.elevationPipetopController,
     required this.natureGroundLeveController,
     required this.coverController,
-    required this.gpsCoordinateEastController
+    required this.gpsCoordinateEastController,
+    required this.eastingLatController,
+    required this.eastingLongController,
+    required this.northingLatController,
+    required this.northingLongController,
+    required this.accuracy,
   });
 
   @override
@@ -84,6 +94,11 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
     elevationPipetopController,
     natureGroundLeveController,
     coverController,
-    gpsCoordinateEastController
+    gpsCoordinateEastController,
+    eastingLatController,
+    eastingLongController,
+    northingLatController,
+    northingLongController,
+    accuracy,
   ];
 }

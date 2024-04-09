@@ -283,6 +283,8 @@ class AppString {
   static get angleOfRayInput => "Angle Of Ray Input";
   static get operatingFrequency => "Operating Frequency";
   static get levelOfInspection => "Level of Inspection";
+  static get latitude => "Latitude";
+  static get longitude => "Longitude";
 
 
 

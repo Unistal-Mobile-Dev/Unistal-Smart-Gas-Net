@@ -74,6 +74,7 @@ class LocationHelper {
             "lat": position.latitude,
             "long": position.longitude,
             "city": "",
+            "accuracy" : position.accuracy.toString(),
             "address": '',
           };
           print(location.toString());
@@ -97,6 +98,7 @@ class LocationHelper {
         "lat": position.latitude,
         "long": position.longitude,
         "city": place.locality.toString(),
+        "accuracy" : position.accuracy.toString(),
         "address":
         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
       };

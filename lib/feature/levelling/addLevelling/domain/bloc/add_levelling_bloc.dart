@@ -12,6 +12,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -30,6 +32,13 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   TextEditingController elevationPipetopController =  TextEditingController();
   TextEditingController natureGroundLeveController =  TextEditingController();
   TextEditingController coverController =  TextEditingController();
+  TextEditingController northingLatController =  TextEditingController();
+  TextEditingController northingLongController = TextEditingController();
+  TextEditingController eastingLatController =  TextEditingController();
+  TextEditingController eastingLongController =  TextEditingController();
+
+  String _accuracy =  "";
+  String get accuracy => _accuracy;
 
   List<JointNumberModel> jointList = [];
   List<JointTypeModel> jointTypeList = [];
@@ -47,6 +56,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
 
+
   AddLevellingBloc() : super(AddLevellingInitial()) {
 
     on<AddLevellingPageLoadEvent>(_pageLoad);
@@ -55,6 +65,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     on<AddLevellingSelectJointDataEvent>(_selectJointTo);
     on<AddLevellingSelectJointTypeDataEvent>(_selectJointType);
     on<AddLevellingSelectDateEvent>(_selectDate);
+    on<AddLevellingCaptureNorthingLocationEvent>(_selectNorthingLocation);
+    on<AddLevellingCaptureEastingLocationEvent>(_selectEastLocation);
     on<AddLevellingAddImageEvent>(_selectFile);
     on<AddLevellingSubmitDataEvent>(_submitData);
   }
@@ -71,6 +83,10 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     elevationPipetopController.text = "";
     natureGroundLeveController.text = "";
     coverController.text = "";
+    eastingLongController.text = "";
+    eastingLatController.text = "";
+    northingLongController.text = "";
+    northingLatController.text = "";
     jointList = [];
     jointTypeList = [];
     weatherList = [];
@@ -83,6 +99,14 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     file =  File("");
     weatherData =  WeatherModel();
      _userData =  UserInfo.instanceInit()!.userData!;
+
+    var location =  await LocationHelper.getLocation(context: event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+    }
+
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
@@ -143,6 +167,37 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     }
   }
 
+  _selectNorthingLocation(AddLevellingCaptureNorthingLocationEvent event, emit) async {
+    isLoader  =  true;
+    _eventComplete(emit);
+    var location =  await LocationHelper.getLocation(context: event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+      northingLongController.text =  locationData.long.toString();
+      northingLatController.text =  locationData.lat.toString();
+    }
+    isLoader  =  false;
+    _eventComplete(emit);
+  }
+
+  _selectEastLocation(AddLevellingCaptureEastingLocationEvent event, emit) async {
+    isLoader  =  true;
+    _eventComplete(emit);
+    var location =  await LocationHelper.getLocation(context: event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+      eastingLongController.text =  locationData.long.toString();
+      eastingLatController.text =  locationData.lat.toString();
+      _eventComplete(emit);
+    }
+    isLoader  =  false;
+    _eventComplete(emit);
+  }
+
   _selectFile(AddLevellingAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
@@ -174,8 +229,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         chainageTo: chainageToController.text.toString(),
         jointData: jointData,
         cover: coverController.text.toString(),
-        gpsCoordinateEast: gpsCoordinateEastController.text.toString(),
-        gpsCoordinateNorth: gpsCoordinateNorthController.text.toString(),
+        gpsCoordinateEast: "${eastingLatController.text},${eastingLongController.text}",
+        gpsCoordinateNorth: "${northingLatController.text},${northingLongController.text}",
         elevationPipetop: elevationPipetopController.text.toString(),
         natureGroundLeve: natureGroundLeveController.text.toString(),
         file: file);
@@ -191,6 +246,10 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
       gpsCoordinateEastController.text = "";
       elevationPipetopController.text = "";
       natureGroundLeveController.text = "";
+      eastingLatController.text = "";
+      eastingLongController.text = "";
+      northingLatController.text = "";
+      northingLatController.text = "";
       coverController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
@@ -224,6 +283,12 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         elevationPipetopController: elevationPipetopController,
         natureGroundLeveController: natureGroundLeveController,
         coverController: coverController,
-        gpsCoordinateEastController: gpsCoordinateEastController));
+        gpsCoordinateEastController: gpsCoordinateEastController,
+        eastingLatController: eastingLatController,
+        eastingLongController: eastingLongController,
+        northingLatController: northingLatController,
+        northingLongController: northingLongController,
+        accuracy: accuracy
+    ));
   }
 }

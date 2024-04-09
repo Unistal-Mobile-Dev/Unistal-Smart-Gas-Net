@@ -43,6 +43,15 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       child: SingleChildScrollView(
         child : Column(
           children: [
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(children: [
+                  TextWidget("Accuracy :  ", color: AppColor.themeColor,),
+                  TextWidget(dataState.accuracy.isNotEmpty ?
+                  double.parse(dataState.accuracy.toString()).toStringAsFixed(2)
+                      : "0.0", color: AppColor.black, fontWeight: FontWeight.w700,),
+                ],)
+            ),
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
@@ -58,9 +67,15 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _gpsCoordinateNorthController(dataState: dataState),
+            _northCoordinateButton(dataState: dataState),
+            _northingLatController(dataState: dataState),
             _verticalSpace(),
-            _gpsCoordinateEastController(dataState: dataState),
+            _northingLongController(dataState: dataState),
+            _verticalSpace(),
+            _eastCoordinateButton(dataState: dataState),
+            _eastingLatController(dataState: dataState),
+            _verticalSpace(),
+            _eastingLongController(dataState: dataState),
             _verticalSpace(),
             _elevationPipetopController(dataState: dataState),
             _verticalSpace(),
@@ -156,24 +171,66 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     ): const DottedLoaderWidget();
   }
 
-  Widget _gpsCoordinateNorthController({required FetchAddLevellingDataState dataState}) {
+  Widget _northCoordinateButton({required FetchAddLevellingDataState dataState}) {
+    return dataState.isLoader == false ?
+    ButtonWidget(text: AppString.gpsCoordinateNorth,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
+        onPressed: () {
+          BlocProvider.of<AddLevellingBloc>(context).add(AddLevellingCaptureNorthingLocationEvent(context: context));
+        }
+    ): const DottedLoaderWidget();
+  }
+
+  Widget _northingLatController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.gpsCoordinateNorth,
-      controller: dataState.gpsCoordinateNorthController,
+      labelText: AppString.latitude,
+      controller: dataState.northingLatController,
     );
   }
 
-  Widget _gpsCoordinateEastController({required FetchAddLevellingDataState dataState}) {
+  Widget _northingLongController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.gpsCoordinateEast,
-      controller: dataState.gpsCoordinateEastController,
+      labelText: AppString.longitude,
+      controller: dataState.northingLongController,
     );
   }
 
+  Widget _eastCoordinateButton({required FetchAddLevellingDataState dataState}) {
+    return dataState.isLoader == false ?
+    ButtonWidget(text: AppString.gpsCoordinateEast,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
+        onPressed: () {
+          BlocProvider.of<AddLevellingBloc>(context).add(AddLevellingCaptureEastingLocationEvent(context: context));
+        }
+    ): const DottedLoaderWidget();
+  }
+
+
+  Widget _eastingLatController({required FetchAddLevellingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      textInputType: TextInputType.number,
+      labelText: AppString.latitude,
+      controller: dataState.eastingLatController,
+    );
+  }
+
+  Widget _eastingLongController({required FetchAddLevellingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      textInputType: TextInputType.number,
+      labelText: AppString.longitude,
+      controller: dataState.eastingLongController,
+    );
+  }
 
   Widget _elevationPipetopController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
