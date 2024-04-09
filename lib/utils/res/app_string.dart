@@ -99,6 +99,9 @@ class AppString {
   static get ductIntegrityTest => "Duct Integrity Test";
   static get airPressureTest => "Air Pressure Test";
   static get gpsCoordinateNorth => "GPS Coordinate Northing";
+  static get captureGPS => "Capture GPS ";
+  static get northing  => "Northing";
+  static get easting   => "Easting";
   static get gpsCoordinateEast => "GPS Coordinate Easting";
   static get elevationPipeTop => "Elevation/Pipetop";
   static get naturalGroundLeve => "Natural Ground Level";

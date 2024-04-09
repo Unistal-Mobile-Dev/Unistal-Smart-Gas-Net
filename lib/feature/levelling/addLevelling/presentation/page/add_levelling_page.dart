@@ -72,13 +72,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _northingLongController(dataState: dataState),
             _verticalSpace(),
-            _eastCoordinateButton(dataState: dataState),
-            _eastingLatController(dataState: dataState),
-            _verticalSpace(),
-            _eastingLongController(dataState: dataState),
-            _verticalSpace(),
-            _elevationPipetopController(dataState: dataState),
-            _verticalSpace(),
             _coverController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -173,7 +166,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _northCoordinateButton({required FetchAddLevellingDataState dataState}) {
     return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.gpsCoordinateNorth,
+    ButtonWidget(text: AppString.captureGPS,
         height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
         onPressed: () {
           BlocProvider.of<AddLevellingBloc>(context).add(AddLevellingCaptureNorthingLocationEvent(context: context));
@@ -186,7 +179,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.latitude,
+      labelText: AppString.northing,
       controller: dataState.northingLatController,
     );
   }
@@ -196,41 +189,11 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
       isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
-      labelText: AppString.longitude,
+      labelText: AppString.easting,
       controller: dataState.northingLongController,
     );
   }
 
-  Widget _eastCoordinateButton({required FetchAddLevellingDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.gpsCoordinateEast,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddLevellingBloc>(context).add(AddLevellingCaptureEastingLocationEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
-  }
-
-
-  Widget _eastingLatController({required FetchAddLevellingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      enabled: false,
-      textInputType: TextInputType.number,
-      labelText: AppString.latitude,
-      controller: dataState.eastingLatController,
-    );
-  }
-
-  Widget _eastingLongController({required FetchAddLevellingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      enabled: false,
-      textInputType: TextInputType.number,
-      labelText: AppString.longitude,
-      controller: dataState.eastingLongController,
-    );
-  }
 
   Widget _elevationPipetopController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
@@ -252,6 +215,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _coverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.topCover,
       controller: dataState.coverController,
     );
