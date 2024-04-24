@@ -101,13 +101,13 @@ class AddBuildingHelper {
           && res['status'] == true && res['message'] != null) {
         SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
-      } else  if(res != null && res['status'] != null
-          && res['status'] == false && res['message'] != null) {
-        SnackBarErrorWidget(context).show(message: res['message']);
+      }  else  if(res != null && res['status'] != null
+          && res['status'] == false && res['errors'] != null) {
+        SnackBarErrorWidget(context).show(message: res['errors'].toString().replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       } else  if(res != null && res['status'] != null
-          && res['status'] == false && res['message'] != null) {
-        String resPonse = res['message'].toString();
+          && res['status'] == false && res['errors'] != null) {
+        String resPonse = res['errors'].toString();
         SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
         return null;
       }else{

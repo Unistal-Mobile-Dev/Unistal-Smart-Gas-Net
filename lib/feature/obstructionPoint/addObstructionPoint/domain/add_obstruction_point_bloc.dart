@@ -151,6 +151,7 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
   _selectSpread(AddObstructionPointSelectSpreadEvent event, emit) async {
     spreadTypeData = event.spreadTypeData;
     isJointNumberLoader =  true;
+    sectionTypeData =  SectionTypeModel();
     sectionList = [];
     _eventComplete(emit);
 

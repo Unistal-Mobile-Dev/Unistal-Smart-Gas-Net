@@ -55,8 +55,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
-            _alignmentDropdown(dataState: dataState),
-            _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
@@ -68,9 +66,13 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _northingLongController(dataState: dataState),
             _verticalSpace(),
+            _elevationPipetopController(dataState: dataState),
+            _verticalSpace(),
             _pipeCoverController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _photo(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -189,16 +191,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-
-  Widget _elevationPipetopController({required FetchAddLevellingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.elevationPipeTop,
-      controller: dataState.elevationPipetopController,
-    );
-  }
-
-
   Widget _natureGroundLeveController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -207,11 +199,18 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
+    Widget _elevationPipetopController({required FetchAddLevellingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.elevationPipeTop,
+      controller: dataState.elevationPipetopController,
+    );
+  }
+
   Widget _pipeCoverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.pipeCover,
+      labelText: AppString.topCover,
       controller: dataState.coverController,
     );
   }

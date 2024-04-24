@@ -251,6 +251,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
       northingLatController.text = "";
       northingLatController.text = "";
       coverController.text = "";
+      northingLongController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       jointData =  JointNumberModel();

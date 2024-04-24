@@ -52,7 +52,7 @@ class AddLevellingHelper {
         "gps_coordinate_northing" : gpsCoordinateNorth,
         "gps_coordinate_easting" : gpsCoordinateEast,
         "elevation_pipe_top" : elevationPipetop,
-        "ngl" : natureGroundLeve,
+        "ngl" : "",
         "cover" : cover,
         "weather" : weatherData.id.toString(),
       };
