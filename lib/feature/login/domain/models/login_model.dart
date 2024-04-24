@@ -20,6 +20,7 @@ class LoginDataModel {
   String? schema;
   String? spreadId;
   String? sectionId;
+  String? password;
   String? token;
   RoleType? roleType;
 
@@ -36,11 +37,13 @@ class LoginDataModel {
         this.sectionId,
         this.token,
         this.roleType,
+        this.password,
       });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
     userId = json['id'];
     email = json['email'];
+    password = json['password'];
     moduleId = json['module_id'];
     name = json['name'];
     userStatus = json['user_status'];
@@ -56,6 +59,10 @@ class LoginDataModel {
   getRole({required String role}) {
     switch(role) {
       case "engineer" :
+        return RoleType.engineer;
+      case "admin" :
+        return RoleType.admin;
+      default:
         return RoleType.engineer;
     }
   }

@@ -80,7 +80,9 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
                    ? AppIcon.appLogoPurvaBharti
                  :AppConfig.instanceInit()!.client == Client.unistal
                    ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                 : AppConfig.instanceInit()!.client == Client.agcl ?
+                   AppIcon.appLogoAgcl
+                  : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -129,7 +131,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
         right: MediaQuery.of(context).size.width * 0.05,),
       child: TextFieldWidget(
         isRequired: true,
-        labelText: AppString.emailPhoneNumber,
+        labelText: AppString.userName,
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
         onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(emailId: value)),

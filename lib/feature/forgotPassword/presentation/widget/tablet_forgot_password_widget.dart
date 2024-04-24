@@ -110,7 +110,7 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
       padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
       child: TextFieldWidget(
         isRequired: true,
-        labelText: AppString.emailPhoneNumber,
+        labelText: AppString.userName,
         controller: dataState.emailTextFieldController,
         textInputType: TextInputType.emailAddress,
       ),

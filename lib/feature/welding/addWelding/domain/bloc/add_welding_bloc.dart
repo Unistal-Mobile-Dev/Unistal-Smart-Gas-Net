@@ -297,7 +297,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     leftPipeData =  PipeModel();
     rightPipeData =  PipeModel();
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
     if(res != null){
       _alignmentList =  res;
     }

@@ -109,7 +109,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     isJointNumberLoader = false;
     chainageFromController.text = "";
     chainageToController.text = "";
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
     if(res != null){
       _alignmentList =  res;
     }

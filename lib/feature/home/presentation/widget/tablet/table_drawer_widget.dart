@@ -57,7 +57,9 @@ class TabletDrawerWidget extends StatelessWidget {
                    ? AppIcon.appLogoPurvaBharti
                  :AppConfig.instanceInit()!.client == Client.unistal
                    ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                   : AppConfig.instanceInit()!.client == Client.agcl ?
+                     AppIcon.appLogoAgcl
+                       : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.13,
               ),
             ),

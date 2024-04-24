@@ -80,13 +80,19 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               top:  00.0,
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
-              child: Image.asset(
+              child: Padding(
+                padding: EdgeInsets.all(AppConfig.instanceInit()!.client == Client.agcl
+                    ? MediaQuery.of(context).size.width * 0.10
+                    : 0.0),
+                child: Image.asset(
 		               AppConfig.instanceInit()!.client == Client.purvaBharti
-                   ? AppIcon.appLogoPurvaBharti
-                 :AppConfig.instanceInit()!.client == Client.unistal
-                   ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
-                width: MediaQuery.of(context).size.width * 0.30,
+                     ? AppIcon.appLogoPurvaBharti
+                   :AppConfig.instanceInit()!.client == Client.unistal
+                     ? AppIcon.appLogoUnistal
+                     : AppConfig.instanceInit()!.client == Client.agcl ?
+                      AppIcon.appLogoAgcl : AppIcon.appLogoIgl,
+                  width: MediaQuery.of(context).size.width * 0.30,
+                ),
               ),
             ),
             Align(
@@ -116,7 +122,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
       child: TextFieldWidget(
         isRequired: true,
-        labelText: AppString.emailPhoneNumber,
+        labelText: AppString.userName,
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
         onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(emailId: value)),

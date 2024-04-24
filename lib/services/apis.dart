@@ -72,6 +72,12 @@ class APIs {
   static get getNdtStatusApi => "api/steel/ndtstatus";
   static get getNdtSourceApi => "api/steel/ndtsource";
   static get addTieInApi => "api/steel/tieininsert";
+  static get addBuildingApi => "api/steel-building/save";
+  static get getSpreadTypeApi => "api/steel-building/spreads";
+  static get getSectionTypeApi => "api/steel-building/sections";
+  static get getBuildingCategoryTypeApi => "api/steel-building/categories";
+  static get addObstructionPointApi => "api/steel-building/obstruction-point";
+  static get addRightWayApi => "api/steel-building/right-way";
 
 
   static get productTypeApi => "admin/rest/getItemType";

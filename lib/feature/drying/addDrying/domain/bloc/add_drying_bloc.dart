@@ -84,7 +84,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
     if(res != null){
       alignmentList =  res;
     }

@@ -70,7 +70,9 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
                    ? AppIcon.appLogoPurvaBharti
                  :AppConfig.instanceInit()!.client == Client.unistal
                    ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                   : AppConfig.instanceInit()!.client == Client.agcl ?
+                    AppIcon.appLogoAgcl
+                   : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -94,7 +96,7 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
       padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
       child: TextFieldWidget(
         isRequired: true,
-        labelText: AppString.emailPhoneNumber,
+        labelText: AppString.userName,
         controller: dataState.emailTextFieldController,
         textInputType: TextInputType.emailAddress,
       ),

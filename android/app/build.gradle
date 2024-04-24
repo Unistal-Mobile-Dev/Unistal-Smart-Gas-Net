@@ -81,6 +81,18 @@ android {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
         }
+        agcl {
+            resValue "string", "app_name", "AGCL Steel"
+            applicationIdSuffix ".agclsmartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_agcl",
+                    appIconRound: "@mipmap/ic_launcher_agcl"
+            ]
+            def keystorePropertiesFile = rootProject.file('unistal.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+        }
     }
 
     defaultConfig {

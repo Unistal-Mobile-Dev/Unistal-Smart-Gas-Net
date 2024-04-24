@@ -139,15 +139,15 @@ class AddRouteSurveyHelper {
     }
   }
 
-  static Future<dynamic> fetchAlignmentData({required BuildContext context,
-       required LoginDataModel userData}) async {
+  static Future<dynamic> fetchAlignmentData({
+       required LoginDataModel userData, String? spreadId, String? sectionId}) async {
 
       try{
          String url =  APIs.getAlignmentSheetApi;
          var param = {
            "schema" : userData.schema,
-           "spread_id" : userData.spreadId,
-           "section_id" : userData.sectionId,
+           "spread_id" : spreadId ?? userData.spreadId,
+           "section_id" : sectionId ?? userData.sectionId,
          };
          String json =  Uri(queryParameters: param).query;
          var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");

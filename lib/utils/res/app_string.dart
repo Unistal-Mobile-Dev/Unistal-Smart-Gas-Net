@@ -5,6 +5,7 @@ class AppString {
   static get email => "Email";
   static get firstName => "First Name";
   static get lastName => "Last Name";
+  static get userName => "Username";
   static get emailPhoneNumber => "Email/Phone Number";
   static get login => "Login";
   static get phoneNumber => "Phone Number";
@@ -99,6 +100,7 @@ class AppString {
   static get ductIntegrityTest => "Duct Integrity Test";
   static get airPressureTest => "Air Pressure Test";
   static get gpsCoordinateNorth => "GPS Coordinate Northing";
+  static get gpsCoordinate => "GPS Coordinate";
   static get captureGPS => "Capture GPS ";
   static get northing  => "Northing";
   static get easting   => "Easting";
@@ -232,6 +234,8 @@ class AppString {
   static get concreteCoatingLength => "Concrete Coating Length";
   static get cutPipe => "Cut Pipe";
   static get selectJointType => "Select Joint Type";
+  static get selectSpread => "Select Spread";
+  static get selectSection => "Select Section";
   static get preHeatingTemperature => "Pre Heating Temperature";
   static get selectJointNumber => "Select Joint Number";
   static get selectRtSource => "Select RT Source";
@@ -289,6 +293,22 @@ class AppString {
   static get levelOfInspection => "Level of Inspection";
   static get latitude => "Latitude";
   static get longitude => "Longitude";
+  static get buildingCategory => "Building Category";
+  static get buildingName => "Building Name";
+  static get buildingNo => "Building No";
+  static get noOfFlatAndFloor => "No Of Flat and Floor";
+  static get building => "Building";
+  static get obstructionPoint => "Obstruction Point";
+  static get rightWay => "Right Way";
+  static get flatNo => "Flat No";
+  static get floorNo => "Floor No";
+  static get type => "Type";
+  static get enterOther => "Enter Other";
+  static get roadName => "Road Name";
+  static get materialType => "Material Type";
+  static get roadWidth => "Road Width";
+  static get roadLength => "Road Length";
+  static get roadSide => "Road Side";
 
 
 

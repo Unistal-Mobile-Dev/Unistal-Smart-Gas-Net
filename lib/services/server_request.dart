@@ -279,7 +279,11 @@ class ServerRequest {
 
    static addToken() {
      String token =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.token.toString() : "";
+     String email =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.email.toString() : "";
+     String password =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.password.toString() : "";
      header["Authorization"] = token;
+     header["Email"] = email;
+     header["Password"] = password;
    }
 
 

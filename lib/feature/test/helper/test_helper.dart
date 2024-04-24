@@ -101,7 +101,7 @@ class TestHelper {
          else if(testData.type.toString() == "searchDropDown") {
            TestModel widgetData =  testData;
            if(widgetData.api.toString() == "alignment"){
-             var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: context, userData: userData);
+             var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
              if(res != null){
                List<AlignmentModel>  alignmentList =  res;
                widgetData.list =  testListModelResponse(alignmentList.map((v) => v.toJson()).toList());

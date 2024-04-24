@@ -49,6 +49,8 @@ class HomeDrawerWidget extends StatelessWidget {
                 ? AppIcon.appLogoPurvaBharti
                 :AppConfig.instanceInit()!.client == Client.unistal
                 ? AppIcon.appLogoUnistal
+                : AppConfig.instanceInit()!.client == Client.agcl ?
+                  AppIcon.appLogoAgcl
                 : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.12,
             width: MediaQuery.of(context).size.width * 0.12,

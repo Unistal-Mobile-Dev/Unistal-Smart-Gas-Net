@@ -75,7 +75,7 @@ class AddPostHydrotestBloc extends Bloc<AddPostHydrotestEvent, AddPostHydrotestS
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
     if(res != null){
       alignmentList =  res;
     }

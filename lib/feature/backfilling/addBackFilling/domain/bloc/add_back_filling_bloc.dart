@@ -111,7 +111,7 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
         _userData =  UserInfo.instanceInit()!.userData!;
 
-        var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+        var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
         if(res != null){
           alignmentList =  res;
         }

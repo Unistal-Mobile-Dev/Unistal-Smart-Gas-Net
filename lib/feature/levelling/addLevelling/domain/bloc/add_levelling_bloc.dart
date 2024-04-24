@@ -109,7 +109,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
 
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
     if(res != null){
       alignmentList =  res;
     }
@@ -288,7 +288,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         eastingLongController: eastingLongController,
         northingLatController: northingLatController,
         northingLongController: northingLongController,
-        accuracy: accuracy
+        accuracy: accuracy,
     ));
   }
 }
