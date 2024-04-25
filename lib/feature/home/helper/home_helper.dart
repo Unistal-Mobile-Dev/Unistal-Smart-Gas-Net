@@ -23,6 +23,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/pre
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/presentation/page/add_marker_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/presentation/page/add_ndt_aut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/presentation/page/add_obstruction_point_page.dart';
@@ -75,6 +76,12 @@ class HomeHelper {
 
       drawerList.add(DrawerModel(widget: const AddRightWayPage(), icon: Icons.rice_bowl_outlined,
           label: AppString.rightWay, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddCrossingPage(), icon: Icons.format_line_spacing_sharp,
+          label: AppString.crossing, sublist: [],  isSelected: false, actionButtonWidget: null));
+
+      drawerList.add(DrawerModel(widget: const AddMarkerPage(), icon: Icons.location_on_outlined,
+          label: AppString.marker, sublist: [],  isSelected: false, actionButtonWidget: null));
 
       if(AppConfig.instanceInit()!.client != Client.agcl){
 
@@ -155,8 +162,6 @@ class HomeHelper {
         drawerList.add(DrawerModel(widget: const AddBackFillingPage(), icon: Icons.newspaper,
             label: AppString.backFilling, sublist: [],  isSelected: false, actionButtonWidget: null));
 
-        drawerList.add(DrawerModel(widget: const AddCrossingPage(), icon: Icons.format_line_spacing_sharp,
-            label: AppString.crossing, sublist: [],  isSelected: false, actionButtonWidget: null));
 
         if(AppConfig.instanceInit()!.client != Client.purvaBharti){
           drawerList.add(DrawerModel(widget: const AddOfcSplicingPage(), icon: Icons.offline_share,

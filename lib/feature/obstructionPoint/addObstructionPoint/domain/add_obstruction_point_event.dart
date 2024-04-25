@@ -63,6 +63,13 @@ class AddObstructionPointCaptureEastingLocationEvent extends AddObstructionPoint
   List<Object?> get props => [context];
 }
 
+class AddObstructionPointSelectObstructionDataEvent extends AddObstructionPointEvent{
+  final ObstructionTypeModel obstructionTypeData;
+  const AddObstructionPointSelectObstructionDataEvent({required this.obstructionTypeData});
+  @override
+  List<Object?> get props => [obstructionTypeData];
+}
+
 class AddObstructionPointSubmitDataEvent extends AddObstructionPointEvent {
   final BuildContext context;
   const AddObstructionPointSubmitDataEvent({required this.context});

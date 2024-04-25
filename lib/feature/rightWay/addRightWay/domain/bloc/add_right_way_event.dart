@@ -70,6 +70,13 @@ class AddRightWaySelectRodeSideEvent extends AddRightWayEvent{
   List<Object?> get props => [rodeSideValue];
 }
 
+class AddRightWaySelectRoadTypeDataEvent extends AddRightWayEvent{
+  final RoadTypeModel roadTypeData;
+  const AddRightWaySelectRoadTypeDataEvent({required this.roadTypeData});
+  @override
+  List<Object?> get props => [roadTypeData];
+}
+
 class AddRightWaySubmitDataEvent extends AddRightWayEvent {
   final BuildContext context;
   const AddRightWaySubmitDataEvent({required this.context});

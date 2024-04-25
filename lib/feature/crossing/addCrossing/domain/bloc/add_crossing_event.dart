@@ -133,6 +133,20 @@ class AddCrossingSelectThicknessDataEvent extends AddCrossingEvent {
   List<Object?> get props => [thicknessData];
 }
 
+class AddCrossingSelectSpreadEvent extends AddCrossingEvent {
+  final SpreadTypeModel  spreadTypeData;
+  const AddCrossingSelectSpreadEvent({required this.spreadTypeData});
+  @override
+  List<Object?> get props => [spreadTypeData];
+}
+
+class AddCrossingSelectSectionEvent extends AddCrossingEvent {
+  final SectionTypeModel  sectionTypeData;
+  const AddCrossingSelectSectionEvent({required this.sectionTypeData});
+  @override
+  List<Object?> get props => [sectionTypeData];
+}
+
 class AddCrossingSubmitDataEvent extends AddCrossingEvent {
   final BuildContext context;
   const AddCrossingSubmitDataEvent({required this.context});

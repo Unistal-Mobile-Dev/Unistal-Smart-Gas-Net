@@ -78,6 +78,10 @@ class APIs {
   static get getBuildingCategoryTypeApi => "api/steel-building/categories";
   static get addObstructionPointApi => "api/steel-building/obstruction-point";
   static get addRightWayApi => "api/steel-building/right-way";
+  static get getObstructionTypeApi => "api/steel-building/obstype";
+  static get getRoadTypeApi => "api/steel-building/roadtype";
+  static get getMarkerTypeApi => "api/steel/marker-types";
+  static get addMarkerApi => "api/steel/marker";
 
 
   static get productTypeApi => "admin/rest/getItemType";

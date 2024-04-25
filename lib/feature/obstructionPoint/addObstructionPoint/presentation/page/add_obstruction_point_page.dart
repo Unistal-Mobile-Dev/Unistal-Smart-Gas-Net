@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/section_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/add_obstruction_point_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/model/obstruction_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 class AddObstructionPointPage extends StatefulWidget {
@@ -59,7 +60,7 @@ class _AddObstructionPointPageState extends State<AddObstructionPointPage> {
             _verticalSpace(),
             _sectionDropDown(dataState: dataState),
             _verticalSpace(),
-            _typeController(dataState: dataState),
+            _obstructionTYpeDropDown(dataState: dataState),
             _verticalSpace(),
             _enterOtherController(dataState: dataState),
             _verticalSpace(),
@@ -221,6 +222,24 @@ class _AddObstructionPointPageState extends State<AddObstructionPointPage> {
       labelText: AppString.type,
       controller: dataState.typeController,
     );
+  }
+
+  Widget _obstructionTYpeDropDown({required FetchAddObstructionPointDataState dataState}) {
+    return dataState.isJointNumberLoader == false ?
+    DropdownWidget(
+      hint: AppString.type,
+      dropdownValue: dataState.obstructionTypeData.id != null ? dataState.obstructionTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddObstructionPointBloc>(context).add(
+            AddObstructionPointSelectObstructionDataEvent(obstructionTypeData: value,));
+      },
+      items: dataState.obstructionTypeList.map<DropdownMenuItem<ObstructionTypeModel>>((ObstructionTypeModel obstructionTypeData) {
+        return DropdownMenuItem<ObstructionTypeModel>(
+          value: obstructionTypeData,
+          child: Text(obstructionTypeData.name.toString()),
+        );
+      }).toList(),
+    ): const DottedLoaderWidget();
   }
 
   Widget _enterOtherController({required FetchAddObstructionPointDataState dataState}) {

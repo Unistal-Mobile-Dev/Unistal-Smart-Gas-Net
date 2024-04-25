@@ -6,10 +6,26 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/section_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/model/obstruction_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddObstructionPointHelper {
+
+  static Future<dynamic> fetchObstructionType() async {
+
+    try{
+      String url = APIs.getObstructionTypeApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res !=  null && res['status'] != null
+          && res['status'] == true && res['data'] != null) {
+        return obstructionTypeListResponse(res['data']);
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
 
   static Future<dynamic> submitData({required BuildContext context,
     required String reportNumber,
@@ -18,7 +34,7 @@ class AddObstructionPointHelper {
     required WeatherModel weatherData,
     required LoginDataModel userData,
     required String buildingCategory,
-    required String type,
+    required ObstructionTypeModel obstructionType,
     required String enterOther,
     required String longitude,
     required String latitude,
@@ -35,7 +51,7 @@ class AddObstructionPointHelper {
       String url =  APIs.addObstructionPointApi;
       var json = {
         "date" : date,
-        "type" :type,
+        "type" :obstructionType.id != null ? obstructionType.id.toString() : "0",
         "other" : enterOther,
         "name" : name,
         "location" : locationm,

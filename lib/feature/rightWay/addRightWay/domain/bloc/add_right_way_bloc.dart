@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/helper/add_building_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/domain/model/road_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/helper/add_right_way_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -25,7 +26,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController roadLengthController =  TextEditingController();
-  TextEditingController typeController =  TextEditingController();
+  TextEditingController otherController =  TextEditingController();
   TextEditingController gpsCoordinateNorthController =  TextEditingController();
   TextEditingController gpsCoordinateEastController =  TextEditingController();
   TextEditingController roadWidthController =  TextEditingController();
@@ -55,6 +56,9 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
   List<SectionTypeModel> sectionList = [];
   SectionTypeModel sectionTypeData =  SectionTypeModel();
 
+  List<RoadTypeModel> roadTypeList = [];
+  RoadTypeModel roadTypeData =  RoadTypeModel();
+
   String rodeSideValue = "";
 
 
@@ -62,6 +66,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
 
     on<AddRightWayPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddRightWaySelectRoadTypeDataEvent>(_selectRoadType);
     on<AddRightWaySelectSpreadEvent>(_selectSpread);
     on<AddRightWaySelectSectionEvent>(_selectSection);
     on<AddRightWaySelectDateEvent>(_selectDate);
@@ -78,7 +83,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
     reportNumberController.text = "";
     activityRemarkController.text = "";
     roadLengthController.text = "";
-    typeController.text = "";
+    otherController.text = "";
     gpsCoordinateNorthController.text = "";
     gpsCoordinateEastController.text = "";
     roadWidthController.text = "";
@@ -93,8 +98,10 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
     weatherList = [];
     spreadList = [];
     sectionList = [];
+    roadTypeList = [];
     spreadTypeData =  SpreadTypeModel();
     sectionTypeData =  SectionTypeModel();
+    roadTypeData =  RoadTypeModel();
     isLoader =  false;
     isJointNumberLoader = false;
     isAlignmentLoader = false;
@@ -111,6 +118,10 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
 
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
+    var resRoad =  await AddRightWayHelper.fetchRoadType();
+    if(resRoad != null){
+      roadTypeList =  resRoad;
+    }
 
     var resSection =  await AddBuildingHelper.fetchSectionData(spreadId: userData.spreadId.toString().isEmpty ? "0" : userData.spreadId.toString());
     if(resSection != null){
@@ -140,6 +151,10 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
     _eventComplete(emit);
   }
 
+  _selectRoadType(AddRightWaySelectRoadTypeDataEvent event, emit) {
+    roadTypeData =  event.roadTypeData;
+    _eventComplete(emit);
+  }
 
   _selectSpread(AddRightWaySelectSpreadEvent event, emit) async {
     spreadTypeData = event.spreadTypeData;
@@ -241,7 +256,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
         weatherData: weatherData,
         userData: userData,
         roadLength: roadLengthController.text.toString(),
-        type: typeController.text.toString(),
+        roadTypeData: roadTypeData,
         materialType: materialTypeController.text.toString(),
         latitude: latitudeController.text.toString(),
         longitude: longitudeController.text.toString(),
@@ -251,6 +266,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
         spreadTypeData: spreadTypeData,
         roadName: roadNameController.text.toString(),
         rodeSideValue: rodeSideValue,
+        other: otherController.text.toString(),
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -259,7 +275,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
       reportNumberController.text = "";
       activityRemarkController.text = "";
       roadLengthController.text = "";
-      typeController.text = "";
+      otherController.text = "";
       gpsCoordinateNorthController.text = "";
       gpsCoordinateEastController.text = "";
       roadWidthController.text = "";
@@ -279,6 +295,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
       rodeSideValue = "";
       file =  File("");
       weatherData =  WeatherModel();
+      roadTypeData =  RoadTypeModel();
       _eventComplete(emit);
     }
   }
@@ -289,7 +306,7 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
       activityRemarkController: activityRemarkController,
       reportNumberController: reportNumberController,
       roadLengthController: roadLengthController,
-      typeController: typeController,
+      otherController: otherController,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,
@@ -310,7 +327,9 @@ class AddRightWayBloc extends Bloc<AddRightWayEvent, AddRightWayState> {
       spreadList: spreadList,
       roadNameController: roadNameController,
       isAlignmentLoader: isAlignmentLoader,
-      rodeSideValue :rodeSideValue
+      rodeSideValue :rodeSideValue,
+      roadTypeData: roadTypeData,
+      roadTypeList: roadTypeList,
     ));
   }
 }

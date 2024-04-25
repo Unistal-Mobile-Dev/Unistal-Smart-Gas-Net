@@ -218,6 +218,7 @@ class AppString {
   static get weldRepair => "Weld Repair";
   static get backFilling => "BackFilling";
   static get crossing => "Crossing";
+  static get marker => "Marker";
   static get crossingName => "Crossing Name";
   static get hdpeDuctLaying => "HDPE Duct Laying";
   static get hdpeDuctTesting => "HDPE Duct Testing";
@@ -309,6 +310,8 @@ class AppString {
   static get roadWidth => "Road Width";
   static get roadLength => "Road Length";
   static get roadSide => "Road Side";
+  static get selectMarkerType => "Select Marker Type";
+  static get description => "Description";
 
 
 

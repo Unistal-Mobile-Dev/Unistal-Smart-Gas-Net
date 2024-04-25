@@ -3,10 +3,26 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/section_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/domain/model/road_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddRightWayHelper {
+
+  static Future<dynamic> fetchRoadType() async {
+
+    try{
+      String url = APIs.getRoadTypeApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res !=  null && res['status'] != null
+          && res['status'] == true && res['data'] != null) {
+        return roadTypeListResponse(res['data']);
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
 
   static Future<dynamic> submitData({required BuildContext context,
     required String reportNumber,
@@ -15,7 +31,7 @@ class AddRightWayHelper {
     required WeatherModel weatherData,
     required LoginDataModel userData,
     required String roadLength,
-    required String type,
+    required RoadTypeModel roadTypeData,
     required String roadName,
     required String longitude,
     required String latitude,
@@ -25,6 +41,7 @@ class AddRightWayHelper {
     required SpreadTypeModel spreadTypeData,
     required SectionTypeModel sectionTypeData,
     required String rodeSideValue,
+    required String other,
     required File file}) async {
 
     try{
@@ -33,13 +50,14 @@ class AddRightWayHelper {
       var json = {
         "date": date,
         "roadName" : roadName,
-        "type" : type,
+        "type" : roadTypeData.id != null ? roadTypeData.id.toString() : "0",
         "materialType" : materialType,
         "roadWidth" :roadWidth,
         "roadLength" : roadLength,
         "roadSide" : rodeSideValue,
         "location" : locationm,
         "remarks" : activityRemark,
+        "other" : other,
         "spreadId" : spreadTypeData.id ?? "0",
         "sectionId" : sectionTypeData.id ?? "0",
       };

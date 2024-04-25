@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/section_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/domain/bloc/add_right_way_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/domain/model/road_type_model.dart';
 
 class AddRightWayPage extends StatefulWidget {
   const AddRightWayPage({super.key});
@@ -60,7 +61,9 @@ class _AddRightWayPageState extends State<AddRightWayPage> {
             _verticalSpace(),
             _roadNameController(dataState: dataState),
             _verticalSpace(),
-            _typeController(dataState: dataState),
+            _roadTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _otherController(dataState: dataState),
             _verticalSpace(),
             _materialTypeController(dataState: dataState),
             _verticalSpace(),
@@ -232,10 +235,27 @@ class _AddRightWayPageState extends State<AddRightWayPage> {
     );
   }
 
-  Widget _typeController({required FetchAddRightWayDataState dataState}) {
+  Widget _otherController({required FetchAddRightWayDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.type,
-      controller: dataState.typeController,
+      labelText: AppString.enterOther,
+      controller: dataState.otherController,
+    );
+  }
+
+  Widget _roadTypeDropDown({required FetchAddRightWayDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.type,
+      dropdownValue: dataState.roadTypeData.id != null ? dataState.roadTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRightWayBloc>(context).add(
+            AddRightWaySelectRoadTypeDataEvent(roadTypeData: value,));
+      },
+      items: dataState.roadTypeList.map<DropdownMenuItem<RoadTypeModel>>((RoadTypeModel roadTypeData) {
+        return DropdownMenuItem<RoadTypeModel>(
+          value: roadTypeData,
+          child: Text(roadTypeData.name.toString()),
+        );
+      }).toList(),
     );
   }
 

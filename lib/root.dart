@@ -21,6 +21,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/dom
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/bloc/add_marker_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/bloc/add_ndt_aut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/add_obstruction_point_bloc.dart';
@@ -141,6 +142,7 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddBuildingBloc()),
         BlocProvider(create: (BuildContext context) => AddObstructionPointBloc()),
         BlocProvider(create: (BuildContext context) => AddRightWayBloc()),
+        BlocProvider(create: (BuildContext context) => AddMarkerBloc()),
         BlocProvider(create: (BuildContext context) => TestBloc()),
       ],
       child: MaterialApp(

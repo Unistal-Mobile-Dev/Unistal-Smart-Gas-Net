@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domain/model/spread_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/helper/add_building_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/model/obstruction_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/helper/add_obstruction_point_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -59,12 +60,16 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
   List<BuildingCategoryTypeModel> buildingCategoryList = [];
   BuildingCategoryTypeModel buildingCategoryTypeData = BuildingCategoryTypeModel();
 
+  List<ObstructionTypeModel> obstructionTypeList = [];
+  ObstructionTypeModel obstructionTypeData = ObstructionTypeModel();
+
   AddObstructionPointBloc() : super(AddObstructionPointInitial()) {
 
     on<AddObstructionPointPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddObstructionPointSelectSpreadEvent>(_selectSpread);
     on<AddObstructionPointSelectSectionEvent>(_selectSection);
+    on<AddObstructionPointSelectObstructionDataEvent>(_selectObstruction);
     on<AddObstructionPointSelectDateEvent>(_selectDate);
     on<AddObstructionPointCaptureNorthingLocationEvent>(_selectNorthingLocation);
     on<AddObstructionPointCaptureEastingLocationEvent>(_selectEastLocation);
@@ -94,6 +99,7 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
     spreadList = [];
     sectionList = [];
     buildingCategoryList = [];
+    obstructionTypeList = [];
     spreadTypeData =  SpreadTypeModel();
     sectionTypeData =  SectionTypeModel();
     buildingCategoryTypeData = BuildingCategoryTypeModel();
@@ -102,6 +108,7 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
     isAlignmentLoader = false;
     file =  File("");
     weatherData =  WeatherModel();
+    obstructionTypeData = ObstructionTypeModel();
     _userData =  UserInfo.instanceInit()!.userData!;
 
     var location =  await LocationHelper.getLocation(context: event.context);
@@ -113,6 +120,10 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
 
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
+    var resObstruction =  await AddObstructionPointHelper.fetchObstructionType();
+    if(resObstruction != null){
+      obstructionTypeList =  resObstruction;
+    }
 
     var resSection =  await AddBuildingHelper.fetchSectionData(spreadId: userData.spreadId.toString().isEmpty ? "0" : userData.spreadId.toString());
     if(resSection != null){
@@ -170,6 +181,10 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
     _eventComplete(emit);
   }
 
+  _selectObstruction(AddObstructionPointSelectObstructionDataEvent event, emit) {
+    obstructionTypeData =  event.obstructionTypeData;
+    _eventComplete(emit);
+  }
 
   _selectDate(AddObstructionPointSelectDateEvent event, emit) async {
     DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
@@ -244,7 +259,7 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
         weatherData: weatherData,
         userData: userData,
         buildingCategory: buildingCategoryControlller.text.toString(),
-        type: typeController.text.toString(),
+        obstructionType: obstructionTypeData,
         name: nameController.text.toString(),
         latitude: latitudeController.text.toString(),
         longitude: longitudeController.text.toString(),
@@ -282,6 +297,7 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
       isAlignmentLoader = false;
       file =  File("");
       weatherData =  WeatherModel();
+      obstructionTypeData = ObstructionTypeModel();
       _eventComplete(emit);
     }
   }
@@ -315,6 +331,8 @@ class AddObstructionPointBloc extends Bloc<AddObstructionPointEvent, AddObstruct
       isAlignmentLoader: isAlignmentLoader,
       buildingCategoryList: buildingCategoryList,
       buildingCategoryTypeData: buildingCategoryTypeData,
+      obstructionTypeData: obstructionTypeData,
+      obstructionTypeList: obstructionTypeList,
     ));
   }
 }

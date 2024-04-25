@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -13,8 +10,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/helper/add_building_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/model/crossing_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/helper/add_crossing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
@@ -22,6 +17,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/model/marker_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/helper/add_marker_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -31,22 +28,23 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
-part 'add_crossing_event.dart';
-part 'add_crossing_state.dart';
+part 'add_marker_event.dart';
+part 'add_marker_state.dart';
 
-class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
+class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
+
   TextEditingController dateController = TextEditingController();
   TextEditingController onBodyController = TextEditingController();
   TextEditingController onWeldController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController sectionLengthController = TextEditingController();
-  TextEditingController casingPipeLengthController = TextEditingController();
-  TextEditingController concreteCoatingLengthController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
+  TextEditingController primaryAbatchController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController holidayTestNoController = TextEditingController();
-  TextEditingController crossingNameController = TextEditingController();
-  TextEditingController electrometerNoController = TextEditingController();
-  TextEditingController batchNoController = TextEditingController();
+  TextEditingController primaryBbatchController = TextEditingController();
+  TextEditingController surfacePreparationController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
@@ -71,6 +69,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
   List<ThicknessModel> thicknessList = [];
   ThicknessModel thicknessData =  ThicknessModel();
+  ThicknessModel coatingThicknessData =  ThicknessModel();
 
   List<PipeDiaModel> pipeDiaList = [];
   PipeDiaModel pipeDiaData =  PipeDiaModel();
@@ -78,11 +77,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   List<CoatingTypeModel> coatingTypeList = [];
   CoatingTypeModel coatingTypeData = CoatingTypeModel();
 
-  List<PaddingModel> prePaddingList = [];
-  PaddingModel prePaddingData =  PaddingModel();
-
-  List<PaddingModel> postPaddingList = [];
-  PaddingModel postPaddingData =  PaddingModel();
+  List<PaddingModel> peelTestList = [];
+  PaddingModel peelTestData =  PaddingModel();
 
   List<PipeMaterialModel> pipeMaterialList = [];
   PipeMaterialModel pipeMaterialData =  PipeMaterialModel();
@@ -90,53 +86,52 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   List<VisualChecksModel> visualsChecksList = [];
   VisualChecksModel visualChecksData =  VisualChecksModel();
 
-  List<CrossingTypeModel> crossingTypeList = [];
-  CrossingTypeModel crossingTypeData =  CrossingTypeModel();
+  List<MarkerTypeModel> markerTypeList = [];
+  MarkerTypeModel markerTypeData =  MarkerTypeModel();
 
   List<SpreadTypeModel> spreadList = [];
   SpreadTypeModel spreadTypeData =  SpreadTypeModel();
   List<SectionTypeModel> sectionList = [];
   SectionTypeModel sectionTypeData =  SectionTypeModel();
 
-
-  AddCrossingBloc() : super(AddCrossingInitial()) {
-    on<AddCrossingPageLoadEvent>(_pageLoader);
+  AddMarkerBloc() : super(AddMarkerInitial()) {
+    on<AddMarkerPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
-    on<AddCrossingSelectAlignmentEvent>(_selectAlignment);
-    on<AddCrossingSelectCoatingTypeDataEvent>(_selectCoatingType);
-    on<AddCrossingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
-    on<AddCrossingSelectCrossingTypeDataEvent>(_selectCrossingType);
-    on<AddCrossingSelectVisualChecksDataEvent>(_selectVisualCheck);
-    on<AddCrossingSelectPrePaddingDataEvent>(_selectPrePadding);
-    on<AddCrossingSelectPostPaddingDataEvent>(_selectPostPadding);
-    on<AddCrossingSelectHolidayDataEvent>(_selectHolidayData);
-    on<AddCrossingSelectFromJointDataEvent>(_selectJointFrom);
-    on<AddCrossingSelectToJointDataEvent>(_selectJointTo);
-    on<AddCrossingSelectJointTypeDataEvent>(_selectJointType);
-    on<AddCrossingSelectDateEvent>(_selectDate);
-    on<AddCrossingSelectPipeDiaDataEvent>(_selectPipeDia);
-    on<AddCrossingSelectThicknessDataEvent>(_selectThickness);
-    on<AddCrossingCalibarationDataEvent>(_selectCabilabrationData);
-    on<AddCrossingSelectSpreadEvent>(_selectSpread);
-    on<AddCrossingSelectSectionEvent>(_selectSection);
-    on<AddCrossingAddImageEvent>(_selectFile);
-    on<AddCrossingSubmitDataEvent>(_submitData);
+    on<AddMarkerSelectAlignmentEvent>(_selectAlignment);
+    on<AddMarkerSelectCoatingTypeDataEvent>(_selectCoatingType);
+    on<AddMarkerSelectPipeMaterialDataEvent>(_selectPipeMaterial);
+    on<AddMarkerSelectVisualChecksDataEvent>(_selectVisualCheck);
+    on<AddMarkerSelectPeelTestDataEvent>(_selectPeelTest);
+    on<AddMarkerSelectHolidayDataEvent>(_selectHolidayData);
+    on<AddMarkerSelectFromJointDataEvent>(_selectJointFrom);
+    on<AddMarkerSelectToJointDataEvent>(_selectJointTo);
+    on<AddMarkerSelectJointTypeDataEvent>(_selectJointType);
+    on<AddMarkerSelectDateEvent>(_selectDate);
+    on<AddMarkerSelectPipeDiaDataEvent>(_selectPipeDia);
+    on<AddMarkerSelectThicknessDataEvent>(_selectThickness);
+    on<AddMarkerSelectPipeThicknessDataEvent>(_selectPipeThickness);
+    on<AddMarkerCalibarationDataEvent>(_selectCabilabrationData);
+    on<AddMarkerAddImageEvent>(_selectFile);
+    on<AddMarkerSelectSpreadEvent>(_selectSpread);
+    on<AddMarkerSelectSectionEvent>(_selectSection);
+    on<AddMarkerSelectMarkerEvent>(_selectMarker);
+    on<AddMarkerSubmitDataEvent>(_submitData);
   }
 
-  _pageLoader(AddCrossingPageLoadEvent event, emit) async {
-    emit(AddCrossingPageLoadState());
+  _pageLoader(AddMarkerPageLoadEvent event, emit) async {
+    emit(AddMarkerPageLoadState());
     dateController.text = "";
     onBodyController.text = "";
     onWeldController.text = "";
     activityRemarkController.text = "";
-    sectionLengthController.text = "";
-    casingPipeLengthController.text = "";
-    concreteCoatingLengthController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
+    primaryAbatchController.text = "";
     locationController.text = "";
     holidayTestNoController.text = "";
-    crossingNameController.text = "";
-    electrometerNoController.text = "";
-    batchNoController.text = "";
+    primaryBbatchController.text = "";
+    surfacePreparationController.text = "";
+    descriptionController.text = "";
     surfaceController.text = "";
     holidayCheckList = [];
     jointFromList = [];
@@ -145,8 +140,6 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     weatherList = [];
     alignmentList = [];
     alignmentData =  AlignmentModel();
-    crossingTypeList = [];
-    crossingTypeData =  CrossingTypeModel();
     isLoader =  false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
@@ -156,32 +149,25 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     file =  File("");
     thicknessList = [];
     thicknessData =  ThicknessModel();
+    coatingThicknessData =  ThicknessModel();
     pipeDiaData =  PipeDiaModel();
     pipeDiaList = [];
-    prePaddingData =  PaddingModel();
-    prePaddingList =  [];
-    postPaddingList = [];
-    postPaddingData =  PaddingModel();
+    peelTestData =  PaddingModel();
+    peelTestList =  [];
     coatingTypeList = [];
     coatingTypeData =  CoatingTypeModel();
     weatherData =  WeatherModel();
     pipeMaterialList = [];
     pipeMaterialData =  PipeMaterialModel();
     visualsChecksList = [];
+    markerTypeList = [];
+    markerTypeData =  MarkerTypeModel();
     visualChecksData = VisualChecksModel();
-    crossingTypeList = [];
     spreadList = [];
     sectionList = [];
-    crossingTypeData =  CrossingTypeModel();
     sectionTypeData =  SectionTypeModel();
     spreadTypeData =  SpreadTypeModel();
     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
-    if(res != null){
-      alignmentList =  res;
-    }
 
     var resSection =  await AddBuildingHelper.fetchSectionData(spreadId: userData.spreadId.toString().isEmpty ? "0" : userData.spreadId.toString());
     if(resSection != null){
@@ -203,32 +189,55 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       }
     }
 
+/*    weatherList =  await DashboardHelper.fetchWeatherData( context: event.context, userData: userData);
+
+    var res =  await AddRouteSurveyHelper.fetchAlignmentData(userData: userData);
+    if(res != null){
+      alignmentList =  res;
+    }
     var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
     if(resJointType != null){
       jointTypeList =  resJointType;
     }
 
+    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
+    if(thicknessRes != null){
+      thicknessList =  thicknessRes;
+    }*/
 
-    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context);
+/*    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context,);
     if(resHoliday != null){
       holidayCheckList =  resHoliday;
     }
 
+    var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
+    if(pipeDiaRes != null){
+      pipeDiaList =  pipeDiaRes;
+    }*/
 
-    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context);
+/*    var coatingRes =  await AddJointCoatingHelper.fetchCoatingTypeData(context: event.context,userData: userData);
+    if(coatingRes != null){
+      coatingTypeList =  coatingRes;
+    }
+
+    var peelTestRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context,);
+    if(peelTestRes != null){
+      peelTestList =  peelTestRes;
+    }
+
+    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(context: event.context,userData: userData);
+    if(pipeMaterialRes != null){
+      pipeMaterialList =  pipeMaterialRes;
+    }
+
+    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context,);
     if(visualsChecksRes != null){
       visualsChecksList =  visualsChecksRes;
-    }
+    }*/
 
-    var resCrossingType =  await AddCrossingHelper.fetchCrossingData(context: event.context, userData: userData);
-    if(resCrossingType != null){
-      crossingTypeList =  resCrossingType;
-    }
-
-    var prePaddingRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
-    if(prePaddingRes != null){
-      prePaddingList =  prePaddingRes;
-      postPaddingList = prePaddingRes;
+    var markerTypeRes =  await AddMarkerHelper.fetchMarkerData();
+    if(markerTypeRes != null){
+      markerTypeList =  markerTypeRes;
     }
 
     _eventComplete(emit);
@@ -239,57 +248,47 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     _eventComplete(emit);
   }
 
-  _selectAlignment(AddCrossingSelectAlignmentEvent event, emit) {
+  _selectAlignment(AddMarkerSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-  _selectCoatingType(AddCrossingSelectCoatingTypeDataEvent event, emit) {
+  _selectCoatingType(AddMarkerSelectCoatingTypeDataEvent event, emit) {
     coatingTypeData =  event.coatingTypeData;
     _eventComplete(emit);
   }
 
-  _selectPipeMaterial(AddCrossingSelectPipeMaterialDataEvent event, emit) {
+  _selectPipeMaterial(AddMarkerSelectPipeMaterialDataEvent event, emit) {
     pipeMaterialData =  event.pipeMaterialData;
     _eventComplete(emit);
   }
 
-  _selectCrossingType(AddCrossingSelectCrossingTypeDataEvent event, emit) {
-    crossingTypeData =  event.crossingTypeData;
-    _eventComplete(emit);
-  }
-
-  _selectVisualCheck(AddCrossingSelectVisualChecksDataEvent event, emit) {
+  _selectVisualCheck(AddMarkerSelectVisualChecksDataEvent event, emit) {
     visualChecksData =  event.visualChecksData;
     _eventComplete(emit);
   }
 
-  _selectPrePadding(AddCrossingSelectPrePaddingDataEvent event, emit) {
-    prePaddingData =  event.prePaddingData;
+  _selectPeelTest(AddMarkerSelectPeelTestDataEvent event, emit) {
+    peelTestData =  event.peelTestData;
     _eventComplete(emit);
   }
 
-  _selectPostPadding(AddCrossingSelectPostPaddingDataEvent event, emit) {
-    postPaddingData =  event.postPaddingData;
-    _eventComplete(emit);
-  }
-
-  _selectHolidayData(AddCrossingSelectHolidayDataEvent event, emit) {
+  _selectHolidayData(AddMarkerSelectHolidayDataEvent event, emit) {
     holidayChecksData = event.holidayChecksData;
     _eventComplete(emit);
   }
 
-  _selectJointFrom(AddCrossingSelectFromJointDataEvent event, emit) {
+  _selectJointFrom(AddMarkerSelectFromJointDataEvent event, emit) {
     fromJointData =  event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointTo(AddCrossingSelectToJointDataEvent event, emit) {
+  _selectJointTo(AddMarkerSelectToJointDataEvent event, emit) {
     toJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointType(AddCrossingSelectJointTypeDataEvent event, emit) async {
+  _selectJointType(AddMarkerSelectJointTypeDataEvent event, emit) async {
     jointTypeData =  event.jointTypeData;
     jointFromList = [];
     jointToList  = [];
@@ -307,8 +306,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     _eventComplete(emit);
   }
 
-  _selectDate(AddCrossingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+  _selectDate(AddMarkerSelectDateEvent event, emit) async {
+
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -319,22 +318,27 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       dateController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
-  _selectPipeDia(AddCrossingSelectPipeDiaDataEvent event, emit) {
+  _selectPipeDia(AddMarkerSelectPipeDiaDataEvent event, emit) {
     pipeDiaData =  event.pipeDiaData;
     _eventComplete(emit);
   }
 
-  _selectThickness(AddCrossingSelectThicknessDataEvent event, emit) {
+  _selectThickness(AddMarkerSelectThicknessDataEvent event, emit) {
+    coatingThicknessData =  event.coatingThicknessData;
+    _eventComplete(emit);
+  }
+
+  _selectPipeThickness(AddMarkerSelectPipeThicknessDataEvent event, emit) {
     thicknessData =  event.thicknessData;
     _eventComplete(emit);
   }
 
-  _selectCabilabrationData(AddCrossingCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+  _selectCabilabrationData(AddMarkerCalibarationDataEvent event, emit) async {
+
     DateTime? pickedDate = await showDatePicker(context: event.context,
         initialDate: DateTime.now(),
         firstDate:  DateTime(2023),
@@ -345,11 +349,11 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       onBodyController.text =  formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      log("Date is not selected");
     }
   }
 
-  _selectSpread(AddCrossingSelectSpreadEvent event, emit) async {
+  _selectSpread(AddMarkerSelectSpreadEvent event, emit) async {
     spreadTypeData = event.spreadTypeData;
     isJointNumberLoader =  true;
     sectionTypeData =  SectionTypeModel();
@@ -365,12 +369,17 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     _eventComplete(emit);
   }
 
-  _selectSection(AddCrossingSelectSectionEvent event, emit) async {
+  _selectSection(AddMarkerSelectSectionEvent event, emit) async {
     sectionTypeData = event.sectionTypeData;
     _eventComplete(emit);
   }
 
-  _selectFile(AddCrossingAddImageEvent event, emit) async {
+  _selectMarker(AddMarkerSelectMarkerEvent event, emit) {
+    markerTypeData =  event.markerTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectFile(AddMarkerAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
       if(photo != null){
@@ -382,14 +391,14 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         file  = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
-  _submitData(AddCrossingSubmitDataEvent event, emit) async {
+  _submitData(AddMarkerSubmitDataEvent event, emit) async {
     isLoader =  true;
     _eventComplete(emit);
-    var res =  await AddCrossingHelper.submitData(context: event.context,
+    var res =  await AddMarkerHelper.submitData(context: event.context,
       alignmentData: alignmentData,
       onWeld: onWeldController.text.toString(),
       date: dateController.text.toString(),
@@ -400,27 +409,26 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       fromJointData: fromJointData,
       toJointData: toJointData,
       jointTypeData: jointTypeData,
-      sectionLength: sectionLengthController.text.toString(),
-      casingPipeLength: casingPipeLengthController.text.toString(),
-      batchNo: batchNoController.text.toString(),
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
+      description: descriptionController.text.toString(),
       file: file,
       onBody: onBodyController.text.toString(),
       holidayTestNo: holidayTestNoController.text.toString(),
       locationName: locationController.text.toString(),
-      concreteCoatingLength: concreteCoatingLengthController.text.toString(),
-      electrometerNo: electrometerNoController.text.toString(),
+      primaryAbatch: primaryAbatchController.text.toString(),
+      surfacePreparation: surfacePreparationController.text.toString(),
       surface: surfaceController.text.toString(),
-      crossingName: crossingNameController.text.toString(),
+      primaryBbatch: primaryBbatchController.text.toString(),
       pipeDiaData: pipeDiaData,
       thicknessData: thicknessData,
       visualChecksData: visualChecksData,
-      coatingTypeData: coatingTypeData,
+      coatingThicknessData: coatingThicknessData,
       pipeMaterialData: pipeMaterialData,
-      prePaddingData: prePaddingData,
-      postPaddingData: postPaddingData,
-      crossingTypeData: crossingTypeData,
-      sectionTypeData: sectionTypeData,
+      peelTestData: peelTestData,
+      markerTypeData: markerTypeData,
       spreadTypeData: spreadTypeData,
+      sectionTypeData: sectionTypeData,
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -428,19 +436,19 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       dateController.text = "";
       onWeldController.text = "";
       activityRemarkController.text = "";
-      sectionLengthController.text = "";
-      casingPipeLengthController.text = "";
-      batchNoController.text = "";
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      descriptionController.text = "";
       alignmentData =  AlignmentModel();
       isLoader =  false;
       holidayChecksData = HolidayChecksModel();
-      crossingNameController.text = "";
+      primaryBbatchController.text = "";
       locationController.text = "";
       holidayTestNoController.text = "";
-      electrometerNoController.text = "";
+      surfacePreparationController.text = "";
       onBodyController.text = "";
       surfaceController.text = "";
-      concreteCoatingLengthController.text = "";
+      primaryAbatchController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData =  JointTypeModel();
@@ -448,28 +456,28 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       file =  File("");
       weatherData =  WeatherModel();
       thicknessData =  ThicknessModel();
+      coatingThicknessData =  ThicknessModel();
       pipeDiaData =  PipeDiaModel();
-      prePaddingData =  PaddingModel();
+      peelTestData =  PaddingModel();
       coatingTypeData =  CoatingTypeModel();
       pipeMaterialData =  PipeMaterialModel();
       visualChecksData =  VisualChecksModel();
-      crossingTypeData =  CrossingTypeModel();
+      markerTypeData =  MarkerTypeModel();
       sectionTypeData =  SectionTypeModel();
       spreadTypeData =  SpreadTypeModel();
-      PaddingModel();
       _eventComplete(emit);
     }
   }
 
 
-  _eventComplete(Emitter<AddCrossingState>emit) {
-    emit(FetchAddCrossingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddMarkerState>emit) {
+    emit(FetchAddMarkerDataState(isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       onWeldController: onWeldController,
-      sectionLengthController: sectionLengthController,
-      casingPipeLengthController: casingPipeLengthController,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
       alignmentData: alignmentData,
       file: file,
       weatherList: weatherList,
@@ -480,33 +488,32 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       fromJointData: fromJointData,
       jointFromList: jointFromList,
       jointToList: jointToList,
-      concreteCoatingLengthController: concreteCoatingLengthController,
+      primaryAbatchController: primaryAbatchController,
       locationController: locationController,
       toJointData: toJointData,
       holidayTestNoController: holidayTestNoController,
       holidayChecksData: holidayChecksData,
       onBodyController: onBodyController,
       holidayCheckList: holidayCheckList,
-      electrometerNoController: electrometerNoController,
-      crossingNameController: crossingNameController,
-      batchNoController: batchNoController,
+      surfacePreparationController: surfacePreparationController,
+      primaryBbatchController: primaryBbatchController,
+      descriptionController: descriptionController,
       surfaceController: surfaceController,
       pipeDiaData: pipeDiaData,
       pipeDialList: pipeDiaList,
       thicknessData: thicknessData,
+      coatingThicknessData: coatingThicknessData,
       thicknessList: thicknessList,
-      prePaddingData: prePaddingData,
-      prePaddingList: prePaddingList,
+      peelTestData: peelTestData,
+      peelTestList: peelTestList,
       coatingTypeData: coatingTypeData,
       coatingTypeList: coatingTypeList,
       pipeMaterialData: pipeMaterialData,
       pipeMaterialList: pipeMaterialList,
       visualChecksData: visualChecksData,
       visualsChecksList: visualsChecksList,
-      crossingTypeData: crossingTypeData,
-      crossingTyeList: crossingTypeList,
-      postPaddingData: postPaddingData,
-      postPaddingList: postPaddingList,
+      markerTypeData: markerTypeData,
+      markerTypeList: markerTypeList,
       sectionTypeData: sectionTypeData,
       spreadTypeData: spreadTypeData,
       sectionList: sectionList,

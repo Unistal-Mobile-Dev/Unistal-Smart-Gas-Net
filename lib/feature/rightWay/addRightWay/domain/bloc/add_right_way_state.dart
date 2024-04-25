@@ -20,7 +20,7 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final TextEditingController roadLengthController;
-  final TextEditingController typeController;
+  final TextEditingController otherController;
   final TextEditingController roadNameController;
   final TextEditingController gpsCoordinateNorthController;
   final TextEditingController gpsCoordinateEastController;
@@ -42,6 +42,8 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
   final SectionTypeModel sectionTypeData;
   final bool isAlignmentLoader;
   final String rodeSideValue;
+  final List<RoadTypeModel> roadTypeList;
+  final RoadTypeModel roadTypeData;
 
   FetchAddRightWayDataState({
     required this.isLoader,
@@ -49,7 +51,7 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
     required this.activityRemarkController,
     required this.reportNumberController,
     required this.roadLengthController,
-    required this.typeController,
+    required this.otherController,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -71,6 +73,8 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
     required this.roadNameController,
     required this.isAlignmentLoader,
     required this.rodeSideValue,
+    required this.roadTypeData,
+    required this.roadTypeList,
   });
 
   @override
@@ -80,7 +84,7 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
     activityRemarkController,
     reportNumberController,
     roadLengthController,
-    typeController,
+    otherController,
     file,
     weatherList,
     weatherData,
@@ -102,5 +106,7 @@ class FetchAddRightWayDataState extends AddRightWayInitial {
     roadNameController,
     isAlignmentLoader,
     rodeSideValue,
+    roadTypeData,
+    roadTypeList,
   ];
 }

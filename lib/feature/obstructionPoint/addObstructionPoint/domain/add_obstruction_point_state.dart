@@ -43,6 +43,8 @@ class FetchAddObstructionPointDataState extends AddObstructionPointInitial {
   final bool isAlignmentLoader;
   final List<BuildingCategoryTypeModel> buildingCategoryList;
   final BuildingCategoryTypeModel buildingCategoryTypeData;
+  final List<ObstructionTypeModel> obstructionTypeList;
+  final ObstructionTypeModel obstructionTypeData;
 
   FetchAddObstructionPointDataState({
     required this.isLoader,
@@ -73,6 +75,8 @@ class FetchAddObstructionPointDataState extends AddObstructionPointInitial {
     required this.isAlignmentLoader,
     required this.buildingCategoryList,
     required this.buildingCategoryTypeData,
+    required this.obstructionTypeData,
+    required this.obstructionTypeList,
   });
 
   @override
@@ -105,5 +109,7 @@ class FetchAddObstructionPointDataState extends AddObstructionPointInitial {
     isAlignmentLoader,
     buildingCategoryList,
     buildingCategoryTypeData,
+    obstructionTypeData,
+    obstructionTypeList,
   ];
 }
