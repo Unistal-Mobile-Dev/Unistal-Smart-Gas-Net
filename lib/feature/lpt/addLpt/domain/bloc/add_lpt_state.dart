@@ -32,6 +32,9 @@ class FetchAddLptDataState extends AddLptInitial {
   final List<LptStatusModel> lptStatusList;
   final LptStatusModel lptStatusData;
   final TextEditingController observationResultsController;
+  final TextEditingController searchPipeController;
+  final List<PipeModel> pipeList;
+  final bool searchPipeLoader;
 
   FetchAddLptDataState({
     required this.isLoader,
@@ -51,6 +54,9 @@ class FetchAddLptDataState extends AddLptInitial {
     required this.jointList,
     required this.lptStatusList,
     required this.lptStatusData,
+    required this.pipeList,
+    required this.searchPipeLoader,
+    required this.searchPipeController,
   });
 
   @override
@@ -72,5 +78,8 @@ class FetchAddLptDataState extends AddLptInitial {
     jointList,
     lptStatusList,
     lptStatusData,
+    pipeList,
+    searchPipeController,
+    searchPipeLoader,
   ];
 }

@@ -289,6 +289,8 @@ class AppString {
   static get levelOfInspection => "Level of Inspection";
   static get latitude => "Latitude";
   static get longitude => "Longitude";
+  static get detailOfGap => "Details Of Gap";
+  static get description => "Description";
 
 
 

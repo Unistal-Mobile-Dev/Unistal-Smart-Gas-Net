@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lp
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddLptPage extends StatefulWidget {
   const AddLptPage({super.key});
@@ -51,12 +52,14 @@ class _AddLptPageState extends State<AddLptPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _pipeNumberSearchController(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _lptStatusDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _lptStatusDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _observationResultsController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -120,6 +123,24 @@ class _AddLptPageState extends State<AddLptPage> {
           child: Text(weatherData.name.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _pipeNumberSearchController({required FetchAddLptDataState dataState}) {
+    return SearchTextField(
+        isLoader: dataState.searchPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddLptBloc>(context).add(
+              AddLptSearchPipeDataEvent(keyword: value, context: context)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddLptBloc>(context).add(
+              AddLptSelectPipeDataEvent(pipeData: value));
+        },
+        controller: dataState.searchPipeController,
+        label: AppString.selectPipeNumber,
+        list: dataState.pipeList
     );
   }
 
@@ -203,8 +224,7 @@ class _AddLptPageState extends State<AddLptPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
+          child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -231,8 +251,8 @@ class _AddLptPageState extends State<AddLptPage> {
                     width: MediaQuery.of(context).size.width/3,
                     height: MediaQuery.of(context).size.width/4.5 ,)
                       : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      : const Icon(Icons.document_scanner_outlined),
                   TextWidget(dataState.file.path.split('/').last.toString(),
                     color: AppColor.themeColor, fontSize: AppFont.font_12,),
                 ],

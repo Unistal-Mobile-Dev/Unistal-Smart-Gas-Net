@@ -63,6 +63,20 @@ class SelectWeatherEvent extends AddLptEvent{
   List<Object?> get props => [weatherData];
 }
 
+class AddLptSearchPipeDataEvent extends AddLptEvent {
+  final BuildContext context;
+  final String keyword;
+  const AddLptSearchPipeDataEvent({required this.context, required this.keyword});
+  @override
+  List<Object?> get props => [context, keyword];
+}
+
+class AddLptSelectPipeDataEvent extends AddLptEvent {
+  final PipeModel pipeData;
+  const AddLptSelectPipeDataEvent({required this.pipeData});
+  @override
+  List<Object?> get props => [pipeData];
+}
 
 class AddLptSubmitDataEvent extends AddLptEvent {
   final BuildContext context;

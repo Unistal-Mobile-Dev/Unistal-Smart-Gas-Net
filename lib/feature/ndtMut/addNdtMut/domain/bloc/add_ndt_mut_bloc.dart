@@ -11,6 +11,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
@@ -30,6 +32,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   TextEditingController angleOfRayInputController = TextEditingController();
   TextEditingController operatingFrequencyController = TextEditingController();
   TextEditingController leveOfInspectionController = TextEditingController();
+  TextEditingController searchPipeController = TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -59,6 +62,18 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   NdtStatusModel ndtAgencyData  =  NdtStatusModel();
   NdtStatusModel meconPbgplData   =  NdtStatusModel();
   NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
+
+  List<PipeModel> _pipeList = [];
+  List<PipeModel> get pipeList => _pipeList;
+
+  List<PipeModel> _searchPipeList = [];
+  List<PipeModel> get searchPipeList => _searchPipeList;
+
+  bool _searchPipeLoader =  false;
+  bool get searchPipeLoader => _searchPipeLoader;
+
+  PipeModel _pipeData =  PipeModel();
+  PipeModel get pipeData => _pipeData;
   
   AddNdtMutBloc() : super(AddNdtMutInitial()) {
 
@@ -73,6 +88,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     on<AddNdtMutSelectSegmentDataEvent>(_selectSegment);
     on<AddNdtMutSelectDateEvent>(_selectDate);
     on<AddNdtMutAddImageEvent>(_selectFile);
+    on<AddNdtMutSearchPipeDataEvent>(_searchPipeNumber);
+    on<AddNdtMutSelectPipeDataEvent>(_selectPipe);
     on<AddNdtMutSubmitDataEvent>(_submitData);
   }
 
@@ -97,6 +114,9 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     ndtAgencyList = [];
     meconPbgplList = [];
     dSPPLAgencyList = [];
+    _pipeList = [];
+    _searchPipeList = [];
+    _searchPipeLoader = false;
     ndtAgencyData  =  NdtStatusModel();
     meconPbgplData   =  NdtStatusModel();
     dSPPLAgencyData   =  NdtStatusModel();
@@ -105,6 +125,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     operatingFrequencyController.text = "";
     leveOfInspectionController.text = "";
     locationDiscoverDefectController.text = "";
+    searchPipeController.text = "";
     _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
 
@@ -168,6 +189,27 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   _selectNdtAgency(AddNdtMutSelectNdtAgencyDataEvent event, emit) {
     ndtAgencyData =  event.ndtAgencyData;
+    _eventComplete(emit);
+  }
+
+  _searchPipeNumber(AddNdtMutSearchPipeDataEvent event, emit) async {
+    _pipeList = [];
+    _searchPipeLoader =  true;
+    _eventComplete(emit);
+    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+        userData: userData, searchKeyword: event.keyword.toString(), type: "lpt");
+    if(resPipe != null){
+      _pipeList =  resPipe;
+      _searchPipeList = pipeList;
+    }
+    _searchPipeLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectPipe(AddNdtMutSelectPipeDataEvent event, emit) {
+    _pipeData = event.pipeData;
+    _pipeList = [];
+    searchPipeController.text = "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
@@ -279,6 +321,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         leveOfInspection: leveOfInspectionController.text.toString(),
         operatingFrequency: operatingFrequencyController.text.toString(),
         typeOfFlawDetector: typeOfFlawDetectorController.text.toString(),
+        pipeData: pipeData,
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -302,6 +345,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       angleOfRayInputController.text = "";
       operatingFrequencyController.text = "";
       leveOfInspectionController.text = "";
+      _pipeData =  PipeModel();
+      searchPipeController.text = "";
       _eventComplete(emit);
     }
   }
@@ -333,6 +378,9 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       leveOfInspectionController: leveOfInspectionController,
       operatingFrequencyController: operatingFrequencyController,
       typeOfFlawDetectorController: typeOfFlawDetectorController,
+      pipeList: pipeList,
+      searchPipeLoader: searchPipeLoader,
+      searchPipeController: searchPipeController,
     ));
   }
 }

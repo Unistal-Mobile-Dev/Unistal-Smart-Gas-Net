@@ -73,6 +73,10 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chaingeToController(dataState: dataState),
+            _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
             _timeInHoursController(dataState: dataState),
@@ -302,6 +306,25 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
       textInputType: TextInputType.number,
       labelText: AppString.temp,
       controller: dataState.tempController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+
+
+  Widget _chaingeToController({required FetchAddPreHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
     );
   }
 

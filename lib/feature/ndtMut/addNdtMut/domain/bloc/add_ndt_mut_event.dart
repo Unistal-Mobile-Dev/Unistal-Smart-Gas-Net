@@ -91,6 +91,21 @@ class AddNdtMutSelectMeconPbgplDataEvent extends AddNdtMutEvent {
   List<Object?> get props => [meconPbgplData];
 }
 
+class AddNdtMutSearchPipeDataEvent extends AddNdtMutEvent {
+  final BuildContext context;
+  final String keyword;
+  const AddNdtMutSearchPipeDataEvent({required this.context, required this.keyword});
+  @override
+  List<Object?> get props => [context, keyword];
+}
+
+class AddNdtMutSelectPipeDataEvent extends AddNdtMutEvent {
+  final PipeModel pipeData;
+  const AddNdtMutSelectPipeDataEvent({required this.pipeData});
+  @override
+  List<Object?> get props => [pipeData];
+}
+
 class AddNdtMutSubmitDataEvent extends AddNdtMutEvent {
   final BuildContext context;
   const AddNdtMutSubmitDataEvent({required this.context});

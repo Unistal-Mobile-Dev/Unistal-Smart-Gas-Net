@@ -19,7 +19,8 @@ class AddClearingGradingHelper {
     required String ipNumber,
     required String ipNumberFrom,
     required String structureDetail,
-    required String boundaryLocation, required String activityRemark,
+    required String boundaryLocation,
+    required String activityRemark,
     required String groundType}) async {
 
     try{
@@ -94,6 +95,8 @@ class AddClearingGradingHelper {
     required String chainageTo,
     required String chainage,
     required TerrainTypeModel terrainTypeData,
+    required String gapLength,
+    required String gapDescription,
    }) async {
 
     try{
@@ -121,6 +124,8 @@ class AddClearingGradingHelper {
         "ground_type": groundType.toString(),
         "structure_detail": structureDetail.toString(),
         "boundary_location": boundaryLocation.toString(),
+        "gap_length": gapLength.toString(),
+        "gap_description": gapDescription.toString(),
         "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),

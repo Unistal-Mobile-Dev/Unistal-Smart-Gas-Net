@@ -38,6 +38,8 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   TextEditingController pressureReading1KGController  = TextEditingController();
   TextEditingController pressureReading2KGController  = TextEditingController();
   TextEditingController tempController  = TextEditingController();
+  TextEditingController chainageFromController =  TextEditingController();
+  TextEditingController chainageToController  = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -107,6 +109,9 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     timeOffController.text = "";
     timeInHoursController.text = "";
     pressureReading1KGController.text = "";
+    pressureReading2KGController.text = "";
+    chainageToController.text = "";
+    chainageFromController.text = "";
     pressureReading2KGController.text = "";
     tempController.text = "";
      _userData =  UserInfo.instanceInit()!.userData!;
@@ -248,7 +253,9 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
         testPressure: testPressureController.text.toString(),
         timeInHours: timeInHoursController.text.toString(),
         timeOff: timeOffController.text.toString(),
-        timeOn: timeOnController.text.toString()
+        timeOn: timeOnController.text.toString(),
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -278,6 +285,8 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       pressureReading1KGController.text = "";
       pressureReading2KGController.text = "";
       tempController.text = "";
+      chainageFromController.text = "";
+      chainageToController.text = "";
       _eventComplete(emit);
     }
   }
@@ -313,7 +322,9 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
       testPressureController: testPressureController,
       timeInHoursController: timeInHoursController,
       timeOffController: timeOffController,
-      timeOnController: timeOnController
+      timeOnController: timeOnController,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController
     ));
   }
 }

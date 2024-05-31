@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddNdtMutPage extends StatefulWidget {
   const AddNdtMutPage({super.key});
@@ -59,12 +60,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
             _leveOfInspectionController(dataState: dataState),
             _verticalSpace(),
+            _pipeNumberSearchController(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _segmentListBuilder(dataState: dataState),
-            _verticalSpace(),
+/*            _segmentListBuilder(dataState: dataState),
+            _verticalSpace(),*/
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _locationDiscoverDefectController(dataState: dataState),
@@ -153,6 +156,24 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
     return TextFieldWidget(
       labelText: AppString.levelOfInspection,
       controller: dataState.leveOfInspectionController,
+    );
+  }
+
+  Widget _pipeNumberSearchController({required FetchAddNdtMutDataState dataState}) {
+    return SearchTextField(
+        isLoader: dataState.searchPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddNdtMutBloc>(context).add(
+              AddNdtMutSearchPipeDataEvent(keyword: value, context: context)
+          );
+        },
+        onClick: (value) {
+          BlocProvider.of<AddNdtMutBloc>(context).add(
+              AddNdtMutSelectPipeDataEvent(pipeData: value));
+        },
+        controller: dataState.searchPipeController,
+        label: AppString.selectPipeNumber,
+        list: dataState.pipeList
     );
   }
 

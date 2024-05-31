@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
@@ -77,6 +78,7 @@ class AddNdtMutHelper {
     required String angleOfRayInput,
     required String operatingFrequency,
     required String leveOfInspection,
+    required PipeModel pipeData,
     required File file}) async {
 
     try{
@@ -109,6 +111,7 @@ class AddNdtMutHelper {
         "ndt_agency_status" : ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
         "contractor_agency_status" : dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
         "pmc_agency_status" : meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
+        "pipe_id" : pipeData.id != null ? pipeData.id.toString() : "",
         "defects": locationDefect,
         "flaw_detector_type": typeOfFlawDetector,
         "angle_ray_input": angleOfRayInput,

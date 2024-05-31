@@ -10,6 +10,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
@@ -27,6 +29,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   TextEditingController reportNumberController =  TextEditingController();
   TextEditingController activityRemarkController =  TextEditingController();
   TextEditingController observationResultsController =  TextEditingController();
+  TextEditingController searchPipeController =  TextEditingController();
 
   List<JointNumberModel> jointList = [];
   List<JointTypeModel> jointTypeList = [];
@@ -46,7 +49,19 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   
   List<LptStatusModel> lptStatusList = [];
   LptStatusModel lptStatusData = LptStatusModel();
-  
+
+  List<PipeModel> _pipeList = [];
+  List<PipeModel> get pipeList => _pipeList;
+
+  List<PipeModel> _searchPipeList = [];
+  List<PipeModel> get searchPipeList => _searchPipeList;
+
+  bool _searchPipeLoader =  false;
+  bool get searchPipeLoader => _searchPipeLoader;
+
+  PipeModel _pipeData =  PipeModel();
+  PipeModel get pipeData => _pipeData;
+
   AddLptBloc() : super(AddLptInitial()) {
     on<AddLptPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
@@ -55,6 +70,8 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     on<AddLptSelectJointTypeDataEvent>(_selectJointType);
     on<AddLptSelectLptStatusDataEvent>(_selectLptStatus);
     on<AddLptSelectDateEvent>(_selectDate);
+    on<AddLptSearchPipeDataEvent>(_searchPipeNumber);
+    on<AddLptSelectPipeDataEvent>(_selectPipe);
     on<AddLptAddImageEvent>(_selectFile);
     on<AddLptSubmitDataEvent>(_submitData);
   }
@@ -65,10 +82,14 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     reportNumberController.text = "";
     activityRemarkController.text = "";
     observationResultsController.text = "";
+    searchPipeController.text = "";
+    _searchPipeLoader =  false;
     jointList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
+    _pipeList = [];
+    _searchPipeList = [];
     alignmentData =  AlignmentModel();
     isLoader =  false;
     jointData = JointNumberModel();
@@ -77,6 +98,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     file =  File("");
     weatherData =  WeatherModel();
     lptStatusData =  LptStatusModel();
+    _pipeData =  PipeModel();
     lptStatusList = [];
      _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -106,6 +128,27 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
 
   _selectAlignment(AddLptSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _searchPipeNumber(AddLptSearchPipeDataEvent event, emit) async {
+    _pipeList = [];
+    _searchPipeLoader =  true;
+    _eventComplete(emit);
+    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
+        userData: userData, searchKeyword: event.keyword.toString(), type: "lpt");
+    if(resPipe != null){
+      _pipeList =  resPipe;
+      _searchPipeList = pipeList;
+    }
+    _searchPipeLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectPipe(AddLptSelectPipeDataEvent event, emit) {
+    _pipeData = event.pipeData;
+    _pipeList = [];
+    searchPipeController.text = "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
@@ -180,6 +223,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         jointData: jointData,
         lptStatusData: lptStatusData,
         observationResults: observationResultsController.text.toString(),
+        pipeData: pipeData,
         file: file);
     isLoader =  false;
     _eventComplete(emit);
@@ -196,6 +240,8 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       file =  File("");
       weatherData =  WeatherModel();
       lptStatusData = LptStatusModel();
+      _pipeData =  PipeModel();
+      searchPipeController.text = "";
       _eventComplete(emit);
     }
   }
@@ -218,6 +264,9 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         jointList: jointList,
         lptStatusData: lptStatusData,
         lptStatusList: lptStatusList,
+        pipeList: pipeList,
+       searchPipeLoader: searchPipeLoader,
+       searchPipeController: searchPipeController,
     ));
   }
 }

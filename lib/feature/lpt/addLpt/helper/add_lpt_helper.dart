@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
@@ -44,6 +45,7 @@ class AddLptHelper {
     required JointTypeModel jointTypeData,
     required LptStatusModel lptStatusData,
     required String observationResults,
+    required PipeModel pipeData,
     required File file}) async {
 
     try{
@@ -69,7 +71,8 @@ class AddLptHelper {
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
         "joint_id" : jointData.id  != null ? jointData.id.toString(): "",
-        "lpt_status" : lptStatusData.id  != null ? lptStatusData.id.toString(): "",
+        "pipe_id" : pipeData.id  != null ? pipeData.id.toString(): "",
+        "lpt_status" : lptStatusData.id  != null ? lptStatusData.id.toString(): "0",
         "weather" : weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

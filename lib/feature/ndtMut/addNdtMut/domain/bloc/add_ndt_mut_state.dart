@@ -41,6 +41,9 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final TextEditingController angleOfRayInputController;
   final TextEditingController operatingFrequencyController;
   final TextEditingController leveOfInspectionController;
+  final TextEditingController searchPipeController;
+  final List<PipeModel> pipeList;
+  final bool searchPipeLoader;
 
   FetchAddNdtMutDataState({
     required this.isLoader,
@@ -69,6 +72,9 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     required this.angleOfRayInputController,
     required this.operatingFrequencyController,
     required this.leveOfInspectionController,
+    required this.pipeList,
+    required this.searchPipeLoader,
+    required this.searchPipeController,
   });
 
   @override
@@ -99,5 +105,8 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     angleOfRayInputController,
     operatingFrequencyController,
     leveOfInspectionController,
+    pipeList,
+    searchPipeController,
+    searchPipeLoader,
   ];
 }

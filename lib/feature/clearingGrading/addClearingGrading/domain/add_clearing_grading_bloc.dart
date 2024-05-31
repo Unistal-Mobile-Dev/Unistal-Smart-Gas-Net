@@ -43,6 +43,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
   TextEditingController chainageFromController =  TextEditingController();
   TextEditingController chainageToController =  TextEditingController();
   TextEditingController chainageController =  TextEditingController();
+  TextEditingController gapLengthController =  TextEditingController();
+  TextEditingController gapDescriptionController =  TextEditingController();
 
   LoginDataModel _userData =  LoginDataModel();
   LoginDataModel get userData => _userData;
@@ -79,6 +81,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
     boundaryLocation.text = "";
     activityRemarkController.text = "";
     groundTypeController.text = "";
+    gapLengthController.text = "";
+    gapDescriptionController.text = "";
     _isLoader =  false;
     _alignmentList =  [];
     _alignmentData =  AlignmentModel();
@@ -197,6 +201,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
         chainageTo: chainageToController.text.toString(),
         chainage: chainageController.text.toString(),
         terrainTypeData: terrainTypeData,
+        gapDescription: gapDescriptionController.text.toString(),
+        gapLength: gapLengthController.text.toString(),
      );
     _isLoader =  false;
     _eventComplete(emit);
@@ -220,6 +226,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       chainageFromController.text = "";
       chainageToController.text = "";
       chainageController.text = "";
+      gapLengthController.text = "";
+      gapDescriptionController.text = "";
       _weatherData =  WeatherModel();
       terrainTypeData =  TerrainTypeModel();
       _eventComplete(emit);
@@ -250,6 +258,8 @@ class AddClearingGradingBloc extends Bloc<AddClearingGradingEvent, AddClearingGr
       chainageToController: chainageToController,
       terrainTypeData: terrainTypeData,
       terrainTypeList: terrainTypeList,
+      gapDescriptionController: gapDescriptionController,
+      gapLengthController: gapLengthController,
     ));
   }
 }

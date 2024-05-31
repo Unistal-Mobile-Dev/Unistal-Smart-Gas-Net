@@ -37,6 +37,8 @@ class AddPreHydroTestHelper {
     required String pressureReading1KG,
     required String pressureReading2KG,
     required String temp,
+    required String chainageFrom,
+    required String chainageTo,
   }) async {
 
     try{
@@ -75,6 +77,8 @@ class AddPreHydroTestHelper {
         "temp" : temp.toString(),
         "pressure_reading_1" : pressureReading1KG.toString(),
         "pressure_reading_2" : pressureReading2KG.toString(),
+        "chainage_from" : chainageFrom,
+        "chainage_to" : chainageTo,
       };
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
           keyWord: "attachFile",

@@ -53,10 +53,10 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _pipeDiaDropDown(dataState: dataState),
+/*            _pipeDiaDropDown(dataState: dataState),
             _verticalSpace(),
             _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),
+            _verticalSpace(),*/
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
