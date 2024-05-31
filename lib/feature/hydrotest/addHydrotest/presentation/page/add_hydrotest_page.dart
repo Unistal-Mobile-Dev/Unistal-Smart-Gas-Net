@@ -212,7 +212,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
           child: DottedBorder(
             color: AppColor.grey,
             strokeWidth: 1,
-            child: fileData.file == null || fileData.file.path.isEmpty
+            child: fileData.file.path.isEmpty
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

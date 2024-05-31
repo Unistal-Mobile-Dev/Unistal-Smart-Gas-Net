@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
@@ -130,8 +131,6 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   }
 
   _selectDate(AddHydrotestSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -142,7 +141,9 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      if (kDebugMode) {
+        print("Date is not selected");
+      }
     }
   }
 
