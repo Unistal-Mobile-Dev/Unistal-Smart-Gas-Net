@@ -16,35 +16,36 @@ class AddLoweringPage extends StatefulWidget {
 }
 
 class _AddLoweringPageState extends State<AddLoweringPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringPageLoadEvent(context: context));
+    BlocProvider.of<AddLoweringBloc>(context)
+        .add(AddLoweringPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddLoweringBloc, AddLoweringState>(
         builder: (context, state) {
-          if(state is FetchAddLoweringDataState) {
+          if (state is FetchAddLoweringDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddLoweringDataState dataState}){
+  Widget _itemBuilder({required FetchAddLoweringDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -67,36 +68,34 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-
             AppConfig.instanceInit()!.client != Client.purvaBharti
-            ? Column(
-              children: [
-                _locatinController(dataState: dataState),
-                _verticalSpace(),
-                _holidayDetectorDetailsController(dataState: dataState),
-                _verticalSpace(),
-                _modelController(dataState: dataState),
-                _verticalSpace(),
-                _testVoltageController(dataState: dataState),
-                _verticalSpace(),
-                _calibarationDateController(dataState: dataState),
-                _verticalSpace(),
-                _repairCoatingController(dataState: dataState),
-                _verticalSpace(),
-              ],
-            ) : const SizedBox.shrink(),
-
-
+                ? Column(
+                    children: [
+                      _locatinController(dataState: dataState),
+                      _verticalSpace(),
+                      _holidayDetectorDetailsController(dataState: dataState),
+                      _verticalSpace(),
+                      _modelController(dataState: dataState),
+                      _verticalSpace(),
+                      _testVoltageController(dataState: dataState),
+                      _verticalSpace(),
+                      _calibarationDateController(dataState: dataState),
+                      _verticalSpace(),
+                      _repairCoatingController(dataState: dataState),
+                      _verticalSpace(),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
-
             AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _holidayChecksDropDown(dataState: dataState) : const SizedBox.shrink(),
+                ? _holidayChecksDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
-                ?  _verticalSpace(): const SizedBox.shrink(),
-
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -116,13 +115,16 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectDateEvent(context: context,));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddLoweringDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -130,16 +132,18 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddLoweringDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -147,12 +151,14 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _weatherDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -164,12 +170,14 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _pipeDiaDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeDia,
-      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
+      dropdownValue:
+          dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value));
       },
-      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
+      items: dataState.pipeDialList
+          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
         return DropdownMenuItem<PipeDiaModel>(
           value: pipeDiaData,
           child: Text(pipeDiaData.value.toString()),
@@ -181,12 +189,14 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _thicknessDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
+      dropdownValue:
+          dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectThicknessDataEvent(thicknessData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectThicknessDataEvent(thicknessData: value));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
+      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
+          (ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
           value: thicknessData,
           child: Text(thicknessData.value.toString()),
@@ -203,7 +213,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _holidayDetectorDetailsController({required FetchAddLoweringDataState dataState}) {
+  Widget _holidayDetectorDetailsController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.holidayDetectorDetails,
@@ -219,7 +230,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
+  Widget _testVoltageController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -237,20 +249,24 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _calibarationDateController({required FetchAddLoweringDataState dataState}) {
+  Widget _calibarationDateController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
       labelText: AppString.calibarationDate,
       controller: dataState.calibarationDateController,
       onTap: () {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringCalibarationDataEvent(context: context,));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringCalibarationDataEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _repairCoatingController({required FetchAddLoweringDataState dataState}) {
+  Widget _repairCoatingController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.repairCoatingDamage,
@@ -258,16 +274,18 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-
   Widget _jointTypeDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddLoweringSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -276,43 +294,55 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectFromJointNumber,
-      dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectFromJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown(
+      {required FetchAddLoweringDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectFromJointNumber,
+            dropdownValue: dataState.fromJointData.id != null
+                ? dataState.fromJointData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddLoweringBloc>(context).add(
+                  AddLoweringSelectFromJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointFromList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _toJointNumberDropDown(
+      {required FetchAddLoweringDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectToJointNumber,
+            dropdownValue:
+                dataState.toJointData.id != null ? dataState.toJointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddLoweringBloc>(context).add(
+                  AddLoweringSelectToJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointToList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _chainageFromController({required FetchAddLoweringDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -330,7 +360,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _postPaddingController({required FetchAddLoweringDataState dataState}) {
+  Widget _postPaddingController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.postPadding,
@@ -338,15 +369,20 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _holidayChecksDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _holidayChecksDropDown(
+      {required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectHolidayChecks,
-      dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
+      dropdownValue: dataState.holidayChecksData.id != null
+          ? dataState.holidayChecksData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectHolidayDataEvent(holidayChecksData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectHolidayDataEvent(holidayChecksData: value));
       },
-      items: dataState.holidayCheckList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
+      items: dataState.holidayCheckList
+          .map<DropdownMenuItem<HolidayChecksModel>>(
+              (HolidayChecksModel holidayChecksData) {
         return DropdownMenuItem<HolidayChecksModel>(
           value: holidayChecksData,
           child: Text(holidayChecksData.value.toString()),
@@ -354,7 +390,6 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
       }).toList(),
     );
   }
-
 
   Widget _activityRemark({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
@@ -367,8 +402,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _photo({required FetchAddLoweringDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -376,48 +411,73 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -432,13 +492,27 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddLoweringBloc>(context).add(
+                        AddLoweringAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddLoweringBloc>(context).add(
+                        AddLoweringAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -446,17 +520,20 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-
   Widget _button({required FetchAddLoweringDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddLoweringBloc>(context).add(AddLoweringSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddLoweringBloc>(context)
+                  .add(AddLoweringSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
@@ -464,4 +541,3 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 }
-

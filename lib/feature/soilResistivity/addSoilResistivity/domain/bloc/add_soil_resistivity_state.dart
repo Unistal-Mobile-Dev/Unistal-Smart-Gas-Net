@@ -25,7 +25,7 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
   final TextEditingController bearingAngleController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -49,26 +49,25 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
-
   });
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    bearingAngleController,
-    reportNumberController,
-    terrainController,
-    tpChainageController,
-    tpChainageNumberController,
-    tpRemarkNumberController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        bearingAngleController,
+        reportNumberController,
+        terrainController,
+        tpChainageController,
+        tpChainageNumberController,
+        tpRemarkNumberController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+      ];
 }

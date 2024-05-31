@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -20,11 +16,9 @@ part 'add_swabbing_event.dart';
 part 'add_swabbing_state.dart';
 
 class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
-
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController lengthController =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -32,18 +26,18 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
-
 
   AddSwabbingBloc() : super(AddSwabbingInitial()) {
     on<AddSwabbingPageLoadEvent>(_pageLoad);
@@ -55,7 +49,6 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     on<AddSwabbingSelectDateEvent>(_selectDate);
     on<AddSwabbingAddImageEvent>(_selectFile);
     on<AddSwabbingSubmitDataEvent>(_submitData);
-    
   }
 
   _pageLoad(AddSwabbingPageLoadEvent event, emit) async {
@@ -68,32 +61,35 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
-    weatherData =  WeatherModel();
-     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    file = File("");
+    weatherData = WeatherModel();
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -103,7 +99,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
   }
 
   _selectJointFrom(AddSwabbingSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
+    fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -112,34 +108,37 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     _eventComplete(emit);
   }
 
-
   _selectJointType(AddSwabbingSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddSwabbingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -147,15 +146,15 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
   }
 
   _selectFile(AddSwabbingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -163,9 +162,10 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
   }
 
   _submitData(AddSwabbingSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddSwabbingHelper.submitData(context: event.context,
+    var res = await AddSwabbingHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -176,26 +176,27 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
         jointTypeData: jointTypeData,
         length: lengthController.text.toString(),
         file: file);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       activityRemarkController.text = "";
       lengthController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
+      alignmentData = AlignmentModel();
+      isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
+      file = File("");
+      weatherData = WeatherModel();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddSwabbingState>emit) {
-    emit(FetchAddSwabbingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddSwabbingState> emit) {
+    emit(FetchAddSwabbingDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,

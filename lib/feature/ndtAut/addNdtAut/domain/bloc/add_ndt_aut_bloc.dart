@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -24,34 +21,34 @@ part 'add_ndt_aut_event.dart';
 part 'add_ndt_aut_state.dart';
 
 class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
-
   List<WelderModel> welderList = [];
   List<WelderModel> selectedWelderList = [];
   List<WPSModel> wpsTypeList = [];
-  WPSModel wpsTypeData =  WPSModel();
+  WPSModel wpsTypeData = WPSModel();
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController activityRemarkController  =  TextEditingController();
-  TextEditingController defectLocationController  =  TextEditingController();
-  File file =  File("");
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController defectLocationController = TextEditingController();
+  File file = File("");
+  bool isLoader = false;
   List<WeatherModel> weatherList = [];
   WeatherModel weatherData = WeatherModel();
   List<JointTypeModel> jointTypeList = [];
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   List<JointNumberModel> jointNumberList = [];
-  JointNumberModel jointNumberData  =  JointNumberModel();
+  JointNumberModel jointNumberData = JointNumberModel();
   bool isJointNumberLoader = false;
-  bool isWelderLoader =  false;
+  bool isWelderLoader = false;
   List<AutStatusModel> autStatusList = [];
-  AutStatusModel autStatusData =  AutStatusModel();
+  AutStatusModel autStatusData = AutStatusModel();
   List<DefectLayerModel> defectLayerList = [];
   List<DefectLayerModel> selectedDefectLayerList = [];
   List<DefectTypeModel> defectTypeList = [];
   List<DefectTypeModel> selectedDefectTypeList = [];
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   AddNdtAutBloc() : super(AddNdtAutInitial()) {
@@ -71,73 +68,82 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   }
 
   _pageLoad(AddNdtAutLoadEvent event, emit) async {
-     emit(AddNdtAutPageLoadState());
-     welderList = [];
-     selectedWelderList = [];
-     wpsTypeList = [];
-     wpsTypeData =  WPSModel();
-     alignmentList = [];
-     alignmentData =  AlignmentModel();
-     dateController.text = "";
-     activityRemarkController.text = "";
-     defectLocationController.text = "";
-     file =  File("");
-     isLoader =  false;
-     weatherList = [];
-     weatherData = WeatherModel();
-     jointTypeList = [];
-     jointTypeData =  JointTypeModel();
-     jointNumberList = [];
-     jointNumberData  =  JointNumberModel();
-     isJointNumberLoader = false;
-     isWelderLoader =  false;
-     autStatusList = [];
-     autStatusData =  AutStatusModel();
-     defectLayerList = [];
-     selectedDefectLayerList = [];
-     defectTypeList = [];
-     selectedDefectTypeList = [];
-     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-     _userData =  UserInfo.instanceInit()!.userData!;
+    emit(AddNdtAutPageLoadState());
+    welderList = [];
+    selectedWelderList = [];
+    wpsTypeList = [];
+    wpsTypeData = WPSModel();
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    dateController.text = "";
+    activityRemarkController.text = "";
+    defectLocationController.text = "";
+    file = File("");
+    isLoader = false;
+    weatherList = [];
+    weatherData = WeatherModel();
+    jointTypeList = [];
+    jointTypeData = JointTypeModel();
+    jointNumberList = [];
+    jointNumberData = JointNumberModel();
+    isJointNumberLoader = false;
+    isWelderLoader = false;
+    autStatusList = [];
+    autStatusData = AutStatusModel();
+    defectLayerList = [];
+    selectedDefectLayerList = [];
+    defectTypeList = [];
+    selectedDefectTypeList = [];
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
 
-     var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-     if(res != null){
-       alignmentList =  res;
-     }
-     var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-     if(resJointType != null){
-       jointTypeList =  resJointType;
-     }
-     var resWPS =  await AddWeldingHelper.fetchWPSType(context: event.context, userData: userData);
-     if(resWPS != null){
-       wpsTypeList =  resWPS;
-     }
-     
-     var resDefectType =  await AddNdtAutHelper.fetchDefectTypeData(context: event.context, userData: userData);
-     if(resDefectType != null){
-       defectTypeList =  resDefectType;
-     }
-     var resDefectLayer =  await AddNdtAutHelper.fetchDefectLayerData(context: event.context);
-     if(resDefectLayer != null){
-       defectLayerList =  resDefectLayer;
-     }
-     var resAut =  await AddNdtAutHelper.fetchAutStatusData(context: event.context);
-     if(resAut != null){
-       autStatusList =  resAut;
-     }
-     _eventComplete(emit);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
+    }
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
+    }
+    var resWPS = await AddWeldingHelper.fetchWPSType(
+        context: event.context, userData: userData);
+    if (resWPS != null) {
+      wpsTypeList = resWPS;
+    }
+
+    var resDefectType = await AddNdtAutHelper.fetchDefectTypeData(
+        context: event.context, userData: userData);
+    if (resDefectType != null) {
+      defectTypeList = resDefectType;
+    }
+    var resDefectLayer =
+        await AddNdtAutHelper.fetchDefectLayerData(context: event.context);
+    if (resDefectLayer != null) {
+      defectLayerList = resDefectLayer;
+    }
+    var resAut =
+        await AddNdtAutHelper.fetchAutStatusData(context: event.context);
+    if (resAut != null) {
+      autStatusList = resAut;
+    }
+    _eventComplete(emit);
   }
 
   _selectDate(AddNdtAutSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -145,80 +151,82 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   }
 
   _selectAlignment(AddNdtAutSelectAlignmentEvent event, emit) {
-    alignmentData =  event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
   _selectJointType(AddNdtAutSelectJointTypeEvent event, emit) async {
-    jointTypeData =  event.jointTypeModel;
+    jointTypeData = event.jointTypeModel;
     jointNumberList = [];
-    jointNumberData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointNumberData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointNumberList =  resJointNumber;
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
     _eventComplete(emit);
   }
 
-  _selectAutStatus(AddNdtAutSelectAutDataEvent event, emit){
+  _selectAutStatus(AddNdtAutSelectAutDataEvent event, emit) {
     autStatusData = event.autStatusData;
     _eventComplete(emit);
   }
 
-  _selectDefectType(AddNdtAutSelectDefectTypeEvent event, emit){
+  _selectDefectType(AddNdtAutSelectDefectTypeEvent event, emit) {
     selectedDefectTypeList = event.selectedDefectType;
     _eventComplete(emit);
   }
 
-  _selectDefectLayer(AddNdtAutSelectDefectLayerEvent event, emit){
+  _selectDefectLayer(AddNdtAutSelectDefectLayerEvent event, emit) {
     selectedDefectLayerList = event.selectedDefectLayer;
     _eventComplete(emit);
   }
 
-
   _selectJointNumber(AddNdtAutSelectJointNumberEvent event, emit) {
-    jointNumberData =  event.jointNumberData;
+    jointNumberData = event.jointNumberData;
     _eventComplete(emit);
   }
-  
+
   _selectWpsType(AddNdtAutSelectWPSTypeEvent event, emit) async {
-    wpsTypeData =  event.wpsTypeData;
-    isWelderLoader =  true;
+    wpsTypeData = event.wpsTypeData;
+    isWelderLoader = true;
     _eventComplete(emit);
-    selectedWelderList =  [];
-    var resWelder =  await AddWeldingHelper.fetchWelderData(context: event.context, userData: userData, wpsData: wpsTypeData);
-    if(resWelder != null){
-      welderList =  resWelder;
+    selectedWelderList = [];
+    var resWelder = await AddWeldingHelper.fetchWelderData(
+        context: event.context, userData: userData, wpsData: wpsTypeData);
+    if (resWelder != null) {
+      welderList = resWelder;
     }
-    isWelderLoader =  false;
+    isWelderLoader = false;
     _eventComplete(emit);
   }
 
   _selectWelder(AddNdtAutSelectWelderEvent event, emit) {
-    selectedWelderList =  event.selectedWelderList;
+    selectedWelderList = event.selectedWelderList;
     _eventComplete(emit);
   }
 
   _selectFile(AddNdtAutAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -226,72 +234,79 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   }
 
   _submit(AddNdtAutSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
 
-    var res =  await AddNdtAutHelper.submitData(context: event.context,
+    var res = await AddNdtAutHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
-        userData: userData, jointTypeData: jointTypeData,
-        jointNumberData: jointNumberData, wpsTypeData: wpsTypeData,
-        selectedWelderList: selectedWelderList, selectedDefectTypeList: selectedDefectTypeList,
+        userData: userData,
+        jointTypeData: jointTypeData,
+        jointNumberData: jointNumberData,
+        wpsTypeData: wpsTypeData,
+        selectedWelderList: selectedWelderList,
+        selectedDefectTypeList: selectedDefectTypeList,
         selectedDefectLayer: selectedDefectLayerList,
-        defectLocation: defectLocationController.text.toString(), autStatusData: autStatusData, file: file);
+        defectLocation: defectLocationController.text.toString(),
+        autStatusData: autStatusData,
+        file: file);
 
-    if( res != null ){
+    if (res != null) {
       selectedWelderList = [];
-      wpsTypeData =  WPSModel();
-      alignmentData =  AlignmentModel();
+      wpsTypeData = WPSModel();
+      alignmentData = AlignmentModel();
       dateController.text = "";
       activityRemarkController.text = "";
       defectLocationController.text = "";
-      file =  File("");
-      isLoader =  false;
+      file = File("");
+      isLoader = false;
       weatherData = WeatherModel();
-      jointTypeData =  JointTypeModel();
-      jointNumberData  =  JointNumberModel();
+      jointTypeData = JointTypeModel();
+      jointNumberData = JointNumberModel();
       isJointNumberLoader = false;
-      isWelderLoader =  false;
-      autStatusData =  AutStatusModel();
+      isWelderLoader = false;
+      autStatusData = AutStatusModel();
       selectedDefectLayerList = [];
       selectedDefectTypeList = [];
-      weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-      _userData =  UserInfo.instanceInit()!.userData!;
+      weatherList = await DashboardHelper.fetchWeatherData(
+          context: event.context, userData: userData);
+      _userData = UserInfo.instanceInit()!.userData!;
     }
 
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
-  _eventComplete(Emitter<AddNdtAutState>emit){
-    emit(FetchAddNdtAutDataState(selectedWelderList: selectedWelderList,
-        welderList: welderList,
-        wpsTypeData: wpsTypeData, wpsTypeList: wpsTypeList,
-        dateController: dateController,
-        file: file,
-        activityRemarkController: activityRemarkController,
-        alignmentData: alignmentData,
-        alignmentList: alignmentList,
-        isLoader: isLoader,
-        weatherData: weatherData,
-        weatherList: weatherList,
-        jointNumberList: jointNumberList,
-        jointNumberData: jointNumberData,
-        jointTypeData: jointTypeData,
-        jointTypeList: jointTypeList,
-        isJointNumberLoader: isJointNumberLoader,
-        isWelderLoader: isWelderLoader,
-        defectLocationController: defectLocationController,
-        autStatusData: autStatusData,
-        autStatusList: autStatusList,
-        defectLayerList: defectLayerList,
-        defectTypeList: defectTypeList,
-        selectedDefectLayerList: selectedDefectLayerList,
-        selectedDefectTypeList: selectedDefectTypeList,
+  _eventComplete(Emitter<AddNdtAutState> emit) {
+    emit(FetchAddNdtAutDataState(
+      selectedWelderList: selectedWelderList,
+      welderList: welderList,
+      wpsTypeData: wpsTypeData,
+      wpsTypeList: wpsTypeList,
+      dateController: dateController,
+      file: file,
+      activityRemarkController: activityRemarkController,
+      alignmentData: alignmentData,
+      alignmentList: alignmentList,
+      isLoader: isLoader,
+      weatherData: weatherData,
+      weatherList: weatherList,
+      jointNumberList: jointNumberList,
+      jointNumberData: jointNumberData,
+      jointTypeData: jointTypeData,
+      jointTypeList: jointTypeList,
+      isJointNumberLoader: isJointNumberLoader,
+      isWelderLoader: isWelderLoader,
+      defectLocationController: defectLocationController,
+      autStatusData: autStatusData,
+      autStatusList: autStatusList,
+      defectLayerList: defectLayerList,
+      defectTypeList: defectTypeList,
+      selectedDefectLayerList: selectedDefectLayerList,
+      selectedDefectTypeList: selectedDefectTypeList,
     ));
   }
-
-
 }

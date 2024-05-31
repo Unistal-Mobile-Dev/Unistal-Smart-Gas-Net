@@ -11,11 +11,10 @@ class AddCutPipePage extends StatefulWidget {
 }
 
 class _AddCutPipePageState extends State<AddCutPipePage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddCutPipeBloc>(context).add(
-         AddCutPipePageLoadEvent(context: context));
+    BlocProvider.of<AddCutPipeBloc>(context)
+        .add(AddCutPipePageLoadEvent(context: context));
     super.initState();
   }
 
@@ -24,7 +23,7 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
     return Scaffold(
       body: BlocBuilder<AddCutPipeBloc, AddCutPipeState>(
         builder: (context, state) {
-          if(state is FetchAddCutPipeDataState){
+          if (state is FetchAddCutPipeDataState) {
             return _itemBuilder(dataState: state);
           } else {
             return const Center(child: CenterLoaderWidget());
@@ -38,7 +37,7 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _pipeDropDown(dataState: dataState),
@@ -58,20 +57,19 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
         isLoader: dataState.searchPipeLoader,
         onChange: (value) {
           BlocProvider.of<AddCutPipeBloc>(context).add(
-              AddCutPipeSearchPipeDataEvent(keyword: value, context: context)
-          );
+              AddCutPipeSearchPipeDataEvent(keyword: value, context: context));
         },
         onClick: (value) {
-          BlocProvider.of<AddCutPipeBloc>(context).add(
-              AddCutPipeSelectPipeDataEvent(pipeData: value));
+          BlocProvider.of<AddCutPipeBloc>(context)
+              .add(AddCutPipeSelectPipeDataEvent(pipeData: value));
         },
         controller: dataState.searchPipeController,
         label: AppString.selectPipeNumber,
-        list: dataState.searchPipeList
-    );
+        list: dataState.searchPipeList);
   }
 
-  Widget _cutPipeLengthController({required FetchAddCutPipeDataState dataState}) {
+  Widget _cutPipeLengthController(
+      {required FetchAddCutPipeDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -80,22 +78,24 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
     );
   }
 
-
   Widget _button({required FetchAddCutPipeDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddCutPipeBloc>(context).add(AddCutPipeSubmitEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddCutPipeBloc>(context)
+                  .add(AddCutPipeSubmitEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 }

@@ -4,20 +4,19 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc
 
 class HeaderWidget extends StatelessWidget {
   final FetchHomeDataState dataState;
+
   const HeaderWidget({super.key, required this.dataState});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:  BoxDecoration(
-          color: AppColor.white,
-          boxShadow: const [
-            BoxShadow(
-            color: Colors.grey,
-              offset: Offset(2, 0),
-              blurRadius: 3.0,
-          ),]
-      ),
+      decoration: BoxDecoration(color: AppColor.white, boxShadow: const [
+        BoxShadow(
+          color: Colors.grey,
+          offset: Offset(2, 0),
+          blurRadius: 3.0,
+        ),
+      ]),
       height: MediaQuery.of(context).size.height * 0.13,
       child: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
@@ -27,8 +26,12 @@ class HeaderWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              child: TextWidget(dataState.title,
-                color: AppColor.black, fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
+              child: TextWidget(
+                dataState.title,
+                color: AppColor.black,
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             dataState.actionButtonWidget
           ],

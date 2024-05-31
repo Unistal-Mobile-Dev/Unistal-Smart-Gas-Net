@@ -1,3 +1,1 @@
-class ViewLevellingHelper {
-
-}
+class ViewLevellingHelper {}

@@ -1,5 +1,6 @@
 List<CrossingTypeModel> crossingTypeListResponse(var json) {
-  return List<CrossingTypeModel>.from(json.map((x) => CrossingTypeModel.fromJson(x)));
+  return List<CrossingTypeModel>.from(
+      json.map((x) => CrossingTypeModel.fromJson(x)));
 }
 
 class CrossingTypeModel {

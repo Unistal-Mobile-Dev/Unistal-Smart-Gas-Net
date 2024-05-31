@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
@@ -41,10 +40,9 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart'
 import 'package:provider/provider.dart';
 import 'ExportFile/app_export_file.dart';
 
-
-
 class Root extends StatefulWidget {
   final Client client;
+
   const Root({super.key, required this.client});
 
   @override
@@ -52,7 +50,6 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -61,23 +58,23 @@ class _RootState extends State<Root> {
     super.initState();
   }
 
-   MaterialColor primaryColor =  MaterialColor(
-     AppColor.theme_Color,
-     <int, Color>{
-       50: AppColor.themeColor,
-       100: AppColor.themeColor,
-       200: AppColor.themeColor,
-       300: AppColor.themeColor,
-       400: AppColor.themeColor,
-       500: AppColor.themeColor,
-       600: AppColor.themeColor,
-       700: AppColor.themeColor,
-       800: AppColor.themeColor,
-       900: AppColor.themeColor,
+  MaterialColor primaryColor = MaterialColor(
+    AppColor.theme_Color,
+    <int, Color>{
+      50: AppColor.themeColor,
+      100: AppColor.themeColor,
+      200: AppColor.themeColor,
+      300: AppColor.themeColor,
+      400: AppColor.themeColor,
+      500: AppColor.themeColor,
+      600: AppColor.themeColor,
+      700: AppColor.themeColor,
+      800: AppColor.themeColor,
+      900: AppColor.themeColor,
     },
   );
 
-  MaterialColor primarySwatch =  MaterialColor(
+  MaterialColor primarySwatch = MaterialColor(
     AppColor.theme_LightColor,
     <int, Color>{
       50: AppColor.themeLightColor,
@@ -95,8 +92,9 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    Singleton.instanceInit()?.context =  context;
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    Singleton.instanceInit()?.context = context;
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return MultiProvider(
       providers: [
@@ -105,8 +103,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => DashboardBloc()),
         BlocProvider(create: (BuildContext context) => AddRouteSurveyBloc()),
-        BlocProvider(create: (BuildContext context) => AddClearingGradingBloc()),
-        BlocProvider(create: (BuildContext context) => AddSoilResistivityBloc()),
+        BlocProvider(
+            create: (BuildContext context) => AddClearingGradingBloc()),
+        BlocProvider(
+            create: (BuildContext context) => AddSoilResistivityBloc()),
         BlocProvider(create: (BuildContext context) => AddRouHandoverBloc()),
         BlocProvider(create: (BuildContext context) => AddTrenChingBloc()),
         BlocProvider(create: (BuildContext context) => AddStringingBloc()),
@@ -124,11 +124,13 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddLptBloc()),
         BlocProvider(create: (BuildContext context) => AddCutPipeBloc()),
         BlocProvider(create: (BuildContext context) => RestoreCutPipeBloc()),
-        BlocProvider(create: (BuildContext context) => AddConcreteCoatingBloc()),
+        BlocProvider(
+            create: (BuildContext context) => AddConcreteCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddPostHydrotestBloc()),
         BlocProvider(create: (BuildContext context) => AddPreHydrotestBloc()),
         BlocProvider(create: (BuildContext context) => AddHydrotestBloc()),
-        BlocProvider(create: (BuildContext context) => AddHdpeDuctTestingBloc()),
+        BlocProvider(
+            create: (BuildContext context) => AddHdpeDuctTestingBloc()),
         BlocProvider(create: (BuildContext context) => AddSwabbingBloc()),
         BlocProvider(create: (BuildContext context) => AddWelderRepairBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
@@ -144,9 +146,7 @@ class _RootState extends State<Root> {
           fontFamily: AppFont.rubik,
           appBarTheme: AppBarTheme(
             color: AppColor.themeLightColor,
-            iconTheme: const IconThemeData(
-                color: Colors.white
-            ),
+            iconTheme: const IconThemeData(color: Colors.white),
             foregroundColor: AppColor.themeColor,
           ),
           primaryColor: primaryColor,
@@ -156,5 +156,4 @@ class _RootState extends State<Root> {
       ),
     );
   }
-
 }

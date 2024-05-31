@@ -4,7 +4,6 @@ abstract class AddLevellingState extends Equatable {
   const AddLevellingState();
 }
 
-
 class AddLevellingInitial extends AddLevellingState {
   @override
   List<Object> get props => [];
@@ -17,7 +16,7 @@ class AddLevellingPageLoadState extends AddLevellingInitial {
 
 class FetchAddLevellingDataState extends AddLevellingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -74,31 +73,31 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    chainageFromController,
-    chainageToController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    jointData,
-    jointList,
-    gpsCoordinateNorthController,
-    elevationPipetopController,
-    natureGroundLeveController,
-    coverController,
-    gpsCoordinateEastController,
-    eastingLatController,
-    eastingLongController,
-    northingLatController,
-    northingLongController,
-    accuracy,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        chainageFromController,
+        chainageToController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        jointData,
+        jointList,
+        gpsCoordinateNorthController,
+        elevationPipetopController,
+        natureGroundLeveController,
+        coverController,
+        gpsCoordinateEastController,
+        eastingLatController,
+        eastingLongController,
+        northingLatController,
+        northingLongController,
+        accuracy,
+      ];
 }

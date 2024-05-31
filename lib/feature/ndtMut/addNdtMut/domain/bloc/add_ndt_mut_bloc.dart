@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -23,11 +20,11 @@ part 'add_ndt_mut_event.dart';
 part 'add_ndt_mut_state.dart';
 
 class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController reportNumberController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController locationDiscoverDefectController =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController locationDiscoverDefectController =
+      TextEditingController();
   TextEditingController typeOfFlawDetectorController = TextEditingController();
   TextEditingController angleOfRayInputController = TextEditingController();
   TextEditingController operatingFrequencyController = TextEditingController();
@@ -38,45 +35,49 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
-  JointTypeModel jointTypeData =  JointTypeModel();
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<SegmentModel> segmentList = [];
-  SegmentModel segmentData =  SegmentModel();
+  SegmentModel segmentData = SegmentModel();
 
   List<SegmentModel> selectedSegmentList = [];
 
   List<JointNumberModel> jointNumberList = [];
-  JointNumberModel jointNumberData =  JointNumberModel();
+  JointNumberModel jointNumberData = JointNumberModel();
 
   List<NdtStatusModel> ndtAgencyList = [];
   List<NdtStatusModel> meconPbgplList = [];
   List<NdtStatusModel> dSPPLAgencyList = [];
-  NdtStatusModel ndtAgencyData  =  NdtStatusModel();
-  NdtStatusModel meconPbgplData   =  NdtStatusModel();
-  NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
+  NdtStatusModel ndtAgencyData = NdtStatusModel();
+  NdtStatusModel meconPbgplData = NdtStatusModel();
+  NdtStatusModel dSPPLAgencyData = NdtStatusModel();
 
   List<PipeModel> _pipeList = [];
+
   List<PipeModel> get pipeList => _pipeList;
 
   List<PipeModel> _searchPipeList = [];
+
   List<PipeModel> get searchPipeList => _searchPipeList;
 
-  bool _searchPipeLoader =  false;
+  bool _searchPipeLoader = false;
+
   bool get searchPipeLoader => _searchPipeLoader;
 
-  PipeModel _pipeData =  PipeModel();
-  PipeModel get pipeData => _pipeData;
-  
-  AddNdtMutBloc() : super(AddNdtMutInitial()) {
+  PipeModel _pipeData = PipeModel();
 
+  PipeModel get pipeData => _pipeData;
+
+  AddNdtMutBloc() : super(AddNdtMutInitial()) {
     on<AddNdtMutPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddNdtMutSelectAlignmentEvent>(_selectAlignment);
@@ -101,63 +102,67 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     segmentData = SegmentModel();
     segmentList = [];
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
-    weatherData =  WeatherModel();
+    file = File("");
+    weatherData = WeatherModel();
     jointNumberList = [];
-    jointNumberData =  JointNumberModel();
+    jointNumberData = JointNumberModel();
     ndtAgencyList = [];
     meconPbgplList = [];
     dSPPLAgencyList = [];
     _pipeList = [];
     _searchPipeList = [];
     _searchPipeLoader = false;
-    ndtAgencyData  =  NdtStatusModel();
-    meconPbgplData   =  NdtStatusModel();
-    dSPPLAgencyData   =  NdtStatusModel();
+    ndtAgencyData = NdtStatusModel();
+    meconPbgplData = NdtStatusModel();
+    dSPPLAgencyData = NdtStatusModel();
     typeOfFlawDetectorController.text = "";
     angleOfRayInputController.text = "";
     operatingFrequencyController.text = "";
     leveOfInspectionController.text = "";
     locationDiscoverDefectController.text = "";
     searchPipeController.text = "";
-    _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
-    var resSegment =  await AddNdtMutHelper.fetchSegmentData(context: event.context, userData: userData);
-    if(resSegment != null){
-      segmentList =  resSegment;
+    var resSegment = await AddNdtMutHelper.fetchSegmentData(
+        context: event.context, userData: userData);
+    if (resSegment != null) {
+      segmentList = resSegment;
     }
 
-    var resNdtStatus =  await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
-    if(resNdtStatus != null){
-      ndtAgencyList =  resNdtStatus;
-      dSPPLAgencyList =  resNdtStatus;
-      meconPbgplList =  resNdtStatus;
+    var resNdtStatus =
+        await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
+    if (resNdtStatus != null) {
+      ndtAgencyList = resNdtStatus;
+      dSPPLAgencyList = resNdtStatus;
+      meconPbgplList = resNdtStatus;
     }
-
 
     selectedSegmentList = segmentList;
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -166,92 +171,107 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     _eventComplete(emit);
   }
 
-
   _selectJointType(AddNdtMutSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointNumberList = [];
-    jointNumberData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointNumberData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointNumberList =  resJointNumber;
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectJointNumber(AddNdtMutSelectJointNumberDataEvent event, emit) {
-    jointNumberData =  event.jointNumberData;
+    jointNumberData = event.jointNumberData;
     _eventComplete(emit);
   }
 
   _selectNdtAgency(AddNdtMutSelectNdtAgencyDataEvent event, emit) {
-    ndtAgencyData =  event.ndtAgencyData;
+    ndtAgencyData = event.ndtAgencyData;
     _eventComplete(emit);
   }
 
   _searchPipeNumber(AddNdtMutSearchPipeDataEvent event, emit) async {
     _pipeList = [];
-    _searchPipeLoader =  true;
+    _searchPipeLoader = true;
     _eventComplete(emit);
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
-        userData: userData, searchKeyword: event.keyword.toString(), type: "lpt");
-    if(resPipe != null){
-      _pipeList =  resPipe;
+    var resPipe = await AddStringingHelper.fetchPipeData(
+        context: event.context,
+        userData: userData,
+        searchKeyword: event.keyword.toString(),
+        type: "lpt");
+    if (resPipe != null) {
+      _pipeList = resPipe;
       _searchPipeList = pipeList;
     }
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     _eventComplete(emit);
   }
 
   _selectPipe(AddNdtMutSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
     _pipeList = [];
-    searchPipeController.text = "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
+    searchPipeController.text =
+        "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
   _selectDsppl(AddNdtMutSelectDspplDataEvent event, emit) {
-    dSPPLAgencyData =  event.dspplData;
+    dSPPLAgencyData = event.dspplData;
     _eventComplete(emit);
   }
 
   _selectMeconPbgpl(AddNdtMutSelectMeconPbgplDataEvent event, emit) {
-    meconPbgplData =  event.meconPbgplData;
+    meconPbgplData = event.meconPbgplData;
     _eventComplete(emit);
   }
 
   _selectSegment(AddNdtMutSelectSegmentDataEvent event, emit) async {
-    segmentData =  segmentList[event.segmentIndex];
-    isLoader =  true;
+    segmentData = segmentList[event.segmentIndex];
+    isLoader = true;
     _eventComplete(emit);
 
-    for(int i = 0; i < segmentList[event.segmentIndex].segmentStatusList!.length; i++){
-      print("Id "+segmentData.segmentStatusList![i].selectedValue.toString());
-      if(i == event.index){
-        segmentList[event.segmentIndex].segmentStatusList![event.index].selectedValue
-        = segmentList[event.segmentIndex].segmentStatusList![event.index].groupType.toString();
-      } else{
-        segmentList[event.segmentIndex].segmentStatusList![i].selectedValue = "";
+    for (int i = 0;
+        i < segmentList[event.segmentIndex].segmentStatusList!.length;
+        i++) {
+      print("Id " + segmentData.segmentStatusList![i].selectedValue.toString());
+      if (i == event.index) {
+        segmentList[event.segmentIndex]
+                .segmentStatusList![event.index]
+                .selectedValue =
+            segmentList[event.segmentIndex]
+                .segmentStatusList![event.index]
+                .groupType
+                .toString();
+      } else {
+        segmentList[event.segmentIndex].segmentStatusList![i].selectedValue =
+            "";
       }
     }
 
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddNdtMutSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -259,15 +279,15 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   }
 
   _selectFile(AddNdtMutAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -275,7 +295,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   }
 
   _submitData(AddNdtMutSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
 
     List<dynamic> segmentDataList = [];
@@ -283,24 +303,27 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     List<dynamic> segmentObservationDataList = [];
     List<dynamic> segmentRemarkDataList = [];
 
-    for(var segmentDataValue in selectedSegmentList){
+    for (var segmentDataValue in selectedSegmentList) {
       segmentDataList.add(segmentDataValue.id.toString());
-      if(segmentDataValue.observationController!.text.toString().isNotEmpty){
-        segmentObservationDataList.add(segmentDataValue.observationController!.text.toString());
-        segmentRemarkDataList.add(segmentDataValue.remarkController!.text.toString());
-        for(var status in segmentDataValue.segmentStatusList!){
-          if(status.selectedValue.toString().isNotEmpty){
+      if (segmentDataValue.observationController!.text.toString().isNotEmpty) {
+        segmentObservationDataList
+            .add(segmentDataValue.observationController!.text.toString());
+        segmentRemarkDataList
+            .add(segmentDataValue.remarkController!.text.toString());
+        for (var status in segmentDataValue.segmentStatusList!) {
+          if (status.selectedValue.toString().isNotEmpty) {
             segmentStatusDataList.add(status.id.toString());
           }
         }
-      }else{
+      } else {
         segmentRemarkDataList.add("0");
         segmentObservationDataList.add("0");
         segmentStatusDataList.add("0");
       }
     }
 
-    var res =  await AddNdtMutHelper.submitData(context: event.context,
+    var res = await AddNdtMutHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -323,36 +346,37 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         typeOfFlawDetector: typeOfFlawDetectorController.text.toString(),
         pipeData: pipeData,
         file: file);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
-      jointTypeData =  JointTypeModel();
+      alignmentData = AlignmentModel();
+      isLoader = false;
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
-      jointNumberData =  JointNumberModel();
+      file = File("");
+      weatherData = WeatherModel();
+      jointNumberData = JointNumberModel();
       selectedSegmentList = segmentList;
-      ndtAgencyData  =  NdtStatusModel();
-      meconPbgplData   =  NdtStatusModel();
-      dSPPLAgencyData   =  NdtStatusModel();
+      ndtAgencyData = NdtStatusModel();
+      meconPbgplData = NdtStatusModel();
+      dSPPLAgencyData = NdtStatusModel();
       locationDiscoverDefectController.text = "";
       typeOfFlawDetectorController.text = "";
       angleOfRayInputController.text = "";
       operatingFrequencyController.text = "";
       leveOfInspectionController.text = "";
-      _pipeData =  PipeModel();
+      _pipeData = PipeModel();
       searchPipeController.text = "";
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddNdtMutState>emit) {
-    emit(FetchAddNdtMutDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddNdtMutState> emit) {
+    emit(FetchAddNdtMutDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -384,5 +408,3 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     ));
   }
 }
-
-

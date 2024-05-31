@@ -1,5 +1,6 @@
 List<CoatingTypeModel> coatingTypeListResponse(var json) {
-  return List<CoatingTypeModel>.from(json.map((x) => CoatingTypeModel.fromJson(x)));
+  return List<CoatingTypeModel>.from(
+      json.map((x) => CoatingTypeModel.fromJson(x)));
 }
 
 class CoatingTypeModel {

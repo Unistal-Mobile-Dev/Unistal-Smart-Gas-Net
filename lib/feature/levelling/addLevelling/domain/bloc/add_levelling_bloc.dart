@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -21,23 +18,23 @@ part 'add_levelling_event.dart';
 part 'add_levelling_state.dart';
 
 class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController reportNumberController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
-  TextEditingController gpsCoordinateNorthController =  TextEditingController();
-  TextEditingController gpsCoordinateEastController =  TextEditingController();
-  TextEditingController elevationPipetopController =  TextEditingController();
-  TextEditingController natureGroundLeveController =  TextEditingController();
-  TextEditingController coverController =  TextEditingController();
-  TextEditingController northingLatController =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
+  TextEditingController gpsCoordinateNorthController = TextEditingController();
+  TextEditingController gpsCoordinateEastController = TextEditingController();
+  TextEditingController elevationPipetopController = TextEditingController();
+  TextEditingController natureGroundLeveController = TextEditingController();
+  TextEditingController coverController = TextEditingController();
+  TextEditingController northingLatController = TextEditingController();
   TextEditingController northingLongController = TextEditingController();
-  TextEditingController eastingLatController =  TextEditingController();
-  TextEditingController eastingLongController =  TextEditingController();
+  TextEditingController eastingLatController = TextEditingController();
+  TextEditingController eastingLongController = TextEditingController();
 
-  String _accuracy =  "";
+  String _accuracy = "";
+
   String get accuracy => _accuracy;
 
   List<JointNumberModel> jointList = [];
@@ -45,20 +42,19 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   JointNumberModel jointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
-
   AddLevellingBloc() : super(AddLevellingInitial()) {
-
     on<AddLevellingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddLevellingSelectAlignmentEvent>(_selectAlignment);
@@ -91,38 +87,41 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     jointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
-    weatherData =  WeatherModel();
-     _userData =  UserInfo.instanceInit()!.userData!;
+    file = File("");
+    weatherData = WeatherModel();
+    _userData = UserInfo.instanceInit()!.userData!;
 
-    var location =  await LocationHelper.getLocation(context: event.context);
+    var location = await LocationHelper.getLocation(context: event.context);
     LocationModel locationData = LocationModel();
-    if(location != null){
-      locationData =  location;
-      _accuracy =  locationData.accuracy.toString();
+    if (location != null) {
+      locationData = location;
+      _accuracy = locationData.accuracy.toString();
     }
 
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -137,77 +136,83 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   }
 
   _selectJointType(AddLevellingSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointList = [];
-    jointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointList =  resJointNumber;
+    if (resJointNumber != null) {
+      jointList = resJointNumber;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddLevellingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
   }
 
-  _selectNorthingLocation(AddLevellingCaptureNorthingLocationEvent event, emit) async {
-    isLoader  =  true;
+  _selectNorthingLocation(
+      AddLevellingCaptureNorthingLocationEvent event, emit) async {
+    isLoader = true;
     _eventComplete(emit);
-    var location =  await LocationHelper.getLocation(context: event.context);
+    var location = await LocationHelper.getLocation(context: event.context);
     LocationModel locationData = LocationModel();
-    if(location != null){
-      locationData =  location;
-      _accuracy =  locationData.accuracy.toString();
-      northingLongController.text =  locationData.long.toString();
-      northingLatController.text =  locationData.lat.toString();
+    if (location != null) {
+      locationData = location;
+      _accuracy = locationData.accuracy.toString();
+      northingLongController.text = locationData.long.toString();
+      northingLatController.text = locationData.lat.toString();
     }
-    isLoader  =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
-  _selectEastLocation(AddLevellingCaptureEastingLocationEvent event, emit) async {
-    isLoader  =  true;
+  _selectEastLocation(
+      AddLevellingCaptureEastingLocationEvent event, emit) async {
+    isLoader = true;
     _eventComplete(emit);
-    var location =  await LocationHelper.getLocation(context: event.context);
+    var location = await LocationHelper.getLocation(context: event.context);
     LocationModel locationData = LocationModel();
-    if(location != null){
-      locationData =  location;
-      _accuracy =  locationData.accuracy.toString();
-      eastingLongController.text =  locationData.long.toString();
-      eastingLatController.text =  locationData.lat.toString();
+    if (location != null) {
+      locationData = location;
+      _accuracy = locationData.accuracy.toString();
+      eastingLongController.text = locationData.long.toString();
+      eastingLatController.text = locationData.lat.toString();
       _eventComplete(emit);
     }
-    isLoader  =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectFile(AddLevellingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -215,9 +220,10 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   }
 
   _submitData(AddLevellingSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddLevellingHelper.submitData(context: event.context,
+    var res = await AddLevellingHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -234,9 +240,9 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         elevationPipetop: elevationPipetopController.text.toString(),
         natureGroundLeve: natureGroundLeveController.text.toString(),
         file: file);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
@@ -251,19 +257,20 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
       northingLatController.text = "";
       northingLatController.text = "";
       coverController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
-      jointData =  JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      alignmentData = AlignmentModel();
+      isLoader = false;
+      jointData = JointNumberModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
+      file = File("");
+      weatherData = WeatherModel();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddLevellingState>emit) {
-    emit(FetchAddLevellingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddLevellingState> emit) {
+    emit(FetchAddLevellingDataState(
+        isLoader: isLoader,
         alignmentList: alignmentList,
         dateController: dateController,
         activityRemarkController: activityRemarkController,
@@ -288,7 +295,6 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         eastingLongController: eastingLongController,
         northingLatController: northingLatController,
         northingLongController: northingLongController,
-        accuracy: accuracy
-    ));
+        accuracy: accuracy));
   }
 }

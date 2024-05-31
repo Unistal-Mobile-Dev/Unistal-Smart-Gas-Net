@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NetworkImageWidget extends StatelessWidget {
@@ -6,8 +5,10 @@ class NetworkImageWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final BoxFit? fit;
-  const NetworkImageWidget({Key? key,
-    required this.imageUrl, this.height, this.width, this.fit}) : super(key: key);
+
+  const NetworkImageWidget(
+      {Key? key, required this.imageUrl, this.height, this.width, this.fit})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,11 @@ class NetworkImageWidget extends StatelessWidget {
           child: CircularProgressIndicator(
             value: loadingProgress.expectedTotalBytes != null
                 ? loadingProgress.cumulativeBytesLoaded /
-                loadingProgress.expectedTotalBytes!
+                    loadingProgress.expectedTotalBytes!
                 : null,
           ),
         );
       },
     );
   }
-
 }

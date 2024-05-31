@@ -1,5 +1,6 @@
 List<DefectTypeModel> defectTypeListResponse(var json) {
-  return List<DefectTypeModel>.from(json.map((x) => DefectTypeModel.fromJson(x)));
+  return List<DefectTypeModel>.from(
+      json.map((x) => DefectTypeModel.fromJson(x)));
 }
 
 class DefectTypeModel {

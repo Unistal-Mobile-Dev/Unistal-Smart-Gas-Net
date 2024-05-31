@@ -17,7 +17,10 @@ class RestoreCutPipePageLoadState extends RestoreCutPipeInitial {
 class FetchRestoreCutPipeDataState extends RestoreCutPipeInitial {
   final List<PipeModel> pipeList;
   final bool isLoader;
-  FetchRestoreCutPipeDataState({required this.isLoader, required this.pipeList});
+
+  FetchRestoreCutPipeDataState(
+      {required this.isLoader, required this.pipeList});
+
   @override
   List<Object> get props => [pipeList, isLoader];
 }

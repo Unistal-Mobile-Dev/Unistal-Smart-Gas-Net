@@ -1,3 +1,1 @@
-class ClearingGradingModel {
-  
-}
+class ClearingGradingModel {}

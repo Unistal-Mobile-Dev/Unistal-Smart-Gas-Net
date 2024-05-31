@@ -31,7 +31,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController ipNumberFromController;
   final TextEditingController gapLengthController;
   final TextEditingController gapDescriptionController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -69,29 +69,29 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    groundTypeController,
-    reportNumberController,
-    structureNameController,
-    chainageController,
-    tpChainageController,
-    tpChainageNumberController,
-    tpRemarkNumberController,
-    boundaryLocationController,
-    alignmentData,
-    file,
-    ipNumberFromController,
-    ipNumberController,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-    terrainTypeData,
-    terrainTypeList,
-    gapDescriptionController,
-    gapLengthController,
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        groundTypeController,
+        reportNumberController,
+        structureNameController,
+        chainageController,
+        tpChainageController,
+        tpChainageNumberController,
+        tpRemarkNumberController,
+        boundaryLocationController,
+        alignmentData,
+        file,
+        ipNumberFromController,
+        ipNumberController,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+        terrainTypeData,
+        terrainTypeList,
+        gapDescriptionController,
+        gapLengthController,
+      ];
 }

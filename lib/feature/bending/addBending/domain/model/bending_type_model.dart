@@ -1,5 +1,6 @@
 List<BendingTypeModel> bendingTypeListResponse(var json) {
-  return List<BendingTypeModel>.from(json.map((x) => BendingTypeModel.fromJson(x)));
+  return List<BendingTypeModel>.from(
+      json.map((x) => BendingTypeModel.fromJson(x)));
 }
 
 class BendingTypeModel {

@@ -16,7 +16,7 @@ class AddHdpeDuctPageLoadState extends AddHdpeDuctInitial {
 
 class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -69,29 +69,29 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    chainageFromController,
-    chainageToController,
-    lengthController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-    warningMeterData,
-    warningMeterList,
-    jointPitController,
-    paddingList,
-    paddingData,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        chainageFromController,
+        chainageToController,
+        lengthController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+        warningMeterData,
+        warningMeterList,
+        jointPitController,
+        paddingList,
+        paddingData,
+      ];
 }

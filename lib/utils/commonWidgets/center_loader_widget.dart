@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
@@ -8,12 +7,14 @@ class CenterLoaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size  =  AppConfig.getDeviceType(context: context) == DeviceType.phone
+    double size = AppConfig.getDeviceType(context: context) == DeviceType.phone
         ? MediaQuery.of(context).size.width * 0.10
         : MediaQuery.of(context).size.width * 0.05;
-    return Center(child:
-    SpinKitCubeGrid(
-      color: AppColor.themeColor,
-      size: size,),);
+    return Center(
+      child: SpinKitCubeGrid(
+        color: AppColor.themeColor,
+        size: size,
+      ),
+    );
   }
 }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class TabletForgotPasswordWidget extends StatefulWidget {
   final FetchForgotPasswordDataState dataState;
+
   const TabletForgotPasswordWidget({super.key, required this.dataState});
 
   @override
-  State<TabletForgotPasswordWidget> createState() => _TabletForgotPasswordWidgetState();
+  State<TabletForgotPasswordWidget> createState() =>
+      _TabletForgotPasswordWidgetState();
 }
 
-class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget> {
+class _TabletForgotPasswordWidgetState
+    extends State<TabletForgotPasswordWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,12 +65,16 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
         children: [
           _logo(),
           _verticalSpace(),
-          TextWidget("Forgot Password!",
-            fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
+          TextWidget(
+            "Forgot Password!",
+            fontSize: AppFont.font_14,
+            fontWeight: FontWeight.w700,
+          ),
         ],
       ),
     );
   }
+
   Widget _logo() {
     return Hero(
       tag: 'logo',
@@ -78,15 +84,15 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
           children: [
             Positioned(
               left: 00.0,
-              top:  00.0,
+              top: 00.0,
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.13,
               child: Image.asset(
-		               AppConfig.instanceInit()!.client == Client.purvaBharti
-                   ? AppIcon.appLogoPurvaBharti
-                 :AppConfig.instanceInit()!.client == Client.unistal
-                   ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
+                    : AppConfig.instanceInit()!.client == Client.unistal
+                        ? AppIcon.appLogoUnistal
+                        : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -107,7 +113,10 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
 
   Widget _emailTextField({required FetchForgotPasswordDataState dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldWidget(
         isRequired: true,
         labelText: AppString.emailPhoneNumber,
@@ -118,17 +127,21 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
   }
 
   Widget _submit({required FetchForgotPasswordDataState dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05,
-        right: MediaQuery.of(context).size.width * 0.05,),
-      child: ButtonWidget(
-          text: AppString.submit,
-          height: MediaQuery.of(context).size.height * 0.10,
-          onPressed: () {
-            BlocProvider.of<ForgotPasswordBloc>(context).add(ForgotPasswordSubmitEvent(context: context));
-          }),
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: ButtonWidget(
+                text: AppString.submit,
+                height: MediaQuery.of(context).size.height * 0.10,
+                onPressed: () {
+                  BlocProvider.of<ForgotPasswordBloc>(context)
+                      .add(ForgotPasswordSubmitEvent(context: context));
+                }),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _loginPage() {
@@ -138,12 +151,10 @@ class _TabletForgotPasswordWidgetState extends State<TabletForgotPasswordWidget>
       },
       child: Align(
         alignment: Alignment.bottomCenter,
-        child: TextWidget(
-            "Login",
-            textDecoration : TextDecoration.underline,
+        child: TextWidget("Login",
+            textDecoration: TextDecoration.underline,
             color: AppColor.themeColor,
-            fontWeight: FontWeight.w600
-        ),
+            fontWeight: FontWeight.w600),
       ),
     );
   }

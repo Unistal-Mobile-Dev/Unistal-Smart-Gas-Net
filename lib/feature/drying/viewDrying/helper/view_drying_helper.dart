@@ -1,3 +1,1 @@
-class ViewDryingHelper {
-
-}
+class ViewDryingHelper {}

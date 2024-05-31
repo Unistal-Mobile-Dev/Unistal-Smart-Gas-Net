@@ -1,3 +1,1 @@
-class RouteSurveyModel {
-  
-}
+class RouteSurveyModel {}

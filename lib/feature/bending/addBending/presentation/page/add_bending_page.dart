@@ -5,7 +5,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddBendingPage extends StatefulWidget {
@@ -16,34 +15,36 @@ class AddBendingPage extends StatefulWidget {
 }
 
 class _AddBendingPageState extends State<AddBendingPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddBendingBloc>(context).add(AddBendingPageLoadEvent(context: context));
+    BlocProvider.of<AddBendingBloc>(context)
+        .add(AddBendingPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddBendingBloc, AddBendingState>(
         builder: (context, state) {
-          if(state is FetchAddBendingDataState) {
+          if (state is FetchAddBendingDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddBendingDataState dataState}){
+  Widget _itemBuilder({required FetchAddBendingDataState dataState}) {
     return Container(
       margin: EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -95,13 +96,15 @@ class _AddBendingPageState extends State<AddBendingPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectDateEvent(context: context,));
+        BlocProvider.of<AddBendingBloc>(context).add(AddBendingSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddBendingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -109,7 +112,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
-  Widget _chainageFromController({required FetchAddBendingDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -132,17 +136,16 @@ class _AddBendingPageState extends State<AddBendingPage> {
         isLoader: dataState.searchPipeLoader,
         onChange: (value) {
           BlocProvider.of<AddBendingBloc>(context).add(
-              AddBendingAddSearchPipeDataEvent(keyword: value, context: context)
-          );
+              AddBendingAddSearchPipeDataEvent(
+                  keyword: value, context: context));
         },
         onClick: (value) {
-          BlocProvider.of<AddBendingBloc>(context).add(
-              AddBendingSelectSelectPipeDataEvent(pipeData: value));
+          BlocProvider.of<AddBendingBloc>(context)
+              .add(AddBendingSelectSelectPipeDataEvent(pipeData: value));
         },
         controller: dataState.searchPipeController,
         label: AppString.selectPipeNumber,
-        list: dataState.searchPipeList
-    );
+        list: dataState.searchPipeList);
   }
 
   Widget _chainageController({required FetchAddBendingDataState dataState}) {
@@ -157,12 +160,16 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _visualChecksDropDown({required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectVisualChecks,
-      dropdownValue: dataState.visualChecksData.id != null ? dataState.visualChecksData : null,
+      dropdownValue: dataState.visualChecksData.id != null
+          ? dataState.visualChecksData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectVisualDataEvent(visualChecksData: value));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingSelectVisualDataEvent(visualChecksData: value));
       },
-      items: dataState.visualChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksData) {
+      items: dataState.visualChecksList
+          .map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel visualChecksData) {
         return DropdownMenuItem<VisualChecksModel>(
           value: visualChecksData,
           child: Text(visualChecksData.value.toString()),
@@ -174,12 +181,16 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _gaugingChecksDropDown({required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectGaugingChecks,
-      dropdownValue: dataState.gaugingChecksData.id != null ? dataState.gaugingChecksData : null,
+      dropdownValue: dataState.gaugingChecksData.id != null
+          ? dataState.gaugingChecksData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectGaugingEvent(gaugingChecksData: value));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingSelectGaugingEvent(gaugingChecksData: value));
       },
-      items: dataState.gaugingChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel gaugingChecksData) {
+      items: dataState.gaugingChecksList
+          .map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel gaugingChecksData) {
         return DropdownMenuItem<VisualChecksModel>(
           value: gaugingChecksData,
           child: Text(gaugingChecksData.value.toString()),
@@ -188,15 +199,20 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
-  Widget _disbomdmentChecksDropDown({required FetchAddBendingDataState dataState}) {
+  Widget _disbomdmentChecksDropDown(
+      {required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectDisbomdmentChecks,
-      dropdownValue: dataState.disbomdmentChecksData.id != null ? dataState.disbomdmentChecksData : null,
+      dropdownValue: dataState.disbomdmentChecksData.id != null
+          ? dataState.disbomdmentChecksData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context).add(
             AddBendingSelectDisbomdmentEvent(disbomdmentChecksData: value));
       },
-      items: dataState.disbomdmentChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel disbomdmentChecksData) {
+      items: dataState.disbomdmentChecksList
+          .map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel disbomdmentChecksData) {
         return DropdownMenuItem<VisualChecksModel>(
           value: disbomdmentChecksData,
           child: Text(disbomdmentChecksData.value.toString()),
@@ -208,12 +224,16 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _holidayChecksDropDown({required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectHolidayChecks,
-      dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
+      dropdownValue: dataState.holidayChecksData.id != null
+          ? dataState.holidayChecksData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectHolidayDataEvent(holidayChecksData: value));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingSelectHolidayDataEvent(holidayChecksData: value));
       },
-      items: dataState.holidayChecksList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
+      items: dataState.holidayChecksList
+          .map<DropdownMenuItem<HolidayChecksModel>>(
+              (HolidayChecksModel holidayChecksData) {
         return DropdownMenuItem<HolidayChecksModel>(
           value: holidayChecksData,
           child: Text(holidayChecksData.value.toString()),
@@ -225,12 +245,15 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _bendingTypeDropDown({required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectBendingType,
-      dropdownValue: dataState.bendingTypeData.id != null ? dataState.bendingTypeData : null,
+      dropdownValue: dataState.bendingTypeData.id != null
+          ? dataState.bendingTypeData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectBendingTypeEvent(bendingTypeData: value));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingSelectBendingTypeEvent(bendingTypeData: value));
       },
-      items: dataState.bendingTypeList.map<DropdownMenuItem<BendingTypeModel>>((BendingTypeModel bendingTypeData) {
+      items: dataState.bendingTypeList.map<DropdownMenuItem<BendingTypeModel>>(
+          (BendingTypeModel bendingTypeData) {
         return DropdownMenuItem<BendingTypeModel>(
           value: bendingTypeData,
           child: Text(bendingTypeData.name.toString()),
@@ -257,7 +280,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
-  Widget _bendAngleDegreeController({required FetchAddBendingDataState dataState}) {
+  Widget _bendAngleDegreeController(
+      {required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -266,7 +290,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
-  Widget _bendAngleMinuteController({required FetchAddBendingDataState dataState}) {
+  Widget _bendAngleMinuteController(
+      {required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -275,7 +300,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
     );
   }
 
-  Widget _bendAngleSecondController({required FetchAddBendingDataState dataState}) {
+  Widget _bendAngleSecondController(
+      {required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -283,7 +309,6 @@ class _AddBendingPageState extends State<AddBendingPage> {
       controller: dataState.bendAngleSecondController,
     );
   }
-
 
   Widget _activityRemark({required FetchAddBendingDataState dataState}) {
     return TextFieldWidget(
@@ -295,14 +320,17 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBendingDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -310,12 +338,14 @@ class _AddBendingPageState extends State<AddBendingPage> {
   Widget _weatherDropDown({required FetchAddBendingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -326,8 +356,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
 
   Widget _photo({required FetchAddBendingDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -335,48 +365,73 @@ class _AddBendingPageState extends State<AddBendingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -391,13 +446,27 @@ class _AddBendingPageState extends State<AddBendingPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddBendingBloc>(context).add(AddBendingAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddBendingBloc>(context).add(
+                        AddBendingAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddBendingBloc>(context).add(AddBendingAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddBendingBloc>(context).add(
+                        AddBendingAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -406,20 +475,23 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _button({required FetchAddBendingDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddBendingBloc>(context).add(AddBendingSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddBendingBloc>(context)
+                  .add(AddBendingSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 }

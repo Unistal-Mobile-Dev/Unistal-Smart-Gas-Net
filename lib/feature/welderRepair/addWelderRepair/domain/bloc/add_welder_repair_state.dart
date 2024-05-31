@@ -15,7 +15,6 @@ class AddWelderRepairPageLoadState extends AddWelderRepairInitial {
 }
 
 class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
-
   final List<WelderModel> welderList;
   final WelderModel welderData;
   final List<WPSModel> wpsTypeList;
@@ -23,7 +22,7 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final List<SegmentModel> segmentStatusList;
   final List<SegmentModel> selectedSegmentStatusList;
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
   final TextEditingController preHeatingTemperatureController;
@@ -78,33 +77,33 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
 
   @override
   List<Object> get props => [
-    welderData,
-    welderList,
-    wpsTypeData,
-    wpsTypeList,
-    segmentStatusList,
-    selectedSegmentStatusList,
-    dateController,
-    file,
-    activityRemarkController,
-    alignmentData,
-    alignmentList,
-    e81TM21ABController,
-    e6010Controller,
-    e8010P1Controller,
-    e9045P2Controller,
-    er70s6Controller,
-    isLoader,
-    weatherData,
-    weatherList,
-    jointNumberList,
-    jointNumberData,
-    jointTypeData,
-    jointTypeList,
-    welderRepairStatusList,
-    welderRepairStatusData,
-    isJointNumberLoader,
-    isWelderLoader,
-    preHeatingTemperatureController,
-  ];
+        welderData,
+        welderList,
+        wpsTypeData,
+        wpsTypeList,
+        segmentStatusList,
+        selectedSegmentStatusList,
+        dateController,
+        file,
+        activityRemarkController,
+        alignmentData,
+        alignmentList,
+        e81TM21ABController,
+        e6010Controller,
+        e8010P1Controller,
+        e9045P2Controller,
+        er70s6Controller,
+        isLoader,
+        weatherData,
+        weatherList,
+        jointNumberList,
+        jointNumberData,
+        jointTypeData,
+        jointTypeList,
+        welderRepairStatusList,
+        welderRepairStatusData,
+        isJointNumberLoader,
+        isWelderLoader,
+        preHeatingTemperatureController,
+      ];
 }

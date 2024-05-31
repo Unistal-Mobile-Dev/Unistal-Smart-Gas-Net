@@ -1,6 +1,6 @@
 part of 'forgot_password_bloc.dart';
 
-abstract class ForgotPasswordState extends Equatable { }
+abstract class ForgotPasswordState extends Equatable {}
 
 class ForgotPasswordInitial extends ForgotPasswordState {
   @override
@@ -15,7 +15,10 @@ class ForgotPasswordPageLoadState extends ForgotPasswordInitial {
 class FetchForgotPasswordDataState extends ForgotPasswordInitial {
   final bool isLoader;
   final TextEditingController emailTextFieldController;
-  FetchForgotPasswordDataState({required this.isLoader, required this.emailTextFieldController});
+
+  FetchForgotPasswordDataState(
+      {required this.isLoader, required this.emailTextFieldController});
+
   @override
   List<Object> get props => [isLoader, emailTextFieldController];
 }

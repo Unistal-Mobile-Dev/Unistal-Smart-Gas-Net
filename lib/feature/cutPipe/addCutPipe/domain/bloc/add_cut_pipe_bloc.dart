@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,28 +11,33 @@ part 'add_cut_pipe_event.dart';
 part 'add_cut_pipe_state.dart';
 
 class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
+  bool _isLoader = false;
 
-  bool _isLoader =  false;
   bool get isLoader => _isLoader;
 
   List<PipeModel> _pipeList = [];
+
   List<PipeModel> get pipeList => _pipeList;
 
-  PipeModel _pipeData =  PipeModel();
+  PipeModel _pipeData = PipeModel();
+
   PipeModel get pipeData => _pipeData;
 
   List<dynamic> _searchPipeList = [];
+
   List<dynamic> get searchPipeList => _searchPipeList;
 
-  TextEditingController searchPipeController =  TextEditingController();
+  TextEditingController searchPipeController = TextEditingController();
 
-  bool _searchPipeLoader =  false;
+  bool _searchPipeLoader = false;
+
   bool get searchPipeLoader => _searchPipeLoader;
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
-  TextEditingController cutPipeLengthController =  TextEditingController();
+  TextEditingController cutPipeLengthController = TextEditingController();
 
   AddCutPipeBloc() : super(AddCutPipeInitial()) {
     on<AddCutPipePageLoadEvent>(_pageLoader);
@@ -45,66 +48,72 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
 
   _pageLoader(AddCutPipePageLoadEvent event, emit) async {
     emit(AddCutPipePageLoadState());
-    _isLoader =  false;
-    _searchPipeLoader =  false;
+    _isLoader = false;
+    _searchPipeLoader = false;
     _pipeList = [];
     _searchPipeList = [];
     _pipeData = PipeModel();
     cutPipeLengthController.text = "";
     searchPipeController.text = "";
-    _userData =  UserInfo.instanceInit()!.userData!;
+    _userData = UserInfo.instanceInit()!.userData!;
     _eventComplete(emit);
   }
 
   _selectPipeData(AddCutPipeSelectPipeDataEvent event, emit) {
-    _pipeData =  event.pipeData;
-    searchPipeController.text =  pipeData.pipeNumber.toString();
+    _pipeData = event.pipeData;
+    searchPipeController.text = pipeData.pipeNumber.toString();
     _searchPipeList = [];
     _eventComplete(emit);
   }
 
   _searchPipeData(AddCutPipeSearchPipeDataEvent event, emit) async {
     _pipeList = [];
-    _searchPipeLoader =  true;
+    _searchPipeLoader = true;
     _eventComplete(emit);
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
-        userData: userData, searchKeyword: event.keyword.toString(), type: "bending");
-    if(resPipe != null){
-      _pipeList =  resPipe;
+    var resPipe = await AddStringingHelper.fetchPipeData(
+        context: event.context,
+        userData: userData,
+        searchKeyword: event.keyword.toString(),
+        type: "bending");
+    if (resPipe != null) {
+      _pipeList = resPipe;
       _searchPipeList = pipeList;
     }
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     _eventComplete(emit);
   }
 
   _submitData(AddCutPipeSubmitEvent event, emit) async {
-
-    var textFiledValidation =  await AddCutPipeHelper.textFieldValidation(context: event.context,
-         cutePipeLength: cutPipeLengthController.text.toString());
-    if(textFiledValidation == false){
+    var textFiledValidation = await AddCutPipeHelper.textFieldValidation(
+        context: event.context,
+        cutePipeLength: cutPipeLengthController.text.toString());
+    if (textFiledValidation == false) {
       return;
     }
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddCutPipeHelper.submitData(context: event.context,
-        cutePipeLength: cutPipeLengthController.text.toString(), pipeData: pipeData);
-    if(res != null){
+    var res = await AddCutPipeHelper.submitData(
+        context: event.context,
+        cutePipeLength: cutPipeLengthController.text.toString(),
+        pipeData: pipeData);
+    if (res != null) {
       _pipeData = PipeModel();
       cutPipeLengthController.text = "";
       searchPipeController.text = "";
     }
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
   }
 
-  _eventComplete(Emitter<AddCutPipeState>emit) {
-    emit(FetchAddCutPipeDataState(pipeData: pipeData,
-        pipeList: pipeList,
-        isLoader: isLoader,
-        cutPipeLengthController: cutPipeLengthController,
-        searchPipeController: searchPipeController,
-        searchPipeList: searchPipeList,
-        searchPipeLoader: searchPipeLoader,
+  _eventComplete(Emitter<AddCutPipeState> emit) {
+    emit(FetchAddCutPipeDataState(
+      pipeData: pipeData,
+      pipeList: pipeList,
+      isLoader: isLoader,
+      cutPipeLengthController: cutPipeLengthController,
+      searchPipeController: searchPipeController,
+      searchPipeList: searchPipeList,
+      searchPipeLoader: searchPipeLoader,
     ));
   }
 }

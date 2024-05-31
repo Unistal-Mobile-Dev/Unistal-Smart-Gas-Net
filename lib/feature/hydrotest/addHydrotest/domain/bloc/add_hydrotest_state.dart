@@ -16,7 +16,7 @@ class AddHydrotestPageLoadState extends AddHydrotestInitial {
 
 class FetchAddHydrotestDataState extends AddHydrotestInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -51,20 +51,20 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    lengthController,
-    alignmentData,
-    fileList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        lengthController,
+        alignmentData,
+        fileList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+      ];
 }

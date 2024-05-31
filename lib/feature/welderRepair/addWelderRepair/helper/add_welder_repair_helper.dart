@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -17,68 +14,67 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddWelderRepairHelper {
-
-  static Future<dynamic> fetchWelderRepairStatusData({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getWelderRepairStatusApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['data'] != null) {
+  static Future<dynamic> fetchWelderRepairStatusData(
+      {required BuildContext context}) async {
+    try {
+      String url = APIs.getWelderRepairStatusApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
         List<WelderRepairStatusModel> welderRepairStatusList = [];
         Map myMap = res['data'];
         myMap.forEach((key, value) {
-          welderRepairStatusList.add(WelderRepairStatusModel(id: key, value: value));
+          welderRepairStatusList
+              .add(WelderRepairStatusModel(id: key, value: value));
         });
         return welderRepairStatusList;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String date,
-    required String activityRemark,
-    required WeatherModel weatherData,
-    required LoginDataModel userData,
-    required JointTypeModel jointTypeData,
-    required JointNumberModel jointNumberData,
-    required List<SegmentModel> segmentList,
-    required WelderRepairStatusModel welderRepairStatusData,
-    required WPSModel wpsTypeData,
-    required WelderModel welderData,
-    required String? E6010,
-    required String? E8010P1,
-    required String? E9045P2,
-    required String? Er70s6,
-    required String? E81TM21AB,
-    required String? preHeatingTempreature,
-    required File file}) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  static Future<dynamic> submitData(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String date,
+      required String activityRemark,
+      required WeatherModel weatherData,
+      required LoginDataModel userData,
+      required JointTypeModel jointTypeData,
+      required JointNumberModel jointNumberData,
+      required List<SegmentModel> segmentList,
+      required WelderRepairStatusModel welderRepairStatusData,
+      required WPSModel wpsTypeData,
+      required WelderModel welderData,
+      required String? E6010,
+      required String? E8010P1,
+      required String? E9045P2,
+      required String? Er70s6,
+      required String? E81TM21AB,
+      required String? preHeatingTempreature,
+      required File file}) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
       List<dynamic> segmentArray = [];
-      Map<String, String> segmentData =  new Map<String, String>();
+      Map<String, String> segmentData = new Map<String, String>();
       segmentList.forEach((element) {
-        var json =  {
-          "segments[]" : element.id.toString()
-        };
+        var json = {"segments[]": element.id.toString()};
         segmentData.addAll(json);
         segmentArray.add(element.id);
       });
 
-
-
-      String url =  APIs.addWeldRepairApi;
+      String url = APIs.addWeldRepairApi;
       dynamic json = {
         "schema": userData.schema.toString(),
         "spreadId": userData.spreadId.toString(),
@@ -88,43 +84,56 @@ class AddWelderRepairHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "joint" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
-        "wpsId" : wpsTypeData.id != null ? wpsTypeData.id.toString(): "",
-        "welderId" : welderData.id != null ? welderData.id.toString(): "",
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "repairStatus" : welderRepairStatusData.id.toString(),
-        "preHeatingTemp" : preHeatingTempreature.toString(),
-        "electrodeFillerE6010" : E6010.toString(),
-        "electrodeFillerE8010p1" : E8010P1.toString(),
-        "electrodeFillerE9045p2" : E9045P2.toString(),
-        "electrodeFillerE81T1m21ab" : E81TM21AB.toString(),
-        "electrodeFillerEr70s6" : Er70s6.toString(),
+        "alignmentSheet":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
+        "welderId": welderData.id != null ? welderData.id.toString() : "",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "repairStatus": welderRepairStatusData.id.toString(),
+        "preHeatingTemp": preHeatingTempreature.toString(),
+        "electrodeFillerE6010": E6010.toString(),
+        "electrodeFillerE8010p1": E8010P1.toString(),
+        "electrodeFillerE9045p2": E9045P2.toString(),
+        "electrodeFillerE81T1m21ab": E81TM21AB.toString(),
+        "electrodeFillerEr70s6": Er70s6.toString(),
       };
       segmentData.addAll(json);
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: segmentData, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: segmentData,
+          context: context,
           keyWord: "attachFile",
           filePath: file.path.toString());
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null) {
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
-      } else  if(res != null && res['status'] != null
-          && res['status'] == false && res['message'] != null) {
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['message'] != null) {
         SnackBarErrorWidget(context).show(message: res['message'].toString());
         return null;
-      } else  if(res != null && res['status'] != null
-          && res['status'] == false && res['message'] != null) {
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['message'] != null) {
         String resPonse = res['message'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
-
 }

@@ -6,7 +6,9 @@ abstract class RestoreCutPipeEvent extends Equatable {
 
 class RestoreCutePipePageLoadEvent extends RestoreCutPipeEvent {
   final BuildContext context;
+
   const RestoreCutePipePageLoadEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
@@ -14,7 +16,10 @@ class RestoreCutePipePageLoadEvent extends RestoreCutPipeEvent {
 class RestoreCutePipeSubmitEvent extends RestoreCutPipeEvent {
   final BuildContext context;
   final int index;
-  const RestoreCutePipeSubmitEvent({required this.context, required this.index});
+
+  const RestoreCutePipeSubmitEvent(
+      {required this.context, required this.index});
+
   @override
   List<Object?> get props => [context, index];
 }

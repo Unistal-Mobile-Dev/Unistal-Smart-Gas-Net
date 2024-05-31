@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -25,17 +22,17 @@ import 'package:intl/intl.dart';
 part 'add_back_filling_event.dart';
 part 'add_back_filling_state.dart';
 
-class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController reportNumberController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
-  TextEditingController postPaddingController =  TextEditingController();
-  TextEditingController slopeBreakerController =  TextEditingController();
-  TextEditingController warningMatController =  TextEditingController();
-  TextEditingController antiBuoyancyController =  TextEditingController();
+class AddBackFillingBloc
+    extends Bloc<AddBackFillingEvent, AddBackFillingState> {
+  TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
+  TextEditingController postPaddingController = TextEditingController();
+  TextEditingController slopeBreakerController = TextEditingController();
+  TextEditingController warningMatController = TextEditingController();
+  TextEditingController antiBuoyancyController = TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -44,24 +41,25 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   VisualChecksModel plasticGratingData = VisualChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<ThicknessModel> thicknessList = [];
-  ThicknessModel thicknessData =  ThicknessModel();
+  ThicknessModel thicknessData = ThicknessModel();
 
   List<PipeDiaModel> pipeDiaList = [];
-  PipeDiaModel pipeDiaData =  PipeDiaModel();
+  PipeDiaModel pipeDiaData = PipeDiaModel();
 
   AddBackFillingBloc() : super(AddBackFillingInitial()) {
     on<AddBackFillingPageLoadEvent>(_pageLoad);
@@ -79,68 +77,74 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   }
 
   _pageLoad(AddBackFillingPageLoadEvent event, emit) async {
-      emit(AddBackFillingPageLoadState());
-        dateController.text = "";
-        reportNumberController.text = "";
-        activityRemarkController.text = "";
-        chainageFromController.text = "";
-        chainageToController.text = "";
-        postPaddingController.text = "";
-        slopeBreakerController.text = "";
-        warningMatController.text = "";
-        antiBuoyancyController.text = "";
-        plasticGratingList = [];
-        jointFromList = [];
-        jointToList = [];
-        jointTypeList = [];
-        weatherList = [];
-        alignmentList = [];
-        alignmentData =  AlignmentModel();
-        isLoader =  false;
-        plasticGratingData = VisualChecksModel();
-        fromJointData = JointNumberModel();
-        toJointData = JointNumberModel();
-        jointTypeData =  JointTypeModel();
-        isJointNumberLoader = false;
-        file =  File("");
-        thicknessList = [];
-        thicknessData =  ThicknessModel();
-        pipeDiaData =  PipeDiaModel();
-        pipeDiaList = [];
-        weatherData =  WeatherModel();
-        weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-        _userData =  UserInfo.instanceInit()!.userData!;
+    emit(AddBackFillingPageLoadState());
+    dateController.text = "";
+    reportNumberController.text = "";
+    activityRemarkController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
+    postPaddingController.text = "";
+    slopeBreakerController.text = "";
+    warningMatController.text = "";
+    antiBuoyancyController.text = "";
+    plasticGratingList = [];
+    jointFromList = [];
+    jointToList = [];
+    jointTypeList = [];
+    weatherList = [];
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    isLoader = false;
+    plasticGratingData = VisualChecksModel();
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    jointTypeData = JointTypeModel();
+    isJointNumberLoader = false;
+    file = File("");
+    thicknessList = [];
+    thicknessData = ThicknessModel();
+    pipeDiaData = PipeDiaModel();
+    pipeDiaList = [];
+    weatherData = WeatherModel();
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
 
-        var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-        if(res != null){
-          alignmentList =  res;
-        }
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
+    }
 
-      var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-      if(resJointType != null){
-        jointTypeList =  resJointType;
-      }
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
+    }
 
-        var resPlasticGrating =  await AddBendingHelper.fetchVisualChecks(context: event.context);
-        if(resPlasticGrating != null){
-          plasticGratingList =  resPlasticGrating;
-        }
+    var resPlasticGrating =
+        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    if (resPlasticGrating != null) {
+      plasticGratingList = resPlasticGrating;
+    }
 
-      var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
-      if(thicknessRes != null){
-        thicknessList =  thicknessRes;
-      }
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
+        context: event.context, userData: userData);
+    if (thicknessRes != null) {
+      thicknessList = thicknessRes;
+    }
 
-      var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
-      if(pipeDiaRes != null){
-        pipeDiaList =  pipeDiaRes;
-      }
+    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
+        context: event.context, userData: userData);
+    if (pipeDiaRes != null) {
+      pipeDiaList = pipeDiaRes;
+    }
 
-     _eventComplete(emit);
+    _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -149,14 +153,15 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
     _eventComplete(emit);
   }
 
-  _selectPlasticGratingData(AddBackFillingSelectPlasticGratingEvent event, emit) {
+  _selectPlasticGratingData(
+      AddBackFillingSelectPlasticGratingEvent event, emit) {
     plasticGratingData = event.plasticGratingData;
     _eventComplete(emit);
   }
 
   _selectJointFrom(AddBackFillingSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
-     _eventComplete(emit);
+    fromJointData = event.jointNumberData;
+    _eventComplete(emit);
   }
 
   _selectJointTo(AddBackFillingSelectToJointDataEvent event, emit) {
@@ -165,43 +170,47 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   }
 
   _selectJointType(AddBackFillingSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectPipeDia(AddBackFillingSelectPipeDiaDataEvent event, emit) {
-    pipeDiaData =  event.pipeDiaData;
+    pipeDiaData = event.pipeDiaData;
     _eventComplete(emit);
   }
 
   _selectThickness(AddBackFillingSelectThicknessDataEvent event, emit) {
-    thicknessData =  event.thicknessData;
+    thicknessData = event.thicknessData;
     _eventComplete(emit);
   }
 
   _selectDate(AddBackFillingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -209,15 +218,15 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   }
 
   _selectFile(AddBackFillingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -225,9 +234,10 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
   }
 
   _submitData(AddBackFillingSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddBackFillingHelper.submitData(context: event.context,
+    var res = await AddBackFillingHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -244,11 +254,12 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
         slopeBreaker: slopeBreakerController.text.toString(),
         postPadding: postPaddingController.text.toString(),
         antiBuoyancy: antiBuoyancyController.text.toString(),
-        file: file, pipeDiaData: pipeDiaData,
+        file: file,
+        pipeDiaData: pipeDiaData,
         thicknessData: thicknessData);
-     isLoader =  false;
-     _eventComplete(emit);
-    if(res !=  null){
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
@@ -258,52 +269,51 @@ class AddBackFillingBloc extends Bloc<AddBackFillingEvent, AddBackFillingState> 
       slopeBreakerController.text = "";
       warningMatController.text = "";
       antiBuoyancyController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
+      alignmentData = AlignmentModel();
+      isLoader = false;
       plasticGratingData = VisualChecksModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
-      thicknessData =  ThicknessModel();
-      pipeDiaData =  PipeDiaModel();
+      file = File("");
+      weatherData = WeatherModel();
+      thicknessData = ThicknessModel();
+      pipeDiaData = PipeDiaModel();
       _eventComplete(emit);
     }
   }
-  
-  _eventComplete(Emitter<AddBackFillingState>emit) {
-    emit(FetchAddBackFillingDataState(isLoader: isLoader, 
-        alignmentList: alignmentList, 
-        dateController: dateController, 
-        activityRemarkController: activityRemarkController,
-        reportNumberController: reportNumberController, 
-        chainageFromController: chainageFromController,
-        chainageToController: chainageToController,
-        alignmentData: alignmentData, 
-        file: file,
-        weatherList: weatherList,
-        weatherData: weatherData,
-        jointTypeData: jointTypeData, 
-        jointTypeList: jointTypeList, 
-        isJointNumberLoader: isJointNumberLoader,
-        fromJointData: fromJointData, 
-        jointFromList: jointFromList,
-        jointToList: jointToList,
-        plasticGratingData: plasticGratingData, 
-        plasticGratingList: plasticGratingList,
-        postPaddingController: postPaddingController,
-        slopeBreakerController: slopeBreakerController, 
-        toJointData: toJointData, 
-        warningMatController: warningMatController,
-        antiBuoyancyController: antiBuoyancyController,
-        pipeDiaData: pipeDiaData,
-        pipeDialList: pipeDiaList,
-        thicknessData: thicknessData,
-        thicknessList: thicknessList,
+
+  _eventComplete(Emitter<AddBackFillingState> emit) {
+    emit(FetchAddBackFillingDataState(
+      isLoader: isLoader,
+      alignmentList: alignmentList,
+      dateController: dateController,
+      activityRemarkController: activityRemarkController,
+      reportNumberController: reportNumberController,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
+      alignmentData: alignmentData,
+      file: file,
+      weatherList: weatherList,
+      weatherData: weatherData,
+      jointTypeData: jointTypeData,
+      jointTypeList: jointTypeList,
+      isJointNumberLoader: isJointNumberLoader,
+      fromJointData: fromJointData,
+      jointFromList: jointFromList,
+      jointToList: jointToList,
+      plasticGratingData: plasticGratingData,
+      plasticGratingList: plasticGratingList,
+      postPaddingController: postPaddingController,
+      slopeBreakerController: slopeBreakerController,
+      toJointData: toJointData,
+      warningMatController: warningMatController,
+      antiBuoyancyController: antiBuoyancyController,
+      pipeDiaData: pipeDiaData,
+      pipeDialList: pipeDiaList,
+      thicknessData: thicknessData,
+      thicknessList: thicknessList,
     ));
   }
-
-
 }

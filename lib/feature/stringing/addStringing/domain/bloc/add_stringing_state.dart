@@ -9,7 +9,6 @@ class AddStringingInitial extends AddStringingState {
   List<Object> get props => [];
 }
 
-
 class AddStringingPageLoadState extends AddStringingInitial {
   @override
   List<Object> get props => [];
@@ -21,7 +20,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
   final List<ConcreteCoatingModel> concreteCoatingList;
   final ConcreteCoatingModel concreteCoatingData;
@@ -36,7 +35,6 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final TextEditingController chainageToController;
   final TextEditingController pipeLengthController;
   final List<PipeModel> pipeLengthList;
-
 
   FetchAddStringingDataState({
     required this.isLoader,
@@ -63,26 +61,25 @@ class FetchAddStringingDataState extends AddStringingInitial {
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    searchPipeController,
-    searchPipeLoader,
-    searchPipeList,
-    alignmentData,
-    file,
-    pipeList,
-    pipeData,
-    concreteCoatingList,
-    concreteCoatingData,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-    pipeLengthController,
-    pipeLengthList,
-
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        searchPipeController,
+        searchPipeLoader,
+        searchPipeList,
+        alignmentData,
+        file,
+        pipeList,
+        pipeData,
+        concreteCoatingList,
+        concreteCoatingData,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+        pipeLengthController,
+        pipeLengthList,
+      ];
 }

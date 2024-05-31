@@ -4,11 +4,11 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 
 List<SegmentModel> segmentListResponse(var json, List<WelderModel> welderList) {
-  return List<SegmentModel>.from(json.map((x) => SegmentModel.fromJson(x, welderList)));
+  return List<SegmentModel>.from(
+      json.map((x) => SegmentModel.fromJson(x, welderList)));
 }
 
 class SegmentModel {
-
   dynamic id;
   String? name;
   String? observation;
@@ -54,46 +54,56 @@ class SegmentModel {
     this.segmentWelderList,
   });
 
-  factory SegmentModel.fromJson(Map<String, dynamic> json, List<WelderModel> welderList) {
+  factory SegmentModel.fromJson(
+      Map<String, dynamic> json, List<WelderModel> welderList) {
     int id = 1;
     return SegmentModel(
-      id :  json['id'] ?? "",
-      name :  json['name'] ?? "",
-      observationController: TextEditingController(),
-      remarkController: TextEditingController(),
-      observation: "Observation",
-      remark: "Remark",
-      segmentStatusList: json['status'] != null ? getSegmentStatusData(json['status'], id) : [],
-      segmentWelderList:  json['weld'] !=  null ? segmentWelderListResponse(json['weld'], welderList) : []
-    );
+        id: json['id'] ?? "",
+        name: json['name'] ?? "",
+        observationController: TextEditingController(),
+        remarkController: TextEditingController(),
+        observation: "Observation",
+        remark: "Remark",
+        segmentStatusList: json['status'] != null
+            ? getSegmentStatusData(json['status'], id)
+            : [],
+        segmentWelderList: json['weld'] != null
+            ? segmentWelderListResponse(json['weld'], welderList)
+            : []);
   }
 
   static dynamic getSegmentStatusData(Map segmentStatusData, int id) {
     List<SegmentStatusModel> segmentStatusList = [];
-         Map myMap = segmentStatusData;
-            myMap.forEach((key, value) {
-              segmentStatusList.add(SegmentStatusModel(id: key, status: value, selectedValue: "", groupType: id));
-              id++;
-            });
-     return segmentStatusList;
+    Map myMap = segmentStatusData;
+    myMap.forEach((key, value) {
+      segmentStatusList.add(SegmentStatusModel(
+          id: key, status: value, selectedValue: "", groupType: id));
+      id++;
+    });
+    return segmentStatusList;
   }
 
   dynamic toJson() {
     List<dynamic> segmentStatusDataList = [];
-    for(var status in segmentStatusList!){
-      if(status.selectedValue.toString().isNotEmpty){
+    for (var status in segmentStatusList!) {
+      if (status.selectedValue.toString().isNotEmpty) {
         segmentStatusDataList.add(status.id.toString());
       }
     }
-   var  data ;
-    if(segmentStatusDataList.isNotEmpty){
-
+    var data;
+    if (segmentStatusDataList.isNotEmpty) {
       var json = {
-        "segment_id" : id.toString(),
-        "observation" : observationController!.text.toString(),
-        "status" :segmentStatusDataList.isNotEmpty ? segmentStatusDataList.toString().replaceAll("[", "").toString().replaceAll("]", "") : "0",
-        "remarks" : remarkController!.text.toString(),
-        "weld_details" : segmentWelderList!.map((v) => v.toJson()).toList(),
+        "segment_id": id.toString(),
+        "observation": observationController!.text.toString(),
+        "status": segmentStatusDataList.isNotEmpty
+            ? segmentStatusDataList
+                .toString()
+                .replaceAll("[", "")
+                .toString()
+                .replaceAll("]", "")
+            : "0",
+        "remarks": remarkController!.text.toString(),
+        "weld_details": segmentWelderList!.map((v) => v.toJson()).toList(),
       };
       return json;
 
@@ -105,5 +115,4 @@ class SegmentModel {
     }
     return "";
   }
-
 }

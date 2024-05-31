@@ -1,5 +1,6 @@
 List<JointNumberModel> jointNumberListResponse(var json) {
-  return List<JointNumberModel>.from(json.map((x) => JointNumberModel.fromJson(x)));
+  return List<JointNumberModel>.from(
+      json.map((x) => JointNumberModel.fromJson(x)));
 }
 
 class JointNumberModel {

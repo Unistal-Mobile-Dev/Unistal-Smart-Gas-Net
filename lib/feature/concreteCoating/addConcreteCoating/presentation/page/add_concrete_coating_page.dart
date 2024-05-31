@@ -13,34 +13,36 @@ class AddConcreteCoatingPage extends StatefulWidget {
 }
 
 class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddConcreteCoatingBloc>(context).add(AddConcreteCoatingPageLoadEvent(context: context));
+    BlocProvider.of<AddConcreteCoatingBloc>(context)
+        .add(AddConcreteCoatingPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddConcreteCoatingBloc, AddConcreteCoatingState>(
         builder: (context, state) {
-          if(state is FetchAddConcreteCoatingDataState) {
+          if (state is FetchAddConcreteCoatingDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddConcreteCoatingDataState dataState}){
+  Widget _itemBuilder({required FetchAddConcreteCoatingDataState dataState}) {
     return Container(
       margin: EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -69,15 +71,18 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
     );
   }
 
-  Widget _dateController({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _dateController(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: false,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddConcreteCoatingBloc>(context).add(
-            AddConcreteCoatingSelectDateEvent(context: context,));
+        BlocProvider.of<AddConcreteCoatingBloc>(context)
+            .add(AddConcreteCoatingSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
@@ -87,8 +92,8 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
         isLoader: dataState.searchPipeLoader,
         onChange: (value) {
           BlocProvider.of<AddConcreteCoatingBloc>(context).add(
-              AddConcreteCoatingAddSearchPipeDataEvent(keyword: value, context: context)
-          );
+              AddConcreteCoatingAddSearchPipeDataEvent(
+                  keyword: value, context: context));
         },
         onClick: (value) {
           BlocProvider.of<AddConcreteCoatingBloc>(context).add(
@@ -96,11 +101,11 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
         },
         controller: dataState.searchPipeController,
         label: AppString.selectPipeNumber,
-        list: dataState.searchPipeList
-    );
+        list: dataState.searchPipeList);
   }
 
-  Widget _chainageController({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _chainageController(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -109,15 +114,19 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
     );
   }
 
-  Widget _concreteCoatingThicknessDropDown({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _concreteCoatingThicknessDropDown(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.concreteCoatingThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
+      dropdownValue:
+          dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
         BlocProvider.of<AddConcreteCoatingBloc>(context).add(
-            AddConcreteCoatingSelectSelectThicknessDataEvent(thicknessData: value));
+            AddConcreteCoatingSelectSelectThicknessDataEvent(
+                thicknessData: value));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
+      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
+          (ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
           value: thicknessData,
           child: Text(thicknessData.value.toString()),
@@ -126,7 +135,8 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
     );
   }
 
-  Widget _concreteCoatingLengthController({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _concreteCoatingLengthController(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -135,9 +145,8 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
     );
   }
 
-
-
-  Widget _activityRemark({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _activityRemark(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 3,
@@ -146,28 +155,35 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
     );
   }
 
-  Widget _alignmentDropdown({required FetchAddConcreteCoatingDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+  Widget _alignmentDropdown(
+      {required FetchAddConcreteCoatingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddConcreteCoatingBloc>(context).add(
-            AddConcreteCoatingSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddConcreteCoatingBloc>(context)
+            .add(AddConcreteCoatingSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
 
-  Widget _weatherDropDown({required FetchAddConcreteCoatingDataState dataState}) {
+  Widget _weatherDropDown(
+      {required FetchAddConcreteCoatingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddConcreteCoatingBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddConcreteCoatingBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -178,8 +194,8 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
 
   Widget _photo({required FetchAddConcreteCoatingDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -187,48 +203,73 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -243,13 +284,27 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddConcreteCoatingBloc>(context).add(AddConcreteCoatingAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddConcreteCoatingBloc>(context).add(
+                        AddConcreteCoatingAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddConcreteCoatingBloc>(context).add(AddConcreteCoatingAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddConcreteCoatingBloc>(context).add(
+                        AddConcreteCoatingAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -258,20 +313,23 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
   }
 
   Widget _button({required FetchAddConcreteCoatingDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddConcreteCoatingBloc>(context).add(AddConcreteCoatingSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddConcreteCoatingBloc>(context)
+                  .add(AddConcreteCoatingSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 }

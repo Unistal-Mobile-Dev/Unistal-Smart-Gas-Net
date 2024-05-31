@@ -9,87 +9,101 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddClearingGradingHelper {
-
-  static Future<dynamic> textFiledValidation({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String reportNumber,
-    required String date, required String tpIpChainage,
-    required String tpIpNOS,
-    required String tpIpRemark,
-    required String ipNumber,
-    required String ipNumberFrom,
-    required String structureDetail,
-    required String boundaryLocation,
-    required String activityRemark,
-    required String groundType}) async {
-
-    try{
-      if(date.isEmpty){
+  static Future<dynamic> textFiledValidation(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String reportNumber,
+      required String date,
+      required String tpIpChainage,
+      required String tpIpNOS,
+      required String tpIpRemark,
+      required String ipNumber,
+      required String ipNumberFrom,
+      required String structureDetail,
+      required String boundaryLocation,
+      required String activityRemark,
+      required String groundType}) async {
+    try {
+      if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if(alignmentData.id == null){
+      } else if (alignmentData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
-      }  if(reportNumber.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter report number");
+      }
+      if (reportNumber.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter report number");
         return false;
-      } else if(tpIpChainage.isEmpty){
+      } else if (tpIpChainage.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter TP IP From");
         return false;
-      } else if(tpIpNOS.isEmpty){
+      } else if (tpIpNOS.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter tp ip number");
         return false;
-      }else if(groundType.isEmpty){
+      } else if (groundType.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter ground type");
         return false;
-      } else if(ipNumberFrom.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter ip number from");
+      } else if (ipNumberFrom.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter ip number from");
         return false;
-      }else if(ipNumber.isEmpty){
+      } else if (ipNumber.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter ip number");
         return false;
-      }
-      else if(structureDetail.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter structure detail");
+      } else if (structureDetail.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter structure detail");
         return false;
-      } else if(boundaryLocation.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter boundary location");
+      } else if (boundaryLocation.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter boundary location");
         return false;
-      }
-      else if(activityRemark.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter activity remark");
+      } else if (activityRemark.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter activity remark");
         return false;
       }
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
 
-  static Future<dynamic> fetchTerrainData({required BuildContext context,
-    required LoginDataModel userData}) async {
-    try{
-      String url  =  APIs.getTerrianApi+"?schema=${userData.schema}";
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] !=  null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchTerrainData(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getTerrianApi + "?schema=${userData.schema}";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         return terrainListResponse(res['data']);
-      } else{
+      } else {
         return null;
       }
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
-    required String date, required String tpIpChainage,
-    required String ipNumber, required String ipNumberFrom,
-    required String tpIpNOS, required String tpIpRemark, required String structureDetail,
-    required String boundaryLocation, required String activityRemark,
-    required LoginDataModel userData, required File file, required String groundType,
+    required String date,
+    required String tpIpChainage,
+    required String ipNumber,
+    required String ipNumberFrom,
+    required String tpIpNOS,
+    required String tpIpRemark,
+    required String structureDetail,
+    required String boundaryLocation,
+    required String activityRemark,
+    required LoginDataModel userData,
+    required File file,
+    required String groundType,
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
@@ -97,17 +111,17 @@ class AddClearingGradingHelper {
     required TerrainTypeModel terrainTypeData,
     required String gapLength,
     required String gapDescription,
-   }) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  }) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addCGinsertApi;
+      String url = APIs.addCGinsertApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -131,33 +145,44 @@ class AddClearingGradingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "terrain_id" : terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "terrain_id":
+            terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      }else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
+        String resPonse = res['data'].toString();
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      }else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
-
 }

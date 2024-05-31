@@ -1,5 +1,6 @@
 List<GroundTypeModel> groundTypeListResponse(var json) {
-  return List<GroundTypeModel>.from(json.map((x) => GroundTypeModel.fromJson(x)));
+  return List<GroundTypeModel>.from(
+      json.map((x) => GroundTypeModel.fromJson(x)));
 }
 
 class GroundTypeModel {

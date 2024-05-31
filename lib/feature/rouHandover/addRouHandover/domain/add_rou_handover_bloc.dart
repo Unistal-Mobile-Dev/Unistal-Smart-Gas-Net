@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -15,15 +12,18 @@ import 'package:intl/intl.dart';
 part 'add_rou_handover_event.dart';
 part 'add_rou_handover_state.dart';
 
-class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> {
-
+class AddRouHandoverBloc
+    extends Bloc<AddRouHandoverEvent, AddRouHandoverState> {
   bool _isLoader = false;
+
   bool get isLoader => _isLoader;
 
   List<AlignmentModel> _alignmentList = [];
+
   List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel _alignmentData =  AlignmentModel();
+  AlignmentModel _alignmentData = AlignmentModel();
+
   AlignmentModel get alignmentData => _alignmentData;
 
   TextEditingController dateController = TextEditingController();
@@ -34,20 +34,23 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   TextEditingController bearingAngleController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<WeatherModel> _weatherList = [];
+
   List<WeatherModel> get weatherList => _weatherList;
 
-  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel _weatherData = WeatherModel();
+
   WeatherModel get weatherData => _weatherData;
 
   File file = File("");
-  
+
   AddRouHandoverBloc() : super(AddRouHandoverInitial()) {
     on<AddRouHandoverLoadEvent>(_pageLoadEvent);
     on<AddRouHandoverSubmitDataEvent>(_submitData);
@@ -67,27 +70,28 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     bearingAngleController.text = "";
     terrainController.text = "";
     activityRemarkController.text = "";
-    _isLoader =  false;
-    _alignmentList =  [];
+    _isLoader = false;
+    _alignmentList = [];
     file = File("");
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    _alignmentData =  AlignmentModel();
-    _userData =  UserInfo.instanceInit()!.userData!;
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      _alignmentList =  res;
+    _weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _alignmentData = AlignmentModel();
+    _userData = UserInfo.instanceInit()!.userData!;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _alignmentList = res;
     }
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData =  event.weatherData;
+    _weatherData = event.weatherData;
     _eventComplete(emit);
   }
-
 
   _selectAlignment(AddRouHandoverSelectAlignmentEvent event, emit) {
     _alignmentData = event.alignmentData;
@@ -95,39 +99,40 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
   }
 
   _selectDate(AddRouHandoverSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
-
   }
 
   _selectFile(AddRouHandoverAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
     _eventComplete(emit);
   }
 
-  _submitData(AddRouHandoverSubmitDataEvent event, emit) async  {
+  _submitData(AddRouHandoverSubmitDataEvent event, emit) async {
 /*    var textFiledValidation =  await AddRouHandover.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
@@ -141,16 +146,16 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
     if(textFiledValidation == false){
       return;
     }*/
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddRouHandover.submitData(
+    var res = await AddRouHandover.submitData(
         context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         typeofGround: typeofGroundController.text.toString(),
         tpIpNOS: tpChainageNumberController.text.toString(),
-        tpIpRemark:tpRemarkController.text.toString(),
+        tpIpRemark: tpRemarkController.text.toString(),
         bearing: bearingAngleController.text.toString(),
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -159,9 +164,9 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         weatherData: weatherData);
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
-    if(res != null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       typeofGroundController.text = "";
@@ -170,19 +175,19 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       bearingAngleController.text = "";
       terrainController.text = "";
       activityRemarkController.text = "";
-      _isLoader =  false;
-      _alignmentData =  AlignmentModel();
+      _isLoader = false;
+      _alignmentData = AlignmentModel();
       chainageFromController.text = "";
       chainageToController.text = "";
       file = File("");
-      _weatherData =  WeatherModel();
+      _weatherData = WeatherModel();
       _eventComplete(emit);
     }
-
   }
 
-  _eventComplete(Emitter<AddRouHandoverState>emit) {
-    emit(FetchAddRouHandoverDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddRouHandoverState> emit) {
+    emit(FetchAddRouHandoverDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -194,11 +199,10 @@ class AddRouHandoverBloc extends Bloc<AddRouHandoverEvent, AddRouHandoverState> 
       tpRemarkController: tpRemarkController,
       alignmentData: alignmentData,
       file: file,
-      weatherData:  weatherData,
-      weatherList:  weatherList,
+      weatherData: weatherData,
+      weatherList: weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
-
     ));
   }
 }

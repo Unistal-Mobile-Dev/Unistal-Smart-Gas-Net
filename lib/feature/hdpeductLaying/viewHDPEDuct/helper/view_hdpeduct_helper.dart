@@ -1,3 +1,1 @@
-class ViewHDPEDuctHelper {
-
-}
+class ViewHDPEDuctHelper {}

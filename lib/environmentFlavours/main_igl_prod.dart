@@ -6,17 +6,16 @@ import 'package:flutter_unistal_smart_gas_net/root.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/hive/hive_database.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
   var configuredApp = const EnvironmentConfig(
       flavours: EnvironmentFlavours.productionIgl,
-      child: Root(client: Client.igl,)
-  );
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-    SystemUiOverlay.bottom
-  ]);
+      child: Root(
+        client: Client.igl,
+      ));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom]);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

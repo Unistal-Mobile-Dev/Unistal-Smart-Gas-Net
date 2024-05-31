@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -27,8 +26,8 @@ import 'package:intl/intl.dart';
 part 'add_joint_coating_event.dart';
 part 'add_joint_coating_state.dart';
 
-class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingState> {
-
+class AddJointCoatingBloc
+    extends Bloc<AddJointCoatingEvent, AddJointCoatingState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController onBodyController = TextEditingController();
   TextEditingController onWeldController = TextEditingController();
@@ -50,37 +49,37 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   HolidayChecksModel holidayChecksData = HolidayChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<ThicknessModel> thicknessList = [];
-  ThicknessModel thicknessData =  ThicknessModel();
+  ThicknessModel thicknessData = ThicknessModel();
 
   List<PipeDiaModel> pipeDiaList = [];
-  PipeDiaModel pipeDiaData =  PipeDiaModel();
+  PipeDiaModel pipeDiaData = PipeDiaModel();
 
   List<CoatingTypeModel> coatingTypeList = [];
   CoatingTypeModel coatingTypeData = CoatingTypeModel();
 
   List<PaddingModel> peelTestList = [];
-  PaddingModel peelTestData =  PaddingModel();
+  PaddingModel peelTestData = PaddingModel();
 
   List<PipeMaterialModel> pipeMaterialList = [];
-  PipeMaterialModel pipeMaterialData =  PipeMaterialModel();
+  PipeMaterialModel pipeMaterialData = PipeMaterialModel();
 
   List<VisualChecksModel> visualsChecksList = [];
-  VisualChecksModel visualChecksData =  VisualChecksModel();
-
+  VisualChecksModel visualChecksData = VisualChecksModel();
 
   AddJointCoatingBloc() : super(AddJointCoatingInitial()) {
     on<AddJointCoatingPageLoadEvent>(_pageLoader);
@@ -123,79 +122,89 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
+    file = File("");
     thicknessList = [];
-    thicknessData =  ThicknessModel();
-    pipeDiaData =  PipeDiaModel();
+    thicknessData = ThicknessModel();
+    pipeDiaData = PipeDiaModel();
     pipeDiaList = [];
-    peelTestData =  PaddingModel();
-    peelTestList =  [];
+    peelTestData = PaddingModel();
+    peelTestList = [];
     coatingTypeList = [];
-    coatingTypeData =  CoatingTypeModel();
-    weatherData =  WeatherModel();
+    coatingTypeData = CoatingTypeModel();
+    weatherData = WeatherModel();
     pipeMaterialList = [];
-    pipeMaterialData =  PipeMaterialModel();
+    pipeMaterialData = PipeMaterialModel();
     visualsChecksList = [];
     visualChecksData = VisualChecksModel();
-    _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
-    }
-
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
-    if(thicknessRes != null){
-      thicknessList =  thicknessRes;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
-    var resHoliday =  await AddBendingHelper.fetchHolidayData(context: event.context);
-    if(resHoliday != null){
-      holidayCheckList =  resHoliday;
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
+        context: event.context, userData: userData);
+    if (thicknessRes != null) {
+      thicknessList = thicknessRes;
     }
 
-    var pipeDiaRes =  await AddLoweringHelper.fetchPipeDiaData(context: event.context, userData: userData);
-    if(pipeDiaRes != null){
-      pipeDiaList =  pipeDiaRes;
+    var resHoliday =
+        await AddBendingHelper.fetchHolidayData(context: event.context);
+    if (resHoliday != null) {
+      holidayCheckList = resHoliday;
     }
 
-    var coatingRes =  await AddJointCoatingHelper.fetchCoatingTypeData(context: event.context, userData: userData);
-    if(coatingRes != null){
-      coatingTypeList =  coatingRes;
+    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
+        context: event.context, userData: userData);
+    if (pipeDiaRes != null) {
+      pipeDiaList = pipeDiaRes;
     }
 
-    var peelTestRes =  await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
-    if(peelTestRes != null){
-      peelTestList =  peelTestRes;
+    var coatingRes = await AddJointCoatingHelper.fetchCoatingTypeData(
+        context: event.context, userData: userData);
+    if (coatingRes != null) {
+      coatingTypeList = coatingRes;
     }
 
-    var pipeMaterialRes =  await AddJointCoatingHelper.fetchPipeMaterialData(context: event.context, userData: userData);
-    if(pipeMaterialRes != null){
-      pipeMaterialList =  pipeMaterialRes;
+    var peelTestRes =
+        await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    if (peelTestRes != null) {
+      peelTestList = peelTestRes;
     }
 
-    var visualsChecksRes =  await AddBendingHelper.fetchVisualChecks(context: event.context);
-    if(visualsChecksRes != null){
-      visualsChecksList =  visualsChecksRes;
+    var pipeMaterialRes = await AddJointCoatingHelper.fetchPipeMaterialData(
+        context: event.context, userData: userData);
+    if (pipeMaterialRes != null) {
+      pipeMaterialList = pipeMaterialRes;
+    }
+
+    var visualsChecksRes =
+        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    if (visualsChecksRes != null) {
+      visualsChecksList = visualsChecksRes;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -205,22 +214,22 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectCoatingType(AddJointCoatingSelectCoatingTypeDataEvent event, emit) {
-    coatingTypeData =  event.coatingTypeData;
+    coatingTypeData = event.coatingTypeData;
     _eventComplete(emit);
   }
 
   _selectPipeMaterial(AddJointCoatingSelectPipeMaterialDataEvent event, emit) {
-    pipeMaterialData =  event.pipeMaterialData;
+    pipeMaterialData = event.pipeMaterialData;
     _eventComplete(emit);
   }
 
   _selectVisualCheck(AddJointCoatingSelectVisualChecksDataEvent event, emit) {
-    visualChecksData =  event.visualChecksData;
+    visualChecksData = event.visualChecksData;
     _eventComplete(emit);
   }
 
   _selectPeelTest(AddJointCoatingSelectPeelTestDataEvent event, emit) {
-    peelTestData =  event.peelTestData;
+    peelTestData = event.peelTestData;
     _eventComplete(emit);
   }
 
@@ -230,7 +239,7 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectJointFrom(AddJointCoatingSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
+    fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -240,33 +249,37 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectJointType(AddJointCoatingSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddJointCoatingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -274,42 +287,44 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _selectPipeDia(AddJointCoatingSelectPipeDiaDataEvent event, emit) {
-    pipeDiaData =  event.pipeDiaData;
+    pipeDiaData = event.pipeDiaData;
     _eventComplete(emit);
   }
 
   _selectThickness(AddJointCoatingSelectThicknessDataEvent event, emit) {
-    thicknessData =  event.thicknessData;
+    thicknessData = event.thicknessData;
     _eventComplete(emit);
   }
 
-  _selectCabilabrationData(AddJointCoatingCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+  _selectCabilabrationData(
+      AddJointCoatingCalibarationDataEvent event, emit) async {
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      onBodyController.text =  formattedDateChange.toString();
+      onBodyController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
   }
 
-
   _selectFile(AddJointCoatingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -317,9 +332,10 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
   }
 
   _submitData(AddJointCoatingSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddJointCoatingHelper.submitData(context: event.context,
+    var res = await AddJointCoatingHelper.submitData(
+      context: event.context,
       alignmentData: alignmentData,
       onWeld: onWeldController.text.toString(),
       date: dateController.text.toString(),
@@ -348,17 +364,17 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       pipeMaterialData: pipeMaterialData,
       peelTestData: peelTestData,
     );
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       onWeldController.text = "";
       activityRemarkController.text = "";
       chainageFromController.text = "";
       chainageToController.text = "";
       batchNoController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
+      alignmentData = AlignmentModel();
+      isLoader = false;
       holidayChecksData = HolidayChecksModel();
       primaryBbatchController.text = "";
       locationController.text = "";
@@ -369,23 +385,23 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       primaryAbatchController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
-      thicknessData =  ThicknessModel();
-      pipeDiaData =  PipeDiaModel();
-      peelTestData =  PaddingModel();
-      coatingTypeData =  CoatingTypeModel();
-      pipeMaterialData =  PipeMaterialModel();
-      visualChecksData =  VisualChecksModel();
+      file = File("");
+      weatherData = WeatherModel();
+      thicknessData = ThicknessModel();
+      pipeDiaData = PipeDiaModel();
+      peelTestData = PaddingModel();
+      coatingTypeData = CoatingTypeModel();
+      pipeMaterialData = PipeMaterialModel();
+      visualChecksData = VisualChecksModel();
       _eventComplete(emit);
     }
   }
 
-
-  _eventComplete(Emitter<AddJointCoatingState>emit) {
-    emit(FetchAddJointCoatingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddJointCoatingState> emit) {
+    emit(FetchAddJointCoatingDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -427,5 +443,4 @@ class AddJointCoatingBloc extends Bloc<AddJointCoatingEvent, AddJointCoatingStat
       visualsChecksList: visualsChecksList,
     ));
   }
-
 }

@@ -25,7 +25,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
   final TextEditingController bearingAngleController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -53,21 +53,21 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    bearingAngleController,
-    reportNumberController,
-    terrainController,
-    typeofGroundController,
-    tpChainageNumberController,
-    tpRemarkController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        bearingAngleController,
+        reportNumberController,
+        terrainController,
+        typeofGroundController,
+        tpChainageNumberController,
+        tpRemarkController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+      ];
 }

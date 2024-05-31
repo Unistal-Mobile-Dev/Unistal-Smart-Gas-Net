@@ -10,8 +10,6 @@ class ViewLevellingPage extends StatefulWidget {
 class _ViewLevellingPageState extends State<ViewLevellingPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-
-    );
+    return const Scaffold();
   }
 }

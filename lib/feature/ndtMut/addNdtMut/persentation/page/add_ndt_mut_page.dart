@@ -16,34 +16,36 @@ class AddNdtMutPage extends StatefulWidget {
 }
 
 class _AddNdtMutPageState extends State<AddNdtMutPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutPageLoadEvent(context: context));
+    BlocProvider.of<AddNdtMutBloc>(context)
+        .add(AddNdtMutPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddNdtMutBloc, AddNdtMutState>(
         builder: (context, state) {
-          if(state is FetchAddNdtMutDataState) {
+          if (state is FetchAddNdtMutDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddNdtMutDataState dataState}){
+  Widget _itemBuilder({required FetchAddNdtMutDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -95,21 +97,25 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectDateEvent(context: context,));
+        BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
   Widget _alignmentDropdown({required FetchAddNdtMutDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(AddNdtMutSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -117,12 +123,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _weatherDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -131,61 +139,67 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
     );
   }
 
-  Widget _typeOfFlawDetectorController({required FetchAddNdtMutDataState dataState}) {
+  Widget _typeOfFlawDetectorController(
+      {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.typeOfFlawDetector,
       controller: dataState.typeOfFlawDetectorController,
     );
   }
 
-  Widget _angleOfRayInputController({required FetchAddNdtMutDataState dataState}) {
+  Widget _angleOfRayInputController(
+      {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.angleOfRayInput,
       controller: dataState.angleOfRayInputController,
     );
   }
 
-  Widget _operatingFrequencyController({required FetchAddNdtMutDataState dataState}) {
+  Widget _operatingFrequencyController(
+      {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.operatingFrequency,
       controller: dataState.operatingFrequencyController,
     );
   }
 
-  Widget _leveOfInspectionController({required FetchAddNdtMutDataState dataState}) {
+  Widget _leveOfInspectionController(
+      {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.levelOfInspection,
       controller: dataState.leveOfInspectionController,
     );
   }
 
-  Widget _pipeNumberSearchController({required FetchAddNdtMutDataState dataState}) {
+  Widget _pipeNumberSearchController(
+      {required FetchAddNdtMutDataState dataState}) {
     return SearchTextField(
         isLoader: dataState.searchPipeLoader,
         onChange: (value) {
           BlocProvider.of<AddNdtMutBloc>(context).add(
-              AddNdtMutSearchPipeDataEvent(keyword: value, context: context)
-          );
+              AddNdtMutSearchPipeDataEvent(keyword: value, context: context));
         },
         onClick: (value) {
-          BlocProvider.of<AddNdtMutBloc>(context).add(
-              AddNdtMutSelectPipeDataEvent(pipeData: value));
+          BlocProvider.of<AddNdtMutBloc>(context)
+              .add(AddNdtMutSelectPipeDataEvent(pipeData: value));
         },
         controller: dataState.searchPipeController,
         label: AppString.selectPipeNumber,
-        list: dataState.pipeList
-    );
+        list: dataState.pipeList);
   }
 
   Widget _jointTypeDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddNdtMutSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -197,12 +211,15 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _jointNumberDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      dropdownValue: dataState.jointNumberData.id != null
+          ? dataState.jointNumberData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectJointNumberDataEvent(jointNumberData: value));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(AddNdtMutSelectJointNumberDataEvent(jointNumberData: value));
       },
-      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>(
+          (JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
           value: jointNumberData,
           child: Text(jointNumberData.jointNumber.toString()),
@@ -217,17 +234,22 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          return _listItemBuilder(segmentData: dataState.segmentList[index], index: index);
+          return _listItemBuilder(
+              segmentData: dataState.segmentList[index], index: index);
         });
   }
 
-  Widget _listItemBuilder({required SegmentModel segmentData, required int index}) {
+  Widget _listItemBuilder(
+      {required SegmentModel segmentData, required int index}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        TextWidget("${segmentData.name}*", fontWeight: FontWeight.w700,
-          color: AppColor.black,),
+        TextWidget(
+          "${segmentData.name}*",
+          fontWeight: FontWeight.w700,
+          color: AppColor.black,
+        ),
         _verticalSpace(),
         _radioButtonList(segmentData: segmentData, segmentIndex: index),
         TextFieldWidget(
@@ -249,7 +271,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
     );
   }
 
-  Widget _radioButtonList({required SegmentModel segmentData, required int segmentIndex}) {
+  Widget _radioButtonList(
+      {required SegmentModel segmentData, required int segmentIndex}) {
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -258,14 +281,18 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           return Row(
             children: [
               Radio(
-                value: segmentData.segmentStatusList![index].groupType.toString(),
-                groupValue: segmentData.segmentStatusList![index].selectedValue.toString(),
+                value:
+                    segmentData.segmentStatusList![index].groupType.toString(),
+                groupValue: segmentData.segmentStatusList![index].selectedValue
+                    .toString(),
                 onChanged: (val) {
                   BlocProvider.of<AddNdtMutBloc>(context).add(
-                      AddNdtMutSelectSegmentDataEvent(index: index, segmentIndex: segmentIndex));
+                      AddNdtMutSelectSegmentDataEvent(
+                          index: index, segmentIndex: segmentIndex));
                 },
               ),
-              TextWidget(segmentData.segmentStatusList![index].status.toString()),
+              TextWidget(
+                  segmentData.segmentStatusList![index].status.toString()),
             ],
           );
         });
@@ -280,7 +307,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
     );
   }
 
-  Widget _locationDiscoverDefectController({required FetchAddNdtMutDataState dataState}) {
+  Widget _locationDiscoverDefectController(
+      {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       isRequired: false,
       labelText: AppString.locationOfDiscoveredDefect,
@@ -291,12 +319,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _ndtAgencyDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectNdtAgency,
-      dropdownValue: dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
+      dropdownValue:
+          dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectNdtAgencyDataEvent(ndtAgencyData: value));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(AddNdtMutSelectNdtAgencyDataEvent(ndtAgencyData: value));
       },
-      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -308,12 +338,15 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _dSPPLDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectDSPPL,
-      dropdownValue: dataState.dSPPLAgencyData.id != null ? dataState.dSPPLAgencyData : null,
+      dropdownValue: dataState.dSPPLAgencyData.id != null
+          ? dataState.dSPPLAgencyData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectDspplDataEvent(dspplData: value));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(AddNdtMutSelectDspplDataEvent(dspplData: value));
       },
-      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -325,12 +358,14 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _mECONPBGPLDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectMECONPBGPL,
-      dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
+      dropdownValue:
+          dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectMeconPbgplDataEvent(meconPbgplData: value));
+        BlocProvider.of<AddNdtMutBloc>(context)
+            .add(AddNdtMutSelectMeconPbgplDataEvent(meconPbgplData: value));
       },
-      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -341,8 +376,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _photo({required FetchAddNdtMutDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -350,47 +385,73 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      : const Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -405,13 +466,25 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddNdtMutBloc>(context).add(
+                        AddNdtMutAddImageEvent(context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddNdtMutBloc>(context).add(
+                        AddNdtMutAddImageEvent(context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -419,17 +492,20 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
     );
   }
 
-
   Widget _button({required FetchAddNdtMutDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddNdtMutBloc>(context).add(AddNdtMutSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddNdtMutBloc>(context)
+                  .add(AddNdtMutSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(

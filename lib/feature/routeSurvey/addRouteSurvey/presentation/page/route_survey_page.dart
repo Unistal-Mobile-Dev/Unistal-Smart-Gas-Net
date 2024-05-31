@@ -3,7 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class AddRouteSurveyPage extends StatefulWidget {
   const AddRouteSurveyPage({super.key});
@@ -13,73 +12,74 @@ class AddRouteSurveyPage extends StatefulWidget {
 }
 
 class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveyPageLoadEvent(context: context));
+    BlocProvider.of<AddRouteSurveyBloc>(context)
+        .add(AddRouteSurveyPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddRouteSurveyBloc, AddRouteSurveyState>(
         builder: (context, state) {
-          if(state is FetchAddRouteSurveyDataState) {
+          if (state is FetchAddRouteSurveyDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddRouteSurveyDataState dataState}){
+  Widget _itemBuilder({required FetchAddRouteSurveyDataState dataState}) {
     return Container(
-       margin: EdgeInsets.all(10),
-       child: SingleChildScrollView(
-         child : Column(
-           children: [
-             _verticalSpace(),
-             _dateController(dataState: dataState),
-             _verticalSpace(),
-             _alignmentDropdown(dataState: dataState),
-             _verticalSpace(),
-             _weatherDropDown(dataState: dataState),
-             _verticalSpace(),
-             _chainageFromController(dataState: dataState),
-             _verticalSpace(),
-             _chainageToController(dataState: dataState),
-             _verticalSpace(),
-             _tpIpChainageController(dataState: dataState),
-             _verticalSpace(),
-             _tpIpNOSController(dataState: dataState),
-             _verticalSpace(),
-             _groundTypeDropDown(dataState: dataState),
-
-             AppConfig.instanceInit()!.client != Client.purvaBharti
-             ? Column(
-               children: [
-                 _tpRemarkController(dataState: dataState),
-                 _verticalSpace(),
-                 _bearingController(dataState: dataState),
-                 _verticalSpace(),
-                 _terrainController(dataState: dataState),
-               ],
-             ): const SizedBox.shrink(),
-
-             _verticalSpace(),
-             _activityRemark(dataState: dataState),
-             _verticalSpace(),
-             _photo(dataState: dataState),
-             _verticalSpace(),
-             _verticalSpace(),
-             _button(dataState: dataState),
-           ],
-         ),
-       ),
+      margin: EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _verticalSpace(),
+            _dateController(dataState: dataState),
+            _verticalSpace(),
+            _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
+            _chainageFromController(dataState: dataState),
+            _verticalSpace(),
+            _chainageToController(dataState: dataState),
+            _verticalSpace(),
+            _tpIpChainageController(dataState: dataState),
+            _verticalSpace(),
+            _tpIpNOSController(dataState: dataState),
+            _verticalSpace(),
+            _groundTypeDropDown(dataState: dataState),
+            AppConfig.instanceInit()!.client != Client.purvaBharti
+                ? Column(
+                    children: [
+                      _tpRemarkController(dataState: dataState),
+                      _verticalSpace(),
+                      _bearingController(dataState: dataState),
+                      _verticalSpace(),
+                      _terrainController(dataState: dataState),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+            _verticalSpace(),
+            _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _photo(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+            _button(dataState: dataState),
+          ],
+        ),
+      ),
     );
   }
 
@@ -90,13 +90,16 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddRouteSurveyBloc>(context).add(
-            AddRouteSurveySelectDateEvent(context: context,));
+        BlocProvider.of<AddRouteSurveyBloc>(context)
+            .add(AddRouteSurveySelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -104,7 +107,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _tpIpChainageController({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _tpIpChainageController(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -122,7 +126,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _tpRemarkController({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _tpRemarkController(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 2,
@@ -148,7 +153,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _chainageFromController({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -157,7 +163,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _chainageToController(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -176,14 +183,17 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddRouteSurveyBloc>(context).add(
-            AddRouteSurveySelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddRouteSurveyBloc>(context)
+            .add(AddRouteSurveySelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -191,12 +201,14 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _weatherDropDown({required FetchAddRouteSurveyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRouteSurveyBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddRouteSurveyBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -205,15 +217,18 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _groundTypeDropDown({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _groundTypeDropDown(
+      {required FetchAddRouteSurveyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectGroundType,
-      dropdownValue: dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
+      dropdownValue:
+          dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRouteSurveyBloc>(context).add(
-            AddRouteSurveySelectGroundTypeEvent(groundTypeData: value));
+        BlocProvider.of<AddRouteSurveyBloc>(context)
+            .add(AddRouteSurveySelectGroundTypeEvent(groundTypeData: value));
       },
-      items: dataState.groundTypeList.map<DropdownMenuItem<GroundTypeModel>>((GroundTypeModel groundTypeData) {
+      items: dataState.groundTypeList.map<DropdownMenuItem<GroundTypeModel>>(
+          (GroundTypeModel groundTypeData) {
         return DropdownMenuItem<GroundTypeModel>(
           value: groundTypeData,
           child: Text(groundTypeData.name.toString()),
@@ -222,11 +237,10 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-
   Widget _photo({required FetchAddRouteSurveyDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height: MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -234,48 +248,73 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -290,13 +329,27 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveyAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRouteSurveyBloc>(context).add(
+                        AddRouteSurveyAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveyAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRouteSurveyBloc>(context).add(
+                        AddRouteSurveyAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -305,20 +358,23 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   }
 
   Widget _button({required FetchAddRouteSurveyDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddRouteSurveyBloc>(context).add(AddRouteSurveySubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddRouteSurveyBloc>(context)
+                  .add(AddRouteSurveySubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 }

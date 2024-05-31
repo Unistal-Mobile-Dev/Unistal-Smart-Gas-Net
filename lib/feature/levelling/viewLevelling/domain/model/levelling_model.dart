@@ -1,3 +1,1 @@
-class LevellingModel {
-
-}
+class LevellingModel {}

@@ -1,5 +1,6 @@
 List<PipeMaterialModel> pipeMaterialListResponse(var json) {
-  return List<PipeMaterialModel>.from(json.map((x) => PipeMaterialModel.fromJson(x)));
+  return List<PipeMaterialModel>.from(
+      json.map((x) => PipeMaterialModel.fromJson(x)));
 }
 
 class PipeMaterialModel {

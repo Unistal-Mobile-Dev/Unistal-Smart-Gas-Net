@@ -15,35 +15,36 @@ class AddLptPage extends StatefulWidget {
 }
 
 class _AddLptPageState extends State<AddLptPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddLptBloc>(context).add(AddLptPageLoadEvent(context: context));
+    BlocProvider.of<AddLptBloc>(context)
+        .add(AddLptPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddLptBloc, AddLptState>(
         builder: (context, state) {
-          if(state is FetchAddLptDataState) {
+          if (state is FetchAddLptDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddLptDataState dataState}){
+  Widget _itemBuilder({required FetchAddLptDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -81,8 +82,9 @@ class _AddLptPageState extends State<AddLptPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddLptBloc>(context).add(
-            AddLptSelectDateEvent(context: context,));
+        BlocProvider.of<AddLptBloc>(context).add(AddLptSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
@@ -95,16 +97,17 @@ class _AddLptPageState extends State<AddLptPage> {
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddLptDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLptBloc>(context).add(
-            AddLptSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddLptBloc>(context).add(AddLptSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -112,12 +115,14 @@ class _AddLptPageState extends State<AddLptPage> {
   Widget _weatherDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLptBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddLptBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -126,33 +131,34 @@ class _AddLptPageState extends State<AddLptPage> {
     );
   }
 
-  Widget _pipeNumberSearchController({required FetchAddLptDataState dataState}) {
+  Widget _pipeNumberSearchController(
+      {required FetchAddLptDataState dataState}) {
     return SearchTextField(
         isLoader: dataState.searchPipeLoader,
         onChange: (value) {
-          BlocProvider.of<AddLptBloc>(context).add(
-              AddLptSearchPipeDataEvent(keyword: value, context: context)
-          );
+          BlocProvider.of<AddLptBloc>(context)
+              .add(AddLptSearchPipeDataEvent(keyword: value, context: context));
         },
         onClick: (value) {
-          BlocProvider.of<AddLptBloc>(context).add(
-              AddLptSelectPipeDataEvent(pipeData: value));
+          BlocProvider.of<AddLptBloc>(context)
+              .add(AddLptSelectPipeDataEvent(pipeData: value));
         },
         controller: dataState.searchPipeController,
         label: AppString.selectPipeNumber,
-        list: dataState.pipeList
-    );
+        list: dataState.pipeList);
   }
 
   Widget _jointTypeDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLptBloc>(context).add(
-            AddLptSelectJointTypeDataEvent(jointTypeData: value, context: context));
+        BlocProvider.of<AddLptBloc>(context).add(AddLptSelectJointTypeDataEvent(
+            jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -162,32 +168,37 @@ class _AddLptPageState extends State<AddLptPage> {
   }
 
   Widget _jointNumberDropDown({required FetchAddLptDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointData.id != null ? dataState.jointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLptBloc>(context).add(
-            AddLptSelectJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectJointNumber,
+            dropdownValue:
+                dataState.jointData.id != null ? dataState.jointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddLptBloc>(context)
+                  .add(AddLptSelectJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointList.map<DropdownMenuItem<JointNumberModel>>(
+                (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _lptStatusDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectLptStatus,
-      dropdownValue: dataState.lptStatusData.id != null ? dataState.lptStatusData : null,
+      dropdownValue:
+          dataState.lptStatusData.id != null ? dataState.lptStatusData : null,
       onChanged: (value) {
-        BlocProvider.of<AddLptBloc>(context).add(
-            AddLptSelectLptStatusDataEvent(lptStatusData: value));
+        BlocProvider.of<AddLptBloc>(context)
+            .add(AddLptSelectLptStatusDataEvent(lptStatusData: value));
       },
-      items: dataState.lptStatusList.map<DropdownMenuItem<LptStatusModel>>((LptStatusModel lptStatusData) {
+      items: dataState.lptStatusList.map<DropdownMenuItem<LptStatusModel>>(
+          (LptStatusModel lptStatusData) {
         return DropdownMenuItem<LptStatusModel>(
           value: lptStatusData,
           child: Text(lptStatusData.value.toString()),
@@ -196,7 +207,8 @@ class _AddLptPageState extends State<AddLptPage> {
     );
   }
 
-  Widget _observationResultsController({required FetchAddLptDataState dataState}) {
+  Widget _observationResultsController(
+      {required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
       isRequired: false,
       labelText: AppString.observationResult,
@@ -215,8 +227,8 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _photo({required FetchAddLptDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -224,47 +236,73 @@ class _AddLptPageState extends State<AddLptPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      : const Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -279,13 +317,25 @@ class _AddLptPageState extends State<AddLptPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddLptBloc>(context).add(AddLptAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddLptBloc>(context).add(
+                        AddLptAddImageEvent(context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddLptBloc>(context).add(AddLptAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddLptBloc>(context).add(
+                        AddLptAddImageEvent(context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -293,17 +343,20 @@ class _AddLptPageState extends State<AddLptPage> {
     );
   }
 
-
   Widget _button({required FetchAddLptDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddLptBloc>(context).add(AddLptSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddLptBloc>(context)
+                  .add(AddLptSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(

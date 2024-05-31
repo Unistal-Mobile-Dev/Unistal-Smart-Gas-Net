@@ -16,35 +16,36 @@ class AddBackFillingPage extends StatefulWidget {
 }
 
 class _AddBackFillingPageState extends State<AddBackFillingPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingPageLoadEvent(context: context));
+    BlocProvider.of<AddBackFillingBloc>(context)
+        .add(AddBackFillingPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddBackFillingBloc, AddBackFillingState>(
         builder: (context, state) {
-          if(state is FetchAddBackFillingDataState) {
+          if (state is FetchAddBackFillingDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddBackFillingDataState dataState}){
+  Widget _itemBuilder({required FetchAddBackFillingDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -67,23 +68,22 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-
-            AppConfig.instanceInit()!.client !=  Client.purvaBharti
-            ? Column(
-              children: [
-                _postPaddingController(dataState: dataState),
-                _verticalSpace(),
-                _slopeBreakerController(dataState: dataState),
-                _verticalSpace(),
-                _plasticGratingDropDown(dataState: dataState),
-                _verticalSpace(),
-                _antiBuoyancyController(dataState: dataState),
-                _verticalSpace(),
-                _warningMatController(dataState: dataState),
-                _verticalSpace(),
-              ],
-            ) : const SizedBox.shrink(),
-
+            AppConfig.instanceInit()!.client != Client.purvaBharti
+                ? Column(
+                    children: [
+                      _postPaddingController(dataState: dataState),
+                      _verticalSpace(),
+                      _slopeBreakerController(dataState: dataState),
+                      _verticalSpace(),
+                      _plasticGratingDropDown(dataState: dataState),
+                      _verticalSpace(),
+                      _antiBuoyancyController(dataState: dataState),
+                      _verticalSpace(),
+                      _warningMatController(dataState: dataState),
+                      _verticalSpace(),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -103,13 +103,16 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectDateEvent(context: context,));
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddBackFillingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -117,16 +120,18 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -134,12 +139,14 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _weatherDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -151,12 +158,14 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _pipeDiaDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeDia,
-      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
+      dropdownValue:
+          dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectPipeDiaDataEvent(pipeDiaData: value));
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingSelectPipeDiaDataEvent(pipeDiaData: value));
       },
-      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
+      items: dataState.pipeDialList
+          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
         return DropdownMenuItem<PipeDiaModel>(
           value: pipeDiaData,
           child: Text(pipeDiaData.value.toString()),
@@ -168,12 +177,14 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _thicknessDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
+      dropdownValue:
+          dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectThicknessDataEvent(thicknessData: value));
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingSelectThicknessDataEvent(thicknessData: value));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
+      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
+          (ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
           value: thicknessData,
           child: Text(thicknessData.value.toString()),
@@ -185,12 +196,15 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _jointTypeDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddBackFillingSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -199,43 +213,56 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddBackFillingDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectFromJointNumber,
-      dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectFromJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown(
+      {required FetchAddBackFillingDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectFromJointNumber,
+            dropdownValue: dataState.fromJointData.id != null
+                ? dataState.fromJointData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddBackFillingBloc>(context).add(
+                  AddBackFillingSelectFromJointDataEvent(
+                      jointNumberData: value));
+            },
+            items: dataState.jointFromList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddBackFillingDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _toJointNumberDropDown(
+      {required FetchAddBackFillingDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectToJointNumber,
+            dropdownValue:
+                dataState.toJointData.id != null ? dataState.toJointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddBackFillingBloc>(context).add(
+                  AddBackFillingSelectToJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointToList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _chainageFromController({required FetchAddBackFillingDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -244,7 +271,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddBackFillingDataState dataState}) {
+  Widget _chainageToController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -253,7 +281,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _postPaddingController({required FetchAddBackFillingDataState dataState}) {
+  Widget _postPaddingController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.postPadding,
@@ -261,7 +290,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _slopeBreakerController({required FetchAddBackFillingDataState dataState}) {
+  Widget _slopeBreakerController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.slopBreaker,
@@ -269,15 +299,20 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _plasticGratingDropDown({required FetchAddBackFillingDataState dataState}) {
+  Widget _plasticGratingDropDown(
+      {required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPlasticGrating,
-      dropdownValue: dataState.plasticGratingData.id != null ? dataState.plasticGratingData : null,
+      dropdownValue: dataState.plasticGratingData.id != null
+          ? dataState.plasticGratingData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
             AddBackFillingSelectPlasticGratingEvent(plasticGratingData: value));
       },
-      items: dataState.plasticGratingList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel plasticGratingData) {
+      items: dataState.plasticGratingList
+          .map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel plasticGratingData) {
         return DropdownMenuItem<VisualChecksModel>(
           value: plasticGratingData,
           child: Text(plasticGratingData.value.toString()),
@@ -286,7 +321,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
+  Widget _antiBuoyancyController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.antiBuoyancy,
@@ -294,7 +330,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _warningMatController({required FetchAddBackFillingDataState dataState}) {
+  Widget _warningMatController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.warningMat,
@@ -313,8 +350,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _photo({required FetchAddBackFillingDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -322,48 +359,73 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -378,13 +440,27 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddBackFillingBloc>(context).add(
+                        AddBackFillingAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddBackFillingBloc>(context).add(
+                        AddBackFillingAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -393,15 +469,19 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _button({required FetchAddBackFillingDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddBackFillingBloc>(context).add(AddBackFillingSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddBackFillingBloc>(context)
+                  .add(AddBackFillingSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(

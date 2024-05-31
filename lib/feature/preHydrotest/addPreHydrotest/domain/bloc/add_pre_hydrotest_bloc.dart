@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -20,26 +17,27 @@ import 'package:intl/intl.dart';
 part 'add_pre_hydrotest_event.dart';
 part 'add_pre_hydrotest_state.dart';
 
-class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController lengthController =  TextEditingController();
-  TextEditingController ndeClearanceController =  TextEditingController();
-  TextEditingController pressureGaugeNoController  = TextEditingController();
-  TextEditingController pressureGaugeCalibrationDateController  = TextEditingController();
-  TextEditingController testPressureController  = TextEditingController();
-  TextEditingController rangeController  = TextEditingController();
-  TextEditingController pipeSizeController  = TextEditingController();
-  TextEditingController durationController  = TextEditingController();
-  TextEditingController timeOnController  = TextEditingController();
-  TextEditingController timeOffController  = TextEditingController();
-  TextEditingController timeInHoursController  = TextEditingController();
-  TextEditingController pressureReading1KGController  = TextEditingController();
-  TextEditingController pressureReading2KGController  = TextEditingController();
-  TextEditingController tempController  = TextEditingController();
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController  = TextEditingController();
+class AddPreHydrotestBloc
+    extends Bloc<AddPreHydrotestEvent, AddPreHydrotestState> {
+  TextEditingController dateController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
+  TextEditingController ndeClearanceController = TextEditingController();
+  TextEditingController pressureGaugeNoController = TextEditingController();
+  TextEditingController pressureGaugeCalibrationDateController =
+      TextEditingController();
+  TextEditingController testPressureController = TextEditingController();
+  TextEditingController rangeController = TextEditingController();
+  TextEditingController pipeSizeController = TextEditingController();
+  TextEditingController durationController = TextEditingController();
+  TextEditingController timeOnController = TextEditingController();
+  TextEditingController timeOffController = TextEditingController();
+  TextEditingController timeInHoursController = TextEditingController();
+  TextEditingController pressureReading1KGController = TextEditingController();
+  TextEditingController pressureReading2KGController = TextEditingController();
+  TextEditingController tempController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -47,22 +45,25 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
-  List<ThicknessModel> _thicknessList =  [];
+  List<ThicknessModel> _thicknessList = [];
+
   List<ThicknessModel> get thicknessList => _thicknessList;
 
-  ThicknessModel _thicknessData =  ThicknessModel();
+  ThicknessModel _thicknessData = ThicknessModel();
+
   ThicknessModel get thicknessData => _thicknessData;
 
   AddPreHydrotestBloc() : super(AddPreHydrotestInitial()) {
@@ -78,6 +79,7 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     on<AddPreHydrotestSelectSelectThicknessDataEvent>(_selectThickness);
     on<AddPreHydrotestSubmitDataEvent>(_submitData);
   }
+
   _pageLoad(AddPreHydrotestPageLoadEvent event, emit) async {
     emit(AddPreHydrotestPageLoadState());
     dateController.text = "";
@@ -89,16 +91,16 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
+    alignmentData = AlignmentModel();
     _thicknessList = [];
-    _thicknessData =  ThicknessModel();
-    isLoader =  false;
+    _thicknessData = ThicknessModel();
+    isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
-    weatherData =  WeatherModel();
+    file = File("");
+    weatherData = WeatherModel();
     pressureGaugeNoController.text = "";
     pressureGaugeCalibrationDateController.text = "";
     testPressureController.text = "";
@@ -114,29 +116,33 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     chainageFromController.text = "";
     pressureReading2KGController.text = "";
     tempController.text = "";
-     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context,userData: userData);
-    if(thicknessRes != null){
-      _thicknessList =  thicknessRes;
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
+        context: event.context, userData: userData);
+    if (thicknessRes != null) {
+      _thicknessList = thicknessRes;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -146,7 +152,7 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   }
 
   _selectJointFrom(AddPreHydrotestSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
+    fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -155,71 +161,77 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     _eventComplete(emit);
   }
 
-
   _selectJointType(AddPreHydrotestSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddPreHydrotestSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
   }
 
-  _selectPressureDate(AddPreHydrotestSelectPressureDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+  _selectPressureDate(
+      AddPreHydrotestSelectPressureDateEvent event, emit) async {
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      pressureGaugeCalibrationDateController.text =  formattedDateChange.toString();
+      pressureGaugeCalibrationDateController.text =
+          formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
   }
-
 
   _selectThickness(AddPreHydrotestSelectSelectThicknessDataEvent event, emit) {
-    _thicknessData =  event.thicknessData;
+    _thicknessData = event.thicknessData;
     _eventComplete(emit);
   }
 
   _selectFile(AddPreHydrotestAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -227,52 +239,54 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
   }
 
   _submitData(AddPreHydrotestSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddPreHydroTestHelper.submitData(context: event.context,
-        alignmentData: alignmentData,
-        date: dateController.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-        weatherData: weatherData,
-        userData: userData,
-        fromJointData: fromJointData,
-        toJointData: toJointData,
-        jointTypeData: jointTypeData,
-        ndeClearance: ndeClearanceController.text.toString(),
-        length: lengthController.text.toString(),
-        thicknessData: thicknessData,
-        file: file,
-        duration: durationController.text.toString(),
-        pipeSize: pipeSizeController.text.toString(),
-        pressureGaugeCalibrationDate: pressureGaugeCalibrationDateController.text.toString(),
-        pressureGaugeNo: pressureGaugeNoController.text.toString(),
-        pressureReading1KG: pressureReading1KGController.text.toString(),
-        pressureReading2KG: pressureReading2KGController.text.toString(),
-        range: rangeController.text.toString(),
-        temp: tempController.text.toString(),
-        testPressure: testPressureController.text.toString(),
-        timeInHours: timeInHoursController.text.toString(),
-        timeOff: timeOffController.text.toString(),
-        timeOn: timeOnController.text.toString(),
-        chainageFrom: chainageFromController.text.toString(),
-        chainageTo: chainageToController.text.toString(),
+    var res = await AddPreHydroTestHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      fromJointData: fromJointData,
+      toJointData: toJointData,
+      jointTypeData: jointTypeData,
+      ndeClearance: ndeClearanceController.text.toString(),
+      length: lengthController.text.toString(),
+      thicknessData: thicknessData,
+      file: file,
+      duration: durationController.text.toString(),
+      pipeSize: pipeSizeController.text.toString(),
+      pressureGaugeCalibrationDate:
+          pressureGaugeCalibrationDateController.text.toString(),
+      pressureGaugeNo: pressureGaugeNoController.text.toString(),
+      pressureReading1KG: pressureReading1KGController.text.toString(),
+      pressureReading2KG: pressureReading2KGController.text.toString(),
+      range: rangeController.text.toString(),
+      temp: tempController.text.toString(),
+      testPressure: testPressureController.text.toString(),
+      timeInHours: timeInHoursController.text.toString(),
+      timeOff: timeOffController.text.toString(),
+      timeOn: timeOnController.text.toString(),
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
     );
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       activityRemarkController.text = "";
       lengthController.text = "";
       ndeClearanceController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
+      alignmentData = AlignmentModel();
+      isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
-      _thicknessData =  ThicknessModel();
+      file = File("");
+      weatherData = WeatherModel();
+      _thicknessData = ThicknessModel();
       pressureGaugeNoController.text = "";
       pressureGaugeCalibrationDateController.text = "";
       testPressureController.text = "";
@@ -291,40 +305,41 @@ class AddPreHydrotestBloc extends Bloc<AddPreHydrotestEvent, AddPreHydrotestStat
     }
   }
 
-  _eventComplete(Emitter<AddPreHydrotestState>emit) {
-    emit(FetchAddPreHydrotestDataState(isLoader: isLoader,
-      alignmentList: alignmentList,
-      dateController: dateController,
-      activityRemarkController: activityRemarkController,
-      alignmentData: alignmentData,
-      file: file,
-      weatherList: weatherList,
-      weatherData: weatherData,
-      jointTypeData: jointTypeData,
-      jointTypeList: jointTypeList,
-      isJointNumberLoader: isJointNumberLoader,
-      fromJointData: fromJointData,
-      jointFromList: jointFromList,
-      jointToList: jointToList,
-      lengthController: lengthController,
-      toJointData: toJointData,
-      ndeClearanceController: ndeClearanceController,
-      thicknessData: thicknessData,
-      thicknessList: thicknessList,
-      durationController: durationController,
-      pipeSizeController: pipeSizeController,
-      pressureGaugeCalibrationDateController: pressureGaugeCalibrationDateController,
-      pressureGaugeNoController: pressureGaugeNoController,
-      pressureReading1KGController: pressureReading1KGController,
-      pressureReading2KGController: pressureReading2KGController,
-      rangeController: rangeController,
-      tempController: tempController,
-      testPressureController: testPressureController,
-      timeInHoursController: timeInHoursController,
-      timeOffController: timeOffController,
-      timeOnController: timeOnController,
-      chainageFromController: chainageFromController,
-      chainageToController: chainageToController
-    ));
+  _eventComplete(Emitter<AddPreHydrotestState> emit) {
+    emit(FetchAddPreHydrotestDataState(
+        isLoader: isLoader,
+        alignmentList: alignmentList,
+        dateController: dateController,
+        activityRemarkController: activityRemarkController,
+        alignmentData: alignmentData,
+        file: file,
+        weatherList: weatherList,
+        weatherData: weatherData,
+        jointTypeData: jointTypeData,
+        jointTypeList: jointTypeList,
+        isJointNumberLoader: isJointNumberLoader,
+        fromJointData: fromJointData,
+        jointFromList: jointFromList,
+        jointToList: jointToList,
+        lengthController: lengthController,
+        toJointData: toJointData,
+        ndeClearanceController: ndeClearanceController,
+        thicknessData: thicknessData,
+        thicknessList: thicknessList,
+        durationController: durationController,
+        pipeSizeController: pipeSizeController,
+        pressureGaugeCalibrationDateController:
+            pressureGaugeCalibrationDateController,
+        pressureGaugeNoController: pressureGaugeNoController,
+        pressureReading1KGController: pressureReading1KGController,
+        pressureReading2KGController: pressureReading2KGController,
+        rangeController: rangeController,
+        tempController: tempController,
+        testPressureController: testPressureController,
+        timeInHoursController: timeInHoursController,
+        timeOffController: timeOffController,
+        timeOnController: timeOnController,
+        chainageFromController: chainageFromController,
+        chainageToController: chainageToController));
   }
 }

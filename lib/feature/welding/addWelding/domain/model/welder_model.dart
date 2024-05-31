@@ -9,7 +9,7 @@ class WelderModel {
   WelderModel({this.id, this.welderName});
 
   WelderModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ??  "";
+    id = json['id'] ?? "";
     welderName = json['welder_name'] ?? "";
   }
 

@@ -4,24 +4,29 @@ abstract class AddLevellingEvent extends Equatable {
   const AddLevellingEvent();
 }
 
-
 class AddLevellingPageLoadEvent extends AddLevellingEvent {
   final BuildContext context;
+
   const AddLevellingPageLoadEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddLevellingSelectDateEvent extends AddLevellingEvent {
   final BuildContext context;
+
   const AddLevellingSelectDateEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddLevellingSelectAlignmentEvent extends AddLevellingEvent {
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
+
   const AddLevellingSelectAlignmentEvent({required this.alignmentData});
+
   @override
   List<Object?> get props => [alignmentData];
 }
@@ -29,14 +34,19 @@ class AddLevellingSelectAlignmentEvent extends AddLevellingEvent {
 class AddLevellingSelectJointTypeDataEvent extends AddLevellingEvent {
   final JointTypeModel jointTypeData;
   final BuildContext context;
-  const AddLevellingSelectJointTypeDataEvent({required this.jointTypeData, required this.context});
+
+  const AddLevellingSelectJointTypeDataEvent(
+      {required this.jointTypeData, required this.context});
+
   @override
   List<Object?> get props => [jointTypeData, context];
 }
 
 class AddLevellingSelectJointDataEvent extends AddLevellingEvent {
   final JointNumberModel jointNumberData;
+
   const AddLevellingSelectJointDataEvent({required this.jointNumberData});
+
   @override
   List<Object?> get props => [jointNumberData];
 }
@@ -44,36 +54,46 @@ class AddLevellingSelectJointDataEvent extends AddLevellingEvent {
 class AddLevellingAddImageEvent extends AddLevellingEvent {
   final BuildContext context;
   final int mediaType;
-  const AddLevellingAddImageEvent({required this.context, required this.mediaType});
+
+  const AddLevellingAddImageEvent(
+      {required this.context, required this.mediaType});
+
   @override
   List<Object?> get props => [context, mediaType];
 }
 
-class SelectWeatherEvent extends AddLevellingEvent{
+class SelectWeatherEvent extends AddLevellingEvent {
   final WeatherModel weatherData;
+
   const SelectWeatherEvent({required this.weatherData});
+
   @override
   List<Object?> get props => [weatherData];
 }
 
-
-class AddLevellingCaptureNorthingLocationEvent extends AddLevellingEvent{
+class AddLevellingCaptureNorthingLocationEvent extends AddLevellingEvent {
   final BuildContext context;
+
   const AddLevellingCaptureNorthingLocationEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
-class AddLevellingCaptureEastingLocationEvent extends AddLevellingEvent{
+class AddLevellingCaptureEastingLocationEvent extends AddLevellingEvent {
   final BuildContext context;
+
   const AddLevellingCaptureEastingLocationEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddLevellingSubmitDataEvent extends AddLevellingEvent {
   final BuildContext context;
+
   const AddLevellingSubmitDataEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }

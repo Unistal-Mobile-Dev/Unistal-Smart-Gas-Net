@@ -24,9 +24,9 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController trenchingDepthController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
-  final List<JointNumberModel>  jointNumberList;
+  final List<JointNumberModel> jointNumberList;
   final JointNumberModel jointNumberData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -71,30 +71,30 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    terrainController,
-    fromJointIdController,
-    toJointIdController,
-    trenchingDepthController,
-    alignmentData,
-    file,
-    jointNumberData,
-    jointNumberList,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-    chainageFromController,
-    chainageToController,
-    toWidthController,
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        terrainController,
+        fromJointIdController,
+        toJointIdController,
+        trenchingDepthController,
+        alignmentData,
+        file,
+        jointNumberData,
+        jointNumberList,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+        chainageFromController,
+        chainageToController,
+        toWidthController,
+      ];
 }

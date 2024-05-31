@@ -10,8 +10,6 @@ class ViewHdpeDuctPage extends StatefulWidget {
 class _ViewHdpeDuctPageState extends State<ViewHdpeDuctPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-
-    );
+    return const Scaffold();
   }
 }

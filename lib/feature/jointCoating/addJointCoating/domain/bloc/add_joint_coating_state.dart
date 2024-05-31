@@ -16,7 +16,7 @@ class AddJointCoatingPageLoadState extends AddJointCoatingInitial {
 
 class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -49,13 +49,12 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final PipeDiaModel pipeDiaData;
   final List<CoatingTypeModel> coatingTypeList;
   final CoatingTypeModel coatingTypeData;
-  final List<PaddingModel > peelTestList;
+  final List<PaddingModel> peelTestList;
   final PaddingModel peelTestData;
   final List<PipeMaterialModel> pipeMaterialList;
   final PipeMaterialModel pipeMaterialData;
   final List<VisualChecksModel> visualsChecksList;
   final VisualChecksModel visualChecksData;
-
 
   FetchAddJointCoatingDataState({
     required this.isLoader,
@@ -102,45 +101,45 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    onWeldController,
-    chainageFromController,
-    chainageToController,
-    batchNoController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    primaryAbatchController,
-    locationController,
-    toJointData,
-    holidayTestNoController,
-    holidayChecksData,
-    onBodyController,
-    holidayCheckList,
-    electrometerNoController,
-    primaryBbatchController,
-    surfaceController,
-    thicknessData,
-    thicknessList,
-    pipeDiaData,
-    pipeDialList,
-    coatingTypeData,
-    coatingTypeList,
-    peelTestData,
-    peelTestList,
-    pipeMaterialList,
-    pipeMaterialData,
-    visualChecksData,
-    visualsChecksList,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        onWeldController,
+        chainageFromController,
+        chainageToController,
+        batchNoController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        primaryAbatchController,
+        locationController,
+        toJointData,
+        holidayTestNoController,
+        holidayChecksData,
+        onBodyController,
+        holidayCheckList,
+        electrometerNoController,
+        primaryBbatchController,
+        surfaceController,
+        thicknessData,
+        thicknessList,
+        pipeDiaData,
+        pipeDialList,
+        coatingTypeData,
+        coatingTypeList,
+        peelTestData,
+        peelTestList,
+        pipeMaterialList,
+        pipeMaterialData,
+        visualChecksData,
+        visualsChecksList,
+      ];
 }

@@ -8,65 +8,75 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddRouHandover {
-
-  static Future<dynamic> textFiledValidation({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String reportNumber,
-    required String date, required String typeofGround,
-    required String tpIpNOS, required String tpIpRemark, required String bearing,
-    required String terrain, required String activityRemark}) async {
-
-    try{
-      if(date.isEmpty){
+  static Future<dynamic> textFiledValidation(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String reportNumber,
+      required String date,
+      required String typeofGround,
+      required String tpIpNOS,
+      required String tpIpRemark,
+      required String bearing,
+      required String terrain,
+      required String activityRemark}) async {
+    try {
+      if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if(alignmentData.id == null){
+      } else if (alignmentData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
-      } else if(reportNumber.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter report number");
+      } else if (reportNumber.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter report number");
         return false;
-      }else if(typeofGround.isEmpty){
+      } else if (typeofGround.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please Type Of Ground");
         return false;
-      } else if(tpIpNOS.isEmpty){
+      } else if (tpIpNOS.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter tp ip number");
         return false;
-      } else if(tpIpRemark.isEmpty){
+      } else if (tpIpRemark.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter tp ip remark");
         return false;
-      }
-      else if(activityRemark.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter activity remark");
+      } else if (activityRemark.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter activity remark");
         return false;
       }
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
-    required String date, required String typeofGround,
-    required String tpIpNOS, required String tpIpRemark, required String bearing,
-    required String terrain, required String activityRemark,
-    required LoginDataModel userData, required File file,
+    required String date,
+    required String typeofGround,
+    required String tpIpNOS,
+    required String tpIpRemark,
+    required String bearing,
+    required String terrain,
+    required String activityRemark,
+    required LoginDataModel userData,
+    required File file,
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
   }) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addRouHandoverinsertApi;
+      String url = APIs.addRouHandoverinsertApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -83,29 +93,40 @@ class AddRouHandover {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      }else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
+        String resPonse = res['data'].toString();
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      }else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

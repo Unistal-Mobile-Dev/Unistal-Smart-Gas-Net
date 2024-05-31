@@ -4,7 +4,6 @@ abstract class AddRestorationState extends Equatable {
   const AddRestorationState();
 }
 
-
 class AddRestorationInitial extends AddRestorationState {
   @override
   List<Object> get props => [];
@@ -17,7 +16,7 @@ class AddRestorationPageLoadState extends AddRestorationInitial {
 
 class FetchAddRestorationDataState extends AddRestorationInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -39,9 +38,9 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
   final PaddingModel removalOfSurplusMaterialData;
   final PaddingModel replacementofTopSoilData;
   final PaddingModel reinstallationBoundaryStonesData;
-  final List<PaddingModel > removalOfSurplusMaterialList;
-  final List<PaddingModel > replacementofTopSoilList;
-  final List<PaddingModel > reinstallationBoundaryStonesList;
+  final List<PaddingModel> removalOfSurplusMaterialList;
+  final List<PaddingModel> replacementofTopSoilList;
+  final List<PaddingModel> reinstallationBoundaryStonesList;
 
   FetchAddRestorationDataState({
     required this.isLoader,
@@ -74,31 +73,31 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    chainageFromController,
-    chainageToController,
-    lengthController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    landTypeController,
-    toJointData,
-    reinstallationBoundaryStonesData,
-    reinstallationBoundaryStonesList,
-    removalOfSurplusMaterialData,
-    removalOfSurplusMaterialList,
-    replacementofTopSoilData,
-    replacementofTopSoilList,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        chainageFromController,
+        chainageToController,
+        lengthController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        landTypeController,
+        toJointData,
+        reinstallationBoundaryStonesData,
+        reinstallationBoundaryStonesList,
+        removalOfSurplusMaterialData,
+        removalOfSurplusMaterialList,
+        replacementofTopSoilData,
+        replacementofTopSoilList,
+      ];
 }

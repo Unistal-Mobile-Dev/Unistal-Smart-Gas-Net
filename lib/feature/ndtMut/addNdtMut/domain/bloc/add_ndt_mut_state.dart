@@ -16,7 +16,7 @@ class AddNdtMutPageLoadState extends AddNdtMutInitial {
 
 class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -79,34 +79,34 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    segmentList,
-    segmentData,
-    jointNumberList,
-    jointNumberData,
-    dSPPLAgencyData,
-    dSPPLAgencyList,
-    locationDiscoverDefectController,
-    meconPbgplData,
-    meconPbgplList,
-    ndtAgencyData,
-    ndtAgencyList,
-    typeOfFlawDetectorController,
-    angleOfRayInputController,
-    operatingFrequencyController,
-    leveOfInspectionController,
-    pipeList,
-    searchPipeController,
-    searchPipeLoader,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        segmentList,
+        segmentData,
+        jointNumberList,
+        jointNumberData,
+        dSPPLAgencyData,
+        dSPPLAgencyList,
+        locationDiscoverDefectController,
+        meconPbgplData,
+        meconPbgplList,
+        ndtAgencyData,
+        ndtAgencyList,
+        typeOfFlawDetectorController,
+        angleOfRayInputController,
+        operatingFrequencyController,
+        leveOfInspectionController,
+        pipeList,
+        searchPipeController,
+        searchPipeLoader,
+      ];
 }

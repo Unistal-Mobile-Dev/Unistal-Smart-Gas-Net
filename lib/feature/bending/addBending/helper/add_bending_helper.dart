@@ -12,114 +12,117 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddBendingHelper {
-
-  static Future<dynamic> textFiledValidation({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String reportNumber,
-    required String date,
-    required String bendTpNumber,
-    required String bendDegree,
-    required String bendMinits,
-    required String bendSecond,
-    required String chainage,
-    required BendingTypeModel bendingTypeData,
-    required VisualChecksModel visualChecksData,
-    required VisualChecksModel gaugingCheckData,
-    required VisualChecksModel disbomdmentCheckData,
-    required HolidayChecksModel holidayChecksData,
-    required PipeModel pipeData,
-    required String activityRemark}) async {
-
-    try{
-      if(date.isEmpty){
+  static Future<dynamic> textFiledValidation(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String reportNumber,
+      required String date,
+      required String bendTpNumber,
+      required String bendDegree,
+      required String bendMinits,
+      required String bendSecond,
+      required String chainage,
+      required BendingTypeModel bendingTypeData,
+      required VisualChecksModel visualChecksData,
+      required VisualChecksModel gaugingCheckData,
+      required VisualChecksModel disbomdmentCheckData,
+      required HolidayChecksModel holidayChecksData,
+      required PipeModel pipeData,
+      required String activityRemark}) async {
+    try {
+      if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if(alignmentData.id == null){
+      } else if (alignmentData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
-      } else if(reportNumber.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter report number");
+      } else if (reportNumber.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter report number");
         return false;
-      } else if(pipeData.id == null){
+      } else if (pipeData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select pipe data");
         return false;
-      }else if(chainage.isEmpty){
+      } else if (chainage.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter chainage");
         return false;
-      }
-      else if(bendingTypeData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select bending type data");
+      } else if (bendingTypeData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select bending type data");
         return false;
-      }
-      else if(visualChecksData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select visual checks data");
+      } else if (visualChecksData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select visual checks data");
         return false;
-      }else if(gaugingCheckData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select gauging check data");
+      } else if (gaugingCheckData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select gauging check data");
         return false;
-      }
-      else if(disbomdmentCheckData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select disbomdment check data");
+      } else if (disbomdmentCheckData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select disbomdment check data");
         return false;
-      }
-      else if(holidayChecksData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select holiday check data");
+      } else if (holidayChecksData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select holiday check data");
         return false;
-      }
-      else if(bendTpNumber.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter bend tp number");
+      } else if (bendTpNumber.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter bend tp number");
         return false;
-      } else if(bendDegree.isEmpty){
+      } else if (bendDegree.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter bend degree");
         return false;
-      } else if(bendMinits.isEmpty){
+      } else if (bendMinits.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter bend Minute");
         return false;
-      } else if(bendSecond.isEmpty){
+      } else if (bendSecond.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter bend second");
         return false;
-      } else if(activityRemark.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter activity remark");
+      } else if (activityRemark.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter activity remark");
         return false;
       }
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String reportNumber,
-    required String date,
-    required String bendTpNumber,
-    required String bendDegree,
-    required String bendMinits,
-    required String bendSecond,
-    required String chainage,
-    required BendingTypeModel bendingTypeData,
-    required VisualChecksModel visualChecksData,
-    required VisualChecksModel gaugingCheckData,
-    required VisualChecksModel disbomdmentCheckData,
-    required HolidayChecksModel holidayChecksData,
-    required PipeModel pipeData,
-    required String activityRemark,
-    required WeatherModel weatherData,
-    required LoginDataModel userData,
-    required String chainageFrom,
-    required String chainageTo,
-    required String bendNumber,
-    required File file}) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  static Future<dynamic> submitData(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String reportNumber,
+      required String date,
+      required String bendTpNumber,
+      required String bendDegree,
+      required String bendMinits,
+      required String bendSecond,
+      required String chainage,
+      required BendingTypeModel bendingTypeData,
+      required VisualChecksModel visualChecksData,
+      required VisualChecksModel gaugingCheckData,
+      required VisualChecksModel disbomdmentCheckData,
+      required HolidayChecksModel holidayChecksData,
+      required PipeModel pipeData,
+      required String activityRemark,
+      required WeatherModel weatherData,
+      required LoginDataModel userData,
+      required String chainageFrom,
+      required String chainageTo,
+      required String bendNumber,
+      required File file}) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addBendinginsertApi;
+      String url = APIs.addBendinginsertApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -133,73 +136,87 @@ class AddBendingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id.toString(),
-        "pipe_id" : pipeData.id.toString(),
-        "chainage" : chainage.toString(),
-        "visual_checks" : visualChecksData.id.toString(),
-        "gauging_checks" : gaugingCheckData.id.toString(),
-        "disbomdment_checks" : disbomdmentCheckData.id.toString(),
-        "holiday_checks" : holidayChecksData.id.toString(),
-        "bend_no" : bendNumber,
-        "bend_type_id" : bendingTypeData.id.toString(),
-        "bend_angle_tp_number" : bendTpNumber,
-        "bend_angle_degree" : bendDegree,
-        "bend_angle_minute" : bendMinits,
-        "bend_angle_second" : bendSecond,
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "pipe_id": pipeData.id.toString(),
+        "chainage": chainage.toString(),
+        "visual_checks": visualChecksData.id.toString(),
+        "gauging_checks": gaugingCheckData.id.toString(),
+        "disbomdment_checks": disbomdmentCheckData.id.toString(),
+        "holiday_checks": holidayChecksData.id.toString(),
+        "bend_no": bendNumber,
+        "bend_type_id": bendingTypeData.id.toString(),
+        "bend_angle_tp_number": bendTpNumber,
+        "bend_angle_degree": bendDegree,
+        "bend_angle_minute": bendMinits,
+        "bend_angle_second": bendSecond,
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
+        String resPonse = res['data'].toString();
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      } else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
 
-  static Future<dynamic> fetchBendingType({required BuildContext context,
-    required LoginDataModel userData}) async {
-
-    try{
-      String url =  APIs.getBendingTypeApi;
+  static Future<dynamic> fetchBendingType(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getBendingTypeApi;
       var param = {
-        "schema" : userData.schema,
+        "schema": userData.schema,
       };
-      String json =  Uri(queryParameters: param).query;
-      var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      String json = Uri(queryParameters: param).query;
+      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         return bendingTypeListResponse(res['data']);
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchVisualChecks({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getVisualChecksApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchVisualChecks(
+      {required BuildContext context}) async {
+    try {
+      String url = APIs.getVisualChecksApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         List<VisualChecksModel> visualChecksList = [];
         Map myMap = res['data'];
         myMap.forEach((key, value) {
@@ -208,18 +225,20 @@ class AddBendingHelper {
         return visualChecksList;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchHolidayData({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getHolidayChecksApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchHolidayData(
+      {required BuildContext context}) async {
+    try {
+      String url = APIs.getHolidayChecksApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         List<HolidayChecksModel> holidayChecksList = [];
         Map myMap = res['data'];
         myMap.forEach((key, value) {
@@ -228,7 +247,7 @@ class AddBendingHelper {
         return holidayChecksList;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }

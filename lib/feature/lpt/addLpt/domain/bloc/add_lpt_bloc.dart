@@ -1,12 +1,8 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
@@ -24,42 +20,46 @@ part 'add_lpt_event.dart';
 part 'add_lpt_state.dart';
 
 class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController reportNumberController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController observationResultsController =  TextEditingController();
-  TextEditingController searchPipeController =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController observationResultsController = TextEditingController();
+  TextEditingController searchPipeController = TextEditingController();
 
   List<JointNumberModel> jointList = [];
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   JointNumberModel jointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
-  
+
   List<LptStatusModel> lptStatusList = [];
   LptStatusModel lptStatusData = LptStatusModel();
 
   List<PipeModel> _pipeList = [];
+
   List<PipeModel> get pipeList => _pipeList;
 
   List<PipeModel> _searchPipeList = [];
+
   List<PipeModel> get searchPipeList => _searchPipeList;
 
-  bool _searchPipeLoader =  false;
+  bool _searchPipeLoader = false;
+
   bool get searchPipeLoader => _searchPipeLoader;
 
-  PipeModel _pipeData =  PipeModel();
+  PipeModel _pipeData = PipeModel();
+
   PipeModel get pipeData => _pipeData;
 
   AddLptBloc() : super(AddLptInitial()) {
@@ -83,46 +83,49 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     activityRemarkController.text = "";
     observationResultsController.text = "";
     searchPipeController.text = "";
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     jointList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
     _pipeList = [];
     _searchPipeList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     jointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
-    weatherData =  WeatherModel();
-    lptStatusData =  LptStatusModel();
-    _pipeData =  PipeModel();
+    file = File("");
+    weatherData = WeatherModel();
+    lptStatusData = LptStatusModel();
+    _pipeData = PipeModel();
     lptStatusList = [];
-     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
-    var resLpt =  await AddLptHelper.fetchLptData(context: event.context);
-    if(resLpt != null){
-      lptStatusList =  resLpt;
+    var resLpt = await AddLptHelper.fetchLptData(context: event.context);
+    if (resLpt != null) {
+      lptStatusList = resLpt;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -133,22 +136,26 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
 
   _searchPipeNumber(AddLptSearchPipeDataEvent event, emit) async {
     _pipeList = [];
-    _searchPipeLoader =  true;
+    _searchPipeLoader = true;
     _eventComplete(emit);
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
-        userData: userData, searchKeyword: event.keyword.toString(), type: "lpt");
-    if(resPipe != null){
-      _pipeList =  resPipe;
+    var resPipe = await AddStringingHelper.fetchPipeData(
+        context: event.context,
+        userData: userData,
+        searchKeyword: event.keyword.toString(),
+        type: "lpt");
+    if (resPipe != null) {
+      _pipeList = resPipe;
       _searchPipeList = pipeList;
     }
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     _eventComplete(emit);
   }
 
   _selectPipe(AddLptSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
     _pipeList = [];
-    searchPipeController.text = "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
+    searchPipeController.text =
+        "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
@@ -158,35 +165,39 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   }
 
   _selectJointType(AddLptSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointList = [];
-    jointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointList =  resJointNumber;
+    if (resJointNumber != null) {
+      jointList = resJointNumber;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectLptStatus(AddLptSelectLptStatusDataEvent event, emit) {
-    lptStatusData =  event.lptStatusData;
+    lptStatusData = event.lptStatusData;
     _eventComplete(emit);
   }
 
   _selectDate(AddLptSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -194,15 +205,15 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   }
 
   _selectFile(AddLptAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -210,9 +221,10 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   }
 
   _submitData(AddLptSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddLptHelper.submitData(context: event.context,
+    var res = await AddLptHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -225,49 +237,49 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
         observationResults: observationResultsController.text.toString(),
         pipeData: pipeData,
         file: file);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
       observationResultsController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
-      jointData =  JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      alignmentData = AlignmentModel();
+      isLoader = false;
+      jointData = JointNumberModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
+      file = File("");
+      weatherData = WeatherModel();
       lptStatusData = LptStatusModel();
-      _pipeData =  PipeModel();
+      _pipeData = PipeModel();
       searchPipeController.text = "";
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddLptState>emit) {
-    emit(FetchAddLptDataState(isLoader: isLoader,
-        alignmentList: alignmentList,
-        dateController: dateController,
-        activityRemarkController: activityRemarkController,
-        reportNumberController: reportNumberController,
-        observationResultsController: observationResultsController,
-        alignmentData: alignmentData,
-        file: file,
-        weatherList: weatherList,
-        weatherData: weatherData,
-        jointTypeData: jointTypeData,
-        jointTypeList: jointTypeList,
-        isJointNumberLoader: isJointNumberLoader,
-        jointData: jointData,
-        jointList: jointList,
-        lptStatusData: lptStatusData,
-        lptStatusList: lptStatusList,
-        pipeList: pipeList,
-       searchPipeLoader: searchPipeLoader,
-       searchPipeController: searchPipeController,
+  _eventComplete(Emitter<AddLptState> emit) {
+    emit(FetchAddLptDataState(
+      isLoader: isLoader,
+      alignmentList: alignmentList,
+      dateController: dateController,
+      activityRemarkController: activityRemarkController,
+      reportNumberController: reportNumberController,
+      observationResultsController: observationResultsController,
+      alignmentData: alignmentData,
+      file: file,
+      weatherList: weatherList,
+      weatherData: weatherData,
+      jointTypeData: jointTypeData,
+      jointTypeList: jointTypeList,
+      isJointNumberLoader: isJointNumberLoader,
+      jointData: jointData,
+      jointList: jointList,
+      lptStatusData: lptStatusData,
+      lptStatusList: lptStatusList,
+      pipeList: pipeList,
+      searchPipeLoader: searchPipeLoader,
+      searchPipeController: searchPipeController,
     ));
   }
 }
-

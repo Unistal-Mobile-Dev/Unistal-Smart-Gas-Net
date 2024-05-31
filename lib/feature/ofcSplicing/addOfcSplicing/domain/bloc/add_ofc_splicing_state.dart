@@ -16,7 +16,7 @@ class AddOfcSplicingPageLoadState extends AddOfcSplicingInitial {
 
 class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -67,28 +67,28 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    chainageFromController,
-    chainageToController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    jointPitController,
-    cableReadingMinusDirectionController,
-    cableReadingPlusDirectionController,
-    makeModelMachineController,
-    ofcDrumNoMinusDirectionController,
-    ofcDrumNoPlusDirectionController,
-    srNumberSplicingMachineController,
-    jointNumberData,
-    jointNumberList
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        chainageFromController,
+        chainageToController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        jointPitController,
+        cableReadingMinusDirectionController,
+        cableReadingPlusDirectionController,
+        makeModelMachineController,
+        ofcDrumNoMinusDirectionController,
+        ofcDrumNoPlusDirectionController,
+        srNumberSplicingMachineController,
+        jointNumberData,
+        jointNumberList
+      ];
 }

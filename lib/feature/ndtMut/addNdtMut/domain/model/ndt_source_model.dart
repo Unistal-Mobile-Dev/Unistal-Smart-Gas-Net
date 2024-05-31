@@ -1,5 +1,4 @@
 class NdtSourceModel {
-
   dynamic id;
   dynamic value;
 

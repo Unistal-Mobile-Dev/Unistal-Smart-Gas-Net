@@ -1,3 +1,1 @@
-class ViewRouteSurveyHelper {
-  
-}
+class ViewRouteSurveyHelper {}

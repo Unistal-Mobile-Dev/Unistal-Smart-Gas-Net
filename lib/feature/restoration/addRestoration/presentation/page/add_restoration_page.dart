@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -15,35 +14,36 @@ class AddRestorationPage extends StatefulWidget {
 }
 
 class _AddRestorationPageState extends State<AddRestorationPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationPageLoadEvent(context: context));
+    BlocProvider.of<AddRestorationBloc>(context)
+        .add(AddRestorationPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddRestorationBloc, AddRestorationState>(
         builder: (context, state) {
-          if(state is FetchAddRestorationDataState) {
+          if (state is FetchAddRestorationDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddRestorationDataState dataState}){
+  Widget _itemBuilder({required FetchAddRestorationDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -87,13 +87,16 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectDateEvent(context: context,));
+        BlocProvider.of<AddRestorationBloc>(context)
+            .add(AddRestorationSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddRestorationDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -101,16 +104,18 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddRestorationDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddRestorationBloc>(context)
+            .add(AddRestorationSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -118,12 +123,14 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   Widget _weatherDropDown({required FetchAddRestorationDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRestorationBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddRestorationBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -135,12 +142,15 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   Widget _jointTypeDropDown({required FetchAddRestorationDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddRestorationSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -149,40 +159,52 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddRestorationDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectFromJointNumber,
-      dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectFromJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown(
+      {required FetchAddRestorationDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectFromJointNumber,
+            dropdownValue: dataState.fromJointData.id != null
+                ? dataState.fromJointData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddRestorationBloc>(context).add(
+                  AddRestorationSelectFromJointDataEvent(
+                      jointNumberData: value));
+            },
+            items: dataState.jointFromList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddRestorationDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _toJointNumberDropDown(
+      {required FetchAddRestorationDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectToJointNumber,
+            dropdownValue:
+                dataState.toJointData.id != null ? dataState.toJointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddRestorationBloc>(context).add(
+                  AddRestorationSelectToJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointToList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _lengthController({required FetchAddRestorationDataState dataState}) {
@@ -194,8 +216,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-
-  Widget _chainageFromController({required FetchAddRestorationDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -204,7 +226,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddRestorationDataState dataState}) {
+  Widget _chainageToController(
+      {required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -213,7 +236,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-  Widget _postPaddingController({required FetchAddRestorationDataState dataState}) {
+  Widget _postPaddingController(
+      {required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.landType,
@@ -221,16 +245,21 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-
-  Widget _removalOfSurplusMaterialDropDown({required FetchAddRestorationDataState dataState}) {
+  Widget _removalOfSurplusMaterialDropDown(
+      {required FetchAddRestorationDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectRemovalOfSurplusMaterialData,
-      dropdownValue: dataState.removalOfSurplusMaterialData.id != null ? dataState.removalOfSurplusMaterialData : null,
+      dropdownValue: dataState.removalOfSurplusMaterialData.id != null
+          ? dataState.removalOfSurplusMaterialData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectRemovalOfSurplusMaterialDataEvent(removalOfSurplusMaterialData: value));
+            AddRestorationSelectRemovalOfSurplusMaterialDataEvent(
+                removalOfSurplusMaterialData: value));
       },
-      items: dataState.removalOfSurplusMaterialList.map<DropdownMenuItem<PaddingModel>>((PaddingModel removalOfSurplusMaterialData) {
+      items: dataState.removalOfSurplusMaterialList
+          .map<DropdownMenuItem<PaddingModel>>(
+              (PaddingModel removalOfSurplusMaterialData) {
         return DropdownMenuItem<PaddingModel>(
           value: removalOfSurplusMaterialData,
           child: Text(removalOfSurplusMaterialData.value.toString()),
@@ -239,15 +268,21 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-  Widget _replacementofTopSoilDropDown({required FetchAddRestorationDataState dataState}) {
+  Widget _replacementofTopSoilDropDown(
+      {required FetchAddRestorationDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectReplacementofTopSoilData,
-      dropdownValue: dataState.replacementofTopSoilData.id != null ? dataState.replacementofTopSoilData : null,
+      dropdownValue: dataState.replacementofTopSoilData.id != null
+          ? dataState.replacementofTopSoilData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectReplacementofTopSoilDataEvent(replacementofTopSoilData: value));
+            AddRestorationSelectReplacementofTopSoilDataEvent(
+                replacementofTopSoilData: value));
       },
-      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<PaddingModel>>((PaddingModel replacementofTopSoilData) {
+      items: dataState.replacementofTopSoilList
+          .map<DropdownMenuItem<PaddingModel>>(
+              (PaddingModel replacementofTopSoilData) {
         return DropdownMenuItem<PaddingModel>(
           value: replacementofTopSoilData,
           child: Text(replacementofTopSoilData.value.toString()),
@@ -256,16 +291,21 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-
-  Widget _reinstallationBoundaryStoneDropDown({required FetchAddRestorationDataState dataState}) {
+  Widget _reinstallationBoundaryStoneDropDown(
+      {required FetchAddRestorationDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectReinstallationBoundaryStonesData,
-      dropdownValue: dataState.reinstallationBoundaryStonesData.id != null ? dataState.reinstallationBoundaryStonesData : null,
+      dropdownValue: dataState.reinstallationBoundaryStonesData.id != null
+          ? dataState.reinstallationBoundaryStonesData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectReinstallationBoundaryStonesDataEvent(reinstallationBoundaryStonesData: value));
+            AddRestorationSelectReinstallationBoundaryStonesDataEvent(
+                reinstallationBoundaryStonesData: value));
       },
-      items: dataState.replacementofTopSoilList.map<DropdownMenuItem<PaddingModel>>((PaddingModel reinstallationBoundaryStonesData) {
+      items: dataState.replacementofTopSoilList
+          .map<DropdownMenuItem<PaddingModel>>(
+              (PaddingModel reinstallationBoundaryStonesData) {
         return DropdownMenuItem<PaddingModel>(
           value: reinstallationBoundaryStonesData,
           child: Text(reinstallationBoundaryStonesData.value.toString()),
@@ -285,8 +325,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
 
   Widget _photo({required FetchAddRestorationDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -294,48 +334,73 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -350,13 +415,27 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRestorationBloc>(context).add(
+                        AddRestorationAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRestorationBloc>(context).add(
+                        AddRestorationAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -364,18 +443,20 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 
-
-
   Widget _button({required FetchAddRestorationDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddRestorationBloc>(context).add(AddRestorationSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddRestorationBloc>(context)
+                  .add(AddRestorationSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
@@ -383,4 +464,3 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
     );
   }
 }
-

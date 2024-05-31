@@ -1,3 +1,1 @@
-class HdpeDuctModel {
-  
-}
+class HdpeDuctModel {}

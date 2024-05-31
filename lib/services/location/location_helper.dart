@@ -61,7 +61,8 @@ class LocationHelper {
     }
   }
 
-  static Future<dynamic> getLocationOfflineMode({required BuildContext context}) async {
+  static Future<dynamic> getLocationOfflineMode(
+      {required BuildContext context}) async {
     if (await checkGps(context: context) == false) {
       return null;
     } else {
@@ -69,12 +70,13 @@ class LocationHelper {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission != LocationPermission.denied) {
           Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.best).timeout(Duration(seconds: 4));
+                  desiredAccuracy: LocationAccuracy.best)
+              .timeout(Duration(seconds: 4));
           Map<String, dynamic> location = {
             "lat": position.latitude,
             "long": position.longitude,
             "city": "",
-            "accuracy" : position.accuracy.toString(),
+            "accuracy": position.accuracy.toString(),
             "address": '',
           };
           print(location.toString());
@@ -91,16 +93,16 @@ class LocationHelper {
   static Future<dynamic> _getAddressFromLatLng(Position position) async {
     try {
       List<Placemark> placeMarker =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMarker[0];
       print("position.latitude" + position.latitude.toString());
       Map<String, dynamic> location = {
         "lat": position.latitude,
         "long": position.longitude,
         "city": place.locality.toString(),
-        "accuracy" : position.accuracy.toString(),
+        "accuracy": position.accuracy.toString(),
         "address":
-        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
+            '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
       };
       print(location.toString());
       return responseLocationData(location);
@@ -109,18 +111,19 @@ class LocationHelper {
     }
   }
 
-  static Future<String> getAddress({required String lat, required String log}) async {
+  static Future<String> getAddress(
+      {required String lat, required String log}) async {
     try {
       List<Placemark> placeMarker =
-      await placemarkFromCoordinates(double.parse(lat), double.parse(log));
+          await placemarkFromCoordinates(double.parse(lat), double.parse(log));
       Placemark place = placeMarker[0];
-      String address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}';
+      String address =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}';
       return address;
     } catch (e) {
       return "";
     }
   }
-
 
   static Future<bool> checkPermissions({required BuildContext context}) async {
     Map<Permission, PermissionStatus> statuses = await [
@@ -136,7 +139,6 @@ class LocationHelper {
             context: context,
             builder: (BuildContext context) => GPSSettingPermissionPopWidget());
         return false;
-
       }
       if (status == PermissionStatus.permanentlyDenied) {
         showDialog(
@@ -156,7 +158,8 @@ class LocationHelper {
     return true;
   }
 
-  static Future<bool> checkImagePermission({required BuildContext context}) async {
+  static Future<bool> checkImagePermission(
+      {required BuildContext context}) async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.camera,
     ].request();
@@ -176,14 +179,14 @@ class LocationHelper {
             builder: (BuildContext context) => CameraPermissionPopWidget());
         return false;
       }
-    }else{
+    } else {
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
             builder: (BuildContext context) => CameraPermissionPopWidget());
         return false;
       } else if (status == PermissionStatus.permanentlyDenied) {
-      showDialog(
+        showDialog(
             context: context,
             builder: (BuildContext context) => CameraPermissionPopWidget());
         return false;
@@ -194,14 +197,11 @@ class LocationHelper {
   }
 
   static Future<bool> checkStoragePermission() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission.accessMediaLocation
-    ].request();
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.storage, Permission.accessMediaLocation].request();
     final status = await Permission.locationWhenInUse.status;
     if (status == PermissionStatus.denied) {
       return false;
-
     }
     if (status == PermissionStatus.permanentlyDenied) {
       return false;

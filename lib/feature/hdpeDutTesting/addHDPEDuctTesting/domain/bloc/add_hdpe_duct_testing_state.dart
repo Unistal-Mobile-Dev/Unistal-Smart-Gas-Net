@@ -16,7 +16,7 @@ class AddHdpeDuctTestingPageLoadState extends AddHdpeDuctTestingInitial {
 
 class FetchAddHdpeDuctTestingDataState extends AddHdpeDuctTestingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -59,24 +59,24 @@ class FetchAddHdpeDuctTestingDataState extends AddHdpeDuctTestingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    lengthController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-    airPressureTestController,
-    ductCleaningController,
-    ductIntegrityTestController,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        lengthController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+        airPressureTestController,
+        ductCleaningController,
+        ductIntegrityTestController,
+      ];
 }

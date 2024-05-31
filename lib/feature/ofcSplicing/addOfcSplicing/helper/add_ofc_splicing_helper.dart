@@ -10,8 +10,8 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddOfcSplicingHelper {
-
-  static Future<dynamic> submitData({required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
     required AlignmentModel alignmentData,
     required String reportNumber,
     required String date,
@@ -30,17 +30,17 @@ class AddOfcSplicingHelper {
     required String ofcDrumNoMinusDirection,
     required String cableReadingPlusDirection,
     required String cableReadingMinusDirection,
-    }) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  }) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addOfcSpliceApi;
+      String url = APIs.addOfcSpliceApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -53,39 +53,53 @@ class AddOfcSplicingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
-        "pit_number" : jointPit,
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "splicing_machine_no" : srNumberSplicingMachine,
-        "make_model" : makeModelMachine,
-        "ofc_drum_no_plus_direction" : ofcDrumNoPlusDirection,
-        "ofc_drum_no_minus_direction" : ofcDrumNoMinusDirection,
-        "cable_reading_plus_direction" : cableReadingPlusDirection,
-        "cable_reading_minus_direction" : cableReadingMinusDirection,
+        "alignment_sheet_id":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint_id":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "pit_number": jointPit,
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "splicing_machine_no": srNumberSplicingMachine,
+        "make_model": makeModelMachine,
+        "ofc_drum_no_plus_direction": ofcDrumNoPlusDirection,
+        "ofc_drum_no_minus_direction": ofcDrumNoMinusDirection,
+        "cable_reading_plus_direction": cableReadingPlusDirection,
+        "cable_reading_minus_direction": cableReadingMinusDirection,
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
         String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      }else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

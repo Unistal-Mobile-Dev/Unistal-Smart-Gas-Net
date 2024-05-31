@@ -10,8 +10,6 @@ class ViewDryingPage extends StatefulWidget {
 class _ViewDryingPageState extends State<ViewDryingPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      
-    );
+    return const Scaffold();
   }
 }

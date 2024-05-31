@@ -1,3 +1,1 @@
-class ViewDryingModel {
-
-}
+class ViewDryingModel {}

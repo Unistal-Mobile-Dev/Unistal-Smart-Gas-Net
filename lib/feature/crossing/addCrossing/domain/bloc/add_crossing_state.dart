@@ -16,7 +16,7 @@ class AddCrossingPageLoadState extends AddCrossingInitial {
 
 class FetchAddCrossingDataState extends AddCrossingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -49,9 +49,9 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final PipeDiaModel pipeDiaData;
   final List<CoatingTypeModel> coatingTypeList;
   final CoatingTypeModel coatingTypeData;
-  final List<PaddingModel > prePaddingList;
+  final List<PaddingModel> prePaddingList;
   final PaddingModel prePaddingData;
-  final List<PaddingModel > postPaddingList;
+  final List<PaddingModel> postPaddingList;
   final PaddingModel postPaddingData;
   final List<PipeMaterialModel> pipeMaterialList;
   final PipeMaterialModel pipeMaterialData;
@@ -59,7 +59,6 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final VisualChecksModel visualChecksData;
   final List<CrossingTypeModel> crossingTyeList;
   final CrossingTypeModel crossingTypeData;
-
 
   FetchAddCrossingDataState({
     required this.isLoader,
@@ -110,49 +109,49 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    onWeldController,
-    sectionLengthController,
-    casingPipeLengthController,
-    batchNoController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    concreteCoatingLengthController,
-    locationController,
-    toJointData,
-    holidayTestNoController,
-    holidayChecksData,
-    onBodyController,
-    holidayCheckList,
-    electrometerNoController,
-    crossingNameController,
-    surfaceController,
-    thicknessData,
-    thicknessList,
-    pipeDiaData,
-    pipeDialList,
-    coatingTypeData,
-    coatingTypeList,
-    prePaddingData,
-    prePaddingList,
-    pipeMaterialList,
-    pipeMaterialData,
-    visualChecksData,
-    visualsChecksList,
-    crossingTyeList,
-    crossingTypeData,
-    postPaddingData,
-    postPaddingList,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        onWeldController,
+        sectionLengthController,
+        casingPipeLengthController,
+        batchNoController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        concreteCoatingLengthController,
+        locationController,
+        toJointData,
+        holidayTestNoController,
+        holidayChecksData,
+        onBodyController,
+        holidayCheckList,
+        electrometerNoController,
+        crossingNameController,
+        surfaceController,
+        thicknessData,
+        thicknessList,
+        pipeDiaData,
+        pipeDialList,
+        coatingTypeData,
+        coatingTypeList,
+        prePaddingData,
+        prePaddingList,
+        pipeMaterialList,
+        pipeMaterialData,
+        visualChecksData,
+        visualsChecksList,
+        crossingTyeList,
+        crossingTypeData,
+        postPaddingData,
+        postPaddingList,
+      ];
 }

@@ -16,7 +16,7 @@ class AddLptPageLoadState extends AddLptInitial {
 
 class FetchAddLptDataState extends AddLptInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -61,25 +61,25 @@ class FetchAddLptDataState extends AddLptInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    observationResultsController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    jointData,
-    jointList,
-    lptStatusList,
-    lptStatusData,
-    pipeList,
-    searchPipeController,
-    searchPipeLoader,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        observationResultsController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        jointData,
+        jointList,
+        lptStatusList,
+        lptStatusData,
+        pipeList,
+        searchPipeController,
+        searchPipeLoader,
+      ];
 }

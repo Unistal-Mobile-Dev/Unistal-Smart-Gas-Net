@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class PhoneForgotPasswordWidget extends StatefulWidget {
   final FetchForgotPasswordDataState dataState;
+
   const PhoneForgotPasswordWidget({super.key, required this.dataState});
 
   @override
-  State<PhoneForgotPasswordWidget> createState() => _PhoneForgotPasswordWidgetState();
+  State<PhoneForgotPasswordWidget> createState() =>
+      _PhoneForgotPasswordWidgetState();
 }
 
 class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
@@ -62,15 +63,15 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
           children: [
             Positioned(
               left: 00.0,
-              top:  00.0,
+              top: 00.0,
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
               child: Image.asset(
-               AppConfig.instanceInit()!.client == Client.purvaBharti
-                   ? AppIcon.appLogoPurvaBharti
-                 :AppConfig.instanceInit()!.client == Client.unistal
-                   ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
+                    : AppConfig.instanceInit()!.client == Client.unistal
+                        ? AppIcon.appLogoUnistal
+                        : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -91,7 +92,10 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
 
   Widget _emailTextField({required FetchForgotPasswordDataState dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldWidget(
         isRequired: true,
         labelText: AppString.emailPhoneNumber,
@@ -102,15 +106,20 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
   }
 
   Widget _submit({required FetchForgotPasswordDataState dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
-      child: ButtonWidget(
-          text: AppString.submit,
-          onPressed: () {
-            BlocProvider.of<ForgotPasswordBloc>(context).add(ForgotPasswordSubmitEvent(context: context));
-          }),
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: ButtonWidget(
+                text: AppString.submit,
+                onPressed: () {
+                  BlocProvider.of<ForgotPasswordBloc>(context)
+                      .add(ForgotPasswordSubmitEvent(context: context));
+                }),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _loginPage() {
@@ -126,8 +135,7 @@ class _PhoneForgotPasswordWidgetState extends State<PhoneForgotPasswordWidget> {
               decoration: TextDecoration.underline,
               fontSize: AppFont.font_16,
               color: AppColor.themeSecondary,
-              fontWeight: FontWeight.w600
-          ),
+              fontWeight: FontWeight.w600),
         ),
       ),
     );

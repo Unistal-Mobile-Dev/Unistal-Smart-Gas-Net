@@ -15,14 +15,15 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddNdtAutHelper {
-
-  static Future<dynamic> fetchAutStatusData({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getAutStatusApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchAutStatusData(
+      {required BuildContext context}) async {
+    try {
+      String url = APIs.getAutStatusApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         List<AutStatusModel> autStatusLIst = [];
         Map myMap = res['data'];
         myMap.forEach((key, value) {
@@ -31,18 +32,20 @@ class AddNdtAutHelper {
         return autStatusLIst;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchDefectLayerData({required BuildContext context}) async {
-
-    try{
-      String url =  APIs.getDefectLayerApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchDefectLayerData(
+      {required BuildContext context}) async {
+    try {
+      String url = APIs.getDefectLayerApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         List<DefectLayerModel> defectLayerList = [];
         Map myMap = res['data'];
         myMap.forEach((key, value) {
@@ -51,66 +54,68 @@ class AddNdtAutHelper {
         return defectLayerList;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchDefectTypeData({required BuildContext context, required LoginDataModel userData}) async {
-
-    try{
-      String url =  APIs.getDefectTypeApi+"?schema=${userData.schema}";
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+  static Future<dynamic> fetchDefectTypeData(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getDefectTypeApi + "?schema=${userData.schema}";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         return defectTypeListResponse(res['data']);
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String date,
-    required String activityRemark,
-    required WeatherModel weatherData,
-    required LoginDataModel userData,
-    required JointTypeModel jointTypeData,
-    required JointNumberModel jointNumberData,
-    required WPSModel wpsTypeData,
-    required List<WelderModel> selectedWelderList,
-    required List<DefectTypeModel> selectedDefectTypeList,
-    required List<DefectLayerModel> selectedDefectLayer,
-    required String defectLocation,
-    required AutStatusModel autStatusData,
-    required File file}) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  static Future<dynamic> submitData(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String date,
+      required String activityRemark,
+      required WeatherModel weatherData,
+      required LoginDataModel userData,
+      required JointTypeModel jointTypeData,
+      required JointNumberModel jointNumberData,
+      required WPSModel wpsTypeData,
+      required List<WelderModel> selectedWelderList,
+      required List<DefectTypeModel> selectedDefectTypeList,
+      required List<DefectLayerModel> selectedDefectLayer,
+      required String defectLocation,
+      required AutStatusModel autStatusData,
+      required File file}) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
-
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
       List<dynamic> defectTypeList = [];
       List<dynamic> defectLayerList = [];
       List<dynamic> defectWelderList = [];
 
-      for(var welderData in selectedWelderList){
-         defectWelderList.add(welderData.id);
+      for (var welderData in selectedWelderList) {
+        defectWelderList.add(welderData.id);
       }
-      for(var defectType in selectedDefectTypeList){
+      for (var defectType in selectedDefectTypeList) {
         defectTypeList.add(defectType.id);
       }
-      for(var defectLayer in selectedDefectLayer){
+      for (var defectLayer in selectedDefectLayer) {
         defectLayerList.add(defectLayer.id);
       }
 
-      String url =  APIs.addNdtAutApi;
+      String url = APIs.addNdtAutApi;
       dynamic json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -120,40 +125,65 @@ class AddNdtAutHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "joint_id" : jointNumberData.id != null ? jointNumberData.id.toString(): "",
-        "wpsId" : wpsTypeData.id != null ? wpsTypeData.id.toString(): "",
-        "aut_status" : autStatusData.id != null ? autStatusData.id.toString(): "",
-        "defect_location" : defectLocation.toString(),
-        "defect_welder_ids" : defectWelderList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "defect_layer_ids" : defectLayerList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "defect_type_ids" : defectTypeList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "alignment_sheet_id":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint_id":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
+        "aut_status":
+            autStatusData.id != null ? autStatusData.id.toString() : "",
+        "defect_location": defectLocation.toString(),
+        "defect_welder_ids": defectWelderList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
+        "defect_layer_ids": defectLayerList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
+        "defect_type_ids": defectTypeList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data'].toString());
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
         String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
       }
       return null;
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
-
-
 }

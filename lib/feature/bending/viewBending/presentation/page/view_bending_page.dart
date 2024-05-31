@@ -8,11 +8,8 @@ class ViewBendingPage extends StatefulWidget {
 }
 
 class _ViewBendingPageState extends State<ViewBendingPage> {
-  
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-
-    );
+    return const Scaffold();
   }
 }

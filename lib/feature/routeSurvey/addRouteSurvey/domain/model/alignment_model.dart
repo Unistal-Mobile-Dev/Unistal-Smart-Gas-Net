@@ -1,4 +1,4 @@
-List<AlignmentModel>  alignmentResponseList(var json) {
+List<AlignmentModel> alignmentResponseList(var json) {
   return List<AlignmentModel>.from(json.map((x) => AlignmentModel.fromJson(x)));
 }
 

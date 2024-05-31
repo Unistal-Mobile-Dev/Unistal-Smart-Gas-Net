@@ -11,8 +11,8 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddPreHydroTestHelper {
-
-  static Future<dynamic> submitData({required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
     required AlignmentModel alignmentData,
     required String date,
     required String activityRemark,
@@ -40,16 +40,16 @@ class AddPreHydroTestHelper {
     required String chainageFrom,
     required String chainageTo,
   }) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addPreHydroTestApi;
+      String url = APIs.addPreHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -59,45 +59,56 @@ class AddPreHydroTestHelper {
         "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "to_joint_id" : toJointData.id != null ? toJointData.id.toString(): "",
-        "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
-        "jointTo" : jointTypeData.id  != null ? jointTypeData.id.toString(): "",
-        "total_length" : length.toString(),
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "pressure_gauge_no" : pressureGaugeNo.toString(),
-        "gauge_calibaration_date" : pressureGaugeCalibrationDate.toString(),
-        "test_pressure" : testPressure.toString(),
-        "range" : range.toString(),
-        "pipe_size" : pipeSize.toString(),
-        "duration" : duration.toString(),
-        "time_on" : timeOn.toString(),
-        "time_off" : timeOff.toString(),
-        "time" : timeInHours.toString(),
-        "temp" : temp.toString(),
-        "pressure_reading_1" : pressureReading1KG.toString(),
-        "pressure_reading_2" : pressureReading2KG.toString(),
-        "chainage_from" : chainageFrom,
-        "chainage_to" : chainageTo,
+        "alignment_sheet_id":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
+        "from_joint_id":
+            fromJointData.id != null ? fromJointData.id.toString() : "",
+        "jointTo": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "total_length": length.toString(),
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "pressure_gauge_no": pressureGaugeNo.toString(),
+        "gauge_calibaration_date": pressureGaugeCalibrationDate.toString(),
+        "test_pressure": testPressure.toString(),
+        "range": range.toString(),
+        "pipe_size": pipeSize.toString(),
+        "duration": duration.toString(),
+        "time_on": timeOn.toString(),
+        "time_off": timeOff.toString(),
+        "time": timeInHours.toString(),
+        "temp": temp.toString(),
+        "pressure_reading_1": pressureReading1KG.toString(),
+        "pressure_reading_2": pressureReading2KG.toString(),
+        "chainage_from": chainageFrom,
+        "chainage_to": chainageTo,
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attachFile",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data'].toString());
         return res;
-      } else  if(res != null && res['data'] != null ) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
+      } else if (res != null && res['data'] != null) {
+        SnackBarErrorWidget(context).show(
+            message: res['data']
+                .toString()
+                .replaceAll("{", "")
+                .toString()
+                .replaceAll("}", ""));
         return null;
-      } else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }
   }
-  
 }

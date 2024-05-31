@@ -15,13 +15,12 @@ class AddNdtAutPageLoadState extends AddNdtAutInitial {
 }
 
 class FetchAddNdtAutDataState extends AddNdtAutInitial {
-
   final List<WelderModel> welderList;
   final List<WelderModel> selectedWelderList;
   final List<WPSModel> wpsTypeList;
   final WPSModel wpsTypeData;
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
   final TextEditingController defectLocationController;
@@ -72,30 +71,30 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
 
   @override
   List<Object> get props => [
-    selectedWelderList,
-    welderList,
-    wpsTypeData,
-    wpsTypeList,
-    dateController,
-    file,
-    activityRemarkController,
-    alignmentData,
-    alignmentList,
-    isLoader,
-    weatherData,
-    weatherList,
-    jointNumberList,
-    jointNumberData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    isWelderLoader,
-    defectLocationController,
-    autStatusList,
-    autStatusData,
-    defectLayerList,
-    defectTypeList,
-    selectedDefectLayerList,
-    selectedDefectTypeList,
-  ];
+        selectedWelderList,
+        welderList,
+        wpsTypeData,
+        wpsTypeList,
+        dateController,
+        file,
+        activityRemarkController,
+        alignmentData,
+        alignmentList,
+        isLoader,
+        weatherData,
+        weatherList,
+        jointNumberList,
+        jointNumberData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        isWelderLoader,
+        defectLocationController,
+        autStatusList,
+        autStatusData,
+        defectLayerList,
+        defectTypeList,
+        selectedDefectLayerList,
+        selectedDefectTypeList,
+      ];
 }

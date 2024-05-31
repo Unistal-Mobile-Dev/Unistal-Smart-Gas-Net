@@ -6,17 +6,16 @@ import 'package:flutter_unistal_smart_gas_net/root.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/hive/hive_database.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
-  AppColor(themeColor:  0xFF0077bd, themeLightColor: 0xFF1AABFF);
+  AppColor(themeColor: 0xFF0077bd, themeLightColor: 0xFF1AABFF);
   var configuredApp = const EnvironmentConfig(
       flavours: EnvironmentFlavours.productionUnistal,
-      child: Root(client: Client.unistal,)
-  );
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-    SystemUiOverlay.bottom
-  ]);
+      child: Root(
+        client: Client.unistal,
+      ));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom]);
   runApp(configuredApp);
 }

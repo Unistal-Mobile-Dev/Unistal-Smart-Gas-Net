@@ -14,9 +14,8 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddTieinHelper {
-
-
-  static Future<dynamic> submitData({required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
     required AlignmentModel alignmentData,
     required String preHeatTempreture,
     required String date,
@@ -43,15 +42,16 @@ class AddTieinHelper {
     required String chainageFrom,
     required String chainageTo,
   }) async {
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addTieInApi;
+      String url = APIs.addTieInApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -63,43 +63,60 @@ class AddTieinHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "alignment_sheet_id":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
         "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
-        "left_pipe_id": leftPipeData.id != null ? leftPipeData.id.toString() : "",
-        "right_pipe_id": rightPipeData.id != null ? rightPipeData.id.toString() : "",
-        "joint_id":  jointNumberData.id != null ? jointNumberData.id.toString() : "",
-        "joint_type_id" : jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "fitup": fitupData.id != null ? fitupData.id.toString(): "",
-        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "left_pipe_id":
+            leftPipeData.id != null ? leftPipeData.id.toString() : "",
+        "right_pipe_id":
+            rightPipeData.id != null ? rightPipeData.id.toString() : "",
+        "joint_id":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "fitup": fitupData.id != null ? fitupData.id.toString() : "",
+        "weld_visual":
+            weldVisualData.id != null ? weldVisualData.id.toString() : "",
         "welder": welderData.id != null ? welderData.id.toString() : "",
         "electrode_dia_e6010": electrodeDiaE6010,
         "electrode_dia_e6010_batch": electrodeDiaE6010Batch,
         "electrode_dia_e8010p1": electrodeEiaE7010p1,
         "electrode_dia_e8010p1_batch": electrodeEiaE7010p1Batch,
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "preheat_temp": preHeatTempreture.toString(),
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
         String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      }else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

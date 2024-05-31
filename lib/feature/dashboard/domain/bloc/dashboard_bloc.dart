@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,11 +12,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   _pageLoad(DashboardPageLoadEvent event, emit) async {
     emit(DashboardPageLoadState());
-    if(!event.context.mounted) return ;
+    if (!event.context.mounted) return;
     _eventCompleted(emit);
   }
 
-  _eventCompleted(Emitter<DashboardState>emit) {
+  _eventCompleted(Emitter<DashboardState> emit) {
     emit(FetchDashboardDataState());
   }
 }

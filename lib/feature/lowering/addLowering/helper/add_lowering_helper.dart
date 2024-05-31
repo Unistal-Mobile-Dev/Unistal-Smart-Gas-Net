@@ -13,61 +13,65 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddLoweringHelper {
-
-  static Future<dynamic> fetchPipeDiaData({required BuildContext context,
-    required LoginDataModel userData, String? type, String? searchKeyword}) async {
-
-    try{
-      String url =  APIs.getPipeDiaApi;
+  static Future<dynamic> fetchPipeDiaData(
+      {required BuildContext context,
+      required LoginDataModel userData,
+      String? type,
+      String? searchKeyword}) async {
+    try {
+      String url = APIs.getPipeDiaApi;
       var param = {
-        "schema" : userData.schema,
+        "schema": userData.schema,
       };
-      String json =  Uri(queryParameters: param).query;
-      var res =  await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      String json = Uri(queryParameters: param).query;
+      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         return pipeDiaListResponse(res['data']);
       }
       return null;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> submitData({required BuildContext context,
-    required AlignmentModel alignmentData,
-    required String reportNumber,
-    required String date,
-    required HolidayChecksModel holidayChecksData,
-    required String activityRemark,
-    required WeatherModel weatherData,
-    required LoginDataModel userData,
-    required JointNumberModel fromJointData,
-    required JointNumberModel toJointData,
-    required JointTypeModel jointTypeData,
-    required String chainageFrom,
-    required String chainageTo,
-    required String postPadding,
-    required String locationName,
-    required String holidayDetectorDetail,
-    required String makeModel,
-    required String testVoltage,
-    required String calibarationDate,
-    required String repairOfCoatingDamage,
-    required String length,
-    required ThicknessModel thicknessData,
-    required PipeDiaModel pipeDiaData,
-    required File file}) async {
-
-    try{
-
-      var location =  await LocationHelper.getLocation(context: context);
+  static Future<dynamic> submitData(
+      {required BuildContext context,
+      required AlignmentModel alignmentData,
+      required String reportNumber,
+      required String date,
+      required HolidayChecksModel holidayChecksData,
+      required String activityRemark,
+      required WeatherModel weatherData,
+      required LoginDataModel userData,
+      required JointNumberModel fromJointData,
+      required JointNumberModel toJointData,
+      required JointTypeModel jointTypeData,
+      required String chainageFrom,
+      required String chainageTo,
+      required String postPadding,
+      required String locationName,
+      required String holidayDetectorDetail,
+      required String makeModel,
+      required String testVoltage,
+      required String calibarationDate,
+      required String repairOfCoatingDamage,
+      required String length,
+      required ThicknessModel thicknessData,
+      required PipeDiaModel pipeDiaData,
+      required File file}) async {
+    try {
+      var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
+      if (location != null) {
+        locationData = location;
+      } else {
+        return null;
+      }
 
-      String url =  APIs.addLoweringApi;
+      String url = APIs.addLoweringApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
@@ -80,44 +84,59 @@ class AddLoweringHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
-        "holiday_test" : holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
-        "joint_id" : jointTypeData.id != null ? jointTypeData.id.toString(): "",
-        "from_joint_id" : fromJointData.id != null ? fromJointData.id.toString() : "",
-        "to_joint_id" : toJointData.id  != null ? toJointData.id.toString(): "",
-        "post_padding" : postPadding,
-        "location" : locationName,
-        "make_model" : makeModel,
-        "total_length" : length,
-        "test_voltage" : testVoltage,
-        "holiday_detector" : holidayDetectorDetail,
-        "coating_damage_repair" : repairOfCoatingDamage,
-        "calibaration_done_date" : calibarationDate,
-        "weather" : weatherData.id != null ? weatherData.id.toString() : "",
-        "pipe_thickness_id" : thicknessData.id != null ? thicknessData.id.toString() : "",
-        "pipe_dia_id" : pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
+        "alignment_sheet_id":
+            alignmentData.id != null ? alignmentData.id.toString() : "",
+        "holiday_test":
+            holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
+        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "from_joint_id":
+            fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
+        "post_padding": postPadding,
+        "location": locationName,
+        "make_model": makeModel,
+        "total_length": length,
+        "test_voltage": testVoltage,
+        "holiday_detector": holidayDetectorDetail,
+        "coating_damage_repair": repairOfCoatingDamage,
+        "calibaration_done_date": calibarationDate,
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "pipe_thickness_id":
+            thicknessData.id != null ? thicknessData.id.toString() : "",
+        "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
       };
-      var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
           keyWord: "attach_file",
           filePath: file.path.toString());
-      if(res != null && res['success'] != null
-          && res['success'] == 200 && res['data'] != null) {
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
         SnackBarSuccessWidget(context).show(message: res['data']);
         return res;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 415 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 415 &&
+          res['data'] != null) {
         SnackBarErrorWidget(context).show(message: res['data']);
         return null;
-      } else  if(res != null && res['success'] != null
-          && res['success'] == 400 && res['data'] != null) {
-           String resPonse = res['data'].toString();
-          SnackBarErrorWidget(context).show(message: resPonse.replaceAll("{", "").toString()..replaceAll("}", ""));
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
+        String resPonse = res['data'].toString();
+        SnackBarErrorWidget(context).show(
+            message: resPonse.replaceAll("{", "").toString()
+              ..replaceAll("}", ""));
         return null;
-      }else{
+      } else {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(e){
+    } catch (e) {
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

@@ -17,34 +17,36 @@ class AddRadioGraphyPage extends StatefulWidget {
 }
 
 class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographyPageLoadEvent(context: context));
+    BlocProvider.of<AddRadiographyBloc>(context)
+        .add(AddRadiographyPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddRadiographyBloc, AddRadiographyState>(
         builder: (context, state) {
-          if(state is FetchAddRadiographyDataState) {
+          if (state is FetchAddRadiographyDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddRadiographyDataState dataState}){
+  Widget _itemBuilder({required FetchAddRadiographyDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -98,21 +100,26 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectDateEvent(context: context,));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(AddRadiographySelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
   Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(AddRadiographySelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -120,12 +127,14 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _weatherDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -137,12 +146,14 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectRtSource,
-      dropdownValue: dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
+      dropdownValue:
+          dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectNdtSourceDataEvent(ndtSourceData: value));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(AddRadiographySelectNdtSourceDataEvent(ndtSourceData: value));
       },
-      items: dataState.ndtSourceList.map<DropdownMenuItem<NdtSourceModel>>((NdtSourceModel ndtSourceData) {
+      items: dataState.ndtSourceList.map<DropdownMenuItem<NdtSourceModel>>(
+          (NdtSourceModel ndtSourceData) {
         return DropdownMenuItem<NdtSourceModel>(
           value: ndtSourceData,
           child: Text(ndtSourceData.value.toString()),
@@ -151,7 +162,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _chainageController({required FetchAddRadiographyDataState dataState}) {
+  Widget _chainageController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: AppString.chainage,
@@ -159,21 +171,24 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
+  Widget _filmTypeController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.filmType,
       controller: dataState.filmTypeController,
     );
   }
 
-  Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
+  Widget _inspectTechniqueController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.inspectionTechnique,
       controller: dataState.inspectTechniqueController,
     );
   }
 
-  Widget _sensivityController({required FetchAddRadiographyDataState dataState}) {
+  Widget _sensivityController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.sensivity,
       controller: dataState.sensivityController,
@@ -187,7 +202,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
+  Widget _equipmentController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.equipment,
       controller: dataState.equipmentController,
@@ -197,12 +213,15 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _jointTypeDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddRadiographySelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -211,15 +230,19 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _jointNumberDropDown({required FetchAddRadiographyDataState dataState}) {
+  Widget _jointNumberDropDown(
+      {required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      dropdownValue: dataState.jointNumberData.id != null
+          ? dataState.jointNumberData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectJointNumberDataEvent(jointNumberData: value));
       },
-      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
+      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>(
+          (JointNumberModel jointNumberData) {
         return DropdownMenuItem<JointNumberModel>(
           value: jointNumberData,
           child: Text(jointNumberData.jointNumber.toString()),
@@ -228,23 +251,29 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _segmentListBuilder({required FetchAddRadiographyDataState dataState}) {
+  Widget _segmentListBuilder(
+      {required FetchAddRadiographyDataState dataState}) {
     return ListView.builder(
         itemCount: dataState.segmentList.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-        return _listItemBuilder(segmentData: dataState.segmentList[index], index: index);
-     });
+          return _listItemBuilder(
+              segmentData: dataState.segmentList[index], index: index);
+        });
   }
 
-  Widget _listItemBuilder({required SegmentModel segmentData, required int index}) {
+  Widget _listItemBuilder(
+      {required SegmentModel segmentData, required int index}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-         TextWidget("${segmentData.name}*", fontWeight: FontWeight.w700,
-           color: AppColor.black,),
+        TextWidget(
+          "${segmentData.name}*",
+          fontWeight: FontWeight.w700,
+          color: AppColor.black,
+        ),
         _verticalSpace(),
         _radioButtonList(segmentData: segmentData, segmentIndex: index),
         TextFieldWidget(
@@ -254,24 +283,33 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         ),
         _verticalSpace(),
         segmentData.segmentWelderList != null &&
-            segmentData.segmentWelderList!.isNotEmpty ?
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: segmentData.segmentWelderList!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, welderIndex) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget("${segmentData.segmentWelderList![welderIndex].name}", fontWeight: FontWeight.w700,
-                    color: AppColor.black,),
-                  _welderDropDown(welderData: segmentData.segmentWelderList![welderIndex].welderData!,
-                      welderList: segmentData.segmentWelderList![welderIndex].welderList!, index: index, welderIndex: welderIndex),
-                  _verticalSpace(),
-                ],
-              );
-        }): const SizedBox.shrink(),
+                segmentData.segmentWelderList!.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: segmentData.segmentWelderList!.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, welderIndex) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        "${segmentData.segmentWelderList![welderIndex].name}",
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.black,
+                      ),
+                      _welderDropDown(
+                          welderData: segmentData
+                              .segmentWelderList![welderIndex].welderData!,
+                          welderList: segmentData
+                              .segmentWelderList![welderIndex].welderList!,
+                          index: index,
+                          welderIndex: welderIndex),
+                      _verticalSpace(),
+                    ],
+                  );
+                })
+            : const SizedBox.shrink(),
         TextFieldWidget(
           isRequired: false,
           labelText: "${segmentData.remark}",
@@ -283,7 +321,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _radioButtonList({required SegmentModel segmentData, required int segmentIndex}) {
+  Widget _radioButtonList(
+      {required SegmentModel segmentData, required int segmentIndex}) {
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -292,29 +331,38 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           return Row(
             children: [
               Radio(
-                value: segmentData.segmentStatusList![index].groupType.toString(),
-                groupValue: segmentData.segmentStatusList![index].selectedValue.toString(),
+                value:
+                    segmentData.segmentStatusList![index].groupType.toString(),
+                groupValue: segmentData.segmentStatusList![index].selectedValue
+                    .toString(),
                 onChanged: (val) {
                   BlocProvider.of<AddRadiographyBloc>(context).add(
-                      AddRadiographySelectSegmentDataEvent(index: index, segmentIndex: segmentIndex));
+                      AddRadiographySelectSegmentDataEvent(
+                          index: index, segmentIndex: segmentIndex));
                 },
               ),
-              TextWidget(segmentData.segmentStatusList![index].status.toString()),
+              TextWidget(
+                  segmentData.segmentStatusList![index].status.toString()),
             ],
           );
-    });
+        });
   }
 
-  Widget _welderDropDown({required WelderModel welderData,
-    required List<WelderModel> welderList, required int index, required int welderIndex}) {
+  Widget _welderDropDown(
+      {required WelderModel welderData,
+      required List<WelderModel> welderList,
+      required int index,
+      required int welderIndex}) {
     return DropdownWidget(
       hint: AppString.selectWelder,
       dropdownValue: welderData.id != null ? welderData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectWelderDataEvent(welderData: value, index: index, welderIndex: welderIndex));
+            AddRadiographySelectWelderDataEvent(
+                welderData: value, index: index, welderIndex: welderIndex));
       },
-      items: welderList.map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
+      items: welderList
+          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
           child: Text(welderData.welderName.toString()),
@@ -323,16 +371,17 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-
   Widget _ndtAgencyDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectNdtAgency,
-      dropdownValue: dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
+      dropdownValue:
+          dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value));
       },
-      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -344,12 +393,15 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectDSPPL,
-      dropdownValue: dataState.dSPPLAgencyData.id != null ? dataState.dSPPLAgencyData : null,
+      dropdownValue: dataState.dSPPLAgencyData.id != null
+          ? dataState.dSPPLAgencyData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectDspplDataEvent(dspplData: value));
+        BlocProvider.of<AddRadiographyBloc>(context)
+            .add(AddRadiographySelectDspplDataEvent(dspplData: value));
       },
-      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -358,15 +410,18 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _mECONPBGPLDropDown({required FetchAddRadiographyDataState dataState}) {
+  Widget _mECONPBGPLDropDown(
+      {required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectMECONPBGPL,
-      dropdownValue: dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
+      dropdownValue:
+          dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectMeconPbgplDataEvent(meconPbgplData: value));
       },
-      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>((NdtStatusModel ndtAgencyData) {
+      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>(
+          (NdtStatusModel ndtAgencyData) {
         return DropdownMenuItem<NdtStatusModel>(
           value: ndtAgencyData,
           child: Text(ndtAgencyData.value.toString()),
@@ -386,8 +441,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _photo({required FetchAddRadiographyDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -395,48 +450,73 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -451,13 +531,27 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographyAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRadiographyBloc>(context).add(
+                        AddRadiographyAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographyAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRadiographyBloc>(context).add(
+                        AddRadiographyAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -465,17 +559,20 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-
   Widget _button({required FetchAddRadiographyDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddRadiographyBloc>(context).add(AddRadiographySubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddRadiographyBloc>(context)
+                  .add(AddRadiographySubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(

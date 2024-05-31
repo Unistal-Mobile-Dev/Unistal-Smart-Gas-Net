@@ -13,35 +13,36 @@ class AddHydroTestPage extends StatefulWidget {
 }
 
 class _AddHydroTestPageState extends State<AddHydroTestPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddHydrotestBloc>(context).add(AddHydrotestPageLoadEvent(context: context));
+    BlocProvider.of<AddHydrotestBloc>(context)
+        .add(AddHydrotestPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddHydrotestBloc, AddHydrotestState>(
         builder: (context, state) {
-          if(state is FetchAddHydrotestDataState) {
+          if (state is FetchAddHydrotestDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddHydrotestDataState dataState}){
+  Widget _itemBuilder({required FetchAddHydrotestDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -77,22 +78,26 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectDateEvent(context: context,));
+        BlocProvider.of<AddHydrotestBloc>(context)
+            .add(AddHydrotestSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddHydrotestDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddHydrotestBloc>(context)
+            .add(AddHydrotestSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -100,12 +105,15 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
   Widget _jointTypeDropDown({required FetchAddHydrotestDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddHydrotestSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -114,40 +122,51 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddHydrotestDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectFromJointNumber,
-      dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectFromJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown(
+      {required FetchAddHydrotestDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectFromJointNumber,
+            dropdownValue: dataState.fromJointData.id != null
+                ? dataState.fromJointData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddHydrotestBloc>(context).add(
+                  AddHydrotestSelectFromJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointFromList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddHydrotestDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _toJointNumberDropDown(
+      {required FetchAddHydrotestDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectToJointNumber,
+            dropdownValue:
+                dataState.toJointData.id != null ? dataState.toJointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddHydrotestBloc>(context).add(
+                  AddHydrotestSelectToJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointToList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _lengthController({required FetchAddHydrotestDataState dataState}) {
@@ -161,11 +180,11 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
 
   Widget _listBuilder({required FetchAddHydrotestDataState dataState}) {
     return GridView.count(
-        crossAxisCount: 2,
-       shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
-        for(int i = 0; i < dataState.fileList.length; i++)
+        for (int i = 0; i < dataState.fileList.length; i++)
           _photo(fileData: dataState.fileList[i], index: i),
       ],
     );
@@ -184,8 +203,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width/3,
-        height:MediaQuery.of(context).size.width/3,
+        width: MediaQuery.of(context).size.width / 3,
+        height: MediaQuery.of(context).size.width / 3,
         child: InkWell(
           onTap: () {
             mediaType(context: context, index: index);
@@ -193,50 +212,76 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
           child: DottedBorder(
             color: AppColor.grey,
             strokeWidth: 1,
-            child: fileData.file == null
-                ||fileData.file.path.isEmpty ?
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Center(child: Icon(Icons.photo_camera_back_outlined),),
-                Padding(
-                  padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                  child: TextWidget(fileData.name.toString(),
-                    textAlign: TextAlign.center,
-                    fontSize: AppFont.font_12,
-                    color: AppColor.grey,),
-                ),
-              ],
-            ):Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    fileData.file.path.toString().toLowerCase().contains(".jpg")
-                        || fileData.file.path.toString().toLowerCase().contains(".png")
-                        || fileData.file.path.toString().toLowerCase().contains(".jpeg")
-                        ? Image.file(fileData.file,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width/3,
-                      height: MediaQuery.of(context).size.width/4.5 ,)
-                        : fileData.file.path.toString().toLowerCase().contains(".pdf")
-                        ? Icon(Icons.picture_as_pdf_outlined)
-                        : Icon(Icons.document_scanner_outlined),
-                    TextWidget(fileData.name,
-                      textAlign: TextAlign.center,
-                      color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                  ],
-                ),
-                Container(
-                    width: MediaQuery.of(context).size.width/3,
-                    height:MediaQuery.of(context).size.width/3,
-                    color : Colors.white.withOpacity(0.6),
-                    child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-              ],
-            ),
+            child: fileData.file == null || fileData.file.path.isEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: Icon(Icons.photo_camera_back_outlined),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.02),
+                        child: TextWidget(
+                          fileData.name.toString(),
+                          textAlign: TextAlign.center,
+                          fontSize: AppFont.font_12,
+                          color: AppColor.grey,
+                        ),
+                      ),
+                    ],
+                  )
+                : Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          fileData.file.path
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(".jpg") ||
+                                  fileData.file.path
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(".png") ||
+                                  fileData.file.path
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(".jpeg")
+                              ? Image.file(
+                                  fileData.file,
+                                  fit: BoxFit.fill,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  height:
+                                      MediaQuery.of(context).size.width / 4.5,
+                                )
+                              : fileData.file.path
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(".pdf")
+                                  ? Icon(Icons.picture_as_pdf_outlined)
+                                  : Icon(Icons.document_scanner_outlined),
+                          TextWidget(
+                            fileData.name,
+                            textAlign: TextAlign.center,
+                            color: AppColor.themeColor,
+                            fontSize: AppFont.font_12,
+                          ),
+                        ],
+                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.width / 3,
+                          color: Colors.white.withOpacity(0.6),
+                          child: Center(
+                              child: Icon(
+                            Icons.refresh,
+                            color: AppColor.themeColor,
+                          ))),
+                    ],
+                  ),
           ),
         ),
       ),
@@ -252,13 +297,27 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddHydrotestBloc>(context).add(AddHydrotestAddImageEvent(context: context, mediaType: 1, index: index));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddHydrotestBloc>(context).add(
+                        AddHydrotestAddImageEvent(
+                            context: context, mediaType: 1, index: index));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddHydrotestBloc>(context).add(AddHydrotestAddImageEvent(context: context, mediaType: 2, index: index));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddHydrotestBloc>(context).add(
+                        AddHydrotestAddImageEvent(
+                            context: context, mediaType: 2, index: index));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -266,17 +325,20 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-
   Widget _button({required FetchAddHydrotestDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddHydrotestBloc>(context).add(AddHydrotestSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddHydrotestBloc>(context)
+                  .add(AddHydrotestSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
@@ -284,4 +346,3 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 }
-

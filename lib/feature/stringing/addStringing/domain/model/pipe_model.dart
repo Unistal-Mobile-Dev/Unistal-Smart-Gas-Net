@@ -16,7 +16,7 @@ class PipeModel {
     pipeNumber = json['pipe_number'] ?? "";
     pipeLength = json['pipe_length'] ?? "0.0";
     heatNumber = json['heat_number'] ?? "";
-    isSelected =  false;
+    isSelected = false;
   }
 
   Map<String, dynamic> toJson() {

@@ -1,5 +1,6 @@
 List<TerrainTypeModel> terrainListResponse(var json) {
-  return List<TerrainTypeModel>.from(json.map((x) => TerrainTypeModel.fromJson(x)));
+  return List<TerrainTypeModel>.from(
+      json.map((x) => TerrainTypeModel.fromJson(x)));
 }
 
 class TerrainTypeModel {

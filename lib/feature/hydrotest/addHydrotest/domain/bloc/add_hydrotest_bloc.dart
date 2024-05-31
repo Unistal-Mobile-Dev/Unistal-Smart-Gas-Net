@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -20,10 +17,9 @@ part 'add_hydrotest_event.dart';
 part 'add_hydrotest_state.dart';
 
 class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController lengthController =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -31,16 +27,17 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  List<FileModel> fileList =  [];
-  WeatherModel weatherData =  WeatherModel();
+  List<FileModel> fileList = [];
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   AddHydrotestBloc() : super(AddHydrotestInitial()) {
@@ -53,8 +50,8 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     on<AddHydrotestSelectDateEvent>(_selectDate);
     on<AddHydrotestAddImageEvent>(_selectFile);
     on<AddHydrotestSubmitDataEvent>(_submitData);
-    
   }
+
   _pageLoad(AddHydrotestPageLoadEvent event, emit) async {
     emit(AddHydrotestPageLoadState());
     dateController.text = "";
@@ -65,32 +62,35 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    fileList =  await AddHydroTestHelper.fetchFilesData();
-    weatherData =  WeatherModel();
-     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    fileList = await AddHydroTestHelper.fetchFilesData();
+    weatherData = WeatherModel();
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -100,7 +100,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   }
 
   _selectJointFrom(AddHydrotestSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
+    fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -109,34 +109,37 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     _eventComplete(emit);
   }
 
-
   _selectJointType(AddHydrotestSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddHydrotestSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -144,28 +147,29 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   }
 
   _selectFile(AddHydrotestAddImageEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        fileList[event.index].file  = photo;
+      if (photo != null) {
+        fileList[event.index].file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        fileList[event.index].file  = photo;
+      if (photo != null) {
+        fileList[event.index].file = photo;
       }
     }
     Navigator.pop(event.context);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _submitData(AddHydrotestSubmitDataEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    var res =  await AddHydroTestHelper.submitData(context: event.context,
+    var res = await AddHydroTestHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -175,26 +179,26 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
         jointTypeData: jointTypeData,
         length: lengthController.text.toString(),
         fileList: fileList);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       activityRemarkController.text = "";
       lengthController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
+      alignmentData = AlignmentModel();
+      isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      fileList =  await AddHydroTestHelper.fetchFilesData();
+      fileList = await AddHydroTestHelper.fetchFilesData();
       _eventComplete(emit);
     }
-
   }
 
-  _eventComplete(Emitter<AddHydrotestState>emit) {
-    emit(FetchAddHydrotestDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddHydrotestState> emit) {
+    emit(FetchAddHydrotestDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,

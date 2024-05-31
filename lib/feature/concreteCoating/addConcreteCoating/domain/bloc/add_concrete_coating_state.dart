@@ -9,7 +9,6 @@ class AddConcreteCoatingInitial extends AddConcreteCoatingState {
   List<Object> get props => [];
 }
 
-
 class AddConcreteCoatingPageLoadState extends AddConcreteCoatingInitial {
   @override
   List<Object> get props => [];
@@ -17,7 +16,7 @@ class AddConcreteCoatingPageLoadState extends AddConcreteCoatingInitial {
 
 class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController concreteCoatingLengthController;
@@ -56,22 +55,22 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    concreteCoatingLengthController,
-    chainageController,
-    alignmentData,
-    file,
-    pipeData,
-    pipeList,
-    weatherList,
-    weatherData,
-    searchPipeController,
-    searchPipeLoader,
-    searchPipeList,
-    thicknessData,
-    thicknessList,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        concreteCoatingLengthController,
+        chainageController,
+        alignmentData,
+        file,
+        pipeData,
+        pipeList,
+        weatherList,
+        weatherData,
+        searchPipeController,
+        searchPipeLoader,
+        searchPipeList,
+        thicknessData,
+        thicknessList,
+      ];
 }

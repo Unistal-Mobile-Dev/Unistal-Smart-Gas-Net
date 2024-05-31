@@ -4,7 +4,6 @@ abstract class AddPreHydrotestState extends Equatable {
   const AddPreHydrotestState();
 }
 
-
 class AddPreHydrotestInitial extends AddPreHydrotestState {
   @override
   List<Object> get props => [];
@@ -17,7 +16,7 @@ class AddPreHydrotestPageLoadState extends AddPreHydrotestInitial {
 
 class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -88,38 +87,38 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    lengthController,
-    ndeClearanceController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-    thicknessData,
-    thicknessList,
-    durationController,
-    pipeSizeController,
-    pressureGaugeCalibrationDateController,
-    pressureGaugeNoController,
-    pressureReading1KGController,
-    pressureReading2KGController,
-    rangeController,
-    tempController,
-    testPressureController,
-    timeInHoursController,
-    timeOffController,
-    timeOnController,
-    chainageFromController,
-    chainageToController,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        lengthController,
+        ndeClearanceController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+        thicknessData,
+        thicknessList,
+        durationController,
+        pipeSizeController,
+        pressureGaugeCalibrationDateController,
+        pressureGaugeNoController,
+        pressureReading1KGController,
+        pressureReading2KGController,
+        rangeController,
+        tempController,
+        testPressureController,
+        timeInHoursController,
+        timeOffController,
+        timeOnController,
+        chainageFromController,
+        chainageToController,
+      ];
 }

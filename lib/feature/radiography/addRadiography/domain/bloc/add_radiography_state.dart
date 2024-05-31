@@ -16,7 +16,7 @@ class AddRadiographyPageLoadState extends AddRadiographyInitial {
 
 class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -81,35 +81,35 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    reportNumberController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    segmentList,
-    segmentData,
-    jointNumberList,
-    jointNumberData,
-    dSPPLAgencyData,
-    dSPPLAgencyList,
-    locationDiscoverDefectController,
-    meconPbgplData,
-    meconPbgplList,
-    ndtAgencyData,
-    ndtAgencyList,
-    ndtSourceList,
-    ndtSourceData,
-    chainageController,
-    densityController,
-    equipmentController,
-    filmTypeController,
-    inspectTechniqueController,
-    sensivityController,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        reportNumberController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        segmentList,
+        segmentData,
+        jointNumberList,
+        jointNumberData,
+        dSPPLAgencyData,
+        dSPPLAgencyList,
+        locationDiscoverDefectController,
+        meconPbgplData,
+        meconPbgplList,
+        ndtAgencyData,
+        ndtAgencyList,
+        ndtSourceList,
+        ndtSourceData,
+        chainageController,
+        densityController,
+        equipmentController,
+        filmTypeController,
+        inspectTechniqueController,
+        sensivityController,
+      ];
 }

@@ -16,7 +16,7 @@ class AddSwabbingPageLoadState extends AddSwabbingInitial {
 
 class FetchAddSwabbingDataState extends AddSwabbingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -53,21 +53,21 @@ class FetchAddSwabbingDataState extends AddSwabbingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    lengthController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    jointTypeData,
-    jointTypeList,
-    isJointNumberLoader,
-    fromJointData,
-    jointFromList,
-    jointToList,
-    toJointData,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        lengthController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        jointTypeData,
+        jointTypeList,
+        isJointNumberLoader,
+        fromJointData,
+        jointFromList,
+        jointToList,
+        toJointData,
+      ];
 }

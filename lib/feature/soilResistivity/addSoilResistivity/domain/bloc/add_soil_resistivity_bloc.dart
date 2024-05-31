@@ -13,17 +13,21 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_soil_resistivity_event.dart';
+
 part 'add_soil_resistivity_state.dart';
 
-class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResistivityState> {
-
+class AddSoilResistivityBloc
+    extends Bloc<AddSoilResistivityEvent, AddSoilResistivityState> {
   bool _isLoader = false;
+
   bool get isLoader => _isLoader;
 
   List<AlignmentModel> _alignmentList = [];
+
   List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel _alignmentData =  AlignmentModel();
+  AlignmentModel _alignmentData = AlignmentModel();
+
   AlignmentModel get alignmentData => _alignmentData;
 
   TextEditingController dateController = TextEditingController();
@@ -34,16 +38,19 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   TextEditingController bearingAngleController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<WeatherModel> _weatherList = [];
+
   List<WeatherModel> get weatherList => _weatherList;
 
-  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel _weatherData = WeatherModel();
+
   WeatherModel get weatherData => _weatherData;
 
   File file = File("");
@@ -69,16 +76,18 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
     activityRemarkController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
-    _isLoader =  false;
-    _alignmentList =  [];
+    _isLoader = false;
+    _alignmentList = [];
     file = File("");
-    _alignmentData =  AlignmentModel();
+    _alignmentData = AlignmentModel();
     _weatherData = WeatherModel();
-    _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      _alignmentList =  res;
+    _userData = UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _alignmentList = res;
     }
     _eventComplete(emit);
   }
@@ -89,44 +98,45 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData =  event.weatherData;
+    _weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
   _selectDate(AddSoilResistivitySelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
-
   }
 
   _selectFile(AddSoilResistivityAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
     _eventComplete(emit);
   }
 
-  _submitData(AddSoilResistivitySubmitDataEvent event, emit) async  {
+  _submitData(AddSoilResistivitySubmitDataEvent event, emit) async {
 /*    var textFiledValidation =  await AddSoilResistivityHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
@@ -140,26 +150,27 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
     if(textFiledValidation == false){
       return;
     }*/
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddSoilResistivityHelper.submitData(
+    var res = await AddSoilResistivityHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         tpIpChainage: tpChainageController.text.toString(),
         tpIpNOS: tpChainageNumberController.text.toString(),
-        tpIpRemark:tpRemarkNumberController.text.toString(),
+        tpIpRemark: tpRemarkNumberController.text.toString(),
         bearing: bearingAngleController.text.toString(),
         terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file,
+        userData: userData,
+        file: file,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         weatherData: weatherData);
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
-    if(res != null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       tpChainageController.text = "";
@@ -168,18 +179,18 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       bearingAngleController.text = "";
       terrainController.text = "";
       activityRemarkController.text = "";
-      _isLoader =  false;
-      _alignmentData =  AlignmentModel();
-      file  =  File("");
+      _isLoader = false;
+      _alignmentData = AlignmentModel();
+      file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
       _eventComplete(emit);
     }
-
   }
 
-  _eventComplete(Emitter<AddSoilResistivityState>emit) {
-    emit(FetchAddSoilResistivityDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddSoilResistivityState> emit) {
+    emit(FetchAddSoilResistivityDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -191,8 +202,8 @@ class AddSoilResistivityBloc extends Bloc<AddSoilResistivityEvent, AddSoilResist
       tpRemarkNumberController: tpRemarkNumberController,
       alignmentData: alignmentData,
       file: file,
-      weatherData:  weatherData,
-      weatherList:  weatherList,
+      weatherData: weatherData,
+      weatherList: weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
     ));

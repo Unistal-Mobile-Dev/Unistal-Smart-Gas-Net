@@ -1,3 +1,1 @@
-class ViewBendingHelper {
-  
-}
+class ViewBendingHelper {}

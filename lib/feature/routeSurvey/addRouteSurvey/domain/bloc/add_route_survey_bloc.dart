@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -16,15 +12,18 @@ import 'package:intl/intl.dart';
 part 'add_route_survey_event.dart';
 part 'add_route_survey_state.dart';
 
-class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> {
-
+class AddRouteSurveyBloc
+    extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> {
   bool _isLoader = false;
+
   bool get isLoader => _isLoader;
 
   List<AlignmentModel> _alignmentList = [];
+
   List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel _alignmentData =  AlignmentModel();
+  AlignmentModel _alignmentData = AlignmentModel();
+
   AlignmentModel get alignmentData => _alignmentData;
 
   TextEditingController dateController = TextEditingController();
@@ -36,22 +35,25 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
 
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   File file = File("");
 
   List<WeatherModel> _weatherList = [];
+
   List<WeatherModel> get weatherList => _weatherList;
 
-  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel _weatherData = WeatherModel();
+
   WeatherModel get weatherData => _weatherData;
 
   List<GroundTypeModel> groundTypeList = [];
-  GroundTypeModel groundTypeData =  GroundTypeModel();
+  GroundTypeModel groundTypeData = GroundTypeModel();
 
   AddRouteSurveyBloc() : super(AddRouteSurveyInitial()) {
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
@@ -75,23 +77,26 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     activityRemarkController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
-    _isLoader =  false;
-    _alignmentList =  [];
+    _isLoader = false;
+    _alignmentList = [];
     file = File("");
-    _alignmentData =  AlignmentModel();
+    _alignmentData = AlignmentModel();
     _weatherData = WeatherModel();
     groundTypeList = [];
-    groundTypeData =  GroundTypeModel();
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    _userData =  UserInfo.instanceInit()!.userData!;
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      _alignmentList =  res;
+    groundTypeData = GroundTypeModel();
+    _weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _alignmentList = res;
     }
 
-    var groundTypeRes =  await AddRouteSurveyHelper.fetchGroundTypeData(context: event.context, userData: userData);
-    if(res != null){
-      groundTypeList =  groundTypeRes;
+    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      groundTypeList = groundTypeRes;
     }
 
     _eventComplete(emit);
@@ -103,49 +108,50 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
   }
 
   _selectGroundType(AddRouteSurveySelectGroundTypeEvent event, emit) {
-    groundTypeData =  event.groundTypeData;
+    groundTypeData = event.groundTypeData;
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData =  event.weatherData;
+    _weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
   _selectDate(AddRouteSurveySelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
-
   }
 
   _selectFile(AddRouteSurveyAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
     _eventComplete(emit);
   }
 
-  _submitData(AddRouteSurveySubmitDataEvent event, emit) async  {
+  _submitData(AddRouteSurveySubmitDataEvent event, emit) async {
 /*    var textFiledValidation =  await AddRouteSurveyHelper.textFiledValidation(context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
@@ -159,28 +165,29 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
     if(textFiledValidation == false){
       return;
     }*/
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddRouteSurveyHelper.submitData(
-        context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        tpIpChainage: tpChainageController.text.toString(),
-        tpIpNOS: tpChainageNumberController.text.toString(),
-        tpIpRemark:tpRemarkNumberController.text.toString(),
-        bearing: bearingAngleController.text.toString(),
-        terrain: terrainController.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file,
-        weatherData: weatherData,
-        chainageFrom: chainageFromController.text.toString(),
-        chainageTo: chainageToController.text.toString(),
-        groundTypeData: groundTypeData,
+    var res = await AddRouteSurveyHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      tpIpChainage: tpChainageController.text.toString(),
+      tpIpNOS: tpChainageNumberController.text.toString(),
+      tpIpRemark: tpRemarkNumberController.text.toString(),
+      bearing: bearingAngleController.text.toString(),
+      terrain: terrainController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      userData: userData,
+      file: file,
+      weatherData: weatherData,
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
+      groundTypeData: groundTypeData,
     );
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
-    if(res != null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       tpChainageController.text = "";
@@ -189,38 +196,37 @@ class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> 
       bearingAngleController.text = "";
       terrainController.text = "";
       activityRemarkController.text = "";
-      _isLoader =  false;
-      _alignmentData =  AlignmentModel();
-      file =  File("");
+      _isLoader = false;
+      _alignmentData = AlignmentModel();
+      file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
-      _weatherData =  WeatherModel();
-      groundTypeData =  GroundTypeModel();
+      _weatherData = WeatherModel();
+      groundTypeData = GroundTypeModel();
       _eventComplete(emit);
     }
-
   }
 
- _eventComplete(Emitter<AddRouteSurveyState>emit) {
-    emit(FetchAddRouteSurveyDataState(isLoader: isLoader,
-        alignmentList: alignmentList,
-        dateController: dateController,
-        activityRemarkController: activityRemarkController,
-        bearingAngleController: bearingAngleController,
-        reportNumberController: reportNumberController,
-        terrainController: terrainController,
-        tpChainageController: tpChainageController,
-        tpChainageNumberController: tpChainageNumberController,
-        tpRemarkNumberController: tpRemarkNumberController,
-        alignmentData: alignmentData,
-        file: file,
-        weatherData:  weatherData,
-        weatherList:  weatherList,
-       chainageFromController: chainageFromController,
-       chainageToController: chainageToController,
-       groundTypeData: groundTypeData,
-       groundTypeList: groundTypeList,
+  _eventComplete(Emitter<AddRouteSurveyState> emit) {
+    emit(FetchAddRouteSurveyDataState(
+      isLoader: isLoader,
+      alignmentList: alignmentList,
+      dateController: dateController,
+      activityRemarkController: activityRemarkController,
+      bearingAngleController: bearingAngleController,
+      reportNumberController: reportNumberController,
+      terrainController: terrainController,
+      tpChainageController: tpChainageController,
+      tpChainageNumberController: tpChainageNumberController,
+      tpRemarkNumberController: tpRemarkNumberController,
+      alignmentData: alignmentData,
+      file: file,
+      weatherData: weatherData,
+      weatherList: weatherList,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
+      groundTypeData: groundTypeData,
+      groundTypeList: groundTypeList,
     ));
- }
-
+  }
 }

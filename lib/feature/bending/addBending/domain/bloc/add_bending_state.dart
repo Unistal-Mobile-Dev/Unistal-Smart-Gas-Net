@@ -16,7 +16,7 @@ class AddBendingPageLoadState extends AddBendingInitial {
 
 class FetchAddBendingDataState extends AddBendingInitial {
   final List<AlignmentModel> alignmentList;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -87,38 +87,38 @@ class FetchAddBendingDataState extends AddBendingInitial {
 
   @override
   List<Object> get props => [
-    isLoader,
-    alignmentList,
-    dateController,
-    activityRemarkController,
-    bendAngleMinuteController,
-    reportNumberController,
-    bendAngleSecondController,
-    bendingNumberController,
-    bendAngleTpNumberController,
-    bendAngleDegreeController,
-    chainageController,
-    alignmentData,
-    file,
-    bendingTypeData,
-    bendingTypeList,
-    disbomdmentChecksData,
-    disbomdmentChecksList,
-    gaugingChecksData,
-    gaugingChecksList,
-    holidayChecksData,
-    holidayChecksList,
-    visualChecksData,
-    visualChecksList,
-    pipeData,
-    pipeList,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-    bendNumberController,
-    searchPipeController,
-    searchPipeLoader,
-    searchPipeList,
-  ];
+        isLoader,
+        alignmentList,
+        dateController,
+        activityRemarkController,
+        bendAngleMinuteController,
+        reportNumberController,
+        bendAngleSecondController,
+        bendingNumberController,
+        bendAngleTpNumberController,
+        bendAngleDegreeController,
+        chainageController,
+        alignmentData,
+        file,
+        bendingTypeData,
+        bendingTypeList,
+        disbomdmentChecksData,
+        disbomdmentChecksList,
+        gaugingChecksData,
+        gaugingChecksList,
+        holidayChecksData,
+        holidayChecksList,
+        visualChecksData,
+        visualChecksList,
+        pipeData,
+        pipeList,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+        bendNumberController,
+        searchPipeController,
+        searchPipeLoader,
+        searchPipeList,
+      ];
 }

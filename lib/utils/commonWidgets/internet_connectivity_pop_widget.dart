@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
 class InternetConnectivityPopWidget extends StatelessWidget {
@@ -10,7 +9,7 @@ class InternetConnectivityPopWidget extends StatelessWidget {
     return Center(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.30,
-        width: MediaQuery.of(context).size.width/1.7,
+        width: MediaQuery.of(context).size.width / 1.7,
         margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
         child: Card(
           shape: RoundedRectangleBorder(
@@ -24,7 +23,6 @@ class InternetConnectivityPopWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
               _text(context: context),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
@@ -38,8 +36,11 @@ class InternetConnectivityPopWidget extends StatelessWidget {
   Widget _centerImage({required BuildContext context}) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.09,
-      child: Icon(Icons.signal_cellular_connected_no_internet_0_bar_sharp,
-         size: MediaQuery.of(context).size.height * 0.09, color: AppColor.red,),
+      child: Icon(
+        Icons.signal_cellular_connected_no_internet_0_bar_sharp,
+        size: MediaQuery.of(context).size.height * 0.09,
+        color: AppColor.red,
+      ),
     );
   }
 
@@ -56,13 +57,15 @@ class InternetConnectivityPopWidget extends StatelessWidget {
     );
   }
 
-
   Widget _closeButton({required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: IconButton(
-        icon: Icon(Icons.close, color: AppColor.grey,),
-        onPressed:  () {
+        icon: Icon(
+          Icons.close,
+          color: AppColor.grey,
+        ),
+        onPressed: () {
           Navigator.pop(context);
         },
       ),

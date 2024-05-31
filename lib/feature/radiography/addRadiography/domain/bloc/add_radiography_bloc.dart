@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -24,13 +21,13 @@ import 'package:intl/intl.dart';
 part 'add_radiography_event.dart';
 part 'add_radiography_state.dart';
 
-class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> {
-
-
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController reportNumberController =  TextEditingController();
-  TextEditingController activityRemarkController =  TextEditingController();
-  TextEditingController locationDiscoverDefectController =  TextEditingController();
+class AddRadiographyBloc
+    extends Bloc<AddRadiographyEvent, AddRadiographyState> {
+  TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController locationDiscoverDefectController =
+      TextEditingController();
   TextEditingController chainageController = TextEditingController();
   TextEditingController filmTypeController = TextEditingController();
   TextEditingController inspectTechniqueController = TextEditingController();
@@ -42,38 +39,38 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   List<WeatherModel> weatherList = [];
 
   List<AlignmentModel> alignmentList = [];
-  AlignmentModel  alignmentData =  AlignmentModel();
-  bool isLoader =  false;
-  JointTypeModel jointTypeData =  JointTypeModel();
+  AlignmentModel alignmentData = AlignmentModel();
+  bool isLoader = false;
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  File file =  File("");
-  WeatherModel weatherData =  WeatherModel();
+  File file = File("");
+  WeatherModel weatherData = WeatherModel();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<SegmentModel> segmentList = [];
-  SegmentModel segmentData =  SegmentModel();
+  SegmentModel segmentData = SegmentModel();
 
   List<SegmentModel> selectedSegmentList = [];
 
   List<JointNumberModel> jointNumberList = [];
-  JointNumberModel jointNumberData =  JointNumberModel();
+  JointNumberModel jointNumberData = JointNumberModel();
 
-  List<WelderModel> welderList =[];
+  List<WelderModel> welderList = [];
 
   List<NdtStatusModel> ndtAgencyList = [];
   List<NdtStatusModel> meconPbgplList = [];
   List<NdtStatusModel> dSPPLAgencyList = [];
-  NdtStatusModel ndtAgencyData  =  NdtStatusModel();
-  NdtStatusModel meconPbgplData   =  NdtStatusModel();
-  NdtStatusModel dSPPLAgencyData   =  NdtStatusModel();
+  NdtStatusModel ndtAgencyData = NdtStatusModel();
+  NdtStatusModel meconPbgplData = NdtStatusModel();
+  NdtStatusModel dSPPLAgencyData = NdtStatusModel();
 
   List<NdtSourceModel> ndtSourceList = [];
-  NdtSourceModel ndtSourceData =  NdtSourceModel();
+  NdtSourceModel ndtSourceData = NdtSourceModel();
 
   AddRadiographyBloc() : super(AddRadiographyInitial()) {
-
     on<AddRadiographyPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRadiographySelectAlignmentEvent>(_selectAlignment);
@@ -103,24 +100,24 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData =  AlignmentModel();
-    isLoader =  false;
+    alignmentData = AlignmentModel();
+    isLoader = false;
     segmentData = SegmentModel();
     segmentList = [];
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    file =  File("");
+    file = File("");
     jointNumberList = [];
-    jointNumberData =  JointNumberModel();
-    weatherData =  WeatherModel();
+    jointNumberData = JointNumberModel();
+    weatherData = WeatherModel();
     ndtAgencyList = [];
     meconPbgplList = [];
     dSPPLAgencyList = [];
     ndtSourceList = [];
-    ndtSourceData =  NdtSourceModel();
-    ndtAgencyData  =  NdtStatusModel();
-    meconPbgplData   =  NdtStatusModel();
-    dSPPLAgencyData   =  NdtStatusModel();
+    ndtSourceData = NdtSourceModel();
+    ndtAgencyData = NdtStatusModel();
+    meconPbgplData = NdtStatusModel();
+    dSPPLAgencyData = NdtStatusModel();
     chainageController.text = "";
     filmTypeController.text = "";
     inspectTechniqueController.text = "";
@@ -128,49 +125,54 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     densityController.text = "";
     equipmentController.text = "";
     locationDiscoverDefectController.text = "";
-     _userData =  UserInfo.instanceInit()!.userData!;
-    weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
-    var resWelder =  await AddWeldingHelper.fetchWelderData(context: event.context, userData: userData, wpsData: WPSModel());
-    if(resWelder != null){
-      welderList =  resWelder;
+    var resWelder = await AddWeldingHelper.fetchWelderData(
+        context: event.context, userData: userData, wpsData: WPSModel());
+    if (resWelder != null) {
+      welderList = resWelder;
     }
 
-    var resSegment =  await AddRadiographyHelper.fetchSegmentData(context: event.context,
-         userData: userData, welderList: welderList);
-    if(resSegment != null){
-      segmentList =  resSegment;
+    var resSegment = await AddRadiographyHelper.fetchSegmentData(
+        context: event.context, userData: userData, welderList: welderList);
+    if (resSegment != null) {
+      segmentList = resSegment;
     }
 
-    var resNdtStatus =  await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
-    if(resNdtStatus != null){
-      ndtAgencyList =  resNdtStatus;
-      dSPPLAgencyList =  resNdtStatus;
-      meconPbgplList =  resNdtStatus;
+    var resNdtStatus =
+        await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
+    if (resNdtStatus != null) {
+      ndtAgencyList = resNdtStatus;
+      dSPPLAgencyList = resNdtStatus;
+      meconPbgplList = resNdtStatus;
     }
 
-    var resNdtSource =  await AddNdtMutHelper.fetchNdtSourceData(context: event.context);
-    if(resNdtSource != null){
-      ndtSourceList =  resNdtSource;
+    var resNdtSource =
+        await AddNdtMutHelper.fetchNdtSourceData(context: event.context);
+    if (resNdtSource != null) {
+      ndtSourceList = resNdtSource;
     }
-
 
     selectedSegmentList = segmentList;
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    weatherData =  event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -180,101 +182,114 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   }
 
   _selectRootWelder(AddRadiographySelectWelderDataEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    segmentList[event.index].segmentWelderList![event.welderIndex].welderData =  event.welderData;
-    isLoader =  false;
+    segmentList[event.index].segmentWelderList![event.welderIndex].welderData =
+        event.welderData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectHotPassWelder(AddRadiographySelectHotPassWelderEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    segmentList[event.index].hootPassWelderData =  event.welderData;
-    isLoader =  false;
+    segmentList[event.index].hootPassWelderData = event.welderData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectFillerWelder(AddRadiographySelectFillerWelderEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    segmentList[event.index].fillerWelderData =  event.welderData;
-    isLoader =  false;
+    segmentList[event.index].fillerWelderData = event.welderData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectCappingWelder(AddRadiographySelectCappingWelderEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    segmentList[event.index].cappingWelderData =  event.welderData;
-    isLoader =  false;
+    segmentList[event.index].cappingWelderData = event.welderData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectJointType(AddRadiographySelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointNumberList = [];
-    jointNumberData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointNumberData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointNumberList =  resJointNumber;
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectJointNumber(AddRadiographySelectJointNumberDataEvent event, emit) {
-    jointNumberData =  event.jointNumberData;
+    jointNumberData = event.jointNumberData;
     _eventComplete(emit);
   }
 
   _selectNdtAgency(AddRadiographySelectNdtAgencyDataEvent event, emit) {
-    ndtAgencyData =  event.ndtAgencyData;
+    ndtAgencyData = event.ndtAgencyData;
     _eventComplete(emit);
   }
 
   _selectDsppl(AddRadiographySelectDspplDataEvent event, emit) {
-    dSPPLAgencyData =  event.dspplData;
+    dSPPLAgencyData = event.dspplData;
     _eventComplete(emit);
   }
 
   _selectMeconPbgpl(AddRadiographySelectMeconPbgplDataEvent event, emit) {
-    meconPbgplData =  event.meconPbgplData;
+    meconPbgplData = event.meconPbgplData;
     _eventComplete(emit);
   }
 
   _selectSegment(AddRadiographySelectSegmentDataEvent event, emit) async {
-    segmentData =  segmentList[event.segmentIndex];
-    isLoader =  true;
+    segmentData = segmentList[event.segmentIndex];
+    isLoader = true;
     _eventComplete(emit);
 
-    for(int i = 0; i < segmentList[event.segmentIndex].segmentStatusList!.length; i++){
-      print("Id "+segmentData.segmentStatusList![i].selectedValue.toString());
-       if(i == event.index){
-         segmentList[event.segmentIndex].segmentStatusList![event.index].selectedValue
-         = segmentList[event.segmentIndex].segmentStatusList![event.index].groupType.toString();
-       } else{
-         segmentList[event.segmentIndex].segmentStatusList![i].selectedValue = "";
-       }
+    for (int i = 0;
+        i < segmentList[event.segmentIndex].segmentStatusList!.length;
+        i++) {
+      print("Id " + segmentData.segmentStatusList![i].selectedValue.toString());
+      if (i == event.index) {
+        segmentList[event.segmentIndex]
+                .segmentStatusList![event.index]
+                .selectedValue =
+            segmentList[event.segmentIndex]
+                .segmentStatusList![event.index]
+                .groupType
+                .toString();
+      } else {
+        segmentList[event.segmentIndex].segmentStatusList![i].selectedValue =
+            "";
+      }
     }
 
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(AddRadiographySelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
@@ -282,20 +297,20 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   }
 
   _selectNdtSource(AddRadiographySelectNdtSourceDataEvent event, emit) {
-    ndtSourceData =  event.ndtSourceData;
+    ndtSourceData = event.ndtSourceData;
     _eventComplete(emit);
   }
 
   _selectFile(AddRadiographyAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -303,11 +318,11 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
   }
 
   _submitData(AddRadiographySubmitDataEvent event, emit) async {
-
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
 
-    var res =  await AddRadiographyHelper.submitData(context: event.context,
+    var res = await AddRadiographyHelper.submitData(
+        context: event.context,
         alignmentData: alignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
@@ -329,23 +344,23 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
         inspectTechnique: inspectTechniqueController.text.toString(),
         sensivity: sensivityController.text.toString(),
         file: file);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
-    if(res !=  null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
-      alignmentData =  AlignmentModel();
-      isLoader =  false;
-      jointTypeData =  JointTypeModel();
+      alignmentData = AlignmentModel();
+      isLoader = false;
+      jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
-      file =  File("");
-      weatherData =  WeatherModel();
+      file = File("");
+      weatherData = WeatherModel();
       selectedSegmentList = segmentList;
-      ndtAgencyData  =  NdtStatusModel();
-      meconPbgplData   =  NdtStatusModel();
-      dSPPLAgencyData   =  NdtStatusModel();
-      ndtSourceData =  NdtSourceModel();
+      ndtAgencyData = NdtStatusModel();
+      meconPbgplData = NdtStatusModel();
+      dSPPLAgencyData = NdtStatusModel();
+      ndtSourceData = NdtSourceModel();
       locationDiscoverDefectController.text = "";
       chainageController.text = "";
       filmTypeController.text = "";
@@ -357,8 +372,9 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     }
   }
 
-  _eventComplete(Emitter<AddRadiographyState>emit) {
-    emit(FetchAddRadiographyDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddRadiographyState> emit) {
+    emit(FetchAddRadiographyDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -391,4 +407,3 @@ class AddRadiographyBloc extends Bloc<AddRadiographyEvent, AddRadiographyState> 
     ));
   }
 }
-

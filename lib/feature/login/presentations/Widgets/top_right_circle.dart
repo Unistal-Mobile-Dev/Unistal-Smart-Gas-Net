@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
-Widget topRightCircle(BuildContext context){
+Widget topRightCircle(BuildContext context) {
   var width = MediaQuery.of(context).size.width;
   var height = MediaQuery.of(context).size.height;
   return Stack(
@@ -19,7 +19,13 @@ Widget topRightCircle(BuildContext context){
             height: height * 0.18,
             width: width * 0.36,
             decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      AppColor.themeColor,
+                      AppColor.themeLightColor
+                    ]),
                 // color: Colors.pink,
                 borderRadius: BorderRadius.all(Radius.circular(80))),
           ),
@@ -32,7 +38,7 @@ Widget topRightCircle(BuildContext context){
           height: height * 0.17,
           width: width * 0.33,
           decoration: BoxDecoration(
-            //  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[Color(0xFF4348bf), Color(0xFF7fd4f5)]),
+              //  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[Color(0xFF4348bf), Color(0xFF7fd4f5)]),
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(80))),
         ),
@@ -50,7 +56,13 @@ Widget topRightCircle(BuildContext context){
             height: height * 0.16,
             width: width * 0.32,
             decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      AppColor.themeColor,
+                      AppColor.themeLightColor
+                    ]),
                 // color: Colors.pink,
                 borderRadius: BorderRadius.all(Radius.circular(80))),
           ),

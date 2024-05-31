@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -19,14 +16,16 @@ part 'add_tren_ching_event.dart';
 part 'add_tren_ching_state.dart';
 
 class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
-
   bool _isLoader = false;
+
   bool get isLoader => _isLoader;
 
   List<AlignmentModel> _alignmentList = [];
+
   List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel _alignmentData =  AlignmentModel();
+  AlignmentModel _alignmentData = AlignmentModel();
+
   AlignmentModel get alignmentData => _alignmentData;
 
   TextEditingController dateController = TextEditingController();
@@ -39,21 +38,26 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController toWidthController = TextEditingController();
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
-  List<JointNumberModel>  _jointNumberList =  [];
-  List<JointNumberModel>  get jointNumberList => _jointNumberList;
+  List<JointNumberModel> _jointNumberList = [];
 
-  JointNumberModel _jointNumberData =  JointNumberModel();
+  List<JointNumberModel> get jointNumberList => _jointNumberList;
+
+  JointNumberModel _jointNumberData = JointNumberModel();
+
   JointNumberModel get jointNumberData => _jointNumberData;
 
   File file = File("");
 
   List<WeatherModel> _weatherList = [];
+
   List<WeatherModel> get weatherList => _weatherList;
 
-  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel _weatherData = WeatherModel();
+
   WeatherModel get weatherData => _weatherData;
 
   List<JointNumberModel> jointFromList = [];
@@ -62,11 +66,11 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
-  JointTypeModel jointTypeData =  JointTypeModel();
+  JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
 
-  TextEditingController chainageFromController =  TextEditingController();
-  TextEditingController chainageToController =  TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
@@ -91,39 +95,42 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     terrainController.text = "";
     activityRemarkController.text = "";
     toWidthController.text = "";
-    _isLoader =  false;
-    _alignmentList =  [];
+    _isLoader = false;
+    _alignmentList = [];
     file = File("");
     _weatherData = WeatherModel();
-    _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    _alignmentData =  AlignmentModel();
-    _jointNumberData =  JointNumberModel();
+    _userData = UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _alignmentData = AlignmentModel();
+    _jointNumberData = JointNumberModel();
     _jointNumberList = [];
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
-    jointTypeData =  JointTypeModel();
+    jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
     chainageFromController.text = "";
     chainageToController.text = "";
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      _alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _alignmentList = res;
     }
 
-    var resJointType =  await AddWeldingHelper.fetchJointType(context: event.context, userData: userData);
-    if(resJointType != null){
-      jointTypeList =  resJointType;
+    var resJointType = await AddWeldingHelper.fetchJointType(
+        context: event.context, userData: userData);
+    if (resJointType != null) {
+      jointTypeList = resJointType;
     }
 
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData =  event.weatherData;
+    _weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -133,24 +140,25 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _selectDate(AddTrenChingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
-
   }
 
   _selectJointFrom(AddTrenChingSelectFromJointDataEvent event, emit) {
-    fromJointData =  event.jointNumberData;
+    fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
@@ -160,33 +168,35 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _selectJointType(AddTrenChingSelectJointTypeDataEvent event, emit) async {
-    jointTypeData =  event.jointTypeData;
+    jointTypeData = event.jointTypeData;
     jointFromList = [];
-    jointToList  = [];
-    fromJointData =  JointNumberModel();
-    toJointData =  JointNumberModel();
-    isJointNumberLoader =  true;
+    jointToList = [];
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber =  await AddWeldingHelper.fetchJointNumberData(context: event.context, userData: userData,
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
         jointTypeData: jointTypeData);
-    if(resJointNumber != null){
-      jointFromList =  resJointNumber;
-      jointToList =  jointFromList;
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
-    isJointNumberLoader =  false;
+    isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectFile(AddTrenChingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -207,27 +217,28 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     if(textFiledValidation == false){
       return;
     }*/
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddTrenChingHelper.submitData(
-        context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        jointNumberFromModel: fromJointData,
-        jointNumberToModel: toJointData,
-        trenchingDepth:trenchingDepthController.text.toString(),
-        terrainType: terrainController.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-        userData: userData, file: file,
-        weatherData: weatherData,
-        chainageFrom: chainageFromController.text.toString(),
-        chainageTo: chainageToController.text.toString(),
+    var res = await AddTrenChingHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      jointNumberFromModel: fromJointData,
+      jointNumberToModel: toJointData,
+      trenchingDepth: trenchingDepthController.text.toString(),
+      terrainType: terrainController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      userData: userData,
+      file: file,
+      weatherData: weatherData,
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
       toWidth: toWidthController.text.toString(),
     );
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
-    if(res != null){
+    if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
       fromJointIdController.text = "";
@@ -237,21 +248,22 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       trenchingDepthController.text = "";
       activityRemarkController.text = "";
       toWidthController.text = "";
-      _isLoader =  false;
-      _alignmentData =  AlignmentModel();
-      file =  File("");
+      _isLoader = false;
+      _alignmentData = AlignmentModel();
+      file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
-      _weatherData =  WeatherModel();
-      fromJointData =  JointNumberModel();
-      toJointData =  JointNumberModel();
-      jointTypeData =  JointTypeModel();
+      _weatherData = WeatherModel();
+      fromJointData = JointNumberModel();
+      toJointData = JointNumberModel();
+      jointTypeData = JointTypeModel();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddTrenChingState>emit) {
-    emit(FetchAddTrenChingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddTrenChingState> emit) {
+    emit(FetchAddTrenChingDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -264,8 +276,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       file: file,
       jointNumberList: jointNumberList,
       jointNumberData: jointNumberData,
-      weatherData:  weatherData,
-      weatherList:  weatherList,
+      weatherData: weatherData,
+      weatherList: weatherList,
       jointTypeData: jointTypeData,
       jointTypeList: jointTypeList,
       isJointNumberLoader: isJointNumberLoader,

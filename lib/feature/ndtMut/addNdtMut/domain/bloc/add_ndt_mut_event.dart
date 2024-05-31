@@ -3,23 +3,30 @@ part of 'add_ndt_mut_bloc.dart';
 abstract class AddNdtMutEvent extends Equatable {
   const AddNdtMutEvent();
 }
+
 class AddNdtMutPageLoadEvent extends AddNdtMutEvent {
   final BuildContext context;
+
   const AddNdtMutPageLoadEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddNdtMutSelectDateEvent extends AddNdtMutEvent {
   final BuildContext context;
+
   const AddNdtMutSelectDateEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddNdtMutSelectAlignmentEvent extends AddNdtMutEvent {
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
+
   const AddNdtMutSelectAlignmentEvent({required this.alignmentData});
+
   @override
   List<Object?> get props => [alignmentData];
 }
@@ -27,29 +34,43 @@ class AddNdtMutSelectAlignmentEvent extends AddNdtMutEvent {
 class AddNdtMutSelectJointTypeDataEvent extends AddNdtMutEvent {
   final JointTypeModel jointTypeData;
   final BuildContext context;
-  const AddNdtMutSelectJointTypeDataEvent({required this.jointTypeData, required this.context});
+
+  const AddNdtMutSelectJointTypeDataEvent(
+      {required this.jointTypeData, required this.context});
+
   @override
   List<Object?> get props => [jointTypeData, context];
 }
 
 class AddNdtMutSelectJointNumberDataEvent extends AddNdtMutEvent {
   final JointNumberModel jointNumberData;
-  const AddNdtMutSelectJointNumberDataEvent({required this.jointNumberData,});
+
+  const AddNdtMutSelectJointNumberDataEvent({
+    required this.jointNumberData,
+  });
+
   @override
-  List<Object?> get props => [jointNumberData,];
+  List<Object?> get props => [
+        jointNumberData,
+      ];
 }
 
 class AddNdtMutSelectSegmentDataEvent extends AddNdtMutEvent {
   final int index;
   final int segmentIndex;
-  const AddNdtMutSelectSegmentDataEvent({required this.index, required this.segmentIndex});
+
+  const AddNdtMutSelectSegmentDataEvent(
+      {required this.index, required this.segmentIndex});
+
   @override
   List<Object?> get props => [index, segmentIndex];
 }
 
 class AddNdtMutSelectToJointDataEvent extends AddNdtMutEvent {
   final JointNumberModel jointNumberData;
+
   const AddNdtMutSelectToJointDataEvent({required this.jointNumberData});
+
   @override
   List<Object?> get props => [jointNumberData];
 }
@@ -57,36 +78,46 @@ class AddNdtMutSelectToJointDataEvent extends AddNdtMutEvent {
 class AddNdtMutAddImageEvent extends AddNdtMutEvent {
   final BuildContext context;
   final int mediaType;
-  const AddNdtMutAddImageEvent({required this.context, required this.mediaType});
+
+  const AddNdtMutAddImageEvent(
+      {required this.context, required this.mediaType});
+
   @override
   List<Object?> get props => [context];
 }
 
-class SelectWeatherEvent extends AddNdtMutEvent{
+class SelectWeatherEvent extends AddNdtMutEvent {
   final WeatherModel weatherData;
+
   const SelectWeatherEvent({required this.weatherData});
+
   @override
   List<Object?> get props => [weatherData];
 }
 
 class AddNdtMutSelectNdtAgencyDataEvent extends AddNdtMutEvent {
   final NdtStatusModel ndtAgencyData;
+
   const AddNdtMutSelectNdtAgencyDataEvent({required this.ndtAgencyData});
+
   @override
   List<Object?> get props => [ndtAgencyData];
 }
 
 class AddNdtMutSelectDspplDataEvent extends AddNdtMutEvent {
   final NdtStatusModel dspplData;
+
   const AddNdtMutSelectDspplDataEvent({required this.dspplData});
+
   @override
   List<Object?> get props => [dspplData];
 }
 
-
 class AddNdtMutSelectMeconPbgplDataEvent extends AddNdtMutEvent {
   final NdtStatusModel meconPbgplData;
+
   const AddNdtMutSelectMeconPbgplDataEvent({required this.meconPbgplData});
+
   @override
   List<Object?> get props => [meconPbgplData];
 }
@@ -94,21 +125,28 @@ class AddNdtMutSelectMeconPbgplDataEvent extends AddNdtMutEvent {
 class AddNdtMutSearchPipeDataEvent extends AddNdtMutEvent {
   final BuildContext context;
   final String keyword;
-  const AddNdtMutSearchPipeDataEvent({required this.context, required this.keyword});
+
+  const AddNdtMutSearchPipeDataEvent(
+      {required this.context, required this.keyword});
+
   @override
   List<Object?> get props => [context, keyword];
 }
 
 class AddNdtMutSelectPipeDataEvent extends AddNdtMutEvent {
   final PipeModel pipeData;
+
   const AddNdtMutSelectPipeDataEvent({required this.pipeData});
+
   @override
   List<Object?> get props => [pipeData];
 }
 
 class AddNdtMutSubmitDataEvent extends AddNdtMutEvent {
   final BuildContext context;
+
   const AddNdtMutSubmitDataEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }

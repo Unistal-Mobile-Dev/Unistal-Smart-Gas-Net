@@ -1,3 +1,1 @@
-class ViewClearingGradingHelper {
-
-}
+class ViewClearingGradingHelper {}

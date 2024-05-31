@@ -25,7 +25,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final TextEditingController bearingAngleController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -57,23 +57,23 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
 
   @override
   List<Object> get props => [
-    alignmentList,
-    isLoader,
-    dateController,
-    activityRemarkController,
-    bearingAngleController,
-    reportNumberController,
-    terrainController,
-    tpChainageController,
-    tpChainageNumberController,
-    tpRemarkNumberController,
-    alignmentData,
-    file,
-    weatherList,
-    weatherData,
-    chainageFromController,
-    chainageToController,
-    groundTypeList,
-    groundTypeData,
-  ];
+        alignmentList,
+        isLoader,
+        dateController,
+        activityRemarkController,
+        bearingAngleController,
+        reportNumberController,
+        terrainController,
+        tpChainageController,
+        tpChainageNumberController,
+        tpRemarkNumberController,
+        alignmentData,
+        file,
+        weatherList,
+        weatherData,
+        chainageFromController,
+        chainageToController,
+        groundTypeList,
+        groundTypeData,
+      ];
 }

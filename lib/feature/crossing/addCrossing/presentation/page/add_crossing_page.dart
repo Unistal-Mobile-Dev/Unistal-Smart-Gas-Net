@@ -21,35 +21,36 @@ class AddCrossingPage extends StatefulWidget {
 }
 
 class _AddCrossingPageState extends State<AddCrossingPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddCrossingBloc>(context).add(AddCrossingPageLoadEvent(context: context));
+    BlocProvider.of<AddCrossingBloc>(context)
+        .add(AddCrossingPageLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddCrossingBloc, AddCrossingState>(
         builder: (context, state) {
-          if(state is FetchAddCrossingDataState) {
+          if (state is FetchAddCrossingDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-
-  Widget _itemBuilder({required FetchAddCrossingDataState dataState}){
+  Widget _itemBuilder({required FetchAddCrossingDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -99,8 +100,10 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectDateEvent(context: context,));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
@@ -113,16 +116,18 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -130,12 +135,14 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _weatherDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -147,12 +154,16 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _pipeMaterialDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeMaterial,
-      dropdownValue: dataState.pipeMaterialData.id != null ? dataState.pipeMaterialData : null,
+      dropdownValue: dataState.pipeMaterialData.id != null
+          ? dataState.pipeMaterialData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
             AddCrossingSelectPipeMaterialDataEvent(pipeMaterialData: value));
       },
-      items: dataState.pipeMaterialList.map<DropdownMenuItem<PipeMaterialModel>>((PipeMaterialModel pipeMaterialData) {
+      items: dataState.pipeMaterialList
+          .map<DropdownMenuItem<PipeMaterialModel>>(
+              (PipeMaterialModel pipeMaterialData) {
         return DropdownMenuItem<PipeMaterialModel>(
           value: pipeMaterialData,
           child: Text(pipeMaterialData.name.toString()),
@@ -164,12 +175,14 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _pipeDiaDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeDia,
-      dropdownValue: dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
+      dropdownValue:
+          dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPipeDiaDataEvent(pipeDiaData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectPipeDiaDataEvent(pipeDiaData: value));
       },
-      items: dataState.pipeDialList.map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
+      items: dataState.pipeDialList
+          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
         return DropdownMenuItem<PipeDiaModel>(
           value: pipeDiaData,
           child: Text(pipeDiaData.value.toString()),
@@ -181,12 +194,14 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _thicknessDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPipeThickness,
-      dropdownValue: dataState.thicknessData.id != null ? dataState.thicknessData : null,
+      dropdownValue:
+          dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectThicknessDataEvent(thicknessData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectThicknessDataEvent(thicknessData: value));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>((ThicknessModel thicknessData) {
+      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
+          (ThicknessModel thicknessData) {
         return DropdownMenuItem<ThicknessModel>(
           value: thicknessData,
           child: Text(thicknessData.value.toString()),
@@ -198,12 +213,15 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _coatingTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectCoatingType,
-      dropdownValue: dataState.coatingTypeData.id != null ? dataState.coatingTypeData : null,
+      dropdownValue: dataState.coatingTypeData.id != null
+          ? dataState.coatingTypeData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectCoatingTypeDataEvent(coatingTypeData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectCoatingTypeDataEvent(coatingTypeData: value));
       },
-      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>((CoatingTypeModel coatingTypeData) {
+      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>(
+          (CoatingTypeModel coatingTypeData) {
         return DropdownMenuItem<CoatingTypeModel>(
           value: coatingTypeData,
           child: Text(coatingTypeData.name.toString()),
@@ -215,12 +233,14 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _prePaddingDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPrePadding,
-      dropdownValue: dataState.prePaddingData.id != null ? dataState.prePaddingData : null,
+      dropdownValue:
+          dataState.prePaddingData.id != null ? dataState.prePaddingData : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPrePaddingDataEvent(prePaddingData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectPrePaddingDataEvent(prePaddingData: value));
       },
-      items: dataState.prePaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel prePaddingData) {
+      items: dataState.prePaddingList
+          .map<DropdownMenuItem<PaddingModel>>((PaddingModel prePaddingData) {
         return DropdownMenuItem<PaddingModel>(
           value: prePaddingData,
           child: Text(prePaddingData.value.toString()),
@@ -232,12 +252,15 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _postPaddingDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectPostPadding,
-      dropdownValue: dataState.postPaddingData.id != null ? dataState.postPaddingData : null,
+      dropdownValue: dataState.postPaddingData.id != null
+          ? dataState.postPaddingData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPostPaddingDataEvent(postPaddingData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectPostPaddingDataEvent(postPaddingData: value));
       },
-      items: dataState.postPaddingList.map<DropdownMenuItem<PaddingModel>>((PaddingModel postPaddingData) {
+      items: dataState.postPaddingList
+          .map<DropdownMenuItem<PaddingModel>>((PaddingModel postPaddingData) {
         return DropdownMenuItem<PaddingModel>(
           value: postPaddingData,
           child: Text(postPaddingData.value.toString()),
@@ -254,7 +277,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _holidayTestNoController({required FetchAddCrossingDataState dataState}) {
+  Widget _holidayTestNoController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.holidayTestNo,
@@ -262,7 +286,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _concreteCoatingLengthController({required FetchAddCrossingDataState dataState}) {
+  Widget _concreteCoatingLengthController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -271,7 +296,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _crossingNameController({required FetchAddCrossingDataState dataState}) {
+  Widget _crossingNameController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.crossingName,
@@ -290,12 +316,16 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _visualChecksDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectVisualChecks,
-      dropdownValue: dataState.visualChecksData.id != null ? dataState.visualChecksData : null,
+      dropdownValue: dataState.visualChecksData.id != null
+          ? dataState.visualChecksData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
             AddCrossingSelectVisualChecksDataEvent(visualChecksData: value));
       },
-      items: dataState.visualsChecksList.map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksData) {
+      items: dataState.visualsChecksList
+          .map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel visualChecksData) {
         return DropdownMenuItem<VisualChecksModel>(
           value: visualChecksData,
           child: Text(visualChecksData.value.toString()),
@@ -312,8 +342,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-
-  Widget _electrometerNoController({required FetchAddCrossingDataState dataState}) {
+  Widget _electrometerNoController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrometerNo,
@@ -321,16 +351,18 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-
   Widget _jointTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
-      dropdownValue: dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+      dropdownValue:
+          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectJointTypeDataEvent(jointTypeData: value, context: context));
+            AddCrossingSelectJointTypeDataEvent(
+                jointTypeData: value, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>((JointTypeModel jointTypeData) {
+      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
+          (JointTypeModel jointTypeData) {
         return DropdownMenuItem<JointTypeModel>(
           value: jointTypeData,
           child: Text(jointTypeData.name.toString()),
@@ -339,43 +371,55 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectFromJointNumber,
-      dropdownValue: dataState.fromJointData.id != null ? dataState.fromJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectFromJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointFromList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown(
+      {required FetchAddCrossingDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectFromJointNumber,
+            dropdownValue: dataState.fromJointData.id != null
+                ? dataState.fromJointData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddCrossingBloc>(context).add(
+                  AddCrossingSelectFromJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointFromList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _toJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
-    return dataState.isJointNumberLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectToJointNumber,
-      dropdownValue: dataState.toJointData.id != null ? dataState.toJointData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectToJointDataEvent(jointNumberData: value));
-      },
-      items: dataState.jointToList.map<DropdownMenuItem<JointNumberModel>>((JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
+  Widget _toJointNumberDropDown(
+      {required FetchAddCrossingDataState dataState}) {
+    return dataState.isJointNumberLoader == false
+        ? DropdownWidget(
+            hint: AppString.selectToJointNumber,
+            dropdownValue:
+                dataState.toJointData.id != null ? dataState.toJointData : null,
+            onChanged: (value) {
+              BlocProvider.of<AddCrossingBloc>(context).add(
+                  AddCrossingSelectToJointDataEvent(jointNumberData: value));
+            },
+            items: dataState.jointToList
+                .map<DropdownMenuItem<JointNumberModel>>(
+                    (JointNumberModel jointNumberData) {
+              return DropdownMenuItem<JointNumberModel>(
+                value: jointNumberData,
+                child: Text(jointNumberData.jointNumber.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
-  Widget _sectionLengthController({required FetchAddCrossingDataState dataState}) {
+  Widget _sectionLengthController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -401,16 +445,18 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-
   Widget _crossingTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectCrossingType,
-      dropdownValue: dataState.crossingTypeData.id != null ? dataState.crossingTypeData : null,
+      dropdownValue: dataState.crossingTypeData.id != null
+          ? dataState.crossingTypeData
+          : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
             AddCrossingSelectCrossingTypeDataEvent(crossingTypeData: value));
       },
-      items: dataState.crossingTyeList.map<DropdownMenuItem<CrossingTypeModel>>((CrossingTypeModel crossingTypeData) {
+      items: dataState.crossingTyeList.map<DropdownMenuItem<CrossingTypeModel>>(
+          (CrossingTypeModel crossingTypeData) {
         return DropdownMenuItem<CrossingTypeModel>(
           value: crossingTypeData,
           child: Text(crossingTypeData.name.toString()),
@@ -419,15 +465,20 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _holidayChecksDropDown({required FetchAddCrossingDataState dataState}) {
+  Widget _holidayChecksDropDown(
+      {required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectHolidayChecks,
-      dropdownValue: dataState.holidayChecksData.id != null ? dataState.holidayChecksData : null,
+      dropdownValue: dataState.holidayChecksData.id != null
+          ? dataState.holidayChecksData
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectHolidayDataEvent(holidayChecksData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectHolidayDataEvent(holidayChecksData: value));
       },
-      items: dataState.holidayCheckList.map<DropdownMenuItem<HolidayChecksModel>>((HolidayChecksModel holidayChecksData) {
+      items: dataState.holidayCheckList
+          .map<DropdownMenuItem<HolidayChecksModel>>(
+              (HolidayChecksModel holidayChecksData) {
         return DropdownMenuItem<HolidayChecksModel>(
           value: holidayChecksData,
           child: Text(holidayChecksData.value.toString()),
@@ -435,7 +486,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       }).toList(),
     );
   }
-
 
   Widget _activityRemark({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
@@ -448,8 +498,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _photo({required FetchAddCrossingDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
           mediaType(context: context);
@@ -457,48 +507,73 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -513,13 +588,27 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddCrossingBloc>(context).add(AddCrossingAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddCrossingBloc>(context).add(
+                        AddCrossingAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddCrossingBloc>(context).add(AddCrossingAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddCrossingBloc>(context).add(
+                        AddCrossingAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -527,17 +616,20 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-
   Widget _button({required FetchAddCrossingDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddCrossingBloc>(context).add(AddCrossingSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddCrossingBloc>(context)
+                  .add(AddCrossingSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
@@ -545,5 +637,3 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 }
-
-

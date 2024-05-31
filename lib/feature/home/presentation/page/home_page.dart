@@ -13,11 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
-    BlocProvider.of<HomeBloc>(context).add(
-        HomePageLoadEvent(context: context));
+    BlocProvider.of<HomeBloc>(context).add(HomePageLoadEvent(context: context));
     super.initState();
   }
 
@@ -26,19 +24,18 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppConfig.getDeviceType(context: context) == DeviceType.phone
-      ? const PhoneHomeWidget()
-      : const TabletHomeWidget(),
+          ? const PhoneHomeWidget()
+          : const TabletHomeWidget(),
     );
   }
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-        context: context,
-        builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
-            message: "Do you want to exit an App?",
-            okButtonText: "Exit",
-            onPressed: () =>  Navigator.of(context).pop(true)
-       ))
-    ) ?? false;
+            context: context,
+            builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+                message: "Do you want to exit an App?",
+                okButtonText: "Exit",
+                onPressed: () => Navigator.of(context).pop(true)))) ??
+        false;
   }
 }

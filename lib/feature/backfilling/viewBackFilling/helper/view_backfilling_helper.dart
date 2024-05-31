@@ -1,3 +1,1 @@
-class ViewBackFillingHelper {
-  
-}
+class ViewBackFillingHelper {}

@@ -9,7 +9,6 @@ LoginDataModel loginResponse(var json) {
 }
 
 class LoginDataModel {
-
   String? userId;
   String? email;
   String? moduleId;
@@ -23,20 +22,20 @@ class LoginDataModel {
   String? token;
   RoleType? roleType;
 
-  LoginDataModel(
-      {this.userId,
-        this.email,
-        this.moduleId,
-        this.name,
-        this.userStatus,
-        this.pwdChanged,
-        this.modules,
-        this.schema,
-        this.spreadId,
-        this.sectionId,
-        this.token,
-        this.roleType,
-      });
+  LoginDataModel({
+    this.userId,
+    this.email,
+    this.moduleId,
+    this.name,
+    this.userStatus,
+    this.pwdChanged,
+    this.modules,
+    this.schema,
+    this.spreadId,
+    this.sectionId,
+    this.token,
+    this.roleType,
+  });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
     userId = json['id'];
@@ -49,17 +48,16 @@ class LoginDataModel {
     schema = json['schema'];
     spreadId = json['spread_id'];
     sectionId = json['section_id'];
-    roleType = json['role'] != null ?
-    getRole(role: json['role']) : RoleType.engineer;
+    roleType =
+        json['role'] != null ? getRole(role: json['role']) : RoleType.engineer;
   }
 
   getRole({required String role}) {
-    switch(role) {
-      case "engineer" :
+    switch (role) {
+      case "engineer":
         return RoleType.engineer;
     }
   }
-
 }
 
 class LoginScreenRequestModel {
@@ -67,7 +65,13 @@ class LoginScreenRequestModel {
   final String password;
   final String firebaseId;
   final String deviceId;
-  LoginScreenRequestModel({required this.userEmailId, required this.password, required this.firebaseId, required this.deviceId});
+
+  LoginScreenRequestModel(
+      {required this.userEmailId,
+      required this.password,
+      required this.firebaseId,
+      required this.deviceId});
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       "email": userEmailId,

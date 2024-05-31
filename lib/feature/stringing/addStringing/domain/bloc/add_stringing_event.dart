@@ -6,27 +6,36 @@ abstract class AddStringingEvent extends Equatable {
 
 class AddStringingPageLoadEvent extends AddStringingEvent {
   final BuildContext context;
+
   const AddStringingPageLoadEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
 
 class AddStringingSelectDateEvent extends AddStringingEvent {
   final BuildContext context;
+
   const AddStringingSelectDateEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
+
 class AddStringingSelectAlignmentEvent extends AddStringingEvent {
-  final AlignmentModel  alignmentData;
+  final AlignmentModel alignmentData;
+
   const AddStringingSelectAlignmentEvent({required this.alignmentData});
+
   @override
   List<Object?> get props => [alignmentData];
 }
 
 class AddStringingAddPipeLengthEvent extends AddStringingEvent {
   final BuildContext context;
+
   const AddStringingAddPipeLengthEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }
@@ -34,14 +43,19 @@ class AddStringingAddPipeLengthEvent extends AddStringingEvent {
 class AddStringingDeletePipeLengthEvent extends AddStringingEvent {
   final BuildContext context;
   final int index;
-  const AddStringingDeletePipeLengthEvent({required this.context, required this.index});
+
+  const AddStringingDeletePipeLengthEvent(
+      {required this.context, required this.index});
+
   @override
-  List<Object?> get props => [context,index];
+  List<Object?> get props => [context, index];
 }
 
 class AddStringingSelectPipeDataEvent extends AddStringingEvent {
   final PipeModel pipeData;
+
   const AddStringingSelectPipeDataEvent({required this.pipeData});
+
   @override
   List<Object?> get props => [pipeData];
 }
@@ -49,14 +63,20 @@ class AddStringingSelectPipeDataEvent extends AddStringingEvent {
 class AddStringingSearchPipeDataEvent extends AddStringingEvent {
   final String keyword;
   final BuildContext context;
-  const AddStringingSearchPipeDataEvent({required this.keyword, required this.context});
+
+  const AddStringingSearchPipeDataEvent(
+      {required this.keyword, required this.context});
+
   @override
   List<Object?> get props => [keyword, context];
 }
 
 class AddStringingSelectConcreteCoatingEvent extends AddStringingEvent {
   final ConcreteCoatingModel concreteCoatingData;
-  const AddStringingSelectConcreteCoatingEvent({required this.concreteCoatingData});
+
+  const AddStringingSelectConcreteCoatingEvent(
+      {required this.concreteCoatingData});
+
   @override
   List<Object?> get props => [concreteCoatingData];
 }
@@ -64,22 +84,28 @@ class AddStringingSelectConcreteCoatingEvent extends AddStringingEvent {
 class AddStringingAddImageEvent extends AddStringingEvent {
   final BuildContext context;
   final int mediaType;
-  const AddStringingAddImageEvent({required this.context, required this.mediaType});
+
+  const AddStringingAddImageEvent(
+      {required this.context, required this.mediaType});
+
   @override
   List<Object?> get props => [context, mediaType];
 }
 
-class SelectWeatherEvent extends AddStringingEvent{
+class SelectWeatherEvent extends AddStringingEvent {
   final WeatherModel weatherData;
+
   const SelectWeatherEvent({required this.weatherData});
+
   @override
   List<Object?> get props => [weatherData];
 }
 
-
 class AddStringingSubmitDataEvent extends AddStringingEvent {
   final BuildContext context;
+
   const AddStringingSubmitDataEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }

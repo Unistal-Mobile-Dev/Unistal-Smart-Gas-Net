@@ -3,8 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,27 +12,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     pageOpen();
     super.initState();
   }
 
-
   pageOpen() async {
-    String userName = await SharedPreferencesUtils.getString(key: PreferencesName.userName);
-    if(userName.isEmpty){
+    String userName =
+        await SharedPreferencesUtils.getString(key: PreferencesName.userName);
+    if (userName.isEmpty) {
       await Future.delayed(const Duration(seconds: 2));
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => LoginScreenPage()), (route) => false);
-    } else{
-      String password = await SharedPreferencesUtils.getString(key: PreferencesName.password);
-      BlocProvider.of<LoginBloc>(context).add(LoginSetPasswordEvent(
-          password: password));
-      BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(
-          emailId: userName));
-      BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(context: context, isLoginPage: false));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => LoginScreenPage()),
+          (route) => false);
+    } else {
+      String password =
+          await SharedPreferencesUtils.getString(key: PreferencesName.password);
+      BlocProvider.of<LoginBloc>(context)
+          .add(LoginSetPasswordEvent(password: password));
+      BlocProvider.of<LoginBloc>(context)
+          .add(LoginSetEmailEvent(emailId: userName));
+      BlocProvider.of<LoginBloc>(context)
+          .add(LoginSubmitDataEvent(context: context, isLoginPage: false));
     }
   }
 
@@ -50,13 +51,13 @@ class _SplashScreenState extends State<SplashScreen> {
               AppConfig.instanceInit()!.client == Client.purvaBharti
                   ? AppIcon.appLogoPurvaBharti
                   : AppConfig.instanceInit()!.client == Client.unistal
-                  ? AppIcon.appLogoUnistal
-                  : AppIcon.appLogoIgl,
+                      ? AppIcon.appLogoUnistal
+                      : AppIcon.appLogoIgl,
               height: MediaQuery.of(context).size.width * 0.30,
               width: MediaQuery.of(context).size.width * 0.30,
             ),
           ),
-           Positioned(
+          Positioned(
             bottom: MediaQuery.of(context).size.height * 0.10,
             left: 0.0,
             right: 0.0,

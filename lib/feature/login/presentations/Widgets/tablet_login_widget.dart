@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/presentation/pages/forgot_password_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_state.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 
 class TabletLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
+
   const TabletLoginWidget({super.key, required this.dataState});
 
   @override
@@ -26,7 +25,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
             child: Padding(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.04,
-                right: MediaQuery.of(context).size.width * 0.04),
+                  right: MediaQuery.of(context).size.width * 0.04),
               child: Center(child: _logoWithTextWidget()),
             ),
           ),
@@ -63,6 +62,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
       ),
     );
   }
+
   Widget _logo() {
     return Hero(
       tag: 'logo',
@@ -72,15 +72,15 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
           children: [
             Positioned(
               left: 00.0,
-              top:  00.0,
+              top: 00.0,
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.13,
               child: Image.asset(
-		               AppConfig.instanceInit()!.client == Client.purvaBharti
-                   ? AppIcon.appLogoPurvaBharti
-                 :AppConfig.instanceInit()!.client == Client.unistal
-                   ? AppIcon.appLogoUnistal
-                 : AppIcon.appLogoIgl,
+                AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
+                    : AppConfig.instanceInit()!.client == Client.unistal
+                        ? AppIcon.appLogoUnistal
+                        : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -99,9 +99,9 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
     );
   }
 
-  Widget _smartGasNetLogo(){
+  Widget _smartGasNetLogo() {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/4,
+      width: MediaQuery.of(context).size.width / 4,
       child: Image.asset(AppIcon.smartgasnetLog),
     );
   }
@@ -125,21 +125,27 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
 
   Widget _emailTextField({required FetchLoginStateData dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05,
-        right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldWidget(
         isRequired: true,
         labelText: AppString.emailPhoneNumber,
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
-        onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(emailId: value)),
+        onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+            .add(LoginSetEmailEvent(emailId: value)),
       ),
     );
   }
 
   Widget _passwordTextField({required FetchLoginStateData dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldPasswordWidget(
         isRequired: true,
         labelText: AppString.password,
@@ -147,56 +153,64 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
         isPasswordIcon: true,
         textEditingController: dataState.passwordTextFieldController,
         passwordOnPressed: () {
-          BlocProvider.of<LoginBloc>(context).add(
-              LoginPasswordHideShowEvent(
-                  isPassword:  dataState.isPassword == true ? false : true));
+          BlocProvider.of<LoginBloc>(context).add(LoginPasswordHideShowEvent(
+              isPassword: dataState.isPassword == true ? false : true));
         },
-        onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetPasswordEvent(password: value)),
+        onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+            .add(LoginSetPasswordEvent(password: value)),
       ),
     );
   }
 
   Widget _forgotPassword({required FetchLoginStateData dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding:  EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.00,
-              bottom: MediaQuery.of(context).size.width * 0.02),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-              );
-            },
-            child: TextWidget(
-              "Forgot Password",
-             textDecoration : TextDecoration.underline,
-              color: AppColor.themeSecondary,
-              fontWeight: FontWeight.w600
+    return dataState.isLoader == false
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
             ),
-          ),
-        ),
-      ),
-    ): const SizedBox.shrink();
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.width * 0.00,
+                    bottom: MediaQuery.of(context).size.width * 0.02),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ForgotPasswordPage()),
+                    );
+                  },
+                  child: TextWidget("Forgot Password",
+                      textDecoration: TextDecoration.underline,
+                      color: AppColor.themeSecondary,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _loginButton({required FetchLoginStateData dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05,
-        right: MediaQuery.of(context).size.width * 0.05,),
-      child: ButtonWidget(
-          height: MediaQuery.of(context).size.height * 0.10,
-          isLockIcon: true,
-          text: AppString.login,
-          onPressed: () {
-            BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(context: context, isLoginPage: true));
-          }),
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: ButtonWidget(
+                height: MediaQuery.of(context).size.height * 0.10,
+                isLockIcon: true,
+                text: AppString.login,
+                onPressed: () {
+                  BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(
+                      context: context, isLoginPage: true));
+                }),
+          )
+        : const DottedLoaderWidget();
   }
 
   _verticalSpace() {
@@ -204,5 +218,4 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
       height: MediaQuery.of(context).size.height * 0.04,
     );
   }
-
 }

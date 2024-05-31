@@ -14,7 +14,6 @@ class AddCutPipePageLoadState extends AddCutPipeInitial {
   List<Object> get props => [];
 }
 
-
 class FetchAddCutPipeDataState extends AddCutPipeInitial {
   final bool isLoader;
   final bool searchPipeLoader;
@@ -36,12 +35,12 @@ class FetchAddCutPipeDataState extends AddCutPipeInitial {
 
   @override
   List<Object> get props => [
-    pipeData,
-    pipeList,
-    searchPipeList,
-    isLoader,
-    searchPipeLoader,
-    cutPipeLengthController,
-    searchPipeController,
-  ];
+        pipeData,
+        pipeList,
+        searchPipeList,
+        isLoader,
+        searchPipeLoader,
+        cutPipeLengthController,
+        searchPipeController,
+      ];
 }

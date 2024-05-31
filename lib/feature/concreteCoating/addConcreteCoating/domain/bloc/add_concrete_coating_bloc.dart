@@ -17,54 +17,67 @@ import 'package:intl/intl.dart';
 import '../../../../stringing/addStringing/domain/model/pipe_model.dart';
 
 part 'add_concrete_coating_event.dart';
+
 part 'add_concrete_coating_state.dart';
 
-class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCoatingState> {
-
+class AddConcreteCoatingBloc
+    extends Bloc<AddConcreteCoatingEvent, AddConcreteCoatingState> {
   List<AlignmentModel> _alignmentList = [];
+
   List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel  _alignmentData =  AlignmentModel();
-  AlignmentModel  get alignmentData => _alignmentData;
+  AlignmentModel _alignmentData = AlignmentModel();
+
+  AlignmentModel get alignmentData => _alignmentData;
 
   bool _isLoader = false;
+
   bool get isLoader => _isLoader;
 
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController concreteCoatingLengthController  =  TextEditingController();
-  TextEditingController chainageController  =  TextEditingController();
-  TextEditingController activityRemarkController  =  TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController concreteCoatingLengthController =
+      TextEditingController();
+  TextEditingController chainageController = TextEditingController();
+  TextEditingController activityRemarkController = TextEditingController();
 
-
-  File file =  File("");
+  File file = File("");
 
   List<PipeModel> _pipeList = [];
+
   List<PipeModel> get pipeList => _pipeList;
-  
+
   List<ThicknessModel> _thicknessList = [];
+
   List<ThicknessModel> get thicknessList => _thicknessList;
 
-  ThicknessModel _thicknessData =  ThicknessModel();
+  ThicknessModel _thicknessData = ThicknessModel();
+
   ThicknessModel get thicknessData => _thicknessData;
 
-  PipeModel _pipeData =  PipeModel();
+  PipeModel _pipeData = PipeModel();
+
   PipeModel get pipeData => _pipeData;
 
-  LoginDataModel _userData =  LoginDataModel();
+  LoginDataModel _userData = LoginDataModel();
+
   LoginDataModel get userData => _userData;
 
   List<WeatherModel> _weatherList = [];
+
   List<WeatherModel> get weatherList => _weatherList;
 
-  WeatherModel _weatherData =  WeatherModel();
+  WeatherModel _weatherData = WeatherModel();
+
   WeatherModel get weatherData => _weatherData;
 
   List<dynamic> _searchPipeList = [];
+
   List<dynamic> get searchPipeList => _searchPipeList;
 
-  TextEditingController searchPipeController =  TextEditingController();
+  TextEditingController searchPipeController = TextEditingController();
 
-  bool _searchPipeLoader =  false;
+  bool _searchPipeLoader = false;
+
   bool get searchPipeLoader => _searchPipeLoader;
 
   AddConcreteCoatingBloc() : super(AddConcreteCoatingInitial()) {
@@ -81,37 +94,39 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
 
   _pageLoad(AddConcreteCoatingPageLoadEvent event, emit) async {
     emit(AddConcreteCoatingPageLoadState());
-    _alignmentList =  [];
-    _alignmentData =  AlignmentModel();
-    _isLoader =  false;
+    _alignmentList = [];
+    _alignmentData = AlignmentModel();
+    _isLoader = false;
     dateController.text = "";
     concreteCoatingLengthController.text = "";
     activityRemarkController.text = "";
     chainageController.text = "";
-    file =  File("");
+    file = File("");
     _pipeList = [];
     _pipeData = PipeModel();
     _weatherData = WeatherModel();
     _thicknessList = [];
-    _thicknessData =  ThicknessModel();
-    _userData =  UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    _thicknessData = ThicknessModel();
+    _userData = UserInfo.instanceInit()!.userData!;
+    _weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
 
-    var res =  await AddRouteSurveyHelper.fetchAlignmentData(context: event.context, userData: userData);
-    if(res != null){
-      _alignmentList =  res;
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _alignmentList = res;
     }
 
-    var thicknessRes =  await AddConcreteCoatingHelper.fetchThicknessData(context: event.context, userData: userData);
-    if(res != null){
-      _thicknessList =  thicknessRes;
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
+        context: event.context, userData: userData);
+    if (res != null) {
+      _thicknessList = thicknessRes;
     }
     _eventComplete(emit);
   }
 
-
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData =  event.weatherData;
+    _weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -121,57 +136,63 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
   }
 
   _selectDate(AddConcreteCoatingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
-    DateTime? pickedDate = await showDatePicker(context: event.context,
+    DateTime firstDayCurrentMonth = DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime? pickedDate = await showDatePicker(
+        context: event.context,
         initialDate: DateTime.now(),
-        firstDate:  DateTime(2023),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now());
 
     if (pickedDate != null) {
       String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text =  formattedDateChange.toString();
+      dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
       print("Date is not selected");
     }
-
   }
+
   _selectPipeData(AddConcreteCoatingSelectSelectPipeDataEvent event, emit) {
-    _pipeData =  event.pipeData;
+    _pipeData = event.pipeData;
     _searchPipeList = [];
     searchPipeController.text = pipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
-  _selectThickness(AddConcreteCoatingSelectSelectThicknessDataEvent event, emit) {
-    _thicknessData =  event.thicknessData;
+  _selectThickness(
+      AddConcreteCoatingSelectSelectThicknessDataEvent event, emit) {
+    _thicknessData = event.thicknessData;
     _eventComplete(emit);
   }
-  
-  _searchPipeData(AddConcreteCoatingAddSearchPipeDataEvent event, emit)  async {
+
+  _searchPipeData(AddConcreteCoatingAddSearchPipeDataEvent event, emit) async {
     _pipeList = [];
-    _searchPipeLoader =  true;
+    _searchPipeLoader = true;
     _eventComplete(emit);
-    var resPipe =  await AddStringingHelper.fetchPipeData(context: event.context,
-        userData: userData, searchKeyword: event.keyword.toString(), type: "");
-    if(resPipe != null){
-      _pipeList =  resPipe;
+    var resPipe = await AddStringingHelper.fetchPipeData(
+        context: event.context,
+        userData: userData,
+        searchKeyword: event.keyword.toString(),
+        type: "");
+    if (resPipe != null) {
+      _pipeList = resPipe;
       _searchPipeList = pipeList;
     }
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     _eventComplete(emit);
   }
 
   _selectFile(AddConcreteCoatingAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context);
@@ -179,9 +200,9 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
   }
 
   _submitData(AddConcreteCoatingSubmitDataEvent event, emit) async {
-    _isLoader =  true;
+    _isLoader = true;
     _eventComplete(emit);
-    var res =  await AddConcreteCoatingHelper.submitData(
+    var res = await AddConcreteCoatingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
         concreteCoatingLength: concreteCoatingLengthController.text.toString(),
@@ -190,31 +211,33 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
         chainage: chainageController.text.toString(),
         pipeData: pipeData,
         weatherData: weatherData,
-        userData: userData, file: file, 
+        userData: userData,
+        file: file,
         thicknessData: thicknessData,
         remark: activityRemarkController.text.toString());
-    _isLoader =  false;
+    _isLoader = false;
     _eventComplete(emit);
-    if(res != null){
-      _alignmentData =  AlignmentModel();
-      _isLoader =  false;
+    if (res != null) {
+      _alignmentData = AlignmentModel();
+      _isLoader = false;
       dateController.text = "";
       activityRemarkController.text = "";
       concreteCoatingLengthController.text = "";
       chainageController.text = "";
-      _thicknessData =  ThicknessModel();
-      file =  File("");
+      _thicknessData = ThicknessModel();
+      file = File("");
       _pipeData = PipeModel();
       _pipeList = [];
       searchPipeController.text = "";
-      _weatherData =  WeatherModel();
-      _alignmentData =  AlignmentModel();
+      _weatherData = WeatherModel();
+      _alignmentData = AlignmentModel();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddConcreteCoatingState>emit) {
-    emit(FetchAddConcreteCoatingDataState(isLoader: isLoader,
+  _eventComplete(Emitter<AddConcreteCoatingState> emit) {
+    emit(FetchAddConcreteCoatingDataState(
+      isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
@@ -224,8 +247,8 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
       file: file,
       pipeList: pipeList,
       pipeData: pipeData,
-      weatherData:  weatherData,
-      weatherList:  weatherList,
+      weatherData: weatherData,
+      weatherList: weatherList,
       thicknessData: thicknessData,
       thicknessList: thicknessList,
       searchPipeLoader: searchPipeLoader,
@@ -233,5 +256,4 @@ class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCo
       searchPipeController: searchPipeController,
     ));
   }
-
 }

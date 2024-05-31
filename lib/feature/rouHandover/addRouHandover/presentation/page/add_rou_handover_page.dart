@@ -11,34 +11,36 @@ class AddRouHandoverPage extends StatefulWidget {
 }
 
 class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
-
   @override
   void initState() {
-    BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverLoadEvent(context: context));
+    BlocProvider.of<AddRouHandoverBloc>(context)
+        .add(AddRouHandoverLoadEvent(context: context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.white,
       body: BlocBuilder<AddRouHandoverBloc, AddRouHandoverState>(
         builder: (context, state) {
-          if(state is FetchAddRouHandoverDataState) {
+          if (state is FetchAddRouHandoverDataState) {
             return _itemBuilder(dataState: state);
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddRouHandoverDataState dataState}){
+  Widget _itemBuilder({required FetchAddRouHandoverDataState dataState}) {
     return Container(
       margin: EdgeInsets.all(10),
       child: SingleChildScrollView(
-        child : Column(
+        child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
@@ -76,13 +78,16 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddRouHandoverBloc>(context).add(
-            AddRouHandoverSelectDateEvent(context: context,));
+        BlocProvider.of<AddRouHandoverBloc>(context)
+            .add(AddRouHandoverSelectDateEvent(
+          context: context,
+        ));
       },
     );
   }
 
-  Widget _reportNumberController({required FetchAddRouHandoverDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -91,7 +96,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _chainageFromController({required FetchAddRouHandoverDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -100,7 +106,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddRouHandoverDataState dataState}) {
+  Widget _chainageToController(
+      {required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -126,11 +133,13 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _tpRemarkController({required FetchAddRouHandoverDataState dataState}) {
+  Widget _tpRemarkController(
+      {required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 2,
-      labelText: "OTHER DETAILS (If Any) Details of Structures, P/L, HT, Crossing",
+      labelText:
+          "OTHER DETAILS (If Any) Details of Structures, P/L, HT, Crossing",
       controller: dataState.tpRemarkController,
     );
   }
@@ -145,14 +154,17 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRouHandoverDataState dataState}) {
-    return  DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData  : null,
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddRouHandoverBloc>(context).add(
-            AddRouHandoverSelectAlignmentEvent(alignmentData: value,));
+        BlocProvider.of<AddRouHandoverBloc>(context)
+            .add(AddRouHandoverSelectAlignmentEvent(
+          alignmentData: value,
+        ));
       },
     );
   }
@@ -160,12 +172,14 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _weatherDropDown({required FetchAddRouHandoverDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue:
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddRouHandoverBloc>(context).add(
-            SelectWeatherEvent(weatherData: value));
+        BlocProvider.of<AddRouHandoverBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
       },
-      items: dataState.weatherList.map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
         return DropdownMenuItem<WeatherModel>(
           value: weatherData,
           child: Text(weatherData.name.toString()),
@@ -176,57 +190,82 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
 
   Widget _photo({required FetchAddRouHandoverDataState dataState}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () {
-         mediaType(context: context);
+          mediaType(context: context);
         },
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null
-              ||dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? Icon(Icons.picture_as_pdf_outlined)
-                      : Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
+          child: dataState.file == null || dataState.file.path.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Photo",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpg") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                dataState.file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : dataState.file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? Icon(Icons.picture_as_pdf_outlined)
+                                : Icon(Icons.document_scanner_outlined),
+                        TextWidget(
+                          dataState.file.path.split('/').last.toString(),
+                          color: AppColor.themeColor,
+                          fontSize: AppFont.font_12,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                  ],
+                ),
         ),
       ),
     );
@@ -241,13 +280,27 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverAddImageEvent(context: context, mediaType: 1));
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRouHandoverBloc>(context).add(
+                        AddRouHandoverAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-                BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverAddImageEvent(context: context, mediaType: 2));
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddRouHandoverBloc>(context).add(
+                        AddRouHandoverAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );
@@ -256,20 +309,23 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   }
 
   Widget _button({required FetchAddRouHandoverDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.submit,
-        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? MediaQuery.of(context).size.height * 0.13 : null,
-        onPressed: () {
-          BlocProvider.of<AddRouHandoverBloc>(context).add(AddRouHandoverSubmitDataEvent(context: context));
-        }
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            height:
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
+            onPressed: () {
+              BlocProvider.of<AddRouHandoverBloc>(context)
+                  .add(AddRouHandoverSubmitDataEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
-
 
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 }

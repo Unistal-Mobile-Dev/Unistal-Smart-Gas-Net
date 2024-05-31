@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 
 @immutable
 class EnvironmentConfig extends InheritedWidget {
-
   final EnvironmentFlavours flavours;
 
-  const EnvironmentConfig({super.key,
+  const EnvironmentConfig({
+    super.key,
     required this.flavours,
     required super.child,
   });
 
-
-  static EnvironmentConfig? of(BuildContext context){
+  static EnvironmentConfig? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType();
   }
 
@@ -21,11 +20,11 @@ class EnvironmentConfig extends InheritedWidget {
   }
 
   String get generalUrlBaseOnFlavour {
-    switch(flavours){
+    switch (flavours) {
       case EnvironmentFlavours.developmentUnistal:
         return "http://unistal.smartgasnet.com/";
       case EnvironmentFlavours.productionUnistal:
-      return "http://unistal.smartgasnet.com/";
+        return "http://unistal.smartgasnet.com/";
       case EnvironmentFlavours.developmentPurvaBharti:
         return "https://pbgpl.smartgasnet.com/";
       case EnvironmentFlavours.productionPurvaBharti:
@@ -38,5 +37,11 @@ class EnvironmentConfig extends InheritedWidget {
   }
 }
 
-enum EnvironmentFlavours{ developmentUnistal, productionUnistal, developmentPurvaBharti,
-  productionPurvaBharti, developmentIgl, productionIgl }
+enum EnvironmentFlavours {
+  developmentUnistal,
+  productionUnistal,
+  developmentPurvaBharti,
+  productionPurvaBharti,
+  developmentIgl,
+  productionIgl
+}

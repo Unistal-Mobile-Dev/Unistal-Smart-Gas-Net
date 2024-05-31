@@ -1,5 +1,4 @@
 class NdtStatusModel {
-
   dynamic id;
   dynamic value;
 

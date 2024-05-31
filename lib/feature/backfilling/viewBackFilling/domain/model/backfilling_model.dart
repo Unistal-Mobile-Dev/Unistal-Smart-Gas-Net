@@ -1,3 +1,1 @@
-class BackFillingModel {
-
-}
+class BackFillingModel {}
