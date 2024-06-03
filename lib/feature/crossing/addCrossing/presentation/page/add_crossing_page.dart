@@ -55,6 +55,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -108,11 +110,11 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _onWeldController({required FetchAddCrossingDataState dataState}) {
+  Widget _reportNumberController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.onWeld,
-      controller: dataState.onWeldController,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

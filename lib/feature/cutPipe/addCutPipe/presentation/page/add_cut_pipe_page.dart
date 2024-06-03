@@ -40,6 +40,8 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
         child: Column(
           children: [
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _pipeDropDown(dataState: dataState),
             _verticalSpace(),
             _cutPipeLengthController(dataState: dataState),
@@ -49,6 +51,14 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _reportNumberController(
+      {required FetchAddCutPipeDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

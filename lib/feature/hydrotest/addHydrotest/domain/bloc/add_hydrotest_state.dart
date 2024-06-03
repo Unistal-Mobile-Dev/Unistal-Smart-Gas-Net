@@ -21,6 +21,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
   final TextEditingController lengthController;
+  final TextEditingController reportNumberController;
   final JointNumberModel fromJointData;
   final List<JointNumberModel> jointFromList;
   final List<JointNumberModel> jointToList;
@@ -47,6 +48,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
     required this.jointFromList,
     required this.jointToList,
     required this.toJointData,
+    required this.reportNumberController,
   });
 
   @override
@@ -66,5 +68,6 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
         jointFromList,
         jointToList,
         toJointData,
+        reportNumberController,
       ];
 }

@@ -38,6 +38,7 @@ class AddPreHydrotestBloc
   TextEditingController tempController = TextEditingController();
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -114,6 +115,7 @@ class AddPreHydrotestBloc
     pressureReading2KGController.text = "";
     chainageToController.text = "";
     chainageFromController.text = "";
+    reportNumberController.text = "";
     pressureReading2KGController.text = "";
     tempController.text = "";
     _userData = UserInfo.instanceInit()!.userData!;
@@ -268,6 +270,7 @@ class AddPreHydrotestBloc
       timeOn: timeOnController.text.toString(),
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
+      reportNumber: reportNumberController.text.toString(),
     );
     isLoader = false;
     _eventComplete(emit);
@@ -298,6 +301,7 @@ class AddPreHydrotestBloc
       pressureReading2KGController.text = "";
       tempController.text = "";
       chainageFromController.text = "";
+      reportNumberController.text = "";
       chainageToController.text = "";
       _eventComplete(emit);
     }
@@ -338,6 +342,7 @@ class AddPreHydrotestBloc
         timeOffController: timeOffController,
         timeOnController: timeOnController,
         chainageFromController: chainageFromController,
+        reportNumberController: reportNumberController,
         chainageToController: chainageToController));
   }
 }

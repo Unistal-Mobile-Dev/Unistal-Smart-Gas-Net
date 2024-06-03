@@ -21,6 +21,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -58,6 +59,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     dateController.text = "";
     activityRemarkController.text = "";
     lengthController.text = "";
+    reportNumberController.text = "";
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
@@ -179,12 +181,14 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
         toJointData: toJointData,
         jointTypeData: jointTypeData,
         length: lengthController.text.toString(),
+        reportNumber: reportNumberController.text.toString(),
         fileList: fileList);
     isLoader = false;
     _eventComplete(emit);
     if (res != null) {
       dateController.text = "";
       activityRemarkController.text = "";
+      reportNumberController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
       isLoader = false;
@@ -214,6 +218,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
       jointToList: jointToList,
       lengthController: lengthController,
       toJointData: toJointData,
+      reportNumberController: reportNumberController,
     ));
   }
 }

@@ -46,6 +46,8 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -122,6 +124,15 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController(
+      {required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

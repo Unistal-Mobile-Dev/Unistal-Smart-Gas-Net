@@ -48,6 +48,8 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -92,6 +94,14 @@ class _AddStringingPageState extends State<AddStringingPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController(
+      {required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

@@ -59,6 +59,7 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final VisualChecksModel visualChecksData;
   final List<CrossingTypeModel> crossingTyeList;
   final CrossingTypeModel crossingTypeData;
+  final TextEditingController reportNumberController;
 
   FetchAddCrossingDataState({
     required this.isLoader,
@@ -105,6 +106,7 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     required this.crossingTyeList,
     required this.postPaddingData,
     required this.postPaddingList,
+    required this.reportNumberController,
   });
 
   @override
@@ -153,5 +155,6 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
         crossingTypeData,
         postPaddingData,
         postPaddingList,
+        reportNumberController,
       ];
 }

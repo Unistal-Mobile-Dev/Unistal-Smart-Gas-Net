@@ -25,6 +25,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   TextEditingController preheatTempController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   List<WelderModel> rootWelders1List = [];
   List<WelderModel> rootWelders2List = [];
@@ -611,6 +612,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       weatherData: weatherData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
+      reportNumber: reportNumberController.text.toString(),
     );
     _isLoader = false;
     _eventComplete(emit);
@@ -669,6 +671,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       _weatherData = WeatherModel();
       searchLeftPipeController.text = "";
       searchRightPipeController.text = "";
+      reportNumberController.text = "";
     }
     _eventComplete(emit);
   }
@@ -768,6 +771,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       searchPipeRightController: searchRightPipeController,
       searchRightPipeList: searchRightPipeList,
       searchRightPipeLoader: searchRightPipeLoader,
+      reportNumberController: reportNumberController,
     ));
   }
 }

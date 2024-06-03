@@ -100,6 +100,7 @@ class AddJointCoatingHelper {
       required PipeMaterialModel pipeMaterialData,
       required CoatingTypeModel coatingTypeData,
       required PaddingModel peelTestData,
+      required String reportNumber,
       required File file}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -117,6 +118,7 @@ class AddJointCoatingHelper {
         "section_id": userData.sectionId.toString(),
         "chainage_from": chainageFrom,
         "chainage_to": chainageTo,
+        "report_no": reportNumber,
         "activity_date": date.toString(),
         "joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
         "pipe_type_id":

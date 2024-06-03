@@ -22,6 +22,7 @@ class FetchAddCutPipeDataState extends AddCutPipeInitial {
   final PipeModel pipeData;
   final TextEditingController cutPipeLengthController;
   final TextEditingController searchPipeController;
+  final TextEditingController reportNumberController;
 
   FetchAddCutPipeDataState({
     required this.pipeData,
@@ -31,6 +32,7 @@ class FetchAddCutPipeDataState extends AddCutPipeInitial {
     required this.searchPipeLoader,
     required this.cutPipeLengthController,
     required this.searchPipeController,
+    required this.reportNumberController,
   });
 
   @override
@@ -42,5 +44,6 @@ class FetchAddCutPipeDataState extends AddCutPipeInitial {
         searchPipeLoader,
         cutPipeLengthController,
         searchPipeController,
+        reportNumberController,
       ];
 }

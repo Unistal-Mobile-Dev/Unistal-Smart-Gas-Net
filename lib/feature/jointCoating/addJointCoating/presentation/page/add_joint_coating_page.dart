@@ -54,6 +54,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -122,6 +124,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController({required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

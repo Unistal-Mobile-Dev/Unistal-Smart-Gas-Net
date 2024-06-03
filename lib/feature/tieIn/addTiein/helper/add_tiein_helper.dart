@@ -41,6 +41,7 @@ class AddTieinHelper {
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
+    required String reportNumber,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -56,6 +57,7 @@ class AddTieinHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
+        "report_no": reportNumber,
         "chainage_from": chainageFrom,
         "chainage_to": chainageTo,
         "activity_date": date.toString(),

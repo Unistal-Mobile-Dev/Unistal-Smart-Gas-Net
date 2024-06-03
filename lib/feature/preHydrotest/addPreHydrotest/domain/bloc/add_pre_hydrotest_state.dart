@@ -48,6 +48,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final TextEditingController tempController;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+  final TextEditingController reportNumberController;
 
   FetchAddPreHydrotestDataState({
     required this.isLoader,
@@ -83,6 +84,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     required this.timeOnController,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.reportNumberController,
   });
 
   @override
@@ -120,5 +122,6 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
         timeOnController,
         chainageFromController,
         chainageToController,
+        reportNumberController,
       ];
 }

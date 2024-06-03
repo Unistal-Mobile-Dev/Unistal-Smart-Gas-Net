@@ -47,6 +47,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
 /*            _alignmentDropdown(dataState: dataState),
             _verticalSpace(),*/
             _jointTypeDropDown(dataState: dataState),
@@ -83,6 +85,14 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController({required FetchAddHydrotestDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

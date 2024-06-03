@@ -38,6 +38,7 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
   LoginDataModel get userData => _userData;
 
   TextEditingController cutPipeLengthController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   AddCutPipeBloc() : super(AddCutPipeInitial()) {
     on<AddCutPipePageLoadEvent>(_pageLoader);
@@ -55,6 +56,7 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
     _pipeData = PipeModel();
     cutPipeLengthController.text = "";
     searchPipeController.text = "";
+    reportNumberController.text = "";
     _userData = UserInfo.instanceInit()!.userData!;
     _eventComplete(emit);
   }
@@ -95,11 +97,13 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
     var res = await AddCutPipeHelper.submitData(
         context: event.context,
         cutePipeLength: cutPipeLengthController.text.toString(),
+        reportNumber: reportNumberController.text.toString(),
         pipeData: pipeData);
     if (res != null) {
       _pipeData = PipeModel();
       cutPipeLengthController.text = "";
       searchPipeController.text = "";
+      reportNumberController.text = "";
     }
     _isLoader = false;
     _eventComplete(emit);
@@ -114,6 +118,7 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
       searchPipeController: searchPipeController,
       searchPipeList: searchPipeList,
       searchPipeLoader: searchPipeLoader,
+      reportNumberController: reportNumberController,
     ));
   }
 }

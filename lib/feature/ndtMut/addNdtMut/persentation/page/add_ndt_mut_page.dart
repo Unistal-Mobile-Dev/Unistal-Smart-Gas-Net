@@ -50,6 +50,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -101,6 +103,13 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

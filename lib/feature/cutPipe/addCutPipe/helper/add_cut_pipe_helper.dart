@@ -20,12 +20,14 @@ class AddCutPipeHelper {
   static Future<dynamic> submitData(
       {required BuildContext context,
       required String cutePipeLength,
-      required PipeModel pipeData}) async {
+      required PipeModel pipeData,
+      required String reportNumber}) async {
     try {
       String url = APIs.addCutePipeApi;
       var json = {
         "pipeId": pipeData.id.toString(),
         "pipeLength": pipeData.pipeLength.toString(),
+        "report_no": reportNumber.toString(),
         "cutpipeLength": cutePipeLength.toString(),
       };
 

@@ -65,6 +65,8 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
@@ -107,6 +109,14 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController({required FetchAddLevellingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 

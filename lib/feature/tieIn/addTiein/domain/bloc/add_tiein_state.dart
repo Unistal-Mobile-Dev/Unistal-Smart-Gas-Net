@@ -122,6 +122,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final List<dynamic> searchRightPipeList;
   final bool searchRightPipeLoader;
   final TextEditingController searchPipeRightController;
+  final TextEditingController reportNumberController;
 
   FetchAddTieinDataState({
     required this.isLoader,
@@ -217,6 +218,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.searchPipeRightController,
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
+    required this.reportNumberController,
   });
 
   @override
@@ -314,5 +316,6 @@ class FetchAddTieinDataState extends AddTieinInitial {
         searchPipeRightController,
         searchRightPipeList,
         searchRightPipeLoader,
+        reportNumberController,
       ];
 }

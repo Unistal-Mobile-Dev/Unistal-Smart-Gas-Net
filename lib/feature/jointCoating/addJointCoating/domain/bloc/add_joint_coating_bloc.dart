@@ -41,6 +41,7 @@ class AddJointCoatingBloc
   TextEditingController electrometerNoController = TextEditingController();
   TextEditingController batchNoController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -116,6 +117,7 @@ class AddJointCoatingBloc
     electrometerNoController.text = "";
     batchNoController.text = "";
     surfaceController.text = "";
+    reportNumberController.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
@@ -361,6 +363,7 @@ class AddJointCoatingBloc
       coatingTypeData: coatingTypeData,
       pipeMaterialData: pipeMaterialData,
       peelTestData: peelTestData,
+      reportNumber: reportNumberController.text.toString(),
     );
     isLoader = false;
     _eventComplete(emit);
@@ -381,6 +384,7 @@ class AddJointCoatingBloc
       onBodyController.text = "";
       surfaceController.text = "";
       primaryAbatchController.text = "";
+      reportNumberController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -439,6 +443,7 @@ class AddJointCoatingBloc
       pipeMaterialList: pipeMaterialList,
       visualChecksData: visualChecksData,
       visualsChecksList: visualsChecksList,
+      reportNumberController: reportNumberController,
     ));
   }
 }

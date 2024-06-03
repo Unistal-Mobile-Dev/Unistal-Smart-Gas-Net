@@ -40,6 +40,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   TextEditingController electrometerNoController = TextEditingController();
   TextEditingController batchNoController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -368,6 +369,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       prePaddingData: prePaddingData,
       postPaddingData: postPaddingData,
       crossingTypeData: crossingTypeData,
+      reportNumber: reportNumberController.text.toString(),
     );
     isLoader = false;
     _eventComplete(emit);
@@ -388,6 +390,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       onBodyController.text = "";
       surfaceController.text = "";
       concreteCoatingLengthController.text = "";
+      reportNumberController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -451,6 +454,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         crossingTypeData: crossingTypeData,
         crossingTyeList: crossingTypeList,
         postPaddingData: postPaddingData,
+        reportNumberController: reportNumberController,
         postPaddingList: postPaddingList));
   }
 }

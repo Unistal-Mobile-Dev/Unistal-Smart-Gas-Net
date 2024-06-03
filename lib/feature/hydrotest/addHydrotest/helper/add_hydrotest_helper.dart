@@ -93,6 +93,7 @@ class AddHydroTestHelper {
       required JointNumberModel toJointData,
       required JointTypeModel jointTypeData,
       required String length,
+      required String reportNumber,
       required List<FileModel> fileList}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -109,6 +110,7 @@ class AddHydroTestHelper {
         "spreadId": userData.spreadId.toString(),
         "sectionId": userData.sectionId.toString(),
         "activityDate": date.toString(),
+        "report_no": reportNumber.toString(),
         "remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),

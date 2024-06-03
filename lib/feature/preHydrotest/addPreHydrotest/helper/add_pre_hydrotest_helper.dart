@@ -39,6 +39,7 @@ class AddPreHydroTestHelper {
     required String temp,
     required String chainageFrom,
     required String chainageTo,
+    required String reportNumber,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -55,6 +56,7 @@ class AddPreHydroTestHelper {
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
         "activity_date": date.toString(),
+        "report_no": reportNumber.toString(),
         "user_id": userData.userId.toString(),
         "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),

@@ -55,6 +55,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final PipeMaterialModel pipeMaterialData;
   final List<VisualChecksModel> visualsChecksList;
   final VisualChecksModel visualChecksData;
+  final TextEditingController reportNumberController;
 
   FetchAddJointCoatingDataState({
     required this.isLoader,
@@ -97,6 +98,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.pipeMaterialList,
     required this.visualChecksData,
     required this.visualsChecksList,
+    required this.reportNumberController,
   });
 
   @override
@@ -141,5 +143,6 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         pipeMaterialData,
         visualChecksData,
         visualsChecksList,
+        reportNumberController,
       ];
 }

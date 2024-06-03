@@ -66,6 +66,7 @@ class AddCrossingHelper {
       required PaddingModel prePaddingData,
       required PaddingModel postPaddingData,
       required CrossingTypeModel crossingTypeData,
+      required String reportNumber,
       required File file}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -82,6 +83,7 @@ class AddCrossingHelper {
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
         "activity_date": date.toString(),
+        "report_no": reportNumber.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),

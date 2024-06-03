@@ -39,12 +39,14 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _itemBuilder({required FetchAddRouteSurveyDataState dataState}) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
+            _verticalSpace(),
+            _reportNumberController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
@@ -295,8 +297,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
-                                ? Icon(Icons.picture_as_pdf_outlined)
-                                : Icon(Icons.document_scanner_outlined),
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
                           color: AppColor.themeColor,

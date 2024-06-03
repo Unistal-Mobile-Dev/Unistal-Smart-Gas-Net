@@ -51,6 +51,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -105,6 +107,14 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           context: context,
         ));
       },
+    );
+  }
+
+  Widget _reportNumberController(
+      {required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
     );
   }
 
