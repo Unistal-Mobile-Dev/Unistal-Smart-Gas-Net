@@ -58,20 +58,20 @@ class AddHdpeDuctTestingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attachFile",
           filePath: file.path.toString());
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
           res['errors'] != null &&
           res['message'] != null) {
-        SnackBarErrorWidget(context).show(
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: res['message']
                 .toString()
                 .replaceAll("{", "")
@@ -79,11 +79,11 @@ class AddHdpeDuctTestingHelper {
                 .replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
