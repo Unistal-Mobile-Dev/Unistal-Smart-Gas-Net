@@ -119,30 +119,31 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
     var resHoliday =
-        await AddBendingHelper.fetchHolidayData(context: event.context);
+        await AddBendingHelper.fetchHolidayData(
+            context: !event.context.mounted ? event.context : event.context);
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
     var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
     var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
@@ -237,7 +238,9 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       calibarationDateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      if (kDebugMode) {
+        print("Date is not selected");
+      }
     }
   }
 
@@ -253,7 +256,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
