@@ -12,7 +12,7 @@ class ForgotPasswordHelper {
         return false;
       } else if (await EmailValidation.checkEmailValidation(emailId: email) ==
           false) {
-        SnackBarErrorWidget(context)
+        SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Please enter valid email id");
         return false;
       }
@@ -34,40 +34,40 @@ class ForgotPasswordHelper {
       var json = {"email": email};
       String queryString = Uri(queryParameters: json).query;
       var res =
-          await ServerRequest.getData(urlEndPoint: url + '?' + queryString);
+          await ServerRequest.getData(urlEndPoint: '$url?$queryString');
       if (res != null) {
         if (res['status'] != null &&
             res['status'] == 200 &&
             res['response'] != null) {
-          SnackBarSuccessWidget(context).show(message: res['response']);
+          SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['response']);
           return true;
         } else if (res["status"] != null &&
             res['status'] == 500 &&
             res['response'] != null) {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return null;
         } else {
           if (res['error'] != null) {
-            _showSnackbar(message: res['error'], context: context);
+            _showSnackbar(message: res['error'], context: !context.mounted ? context : context);
             return false;
           }
         }
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal server error");
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal server error");
         return false;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: "Internal server error");
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal server error");
       return false;
     }
   }
 
   static _showSnackbar(
       {required String message, required BuildContext context}) {
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-      content: new Text(message,
-          style: new TextStyle(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message,
+          style: const TextStyle(
               color: Colors.white,
               fontSize: 14.0,
               fontFamily: 'Montserrat',

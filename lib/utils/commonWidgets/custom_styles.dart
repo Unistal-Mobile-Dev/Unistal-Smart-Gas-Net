@@ -9,137 +9,138 @@ class CustomStyleText {
       fontFamily: 'Montserrat');
 
   static TextStyle navBarStyle =
-      TextStyle(fontSize: 13.0, fontFamily: 'Montserrat');
+      const TextStyle(fontSize: 13.0, fontFamily: 'Montserrat');
 
-  static TextStyle checkOutStyle = TextStyle(fontSize: 18, color: Colors.pink);
+  static TextStyle checkOutStyle =
+      const TextStyle(fontSize: 18, color: Colors.pink);
 
-  static TextStyle logOutStyle = new TextStyle(
+  static TextStyle logOutStyle = const TextStyle(
       color: Colors.black,
       fontSize: 16.0,
       fontWeight: FontWeight.bold,
       fontFamily: 'Montserrat');
 
-  static TextStyle logDialogStyle = new TextStyle(
+  static TextStyle logDialogStyle = const TextStyle(
       color: Colors.black,
       fontSize: 14.0,
       fontWeight: FontWeight.normal,
       fontFamily: 'Montserrat');
 
-  static TextStyle logInStyle = TextStyle(
+  static TextStyle logInStyle = const TextStyle(
       color: Colors.white,
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
       fontFamily: 'Montserrat');
-  static TextStyle changeCompanyStyle = TextStyle(
+  static TextStyle changeCompanyStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14.0,
       fontWeight: FontWeight.w600,
       fontFamily: 'Montserrat');
-  static TextStyle changePasswordStyle = TextStyle(
+  static TextStyle changePasswordStyle = const TextStyle(
       color: Colors.black,
       fontSize: 14.0,
       fontWeight: FontWeight.bold,
       fontFamily: 'Montserrat');
-  static TextStyle yesNoStyle = TextStyle(
+  static TextStyle yesNoStyle = const TextStyle(
       fontSize: 14.0, fontWeight: FontWeight.normal, fontFamily: 'Montserrat');
 
-  static TextStyle loginStyle = TextStyle(
+  static TextStyle loginStyle = const TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle checkInStyle = TextStyle(
+  static TextStyle checkInStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle checkInOutDateInStyle =
-      TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
+  static TextStyle checkInOutDateInStyle = const TextStyle(
+      color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
 
-  static TextStyle employeeDetailsStyle = TextStyle(
+  static TextStyle employeeDetailsStyle = const TextStyle(
       color: Colors.black,
       fontSize: 16.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
 
-  static TextStyle presentStyle = TextStyle(
+  static TextStyle presentStyle = const TextStyle(
       color: Colors.white,
       fontSize: 16.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
 
-  static TextStyle userPresentStyle = TextStyle(
+  static TextStyle userPresentStyle = const TextStyle(
       color: Colors.white,
       fontSize: 18.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle leaveStatusStyle = TextStyle(
+  static TextStyle leaveStatusStyle = const TextStyle(
       color: Colors.black,
       fontSize: 14.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
 
-  static TextStyle leaveReasonStyle = TextStyle(
+  static TextStyle leaveReasonStyle = const TextStyle(
       color: Colors.black,
       fontSize: 12.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w500);
 
-  static TextStyle leaveTypeStyle = TextStyle(
+  static TextStyle leaveTypeStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
 
-  static TextStyle showSnackBarStyle = TextStyle(
+  static TextStyle showSnackBarStyle = const TextStyle(
       color: Colors.pink,
       fontSize: 14.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w600);
-  static TextStyle statusStyle = TextStyle(
+  static TextStyle statusStyle = const TextStyle(
       color: Colors.white,
       fontSize: 14.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle updateStatusStyle = TextStyle(
+  static TextStyle updateStatusStyle = const TextStyle(
       color: Colors.black,
       fontSize: 16.0,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle remakeStyle = TextStyle(
+  static TextStyle remakeStyle = const TextStyle(
     color: Colors.black,
     fontSize: 12.0,
     fontFamily: 'Montserrat',
   );
 
-  static TextStyle haajriButtonStyle = TextStyle(
+  static TextStyle haajriButtonStyle = const TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle hrmMitraStyle = TextStyle(
+  static TextStyle hrmMitraStyle = const TextStyle(
       color: Colors.white,
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
       fontFamily: 'Montserrat');
-  static TextStyle logoutTitleStyle = TextStyle(
+  static TextStyle logoutTitleStyle = const TextStyle(
       color: Colors.black,
       fontSize: 16.0,
       fontWeight: FontWeight.bold,
       fontFamily: 'Montserrat');
-  static TextStyle logoutStyle = TextStyle(
+  static TextStyle logoutStyle = const TextStyle(
       fontSize: 14.0, fontWeight: FontWeight.normal, fontFamily: 'Montserrat');
 
-  static TextStyle dataTableStyle = TextStyle(
+  static TextStyle dataTableStyle = const TextStyle(
     fontStyle: FontStyle.italic,
     color: Colors.white,
   );
 
-  static TextStyle viewStyle = TextStyle(
+  static TextStyle viewStyle = const TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
   static TextStyle viewDetailsStyle =
-      TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
-  static TextStyle submitStyle = TextStyle(
+      const TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
+  static TextStyle submitStyle = const TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
@@ -147,7 +148,7 @@ class CustomStyleText {
 
 Widget styleAppBar() {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
         gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -167,12 +168,12 @@ BoxDecoration gradientDecoration = BoxDecoration(
 
 BoxDecoration gradientGrayColorDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(24),
-    gradient: LinearGradient(
+    gradient: const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: <Color>[Color(0xFFEEEDED), Color(0xFF8D8D8D)]));
 
-LinearGradient gradientColor = LinearGradient(
+LinearGradient gradientColor = const LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: <Color>[Color(0xFF2D3194), Color(0xFF02A7E7)]);

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -88,7 +89,9 @@ class ServerRequest {
 
       String baseUrl =
           await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
-      print("Base Url ====================  ${baseUrl}");
+      if (kDebugMode) {
+        print("Base Url ====================  $baseUrl");
+      }
       String url = baseUrl + urlEndPoint;
       log(url);
       log(jsonEncode(body).toString());
@@ -103,7 +106,9 @@ class ServerRequest {
         return jsonDecode(response.body);
       }
     } catch (e) {
-      print(e.toString() + "Post Data ");
+      if (kDebugMode) {
+        print("${e}Post Data ");
+      }
       if (e is SocketException) {
         log("SocketException : ${e.toString()}");
         return e.toString();
@@ -138,7 +143,9 @@ class ServerRequest {
         return jsonDecode(response.body);
       }
     } catch (e) {
-      print(e.toString() + "Post Data ");
+      if (kDebugMode) {
+        print("${e}Post Data ");
+      }
       if (e is SocketException) {
         log("SocketException : ${e.toString()}");
         return e.toString();

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -99,33 +100,33 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     _userData = UserInfo.instanceInit()!.userData!;
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
     var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resWPS != null) {
       wpsTypeList = resWPS;
     }
 
     var resDefectType = await AddNdtAutHelper.fetchDefectTypeData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resDefectType != null) {
       defectTypeList = resDefectType;
     }
     var resDefectLayer =
-        await AddNdtAutHelper.fetchDefectLayerData(context: event.context);
+        await AddNdtAutHelper.fetchDefectLayerData(context: !event.context.mounted ? event.context : event.context);
     if (resDefectLayer != null) {
       defectLayerList = resDefectLayer;
     }
     var resAut =
-        await AddNdtAutHelper.fetchAutStatusData(context: event.context);
+        await AddNdtAutHelper.fetchAutStatusData(context: !event.context.mounted ? event.context : event.context);
     if (resAut != null) {
       autStatusList = resAut;
     }
@@ -145,7 +146,9 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      if (kDebugMode) {
+        print("Date is not selected");
+      }
     }
   }
 
@@ -228,7 +231,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
@@ -271,7 +274,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       selectedDefectLayerList = [];
       selectedDefectTypeList = [];
       weatherList = await DashboardHelper.fetchWeatherData(
-          context: event.context, userData: userData);
+          context: !event.context.mounted ? event.context : event.context, userData: userData);
       _userData = UserInfo.instanceInit()!.userData!;
     }
 

@@ -1,8 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 class DropDownSearchWidget extends StatelessWidget {
   final List<dynamic> items;
@@ -24,7 +22,6 @@ class DropDownSearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return SizedBox(
       height: AppConfig.getDeviceType(context: context) == DeviceType.phone
           ? MediaQuery.of(context).size.height * 0.07
@@ -97,24 +94,6 @@ class DropDownSearchWidget extends StatelessWidget {
                 ],
               );
             }),
-      ),
-    );
-  }
-
-  Widget _customPopupItemBuilderExample2(
-      BuildContext context, dynamic item, bool isSelected) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      decoration: !isSelected
-          ? null
-          : BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-            ),
-      child: ListTile(
-        selected: isSelected,
-        title: Text(item.pipeNumber.toString()),
       ),
     );
   }

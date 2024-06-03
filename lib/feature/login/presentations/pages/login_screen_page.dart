@@ -8,7 +8,7 @@ import '../../domain/bloc/login_event.dart';
 import '../../domain/bloc/login_state.dart';
 
 class LoginScreenPage extends StatefulWidget {
-  const LoginScreenPage({Key? key}) : super(key: key);
+  const LoginScreenPage({super.key});
 
   @override
   State<LoginScreenPage> createState() => _LoginScreenPageState();
