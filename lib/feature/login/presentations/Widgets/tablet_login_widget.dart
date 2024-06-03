@@ -180,7 +180,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ForgotPasswordPage()),
+                          builder: (context) => const ForgotPasswordPage()),
                     );
                   },
                   child: TextWidget("Forgot Password",

@@ -63,7 +63,7 @@ class OTPTextFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatter;
 
   const OTPTextFieldWidget({
-    Key? key,
+    super.key,
     this.length = 4,
     this.width = 10,
     this.controller,
@@ -84,8 +84,7 @@ class OTPTextFieldWidget extends StatefulWidget {
         const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
     this.isDense = false,
     this.onCompleted,
-  })  : assert(length > 1),
-        super(key: key);
+  })  : assert(length > 1);
 
   @override
   _OTPTextFieldWidgetState createState() => _OTPTextFieldWidgetState();

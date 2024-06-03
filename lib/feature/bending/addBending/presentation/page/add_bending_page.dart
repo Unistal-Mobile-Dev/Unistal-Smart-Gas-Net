@@ -42,7 +42,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
 
   Widget _itemBuilder({required FetchAddBendingDataState dataState}) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -412,8 +412,8 @@ class _AddBendingPageState extends State<AddBendingPage> {
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
-                                ? Icon(Icons.picture_as_pdf_outlined)
-                                : Icon(Icons.document_scanner_outlined),
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
                           color: AppColor.themeColor,

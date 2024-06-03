@@ -347,8 +347,8 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
-                                ? Icon(Icons.picture_as_pdf_outlined)
-                                : Icon(Icons.document_scanner_outlined),
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
                           color: AppColor.themeColor,

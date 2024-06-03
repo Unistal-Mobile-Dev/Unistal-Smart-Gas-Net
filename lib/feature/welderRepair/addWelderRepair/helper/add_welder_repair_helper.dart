@@ -67,12 +67,12 @@ class AddWelderRepairHelper {
       }
 
       List<dynamic> segmentArray = [];
-      Map<String, String> segmentData = new Map<String, String>();
-      segmentList.forEach((element) {
+      Map<String, String> segmentData = <String, String>{};
+      for (var element in segmentList) {
         var json = {"segments[]": element.id.toString()};
         segmentData.addAll(json);
         segmentArray.add(element.id);
-      });
+      }
 
       String url = APIs.addWeldRepairApi;
       dynamic json = {

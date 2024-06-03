@@ -417,9 +417,6 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     if (resWelder != null) {
       _welderList = resWelder;
     }
-    welderList.forEach((element) {
-      print("Name =============== ${element.welderName}");
-    });
     rootWelders1List = welderList;
     rootWelders2List = welderList;
     hotWelders1List = welderList;

@@ -4,7 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 class MessageBoxPopWidget extends StatelessWidget {
   final String message;
 
-  const MessageBoxPopWidget({required this.message});
+  const MessageBoxPopWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

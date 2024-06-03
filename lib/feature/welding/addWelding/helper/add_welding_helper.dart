@@ -212,7 +212,7 @@ class AddWeldingHelper {
         "root_welder2": rootWelders2Data.id ?? "",
         "hot_welder1": hotWelders1Data.id ?? "",
         "hot_welder2": hotWelders2Data.id ?? "",
-        "filler1_welder_one": filler1Welders1Data.id ?? "" ?? "",
+        "filler1_welder_one": filler1Welders1Data.id ?? "",
         "filler1_welder_two": filler1Welders2Data.id ?? "",
         "filler2_welder_one": filler2Welders1Data.id ?? "",
         "filler2_welder_two": filler2Welders2Data.id ?? "",

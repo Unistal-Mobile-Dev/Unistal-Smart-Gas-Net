@@ -83,10 +83,6 @@ class ServerRequest {
   static Future<dynamic> backgroundServicePost(
       {required var urlEndPoint, required var body}) async {
     try {
-/*      if(await ConnectivityHelper.allConnectivityCheck(context: context!) == false){
-        return null;
-      }*/
-
       String baseUrl =
           await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
       if (kDebugMode) {

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -241,7 +242,9 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     for (int i = 0;
         i < segmentList[event.segmentIndex].segmentStatusList!.length;
         i++) {
-      print("Id " + segmentData.segmentStatusList![i].selectedValue.toString());
+      if (kDebugMode) {
+        print("Id ${segmentData.segmentStatusList![i].selectedValue}");
+      }
       if (i == event.index) {
         segmentList[event.segmentIndex]
                 .segmentStatusList![event.index]

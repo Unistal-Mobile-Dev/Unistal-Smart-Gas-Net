@@ -7,7 +7,7 @@ abstract class HomeEvent extends Equatable {
 class HomePageLoadEvent extends HomeEvent {
   final BuildContext context;
 
-  HomePageLoadEvent({required this.context});
+  const HomePageLoadEvent({required this.context});
 
   @override
   List<Object?> get props => [context];
@@ -16,7 +16,7 @@ class HomePageLoadEvent extends HomeEvent {
 class HomePageRefreshEvent extends HomeEvent {
   final BuildContext context;
 
-  HomePageRefreshEvent({required this.context});
+  const HomePageRefreshEvent({required this.context});
 
   @override
   List<Object?> get props => [context];
@@ -53,7 +53,7 @@ class HomeChangeBottomNavigationItemEvent extends HomeEvent {
   final int index;
   final BuildContext context;
 
-  HomeChangeBottomNavigationItemEvent(
+  const HomeChangeBottomNavigationItemEvent(
       {required this.context, required this.index});
 
   @override

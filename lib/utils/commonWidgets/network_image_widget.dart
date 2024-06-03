@@ -7,8 +7,7 @@ class NetworkImageWidget extends StatelessWidget {
   final BoxFit? fit;
 
   const NetworkImageWidget(
-      {Key? key, required this.imageUrl, this.height, this.width, this.fit})
-      : super(key: key);
+      {super.key, required this.imageUrl, this.height, this.width, this.fit});
 
   @override
   Widget build(BuildContext context) {

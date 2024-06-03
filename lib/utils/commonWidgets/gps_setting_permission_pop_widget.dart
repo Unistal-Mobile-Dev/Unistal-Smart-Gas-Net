@@ -3,7 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GPSSettingPermissionPopWidget extends StatelessWidget {
-  const GPSSettingPermissionPopWidget();
+  const GPSSettingPermissionPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
           ),
         ),
         style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
                 MaterialStateProperty.all<Color>(AppColor.themeColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -8,7 +8,7 @@ class SearchTextFieldPageLoadEvent extends SearchTextFieldEvent {
   final List<dynamic> list;
   final String controllerValue;
 
-  SearchTextFieldPageLoadEvent(
+  const SearchTextFieldPageLoadEvent(
       {required this.list, required this.controllerValue});
 
   @override
@@ -18,7 +18,7 @@ class SearchTextFieldPageLoadEvent extends SearchTextFieldEvent {
 class SearchTextFieldSearchKeyWordEvent extends SearchTextFieldEvent {
   final String keyWord;
 
-  SearchTextFieldSearchKeyWordEvent({required this.keyWord});
+  const SearchTextFieldSearchKeyWordEvent({required this.keyWord});
 
   @override
   List<Object?> get props => [keyWord];
@@ -27,7 +27,7 @@ class SearchTextFieldSearchKeyWordEvent extends SearchTextFieldEvent {
 class SearchTextFieldSelectListItemEvent extends SearchTextFieldEvent {
   final String listValue;
 
-  SearchTextFieldSelectListItemEvent({required this.listValue});
+  const SearchTextFieldSelectListItemEvent({required this.listValue});
 
   @override
   List<Object?> get props => [listValue];
@@ -36,7 +36,7 @@ class SearchTextFieldSelectListItemEvent extends SearchTextFieldEvent {
 class SearchTextFieldSetListValueEvent extends SearchTextFieldEvent {
   final String listValue;
 
-  SearchTextFieldSetListValueEvent({required this.listValue});
+  const SearchTextFieldSetListValueEvent({required this.listValue});
 
   @override
   List<Object?> get props => [listValue];

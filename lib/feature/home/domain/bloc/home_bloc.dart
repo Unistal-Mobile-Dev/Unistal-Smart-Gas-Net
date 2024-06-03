@@ -82,9 +82,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<DrawerModel> tempList = drawerList;
     _drawerList = [];
     _eventCompleted(emit);
-
-    int index = userData.roleType == RoleType.engineer ? 1 : 3;
-
     for (int i = 0; i < tempList.length; i++) {
       if (i == event.index) {
         tempList[event.index].isSelected = event.isSelected;

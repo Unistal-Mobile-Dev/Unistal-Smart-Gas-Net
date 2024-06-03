@@ -3,7 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CameraPermissionPopWidget extends StatelessWidget {
-  const CameraPermissionPopWidget();
+  const CameraPermissionPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class CameraPermissionPopWidget extends StatelessWidget {
   }) {
     return TextButton(
         style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
                 MaterialStateProperty.all<Color>(AppColor.themeColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
