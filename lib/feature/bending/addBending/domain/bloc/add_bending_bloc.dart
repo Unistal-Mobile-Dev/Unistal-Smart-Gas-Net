@@ -206,8 +206,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   }
 
   _selectDate(AddBendingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

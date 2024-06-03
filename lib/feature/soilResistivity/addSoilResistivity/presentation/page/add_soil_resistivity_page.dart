@@ -168,7 +168,7 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file == null || dataState.file.path.isEmpty
+          child: dataState.file.path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

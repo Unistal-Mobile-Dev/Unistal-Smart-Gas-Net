@@ -36,8 +36,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/domain/bloc
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:provider/provider.dart';
+
 import 'ExportFile/app_export_file.dart';
 
 class Root extends StatefulWidget {

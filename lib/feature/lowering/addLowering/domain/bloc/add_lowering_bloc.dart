@@ -195,8 +195,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   }
 
   _selectDate(AddLoweringSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -223,8 +222,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   }
 
   _selectCabilabrationData(AddLoweringCalibarationDataEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

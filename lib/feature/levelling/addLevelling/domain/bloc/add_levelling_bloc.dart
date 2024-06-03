@@ -153,8 +153,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   }
 
   _selectDate(AddLevellingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

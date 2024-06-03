@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -15,7 +11,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_clearing_grading_event.dart';
-
 part 'add_clearing_grading_state.dart';
 
 class AddClearingGradingBloc
@@ -138,8 +133,7 @@ class AddClearingGradingBloc
   }
 
   _selectDate(AddClearingGradingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

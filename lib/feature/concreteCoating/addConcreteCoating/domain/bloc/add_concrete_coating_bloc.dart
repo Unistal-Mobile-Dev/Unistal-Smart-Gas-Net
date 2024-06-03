@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
@@ -17,7 +14,6 @@ import 'package:intl/intl.dart';
 import '../../../../stringing/addStringing/domain/model/pipe_model.dart';
 
 part 'add_concrete_coating_event.dart';
-
 part 'add_concrete_coating_state.dart';
 
 class AddConcreteCoatingBloc
@@ -136,8 +132,7 @@ class AddConcreteCoatingBloc
   }
 
   _selectDate(AddConcreteCoatingSelectDateEvent event, emit) async {
-    DateTime firstDayCurrentMonth = DateTime.utc(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
