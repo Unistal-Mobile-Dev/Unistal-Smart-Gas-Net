@@ -13,6 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_tren_ching_event.dart';
+
 part 'add_tren_ching_state.dart';
 
 class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
@@ -140,7 +141,6 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _selectDate(AddTrenChingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

@@ -88,7 +88,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddHydrotestDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,

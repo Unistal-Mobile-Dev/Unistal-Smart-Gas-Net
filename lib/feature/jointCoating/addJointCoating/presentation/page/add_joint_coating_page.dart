@@ -127,7 +127,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddJointCoatingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,

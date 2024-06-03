@@ -65,7 +65,8 @@ class AddHdpeDuctTestingHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -79,11 +80,13 @@ class AddHdpeDuctTestingHelper {
                 .replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

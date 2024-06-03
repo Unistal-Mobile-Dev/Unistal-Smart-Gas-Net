@@ -19,6 +19,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_lowering_event.dart';
+
 part 'add_lowering_state.dart';
 
 class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
@@ -119,31 +120,34 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
-    var resHoliday =
-        await AddBendingHelper.fetchHolidayData(
-            context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
     var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
     var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
@@ -197,7 +201,6 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   }
 
   _selectDate(AddLoweringSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -226,7 +229,6 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   }
 
   _selectCabilabrationData(AddLoweringCalibarationDataEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

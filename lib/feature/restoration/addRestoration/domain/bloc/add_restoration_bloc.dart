@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import '../../../../routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 part 'add_restoration_event.dart';
+
 part 'add_restoration_state.dart';
 
 class AddRestorationBloc
@@ -193,7 +194,6 @@ class AddRestorationBloc
   }
 
   _selectDate(AddRestorationSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

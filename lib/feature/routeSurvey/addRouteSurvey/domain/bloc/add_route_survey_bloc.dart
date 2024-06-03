@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_route_survey_event.dart';
+
 part 'add_route_survey_state.dart';
 
 class AddRouteSurveyBloc
@@ -118,7 +119,6 @@ class AddRouteSurveyBloc
   }
 
   _selectDate(AddRouteSurveySelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

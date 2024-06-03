@@ -138,8 +138,8 @@ class CustomStyleText {
       color: Colors.white,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
-  static TextStyle viewDetailsStyle =
-      const TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
+  static TextStyle viewDetailsStyle = const TextStyle(
+      color: Colors.white, fontSize: 14.0, fontFamily: 'Montserrat');
   static TextStyle submitStyle = const TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',

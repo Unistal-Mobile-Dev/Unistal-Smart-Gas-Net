@@ -15,6 +15,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_levelling_event.dart';
+
 part 'add_levelling_state.dart';
 
 class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
@@ -153,7 +154,6 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   }
 
   _selectDate(AddLevellingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

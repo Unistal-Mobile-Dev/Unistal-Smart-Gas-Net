@@ -112,7 +112,8 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddLevellingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,

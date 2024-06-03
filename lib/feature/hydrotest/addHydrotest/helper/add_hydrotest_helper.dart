@@ -18,9 +18,7 @@ class AddHydroTestHelper {
           file: File(""),
           keyName: "planAttachFile"));
       fileList.add(FileModel(
-          name: "DPR Safety",
-          file: File(""),
-          keyName: "safetyAttachFile"));
+          name: "DPR Safety", file: File(""), keyName: "safetyAttachFile"));
       fileList.add(FileModel(
           name: "DPR Civil/Mechanical Certificate Completion",
           file: File(""),
@@ -30,8 +28,7 @@ class AddHydroTestHelper {
           file: File(""),
           keyName: "airCleanAttachFile"));
       fileList.add(FileModel(
-          name: "DPR Brushing", file: File(""),
-          keyName: "brushingAttachFile"));
+          name: "DPR Brushing", file: File(""), keyName: "brushingAttachFile"));
       fileList.add(FileModel(
           name: "DPR Gauge Inspection Report",
           file: File(""),

@@ -74,7 +74,8 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
           ),
         ),
         style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
+            padding:
+                MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
                 MaterialStateProperty.all<Color>(AppColor.themeColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(

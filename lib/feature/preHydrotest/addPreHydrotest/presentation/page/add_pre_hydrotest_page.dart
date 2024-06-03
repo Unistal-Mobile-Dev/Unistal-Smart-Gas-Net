@@ -116,7 +116,8 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddPreHydrotestDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,

@@ -15,6 +15,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_hdpe_duct_event.dart';
+
 part 'add_hdpe_duct_state.dart';
 
 class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
@@ -94,19 +95,21 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
-    var resPadding =
-        await AddHDPEDuctHelper.fetchPaddingData(context: !event.context.mounted ? event.context : event.context);
+    var resPadding = await AddHDPEDuctHelper.fetchPaddingData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resPadding != null) {
       paddingList = resPadding;
       warningMeterList = paddingList;
@@ -165,7 +168,6 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
   }
 
   _selectDate(AddHdpeDuctSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

@@ -11,7 +11,8 @@ class TextWidget extends StatelessWidget {
   final int? maxLines;
 
   const TextWidget(this.text,
-      {super.key, this.color,
+      {super.key,
+      this.color,
       this.fontWeight,
       this.fontSize,
       this.textAlign,

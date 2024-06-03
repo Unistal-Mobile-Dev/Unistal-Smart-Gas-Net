@@ -14,7 +14,8 @@ class TextFieldWidget extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? isRequired;
 
-  const TextFieldWidget({super.key,
+  const TextFieldWidget({
+    super.key,
     required this.labelText,
     this.enabled,
     this.controller,

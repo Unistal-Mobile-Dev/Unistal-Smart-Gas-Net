@@ -84,7 +84,7 @@ class OTPTextFieldWidget extends StatefulWidget {
         const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
     this.isDense = false,
     this.onCompleted,
-  })  : assert(length > 1);
+  }) : assert(length > 1);
 
   @override
   _OTPTextFieldWidgetState createState() => _OTPTextFieldWidgetState();

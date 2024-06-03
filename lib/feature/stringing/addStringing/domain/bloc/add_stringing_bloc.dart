@@ -12,6 +12,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_stringing_event.dart';
+
 part 'add_stringing_state.dart';
 
 class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
@@ -129,7 +130,6 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   }
 
   _selectDate(AddStringingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import '../../helper/add_lpt_helper.dart';
 
 part 'add_lpt_event.dart';
+
 part 'add_lpt_state.dart';
 
 class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
@@ -187,7 +188,6 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
   }
 
   _selectDate(AddLptSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

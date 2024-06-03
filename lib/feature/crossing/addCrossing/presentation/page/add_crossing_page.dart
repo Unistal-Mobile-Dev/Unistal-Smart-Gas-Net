@@ -110,7 +110,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddCrossingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,

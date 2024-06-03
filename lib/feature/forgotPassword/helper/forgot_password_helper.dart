@@ -33,13 +33,13 @@ class ForgotPasswordHelper {
       String url = APIs.forgotPasswordApi;
       var json = {"email": email};
       String queryString = Uri(queryParameters: json).query;
-      var res =
-          await ServerRequest.getData(urlEndPoint: '$url?$queryString');
+      var res = await ServerRequest.getData(urlEndPoint: '$url?$queryString');
       if (res != null) {
         if (res['status'] != null &&
             res['status'] == 200 &&
             res['response'] != null) {
-          SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['response']);
+          SnackBarSuccessWidget(!context.mounted ? context : context)
+              .show(message: res['response']);
           return true;
         } else if (res["status"] != null &&
             res['status'] == 500 &&
@@ -49,16 +49,20 @@ class ForgotPasswordHelper {
           return null;
         } else {
           if (res['error'] != null) {
-            _showSnackbar(message: res['error'], context: !context.mounted ? context : context);
+            _showSnackbar(
+                message: res['error'],
+                context: !context.mounted ? context : context);
             return false;
           }
         }
       } else {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal server error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal server error");
         return false;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal server error");
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "Internal server error");
       return false;
     }
   }

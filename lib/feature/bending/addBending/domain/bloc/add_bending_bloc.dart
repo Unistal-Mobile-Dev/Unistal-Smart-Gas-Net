@@ -16,6 +16,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_bending_event.dart';
+
 part 'add_bending_state.dart';
 
 class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
@@ -207,7 +208,6 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   }
 
   _selectDate(AddBendingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

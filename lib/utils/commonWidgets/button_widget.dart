@@ -12,7 +12,8 @@ class ButtonWidget extends StatelessWidget {
   final BoxDecoration? gradientDecorationColor;
 
   const ButtonWidget(
-      {super.key, required this.text,
+      {super.key,
+      required this.text,
       required this.onPressed,
       this.fontSize,
       this.gradientDecorationColor,

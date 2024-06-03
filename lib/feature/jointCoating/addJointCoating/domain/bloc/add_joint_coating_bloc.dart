@@ -24,6 +24,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_joint_coating_event.dart';
+
 part 'add_joint_coating_state.dart';
 
 class AddJointCoatingBloc
@@ -271,7 +272,6 @@ class AddJointCoatingBloc
   }
 
   _selectDate(AddJointCoatingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -299,7 +299,6 @@ class AddJointCoatingBloc
 
   _selectCabilabrationData(
       AddJointCoatingCalibarationDataEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

@@ -69,17 +69,21 @@ class LoginHelper {
             res["status"] != null &&
             res['status'] == 401 &&
             res['messages'] != null) {
-          SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['messages']);
+          SnackBarErrorWidget(!context.mounted ? context : context)
+              .show(message: res['messages']);
           return null;
         } else {
-          SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
+          SnackBarErrorWidget(!context.mounted ? context : context)
+              .show(message: "Internal Server Error");
           return null;
         }
       }
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: "No internet Connection");
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "No internet Connection");
       return null;
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal server error");
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "Internal server error");
       return null;
     }
   }

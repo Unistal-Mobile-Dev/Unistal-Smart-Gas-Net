@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_rou_handover_event.dart';
+
 part 'add_rou_handover_state.dart';
 
 class AddRouHandoverBloc
@@ -99,7 +100,6 @@ class AddRouHandoverBloc
   }
 
   _selectDate(AddRouHandoverSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

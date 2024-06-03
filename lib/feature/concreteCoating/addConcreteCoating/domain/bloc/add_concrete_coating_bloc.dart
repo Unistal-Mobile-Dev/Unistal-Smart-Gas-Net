@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import '../../../../stringing/addStringing/domain/model/pipe_model.dart';
 
 part 'add_concrete_coating_event.dart';
+
 part 'add_concrete_coating_state.dart';
 
 class AddConcreteCoatingBloc
@@ -132,7 +133,6 @@ class AddConcreteCoatingBloc
   }
 
   _selectDate(AddConcreteCoatingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

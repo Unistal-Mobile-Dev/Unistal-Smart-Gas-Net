@@ -23,6 +23,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_crossing_event.dart';
+
 part 'add_crossing_state.dart';
 
 class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
@@ -276,7 +277,6 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   }
 
   _selectDate(AddCrossingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -303,7 +303,6 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   }
 
   _selectCabilabrationData(AddCrossingCalibarationDataEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),

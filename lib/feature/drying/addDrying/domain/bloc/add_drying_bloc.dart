@@ -13,6 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_drying_event.dart';
+
 part 'add_drying_state.dart';
 
 class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
@@ -135,7 +136,6 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
   }
 
   _selectDate(AddDryingSelectDateEvent event, emit) async {
-
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
