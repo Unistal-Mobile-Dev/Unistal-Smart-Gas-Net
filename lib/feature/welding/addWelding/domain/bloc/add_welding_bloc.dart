@@ -324,25 +324,28 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     rightPipeData = PipeModel();
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resWPS != null) {
       _wpsList = resWPS;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       _jointTypeList = resJointType;
     }
 
-    var resVisual =
-        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
       _fitupList = resVisual;
     }
@@ -416,9 +419,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     if (resWelder != null) {
       _welderList = resWelder;
     }
-    welderList.forEach((element) {
-      print("Name =============== ${element.welderName}");
-    });
     rootWelders1List = welderList;
     rootWelders2List = welderList;
     hotWelders1List = welderList;
@@ -444,7 +444,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     stripWelder1List = welderList;
     stripWelder2List = welderList;
 
-    stripWelder2List.forEach((element) {});
     _isWelderLoader = false;
     _eventComplete(emit);
   }

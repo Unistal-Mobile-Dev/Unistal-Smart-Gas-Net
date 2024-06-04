@@ -100,6 +100,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
   Widget _reportNumberController(
       {required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
     );

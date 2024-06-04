@@ -108,6 +108,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _reportNumberController({required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
     );

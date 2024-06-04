@@ -36,17 +36,21 @@ class AddCutPipeHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['message']);
         return res;
       } else if (res != null && res['status'] != null && res['error'] != null) {
-        SnackBarErrorWidget(context).show(message: res['error']);
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['error']);
         return null;
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

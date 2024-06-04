@@ -35,7 +35,7 @@ class ForgotPasswordBloc
     _isLoader = false;
     _eventCompleted(emit);
     if (res == true) {
-      Navigator.pop(event.context);
+      Navigator.pop(!event.context.mounted ? event.context : event.context);
     }
   }
 

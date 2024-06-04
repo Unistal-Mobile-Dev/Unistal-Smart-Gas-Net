@@ -113,31 +113,35 @@ class AddBackFillingBloc
     _userData = UserInfo.instanceInit()!.userData!;
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
-    var resPlasticGrating =
-        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var resPlasticGrating = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (resPlasticGrating != null) {
       plasticGratingList = resPlasticGrating;
     }
 
     var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
     var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
@@ -231,7 +235,7 @@ class AddBackFillingBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

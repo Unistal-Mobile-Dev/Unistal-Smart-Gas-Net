@@ -113,6 +113,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _reportNumberController(
       {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
     );

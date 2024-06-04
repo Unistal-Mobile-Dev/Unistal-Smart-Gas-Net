@@ -113,6 +113,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _reportNumberController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
     );

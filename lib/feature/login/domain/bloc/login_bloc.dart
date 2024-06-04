@@ -39,10 +39,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   String get appLogo => _appLogo;
 
-  List<LoginDataModel> _loginScreenResponse = [];
-
-  List<LoginDataModel> get loginScreenResponse => _loginScreenResponse;
-
   LoginDataModel _loginData = LoginDataModel();
 
   LoginDataModel get loginData => _loginData;
@@ -80,7 +76,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       _appVersion = packageInfo.version;
-    } catch (e) {}
+    } catch (_) {}
 
     _eventCompleted(emit);
     _appLogoLoader = false;
@@ -96,12 +92,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     _loginData = LoginDataModel();
     var textFieldValidationCheck = await LoginHelper.textFieldValidation(
-        emilId: email, password: password, context: event.context);
+        emilId: email,
+        password: password,
+        context: !event.context.mounted ? event.context : event.context);
     if (textFieldValidationCheck == true) {
       _isLoader = true;
       _eventCompleted(emit);
       var res = await LoginHelper.getLoginData(
-          emilId: email, password: password, context: event.context);
+          emilId: email,
+          password: password,
+          context: !event.context.mounted ? event.context : event.context);
       _isLoader = false;
       _eventCompleted(emit);
       if (res != null) {
@@ -115,13 +115,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
         Navigator.pushAndRemoveUntil(
-            event.context,
+            !event.context.mounted ? event.context : event.context,
             MaterialPageRoute(builder: (_) => const HomePage()),
             (route) => false);
       } else {
         if (event.isLoginPage == false) {
           Navigator.pushAndRemoveUntil(
-              event.context,
+              !event.context.mounted ? event.context : event.context,
               MaterialPageRoute(builder: (_) => const LoginScreenPage()),
               (route) => false);
         }

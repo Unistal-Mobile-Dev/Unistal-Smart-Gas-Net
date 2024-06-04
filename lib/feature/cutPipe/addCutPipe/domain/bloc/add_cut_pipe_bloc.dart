@@ -96,7 +96,7 @@ class AddCutPipeBloc extends Bloc<AddCutPipeEvent, AddCutPipeState> {
     _isLoader = true;
     _eventComplete(emit);
     var res = await AddCutPipeHelper.submitData(
-        context: event.context,
+        context: !event.context.mounted ? event.context : event.context,
         cutePipeLength: cutPipeLengthController.text.toString(),
         reportNumber: reportNumberController.text.toString(),
         pipeData: pipeData);

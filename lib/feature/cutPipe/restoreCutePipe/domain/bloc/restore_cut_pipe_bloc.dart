@@ -43,8 +43,8 @@ class RestoreCutPipeBloc
         context: event.context, pipeData: pipeData);
     if (res != null) {
       _pipeList = [];
-      var resPipe =
-          await RestoreCutPipeHelper.fetchCutePipeList(context: event.context);
+      var resPipe = await RestoreCutPipeHelper.fetchCutePipeList(
+          context: !event.context.mounted ? event.context : event.context);
       if (resPipe != null) {
         _pipeList = resPipe;
       }

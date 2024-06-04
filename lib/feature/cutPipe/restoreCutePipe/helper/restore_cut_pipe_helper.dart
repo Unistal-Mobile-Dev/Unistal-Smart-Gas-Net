@@ -30,10 +30,12 @@ class RestoreCutPipeHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['message']);
         return res;
       } else if (res != null && res['error'] != null) {
-        SnackBarErrorWidget(context).show(message: res['error']);
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['error']);
         return null;
       }
     } catch (e) {

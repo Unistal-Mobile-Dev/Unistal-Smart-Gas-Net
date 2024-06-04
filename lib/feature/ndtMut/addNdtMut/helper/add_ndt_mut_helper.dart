@@ -146,36 +146,36 @@ class AddNdtMutHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 415 &&
           res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['data'].toString());
         return null;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 400 &&
           res['data'] != null) {
         String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: resPonse.replaceAll("{", "").toString()
               ..replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
@@ -193,9 +193,9 @@ class AddNdtMutHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['segment'] != null) {
-        List<SegmentModel> _segmentList =
+        List<SegmentModel> segmentList =
             segmentListResponse(res['segment'], []);
-        return _segmentList;
+        return segmentList;
       }
       return null;
     } catch (e) {
