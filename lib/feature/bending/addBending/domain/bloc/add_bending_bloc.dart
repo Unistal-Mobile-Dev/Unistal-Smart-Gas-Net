@@ -167,28 +167,31 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var resBending = await AddBendingHelper.fetchBendingType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resBending != null) {
       _bendingTypeList = resBending;
     }
 
-    var resHoliday =
-        await AddBendingHelper.fetchHolidayData(context: event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resHoliday != null) {
       _holidayChecksList = resHoliday;
     }
 
-    var resVisual =
-        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
       _visualChecksList = resVisual;
     }
@@ -286,7 +289,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

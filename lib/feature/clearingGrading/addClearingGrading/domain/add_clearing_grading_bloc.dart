@@ -102,15 +102,15 @@ class AddClearingGradingBloc
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+        context:!event.context.mounted ? event.context : event.context, userData: userData);
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var resTerrain = await AddClearingGradingHelper.fetchTerrainData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resTerrain != null) {
       terrainTypeList = resTerrain;
     }
@@ -161,28 +161,11 @@ class AddClearingGradingBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
   _submitData(AddClearingGradingSubmitDataEvent event, emit) async {
-/*    var textFiledValidation =  await AddClearingGradingHelper.textFiledValidation(context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        tpIpChainage: tpChainageController.text.toString(),
-        tpIpNOS: tpChainageNumberController.text.toString(),
-        tpIpRemark:tpRemarkNumberController.text.toString(),
-        structureDetail: structureDetailController.text.toString(),
-        boundaryLocation: boundaryLocation.text.toString(),
-        activityRemark: activityRemarkController.text.toString(),
-       groundType: groundTypeController.text.toString(),
-       ipNumber: ipNumberController.text.toString(),
-       ipNumberFrom: ipNumberFromController.text.toString()
-    );
-    if(textFiledValidation == false){
-      return;
-    }*/
     _isLoader = true;
     _eventComplete(emit);
     var res = await AddClearingGradingHelper.submitData(

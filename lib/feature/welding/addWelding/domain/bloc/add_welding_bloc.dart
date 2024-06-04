@@ -361,7 +361,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
           context: event.context,
           userData: userData,
           searchKeyword: event.keyword.toString(),
-          type: "welding");
+          type: "weldingleft");
       if (resPipe != null) {
         leftPipeList = resPipe;
         _searchLeftPipeList = leftPipeList;
@@ -376,7 +376,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
           context: event.context,
           userData: userData,
           searchKeyword: event.keyword.toString(),
-          type: "welding");
+          type: "weldingright");
       if (resPipe != null) {
         rightPipeList = resPipe;
         _searchRightPipeList = rightPipeList;
