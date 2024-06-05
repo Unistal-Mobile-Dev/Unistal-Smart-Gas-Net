@@ -73,27 +73,19 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _rootWelders2Dropdown(dataState: dataState)
-                : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+             _rootWelders2Dropdown(dataState: dataState),
+            _verticalSpace(),
             _hotWelders1Controller(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _hotWelders2Controller(dataState: dataState)
-                : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+            _hotWelders2Controller(dataState: dataState),
+            _verticalSpace(),
             _filler1Welders1Controller(dataState: dataState),
+            _verticalSpace(),
+            _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
                 ? Column(
                     children: [
-                      _filler1Welders2Controller(dataState: dataState),
-                      _verticalSpace(),
                       _filler2Welders1Controller(dataState: dataState),
                       _verticalSpace(),
                       _filler2Welders2Controller(dataState: dataState),
@@ -131,12 +123,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                 : const SizedBox.shrink(),
             _cappingWelder1Controller(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _cappingWelder2Controller(dataState: dataState)
-                : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+           _cappingWelder2Controller(dataState: dataState),
+            _verticalSpace(),
             _electrodeDiaE6010Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeDiaE6010BatchController(dataState: dataState),
@@ -257,7 +245,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.rootWelders,
+      hint: AppString.rootWelders1,
       dropdownValue: dataState.rootWelders1Data.id != null
           ? dataState.rootWelders1Data
           : null,
@@ -299,7 +287,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _hotWelders1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.hotWelders,
+      hint: AppString.hotWelders1,
       dropdownValue: dataState.hotWelders1Data.id != null
           ? dataState.hotWelders1Data
           : null,
@@ -342,7 +330,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _filler1Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.fillerWelders,
+      hint: AppString.fillerWelders1,
       dropdownValue: dataState.filler1Welders1Data.id != null
           ? dataState.filler1Welders1Data
           : null,
@@ -364,7 +352,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _filler1Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.filler1Welders2,
+      hint: AppString.fillerWelders2,
       dropdownValue: dataState.filler1Welders2Data.id != null
           ? dataState.filler1Welders2Data
           : null,
@@ -738,7 +726,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _cappingWelder1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.cappingWelder,
+      hint: AppString.cappingWelder1,
       dropdownValue: dataState.cappingWelder1Data.id != null
           ? dataState.cappingWelder1Data
           : null,

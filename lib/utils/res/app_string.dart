@@ -501,7 +501,11 @@ class AppString {
 
   static get hotWelders2 => "Hot Welder 2";
 
-  static get fillerWelders => "Filler Welders ";
+  static get fillerWelders1 => "Filler Welders 1";
+
+  static get fillerWelders2 => "Filler Welders 2";
+
+  static get fillerWelders => "Filler Welders";
 
   static get filler1Welders1 => "Filler 1 Weldrs 1";
 
