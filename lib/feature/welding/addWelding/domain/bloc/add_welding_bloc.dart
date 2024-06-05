@@ -537,6 +537,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
+        type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;

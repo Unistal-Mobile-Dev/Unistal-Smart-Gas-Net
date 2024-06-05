@@ -177,6 +177,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
+        type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;

@@ -537,6 +537,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
+        type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
