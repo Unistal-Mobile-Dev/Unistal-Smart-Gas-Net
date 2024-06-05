@@ -41,6 +41,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/pre
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/presentation/page/add_welding_page.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomeHelper {
   static Future<dynamic> fetchDrawerList(
@@ -542,5 +544,27 @@ class HomeHelper {
       SnackBarErrorWidget(context).show(message: "Page Widget Error");
       return null;
     }
+  }
+
+  static checkAppUpdate({required BuildContext context}) async {
+
+    try{
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String packageName = packageInfo.packageName;
+      String buildNumber = packageInfo.buildNumber;
+      String url = "http://unistal.smartgasnet.com/api/app-details?packageName=$packageName";
+      var res =  await ServerRequest.getGoogleData(url: Uri.parse(url));
+      if(res != null && res['status'] !=  null
+          && res['status'] == true && res['data']  != null) {
+        String versionCode = res['data']['app_version_code'];
+        String appUrl = res['data']['app_url'];
+        if(double.parse(buildNumber.toString())
+            < double.parse(versionCode.toString())) {
+          AppUpdateMessage.showAlertDialog(
+              context: !context.mounted ? context : context,
+              url: appUrl);
+        }
+      }
+    }catch(_){}
   }
 }

@@ -46,7 +46,23 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
         ),
         body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
           if (state is FetchHomeDataState) {
-            return state.childWidget;
+            return Column(
+              children: [
+                Expanded(child: state.childWidget),
+                Container(
+                  color: AppColor.white,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextWidget(
+                      state.appInfo,
+                      fontSize: AppFont.font_10,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              ],
+            );
           } else {
             return const Center(
               child: CenterLoaderWidget(),

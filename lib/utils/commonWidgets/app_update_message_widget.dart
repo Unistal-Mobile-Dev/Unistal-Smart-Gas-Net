@@ -3,7 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdateMessage {
-  static showAlertDialog({required BuildContext context}) {
+  static showAlertDialog({required BuildContext context, required String url}) {
     Widget cancelButton = TextButton(
       child: TextWidget(
         "Update Later",
@@ -22,8 +22,7 @@ class AppUpdateMessage {
       ),
       onPressed: () async {
         if (!await launchUrl(
-          Uri.parse(
-              "https://play.google.com/store/apps/details?id=com.purvabhartisteel.app"),
+          Uri.parse(url),
           mode: LaunchMode.externalApplication,
         )) {
           throw Exception('Could not launch ');
@@ -48,6 +47,7 @@ class AppUpdateMessage {
       ],
     );
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return alert;

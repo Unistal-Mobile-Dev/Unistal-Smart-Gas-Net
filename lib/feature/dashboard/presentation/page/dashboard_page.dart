@@ -19,30 +19,11 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
-    callMethodeChannel();
     BlocProvider.of<DashboardBloc>(context)
         .add(DashboardPageLoadEvent(context: context));
     super.initState();
   }
 
-  callMethodeChannel() async {
-    try {
-      if (Platform.isAndroid) {
-        final dynamic result = await platform.invokeMethod('getAppUpdate');
-        if (result.toString() == "success") {
-          if (context.mounted) {
-            AppUpdateMessage.showAlertDialog(context: context);
-          }
-        }
-      } else if (Platform.isIOS) {
-        // iOS-specific code
-      }
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print("Update Errorl  ------------${e.toString()}");
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
