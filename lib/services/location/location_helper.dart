@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/camera_permission_pop_widget.dart';
@@ -22,10 +23,14 @@ class LocationHelper {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
+          if (kDebugMode) {
+            print('Location permissions are denied');
+          }
           return false;
         } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
+          if (kDebugMode) {
+            print("'Location permissions are permanently denied");
+          }
           return false;
         } else {
           return true;
@@ -37,7 +42,9 @@ class LocationHelper {
       showDialog(
           context: !context.mounted ? context : context,
           builder: (BuildContext mContext) => const GPSAlertPopWidget());
-      print("GPS Service is not enabled, turn on GPS location");
+      if (kDebugMode) {
+        print("GPS Service is not enabled, turn on GPS location");
+      }
       return false;
     }
   }
@@ -79,7 +86,9 @@ class LocationHelper {
             "accuracy": position.accuracy.toString(),
             "address": '',
           };
-          print(location.toString());
+          if (kDebugMode) {
+            print(location.toString());
+          }
           return responseLocationData(location);
         } else {
           return null;
@@ -95,7 +104,9 @@ class LocationHelper {
       List<Placemark> placeMarker =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMarker[0];
-      print("position.latitude${position.latitude}");
+      if (kDebugMode) {
+        print("position.latitude${position.latitude}");
+      }
       Map<String, dynamic> location = {
         "lat": position.latitude,
         "long": position.longitude,
@@ -104,7 +115,9 @@ class LocationHelper {
         "address":
             '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
       };
-      print(location.toString());
+      if (kDebugMode) {
+        print(location.toString());
+      }
       return responseLocationData(location);
     } catch (e) {
       return null;
@@ -168,7 +181,9 @@ class LocationHelper {
     ].request();
 
     final status = await Permission.camera.status;
-    print("Check Camera Permissin ---- $status");
+    if (kDebugMode) {
+      print("Check Camera Permission ---- $status");
+    }
     if (Platform.isAndroid) {
       if (status == PermissionStatus.denied) {
         showDialog(
