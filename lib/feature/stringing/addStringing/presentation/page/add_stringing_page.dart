@@ -124,9 +124,11 @@ class _AddStringingPageState extends State<AddStringingPage> {
           child: SearchTextField(
               isLoader: dataState.searchPipeLoader,
               onChange: (value) {
-                BlocProvider.of<AddStringingBloc>(context).add(
-                    AddStringingSearchPipeDataEvent(
-                        keyword: value, context: context));
+                if(value.toString().isNotEmpty){
+                  BlocProvider.of<AddStringingBloc>(context).add(
+                      AddStringingSearchPipeDataEvent(
+                          keyword: value, context: context));
+                }
               },
               onClick: (value) {
                 BlocProvider.of<AddStringingBloc>(context)

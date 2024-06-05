@@ -163,6 +163,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   _selectPipe(AddStringingSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
     _searchPipeList = [];
+    _searchPipeLoader =  false;
     searchPipeController.text =
         "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
@@ -179,6 +180,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     pipeLengthList.add(pipeData);
     searchPipeController.text = "";
     _isLoader = false;
+    _searchPipeList = [];
     _eventComplete(emit);
   }
 
