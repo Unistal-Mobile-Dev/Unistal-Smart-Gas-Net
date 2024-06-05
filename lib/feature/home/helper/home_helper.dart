@@ -547,24 +547,25 @@ class HomeHelper {
   }
 
   static checkAppUpdate({required BuildContext context}) async {
-
-    try{
+    try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String packageName = packageInfo.packageName;
       String buildNumber = packageInfo.buildNumber;
-      String url = "http://unistal.smartgasnet.com/api/app-details?packageName=$packageName";
-      var res =  await ServerRequest.getGoogleData(url: Uri.parse(url));
-      if(res != null && res['status'] !=  null
-          && res['status'] == true && res['data']  != null) {
+      String url =
+          "http://unistal.smartgasnet.com/api/app-details?packageName=$packageName";
+      var res = await ServerRequest.getGoogleData(url: Uri.parse(url));
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
         String versionCode = res['data']['app_version_code'];
         String appUrl = res['data']['app_url'];
-        if(double.parse(buildNumber.toString())
-            < double.parse(versionCode.toString())) {
+        if (double.parse(buildNumber.toString()) <
+            double.parse(versionCode.toString())) {
           AppUpdateMessage.showAlertDialog(
-              context: !context.mounted ? context : context,
-              url: appUrl);
+              context: !context.mounted ? context : context, url: appUrl);
         }
       }
-    }catch(_){}
+    } catch (_) {}
   }
 }

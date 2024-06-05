@@ -153,13 +153,15 @@ class AddNdtMutHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 415 &&
           res['data'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['data'].toString());
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['data'].toString());
         return null;
       } else if (res != null &&
           res['success'] != null &&
@@ -171,11 +173,13 @@ class AddNdtMutHelper {
               ..replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

@@ -351,7 +351,7 @@ class AddWeldingHelper {
         "schema": userData.schema,
         "section_id": userData.sectionId,
         "joint_type_id": jointTypeData.id.toString(),
-        "type" : type ?? "afterwelding"
+        "type": type ?? "afterwelding"
       };
       String json = Uri(queryParameters: param).query;
       var res = await ServerRequest.getData(urlEndPoint: "$url?$json");

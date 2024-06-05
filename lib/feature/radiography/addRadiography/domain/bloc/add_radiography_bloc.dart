@@ -132,39 +132,45 @@ class AddRadiographyBloc
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
     var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData, wpsData: WPSModel());
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData,
+        wpsData: WPSModel());
     if (resWelder != null) {
       welderList = resWelder;
     }
 
     var resSegment = await AddRadiographyHelper.fetchSegmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData, welderList: welderList);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData,
+        welderList: welderList);
     if (resSegment != null) {
       segmentList = resSegment;
     }
 
-    var resNdtStatus =
-        await AddNdtMutHelper.fetchNdtStatusData(context: !event.context.mounted ? event.context : event.context);
+    var resNdtStatus = await AddNdtMutHelper.fetchNdtStatusData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resNdtStatus != null) {
       ndtAgencyList = resNdtStatus;
       dSPPLAgencyList = resNdtStatus;
       meconPbgplList = resNdtStatus;
     }
 
-    var resNdtSource =
-        await AddNdtMutHelper.fetchNdtSourceData(context: !event.context.mounted ? event.context : event.context);
+    var resNdtSource = await AddNdtMutHelper.fetchNdtSourceData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resNdtSource != null) {
       ndtSourceList = resNdtSource;
     }

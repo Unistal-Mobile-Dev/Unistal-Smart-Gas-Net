@@ -24,7 +24,6 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(

@@ -88,7 +88,8 @@ class AddLevellingHelper {
           res['data'] != null) {
         String response = res['data'].toString();
         SnackBarErrorWidget(!context.mounted ? context : context).show(
-            message: response.replaceAll("{", "").toString().replaceAll("}", ""));
+            message:
+                response.replaceAll("{", "").toString().replaceAll("}", ""));
         return null;
       } else {
         SnackBarErrorWidget(!context.mounted ? context : context)

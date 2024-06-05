@@ -410,11 +410,16 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
                                     .contains(".pdf")
                                 ? const Icon(Icons.picture_as_pdf_outlined)
                                 : const Icon(Icons.document_scanner_outlined),
-                        TextWidget(
-                          dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
-                          fontSize: AppFont.font_12,
-                        ),
+                        dataState.file.path
+                                .toString()
+                                .toLowerCase()
+                                .contains(".pdf")
+                            ? TextWidget(
+                                dataState.file.path.split('/').last.toString(),
+                                color: AppColor.themeColor,
+                                fontSize: AppFont.font_12,
+                              )
+                            : const SizedBox.shrink(),
                       ],
                     ),
                     Container(

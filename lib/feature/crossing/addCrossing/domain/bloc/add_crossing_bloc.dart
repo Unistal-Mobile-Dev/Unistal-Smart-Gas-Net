@@ -164,36 +164,39 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
-    var resHoliday =
-        await AddBendingHelper.fetchHolidayData(context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
-    var visualsChecksRes =
-        await AddBendingHelper.fetchVisualChecks(context: !event.context.mounted ? event.context : event.context);
+    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (visualsChecksRes != null) {
       visualsChecksList = visualsChecksRes;
     }
 
     var resCrossingType = await AddCrossingHelper.fetchCrossingData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resCrossingType != null) {
       crossingTypeList = resCrossingType;
     }
 
-    var prePaddingRes =
-        await AddHDPEDuctHelper.fetchPaddingData(context: !event.context.mounted ? event.context : event.context);
+    var prePaddingRes = await AddHDPEDuctHelper.fetchPaddingData(
+        context: !event.context.mounted ? event.context : event.context);
     if (prePaddingRes != null) {
       prePaddingList = prePaddingRes;
       postPaddingList = prePaddingRes;

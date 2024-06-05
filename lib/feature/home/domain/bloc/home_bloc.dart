@@ -59,6 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<DrawerSubModel> get restaurantMenu => _restaurantMenu;
 
   String _appInfo = "";
+
   String get appInfo => _appInfo;
 
   HomeBloc() : super(HomeInitial()) {
@@ -81,11 +82,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _actionButtonWidget = const SizedBox.shrink();
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
 
-    HomeHelper.checkAppUpdate(context: !event.context.mounted ? event.context : event.context);
+    HomeHelper.checkAppUpdate(
+        context: !event.context.mounted ? event.context : event.context);
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     _appInfo =
-    "Version : $version\n Date : 31-05-2024\nUnistal systems pvt. Ltd";
+        "Version : $version\n Date : 31-05-2024\nUnistal systems pvt. Ltd";
     _eventCompleted(emit);
   }
 

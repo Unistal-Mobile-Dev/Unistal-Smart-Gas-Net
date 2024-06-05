@@ -73,7 +73,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
-             _rootWelders2Dropdown(dataState: dataState),
+            _rootWelders2Dropdown(dataState: dataState),
             _verticalSpace(),
             _hotWelders1Controller(dataState: dataState),
             _verticalSpace(),
@@ -123,7 +123,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                 : const SizedBox.shrink(),
             _cappingWelder1Controller(dataState: dataState),
             _verticalSpace(),
-           _cappingWelder2Controller(dataState: dataState),
+            _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeDiaE6010Controller(dataState: dataState),
             _verticalSpace(),
@@ -1046,11 +1046,16 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                                     .contains(".pdf")
                                 ? const Icon(Icons.picture_as_pdf_outlined)
                                 : const Icon(Icons.document_scanner_outlined),
-                        TextWidget(
-                          dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
-                          fontSize: AppFont.font_12,
-                        ),
+                        dataState.file.path
+                                .toString()
+                                .toLowerCase()
+                                .contains(".pdf")
+                            ? TextWidget(
+                                dataState.file.path.split('/').last.toString(),
+                                color: AppColor.themeColor,
+                                fontSize: AppFont.font_12,
+                              )
+                            : const SizedBox.shrink(),
                       ],
                     ),
                     Container(
