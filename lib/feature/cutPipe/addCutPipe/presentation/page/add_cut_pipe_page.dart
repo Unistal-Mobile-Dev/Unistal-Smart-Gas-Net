@@ -57,6 +57,7 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
   Widget _reportNumberController(
       {required FetchAddCutPipeDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
     );

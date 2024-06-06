@@ -152,54 +152,60 @@ class AddJointCoatingBloc
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
     var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
-    var resHoliday =
-        await AddBendingHelper.fetchHolidayData(context: event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
     var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
 
     var coatingRes = await AddJointCoatingHelper.fetchCoatingTypeData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (coatingRes != null) {
       coatingTypeList = coatingRes;
     }
 
-    var peelTestRes =
-        await AddHDPEDuctHelper.fetchPaddingData(context: event.context);
+    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData(
+        context: !event.context.mounted ? event.context : event.context);
     if (peelTestRes != null) {
       peelTestList = peelTestRes;
     }
 
     var pipeMaterialRes = await AddJointCoatingHelper.fetchPipeMaterialData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (pipeMaterialRes != null) {
       pipeMaterialList = pipeMaterialRes;
     }
 
-    var visualsChecksRes =
-        await AddBendingHelper.fetchVisualChecks(context: event.context);
+    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (visualsChecksRes != null) {
       visualsChecksList = visualsChecksRes;
     }
@@ -331,7 +337,7 @@ class AddJointCoatingBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

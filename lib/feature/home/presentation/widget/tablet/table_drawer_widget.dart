@@ -246,7 +246,7 @@ class TabletDrawerWidget extends StatelessWidget {
 
             if (isLogout == true) {
               Navigator.pushAndRemoveUntil(
-                  context,
+                  !context.mounted ? context : context,
                   MaterialPageRoute(
                       builder: (context) => const LoginScreenPage()),
                   (route) => false);
