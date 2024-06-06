@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -89,13 +90,13 @@ class AddRouteSurveyBloc
         context: event.context, userData: userData);
     _userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       groundTypeList = groundTypeRes;
     }
@@ -130,7 +131,9 @@ class AddRouteSurveyBloc
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      if (kDebugMode) {
+        print("Date is not selected");
+      }
     }
   }
 
@@ -146,7 +149,7 @@ class AddRouteSurveyBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

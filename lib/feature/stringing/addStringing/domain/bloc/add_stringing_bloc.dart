@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -115,13 +116,13 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var resConcreteCoating = await AddStringingHelper.fetchConcreteCoatingData(
-        context: event.context);
+        context: !event.context.mounted ? event.context : event.context);
     if (resConcreteCoating != null) {
       _concreteCoatingList = resConcreteCoating;
     }
@@ -141,7 +142,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      if (kDebugMode) {
+        print("Date is not selected");
+      }
     }
   }
 
@@ -221,7 +224,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

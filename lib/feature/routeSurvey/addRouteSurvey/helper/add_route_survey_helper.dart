@@ -131,36 +131,36 @@ class AddRouteSurveyHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 415 &&
           res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data']);
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['data']);
         return null;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 400 &&
           res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(
-            message: resPonse.replaceAll("{", "").toString()
+        String response = res['data'].toString();
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
+            message: response.replaceAll("{", "").toString()
               ..replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
@@ -190,8 +190,8 @@ class AddRouteSurveyHelper {
 
   static Future<dynamic> imagePiker({required BuildContext context}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? photo = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? photo = await picker.pickImage(
           source: ImageSource.camera,
           imageQuality: 60,
           maxHeight: 1200,

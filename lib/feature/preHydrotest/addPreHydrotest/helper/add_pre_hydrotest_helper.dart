@@ -87,17 +87,17 @@ class AddPreHydroTestHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attachFile",
           filePath: file.path.toString());
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data'].toString());
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data'].toString());
         return res;
       } else if (res != null && res['data'] != null) {
-        SnackBarErrorWidget(context).show(
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: res['data']
                 .toString()
                 .replaceAll("{", "")
@@ -105,11 +105,11 @@ class AddPreHydroTestHelper {
                 .replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }

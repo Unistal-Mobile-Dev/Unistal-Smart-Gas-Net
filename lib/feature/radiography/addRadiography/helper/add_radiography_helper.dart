@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -55,7 +56,9 @@ class AddRadiographyHelper {
           data.add(segmentData.toJson());
         }
       }
-      print(data);
+      if (kDebugMode) {
+        print(data);
+      }
 
       String url = APIs.addRadiographyApi;
       var json = {
@@ -95,34 +98,34 @@ class AddRadiographyHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attach_file",
           filePath: file.path.toString());
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 415 &&
           res['data'] != null) {
-        SnackBarErrorWidget(context).show(message: res['data'].toString());
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['data'].toString());
         return null;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 400 &&
           res['data'] != null) {
         String resPonse = res['data'].toString();
-        SnackBarErrorWidget(context).show(
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: resPonse.replaceAll("{", "").toString()
               ..replaceAll("}", ""));
         return null;
       }
       return null;
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
@@ -143,13 +146,15 @@ class AddRadiographyHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['segment'] != null) {
-        List<SegmentModel> _segmentList =
+        List<SegmentModel> segmentList =
             segmentListResponse(res['segment'], welderList);
-        return _segmentList;
+        return segmentList;
       }
       return null;
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return null;
     }
   }
