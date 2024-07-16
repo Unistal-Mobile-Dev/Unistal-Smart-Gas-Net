@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/presentation/pages/add_hdd_clean_pass_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/presentation/pages/add_hdd_crossing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/presentation/pages/add_hdd_pulling_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/presentation/pages/add_hdd_reaming_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/presentation/pages/add_pilot_drill_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
@@ -285,6 +290,50 @@ class HomeHelper {
           sublist: [],
           isSelected: false,
           actionButtonWidget: null));
+
+
+      drawerList.add(
+      DrawerModel(
+          widget: TextButton(child: const Text(""),onPressed: (){},),
+          icon: Icons.hd_outlined,
+          label: AppString.hdd,
+          sublist: [
+            DrawerSubModel(
+              label: AppString.pilotDrill,
+              widget: const AddPilotDrillPage(),
+                isSelected: false,
+                actionButtonWidget: null
+
+            ),
+            DrawerSubModel(
+              label: AppString.hddReaming,
+                widget: const AddHddReamingPage(),
+                isSelected: false,
+                actionButtonWidget: null
+            ),
+            DrawerSubModel(
+              label: AppString.hddCleanPass,
+                widget: const AddHddCleanPassPage(),
+                isSelected: false,
+                actionButtonWidget: null
+            ),
+            DrawerSubModel(
+              label: AppString.hddPulling,
+                widget: const AddHddPullingPage(),
+                isSelected: false,
+                actionButtonWidget: null
+            ),
+            DrawerSubModel(
+              label: AppString.hddCrossing,
+                widget: const AddHddCrossingPage(),
+                isSelected: false,
+                actionButtonWidget: null
+            ),
+
+          ],
+          isSelected: false,
+          actionButtonWidget: null)
+      );
 
       if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
         drawerList.add(DrawerModel(

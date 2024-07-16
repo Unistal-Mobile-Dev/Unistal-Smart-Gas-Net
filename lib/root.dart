@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/domain/bloc/add_hdd_clean_pass_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/domain/bloc/add_hdd_crossing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/domain/bloc/add_hdd_pulling_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/domain/bloc/add_hdd_reaming_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/domain/bloc/add_pilot_drill_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
@@ -137,6 +142,11 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddJointCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddCrossingBloc()),
         BlocProvider(create: (BuildContext context) => AddTieinBloc()),
+        BlocProvider(create: (BuildContext context) => AddHddCleanPassBloc()),
+        BlocProvider(create: (BuildContext context) => AddHddCrossingBloc()),
+        BlocProvider(create: (BuildContext context) => AddHddPullingBloc()),
+        BlocProvider(create: (BuildContext context) => AddHddReamingBloc()),
+        BlocProvider(create: (BuildContext context) => AddPilotDrillBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

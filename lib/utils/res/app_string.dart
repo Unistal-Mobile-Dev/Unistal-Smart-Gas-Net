@@ -219,6 +219,13 @@ class AppString {
 
   static get levelling => "Levelling";
 
+  static get hdd => "HDD";
+  static get pilotDrill => "Pilot Drill";
+  static get hddReaming => "HDD Reaming";
+  static get hddCleanPass => "HDD Clean Pass";
+  static get hddPulling => "HDD Pulling";
+  static get hddCrossing => "HDD Crossing";
+
   static get srNoSplicingMachine => "S.No Splicing Machine";
 
   static get postPadding => "Post Padding";
@@ -419,6 +426,54 @@ class AppString {
 
   static get selectGroundType => "Select Ground Type";
 
+  static get selectFromJoint => "Select From Joint";
+  static get selectToJoint => "Select To Joint";
+  static get selectStartDateOfPilotHole => "Start Date Of Pilot Hole";
+  static get selectEndDateOfPilotHole => "End Date Of Pilot Hole";
+  static get selectStartDateReaming => "Start Date Of Reaming";
+  static get selectEndDateOfReaming => "End Date Of Reaming";
+  static get selectStartDateCleanPass => "Start Date Of Cleanpass";
+  static get selectEndDateCleanPass => "End Date Of Cleanpass";
+  static get selectStartDatePulling => "Start Date Of Pulling";
+  static get selectEndDatePulling => "End Date Of Pulling";
+  static get selectHDDMachineCapacity => "HDD Machine Capacity";
+  static get selectSizeReaming => "Size Of Reaming(Max)";
+  static get selectSizeCleanPass => "Size Of Cleanpass";
+  static get selectSizePulling => "Size Of Pulling";
+  static get selectReamerSize => "Reamer Size";
+  static get selectSizePilotBitSize => "Size of Pilot & Bit Size";
+  static get selectLength => "Length";
+  static get selectLengthCrossing => "Length of Crossing";
+  static get selectRodNo => "Rod No";
+  static get selectTotalLength  => "Total % Length from Entry point to pilot (mtr.)";
+  static get selectTotalReamingLength => "Total Reaming Length from Exit point to pilot (Mtr.)";
+  static get selectPitch => "Pitch (%)";
+  static get selectDegree => "Degree";
+  static get selectDepth => "Depth (Mtr.)";
+  static get selectRigLoad => "Rig output Load";
+  static get selectPullBackPressure => "Pull back Pressure(PSI)";
+  static get selectRotaryPressure => "Rotary Pressure(PSI)";
+  static get selectPumpRate => "Pump Rate(GPM)";
+  static get selectStartingDatePulling => "Starting Date Of Pulling";
+  static get selectEndingDatePulling => "Ending Date Of Pulling";
+  static get selectEquipmentCapacity => "Equipment Capacity";
+  static get selectEquipmentUsed => "Equipment Used";
+  static get selectDateCommencement => "Date Of Commencement";
+  static get selectDateCompletion => "Date of Completion";
+  static get selectDatePreHydro => "Date of Pre-Hydro test";
+  static get selectPipeSpecification => "Pipe Specification";
+  static get selectPipeODThickness => "Pipe OD x Thickness";
+  static get selectHddLocation => "HDD Location";
+  static get selectPipeBoreDetails => "Pilot Bore Details";
+  static get selectBoreStartTime => "Pilot Bore Start time";
+  static get selectPilotBoreCompleted => "Pilot Bore Completed time";
+  static get selectPilotBoreDiameter => "Pilot Bore Diameter";
+  static get selectDuration => "Duration(Hrs)";
+  static get selectReamerSizeUsed => "Reamer Size Used";
+  static get selectStart => "Start";
+  static get selectEnd => "End";
+  static get selectReamingOperation => "Reaming Operation";
+  static get selectLoadObservedPSI => "Load Observed PSI";
   static get selectBendingType => "Select Bending Type";
 
   static get chainage => "Chainage";

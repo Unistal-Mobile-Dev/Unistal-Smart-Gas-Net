@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
@@ -58,13 +59,16 @@ class ButtonWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox.shrink(),
-                TextWidget(
-                  text,
-                  color: isSideBoard == true
-                      ? AppColor.themeColor
-                      : AppColor.white,
-                  fontSize: fontSize ?? AppFont.font_14,
-                  fontWeight: FontWeight.w700,
+                Flexible(
+                  flex: 1,
+                  child: TextWidget(
+                    text,
+                    color: isSideBoard == true
+                        ? AppColor.themeColor
+                        : AppColor.white,
+                    fontSize: fontSize ?? AppFont.font_14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             )),

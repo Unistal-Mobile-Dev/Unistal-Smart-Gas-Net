@@ -126,6 +126,16 @@ class APIs {
 
   static get addCrossingApi => "api/steel/crossinginsert";
 
+  static get addPilotDrillingInsertApi => "api/steel/pilotdrillinginsert";
+
+  static get addReamingInsertApi => "api/steel/reaminginsert";
+
+  static get addCleanPassInsertApi => "api/steel/cleanpassinsert";
+
+  static get addPipePullInsertApi => "api/steel/pipepullinsert";
+
+  static get addPipeCrossingInsertApi => "api/steel/hddcrossinginsert";
+
   static get getNdtStatusApi => "api/steel/ndtstatus";
 
   static get getNdtSourceApi => "api/steel/ndtsource";
