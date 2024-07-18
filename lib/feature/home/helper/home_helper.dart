@@ -5,6 +5,15 @@ import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCros
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/presentation/pages/add_hdd_pulling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/presentation/pages/add_hdd_reaming_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/presentation/pages/add_pilot_drill_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/presentation/pages/add_cable_installation_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/presentation/pages/add_pin_brazzing.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/polarisationCoupan/addPolarisationCoupan/presentation/pages/add_polarisation_coupan_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/sacrificialAnode/addSacrificialAnode/presentation/pages/add_sacrificial_anode_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/ssd/addSSD/presentation/pages/add_ssd_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/surgeDiverter/addSurgeDiverter/presentation/pages/add_surge_diverter_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/presentation/pages/test_station_box_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/thermitWeld/addThermitWeld/presentation/pages/add_thermit_weld_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/presentation/pages/add_zn_grounding_anode_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
@@ -291,7 +300,6 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-
       drawerList.add(
       DrawerModel(
           widget: TextButton(child: const Text(""),onPressed: (){},),
@@ -333,6 +341,72 @@ class HomeHelper {
           ],
           isSelected: false,
           actionButtonWidget: null)
+      );
+      drawerList.add(
+          DrawerModel(
+              widget: TextButton(child: const Text(""),onPressed: (){},),
+              icon: Icons.table_chart_outlined,
+              label: AppString.tcp,
+              sublist: [
+                DrawerSubModel(
+                    label: AppString.testStationBoxes,
+                    widget: const AddTestStationBoxPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+
+                ),
+                DrawerSubModel(
+                    label: AppString.sacrificialAnode,
+                    widget: const AddSacrificialAnodePage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.groundingAnode,
+                    widget: const AddZnGroundingAnodePage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.installationCables,
+                    widget: const AddCableInstallationPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.thermitWelding,
+                    widget: const AddThermitWeldPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.pinBrazzing,
+                    widget: const AddPinBrazzingPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.ssd,
+                    widget: const AddSsdPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.surgeDiverter,
+                    widget: const AddSurgeDiverterPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+                DrawerSubModel(
+                    label: AppString.polarisationCoupan,
+                    widget: const AddPolarisationCoupanPage(),
+                    isSelected: false,
+                    actionButtonWidget: null
+                ),
+
+              ],
+              isSelected: false,
+              actionButtonWidget: null)
       );
 
       if (AppConfig.instanceInit()!.client != Client.purvaBharti) {

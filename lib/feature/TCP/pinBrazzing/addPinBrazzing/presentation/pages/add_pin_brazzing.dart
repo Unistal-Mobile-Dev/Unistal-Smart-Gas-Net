@@ -1,0 +1,448 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/domain/bloc/add_pin_brazzing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+
+class AddPinBrazzingPage extends StatefulWidget {
+  const AddPinBrazzingPage({super.key});
+
+  @override
+  State<AddPinBrazzingPage> createState() => _AddPinBrazzingPageState();
+}
+
+class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
+  @override
+  void initState() {
+    BlocProvider.of<AddPinBrazzingBloc>(context)
+        .add(AddPinBrazzingPageLoadEvent(context: context));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColor.white,
+      body: BlocBuilder<AddPinBrazzingBloc, AddPinBrazzingState>(
+        builder: (context, state) {
+          if (state is FetchAddPinBrazzingState) {
+            return _itemBuilder(dataState: state);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _itemBuilder({required FetchAddPinBrazzingState dataState}) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _verticalSpace(),
+            _dateController(dataState: dataState),
+            _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
+            _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
+            _chainageController(dataState: dataState),
+            _verticalSpace(),
+            _tlpTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _areaController(dataState: dataState),
+            _verticalSpace(),
+            _testStationLocationController(dataState: dataState),
+            _verticalSpace(),
+            _testStationTypeController(dataState: dataState),
+            _verticalSpace(),
+            _spacingController(dataState: dataState),
+            _verticalSpace(),
+            _cableController(dataState: dataState),
+            _verticalSpace(),
+            _epoxyController(dataState: dataState),
+            _verticalSpace(),
+            _cableSizeController(dataState: dataState),
+            _verticalSpace(),
+            _cableLengthController(dataState: dataState),
+            _verticalSpace(),
+            _pinBrazingDropDown(dataState: dataState),
+            _verticalSpace(),
+            _cableTrenchDropDown(dataState: dataState),
+            _verticalSpace(),
+            _restorationCheckDropDown(dataState: dataState),
+            _verticalSpace(),
+            _activityRemark(dataState: dataState),
+            _verticalSpace(),
+            _photo(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+            _button(dataState: dataState),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _dateController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.date,
+      controller: dataState.dateController,
+      onTap: () {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddPinBrazzingSelectDateEvent(
+          context: context,
+        ));
+      },
+    );
+  }
+
+  Widget _reportNumberController(
+      {required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _alignmentDropdown({required FetchAddPinBrazzingState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.alignmentData.id != null ? dataState.alignmentData : null,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddPinBrazzingSelectAlignmentEvent(
+          alignmentData: value,
+        ));
+      },
+    );
+  }
+
+  Widget _weatherDropDown({required FetchAddPinBrazzingState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWeather,
+      dropdownValue:
+      dataState.weatherData.id != null ? dataState.weatherData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(SelectWeatherEvent(weatherData: value));
+      },
+      items: dataState.weatherList
+          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
+        return DropdownMenuItem<WeatherModel>(
+          value: weatherData,
+          child: Text(weatherData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+  Widget _chainageController(
+      {required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.chainage,
+      controller: dataState.chainageController,
+    );
+  }
+
+  Widget _tlpTypeDropDown({required FetchAddPinBrazzingState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectTLPType,
+      dropdownValue:
+      dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+      },
+      items: dataState.listOfTLPType
+          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
+        return DropdownMenuItem<TlpTypeModel>(
+          value: tlpTypeData,
+          child: Text(tlpTypeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+
+  Widget _areaController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectArea,
+      controller: dataState.areaController,
+    );
+  }
+  Widget _testStationLocationController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectTestLocation,
+      controller: dataState.testStationLocationController,
+    );
+  }
+  Widget _testStationTypeController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectTestType,
+      controller: dataState.testStationTypeController,
+    );
+  }
+  Widget _spacingController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectSpacingConnection,
+      controller: dataState.spacingController,
+    );
+  }
+  Widget _cableController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectCable,
+      controller: dataState.cableController,
+    );
+  }  Widget _epoxyController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectEpoxy,
+      controller: dataState.epoxyController,
+    );
+  }
+  Widget _cableSizeController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectCableSize,
+      controller: dataState.cableSizeController,
+    );
+  }
+  Widget _cableLengthController({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectCableLength,
+      controller: dataState.cableLengthController,
+    );
+  }
+
+  Widget _pinBrazingDropDown({required FetchAddPinBrazzingState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectPinBrazing,
+      dropdownValue:
+      dataState.pinBrazingValue.id != null ? dataState.pinBrazingValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddTestStationBoxPinBrazingEvent(pinBrazingValue: value));
+      },
+      items: dataState.listOfPinBrazing
+          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
+        return DropdownMenuItem<VisualChecksModel>(
+          value: visualChecksModel,
+          child: Text(visualChecksModel.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _cableTrenchDropDown({required FetchAddPinBrazzingState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectCableTrench,
+      dropdownValue:
+      dataState.continuityCheckValue.id != null ? dataState.continuityCheckValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddTestStationBoxContinuityCheckEvent(continuityCheckValue: value));
+      },
+      items: dataState.listOfContinuityCheck
+          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
+        return DropdownMenuItem<VisualChecksModel>(
+          value: visualChecksModel,
+          child: Text(visualChecksModel.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _restorationCheckDropDown({required FetchAddPinBrazzingState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectRestorationCheck,
+      dropdownValue:
+      dataState.restorationCheckValue.id != null ? dataState.restorationCheckValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddPinBrazzingBloc>(context)
+            .add(AddTestStationBoxRestorationCheckEvent(restorationCheckValue: value));
+      },
+      items: dataState.listOfRestorationCheck
+          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
+        return DropdownMenuItem<VisualChecksModel>(
+          value: visualChecksModel,
+          child: Text(visualChecksModel.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+  Widget _activityRemark({required FetchAddPinBrazzingState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      maxLine: 3,
+      labelText: AppString.activityRemark,
+      controller: dataState.activityRemarkController,
+    );
+  }
+
+
+  Widget _photo({required FetchAddPinBrazzingState dataState}) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
+      child: InkWell(
+        onTap: () {
+          mediaType(context: context);
+        },
+        child: DottedBorder(
+          color: AppColor.grey,
+          strokeWidth: 1,
+          child: dataState.file.path.isEmpty
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(
+                child: Icon(Icons.photo_camera_back_outlined),
+              ),
+              Padding(
+                padding: EdgeInsets.all(
+                    MediaQuery.of(context).size.width * 0.02),
+                child: TextWidget(
+                  "Photo",
+                  fontSize: AppFont.font_12,
+                  color: AppColor.grey,
+                ),
+              ),
+            ],
+          )
+              : Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  dataState.file.path
+                      .toString()
+                      .toLowerCase()
+                      .contains(".jpg") ||
+                      dataState.file.path
+                          .toString()
+                          .toLowerCase()
+                          .contains(".png") ||
+                      dataState.file.path
+                          .toString()
+                          .toLowerCase()
+                          .contains(".jpeg")
+                      ? Image.file(
+                    dataState.file,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.width / 4.5,
+                  )
+                      : dataState.file.path
+                      .toString()
+                      .toLowerCase()
+                      .contains(".pdf")
+                      ? const Icon(Icons.picture_as_pdf_outlined)
+                      : const Icon(Icons.document_scanner_outlined),
+                  dataState.file.path
+                      .toString()
+                      .toLowerCase()
+                      .contains(".pdf")
+                      ? TextWidget(
+                    dataState.file.path.split('/').last.toString(),
+                    color: AppColor.themeColor,
+                    fontSize: AppFont.font_12,
+                  )
+                      : const SizedBox.shrink(),
+                ],
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.width / 3,
+                  color: Colors.white.withOpacity(0.6),
+                  child: Center(
+                      child: Icon(
+                        Icons.refresh,
+                        color: AppColor.themeColor,
+                      ))),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void mediaType({required BuildContext context}) {
+    showModalBottomSheet(
+      context: context, // Also default
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.18,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddPinBrazzingBloc>(context).add(
+                        AddPinBrazzingAddImageEvent(
+                            context: context, mediaType: 1));
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
+              const Divider(),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddPinBrazzingBloc>(context).add(
+                        AddPinBrazzingAddImageEvent(
+                            context: context, mediaType: 2));
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _button({required FetchAddPinBrazzingState dataState}) {
+    return dataState.isLoader == false
+        ? ButtonWidget(
+        text: AppString.submit,
+        height:
+        AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13
+            : null,
+        onPressed: () {
+          BlocProvider.of<AddPinBrazzingBloc>(context)
+              .add(AddPinBrazzingSubmitDataEvent(context: context));
+        })
+        : const DottedLoaderWidget();
+  }
+
+  Widget _verticalSpace() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.02,
+    );
+  }
+}

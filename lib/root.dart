@@ -5,6 +5,15 @@ import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCros
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/domain/bloc/add_hdd_pulling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/domain/bloc/add_hdd_reaming_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/domain/bloc/add_pilot_drill_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/domain/bloc/add_cable_installation_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/domain/bloc/add_pin_brazzing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/polarisationCoupan/addPolarisationCoupan/domain/bloc/add_polarisation_coupan_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/sacrificialAnode/addSacrificialAnode/domain/bloc/add_sacrificial_anode_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/ssd/addSSD/domain/bloc/add_ssd_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/surgeDiverter/addSurgeDiverter/domain/bloc/add_surge_diverter_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/bloc/add_test_station_box_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/thermitWeld/addThermitWeld/domain/bloc/add_thermit_weld_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/domain/bloc/add_zn_grounding_anode_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
@@ -147,6 +156,15 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddHddPullingBloc()),
         BlocProvider(create: (BuildContext context) => AddHddReamingBloc()),
         BlocProvider(create: (BuildContext context) => AddPilotDrillBloc()),
+        BlocProvider(create: (BuildContext context) => AddCableInstallationBloc()),
+        BlocProvider(create: (BuildContext context) => AddPinBrazzingBloc()),
+        BlocProvider(create: (BuildContext context) => AddPolarisationCoupanBloc()),
+        BlocProvider(create: (BuildContext context) => AddSacrificialAnodeBloc()),
+        BlocProvider(create: (BuildContext context) => AddSurgeDiverterBloc()),
+        BlocProvider(create: (BuildContext context) => AddTestStationBoxBloc()),
+        BlocProvider(create: (BuildContext context) => AddThermitWeldBloc()),
+        BlocProvider(create: (BuildContext context) => AddZnGroundingAnodeBloc()),
+        BlocProvider(create: (BuildContext context) => AddSsdBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

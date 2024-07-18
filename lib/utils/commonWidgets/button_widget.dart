@@ -59,16 +59,13 @@ class ButtonWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox.shrink(),
-                Flexible(
-                  flex: 1,
-                  child: TextWidget(
-                    text,
-                    color: isSideBoard == true
-                        ? AppColor.themeColor
-                        : AppColor.white,
-                    fontSize: fontSize ?? AppFont.font_14,
-                    fontWeight: FontWeight.w700,
-                  ),
+                TextWidget(
+                  text,
+                  color: isSideBoard == true
+                      ? AppColor.themeColor
+                      : AppColor.white,
+                  fontSize: fontSize ?? AppFont.font_14,
+                  fontWeight: FontWeight.w700,
                 ),
               ],
             )),

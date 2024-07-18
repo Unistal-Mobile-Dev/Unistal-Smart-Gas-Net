@@ -136,6 +136,10 @@ class APIs {
 
   static get addPipeCrossingInsertApi => "api/steel/hddcrossinginsert";
 
+  static get getTLPTypeApi => "api/steel/get-tlp-type";
+
+  static get getAnodeTypeApi => "api/steel/get-anode-type";
+
   static get getNdtStatusApi => "api/steel/ndtstatus";
 
   static get getNdtSourceApi => "api/steel/ndtsource";

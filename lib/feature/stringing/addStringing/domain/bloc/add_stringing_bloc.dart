@@ -105,6 +105,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _concreteCoatingData = ConcreteCoatingModel();
     _isLoader = false;
     _alignmentList = [];
+    _weatherList = [];
     file = File("");
     _alignmentData = AlignmentModel();
     _weatherData = WeatherModel();
