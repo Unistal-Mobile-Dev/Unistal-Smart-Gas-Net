@@ -9,51 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddTestStationBoxHelper{
-
-
-  static Future<dynamic> fetchTLPType(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getTLPTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-      return tlpTypeResList(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchAnodeTypeApi(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getAnodeTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return tlpTypeResList(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
+class AddSacrificialAnodeHelper{
 
   static Future<dynamic> submitData(
       {required BuildContext context,
@@ -63,20 +19,23 @@ class AddTestStationBoxHelper{
         required String activityRemark,
         required WeatherModel weatherData,
         required LoginDataModel userData,
-        required VisualChecksModel tesStationMounting,
-        required VisualChecksModel testStationDoors,
-        required String testStationLocation,
-        required VisualChecksModel distancePipeline,
+        required String anodeLocation,
+        required String currentOutputAnode,
+        required VisualChecksModel anodeCondition,
+        required String anodeId,
+        required String testStationNo,
         required String testStationType,
-        required TlpTypeModel tlpTypeId,
-        required VisualChecksModel cableEntrySealing,
-        required VisualChecksModel foundationCheck,
-        required VisualChecksModel cableTerminationCheck,
-        required VisualChecksModel namePlateConnectionCheck,
-        required VisualChecksModel shuntValueCheck,
-        required VisualChecksModel compactionAlignmentCheck,
-        required VisualChecksModel cableSealing,
+        required String distancePipeline,
+        required String anodeNo,
+        required String spacingBetweenAnode,
+        required String anodeTailCableLength,
+        required String anodeTailCableLength2,
+        required String anodeTailCableLength3,
+        required String anodeOpenCirkuit,
+        required String beforePspConnectionAnode,
         required String chainage,
+        required String afterPspConnectionAnode,
+        required TlpTypeModel tlpTypeId,
         required String area,
         required File file
       }) async {
@@ -89,33 +48,36 @@ class AddTestStationBoxHelper{
         return null;
       }
 
-      String url = APIs.addTestStationInsertApi;
+      String url = APIs.addSacrificialAnodeInsertApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
-        "activity_remarks": activityRemark,
+        "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "test_station_location": testStationLocation,
-        "distance_pipeline": distancePipeline.id != null ?distancePipeline.id.toString() : "",
+        "anode_location": anodeLocation.toString(),
         "test_station_type": testStationType.toString(),
-        "tlp_type_id": tlpTypeId.id!= null ? tlpTypeId.id.toString() : "",
-        "foundation_check": foundationCheck.id != null ? foundationCheck.id.toString() : "",
-        "test_station_mounting": tesStationMounting.id != null ? tesStationMounting.id.toString() : "",
-        "test_station_doors": testStationDoors.id != null ? testStationDoors.id.toString() : "",
-        "cable_entry_sealing":cableEntrySealing.id != null ? cableEntrySealing.id.toString() : "",
-        "cable_termination_check": cableTerminationCheck.id != null ? cableTerminationCheck.id.toString() : "",
-        "name_plate_connection_check": namePlateConnectionCheck.id != null ? namePlateConnectionCheck.id.toString() : "",
-        "shunt_value_check": shuntValueCheck.id != null ? shuntValueCheck.id.toString() : "",
-        "compaction_alignment_check": compactionAlignmentCheck.id != null ? compactionAlignmentCheck.id.toString() : "",
-        "cable_sealing": cableSealing.id != null ? cableSealing.id.toString() : "",
+        "anode_id": anodeId.toString(),
+        "distance_pipeline": distancePipeline.toString(),
+        "anode_no":anodeNo.toString(),
+        "spacing_between_anode": spacingBetweenAnode.toString(),
+        "current_output_anode": currentOutputAnode.toString(),
+        "anode_condition": anodeCondition.id != null ? anodeCondition.id.toString() : "",
+        "test_station_no":testStationNo.toString(),
+        "anode_tail_cable_length": anodeTailCableLength.toString(),
+        "anode_tail_cable_length2": anodeTailCableLength2.toString(),
+        "anode_tail_cable_length3": anodeTailCableLength3.toString(),
+        "anode_open_cirkuit": anodeOpenCirkuit.toString(),
+        "before_psp_connection_anode": beforePspConnectionAnode.toString(),
         "chainage": chainage.toString(),
+        "after_psp_connection_anode": afterPspConnectionAnode.toString(),
+        "tlp_type_id": tlpTypeId.id != null ? tlpTypeId.id.toString() : "",
         "area": area.toString(),
       };
       var res = await ServerRequest.postDataWithFile(

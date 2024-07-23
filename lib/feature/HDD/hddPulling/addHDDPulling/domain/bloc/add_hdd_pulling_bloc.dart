@@ -101,6 +101,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
     jointTypeDataValue = JointTypeModel();
     alignmentData = AlignmentModel();
     weatherData = WeatherModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(

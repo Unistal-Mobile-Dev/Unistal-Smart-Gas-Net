@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/helper/add_cable_installation_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -107,6 +108,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     depthController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -124,6 +126,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     if (resVisual != null) {
       listOfSand = resVisual;
     }
+    listOfCableTrench = listOfSand;
     listOfWarning = listOfSand;
     listOfBackfilling = listOfSand;
     listOfTagging = listOfSand;
@@ -218,6 +221,58 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
   }
 
   _submitData(AddCableInstallationSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddCableInstallationHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      backfillingRestoration: backfillingValue,
+      cableLengthA2: "",
+      cableLengthA3: "",
+      cableSize: cableSizeController.text.trim().toString(),
+      cableTrench: cableTrenchValue,
+      cableValue: "",
+      chainage: chainageController.text.trim().toString(),
+      depthLaying: depthController.text.trim().toString(),
+      earthingResistance: irValue,
+      routeMarking: routeMarkingValue,
+      sandBrickSpreading: sandValue,
+      taggingFerruling: taggingValue,
+      tlpTypeId: tlpTypeValue,
+      warningMatPlacement: warningValue,
+
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      cableSizeController.text = "";
+      depthController.text = "";
+      reportNumberController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      cableTrenchValue = VisualChecksModel();
+      sandValue = VisualChecksModel();
+      warningValue = VisualChecksModel();
+      backfillingValue = VisualChecksModel();
+      taggingValue = VisualChecksModel();
+      routeMarkingValue = VisualChecksModel();
+      irValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddCableInstallationState> emit) {

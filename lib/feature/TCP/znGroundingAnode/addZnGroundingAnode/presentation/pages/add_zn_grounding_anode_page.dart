@@ -55,6 +55,12 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _chainageController(dataState: dataState),
+            _verticalSpace(),
+            _areaController(dataState: dataState),
+            _verticalSpace(),
+            _tlpTypeDropDown(dataState: dataState),
+            _verticalSpace(),
             _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
@@ -163,6 +169,43 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       }).toList(),
     );
   }
+
+  Widget _chainageController({required FetchAddZnGroundingAnodeState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainage,
+      controller: dataState.chainageController,
+    );
+  }
+  Widget _tlpTypeDropDown({required FetchAddZnGroundingAnodeState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectTLPType,
+      dropdownValue:
+      dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddZnGroundingAnodeBloc>(context)
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+      },
+      items: dataState.listOfTLPType
+          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
+        return DropdownMenuItem<TlpTypeModel>(
+          value: tlpTypeData,
+          child: Text(tlpTypeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+
+  Widget _areaController({required FetchAddZnGroundingAnodeState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.selectArea,
+      controller: dataState.areaController,
+    );
+  }
+  
   Widget _jointTypeDropDown({required FetchAddZnGroundingAnodeState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
@@ -233,6 +276,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectAnodeWeight,
       controller: dataState.anodeWeightController,
     );
@@ -242,6 +286,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectAnodeLocation,
       controller: dataState.anodeLocationController,
     );
@@ -251,6 +296,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectDepth,
       controller: dataState.depthAugerController,
     );
@@ -278,6 +324,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectNoAnode,
       controller: dataState.noAnodesController,
     );
@@ -327,6 +374,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA1,
       controller: dataState.a1LengthController,
     );
@@ -336,6 +384,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA2,
       controller: dataState.a2LengthController,
     );
@@ -345,6 +394,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA3,
       controller: dataState.a3LengthController,
     );
@@ -372,6 +422,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA1,
       controller: dataState.a1AnodeController,
     );
@@ -381,6 +432,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA2,
       controller: dataState.a2AnodeController,
     );
@@ -390,6 +442,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA3,
       controller: dataState.a3AnodeController,
     );
@@ -399,6 +452,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
       {required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectA4,
       controller: dataState.a4AnodeController,
     );

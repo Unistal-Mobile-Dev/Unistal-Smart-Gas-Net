@@ -29,8 +29,12 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
+  final List<TlpTypeModel> listOfTLPType;
+  final TlpTypeModel tlpTypeValue;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
+  final TextEditingController chainageController;
+  final TextEditingController areaController;
   final TextEditingController anodeWeightController;
   final TextEditingController anodeLocationController;
   final TextEditingController depthAugerController;
@@ -70,6 +74,10 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
     required this.listOfSacrificialAnode,
     required this.typeNodeValue,
      required this.dateController,
+    required this.chainageController,
+    required this.areaController,
+    required this.listOfTLPType,
+    required this.tlpTypeValue,
      required this.reportNumberController,
      required this.anodeWeightController,
      required this.anodeLocationController,
@@ -109,8 +117,12 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
     jointTypeDataValue,
     isJointNumberLoader,
     listOfSacrificialAnode,
+    listOfTLPType,
+    tlpTypeValue,
     typeNodeValue,
     dateController,
+    chainageController,
+    areaController,
     reportNumberController,
     anodeWeightController,
     anodeLocationController,

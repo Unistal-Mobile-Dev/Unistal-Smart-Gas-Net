@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/helper/add_zn_grounding_anode_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -24,6 +25,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     on<AddZnGroundingAnodePageLoadEvent>(_pageLoadEvent);
     on<AddZnGroundingAnodeSelectDateEvent>(_selectDate);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddTestStationBoxTLPTypeEvent>(_selectTLPType);
     on<AddZnGroundingAnodeSelectAlignmentEvent>(_selectAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectJointEvent>(_selectJoint);
@@ -34,6 +36,8 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
 
   TextEditingController dateController= TextEditingController();
   TextEditingController reportNumberController= TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController chainageController = TextEditingController();
   TextEditingController anodeWeightController= TextEditingController();
   TextEditingController anodeLocationController= TextEditingController();
   TextEditingController depthAugerController= TextEditingController();
@@ -67,6 +71,9 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
   List<WeatherModel> weatherList = [];
   WeatherModel weatherData = WeatherModel();
 
+  List<TlpTypeModel> listOfTLPType = [];
+  TlpTypeModel tlpTypeValue = TlpTypeModel();
+
   List<JointNumberModel> listOfJoint = [];
   List<JointTypeModel> listOfJointType = [];
 
@@ -83,6 +90,8 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     file = File("");
     dateController.text = "";
     reportNumberController.text = "";
+    areaController.text = "";
+    chainageController.text = "";
     anodeWeightController.text = "";
     anodeLocationController.text = "";
     depthAugerController.text = "";
@@ -107,12 +116,16 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     activityRemarkController.text = "";
     alignmentList = [];
     weatherList = [];
+    listOfTLPType = [];
     listOfJointType = [];
     listOfSacrificialAnode = [];
     alignmentData = AlignmentModel();
     weatherData = WeatherModel();
     jointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
+    tlpTypeValue =  TlpTypeModel();
+    typeNodeValue = TlpTypeModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -131,6 +144,11 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     if (resAnodeType != null) {
       listOfSacrificialAnode = resAnodeType;
     }
+    var resTLPType = await AddTestStationBoxHelper.fetchTLPType(
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    if (resTLPType != null) {
+      listOfTLPType = resTLPType;
+    }
 
     _eventComplete(emit);
   }
@@ -142,6 +160,11 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _selectTLPType(AddTestStationBoxTLPTypeEvent event, emit) {
+    tlpTypeValue = event.tlpTypeValue;
     _eventComplete(emit);
   }
 
@@ -208,6 +231,82 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
   }
 
   _submitData(AddZnGroundingAnodeSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddZnGroundingAnodeHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+      distancePipeline: distanceController.text.trim().toString(),
+      anodeId: typeNodeValue,
+      anodeCondition: anodeConditionController.text.trim().toString(),
+      earthingResistance: earthingController.text.trim().toString(),
+      cableLengthA1:  a1LengthController.text.trim().toString(),
+      cableLengthA2:  a2LengthController.text.trim().toString(),
+      cableLengthA3: a3LengthController.text.trim().toString(),
+      afterConnectionAnodeDc: dcPspAfterController.text.trim().toString(),
+      afterInstallationConnectionAc: acPspAfterController.text.trim().toString(),
+      afterPspConnectionAc: acPspBeforeController.text.trim().toString(),
+      anodeLocationChainage: anodeLocationController.text.trim().toString(),
+      anodeNoSpace: noAnodesController.text.trim().toString(),
+      anodeOpenCircuitA1: a1AnodeController.text.trim().toString(),
+      anodeOpenCircuitA2: a2AnodeController.text.trim().toString(),
+      anodeOpenCircuitA3: a3AnodeController.text.trim().toString(),
+      anodeOpenCircuitA4: a4AnodeController.text.trim().toString(),
+      beforePspConnection: acPspBeforeController.text.trim().toString(),
+      beforePspConnectionDc: dcPspBeforeController.text.trim().toString(),
+      checkWaterFilling: checkWaterFillingController.text.trim().toString(),
+      depthAuger: depthAugerController.text.trim().toString(),
+      installationType: installationTypeController.text.trim().toString(),
+      weightHeight: anodeWeightController.text.trim().toString(),
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      reportNumberController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      anodeWeightController.text = "";
+      anodeLocationController.text = "";
+      depthAugerController.text = "";
+      anodeConditionController.text = "";
+      distanceController.text = "";
+      noAnodesController.text = "";
+      a1LengthController.text = "";
+      a2LengthController.text = "";
+      a3LengthController.text = "";
+      earthingController.text = "";
+      acPspBeforeController.text = "";
+      a1AnodeController.text = "";
+      a2AnodeController.text = "";
+      a3AnodeController.text = "";
+      a4AnodeController.text = "";
+      acPspAfterController.text = "";
+      dcPspBeforeController.text = "";
+      dcPspAfterController.text = "";
+      acCurrentAfterController.text = "";
+      installationTypeController.text = "";
+      checkWaterFillingController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      jointValue = JointNumberModel();
+      jointTypeDataValue = JointTypeModel();
+      tlpTypeValue =  TlpTypeModel();
+      typeNodeValue = TlpTypeModel();
+      file = File("");
+      _eventComplete(emit);
+  }
   }
 
   _eventComplete(Emitter<AddZnGroundingAnodeState> emit) {
@@ -249,6 +348,10 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
       installationTypeController : installationTypeController,
       checkWaterFillingController : checkWaterFillingController,
       activityRemarkController : activityRemarkController,
+      areaController: areaController,
+      chainageController: chainageController,
+      listOfTLPType: listOfTLPType,
+      tlpTypeValue: tlpTypeValue,
 
     ));
   }

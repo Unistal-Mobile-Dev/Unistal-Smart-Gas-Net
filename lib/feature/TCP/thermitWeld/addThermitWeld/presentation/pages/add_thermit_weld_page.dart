@@ -153,6 +153,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
       {required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );
@@ -188,6 +189,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _testStationLocationController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectTestLocation,
       controller: dataState.testStationLocationController,
     );
@@ -195,6 +197,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _testStationTypeController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectTestType,
       controller: dataState.testStationTypeController,
     );
@@ -202,6 +205,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _spacingController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectSpacingConnection,
       controller: dataState.spacingController,
     );
@@ -209,6 +213,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _cableController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCable,
       controller: dataState.cableController,
     );
@@ -222,6 +227,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _cableSizeController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCableSize,
       controller: dataState.cableSizeController,
     );
@@ -229,6 +235,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   Widget _cableLengthController({required FetchAddThermitWeldState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCableLength,
       controller: dataState.cableLengthController,
     );

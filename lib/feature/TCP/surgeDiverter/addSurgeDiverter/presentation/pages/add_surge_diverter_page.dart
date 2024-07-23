@@ -151,6 +151,7 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   Widget _chainageController({required FetchAddSurgeDiverterState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );

@@ -93,6 +93,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
     fromJointValue = JointNumberModel();
     toJointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(

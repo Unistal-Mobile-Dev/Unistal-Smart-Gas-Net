@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/sacrificialAnode/addSacrificialAnode/helper/add_sacrificial_anode_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -103,8 +104,8 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     alignmentData = AlignmentModel();
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
@@ -115,13 +116,11 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     if (resTLPType != null) {
       listOfTLPType = resTLPType;
     }
-
     var resVisual = await AddBendingHelper.fetchVisualChecks(
         context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
       listOfAnodeCondition = resVisual;
     }
-
     var resAnodeType = await AddTestStationBoxHelper.fetchAnodeTypeApi(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resAnodeType != null) {
@@ -191,6 +190,66 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
   }
 
   _submitData(AddSacrificialAnodeSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddSacrificialAnodeHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+     testStationType: testStationTypeController.text.trim().toString(),
+      afterPspConnectionAnode: afterAnodeController.text.trim().toString(),
+      anodeCondition: anodeConditionValue,
+      anodeId: "",
+      anodeLocation: testStationLocationController.text.trim().toString(),
+      anodeNo:noAnodesController.text.trim().toString(),
+      anodeOpenCirkuit: anodeCircuitController.text.trim().toString(),
+      anodeTailCableLength2: a2Controller.text.trim().toString(),
+      anodeTailCableLength3:  a3Controller.text.trim().toString(),
+      anodeTailCableLength:  a1Controller.text.trim().toString(),
+      beforePspConnectionAnode: beforeAnodeController.text.trim().toString(),
+      currentOutputAnode: outputAnodesController.text.trim().toString(),
+      distancePipeline: distanceController.text.trim().toString(),
+      spacingBetweenAnode: spacingAnodesController.text.trim().toString(),
+      testStationNo: testStationController.text.trim().toString(),
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      reportNumberController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      testStationLocationController.text = "";
+      testStationTypeController.text = "";
+      testStationController.text = "";
+      distanceController.text = "";
+      noAnodesController.text = "";
+      spacingAnodesController.text = "";
+      outputAnodesController.text = "";
+      a1Controller.text = "";
+      a2Controller.text = "";
+      a3Controller.text = "";
+      anodeCircuitController.text = "";
+      beforeAnodeController.text = "";
+      afterAnodeController.text = "";
+      activityRemarkController.text = "";
+      anodeConditionValue = VisualChecksModel();
+      sacrificialAnodeValue = TlpTypeModel();
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddSacrificialAnodeState> emit) {

@@ -1,60 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/services/apis.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/services/server_request.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_error_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
-class AddTestStationBoxHelper{
-
-
-  static Future<dynamic> fetchTLPType(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getTLPTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-      return tlpTypeResList(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchAnodeTypeApi(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getAnodeTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return tlpTypeResList(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-
+class AddPolarisation{
   static Future<dynamic> submitData(
       {required BuildContext context,
         required AlignmentModel alignmentData,
@@ -63,21 +22,20 @@ class AddTestStationBoxHelper{
         required String activityRemark,
         required WeatherModel weatherData,
         required LoginDataModel userData,
-        required VisualChecksModel tesStationMounting,
-        required VisualChecksModel testStationDoors,
-        required String testStationLocation,
-        required VisualChecksModel distancePipeline,
-        required String testStationType,
+        required String testStationChainage,
+        required VisualChecksModel corrisionCoupan,
+        required String digitalMultimeter,
+        required VisualChecksModel cableTermination,
+        required String pspMeasurement,
+        required String voltage,
+        required String coupanInstantOffPotential,
+        required String properFittingCheck,
+        required String modelNo,
         required TlpTypeModel tlpTypeId,
-        required VisualChecksModel cableEntrySealing,
-        required VisualChecksModel foundationCheck,
-        required VisualChecksModel cableTerminationCheck,
-        required VisualChecksModel namePlateConnectionCheck,
-        required VisualChecksModel shuntValueCheck,
-        required VisualChecksModel compactionAlignmentCheck,
-        required VisualChecksModel cableSealing,
         required String chainage,
+        required String make,
         required String area,
+        required String calibarationDate,
         required File file
       }) async {
     try {
@@ -88,35 +46,32 @@ class AddTestStationBoxHelper{
       } else {
         return null;
       }
-
-      String url = APIs.addTestStationInsertApi;
+      String url = APIs.addPolerisationCoupanInsertApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
-        "activity_remarks": activityRemark,
+        "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "test_station_location": testStationLocation,
-        "distance_pipeline": distancePipeline.id != null ?distancePipeline.id.toString() : "",
-        "test_station_type": testStationType.toString(),
-        "tlp_type_id": tlpTypeId.id!= null ? tlpTypeId.id.toString() : "",
-        "foundation_check": foundationCheck.id != null ? foundationCheck.id.toString() : "",
-        "test_station_mounting": tesStationMounting.id != null ? tesStationMounting.id.toString() : "",
-        "test_station_doors": testStationDoors.id != null ? testStationDoors.id.toString() : "",
-        "cable_entry_sealing":cableEntrySealing.id != null ? cableEntrySealing.id.toString() : "",
-        "cable_termination_check": cableTerminationCheck.id != null ? cableTerminationCheck.id.toString() : "",
-        "name_plate_connection_check": namePlateConnectionCheck.id != null ? namePlateConnectionCheck.id.toString() : "",
-        "shunt_value_check": shuntValueCheck.id != null ? shuntValueCheck.id.toString() : "",
-        "compaction_alignment_check": compactionAlignmentCheck.id != null ? compactionAlignmentCheck.id.toString() : "",
-        "cable_sealing": cableSealing.id != null ? cableSealing.id.toString() : "",
-        "chainage": chainage.toString(),
-        "area": area.toString(),
+        "test_station_chainage": testStationChainage.toString(),
+        "corrision_coupan": corrisionCoupan.id != null ? corrisionCoupan.id.toString() : "",
+        "cable_termination": cableTermination.id != null ? cableTermination.id.toString() : "",
+        "properfitting_check": properFittingCheck.toString(),
+        "psp_measurement": pspMeasurement.toString(),
+        "coupan_instant_off_potential": coupanInstantOffPotential.toString(),
+        "digital_multimeter": digitalMultimeter.toString(),
+        "model_no": modelNo.toString(),
+        "tlp_type_id": tlpTypeId.id != null ? tlpTypeId.id.toString() : "",
+        "chainage":chainage.toString(),
+        "make":make.toString(),
+        "area":area.toString(),
+        "calibaration_date":calibarationDate.toString(),
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
@@ -158,4 +113,5 @@ class AddTestStationBoxHelper{
       return null;
     }
   }
+
 }

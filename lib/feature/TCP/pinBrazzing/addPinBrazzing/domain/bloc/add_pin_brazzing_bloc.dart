@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/helper/add_pin_brazzing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -76,6 +77,15 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     isLoader = false;
     file = File("");
     dateController.text = "";
+    areaController.text = "";
+    chainageController.text = "";
+    testStationLocationController.text = "";
+    testStationTypeController.text = "";
+    spacingController.text = "";
+    cableController.text = "";
+    epoxyController.text = "";
+    cableSizeController.text = "";
+    cableLengthController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
     alignmentList = [];
@@ -90,6 +100,7 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     pinBrazingValue = VisualChecksModel();
     continuityCheckValue = VisualChecksModel();
     restorationCheckValue = VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -178,6 +189,60 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
   }
 
   _submitData(AddPinBrazzingSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddPinBrazzingHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+      cableSize: cableSizeController.text.trim().toString(),
+      cableLength: cableLengthController.text.trim().toString(),
+      cableToPipeContactResistance: cableController.text.trim().toString(),
+      contactRegistance: cableController.text.trim().toString(),
+      continuityCheck: continuityCheckValue,
+      epoxyHardningFilling: epoxyController.text.trim().toString(),
+      ponBrazzingConnection: pinBrazingValue,
+      restorationCheck: restorationCheckValue,
+      spacingBetweenConnection: spacingController.text.trim().toString(),
+      testStationType: testStationTypeController.text.trim().toString(),
+
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      testStationLocationController.text = "";
+      testStationTypeController.text = "";
+      spacingController.text = "";
+      cableController.text = "";
+      epoxyController.text = "";
+      cableSizeController.text = "";
+      cableLengthController.text = "";
+      reportNumberController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      pinBrazingValue = VisualChecksModel();
+      continuityCheckValue = VisualChecksModel();
+      restorationCheckValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddPinBrazzingState> emit) {

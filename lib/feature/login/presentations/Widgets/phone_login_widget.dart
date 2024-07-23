@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
@@ -118,6 +119,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       child: TextFieldWidget(
         isRequired: true,
         labelText: AppString.emailPhoneNumber,
+        autofillHints: const [AutofillHints.email, AutofillHints.password],
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
         onChanged: (value) => BlocProvider.of<LoginBloc>(context)
@@ -135,6 +137,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       child: TextFieldPasswordWidget(
         isRequired: true,
         labelText: AppString.password,
+        autofillHints: const [ AutofillHints.password,AutofillHints.email],
         obscureText: dataState.isPassword,
         isPasswordIcon: true,
         textEditingController: dataState.passwordTextFieldController,
@@ -159,6 +162,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 isLockIcon: true,
                 text: AppString.login,
                 onPressed: () {
+                  TextInput.finishAutofillContext();
                   BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(
                       context: context, isLoginPage: true));
                 }),

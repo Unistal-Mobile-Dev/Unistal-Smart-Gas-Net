@@ -153,6 +153,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
       {required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );
@@ -188,6 +189,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   Widget _testStationLocationController({required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectTestLocation,
       controller: dataState.testStationLocationController,
     );
@@ -195,6 +197,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   Widget _testStationTypeController({required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectTestType,
       controller: dataState.testStationTypeController,
     );
@@ -209,6 +212,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   Widget _cableController({required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCable,
       controller: dataState.cableController,
     );
@@ -222,6 +226,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   Widget _cableSizeController({required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCableSize,
       controller: dataState.cableSizeController,
     );
@@ -229,6 +234,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   Widget _cableLengthController({required FetchAddPinBrazzingState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectCableLength,
       controller: dataState.cableLengthController,
     );

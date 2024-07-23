@@ -154,6 +154,7 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
       {required FetchAddPolarisationCoupanState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );

@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/ssd/addSSD/helper/add_ssd_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -25,6 +27,12 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     on<AddSsdPageLoadEvent>(_pageLoadEvent);
     on<AddSsdSelectDateEvent>(_selectDate);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddSsdTLPTypeEvent>(_selectTlpType);
+    on<AddSsdInstallationEvent>(_selectInstallation);
+    on<AddSsdCableTerminationEvent>(_selectCableTermination);
+    on<AddSsdCheckACVolEvent>(_selectCheckACVol);
+    on<AddSsdFinalRestorationEvent>(_selectFinalRestoration);
+    on<AddSsdPSPEvent>(_selectPspValue);
     on<AddSsdSelectAlignmentEvent>(_selectAlignment);
     on<AddSsdAddImageEvent>(_selectFile);
     on<AddSsdSubmitDataEvent>(_submitData);
@@ -95,6 +103,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     checkACVolValue = VisualChecksModel();
     pspValue = VisualChecksModel();
     finalRestorationValue = VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -114,6 +123,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
       listOfCableTermination = listOfInstallation;
       listOfCheckACVol = listOfInstallation;
       listOfPSP = listOfInstallation;
+      listOfFinalRestoration = listOfInstallation;
     }
     _eventComplete(emit);
   }
@@ -125,6 +135,36 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _selectTlpType(AddSsdTLPTypeEvent event, emit) {
+    tlpTypeValue = event.tlpTypeValue;
+    _eventComplete(emit);
+  }
+
+  _selectInstallation(AddSsdInstallationEvent event, emit) {
+    installationValue = event.installationValue;
+    _eventComplete(emit);
+  }
+
+  _selectPspValue(AddSsdPSPEvent event, emit) {
+    pspValue = event.pspValue;
+    _eventComplete(emit);
+  }
+
+  _selectCableTermination(AddSsdCableTerminationEvent event, emit) {
+    cableTerminationValue = event.cableTerminationValue;
+    _eventComplete(emit);
+  }
+
+  _selectCheckACVol(AddSsdCheckACVolEvent event,emit) {
+    checkACVolValue = event.checkACVolValue;
+    _eventComplete(emit);
+  }
+
+  _selectFinalRestoration(AddSsdFinalRestorationEvent event, emit) {
+    finalRestorationValue = event.finalRestorationValue;
     _eventComplete(emit);
   }
 
@@ -163,6 +203,52 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
   }
 
   _submitData(AddSsdSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddSSDHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+      voltage: voltageController.text.trim().toString(),
+      properFittingCheck: installationValue,
+      cableTermination: cableTerminationValue,
+      acVolatgePolarisationCheck: checkACVolValue,
+      backfillRestore: finalRestorationValue,
+      htTowerFootingDistance: htTowerController.text.trim().toString(),
+      locationChainage: locationController.text.trim().toString(),
+      psp:pspValue
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      reportNumberController.text = "";
+      chainageController.text = "";
+      areaController.text = "";
+      locationController.text = "";
+      voltageController.text = "";
+      htTowerController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      installationValue = VisualChecksModel();
+      cableTerminationValue = VisualChecksModel();
+      checkACVolValue = VisualChecksModel();
+      pspValue = VisualChecksModel();
+      finalRestorationValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddSsdState> emit) {

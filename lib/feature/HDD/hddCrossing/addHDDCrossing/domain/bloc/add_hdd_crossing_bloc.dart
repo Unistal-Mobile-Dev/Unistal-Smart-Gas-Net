@@ -116,6 +116,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
     jointTypeDataValue = JointTypeModel();
     alignmentData = AlignmentModel();
     weatherData = WeatherModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(

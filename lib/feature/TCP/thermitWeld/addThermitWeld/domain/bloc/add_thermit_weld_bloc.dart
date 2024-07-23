@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/thermitWeld/addThermitWeld/helper/add_thermit_weld_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/helper/dashboard_helper.dart';
@@ -77,6 +78,15 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     isLoader = false;
     file = File("");
     dateController.text = "";
+    areaController.text = "";
+    chainageController.text = "";
+    testStationLocationController.text = "";
+    testStationTypeController.text = "";
+    spacingController.text = "";
+    cableController.text = "";
+    epoxyController.text = "";
+    cableSizeController.text = "";
+    cableLengthController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
     alignmentList = [];
@@ -91,6 +101,7 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     pinBrazingValue = VisualChecksModel();
     continuityCheckValue = VisualChecksModel();
     restorationCheckValue = VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -179,6 +190,56 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
   }
 
   _submitData(AddThermitWeldSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddThermitWeldHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+      testStationLocation: testStationLocationController.text.trim().toString(),
+      testStationType: testStationTypeController.text.trim().toString(),
+      spacingBetweenConnection: spacingController.text.trim().toString(),
+      restorationCheck: restorationCheckValue,
+      epoxyHardningFilling: epoxyController.text.trim().toString(),
+      continuityCheck: continuityCheckValue,
+      cableToPipeContactResistance: cableController.text.trim().toString(),
+      cableLength: cableLengthController.text.trim().toString(),
+      cableSize: cableSizeController.text.trim().toString(),
+      pinBrazzing: pinBrazingValue,
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      testStationLocationController.text = "";
+      testStationTypeController.text = "";
+      spacingController.text = "";
+      cableController.text = "";
+      epoxyController.text = "";
+      cableSizeController.text = "";
+      cableLengthController.text = "";
+      reportNumberController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      pinBrazingValue = VisualChecksModel();
+      continuityCheckValue = VisualChecksModel();
+      restorationCheckValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddThermitWeldState> emit) {

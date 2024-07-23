@@ -14,6 +14,7 @@ class TextFieldPasswordWidget extends StatelessWidget {
   final GestureTapCallback? onTap;
   final bool? enabled;
   final bool? isRequired;
+  final Iterable<String>? autofillHints;
 
   const TextFieldPasswordWidget(
       {super.key,
@@ -28,13 +29,16 @@ class TextFieldPasswordWidget extends StatelessWidget {
       this.passwordOnPressed,
       this.onTap,
       this.enabled,
-      this.isRequired});
+      this.isRequired,
+        this.autofillHints,
+      });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(0),
         child: TextFormField(
+          autofillHints: autofillHints,
           onTap: onTap,
           enabled: enabled ?? true,
           maxLength: maxLength,

@@ -150,6 +150,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
       {required FetchAddSsdState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );
@@ -185,6 +186,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
   Widget _locationController({required FetchAddSsdState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectTestLocation,
       controller: dataState.locationController,
     );
@@ -193,6 +195,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
   Widget _voltageController({required FetchAddSsdState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectVoltageRating,
       controller: dataState.voltageController,
     );
@@ -200,6 +203,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
   Widget _htTowerController({required FetchAddSsdState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.selectHTTower,
       controller: dataState.htTowerController,
     );

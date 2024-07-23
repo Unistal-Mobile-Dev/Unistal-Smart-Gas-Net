@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/surgeDiverter/addSurgeDiverter/helper/add_surger_diverter_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -99,6 +100,7 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
     cableConnectionValue = VisualChecksModel();
     cableTerminationValue= VisualChecksModel();
     backfillValue= VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -191,6 +193,53 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
   }
 
   _submitData(AddSurgeDiverterSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddSurgerDiverterHelper.submitData(
+        context: event.context,
+        alignmentData: alignmentData,
+        reportNumber: reportNumberController.text.toString(),
+        date: dateController.text.toString(),
+        activityRemark: activityRemarkController.text.toString(),
+        weatherData: weatherData,
+        userData: userData,
+        file: file,
+        area: areaController.text.trim().toString(),
+        tlpTypeId: tlpTypeValue,
+        chainage: chainageController.text.trim().toString(),
+        voltage: "",
+        properFittingCheck: installationValue,
+        cableTermination: cableTerminationValue,
+        acVolatgePolarisationCheck: "",
+        backfillRestore: backfillValue,
+        htTowerFootingDistance: "",
+        locationChainage: locationController.text.trim().toString(),
+        psp:polarityCheckController.text.trim().toString(),
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      reportNumberController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      locationController.text = "";
+      surgeDiverterController.text = "";
+      pspReadingProtectionController.text = "";
+      polarityCheckController.text = "";
+      pspReadingOtherController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      installationValue = VisualChecksModel();
+      cableConnectionValue = VisualChecksModel();
+      cableTerminationValue= VisualChecksModel();
+      backfillValue= VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddSurgeDiverterState> emit) {

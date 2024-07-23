@@ -35,6 +35,15 @@ class SelectWeatherEvent extends  AddZnGroundingAnodeEvent {
   List<Object?> get props => [weatherData];
 }
 
+class AddTestStationBoxTLPTypeEvent extends AddZnGroundingAnodeEvent {
+  final TlpTypeModel tlpTypeValue;
+  AddTestStationBoxTLPTypeEvent({required this.tlpTypeValue});
+
+  @override
+  List<Object?> get props => [tlpTypeValue];
+}
+
+
 class SelectJointTypeDataEvent extends AddZnGroundingAnodeEvent {
   final JointTypeModel jointTypeDataValue;
   final BuildContext context;

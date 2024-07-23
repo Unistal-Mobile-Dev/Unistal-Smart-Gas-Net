@@ -57,8 +57,8 @@ class ServerRequest {
       String url = APIs.baseUrl + urlEndPoint;
       log(url);
       final response =
-          await put(Uri.parse(url), headers: header, body: jsonEncode(body))
-              .timeout(const Duration(minutes: 1));
+      await put(Uri.parse(url), headers: header, body: jsonEncode(body))
+          .timeout(const Duration(minutes: 1));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -84,7 +84,7 @@ class ServerRequest {
       {required var urlEndPoint, required var body}) async {
     try {
       String baseUrl =
-          await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
+      await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
       if (kDebugMode) {
         print("Base Url ====================  $baseUrl");
       }
@@ -93,8 +93,8 @@ class ServerRequest {
       log(jsonEncode(body).toString());
       log(header.toString());
       final response =
-          await post(Uri.parse(url), headers: header, body: jsonEncode(body))
-              .timeout(const Duration(minutes: 1));
+      await post(Uri.parse(url), headers: header, body: jsonEncode(body))
+          .timeout(const Duration(minutes: 1));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -164,7 +164,7 @@ class ServerRequest {
       }
       log(url.toString());
       final response =
-          await get(url, headers: header).timeout(const Duration(minutes: 1));
+      await get(url, headers: header).timeout(const Duration(minutes: 1));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -190,7 +190,7 @@ class ServerRequest {
     try {
       var headerData = {
         HttpHeaders.authorizationHeader:
-            "key=AAAA_2ZBpcw:APA91bHTro4TrfIIaFMqK0tULAKYBnStmCrdWysOMlPyDWGAQYJnPkyX35PIFA0XyNczynTLnO7G03_kArEhq1-49Yv57tyyftQXJcnw85JtGdkMGUR9P2Bi000DlZOLlf7YNU2Zj2En",
+        "key=AAAA_2ZBpcw:APA91bHTro4TrfIIaFMqK0tULAKYBnStmCrdWysOMlPyDWGAQYJnPkyX35PIFA0XyNczynTLnO7G03_kArEhq1-49Yv57tyyftQXJcnw85JtGdkMGUR9P2Bi000DlZOLlf7YNU2Zj2En",
         "Content-Type": "application/json; charset=UTF-8"
       };
       log(url);
@@ -213,21 +213,20 @@ class ServerRequest {
     return null;
   }
 
-  static Future<dynamic> postDataWithFile(
-      {required String urlEndPoint,
-      required var body,
-      required BuildContext context,
-      String? filePath,
-      String? keyWord,
-      List<FileModel>? fileList}) async {
+  static Future<dynamic> postDataWithFile({
+    required String urlEndPoint,
+    required var body,
+    required BuildContext context,
+    String? filePath,
+    String? keyWord,
+    List<FileModel>? fileList}) async {
     try {
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
       Uri uri = Uri.parse(url);
-      log(url);
-      log(body.toString());
-      log(header.toString());
-
+      log("url-->${url}");
+      log("body-->${body.toString()}");
+      log("header-->${header.toString()}");
       var request = MultipartRequest("POST", uri);
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
@@ -256,7 +255,6 @@ class ServerRequest {
           }
         }
       }
-
       request.fields.addAll(body);
       request.headers.addAll(header);
       var response = await request.send();
@@ -279,7 +277,7 @@ class ServerRequest {
         return null;
       }
     } catch (e) {
-      log(e.toString());
+      log("e-->${e.toString()}");
       return null;
     }
   }
@@ -289,7 +287,7 @@ class ServerRequest {
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
       header['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 

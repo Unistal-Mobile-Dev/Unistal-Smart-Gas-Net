@@ -133,6 +133,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
     individualResistorValue = VisualChecksModel();
     compactionValue = VisualChecksModel();
     cableSealingValue = VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -264,7 +265,60 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
   }
 
   _submitData(AddTestStationBoxSubmitDataEvent event, emit) async {
-
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddTestStationBoxHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+     distancePipeline: distanceValue,
+      testStationType: testStationTypeController.text.trim().toString(),
+      cableEntrySealing: cableEntrySealingValue,
+      cableSealing: cableSealingValue,
+      cableTerminationCheck: cableTerminationValue,
+      compactionAlignmentCheck: compactionValue,
+      foundationCheck: foundationCheckValue,
+      namePlateConnectionCheck: namePlateValue,
+      shuntValueCheck: individualResistorValue,
+      tesStationMounting: tsMountingValue,
+      testStationDoors: tsDoorsValue,
+      testStationLocation: testStationLocationController.text.trim().toString(),
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      reportNumberController.text = "";
+      areaController.text = "";
+      chainageController.text = "";
+      testStationLocationController.text = "";
+      testStationTypeController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      distanceValue = VisualChecksModel();
+      foundationCheckValue = VisualChecksModel();
+      tsMountingValue = VisualChecksModel();
+      tsDoorsValue = VisualChecksModel();
+      cableEntrySealingValue = VisualChecksModel();
+      cableTerminationValue = VisualChecksModel();
+      namePlateValue = VisualChecksModel();
+      individualResistorValue = VisualChecksModel();
+      compactionValue = VisualChecksModel();
+      cableSealingValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddTestStationBoxState> emit) {

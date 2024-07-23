@@ -13,6 +13,7 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLine;
   final Widget? suffixIcon;
   final bool? isRequired;
+  final Iterable<String>? autofillHints;
 
   const TextFieldWidget({
     super.key,
@@ -26,6 +27,7 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.maxLine,
     this.isRequired,
+    this.autofillHints,
   });
 
   @override
@@ -35,6 +37,7 @@ class TextFieldWidget extends StatelessWidget {
       child: TextFormField(
           enabled: enabled ?? true,
           controller: controller,
+          autofillHints: autofillHints,
           style: TextStyle(
             fontSize: AppFont.font_14,
             color: AppColor.black,

@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/polarisationCoupan/addPolarisationCoupan/helper/add_polarisation_coupan_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
@@ -95,6 +96,7 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
     tlpTypeValue = TlpTypeModel();
     corrosionValue = VisualChecksModel();
     cableTerminationValue = VisualChecksModel();
+    userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
@@ -194,6 +196,58 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
   }
 
   _submitData(AddPolarisationCoupanSubmitDataEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AddPolarisation.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      file: file,
+      area: areaController.text.trim().toString(),
+      tlpTypeId: tlpTypeValue,
+      chainage: chainageController.text.trim().toString(),
+     cableTermination: cableTerminationValue,
+      calibarationDate: dateCalibrationController.text.trim().toString(),
+      corrisionCoupan: corrosionValue,
+      coupanInstantOffPotential: couponController.text.trim().toString(),
+      digitalMultimeter: digitalController.text.trim().toString(),
+      make: makeController.text.trim().toString(),
+      modelNo: modelController.text.trim().toString(),
+      properFittingCheck: "",
+      pspMeasurement: pspMeasurementController.text.trim().toString(),
+      testStationChainage: testStationLocationController.text.trim().toString(),
+      voltage: "",
+
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      isLoader = false;
+      dateController.text = "";
+      chainageController.text = "";
+      areaController.text = "";
+      testStationLocationController.text = "";
+      distanceController.text = "";
+      pspMeasurementController.text = "";
+      couponController.text = "";
+      digitalController.text = "";
+      modelController.text = "";
+      makeController.text = "";
+      dateCalibrationController.text = "";
+      reportNumberController.text = "";
+      activityRemarkController.text = "";
+      alignmentData = AlignmentModel();
+      weatherData = WeatherModel();
+      tlpTypeValue = TlpTypeModel();
+      corrosionValue = VisualChecksModel();
+      cableTerminationValue = VisualChecksModel();
+      file = File("");
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AddPolarisationCoupanState> emit) {
