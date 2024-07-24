@@ -93,7 +93,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _drawerItemSelected(HomeDrawerItemSelectedEvent event, emit) async {
     List<DrawerModel> tempList = drawerList;
+    List<DrawerSubModel> tempRestaurantMenu = restaurantMenu;
     _drawerList = [];
+    _restaurantMenu = [];
     _eventCompleted(emit);
     for (int i = 0; i < tempList.length; i++) {
       if (i == event.index) {
