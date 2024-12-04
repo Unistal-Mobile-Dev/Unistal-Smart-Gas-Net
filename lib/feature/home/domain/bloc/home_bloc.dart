@@ -87,7 +87,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     _appInfo =
-        "Version : $version\n Date : 31-05-2024\nUnistal systems pvt. Ltd";
+        "Version : $version\n Date : 04-12-2024\nUnistal systems pvt. Ltd";
     _eventCompleted(emit);
   }
 
