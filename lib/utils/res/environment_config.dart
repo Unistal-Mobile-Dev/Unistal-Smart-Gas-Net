@@ -23,9 +23,9 @@ class EnvironmentConfig extends InheritedWidget {
   String get generalUrlBaseOnFlavour {
     switch(flavours){
       case EnvironmentFlavours.developmentUnistal:
-        return "http://unistal.smartgasnet.com/";
+        return "https://unistal.smartgasnet.com/";
       case EnvironmentFlavours.productionUnistal:
-      return "http://unistal.smartgasnet.com/";
+      return "https://unistal.smartgasnet.com/";
       case EnvironmentFlavours.developmentPurvaBharti:
         return "https://pbgpl.smartgasnet.com/";
       case EnvironmentFlavours.productionPurvaBharti:
@@ -35,9 +35,9 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.productionIgl:
         return "https://igl.smartgasnet.com/";
       case EnvironmentFlavours.productionAgcl:
-        return "http://agcl.smartgasnet.com/";
+        return "https://agcl.smartgasnet.com/";
       case EnvironmentFlavours.developmentAgcl:
-        return "http://agcl.smartgasnet.com/";
+        return "https://agcl.smartgasnet.com/";
     }
   }
 }
