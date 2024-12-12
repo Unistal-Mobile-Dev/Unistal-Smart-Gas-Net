@@ -86,6 +86,7 @@ class AddRouteSurveyBloc
     _weatherData = WeatherModel();
     groundTypeList = [];
     groundTypeData = GroundTypeModel();
+    _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
     _userData = UserInfo.instanceInit()!.userData!;

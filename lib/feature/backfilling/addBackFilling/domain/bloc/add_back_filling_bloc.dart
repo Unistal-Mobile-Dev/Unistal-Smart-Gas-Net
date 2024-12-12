@@ -108,9 +108,9 @@ class AddBackFillingBloc
     pipeDiaData = PipeDiaModel();
     pipeDiaList = [];
     weatherData = WeatherModel();
+    _userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
-    _userData = UserInfo.instanceInit()!.userData!;
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context,
