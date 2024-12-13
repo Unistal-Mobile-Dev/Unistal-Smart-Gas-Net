@@ -133,7 +133,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context: event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
@@ -152,13 +152,13 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     }
 
     var resSegment = await AddNdtMutHelper.fetchSegmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context: event.context, userData: userData);
     if (resSegment != null) {
       segmentList = resSegment;
     }
 
     var resNdtStatus =
-        await AddNdtMutHelper.fetchNdtStatusData(context: event.context);
+        await AddNdtMutHelper.fetchNdtStatusData(context: !event.context.mounted ? event.context: event.context);
     if (resNdtStatus != null) {
       ndtAgencyList = resNdtStatus;
       dSPPLAgencyList = resNdtStatus;
@@ -282,7 +282,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      //print("Date is not selected");
     }
   }
 
@@ -298,7 +298,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context: event.context);
     _eventComplete(emit);
   }
 

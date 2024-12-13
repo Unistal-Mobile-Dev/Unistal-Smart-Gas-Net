@@ -106,31 +106,31 @@ class AddWelderRepairBloc
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
     var resSegment = await AddRadiographyHelper.fetchSegmentData(
-        context: event.context, userData: userData, welderList: welderList);
+        context: !event.context.mounted ? event.context : event.context, userData: userData, welderList: welderList);
     if (resSegment != null) {
       segmentStatusList = resSegment;
     }
 
     var resweldStatus = await AddWelderRepairHelper.fetchWelderRepairStatusData(
-        context: event.context);
+        context: !event.context.mounted ? event.context : event.context);
     if (resweldStatus != null) {
       welderRepairStatusList = resweldStatus;
     }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resWPS != null) {
       wpsTypeList = resWPS;
     }
@@ -231,7 +231,7 @@ class AddWelderRepairBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
@@ -252,12 +252,12 @@ class AddWelderRepairBloc
         welderRepairStatusData: welderRepairStatusData,
         wpsTypeData: wpsTypeData,
         welderData: welderData,
-        E6010: e6010Controller.text.toString(),
-        E8010P1: e8010P1Controller.text.toString(),
-        E9045P2: e9045P2Controller.text.toString(),
-        Er70s6: er70s6Controller.text.toString(),
-        E81TM21AB: e81TM21ABController.text.toString(),
-        preHeatingTempreature: preHeatingTemperatureController.text.toString(),
+        e6010: e6010Controller.text.toString(),
+        e8010P1: e8010P1Controller.text.toString(),
+        e9045P2: e9045P2Controller.text.toString(),
+        er70s6: er70s6Controller.text.toString(),
+        e81TM21AB: e81TM21ABController.text.toString(),
+        preHeatingTemperature: preHeatingTemperatureController.text.toString(),
         file: file);
     if (res != null) {
       welderData = WelderModel();
@@ -282,7 +282,7 @@ class AddWelderRepairBloc
       file = File("");
       _userData = UserInfo.instanceInit()!.userData!;
       weatherList = await DashboardHelper.fetchWeatherData(
-          context: event.context, userData: userData);
+          context: !event.context.mounted ? event.context : event.context, userData: userData);
     }
 
     isLoader = false;

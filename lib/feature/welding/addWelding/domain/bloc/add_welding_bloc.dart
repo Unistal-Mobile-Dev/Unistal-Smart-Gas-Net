@@ -539,7 +539,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      // print("Date is not selected");
     }
   }
 
@@ -588,7 +588,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 

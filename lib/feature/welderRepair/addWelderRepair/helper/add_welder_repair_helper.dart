@@ -50,12 +50,12 @@ class AddWelderRepairHelper {
       required WelderRepairStatusModel welderRepairStatusData,
       required WPSModel wpsTypeData,
       required WelderModel welderData,
-      required String? E6010,
-      required String? E8010P1,
-      required String? E9045P2,
-      required String? Er70s6,
-      required String? E81TM21AB,
-      required String? preHeatingTempreature,
+      required String? e6010,
+      required String? e8010P1,
+      required String? e9045P2,
+      required String? er70s6,
+      required String? e81TM21AB,
+      required String? preHeatingTemperature,
       required File file}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -94,45 +94,45 @@ class AddWelderRepairHelper {
         "welderId": welderData.id != null ? welderData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "repairStatus": welderRepairStatusData.id.toString(),
-        "preHeatingTemp": preHeatingTempreature.toString(),
-        "electrodeFillerE6010": E6010.toString(),
-        "electrodeFillerE8010p1": E8010P1.toString(),
-        "electrodeFillerE9045p2": E9045P2.toString(),
-        "electrodeFillerE81T1m21ab": E81TM21AB.toString(),
-        "electrodeFillerEr70s6": Er70s6.toString(),
+        "preHeatingTemp": preHeatingTemperature.toString(),
+        "electrodeFillerE6010": e6010.toString(),
+        "electrodeFillerE8010p1": e8010P1.toString(),
+        "electrodeFillerE9045p2": e9045P2.toString(),
+        "electrodeFillerE81T1m21ab": e81TM21AB.toString(),
+        "electrodeFillerEr70s6": er70s6.toString(),
       };
       segmentData.addAll(json);
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: segmentData,
-          context: context,
+          context: !context.mounted ? context : context,
           keyWord: "attachFile",
           filePath: file.path.toString());
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
           res['status'] == false &&
           res['message'] != null) {
-        SnackBarErrorWidget(context).show(message: res['message'].toString());
+        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['message'].toString());
         return null;
       } else if (res != null &&
           res['status'] != null &&
           res['status'] == false &&
           res['message'] != null) {
         String resPonse = res['message'].toString();
-        SnackBarErrorWidget(context).show(
+        SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: resPonse.replaceAll("{", "").toString()
               ..replaceAll("}", ""));
         return null;
       }
       return null;
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }

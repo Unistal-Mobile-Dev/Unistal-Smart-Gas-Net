@@ -76,6 +76,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _bottomNavigationBarItemList = [];
     _restaurantMenu = [];
     _pageWidgetList = [];
+    _isLoader = false;
     _title = "Dashboard";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();

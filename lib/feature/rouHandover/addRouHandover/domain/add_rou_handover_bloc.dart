@@ -81,7 +81,7 @@ class AddRouHandoverBloc
     _alignmentData = AlignmentModel();
     _userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
@@ -110,7 +110,7 @@ class AddRouHandoverBloc
       dateController.text = formattedDateChange.toString();
       _eventComplete(emit);
     } else {
-      print("Date is not selected");
+      // print("Date is not selected");
     }
   }
 
@@ -126,7 +126,7 @@ class AddRouHandoverBloc
         file = photo;
       }
     }
-    Navigator.pop(event.context);
+    Navigator.pop(!event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
 
