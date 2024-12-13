@@ -106,8 +106,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       _eventCompleted(emit);
       if (res != null) {
         _loginData = loginResponse(res['user']);
-        String _token = res['token'] ?? "";
-        _loginData.token = _token;
+        String token = res['token'] ?? "";
+        _loginData.token = token;
         SharedPreferencesUtils.setString(
             key: PreferencesName.userName, value: email.toString());
         SharedPreferencesUtils.setString(

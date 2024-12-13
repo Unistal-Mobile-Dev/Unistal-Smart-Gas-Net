@@ -63,16 +63,6 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
     required BuildContext context,
   }) {
     return TextButton(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: TextWidget(
-            "Open Setting",
-            textAlign: TextAlign.center,
-            fontSize: AppFont.font_16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.themeColor,
-          ),
-        ),
         style: ButtonStyle(
             padding:
                 MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
@@ -85,7 +75,17 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
         onPressed: () async {
           await openAppSettings();
           Navigator.pop(!context.mounted ? context : context);
-        });
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.30,
+          child: TextWidget(
+            "Open Setting",
+            textAlign: TextAlign.center,
+            fontSize: AppFont.font_16,
+            fontWeight: FontWeight.w500,
+            color: AppColor.themeColor,
+          ),
+        ));
   }
 
   Widget _closeButton({required BuildContext context}) {

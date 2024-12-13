@@ -92,7 +92,7 @@ class APIs {
 
   static get addHDPEDuctTestingApi => "api/steel/hdpe-duct-testing";
 
-  static get AddSwabbingApi => "api/steel/swabbing";
+  static get addSwabbingApi => "api/steel/swabbing";
 
   static get getWelderRepairStatusApi => "api/steel/wp-status";
 

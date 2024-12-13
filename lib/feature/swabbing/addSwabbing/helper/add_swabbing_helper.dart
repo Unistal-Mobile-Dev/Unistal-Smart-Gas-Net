@@ -31,7 +31,7 @@ class AddSwabbingHelper {
         return null;
       }
 
-      String url = APIs.AddSwabbingApi;
+      String url = APIs.addSwabbingApi;
       var json = {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),

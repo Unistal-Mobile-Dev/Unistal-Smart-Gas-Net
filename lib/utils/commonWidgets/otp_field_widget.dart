@@ -122,7 +122,9 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 
   @override
   void dispose() {
-    _textControllers.forEach((controller) => controller?.dispose());
+    for (var controller in _textControllers) {
+      controller?.dispose();
+    }
     super.dispose();
   }
 
@@ -261,9 +263,9 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 
   String _getCurrentPin() {
     String currentPin = "";
-    _pin.forEach((String value) {
+    for (var value in _pin) {
       currentPin += value;
-    });
+    }
     return currentPin;
   }
 
@@ -309,11 +311,11 @@ class OtpFieldController {
     });
 
     final textControllers = _otpTextFieldState._textControllers;
-    textControllers.forEach((textController) {
+    for (var textController in textControllers) {
       if (textController != null) {
         textController.text = '';
       }
-    });
+    }
 
     final firstFocusNode = _otpTextFieldState._focusNodes[0];
     if (firstFocusNode != null) {
@@ -366,9 +368,9 @@ class OtpFieldController {
     }
 
     String newPin = "";
-    currentPin.forEach((item) {
+    for (var item in currentPin) {
       newPin += item;
-    });
+    }
 
     final widget = _otpTextFieldState.widget;
     if (widget.onChanged != null) {
