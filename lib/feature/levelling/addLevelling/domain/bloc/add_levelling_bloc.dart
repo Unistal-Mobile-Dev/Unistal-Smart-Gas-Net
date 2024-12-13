@@ -15,7 +15,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_levelling_event.dart';
-
 part 'add_levelling_state.dart';
 
 class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
@@ -105,10 +104,12 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     }
 
     weatherList = await DashboardHelper.fetchWeatherData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }

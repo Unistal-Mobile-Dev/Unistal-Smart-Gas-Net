@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/domain/bloc/add_pre_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddPreHydroTestPage extends StatefulWidget {
@@ -182,37 +181,35 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddPreHydrotestDataState dataState}) {
+  Widget _fromJointNumberDropDown(
+      {required FetchAddPreHydrotestDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+          dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddPreHydrotestBloc>(context).add(
-            AddPreHydrotestSelectFromJointDataEvent(
-                jointNumberData: value));
+            AddPreHydrotestSelectFromJointDataEvent(jointNumberData: value));
       },
     );
   }
 
-
-  Widget _toJointNumberDropDown({required FetchAddPreHydrotestDataState dataState}) {
+  Widget _toJointNumberDropDown(
+      {required FetchAddPreHydrotestDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.toJointData.id != null ? dataState.toJointData : null,
+          dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddPreHydrotestBloc>(context).add(
-            AddPreHydrotestSelectToJointDataEvent(
-                jointNumberData: value));
+        BlocProvider.of<AddPreHydrotestBloc>(context)
+            .add(AddPreHydrotestSelectToJointDataEvent(jointNumberData: value));
       },
     );
   }
-
 
   Widget _pressureGaugeNoController(
       {required FetchAddPreHydrotestDataState dataState}) {

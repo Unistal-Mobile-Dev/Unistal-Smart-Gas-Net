@@ -18,7 +18,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_welding_event.dart';
-
 part 'add_welding_state.dart';
 
 class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
@@ -206,7 +205,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   bool get searchRightPipeLoader => _searchRightPipeLoader;
 
-  bool _jointLoader =  false;
+  bool _jointLoader = false;
+
   bool get jointLoader => _jointLoader;
 
   AddWeldingBloc() : super(AddWeldingInitial()) {
@@ -299,7 +299,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     searchRightPipeController.text = "";
     _searchRightPipeLoader = false;
     _searchLeftPipeLoader = false;
-    _jointLoader =  false;
+    _jointLoader = false;
 
     _welderData = WelderModel();
     _welderList = [];

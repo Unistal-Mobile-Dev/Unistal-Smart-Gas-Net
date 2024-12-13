@@ -14,7 +14,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_hdpe_duct_testing_event.dart';
-
 part 'add_hdpe_duct_testing_state.dart';
 
 class AddHdpeDuctTestingBloc

@@ -14,7 +14,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_swabbing_event.dart';
-
 part 'add_swabbing_state.dart';
 
 class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
@@ -76,13 +75,15 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }

@@ -4,7 +4,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bl
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
@@ -220,8 +219,9 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _jointNumberDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      selectedItem: dataState.jointNumberData.id != null
+          ? dataState.jointNumberData
+          : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointNumberList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddTrenChingPage extends StatefulWidget {
@@ -53,7 +52,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-   /*         _jointTypeDropDown(dataState: dataState),
+            /*         _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -208,30 +207,32 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
         : const DottedLoaderWidget();
   }*/
 
-  Widget _fromJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+  Widget _fromJointNumberDropDown(
+      {required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+          dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddTrenChingBloc>(context).add(
-            AddTrenChingSelectFromJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddTrenChingBloc>(context)
+            .add(AddTrenChingSelectFromJointDataEvent(jointNumberData: value));
       },
     );
   }
 
-  Widget _toJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+  Widget _toJointNumberDropDown(
+      {required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.toJointData.id != null ? dataState.toJointData : null,
+          dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddTrenChingBloc>(context).add(
-            AddTrenChingSelectToJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddTrenChingBloc>(context)
+            .add(AddTrenChingSelectToJointDataEvent(jointNumberData: value));
       },
     );
   }

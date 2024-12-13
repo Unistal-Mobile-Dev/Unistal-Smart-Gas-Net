@@ -5,7 +5,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcret
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddLoweringPage extends StatefulWidget {
@@ -296,35 +295,35 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-
-  Widget _fromJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _fromJointNumberDropDown(
+      {required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+          dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectFromJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectFromJointDataEvent(jointNumberData: value));
       },
     );
   }
 
-  Widget _toJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _toJointNumberDropDown(
+      {required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.toJointData.id != null ? dataState.toJointData : null,
+          dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectToJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringSelectToJointDataEvent(jointNumberData: value));
       },
     );
   }
-
 
   Widget _chainageFromController(
       {required FetchAddLoweringDataState dataState}) {

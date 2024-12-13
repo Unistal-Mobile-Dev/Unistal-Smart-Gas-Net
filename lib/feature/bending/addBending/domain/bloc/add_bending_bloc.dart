@@ -16,7 +16,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_bending_event.dart';
-
 part 'add_bending_state.dart';
 
 class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {

@@ -3,7 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/bloc/add_lpt_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
@@ -57,7 +56,7 @@ class _AddLptPageState extends State<AddLptPage> {
             _verticalSpace(),
             _pipeNumberSearchController(dataState: dataState),
             _verticalSpace(),
- /*           _jointTypeDropDown(dataState: dataState),
+            /*           _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -168,10 +167,10 @@ class _AddLptPageState extends State<AddLptPage> {
       }).toList(),
     );
   }
+
   Widget _jointNumberDropDown({required FetchAddLptDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.jointData.id != null ? dataState.jointData : null,
+      selectedItem: dataState.jointData.id != null ? dataState.jointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),

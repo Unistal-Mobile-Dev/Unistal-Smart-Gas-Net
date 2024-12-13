@@ -19,7 +19,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_lowering_event.dart';
-
 part 'add_lowering_state.dart';
 
 class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {

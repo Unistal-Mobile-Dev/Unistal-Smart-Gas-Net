@@ -18,7 +18,6 @@ import 'package:intl/intl.dart';
 import '../../helper/add_lpt_helper.dart';
 
 part 'add_lpt_event.dart';
-
 part 'add_lpt_state.dart';
 
 class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {

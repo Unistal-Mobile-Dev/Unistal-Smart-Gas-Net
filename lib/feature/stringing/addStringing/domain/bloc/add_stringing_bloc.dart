@@ -13,7 +13,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_stringing_event.dart';
-
 part 'add_stringing_state.dart';
 
 class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
@@ -116,7 +115,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
@@ -166,7 +166,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   _selectPipe(AddStringingSelectPipeDataEvent event, emit) {
     _pipeData = event.pipeData;
     _searchPipeList = [];
-    _searchPipeLoader =  false;
+    _searchPipeLoader = false;
     searchPipeController.text =
         "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);

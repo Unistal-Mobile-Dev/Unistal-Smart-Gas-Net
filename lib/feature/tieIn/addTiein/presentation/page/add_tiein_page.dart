@@ -3,7 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/domain/bloc/add_tiein_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -57,7 +56,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-  /*          _jointTypeDropDown(dataState: dataState),
+            /*          _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -862,11 +861,11 @@ class _AddTieinPageState extends State<AddTieinPage> {
     );
   }
 
-
   Widget _jointNumberDropDown({required FetchAddTieinDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      selectedItem: dataState.jointNumberData.id != null
+          ? dataState.jointNumberData
+          : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointNumberList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),

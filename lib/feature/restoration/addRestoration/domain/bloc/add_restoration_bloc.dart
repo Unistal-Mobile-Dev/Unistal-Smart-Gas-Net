@@ -18,7 +18,6 @@ import 'package:intl/intl.dart';
 import '../../../../routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 
 part 'add_restoration_event.dart';
-
 part 'add_restoration_state.dart';
 
 class AddRestorationBloc
@@ -114,19 +113,21 @@ class AddRestorationBloc
         context: event.context, userData: userData);
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       alignmentList = res;
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(
-        context:!event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
 
-    var resPadding =
-        await AddHDPEDuctHelper.fetchPaddingData(context: !event.context.mounted ? event.context : event.context);
+    var resPadding = await AddHDPEDuctHelper.fetchPaddingData(
+        context: !event.context.mounted ? event.context : event.context);
     if (resPadding != null) {
       replacementofTopSoilList = resPadding;
       removalOfSurplusMaterialList = resPadding;

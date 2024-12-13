@@ -13,7 +13,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_tren_ching_event.dart';
-
 part 'add_tren_ching_state.dart';
 
 class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {

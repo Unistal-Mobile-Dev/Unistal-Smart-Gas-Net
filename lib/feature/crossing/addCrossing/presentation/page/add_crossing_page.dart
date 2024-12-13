@@ -10,7 +10,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddCrossingPage extends StatefulWidget {
@@ -374,34 +373,35 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
+  Widget _fromJointNumberDropDown(
+      {required FetchAddCrossingDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+          dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectFromJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectFromJointDataEvent(jointNumberData: value));
       },
     );
   }
 
-  Widget _toJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
+  Widget _toJointNumberDropDown(
+      {required FetchAddCrossingDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.toJointData.id != null ? dataState.toJointData : null,
+          dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectToJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingSelectToJointDataEvent(jointNumberData: value));
       },
     );
   }
-
 
   Widget _sectionLengthController(
       {required FetchAddCrossingDataState dataState}) {

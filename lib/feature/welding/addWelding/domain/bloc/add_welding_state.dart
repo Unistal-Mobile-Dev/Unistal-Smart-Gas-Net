@@ -316,6 +316,6 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         searchPipeRightController,
         searchRightPipeList,
         searchRightPipeLoader,
-    searchJointController,
+        searchJointController,
       ];
 }

@@ -15,7 +15,6 @@ import 'package:intl/intl.dart';
 import '../../../../stringing/addStringing/domain/model/pipe_model.dart';
 
 part 'add_concrete_coating_event.dart';
-
 part 'add_concrete_coating_state.dart';
 
 class AddConcreteCoatingBloc

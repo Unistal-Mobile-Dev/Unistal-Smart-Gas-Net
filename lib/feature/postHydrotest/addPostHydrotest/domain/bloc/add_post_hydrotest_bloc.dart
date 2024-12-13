@@ -14,7 +14,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_post_hydrotest_event.dart';
-
 part 'add_post_hydrotest_state.dart';
 
 class AddPostHydrotestBloc

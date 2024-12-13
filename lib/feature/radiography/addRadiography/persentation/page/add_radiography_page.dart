@@ -5,7 +5,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/mo
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 
@@ -71,7 +70,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _equipmentController(dataState: dataState),
             _verticalSpace(),
-  /*          _jointTypeDropDown(dataState: dataState),
+            /*          _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -241,10 +240,12 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _jointNumberDropDown({required FetchAddRadiographyDataState dataState}) {
+  Widget _jointNumberDropDown(
+      {required FetchAddRadiographyDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      selectedItem: dataState.jointNumberData.id != null
+          ? dataState.jointNumberData
+          : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointNumberList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),

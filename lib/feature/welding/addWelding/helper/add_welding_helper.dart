@@ -366,7 +366,6 @@ class AddWeldingHelper {
     }
   }
 
-
   static Future<dynamic> fetchWelderData(
       {required BuildContext context,
       required LoginDataModel userData,

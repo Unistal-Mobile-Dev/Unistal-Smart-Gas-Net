@@ -94,7 +94,8 @@ class AddPreHydroTestHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data'].toString());
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['data'].toString());
         return res;
       } else if (res != null && res['data'] != null) {
         SnackBarErrorWidget(!context.mounted ? context : context).show(
@@ -105,11 +106,13 @@ class AddPreHydroTestHelper {
                 .replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

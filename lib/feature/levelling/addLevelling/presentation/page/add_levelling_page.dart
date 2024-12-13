@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 
 class AddLevellingPage extends StatefulWidget {
@@ -178,18 +177,16 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _jointNumberDropDown({required FetchAddLevellingDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.jointData.id != null ? dataState.jointData : null,
+      selectedItem: dataState.jointData.id != null ? dataState.jointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddLevellingBloc>(context).add(
-            AddLevellingSelectJointDataEvent(jointNumberData: value));
+        BlocProvider.of<AddLevellingBloc>(context)
+            .add(AddLevellingSelectJointDataEvent(jointNumberData: value));
       },
     );
   }
-
 
   Widget _northCoordinateButton(
       {required FetchAddLevellingDataState dataState}) {

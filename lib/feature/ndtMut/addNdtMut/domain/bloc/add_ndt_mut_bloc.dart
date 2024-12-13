@@ -18,7 +18,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_ndt_mut_event.dart';
-
 part 'add_ndt_mut_state.dart';
 
 class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {

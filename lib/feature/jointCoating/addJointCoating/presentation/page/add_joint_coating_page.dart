@@ -86,7 +86,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
-  /*          _jointTypeDropDown(dataState: dataState),
+            /*          _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -388,17 +388,17 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
+  Widget _fromJointNumberDropDown(
+      {required FetchAddJointCoatingDataState dataState}) {
     return DropDownSearchWidget(
       selectedItem:
-      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+          dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddJointCoatingBloc>(context).add(
-            AddJointCoatingSelectFromJointDataEvent(
-                jointNumberData: value));
+            AddJointCoatingSelectFromJointDataEvent(jointNumberData: value));
       },
     );
   }

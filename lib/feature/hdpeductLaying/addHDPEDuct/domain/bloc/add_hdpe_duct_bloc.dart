@@ -15,7 +15,6 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_hdpe_duct_event.dart';
-
 part 'add_hdpe_duct_state.dart';
 
 class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {

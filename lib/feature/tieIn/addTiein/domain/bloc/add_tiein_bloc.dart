@@ -327,13 +327,15 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     rightPipeData = PipeModel();
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (res != null) {
       _alignmentList = res;
     }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resWPS != null) {
       _wpsList = resWPS;
     }
@@ -353,8 +355,8 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       _jointNumberList = resJointNumber;
     }
 
-    var resVisual =
-        await AddBendingHelper.fetchVisualChecks(context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks(
+        context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
       _fitupList = resVisual;
     }
