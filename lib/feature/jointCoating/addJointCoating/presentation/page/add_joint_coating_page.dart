@@ -86,8 +86,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+  /*          _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _surfaceController(dataState: dataState),
@@ -388,29 +388,19 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddJointCoatingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectJointNumber,
-            dropdownValue: dataState.fromJointData.id != null
-                ? dataState.fromJointData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddJointCoatingBloc>(context).add(
-                  AddJointCoatingSelectFromJointDataEvent(
-                      jointNumberData: value));
-            },
-            items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      hint: AppString.selectJointNumber,
+      items: dataState.jointFromList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingSelectFromJointDataEvent(
+                jointNumberData: value));
+      },
+    );
   }
 
   Widget _toJointNumberDropDown(

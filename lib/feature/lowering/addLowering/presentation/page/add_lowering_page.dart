@@ -60,8 +60,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _thicknessDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -296,52 +296,35 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddLoweringDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectFromJointNumber,
-            dropdownValue: dataState.fromJointData.id != null
-                ? dataState.fromJointData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddLoweringBloc>(context).add(
-                  AddLoweringSelectFromJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+
+  Widget _fromJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      hint: AppString.selectFromJointNumber,
+      items: dataState.jointFromList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddLoweringBloc>(context).add(
+            AddLoweringSelectFromJointDataEvent(jointNumberData: value));
+      },
+    );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddLoweringDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectToJointNumber,
-            dropdownValue:
-                dataState.toJointData.id != null ? dataState.toJointData : null,
-            onChanged: (value) {
-              BlocProvider.of<AddLoweringBloc>(context).add(
-                  AddLoweringSelectToJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _toJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.toJointData.id != null ? dataState.toJointData : null,
+      hint: AppString.selectToJointNumber,
+      items: dataState.jointToList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddLoweringBloc>(context).add(
+            AddLoweringSelectToJointDataEvent(jointNumberData: value));
+      },
+    );
   }
+
 
   Widget _chainageFromController(
       {required FetchAddLoweringDataState dataState}) {

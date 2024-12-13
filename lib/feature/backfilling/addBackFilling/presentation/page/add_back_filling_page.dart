@@ -60,8 +60,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _thicknessDropDown(dataState: dataState),
             _verticalSpace(),*/
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -215,53 +215,35 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddBackFillingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectFromJointNumber,
-            dropdownValue: dataState.fromJointData.id != null
-                ? dataState.fromJointData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddBackFillingBloc>(context).add(
-                  AddBackFillingSelectFromJointDataEvent(
-                      jointNumberData: value));
-            },
-            items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown({required FetchAddBackFillingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      hint: AppString.selectFromJointNumber,
+      items: dataState.jointFromList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddBackFillingBloc>(context).add(
+            AddBackFillingSelectFromJointDataEvent(
+                jointNumberData: value));
+      },
+    );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddBackFillingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectToJointNumber,
-            dropdownValue:
-                dataState.toJointData.id != null ? dataState.toJointData : null,
-            onChanged: (value) {
-              BlocProvider.of<AddBackFillingBloc>(context).add(
-                  AddBackFillingSelectToJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _toJointNumberDropDown({required FetchAddBackFillingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.toJointData.id != null ? dataState.toJointData : null,
+      hint: AppString.selectToJointNumber,
+      items: dataState.jointToList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddBackFillingBloc>(context).add(
+            AddBackFillingSelectToJointDataEvent(jointNumberData: value));
+      },
+    );
   }
+
 
   Widget _chainageFromController(
       {required FetchAddBackFillingDataState dataState}) {

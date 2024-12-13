@@ -61,8 +61,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -374,52 +374,34 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddCrossingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectFromJointNumber,
-            dropdownValue: dataState.fromJointData.id != null
-                ? dataState.fromJointData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddCrossingBloc>(context).add(
-                  AddCrossingSelectFromJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _fromJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      hint: AppString.selectFromJointNumber,
+      items: dataState.jointFromList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingSelectFromJointDataEvent(jointNumberData: value));
+      },
+    );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddCrossingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectToJointNumber,
-            dropdownValue:
-                dataState.toJointData.id != null ? dataState.toJointData : null,
-            onChanged: (value) {
-              BlocProvider.of<AddCrossingBloc>(context).add(
-                  AddCrossingSelectToJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+  Widget _toJointNumberDropDown({required FetchAddCrossingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.toJointData.id != null ? dataState.toJointData : null,
+      hint: AppString.selectToJointNumber,
+      items: dataState.jointToList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingSelectToJointDataEvent(jointNumberData: value));
+      },
+    );
   }
+
 
   Widget _sectionLengthController(
       {required FetchAddCrossingDataState dataState}) {

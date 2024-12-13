@@ -119,11 +119,20 @@ class AddBackFillingBloc
       alignmentList = res;
     }
 
-    var resJointType = await AddWeldingHelper.fetchJointType(
+/*    var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
+    }*/
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData,
+        jointTypeData: jointTypeData);
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
     }
 
     var resPlasticGrating = await AddBendingHelper.fetchVisualChecks(

@@ -39,8 +39,8 @@ class _AddCutPipePageState extends State<AddCutPipePage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _verticalSpace(),
-            _reportNumberController(dataState: dataState),
+/*            _verticalSpace(),
+            _reportNumberController(dataState: dataState),*/
             _verticalSpace(),
             _pipeDropDown(dataState: dataState),
             _verticalSpace(),

@@ -75,8 +75,8 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _northCoordinateButton(dataState: dataState),
@@ -177,25 +177,19 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   }
 
   Widget _jointNumberDropDown({required FetchAddLevellingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectJointNumber,
-            dropdownValue:
-                dataState.jointData.id != null ? dataState.jointData : null,
-            onChanged: (value) {
-              BlocProvider.of<AddLevellingBloc>(context).add(
-                  AddLevellingSelectJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointList.map<DropdownMenuItem<JointNumberModel>>(
-                (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.jointData.id != null ? dataState.jointData : null,
+      hint: AppString.selectJointNumber,
+      items: dataState.jointList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddLevellingBloc>(context).add(
+            AddLevellingSelectJointDataEvent(jointNumberData: value));
+      },
+    );
   }
+
 
   Widget _northCoordinateButton(
       {required FetchAddLevellingDataState dataState}) {

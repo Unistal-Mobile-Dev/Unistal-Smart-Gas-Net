@@ -338,10 +338,19 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       _wpsList = resWPS;
     }
 
-    var resJointType = await AddWeldingHelper.fetchJointType(
+/*    var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (resJointType != null) {
       _jointTypeList = resJointType;
+    }*/
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData,
+        type: "welding",
+        jointTypeData: jointTypeData);
+    if (resJointNumber != null) {
+      _jointNumberList = resJointNumber;
     }
 
     var resVisual =

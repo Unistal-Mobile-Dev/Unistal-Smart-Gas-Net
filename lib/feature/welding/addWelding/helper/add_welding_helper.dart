@@ -350,7 +350,6 @@ class AddWeldingHelper {
       var param = {
         "schema": userData.schema,
         "section_id": userData.sectionId,
-        "joint_type_id": jointTypeData.id.toString(),
         "type": type ?? "afterwelding"
       };
       String json = Uri(queryParameters: param).query;
@@ -366,6 +365,7 @@ class AddWeldingHelper {
       return null;
     }
   }
+
 
   static Future<dynamic> fetchWelderData(
       {required BuildContext context,

@@ -25,6 +25,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
+  TextEditingController searchJointController = TextEditingController();
 
   List<WelderModel> rootWelders1List = [];
   List<WelderModel> rootWelders2List = [];
@@ -205,6 +206,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   bool get searchRightPipeLoader => _searchRightPipeLoader;
 
+  bool _jointLoader =  false;
+  bool get jointLoader => _jointLoader;
+
   AddWeldingBloc() : super(AddWeldingInitial()) {
     on<AddWeldingPageLoadEvent>(_pageLoadEvent);
     on<AddWeldingSelectWPSEvent>(_selectWPS);
@@ -286,6 +290,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     electrodeDiaE9045p2Controller.text = "";
     electrodeEiaE8010p1BatchController.text = "";
     electrodeEiaE8010p1Controller.text = "";
+    searchJointController.text = "";
     leftPipeNumberController.text = "";
     rightPipeNumberController.text = "";
     chainageFromController.text = "";
@@ -294,6 +299,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     searchRightPipeController.text = "";
     _searchRightPipeLoader = false;
     _searchLeftPipeLoader = false;
+    _jointLoader =  false;
 
     _welderData = WelderModel();
     _welderList = [];
@@ -337,11 +343,20 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _wpsList = resWPS;
     }
 
-    var resJointType = await AddWeldingHelper.fetchJointType(
+/*    var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resJointType != null) {
       _jointTypeList = resJointType;
+    }*/
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData,
+        type: "welding",
+        jointTypeData: jointTypeData);
+    if (resJointNumber != null) {
+      _jointNumberList = resJointNumber;
     }
 
     var resVisual = await AddBendingHelper.fetchVisualChecks(
@@ -788,6 +803,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       searchPipeRightController: searchRightPipeController,
       searchRightPipeList: searchRightPipeList,
       searchRightPipeLoader: searchRightPipeLoader,
+      searchJointController: searchJointController,
     ));
   }
 }

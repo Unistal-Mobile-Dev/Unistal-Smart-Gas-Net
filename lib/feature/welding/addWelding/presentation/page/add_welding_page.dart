@@ -65,8 +65,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _rigthPipeDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _wpsDropDown(dataState: dataState),
@@ -905,7 +905,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _jointTypeDropDown({required FetchAddWeldingDataState dataState}) {
+/*  Widget _jointTypeDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectJointType,
       dropdownValue:
@@ -923,29 +923,20 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         );
       }).toList(),
     );
-  }
+  }*/
 
   Widget _jointNumberDropDown({required FetchAddWeldingDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectJointNumber,
-            dropdownValue: dataState.jointNumberData.id != null
-                ? dataState.jointNumberData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddWeldingBloc>(context).add(
-                  AddWeldingSelectJointNumberEvent(jointNumberData: value));
-            },
-            items: dataState.jointNumberList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
+      hint: AppString.selectJointNumber,
+      items: dataState.jointNumberList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingSelectJointNumberEvent(jointNumberData: value));
+      },
+    );
   }
 
   Widget _fitupDropDown({required FetchAddWeldingDataState dataState}) {

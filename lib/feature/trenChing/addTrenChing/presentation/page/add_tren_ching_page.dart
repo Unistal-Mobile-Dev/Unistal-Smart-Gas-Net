@@ -53,8 +53,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+   /*         _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -184,7 +184,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
+/*  Widget _fromJointNumberDropDown(
       {required FetchAddTrenChingDataState dataState}) {
     return dataState.isJointNumberLoader == false
         ? DropdownWidget(
@@ -206,9 +206,37 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             }).toList(),
           )
         : const DottedLoaderWidget();
+  }*/
+
+  Widget _fromJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      hint: AppString.selectFromJointNumber,
+      items: dataState.jointFromList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddTrenChingBloc>(context).add(
+            AddTrenChingSelectFromJointDataEvent(jointNumberData: value));
+      },
+    );
   }
 
-  Widget _toJointNumberDropDown(
+  Widget _toJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.toJointData.id != null ? dataState.toJointData : null,
+      hint: AppString.selectToJointNumber,
+      items: dataState.jointToList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddTrenChingBloc>(context).add(
+            AddTrenChingSelectToJointDataEvent(jointNumberData: value));
+      },
+    );
+  }
+
+/*  Widget _toJointNumberDropDown(
       {required FetchAddTrenChingDataState dataState}) {
     return dataState.isJointNumberLoader == false
         ? DropdownWidget(
@@ -229,7 +257,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             }).toList(),
           )
         : const DottedLoaderWidget();
-  }
+  }*/
 
   Widget _trenchingDepthController(
       {required FetchAddTrenChingDataState dataState}) {

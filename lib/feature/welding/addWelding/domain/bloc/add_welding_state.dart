@@ -79,6 +79,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
 
   final TextEditingController leftPipeNumberController;
   final TextEditingController rightPipeNumberController;
+  final TextEditingController searchJointController;
 
   final WelderModel rootWelders1Data;
   final WelderModel rootWelders2Data;
@@ -217,6 +218,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.searchPipeRightController,
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
+    required this.searchJointController,
   });
 
   @override
@@ -314,5 +316,6 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         searchPipeRightController,
         searchRightPipeList,
         searchRightPipeLoader,
+    searchJointController,
       ];
 }

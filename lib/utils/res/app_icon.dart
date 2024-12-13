@@ -8,4 +8,6 @@ class AppIcon {
   static get colourStrip => "assets/ic_strip.png";
 
   static get smartgasnetLog => "assets/smartgasnet_log.png";
+
+  static get loader => "assets/ic_loader.gif";
 }

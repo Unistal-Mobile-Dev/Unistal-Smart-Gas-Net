@@ -71,8 +71,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _equipmentController(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+  /*          _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _segmentListBuilder(dataState: dataState),
@@ -241,24 +241,17 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _jointNumberDropDown(
-      {required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+  Widget _jointNumberDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
       hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointNumberData.id != null
-          ? dataState.jointNumberData
-          : null,
+      items: dataState.jointNumberList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectJointNumberDataEvent(jointNumberData: value));
       },
-      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>(
-          (JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
     );
   }
 

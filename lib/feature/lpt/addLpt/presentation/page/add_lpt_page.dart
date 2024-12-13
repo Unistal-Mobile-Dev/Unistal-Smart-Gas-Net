@@ -57,8 +57,8 @@ class _AddLptPageState extends State<AddLptPage> {
             _verticalSpace(),
             _pipeNumberSearchController(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+ /*           _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
 /*            _lptStatusDropDown(dataState: dataState),
@@ -168,26 +168,18 @@ class _AddLptPageState extends State<AddLptPage> {
       }).toList(),
     );
   }
-
   Widget _jointNumberDropDown({required FetchAddLptDataState dataState}) {
-    return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
-            hint: AppString.selectJointNumber,
-            dropdownValue:
-                dataState.jointData.id != null ? dataState.jointData : null,
-            onChanged: (value) {
-              BlocProvider.of<AddLptBloc>(context)
-                  .add(AddLptSelectJointDataEvent(jointNumberData: value));
-            },
-            items: dataState.jointList.map<DropdownMenuItem<JointNumberModel>>(
-                (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
-          )
-        : const DottedLoaderWidget();
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.jointData.id != null ? dataState.jointData : null,
+      hint: AppString.selectJointNumber,
+      items: dataState.jointList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddLptBloc>(context)
+            .add(AddLptSelectJointDataEvent(jointNumberData: value));
+      },
+    );
   }
 
   Widget _lptStatusDropDown({required FetchAddLptDataState dataState}) {

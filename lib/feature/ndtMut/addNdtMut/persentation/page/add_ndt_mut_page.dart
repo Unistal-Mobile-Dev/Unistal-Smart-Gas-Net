@@ -66,8 +66,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
             _pipeNumberSearchController(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
 /*            _segmentListBuilder(dataState: dataState),
@@ -219,22 +219,16 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _jointNumberDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.jointNumberData.id != null ? dataState.jointNumberData : null,
       hint: AppString.selectJointNumber,
-      dropdownValue: dataState.jointNumberData.id != null
-          ? dataState.jointNumberData
-          : null,
+      items: dataState.jointNumberList,
+      itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context)
             .add(AddNdtMutSelectJointNumberDataEvent(jointNumberData: value));
       },
-      items: dataState.jointNumberList.map<DropdownMenuItem<JointNumberModel>>(
-          (JointNumberModel jointNumberData) {
-        return DropdownMenuItem<JointNumberModel>(
-          value: jointNumberData,
-          child: Text(jointNumberData.jointNumber.toString()),
-        );
-      }).toList(),
     );
   }
 
