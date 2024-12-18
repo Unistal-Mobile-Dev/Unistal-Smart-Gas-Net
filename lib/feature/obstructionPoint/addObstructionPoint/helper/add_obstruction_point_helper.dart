@@ -52,6 +52,7 @@ class AddObstructionPointHelper {
 
       String url =  APIs.addObstructionPointApi;
       var json = {
+        "schema": userData.schema.toString(),
         "date" : date,
         "type" :obstructionType.id != null ? obstructionType.id.toString() : "0",
         "other" : enterOther,

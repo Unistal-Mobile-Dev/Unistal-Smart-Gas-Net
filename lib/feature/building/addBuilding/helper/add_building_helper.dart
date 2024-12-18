@@ -86,6 +86,7 @@ class AddBuildingHelper {
 
       String url =  APIs.addBuildingApi;
       var json = {
+        "schema": userData.schema.toString(),
         "buildingCategory" : buildingCategoryTypeData.id != null ? buildingCategoryTypeData.id.toString()  : "0",
         "buildingName" : buildingName,
         "buildingNumber" : buildingNo,

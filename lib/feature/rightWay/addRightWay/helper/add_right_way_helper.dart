@@ -50,6 +50,7 @@ class AddRightWayHelper {
 
       String url =  APIs.addRightWayApi;
       var json = {
+        "schema": userData.schema.toString(),
         "date": date,
         "roadName" : roadName,
         "type" : roadTypeData.id != null ? roadTypeData.id.toString() : "0",
