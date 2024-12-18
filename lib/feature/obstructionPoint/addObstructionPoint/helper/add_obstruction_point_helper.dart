@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/obstructionPoint/addObstructionPoint/domain/model/obstruction_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddObstructionPointHelper {
@@ -15,7 +16,8 @@ class AddObstructionPointHelper {
   static Future<dynamic> fetchObstructionType() async {
 
     try{
-      String url = APIs.getObstructionTypeApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url = APIs.getObstructionTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res !=  null && res['status'] != null
           && res['status'] == true && res['data'] != null) {

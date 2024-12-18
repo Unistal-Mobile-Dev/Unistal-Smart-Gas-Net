@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddBendingHelper {
@@ -196,7 +197,8 @@ class AddBendingHelper {
   static Future<dynamic> fetchVisualChecks({required BuildContext context}) async {
 
     try{
-      String url =  APIs.getVisualChecksApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url =  APIs.getVisualChecksApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
@@ -216,7 +218,8 @@ class AddBendingHelper {
   static Future<dynamic> fetchHolidayData({required BuildContext context}) async {
 
     try{
-      String url =  APIs.getHolidayChecksApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url =  APIs.getHolidayChecksApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {

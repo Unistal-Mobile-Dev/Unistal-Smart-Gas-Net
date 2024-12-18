@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddBuildingHelper {
@@ -16,7 +17,8 @@ class AddBuildingHelper {
   static Future<dynamic> fetchSpreadData() async {
 
      try{
-         String url = APIs.getSpreadTypeApi;
+       LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+         String url = APIs.getSpreadTypeApi+"?schema=${userData.schema}";
          var res =  await ServerRequest.getData(urlEndPoint: url);
          if(res !=  null && res['status'] != null
              && res['status'] == true && res['data'] != null) {
@@ -31,7 +33,8 @@ class AddBuildingHelper {
   static Future<dynamic> fetchSectionData({required String spreadId}) async {
 
     try{
-      String url = APIs.getSectionTypeApi+"?spread=$spreadId";
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url = APIs.getSectionTypeApi+"?spread=$spreadId&schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res !=  null && res['status'] != null
           && res['status'] == true && res['data'] != null) {
@@ -46,7 +49,8 @@ class AddBuildingHelper {
   static Future<dynamic> fetchBuildingCategoryData() async {
 
     try{
-      String url = APIs.getBuildingCategoryTypeApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url = APIs.getBuildingCategoryTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res !=  null && res['status'] != null
           && res['status'] == true && res['data'] != null) {

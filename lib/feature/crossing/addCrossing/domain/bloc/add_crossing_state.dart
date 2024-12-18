@@ -63,6 +63,9 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final SpreadTypeModel spreadTypeData;
   final List<SectionTypeModel> sectionList;
   final SectionTypeModel sectionTypeData;
+  final TextEditingController latController;
+  final TextEditingController longController;
+  final String accuracy;
 
 
   FetchAddCrossingDataState({
@@ -114,6 +117,9 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     required this.sectionList,
     required this.spreadList,
     required this.spreadTypeData,
+    required this.latController,
+    required this.longController,
+    required this.accuracy,
   });
 
   @override
@@ -166,5 +172,8 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     sectionList,
     spreadList,
     spreadTypeData,
+    latController,
+    longController,
+    accuracy,
   ];
 }

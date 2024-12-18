@@ -147,6 +147,14 @@ class AddMarkerSelectSectionEvent extends AddMarkerEvent {
   List<Object?> get props => [sectionTypeData];
 }
 
+
+class AddMarkerCaptureGPSPointEvent extends AddMarkerEvent {
+  final BuildContext context;
+  const AddMarkerCaptureGPSPointEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 class AddMarkerSubmitDataEvent extends AddMarkerEvent {
   final BuildContext context;
   const AddMarkerSubmitDataEvent({required this.context});

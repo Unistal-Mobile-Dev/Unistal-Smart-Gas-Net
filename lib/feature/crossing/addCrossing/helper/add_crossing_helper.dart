@@ -68,15 +68,12 @@ class AddCrossingHelper {
     required CrossingTypeModel crossingTypeData,
     required SectionTypeModel sectionTypeData,
     required SpreadTypeModel spreadTypeData,
+    required String lat,
+    required String long,
     required File file}) async {
 
     try{
 
-      var location =  await LocationHelper.getLocation(context: context);
-      LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
 
       String url =  APIs.addCrossingApi;
       var json = {
@@ -84,8 +81,8 @@ class AddCrossingHelper {
         "spread_id": spreadTypeData.id != null ? spreadTypeData.id.toString() : "",
         "section_id": sectionTypeData.id != null ? sectionTypeData.id.toString() : "",
         "activity_date": date.toString(),
-        "latitude": locationData.lat.toString(),
-        "longitude": locationData.long.toString(),
+        "latitude": lat,
+        "longitude": long,
         "user_id": userData.userId.toString(),
         "crossing_type_id" : crossingTypeData.id != null ? crossingTypeData.id.toString() : "",
         "crossing_name": crossingName,

@@ -147,6 +147,13 @@ class AddCrossingSelectSectionEvent extends AddCrossingEvent {
   List<Object?> get props => [sectionTypeData];
 }
 
+class AddCrossingCaptureGPSPointEvent extends AddCrossingEvent {
+  final BuildContext context;
+  const AddCrossingCaptureGPSPointEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 class AddCrossingSubmitDataEvent extends AddCrossingEvent {
   final BuildContext context;
   const AddCrossingSubmitDataEvent({required this.context});

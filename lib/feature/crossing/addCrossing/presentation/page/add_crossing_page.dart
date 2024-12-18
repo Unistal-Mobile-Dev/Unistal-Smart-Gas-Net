@@ -53,6 +53,15 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       child: SingleChildScrollView(
         child : Column(
           children: [
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(children: [
+                  TextWidget("Accuracy :  ", color: AppColor.themeColor,),
+                  TextWidget(dataState.accuracy.isNotEmpty ?
+                  double.parse(dataState.accuracy.toString()).toStringAsFixed(2)
+                      : "0.0", color: AppColor.black, fontWeight: FontWeight.w700,),
+                ],)
+            ),
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
@@ -65,6 +74,12 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _crossingTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _crossingNameController(dataState: dataState),
+            _verticalSpace(),
+            _captureGPSPointButton(dataState: dataState),
+            _verticalSpace(),
+            _latController(dataState: dataState),
+            _verticalSpace(),
+            _longController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -457,6 +472,34 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
     );
   }
 
+  Widget _captureGPSPointButton({required FetchAddCrossingDataState dataState}) {
+    return dataState.isLoader == false ?
+    ButtonWidget(text: AppString.captureGPS,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13 : null,
+        onPressed: () {
+          BlocProvider.of<AddCrossingBloc>(context).add(AddCrossingCaptureGPSPointEvent(context: context));
+        }
+    ): const DottedLoaderWidget();
+  }
+
+  Widget _latController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.latitude,
+      controller: dataState.latController,
+    );
+  }
+
+  Widget _longController({required FetchAddCrossingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.longitude,
+      controller: dataState.longController,
+    );
+  }
 
   Widget _activityRemark({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(

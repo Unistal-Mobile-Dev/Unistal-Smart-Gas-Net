@@ -52,6 +52,15 @@ class _AddMarkerPageState extends State<AddMarkerPage> {
       child: SingleChildScrollView(
         child : Column(
           children: [
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(children: [
+                  TextWidget("Accuracy :  ", color: AppColor.themeColor,),
+                  TextWidget(dataState.accuracy.isNotEmpty ?
+                  double.parse(dataState.accuracy.toString()).toStringAsFixed(2)
+                      : "0.0", color: AppColor.black, fontWeight: FontWeight.w700,),
+                ],)
+            ),
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
@@ -62,6 +71,12 @@ class _AddMarkerPageState extends State<AddMarkerPage> {
             _markerTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _descriptionController(dataState: dataState),
+            _verticalSpace(),
+            _captureGPSPointButton(dataState: dataState),
+            _verticalSpace(),
+            _latController(dataState: dataState),
+            _verticalSpace(),
+            _longController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -367,6 +382,35 @@ class _AddMarkerPageState extends State<AddMarkerPage> {
     );
   }
 
+
+  Widget _captureGPSPointButton({required FetchAddMarkerDataState dataState}) {
+    return dataState.isLoader == false ?
+    ButtonWidget(text: AppString.captureGPS,
+        height: AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13 : null,
+        onPressed: () {
+          BlocProvider.of<AddMarkerBloc>(context).add(AddMarkerCaptureGPSPointEvent(context: context));
+        }
+    ): const DottedLoaderWidget();
+  }
+
+  Widget _latController({required FetchAddMarkerDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.latitude,
+      controller: dataState.latController,
+    );
+  }
+
+  Widget _longController({required FetchAddMarkerDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.longitude,
+      controller: dataState.longController,
+    );
+  }
 
   Widget _activityRemark({required FetchAddMarkerDataState dataState}) {
     return TextFieldWidget(

@@ -28,6 +28,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -98,11 +100,17 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   List<SectionTypeModel> sectionList = [];
   SectionTypeModel sectionTypeData =  SectionTypeModel();
 
+  String _accuracy =  "";
+  String get accuracy => _accuracy;
+
+  TextEditingController latController =  TextEditingController();
+  TextEditingController longController =  TextEditingController();
 
   AddCrossingBloc() : super(AddCrossingInitial()) {
     on<AddCrossingPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddCrossingSelectAlignmentEvent>(_selectAlignment);
+    on<AddCrossingCaptureGPSPointEvent>(_captureGPSPointsLocation);
     on<AddCrossingSelectCoatingTypeDataEvent>(_selectCoatingType);
     on<AddCrossingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddCrossingSelectCrossingTypeDataEvent>(_selectCrossingType);
@@ -175,8 +183,17 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     crossingTypeData =  CrossingTypeModel();
     sectionTypeData =  SectionTypeModel();
     spreadTypeData =  SpreadTypeModel();
+    latController =  TextEditingController();
+    longController =  TextEditingController();
     _userData =  UserInfo.instanceInit()!.userData!;
     weatherList =  await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+
+    var location =  await LocationHelper.getLocation(context: !event.context.mounted ? event.context : event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+    }
 
     var res =  await AddRouteSurveyHelper.fetchAlignmentData( userData: userData);
     if(res != null){
@@ -241,6 +258,21 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
   _selectAlignment(AddCrossingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _captureGPSPointsLocation(AddCrossingCaptureGPSPointEvent event, emit) async {
+    isLoader  =  true;
+    _eventComplete(emit);
+    var location =  await LocationHelper.getLocation(context: event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+      longController.text =  locationData.long.toString();
+      latController.text =  locationData.lat.toString();
+    }
+    isLoader  =  false;
     _eventComplete(emit);
   }
 
@@ -421,6 +453,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       crossingTypeData: crossingTypeData,
       sectionTypeData: sectionTypeData,
       spreadTypeData: spreadTypeData,
+      lat: latController.text.toString(),
+      long: longController.text.toString(),
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -456,6 +490,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       crossingTypeData =  CrossingTypeModel();
       sectionTypeData =  SectionTypeModel();
       spreadTypeData =  SpreadTypeModel();
+      latController.text = "";
+      longController.text = "";
       PaddingModel();
       _eventComplete(emit);
     }
@@ -511,6 +547,9 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       spreadTypeData: spreadTypeData,
       sectionList: sectionList,
       spreadList: spreadList,
+      latController: latController,
+      longController: longController,
+      accuracy: accuracy,
     ));
   }
 

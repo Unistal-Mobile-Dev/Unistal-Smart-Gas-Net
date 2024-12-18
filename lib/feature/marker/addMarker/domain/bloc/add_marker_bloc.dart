@@ -25,6 +25,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -94,10 +96,17 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
   List<SectionTypeModel> sectionList = [];
   SectionTypeModel sectionTypeData =  SectionTypeModel();
 
+  String _accuracy =  "";
+  String get accuracy => _accuracy;
+
+  TextEditingController latController =  TextEditingController();
+  TextEditingController longController =  TextEditingController();
+
   AddMarkerBloc() : super(AddMarkerInitial()) {
     on<AddMarkerPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddMarkerSelectAlignmentEvent>(_selectAlignment);
+    on<AddMarkerCaptureGPSPointEvent>(_captureGPSPointsLocation);
     on<AddMarkerSelectCoatingTypeDataEvent>(_selectCoatingType);
     on<AddMarkerSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddMarkerSelectVisualChecksDataEvent>(_selectVisualCheck);
@@ -168,6 +177,13 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
     sectionTypeData =  SectionTypeModel();
     spreadTypeData =  SpreadTypeModel();
     _userData =  UserInfo.instanceInit()!.userData!;
+
+    var location =  await LocationHelper.getLocation(context: !event.context.mounted ? event.context : event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+    }
 
     var resSection =  await AddBuildingHelper.fetchSectionData(spreadId: userData.spreadId.toString().isEmpty ? "0" : userData.spreadId.toString());
     if(resSection != null){
@@ -250,6 +266,21 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
 
   _selectAlignment(AddMarkerSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _captureGPSPointsLocation(AddMarkerCaptureGPSPointEvent event, emit) async {
+    isLoader  =  true;
+    _eventComplete(emit);
+    var location =  await LocationHelper.getLocation(context: event.context);
+    LocationModel locationData = LocationModel();
+    if(location != null){
+      locationData =  location;
+      _accuracy =  locationData.accuracy.toString();
+      longController.text =  locationData.long.toString();
+      latController.text =  locationData.lat.toString();
+    }
+    isLoader  =  false;
     _eventComplete(emit);
   }
 
@@ -429,6 +460,8 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
       markerTypeData: markerTypeData,
       spreadTypeData: spreadTypeData,
       sectionTypeData: sectionTypeData,
+      long: longController.text.toString(),
+      lat: latController.text.toString(),
     );
     isLoader =  false;
     _eventComplete(emit);
@@ -465,6 +498,8 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
       markerTypeData =  MarkerTypeModel();
       sectionTypeData =  SectionTypeModel();
       spreadTypeData =  SpreadTypeModel();
+      latController.text = "";
+      longController.text = "";
       _eventComplete(emit);
     }
   }
@@ -518,6 +553,9 @@ class AddMarkerBloc extends Bloc<AddMarkerEvent, AddMarkerState> {
       spreadTypeData: spreadTypeData,
       sectionList: sectionList,
       spreadList: spreadList,
+      latController: latController,
+      longController: longController,
+      accuracy: accuracy,
     ));
   }
 

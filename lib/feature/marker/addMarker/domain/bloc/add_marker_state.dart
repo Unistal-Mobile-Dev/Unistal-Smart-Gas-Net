@@ -62,6 +62,9 @@ class FetchAddMarkerDataState extends AddMarkerInitial {
   final SpreadTypeModel spreadTypeData;
   final List<SectionTypeModel> sectionList;
   final SectionTypeModel sectionTypeData;
+  final TextEditingController latController;
+  final TextEditingController longController;
+  final String accuracy;
 
   FetchAddMarkerDataState({
     required this.isLoader,
@@ -111,6 +114,9 @@ class FetchAddMarkerDataState extends AddMarkerInitial {
     required this.sectionList,
     required this.spreadList,
     required this.spreadTypeData,
+    required this.latController,
+    required this.longController,
+    required this.accuracy,
   });
 
   @override
@@ -162,5 +168,8 @@ class FetchAddMarkerDataState extends AddMarkerInitial {
     sectionList,
     spreadList,
     spreadTypeData,
+    latController,
+    longController,
+    accuracy,
   ];
 }

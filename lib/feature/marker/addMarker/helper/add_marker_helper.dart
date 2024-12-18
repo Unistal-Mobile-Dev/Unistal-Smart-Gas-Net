@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/marker/addMarker/domain/model/marker_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
@@ -22,7 +23,8 @@ class AddMarkerHelper {
 
   static Future<dynamic> fetchMarkerData() async{
       try{
-          String url =  APIs.getMarkerTypeApi;
+         LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+          String url =  APIs.getMarkerTypeApi+"?schema=${userData.schema}";
           var res =  await ServerRequest.getData(urlEndPoint: url);
           if(res != null && res['success'] !=  null && res['success'] == 200 && res['data'] != null){
              return markerListResponse(res['data']);
@@ -65,15 +67,11 @@ class AddMarkerHelper {
     required MarkerTypeModel markerTypeData,
     required SectionTypeModel sectionTypeData,
     required SpreadTypeModel spreadTypeData,
+    required String lat,
+    required String long,
     required File file}) async {
 
     try{
-
-      var location =  await LocationHelper.getLocation(context: context);
-      LocationModel locationData = LocationModel();
-      if(location != null){
-        locationData =  location;
-      } else{ return null; }
 
       String url =  APIs.addMarkerApi;
       var json = {
@@ -83,8 +81,8 @@ class AddMarkerHelper {
         "description": description,
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
-        "latitude": locationData.lat.toString(),
-        "longitude": locationData.long.toString(),
+        "latitude": lat,
+        "longitude": long,
         "user_id": userData.userId.toString(),
         "weather" : weatherData.id != null ? weatherData.id.toString() : "0",
         "marker_type" : markerTypeData.id != null ? markerTypeData.id.toString() : "0",

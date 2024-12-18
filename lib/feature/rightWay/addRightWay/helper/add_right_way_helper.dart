@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/building/addBuilding/domai
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/rightWay/addRightWay/domain/model/road_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddRightWayHelper {
@@ -12,7 +13,8 @@ class AddRightWayHelper {
   static Future<dynamic> fetchRoadType() async {
 
     try{
-      String url = APIs.getRoadTypeApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url = APIs.getRoadTypeApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res !=  null && res['status'] != null
           && res['status'] == true && res['data'] != null) {
@@ -56,6 +58,8 @@ class AddRightWayHelper {
         "roadLength" : roadLength,
         "roadSide" : rodeSideValue,
         "location" : locationm,
+        "latitude": latitude,
+        "longitude": longitude,
         "remarks" : activityRemark,
         "other" : other,
         "spreadId" : spreadTypeData.id ?? "0",

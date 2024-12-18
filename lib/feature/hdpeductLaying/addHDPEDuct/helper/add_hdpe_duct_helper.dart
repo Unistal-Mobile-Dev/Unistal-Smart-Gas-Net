@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddHDPEDuctHelper {
@@ -91,7 +92,8 @@ class AddHDPEDuctHelper {
 
   static Future<dynamic> fetchPaddingData({required BuildContext context}) async {
     try{
-      String url =  APIs.getPaddingCheckApi;
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      String url =  APIs.getPaddingCheckApi+"?schema=${userData.schema}";
       var res =  await ServerRequest.getData(urlEndPoint: url);
       if(res != null && res['success'] != null
           && res['success'] == 200 && res['data'] != null) {
