@@ -281,9 +281,11 @@ class ServerRequest {
      String token =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.token.toString() : "";
      String email =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.email.toString() : "";
      String password =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.password.toString() : "";
+     String schema =  UserInfo.instanceInit()!.userData != null ? UserInfo.instanceInit()!.userData!.schema.toString() : "";
      header["Authorization"] = token;
      header["Email"] = email;
      header["Password"] = password;
+     header["schema"] = schema;
    }
 
 
