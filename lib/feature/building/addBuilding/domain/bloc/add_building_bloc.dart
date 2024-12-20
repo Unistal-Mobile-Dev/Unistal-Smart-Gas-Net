@@ -160,6 +160,7 @@ class AddBuildingBloc extends Bloc<AddBuildingEvent, AddBuildingState> {
 
   _selectSpread(AddBuildingSelectSpreadEvent event, emit) async {
     spreadTypeData = event.spreadTypeData;
+    sectionTypeData =  SectionTypeModel();
     isJointNumberLoader =  true;
     sectionList = [];
     _eventComplete(emit);
