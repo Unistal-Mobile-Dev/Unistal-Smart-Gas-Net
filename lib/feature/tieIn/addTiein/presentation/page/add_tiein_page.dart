@@ -719,6 +719,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
       {required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010Batch,
       controller: dataState.electrodeDiaE6010BatchController,
     );
@@ -738,6 +739,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
       {required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE7010P1Batch,
       controller: dataState.electrodeEiaE8010p1BatchController,
     );

@@ -555,7 +555,7 @@ class AppString {
 
   static get electrodeDiaE6010 => "Electrode Dia E6010";
 
-  static get electrodeDiaE6010Batch => "Electrode Dia E6010 Batch";
+  static get electrodeDiaE6010Batch => "Electrode E6010 Batch";
 
   static get electrodeDiaE8010p1 => "Electrode Dia E8010P1";
 
@@ -563,7 +563,7 @@ class AppString {
 
   static get electrodeDiaE8010p1Batch => "Electrode Dia E8010P1 Batch";
 
-  static get electrodeDiaE7010P1Batch => "Electrode Dia E7010P1 Batch";
+  static get electrodeDiaE7010P1Batch => "Electrode E7010P1 Batch";
 
   static get electrodeDiaE9045p2 => "Electrode Dia E9045P2";
 

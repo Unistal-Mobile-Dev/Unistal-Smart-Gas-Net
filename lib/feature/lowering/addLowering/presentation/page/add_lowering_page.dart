@@ -69,6 +69,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
                 ? Column(
                     children: [
@@ -87,8 +89,6 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
                     ],
                   )
                 : const SizedBox.shrink(),
-            _lengthController(dataState: dataState),
-            _verticalSpace(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
@@ -243,6 +243,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _lengthController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
+      enabled: false,
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.length,
@@ -332,6 +333,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: false, value: value));
+      },
     );
   }
 
@@ -341,6 +346,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddLoweringBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: true, value: value));
+      },
     );
   }
 

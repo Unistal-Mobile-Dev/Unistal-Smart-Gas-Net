@@ -40,6 +40,15 @@ class AddLoweringSelectAlignmentEvent extends AddLoweringEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class CalculateLengthEvent extends AddLoweringEvent {
+  final bool isChainageTo;
+  final String value;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}
+
+
 class AddLoweringSelectHolidayDataEvent extends AddLoweringEvent {
   final HolidayChecksModel holidayChecksData;
 

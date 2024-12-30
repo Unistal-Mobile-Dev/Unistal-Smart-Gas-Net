@@ -31,6 +31,14 @@ class AddWeldingSelectAlignmentEvent extends AddWeldingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddWeldingCalculateLengthEvent extends AddWeldingEvent {
+  final bool isChainageTo;
+  final String value;
+  const AddWeldingCalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}
+
 class AddWeldingSelectWPSEvent extends AddWeldingEvent {
   final WPSModel wpsData;
   final BuildContext context;

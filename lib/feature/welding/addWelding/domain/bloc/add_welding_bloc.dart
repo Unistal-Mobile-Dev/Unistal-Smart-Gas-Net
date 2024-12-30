@@ -178,6 +178,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   List<PipeModel> leftPipeList = [];
   List<PipeModel> rightPipeList = [];
@@ -214,6 +215,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     on<AddWeldingSelectWPSEvent>(_selectWPS);
     on<AddWeldingSearchPipeDataEvent>(_searchPipeData);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddWeldingCalculateLengthEvent>(_calculateChainage);
     on<AddWeldingSelectLeftPipeDataEvent>(_selectLeftPipe);
     on<AddWeldingSelectRightPipeDataEvent>(_selectRigthPipe);
     on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
@@ -409,6 +411,24 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _eventComplete(emit);
   }
 
+  _calculateChainage(AddWeldingCalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+       double chainageTo =  double.parse(value.toString());
+       double chainageFrom =  double.parse(chainageFromController.text.toString());
+       lengthController.text =  "${chainageTo - chainageFrom}";
+
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      lengthController.text =  "${chainageTo - chainageFrom}";
+    }
+    _eventComplete(emit);
+  }
+
   _selectLeftPipe(AddWeldingSelectLeftPipeDataEvent event, emit) {
     leftPipeData = event.leftPipeData;
     _searchLeftPipeList = [];
@@ -427,6 +447,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _wpsData = event.wpsData;
     _welderList = [];
     _welderData = WelderModel();
+     rootWelders1Data =  WelderModel();
+     rootWelders2Data =  WelderModel();
     _isWelderLoader = true;
     _eventComplete(emit);
     var resWelder = await AddWeldingHelper.fetchWelderData(
@@ -804,6 +826,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       searchRightPipeList: searchRightPipeList,
       searchRightPipeLoader: searchRightPipeLoader,
       searchJointController: searchJointController,
+      lengthController: lengthController,
     ));
   }
 }

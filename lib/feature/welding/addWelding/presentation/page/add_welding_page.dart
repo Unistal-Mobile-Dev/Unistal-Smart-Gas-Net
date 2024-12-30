@@ -59,6 +59,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
             _rigthPipeDropDown(dataState: dataState),
@@ -189,6 +191,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(AddWeldingCalculateLengthEvent(value: value, isChainageTo: false));
+      },
     );
   }
 
@@ -198,6 +204,20 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(AddWeldingCalculateLengthEvent(value: value, isChainageTo: true));
+      },
+    );
+  }
+
+  Widget _lengthController({required FetchAddWeldingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      textInputType: TextInputType.number,
+      labelText: AppString.length,
+      controller: dataState.lengthController,
     );
   }
 
@@ -779,6 +799,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010Batch,
       controller: dataState.electrodeDiaE6010BatchController,
     );
@@ -798,6 +819,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE7010P1Batch,
       controller: dataState.electrodeEiaE8010p1BatchController,
     );

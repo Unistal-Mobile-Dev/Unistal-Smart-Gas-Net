@@ -123,6 +123,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final List<dynamic> searchRightPipeList;
   final bool searchRightPipeLoader;
   final TextEditingController searchPipeRightController;
+  final TextEditingController lengthController;
 
   FetchAddWeldingDataState({
     required this.isLoader,
@@ -219,6 +220,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
     required this.searchJointController,
+    required this.lengthController,
   });
 
   @override
@@ -317,5 +319,6 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         searchRightPipeList,
         searchRightPipeLoader,
         searchJointController,
+        lengthController,
       ];
 }
