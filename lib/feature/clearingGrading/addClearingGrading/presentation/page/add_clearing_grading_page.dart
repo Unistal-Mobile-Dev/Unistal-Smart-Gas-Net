@@ -56,6 +56,8 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             _terrainDropDown(dataState: dataState),
             _verticalSpace(),
             DottedBorder(
@@ -143,6 +145,10 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddClearingGradingBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: false, value: value));
+      },
     );
   }
 
@@ -153,6 +159,20 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddClearingGradingBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: true, value: value));
+      },
+    );
+  }
+
+  Widget _lengthController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.length,
+      controller: dataState.lengthController,
     );
   }
 

@@ -37,6 +37,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController toWidthController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -76,6 +77,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
     on<AddTrenChingSelectAlignmentEvent>(_selectAlignment);
     on<SelectWeatherEvent>(_selectWeather);
+    on<CalculateLengthEvent>(_calculateChainage);
     on<AddTrenChingSelectDateEvent>(_selectDate);
     on<AddTrenChingAddImageEvent>(_selectFile);
     on<AddTrenChingSelectFromJointDataEvent>(_selectJointFrom);
@@ -95,6 +97,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     terrainController.text = "";
     activityRemarkController.text = "";
     toWidthController.text = "";
+    lengthController.text = "";
     _isLoader = false;
     _alignmentList = [];
     file = File("");
@@ -141,6 +144,25 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   _selectWeather(SelectWeatherEvent event, emit) {
     _weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      lengthController.text =  "${chainageTo - chainageFrom}";
+
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      lengthController.text =  "${chainageTo - chainageFrom}";
+    }
     _eventComplete(emit);
   }
 
@@ -262,6 +284,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      lengthController.text = "";
       _weatherData = WeatherModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -297,6 +320,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       toWidthController: toWidthController,
+      lengthController: lengthController,
     ));
   }
 }

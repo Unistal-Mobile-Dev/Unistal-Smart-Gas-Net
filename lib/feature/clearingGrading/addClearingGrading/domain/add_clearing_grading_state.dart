@@ -31,6 +31,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController ipNumberFromController;
   final TextEditingController gapLengthController;
   final TextEditingController gapDescriptionController;
+  final TextEditingController lengthController;
   final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
@@ -65,6 +66,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.terrainTypeList,
     required this.gapDescriptionController,
     required this.gapLengthController,
+    required this.lengthController,
   });
 
   @override
@@ -93,5 +95,6 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
         terrainTypeList,
         gapDescriptionController,
         gapLengthController,
+        lengthController,
       ];
 }

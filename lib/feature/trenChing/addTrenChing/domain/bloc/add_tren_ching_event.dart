@@ -97,3 +97,11 @@ class AddTrenChingSubmitDataEvent extends AddTrenChingEvent {
   @override
   List<Object?> get props => [context];
 }
+
+class CalculateLengthEvent extends AddTrenChingEvent {
+  final bool isChainageTo;
+  final String value;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}

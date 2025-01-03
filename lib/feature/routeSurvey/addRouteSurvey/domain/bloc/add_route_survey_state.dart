@@ -25,6 +25,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final TextEditingController bearingAngleController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
+  final TextEditingController lengthController;
   final AlignmentModel alignmentData;
   final File file;
   final List<WeatherModel> weatherList;
@@ -53,6 +54,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.chainageToController,
     required this.groundTypeList,
     required this.groundTypeData,
+    required this.lengthController,
   });
 
   @override

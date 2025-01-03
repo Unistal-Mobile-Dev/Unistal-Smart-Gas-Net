@@ -38,6 +38,7 @@ class AddRouteSurveyBloc
 
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -60,6 +61,7 @@ class AddRouteSurveyBloc
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
     on<AddRouteSurveySubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
+    on<CalculateLengthEvent>(_calculateChainage);
     on<AddRouteSurveySelectAlignmentEvent>(_selectAlignment);
     on<AddRouteSurveySelectGroundTypeEvent>(_selectGroundType);
     on<AddRouteSurveySelectDateEvent>(_selectDate);
@@ -78,6 +80,7 @@ class AddRouteSurveyBloc
     activityRemarkController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
+    lengthController.text = "";
     _isLoader = false;
     _alignmentList = [];
     file = File("");
@@ -118,6 +121,25 @@ class AddRouteSurveyBloc
 
   _selectWeather(SelectWeatherEvent event, emit) {
     _weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      lengthController.text =  "${chainageTo - chainageFrom}";
+
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      lengthController.text =  "${chainageTo - chainageFrom}";
+    }
     _eventComplete(emit);
   }
 
@@ -205,6 +227,7 @@ class AddRouteSurveyBloc
       file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
+      lengthController.text = "";
       _weatherData = WeatherModel();
       groundTypeData = GroundTypeModel();
       _eventComplete(emit);
@@ -231,6 +254,7 @@ class AddRouteSurveyBloc
       chainageToController: chainageToController,
       groundTypeData: groundTypeData,
       groundTypeList: groundTypeList,
+      lengthController: lengthController,
     ));
   }
 }

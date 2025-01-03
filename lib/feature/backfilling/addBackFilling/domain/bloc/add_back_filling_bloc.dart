@@ -34,6 +34,7 @@ class AddBackFillingBloc
   TextEditingController slopeBreakerController = TextEditingController();
   TextEditingController warningMatController = TextEditingController();
   TextEditingController antiBuoyancyController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -65,6 +66,7 @@ class AddBackFillingBloc
   AddBackFillingBloc() : super(AddBackFillingInitial()) {
     on<AddBackFillingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
+    on<CalculateLengthEvent>(_calculateChainage);
     on<AddBackFillingSelectAlignmentEvent>(_selectAlignment);
     on<AddBackFillingSelectPlasticGratingEvent>(_selectPlasticGratingData);
     on<AddBackFillingSelectFromJointDataEvent>(_selectJointFrom);
@@ -88,6 +90,7 @@ class AddBackFillingBloc
     slopeBreakerController.text = "";
     warningMatController.text = "";
     antiBuoyancyController.text = "";
+    lengthController.text = "";
     plasticGratingList = [];
     jointFromList = [];
     jointToList = [];
@@ -159,6 +162,25 @@ class AddBackFillingBloc
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      lengthController.text =  "${chainageTo - chainageFrom}";
+
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      lengthController.text =  "${chainageTo - chainageFrom}";
+    }
     _eventComplete(emit);
   }
 
@@ -283,6 +305,7 @@ class AddBackFillingBloc
       slopeBreakerController.text = "";
       warningMatController.text = "";
       antiBuoyancyController.text = "";
+      lengthController.text = "";
       alignmentData = AlignmentModel();
       isLoader = false;
       plasticGratingData = VisualChecksModel();
@@ -328,6 +351,7 @@ class AddBackFillingBloc
       pipeDialList: pipeDiaList,
       thicknessData: thicknessData,
       thicknessList: thicknessList,
+      lengthController: lengthController,
     ));
   }
 }

@@ -68,6 +68,14 @@ class AddBackFillingSelectPlasticGratingEvent extends AddBackFillingEvent {
   List<Object?> get props => [plasticGratingData];
 }
 
+class CalculateLengthEvent extends AddBackFillingEvent {
+  final bool isChainageTo;
+  final String value;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}
+
 class AddBackFillingSelectFromJointDataEvent extends AddBackFillingEvent {
   final JointNumberModel jointNumberData;
 

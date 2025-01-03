@@ -60,6 +60,15 @@ class SelectWeatherEvent extends AddClearingGradingEvent {
   List<Object?> get props => [weatherData];
 }
 
+class CalculateLengthEvent extends AddClearingGradingEvent {
+  final bool isChainageTo;
+  final String value;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}
+
+
 class AddClearingGradingSubmitDataEvent extends AddClearingGradingEvent {
   final BuildContext context;
 

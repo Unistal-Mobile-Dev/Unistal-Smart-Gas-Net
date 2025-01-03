@@ -27,6 +27,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final TextEditingController slopeBreakerController;
   final TextEditingController warningMatController;
   final TextEditingController antiBuoyancyController;
+  final TextEditingController lengthController;
   final VisualChecksModel plasticGratingData;
   final List<VisualChecksModel> plasticGratingList;
   final JointNumberModel fromJointData;
@@ -72,6 +73,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
       required this.thicknessData,
       required this.thicknessList,
       required this.pipeDiaData,
+      required this.lengthController,
       required this.pipeDialList});
 
   @override
@@ -104,5 +106,6 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
         thicknessList,
         pipeDiaData,
         pipeDialList,
+        lengthController,
       ];
 }

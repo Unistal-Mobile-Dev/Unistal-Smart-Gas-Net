@@ -24,6 +24,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController trenchingDepthController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
+  final TextEditingController lengthController;
   final AlignmentModel alignmentData;
   final File file;
   final List<JointNumberModel> jointNumberList;
@@ -67,6 +68,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.toWidthController,
+    required this.lengthController,
   });
 
   @override
@@ -96,5 +98,6 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         chainageFromController,
         chainageToController,
         toWidthController,
+        lengthController,
       ];
 }

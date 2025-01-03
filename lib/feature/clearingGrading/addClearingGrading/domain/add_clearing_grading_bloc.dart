@@ -45,6 +45,7 @@ class AddClearingGradingBloc
   TextEditingController chainageController = TextEditingController();
   TextEditingController gapLengthController = TextEditingController();
   TextEditingController gapDescriptionController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -71,6 +72,7 @@ class AddClearingGradingBloc
     on<AddClearingGradingSelectDateEvent>(_selectDate);
     on<AddClearingGradingAddImageEvent>(_selectFile);
     on<SelectWeatherEvent>(_selectWeather);
+    on<CalculateLengthEvent>(_calculateChainage);
   }
 
   _pageLoadEvent(AddClearingGradingPageLoadEvent event, emit) async {
@@ -96,6 +98,7 @@ class AddClearingGradingBloc
     chainageFromController.text = "";
     chainageToController.text = "";
     chainageController.text = "";
+    lengthController.text = "";
     terrainTypeList = [];
     terrainTypeData = TerrainTypeModel();
     file = File("");
@@ -123,6 +126,25 @@ class AddClearingGradingBloc
 
   _selectWeather(SelectWeatherEvent event, emit) {
     _weatherData = event.weatherData;
+    _eventComplete(emit);
+  }
+
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      lengthController.text =  "${chainageTo - chainageFrom}";
+
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      lengthController.text =  "${chainageTo - chainageFrom}";
+    }
     _eventComplete(emit);
   }
 
@@ -221,6 +243,7 @@ class AddClearingGradingBloc
       chainageController.text = "";
       gapLengthController.text = "";
       gapDescriptionController.text = "";
+      lengthController.text = "";
       _weatherData = WeatherModel();
       terrainTypeData = TerrainTypeModel();
       _eventComplete(emit);
@@ -253,6 +276,7 @@ class AddClearingGradingBloc
       terrainTypeList: terrainTypeList,
       gapDescriptionController: gapDescriptionController,
       gapLengthController: gapLengthController,
+      lengthController: lengthController,
     ));
   }
 }

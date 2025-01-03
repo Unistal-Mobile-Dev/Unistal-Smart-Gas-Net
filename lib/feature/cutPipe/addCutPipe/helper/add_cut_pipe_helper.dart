@@ -43,6 +43,10 @@ class AddCutPipeHelper {
         SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: res['error']);
         return null;
+      } else if (res != null && res['status'] != null && res['message'] != null) {
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['message'].toString());
+        return null;
       } else {
         SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Internal Server Error");

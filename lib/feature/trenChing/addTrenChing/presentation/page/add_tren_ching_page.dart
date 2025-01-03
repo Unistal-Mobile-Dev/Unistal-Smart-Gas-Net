@@ -62,6 +62,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
@@ -115,6 +117,10 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddTrenChingBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: false, value: value));
+      },
     );
   }
 
@@ -125,6 +131,20 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddTrenChingBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: true, value: value));
+      },
+    );
+  }
+
+  Widget _lengthController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.length,
+      controller: dataState.lengthController,
     );
   }
 
