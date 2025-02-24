@@ -71,8 +71,6 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
 /*            _segmentListBuilder(dataState: dataState),
             _verticalSpace(),*/
-            _activityRemark(dataState: dataState),
-            _verticalSpace(),
             _locationDiscoverDefectController(dataState: dataState),
             _verticalSpace(),
             _ndtAgencyDropDown(dataState: dataState),
@@ -80,6 +78,8 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _dSPPLDropDown(dataState: dataState),
             _verticalSpace(),
             _mECONPBGPLDropDown(dataState: dataState),
+            _verticalSpace(),
+            _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
             _verticalSpace(),
@@ -115,6 +115,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _alignmentDropdown({required FetchAddNdtMutDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -131,6 +132,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _weatherDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -151,6 +153,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _typeOfFlawDetectorController(
       {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.typeOfFlawDetector,
       controller: dataState.typeOfFlawDetectorController,
     );
@@ -159,6 +162,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _angleOfRayInputController(
       {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.angleOfRayInput,
       controller: dataState.angleOfRayInputController,
     );
@@ -167,6 +171,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _operatingFrequencyController(
       {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.operatingFrequency,
       controller: dataState.operatingFrequencyController,
     );
@@ -175,6 +180,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   Widget _leveOfInspectionController(
       {required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.levelOfInspection,
       controller: dataState.leveOfInspectionController,
     );
@@ -219,6 +225,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _jointNumberDropDown({required FetchAddNdtMutDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointNumberData.id != null
           ? dataState.jointNumberData
           : null,
@@ -304,7 +311,6 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
 
   Widget _activityRemark({required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

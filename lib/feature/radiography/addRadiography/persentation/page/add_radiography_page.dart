@@ -56,33 +56,34 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _chainageController(dataState: dataState),
-            _verticalSpace(),
             _ndtSourceDropDown(dataState: dataState),
             _verticalSpace(),
             _filmTypeController(dataState: dataState),
             _verticalSpace(),
             _inspectTechniqueController(dataState: dataState),
             _verticalSpace(),
+            _equipmentController(dataState: dataState),
+            _verticalSpace(),
             _sensivityController(dataState: dataState),
             _verticalSpace(),
             _densityController(dataState: dataState),
             _verticalSpace(),
-            _equipmentController(dataState: dataState),
+            _chainageController(dataState: dataState),
             _verticalSpace(),
+
             /*          _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _segmentListBuilder(dataState: dataState),
             _verticalSpace(),
-            _activityRemark(dataState: dataState),
-            _verticalSpace(),
             _ndtAgencyDropDown(dataState: dataState),
             _verticalSpace(),
             _dSPPLDropDown(dataState: dataState),
             _verticalSpace(),
             _mECONPBGPLDropDown(dataState: dataState),
+            _verticalSpace(),
+            _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
             _verticalSpace(),
@@ -120,6 +121,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -136,6 +138,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _weatherDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -155,6 +158,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectRtSource,
       dropdownValue:
           dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
@@ -243,6 +247,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _jointNumberDropDown(
       {required FetchAddRadiographyDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointNumberData.id != null
           ? dataState.jointNumberData
           : null,
@@ -274,10 +279,18 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        TextWidget(
-          "${segmentData.name}*",
-          fontWeight: FontWeight.w700,
-          color: AppColor.black,
+        Row(
+          children: [
+            TextWidget(
+              "${segmentData.name}",
+              fontWeight: FontWeight.w700,
+              color: AppColor.black,
+            ),
+            TextWidget(
+              " *",
+              color: AppColor.red,
+            ),
+          ],
         ),
         _verticalSpace(),
         _radioButtonList(segmentData: segmentData, segmentIndex: index),
@@ -359,6 +372,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       required int index,
       required int welderIndex}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWelder,
       dropdownValue: welderData.id != null ? welderData : null,
       onChanged: (value) {
@@ -437,7 +451,6 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _activityRemark({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

@@ -125,6 +125,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -141,6 +142,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _weatherDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -219,6 +221,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddBackFillingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -234,6 +237,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddBackFillingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
@@ -344,7 +348,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _activityRemark({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

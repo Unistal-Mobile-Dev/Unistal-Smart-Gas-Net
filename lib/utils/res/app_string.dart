@@ -269,6 +269,8 @@ class AppString {
 
   static get radiography => "Radiography";
 
+  static get ndtRT => "NDT RT";
+
   static get tiein => "Tie In";
 
   static get ndtMut => "NDT Mut";
@@ -280,6 +282,8 @@ class AppString {
   static get concreteCoating => "Concrete Coating";
 
   static get lpt => "LPT";
+
+  static get ndtLpt => "NDT LPT";
 
   static get bendAngleDegree => "Bend Angle Degree";
 
@@ -405,6 +409,8 @@ class AppString {
 
   static get selectCoatingType => "Select Coating Type";
 
+  static get sleeveType => "Sleeve Type";
+
   static get selectPeelTest => "Select Peel Test";
 
   static get selectPrePadding => "Select Pre Padding";
@@ -484,6 +490,10 @@ class AppString {
   static get selectWPS => "Select WPS";
 
   static get selectWelder => "Select Welder";
+
+  static get welder1 => "Welder 1";
+
+  static get welder2 => "Welder 2";
 
   static get leftPipeNumber => "Left Pipe Number";
 

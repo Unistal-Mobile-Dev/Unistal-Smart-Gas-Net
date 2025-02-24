@@ -55,11 +55,21 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _wpsDropDown(dataState: dataState),
+            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
             _lengthController(dataState: dataState),
+            _verticalSpace(),
+            _electrodeDiaE6010Controller(dataState: dataState),
+            _verticalSpace(),
+            _electrodeDiaE6010BatchController(dataState: dataState),
+            _verticalSpace(),
+            _electrodeEiaE8010p1Controller(dataState: dataState),
+            _verticalSpace(),
+            _electrodeEiaE8010p1BatchController(dataState: dataState),
             _verticalSpace(),
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -69,7 +79,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _wpsDropDown(dataState: dataState),
+            _fitupDropDown(dataState: dataState),
             _verticalSpace(),
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
@@ -125,14 +135,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
-            _electrodeDiaE6010Controller(dataState: dataState),
-            _verticalSpace(),
-            _electrodeDiaE6010BatchController(dataState: dataState),
-            _verticalSpace(),
-            _electrodeEiaE8010p1Controller(dataState: dataState),
-            _verticalSpace(),
-            _electrodeEiaE8010p1BatchController(dataState: dataState),
-            _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
                 ? Column(
                     children: [
@@ -147,8 +149,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                     ],
                   )
                 : const SizedBox.shrink(),
-            _fitupDropDown(dataState: dataState),
-            _verticalSpace(),
             _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -276,7 +276,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -297,7 +297,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${"${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -318,7 +318,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -339,7 +339,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -361,7 +361,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -383,7 +383,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -405,7 +405,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -427,7 +427,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -449,7 +449,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -471,7 +471,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -493,7 +493,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -515,7 +515,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -537,7 +537,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -559,7 +559,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -581,7 +581,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -603,7 +603,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -625,7 +625,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -647,7 +647,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -669,7 +669,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -691,7 +691,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -713,7 +713,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -735,7 +735,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -757,7 +757,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -779,7 +779,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
           .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
         return DropdownMenuItem<WelderModel>(
           value: welderData,
-          child: Text(welderData.welderName.toString()),
+          child: Text("${welderData.welderName.toString()} (${welderData.welderNumber.toString()})"),
         );
       }).toList(),
     );
@@ -865,7 +865,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _activityRemark({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
@@ -874,6 +873,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _alignmentDropdown({required FetchAddWeldingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -890,6 +890,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _weatherDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -909,6 +910,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _wpsDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWPS,
       dropdownValue: dataState.wpsData.id != null ? dataState.wpsData : null,
       onChanged: (value) {
@@ -947,6 +949,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _jointNumberDropDown({required FetchAddWeldingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointNumberData.id != null
           ? dataState.jointNumberData
           : null,

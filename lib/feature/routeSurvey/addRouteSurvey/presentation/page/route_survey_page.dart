@@ -197,7 +197,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _activityRemark({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
@@ -206,6 +205,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -222,6 +222,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _weatherDropDown({required FetchAddRouteSurveyDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,

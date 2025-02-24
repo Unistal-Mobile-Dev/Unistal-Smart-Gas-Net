@@ -56,11 +56,9 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            /*          _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
-            _jointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
             _wpsDropDown(dataState: dataState),
+            _verticalSpace(),
+            _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
@@ -83,6 +81,8 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _preheatTempController(dataState: dataState),
             _verticalSpace(),
             _rootWelders1Dropdown(dataState: dataState),
+            _verticalSpace(),
+            _rootWelders2Dropdown(dataState: dataState),
             _verticalSpace(),
             _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
@@ -120,7 +120,6 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _preheatTempController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.preHeatTemperature,
       controller: dataState.preheatTempController,
@@ -187,7 +186,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _rootWelders1Dropdown({required FetchAddTieinDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectWelder,
+      hint: AppString.welder1,
       dropdownValue:
           dataState.welderData.id != null ? dataState.welderData : null,
       onChanged: (value) {
@@ -206,7 +205,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _rootWelders2Dropdown({required FetchAddTieinDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.rootWelders2,
+      hint: AppString.welder2,
       dropdownValue: dataState.rootWelders2Data.id != null
           ? dataState.rootWelders2Data
           : null,
@@ -764,28 +763,9 @@ class _AddTieinPageState extends State<AddTieinPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gController(
-      {required FetchAddTieinDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE81t8g,
-      controller: dataState.electrodeDiaE81t8gController,
-    );
-  }
-
-  Widget _electrodeDiaE81t8gBatchController(
-      {required FetchAddTieinDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      labelText: AppString.electrodeDiaE81t8gBatch,
-      controller: dataState.electrodeDiaE81t8gBatchController,
-    );
-  }
 
   Widget _activityRemark({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
@@ -794,6 +774,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _alignmentDropdown({required FetchAddTieinDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -809,6 +790,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _weatherDropDown({required FetchAddTieinDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -828,6 +810,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _wpsDropDown({required FetchAddTieinDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWPS,
       dropdownValue: dataState.wpsData.id != null ? dataState.wpsData : null,
       onChanged: (value) {
@@ -865,6 +848,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _jointNumberDropDown({required FetchAddTieinDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointNumberData.id != null
           ? dataState.jointNumberData
           : null,

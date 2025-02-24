@@ -256,7 +256,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _activityRemark(
       {required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,
@@ -266,6 +265,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _alignmentDropdown(
       {required FetchAddClearingGradingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -283,6 +283,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _weatherDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -303,6 +304,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _terrainDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
@@ -324,6 +326,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _gapLengthController(
       {required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.lengthMeter,
       controller: dataState.gapLengthController,
@@ -333,6 +336,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _gapDescriptionController(
       {required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       maxLine: 3,
       labelText: AppString.description,
       controller: dataState.gapDescriptionController,

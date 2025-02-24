@@ -32,22 +32,22 @@ class DropdownWidget extends StatelessWidget {
         children: [
           dropdownValue != null
               ? Padding(
-                  padding: const EdgeInsets.only(top: 2, bottom: 2),
-                  child: Text.rich(TextSpan(children: [
-                    TextSpan(
-                        text: hint,
-                        style: TextStyle(
-                          color: AppColor.themeColor,
-                          fontSize: AppFont.font_14,
-                        )),
-                    TextSpan(
-                        text: isRequired == false ? "" : ' *',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: AppFont.font_14,
-                        )),
-                  ])),
-                )
+            padding: const EdgeInsets.only(top: 2, bottom: 2),
+            child: Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: hint,
+                  style: TextStyle(
+                    color: AppColor.themeColor,
+                    fontSize: AppFont.font_14,
+                  )),
+              TextSpan(
+                  text: isRequired == true ? " *" : '',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: AppFont.font_14,
+                  )),
+            ])),
+          )
               : const SizedBox.shrink(),
           DropdownButton<dynamic>(
             hint: Text.rich(TextSpan(children: [

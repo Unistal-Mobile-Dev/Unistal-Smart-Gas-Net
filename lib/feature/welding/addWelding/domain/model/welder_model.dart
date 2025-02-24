@@ -5,12 +5,14 @@ List<WelderModel> welderListResponse(var json) {
 class WelderModel {
   String? id;
   String? welderName;
+  String? welderNumber;
 
-  WelderModel({this.id, this.welderName});
+  WelderModel({this.id, this.welderName, this.welderNumber});
 
   WelderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
     welderName = json['welder_name'] ?? "";
+    welderNumber = json['welder_number'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

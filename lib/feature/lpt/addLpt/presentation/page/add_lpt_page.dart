@@ -100,6 +100,7 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _alignmentDropdown({required FetchAddLptDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -115,6 +116,7 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _weatherDropDown({required FetchAddLptDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -170,6 +172,7 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _jointNumberDropDown({required FetchAddLptDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointData.id != null ? dataState.jointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointList,
@@ -211,7 +214,6 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _activityRemark({required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

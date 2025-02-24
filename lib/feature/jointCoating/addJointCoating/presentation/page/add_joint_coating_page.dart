@@ -60,13 +60,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _pipeMaterialDropDown(dataState: dataState),
-            _verticalSpace(),
-            _pipeDiaDropDown(dataState: dataState),
-            _verticalSpace(),
-            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),
-            _coatingTypeDropDown(dataState: dataState),
+            _sleeveTypeDropDown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
@@ -80,13 +74,13 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _locatinController(dataState: dataState),
             _verticalSpace(),
-            _electrometerNoController(dataState: dataState),
-            _verticalSpace(),
             _batchNoController(dataState: dataState),
             _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
-            /*          _jointTypeDropDown(dataState: dataState),
+/*            _pipeMaterialDropDown(dataState: dataState),
+            _verticalSpace(),*/
+/*            _pipeDiaDropDown(dataState: dataState),
             _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -96,6 +90,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
+            _thicknessDropDown(dataState: dataState),
+            _verticalSpace(),
+/*            _electrometerNoController(dataState: dataState),
+            _verticalSpace(),*/
             _onBodyController(dataState: dataState),
             _verticalSpace(),
             _onWeldController(dataState: dataState),
@@ -138,7 +136,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _onWeldController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.onWeld,
       controller: dataState.onWeldController,
     );
@@ -147,6 +144,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   Widget _alignmentDropdown(
       {required FetchAddJointCoatingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -163,6 +161,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _weatherDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -242,10 +241,11 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _coatingTypeDropDown(
+  Widget _sleeveTypeDropDown(
       {required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectCoatingType,
+      isRequired: true,
+      hint: AppString.sleeveType,
       dropdownValue: dataState.coatingTypeData.id != null
           ? dataState.coatingTypeData
           : null,
@@ -265,6 +265,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _peelTestDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectPeelTest,
       dropdownValue:
           dataState.peelTestData.id != null ? dataState.peelTestData : null,
@@ -321,7 +322,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   Widget _surfaceController(
       {required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.surface,
       controller: dataState.surfaceController,
     );
@@ -352,7 +352,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _onBodyController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.onBody,
       controller: dataState.onBodyController,
     );
@@ -480,7 +479,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _activityRemark({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

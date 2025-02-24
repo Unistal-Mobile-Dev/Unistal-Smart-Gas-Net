@@ -8,7 +8,8 @@ class DropDownSearchWidget extends StatelessWidget {
   final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
   final dynamic selectedItem;
-  final DropdownSearchOnFind<String>? asyncItems;
+  final bool? isRequired;
+  final bool? enabled;
 
   const DropDownSearchWidget({
     super.key,
@@ -17,7 +18,8 @@ class DropDownSearchWidget extends StatelessWidget {
     required this.itemAsString,
     required this.hint,
     this.selectedItem,
-    this.asyncItems,
+    this.isRequired,
+    this.enabled,
   });
 
   @override
@@ -27,6 +29,9 @@ class DropDownSearchWidget extends StatelessWidget {
           ? MediaQuery.of(context).size.height * 0.07
           : MediaQuery.of(context).size.height * 0.15,
       child: DropdownSearch<dynamic>(
+        selectedItem: selectedItem,
+        enabled: enabled ?? true,
+        compareFn: (i, s) => i.isEqual(s),
         dropdownDecoratorProps: DropDownDecoratorProps(
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
@@ -38,25 +43,41 @@ class DropDownSearchWidget extends StatelessWidget {
                 style: BorderStyle.none,
               ),
             ),
+            label: Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: hint,
+                  style: TextStyle(
+                    color: AppColor.themeColor,
+                    fontSize: AppFont.font_14,
+                  )),
+              TextSpan(
+                  text: isRequired == true ? " *" : '',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: AppFont.font_14,
+                  )),
+            ])),
+            labelStyle: TextStyle(
+                fontSize: AppFont.font_16, color: AppColor.themeColor),
             hintStyle: TextStyle(
                 fontSize: AppFont.font_14, color: AppColor.themeColor),
             contentPadding: EdgeInsets.only(
                 top: AppConfig.getDeviceType(context: context) ==
-                        DeviceType.phone
+                    DeviceType.phone
                     ? MediaQuery.of(context).size.height * 0.018
                     : MediaQuery.of(context).size.height * 0.03,
                 left: AppConfig.getDeviceType(context: context) ==
-                        DeviceType.phone
+                    DeviceType.phone
                     ? MediaQuery.of(context).size.height * 0.01
                     : MediaQuery.of(context).size.height * 0.02),
             hintText: hint,
             filled: false,
           ),
         ),
+        // items: (filter, infiniteScrollProps) => items,
         items: items,
         itemAsString: itemAsString,
         onChanged: onChanged,
-        selectedItem: selectedItem,
         popupProps: PopupProps.dialog(
             searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -83,6 +104,11 @@ class DropDownSearchWidget extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.30,
                         child: ButtonWidget(
+                          fontSize: AppFont.font_12,
+                          height: AppConfig.getDeviceType(context: context) ==
+                              DeviceType.tablet
+                              ? 50
+                              : MediaQuery.of(context).size.height * 0.038,
                           onPressed: () {
                             Navigator.pop(context);
                           },

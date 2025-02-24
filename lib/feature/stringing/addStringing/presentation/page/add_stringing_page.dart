@@ -239,6 +239,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   Widget _alignmentDropdown({required FetchAddStringingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -255,6 +256,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   Widget _weatherDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,

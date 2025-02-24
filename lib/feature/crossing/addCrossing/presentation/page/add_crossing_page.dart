@@ -60,8 +60,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -120,6 +118,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -136,6 +135,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _weatherDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -291,7 +291,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _concreteCoatingLengthController(
       {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.concreteCoatingLengthMeter,
       controller: dataState.concreteCoatingLengthController,
@@ -301,7 +300,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _crossingNameController(
       {required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.crossingName,
       controller: dataState.crossingNameController,
     );
@@ -376,6 +374,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddCrossingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -391,6 +390,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddCrossingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
@@ -415,7 +415,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _casingPipeLength({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.casingPipeLengthMeter,
       controller: dataState.casingPipeLengthController,
@@ -432,6 +431,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _crossingTypeDropDown({required FetchAddCrossingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectCrossingType,
       dropdownValue: dataState.crossingTypeData.id != null
           ? dataState.crossingTypeData
@@ -474,7 +474,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _activityRemark({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

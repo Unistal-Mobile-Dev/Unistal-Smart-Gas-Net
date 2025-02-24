@@ -68,20 +68,20 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
+            _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-            _weatherDropDown(dataState: dataState),
-            _verticalSpace(),
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _northCoordinateButton(dataState: dataState),
             _northingLatController(dataState: dataState),
             _verticalSpace(),
             _northingLongController(dataState: dataState),
+            _verticalSpace(),
+            _elevationPipetopController(dataState: dataState),
             _verticalSpace(),
             _pipeCoverController(dataState: dataState),
             _verticalSpace(),
@@ -122,6 +122,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _alignmentDropdown({required FetchAddLevellingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -138,6 +139,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _weatherDropDown({required FetchAddLevellingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -207,7 +209,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _northingLatController(
       {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
       labelText: AppString.northing,
@@ -218,7 +219,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _northingLongController(
       {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       enabled: false,
       textInputType: TextInputType.number,
       labelText: AppString.easting,
@@ -229,7 +229,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _elevationPipetopController(
       {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.elevationPipeTop,
       controller: dataState.elevationPipetopController,
     );
@@ -246,7 +245,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _pipeCoverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.pipeCover,
       controller: dataState.coverController,
@@ -256,7 +254,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _chainageFromController(
       {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
@@ -266,7 +263,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _chainageToController(
       {required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
@@ -275,7 +271,6 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _activityRemark({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

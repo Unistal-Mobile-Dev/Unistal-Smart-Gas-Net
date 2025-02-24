@@ -55,20 +55,18 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _pipeDiaDropDown(dataState: dataState),
-            _verticalSpace(),
-            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
+/*            _pipeDiaDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+/*            _thicknessDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _lengthController(dataState: dataState),
             _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
@@ -135,6 +133,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _alignmentDropdown({required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -151,6 +150,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _weatherDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -299,6 +299,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -314,6 +315,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
@@ -356,7 +358,6 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _postPaddingController(
       {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.postPadding,
       controller: dataState.postPaddingController,
     );
@@ -386,7 +387,6 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _activityRemark({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

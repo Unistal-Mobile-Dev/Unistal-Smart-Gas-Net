@@ -116,13 +116,13 @@ class HomeHelper {
             actionButtonWidget: null));
       }
 
-      drawerList.add(DrawerModel(
+/*      drawerList.add(DrawerModel(
           widget: const AddCutPipePage(),
           icon: Icons.panorama_horizontal_rounded,
           label: AppString.cutPipe,
           sublist: [],
           isSelected: false,
-          actionButtonWidget: _restoreActionWidget(context: context)));
+          actionButtonWidget: _restoreActionWidget(context: context)));*/
 
       drawerList.add(DrawerModel(
           widget: const AddWeldingPage(),
@@ -145,7 +145,7 @@ class HomeHelper {
       drawerList.add(DrawerModel(
           widget: const AddRadioGraphyPage(),
           icon: Icons.graphic_eq,
-          label: AppString.radiography,
+          label: AppString.ndtRT,
           sublist: [],
           isSelected: false,
           actionButtonWidget: null));
@@ -161,7 +161,7 @@ class HomeHelper {
       drawerList.add(DrawerModel(
           widget: const AddLptPage(),
           icon: Icons.local_play_outlined,
-          label: AppString.lpt,
+          label: AppString.ndtLpt,
           sublist: [],
           isSelected: false,
           actionButtonWidget: null));

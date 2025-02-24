@@ -185,7 +185,6 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
 
   Widget _activityRemark({required FetchAddHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

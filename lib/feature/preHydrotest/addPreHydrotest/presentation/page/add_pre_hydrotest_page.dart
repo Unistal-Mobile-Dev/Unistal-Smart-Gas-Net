@@ -127,6 +127,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _alignmentDropdown(
       {required FetchAddPreHydrotestDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -143,6 +144,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
 
   Widget _weatherDropDown({required FetchAddPreHydrotestDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -184,6 +186,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddPreHydrotestDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -199,6 +202,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddPreHydrotestDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
@@ -327,7 +331,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
 
   Widget _tempController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.temp,
       controller: dataState.tempController,

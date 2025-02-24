@@ -62,8 +62,6 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-            _lengthController(dataState: dataState),
-            _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
             AppConfig.instanceInit()!.client != Client.purvaBharti
@@ -73,6 +71,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             _toWidthController(dataState: dataState),
+            _verticalSpace(),
+            _lengthController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -141,7 +141,6 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _lengthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.length,
       controller: dataState.lengthController,
@@ -150,6 +149,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _alignmentDropdown({required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -166,6 +166,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _weatherDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -230,6 +231,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -245,6 +247,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
@@ -302,7 +305,6 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _toWidthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.widthMeter,
       controller: dataState.toWidthController,
@@ -311,7 +313,6 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _activityRemark({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

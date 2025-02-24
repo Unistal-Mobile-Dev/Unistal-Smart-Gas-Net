@@ -449,6 +449,30 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _welderData = WelderModel();
      rootWelders1Data =  WelderModel();
      rootWelders2Data =  WelderModel();
+    rootWelders2Data = WelderModel();
+    hotWelders1Data = WelderModel();
+    hotWelders2Data = WelderModel();
+    filler1Welders1Data = WelderModel();
+    filler1Welders2Data = WelderModel();
+    filler2Welders1Data = WelderModel();
+    filler2Welders2Data = WelderModel();
+    filler3Welders1Data = WelderModel();
+    filler3Welders2Data = WelderModel();
+    filler4Welders1Data = WelderModel();
+    filler4Welders2Data = WelderModel();
+    filler5Welders1Data = WelderModel();
+    filler5Welders2Data = WelderModel();
+    filler6Welders1Data = WelderModel();
+    filler6Welders2Data = WelderModel();
+    filler7Welders1Data = WelderModel();
+    filler7Welders2Data = WelderModel();
+    filler8Welders1Data = WelderModel();
+    filler8Welders2Data = WelderModel();
+
+    cappingWelder1Data = WelderModel();
+    cappingWelder2Data = WelderModel();
+    stripWelder1Data = WelderModel();
+    stripWelder2Data = WelderModel();
     _isWelderLoader = true;
     _eventComplete(emit);
     var resWelder = await AddWeldingHelper.fetchWelderData(
@@ -488,6 +512,30 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   _selectMultiWelder(AddWeldingSelectMultiWelderEvent event, emit) {
     if (event.name == AppString.rootWelders1) {
       rootWelders1Data = event.welderData;
+      rootWelders2Data = event.welderData;
+      hotWelders1Data = event.welderData;
+      hotWelders2Data = event.welderData;
+      filler1Welders1Data = event.welderData;
+      filler1Welders2Data = event.welderData;
+      filler2Welders1Data = event.welderData;
+      filler2Welders2Data = event.welderData;
+      filler3Welders1Data = event.welderData;
+      filler3Welders2Data = event.welderData;
+      filler4Welders1Data = event.welderData;
+      filler4Welders2Data = event.welderData;
+      filler5Welders1Data = event.welderData;
+      filler5Welders2Data = event.welderData;
+      filler6Welders1Data = event.welderData;
+      filler6Welders2Data = event.welderData;
+      filler7Welders1Data = event.welderData;
+      filler7Welders2Data = event.welderData;
+      filler8Welders1Data = event.welderData;
+      filler8Welders2Data = event.welderData;
+      stripWelder1Data = event.welderData;
+      stripWelder2Data = event.welderData;
+      cappingWelder1Data = event.welderData;
+      cappingWelder2Data = event.welderData;
+
     } else if (event.name == AppString.rootWelders2) {
       rootWelders2Data = event.welderData;
     } else if (event.name == AppString.hotWelders1) {
