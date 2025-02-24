@@ -108,6 +108,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _loginData = loginResponse(res['user']);
         String token = res['token'] ?? "";
         _loginData.token = token;
+        if(_loginData.roleType != RoleType.engineer){
+          SnackBarErrorWidget(event.context.mounted ? event.context : event.context)
+              .show(message: "Invalid user");
+          return;
+        }
         SharedPreferencesUtils.setString(
             key: PreferencesName.userName, value: email.toString());
         SharedPreferencesUtils.setString(
