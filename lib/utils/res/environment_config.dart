@@ -28,7 +28,7 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.developmentPurvaBharti:
         return "https://pbgpluat.smartgasnet.com/";
       case EnvironmentFlavours.productionPurvaBharti:
-        return "https://pbgpl.smartgasnet.com//";
+        return "https://pbgpl.smartgasnet.com/";
       case EnvironmentFlavours.developmentIgl:
         return "https://igl.smartgasnet.com/";
       case EnvironmentFlavours.productionIgl:
