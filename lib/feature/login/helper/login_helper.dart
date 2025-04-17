@@ -82,6 +82,7 @@ class LoginHelper {
           .show(message: "No internet Connection");
       return null;
     } catch (e) {
+      print(e.toString());
       SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: "Internal server error");
       return null;
