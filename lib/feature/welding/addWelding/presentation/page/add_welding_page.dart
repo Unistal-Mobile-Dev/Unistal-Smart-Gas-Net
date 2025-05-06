@@ -93,7 +93,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _filler2Welders1Controller(dataState: dataState),
@@ -135,7 +135,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _electrodeDiaE9045p2Controller(dataState: dataState),

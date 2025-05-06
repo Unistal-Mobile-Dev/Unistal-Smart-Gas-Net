@@ -53,8 +53,8 @@ class TabletDrawerWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
-                AppConfig.instanceInit()!.client == Client.purvaBharti
-                    ? AppIcon.appLogoPurvaBharti
+                AppConfig.instanceInit()!.client == Client.mgl
+                    ? AppIcon.appLogoMGL
                     : AppConfig.instanceInit()!.client == Client.unistal
                         ? AppIcon.appLogoUnistal
                         : AppIcon.appLogoIgl,

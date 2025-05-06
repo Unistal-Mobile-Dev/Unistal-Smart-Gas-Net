@@ -64,10 +64,10 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? _terrainTypeController(dataState: dataState)
                 : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             _toWidthController(dataState: dataState),

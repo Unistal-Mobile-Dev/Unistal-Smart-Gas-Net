@@ -69,7 +69,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),*/
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _locatinController(dataState: dataState),
@@ -89,10 +89,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
                 : const SizedBox.shrink(),
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? _holidayChecksDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             _activityRemark(dataState: dataState),

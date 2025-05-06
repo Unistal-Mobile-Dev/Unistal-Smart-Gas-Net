@@ -47,8 +47,8 @@ class HomeDrawerWidget extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.asset(
-            AppConfig.instanceInit()!.client == Client.purvaBharti
-                ? AppIcon.appLogoPurvaBharti
+            AppConfig.instanceInit()!.client == Client.mgl
+                ? AppIcon.appLogoMGL
                 : AppConfig.instanceInit()!.client == Client.unistal
                     ? AppIcon.appLogoUnistal
                     : AppIcon.appLogoIgl,

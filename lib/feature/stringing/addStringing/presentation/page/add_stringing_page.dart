@@ -60,7 +60,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _chainageToController(dataState: dataState),

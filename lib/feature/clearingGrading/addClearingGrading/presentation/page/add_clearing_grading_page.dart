@@ -79,7 +79,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
               ),
             )),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _tpIpChainageController(dataState: dataState),

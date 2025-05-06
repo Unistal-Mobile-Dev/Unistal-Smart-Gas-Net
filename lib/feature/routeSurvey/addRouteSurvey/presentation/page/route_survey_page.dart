@@ -63,7 +63,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
             _tpIpNOSController(dataState: dataState),
             _verticalSpace(),
             _groundTypeDropDown(dataState: dataState),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _tpRemarkController(dataState: dataState),

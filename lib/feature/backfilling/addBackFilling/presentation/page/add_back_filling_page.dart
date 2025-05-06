@@ -71,7 +71,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.purvaBharti
+            AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
                       _postPaddingController(dataState: dataState),

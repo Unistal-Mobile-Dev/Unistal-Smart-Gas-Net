@@ -69,7 +69,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddRouHandoverPage(),
             icon: Icons.handshake_outlined,
@@ -106,7 +106,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddBendingPage(),
             icon: Icons.webhook_rounded,
@@ -132,7 +132,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddWelderRepairPage(),
             icon: Icons.tire_repair_sharp,
@@ -166,7 +166,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddNdtAutPage(),
             icon: Icons.auto_awesome_mosaic_outlined,
@@ -192,7 +192,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddConcreteCoatingPage(),
             icon: Icons.business,
@@ -210,7 +210,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddHdpeDuctPage(),
             icon: Icons.padding_outlined,
@@ -244,7 +244,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddOfcSplicingPage(),
             icon: Icons.offline_share,
@@ -286,7 +286,7 @@ class HomeHelper {
           isSelected: false,
           actionButtonWidget: null));
 
-      if (AppConfig.instanceInit()!.client != Client.purvaBharti) {
+      if (AppConfig.instanceInit()!.client != Client.mgl) {
         drawerList.add(DrawerModel(
             widget: const AddRestorationPage(),
             icon: Icons.present_to_all_sharp,
