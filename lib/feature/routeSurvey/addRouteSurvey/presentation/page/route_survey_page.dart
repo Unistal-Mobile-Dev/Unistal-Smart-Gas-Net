@@ -269,8 +269,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+
           child: dataState.file.path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

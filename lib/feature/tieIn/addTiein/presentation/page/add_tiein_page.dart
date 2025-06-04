@@ -909,8 +909,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+
           child: dataState.file.path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
