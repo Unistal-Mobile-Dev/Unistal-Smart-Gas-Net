@@ -31,8 +31,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final PipeModel pipeData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
-  final TextEditingController chainageFromController;
-  final TextEditingController chainageToController;
+  List<TextEditingController> chainageFromController;
+  List<TextEditingController> chainageToController;
   final TextEditingController pipeLengthController;
   final List<PipeModel> pipeLengthList;
 

@@ -119,10 +119,13 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       jointTypeList = resJointType;
     }*/
 
+
+
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
+        context: event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "welding"
+        );
     if (resJointNumber != null) {
       jointList = resJointNumber;
     }
@@ -182,13 +185,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     jointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointList = resJointNumber;
-    }
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

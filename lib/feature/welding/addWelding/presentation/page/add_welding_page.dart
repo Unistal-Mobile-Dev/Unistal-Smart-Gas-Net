@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/dropdown_widgets.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddWeldingPage extends StatefulWidget {
@@ -787,42 +788,68 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeDiaE6010Controller(
       {required FetchAddWeldingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE6010,
-      controller: dataState.electrodeDiaE6010Controller,
+    return DropdownWidgets(
+      label: AppString.electrodeDiaE6010,
+      hint: AppString.electrodeDiaE6010,
+      items: dataState.electrodeDiaE6010DiaList,
+      dropdownValue:dataState.electrodeDiaE6010Value.diaValue != null ? dataState.electrodeDiaE6010Value : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(SelectElectrodeDiaE6010Event(
+            electrodeDiaE6010Value: value!,
+            context: context
+        ));
+      },
     );
   }
 
-  Widget _electrodeDiaE6010BatchController(
-      {required FetchAddWeldingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE6010Batch,
-      controller: dataState.electrodeDiaE6010BatchController,
-    );
+  Widget _electrodeDiaE6010BatchController({required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidgets(
+      label: AppString.electrodeDiaE6010Batch,
+      hint: AppString.electrodeDiaE6010Batch,
+      items: dataState.electrodeDiaE6010BatchList,
+      dropdownValue:dataState.electrodeDiaE6010BatchValue.batchNo != null ? dataState.electrodeDiaE6010BatchValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(SelectElectrodeDiaE6010BatchEvent(
+            electrodeDiaE6010BatchValue: value!,
+            context: context
+        ));
+      },
+    ) : DottedLoaderWidget();
   }
 
   Widget _electrodeEiaE8010p1Controller(
       {required FetchAddWeldingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE7010P1,
-      controller: dataState.electrodeEiaE8010p1Controller,
+    return DropdownWidgets(
+      label: AppString.electrodeDiaE7010P1,
+      hint: AppString.electrodeDiaE7010P1,
+      items: dataState.electrodeEiaE8010p1DiaList,
+      dropdownValue:dataState.electrodeEiaE8010p1Value.diaValue != null ? dataState.electrodeEiaE8010p1Value : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(SelectElectrodeEiaE8010p1Event(
+            electrodeEiaE8010p1Value: value!,
+            context: context
+        ));
+      },
     );
   }
 
-  Widget _electrodeEiaE8010p1BatchController(
-      {required FetchAddWeldingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE7010P1Batch,
-      controller: dataState.electrodeEiaE8010p1BatchController,
-    );
+  Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidgets(
+      label: AppString.electrodeDiaE7010P1Batch,
+      hint: AppString.electrodeDiaE7010P1Batch,
+      items: dataState.electrodeEiaE8010p1BatchList,
+      dropdownValue:dataState.electrodeEiaE8010p1BatchValue.batchNo != null ? dataState.electrodeEiaE8010p1BatchValue : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context)
+              .add(SelectElectrodeEiaE8010p1BatchEvent(
+              electrodeEiaE8010p1BatchValue: value!,
+            context: context
+          ));
+        },
+    ) : DottedLoaderWidget();
   }
 
   Widget _electrodeDiaE9045p2Controller(

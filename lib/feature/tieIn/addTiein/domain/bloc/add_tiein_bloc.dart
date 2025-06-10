@@ -346,15 +346,23 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       _jointTypeList = resJointType;
     }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
         type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
+    }*/
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
+        type: "welding",
+      //  jointTypeData: jointTypeData
+    );
+    if (resJointNumber != null) {
+      _jointNumberList = resJointNumber;
     }
-
     var resVisual = await AddBendingHelper.fetchVisualChecks(
         context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
@@ -547,14 +555,14 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     _jointNumberData = JointNumberModel();
     _isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
-    }
+    }*/
     _isJointNumberLoader = false;
     _eventComplete(emit);
   }

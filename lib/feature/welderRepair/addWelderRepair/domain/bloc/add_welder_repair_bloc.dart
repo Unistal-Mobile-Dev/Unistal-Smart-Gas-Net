@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
@@ -48,8 +50,12 @@ class AddWelderRepairBloc
   JointTypeModel jointTypeData = JointTypeModel();
   List<JointNumberModel> jointNumberList = [];
   JointNumberModel jointNumberData = JointNumberModel();
-  List<WelderRepairStatusModel> welderRepairStatusList = [];
-  WelderRepairStatusModel welderRepairStatusData = WelderRepairStatusModel();
+
+  VisualChecksModel _weldVisualData = VisualChecksModel();
+  VisualChecksModel get weldVisualData => _weldVisualData;
+  List<VisualChecksModel> _weldVisualList = [];
+  List<VisualChecksModel> get weldVisualList => _weldVisualList;
+
   bool isJointNumberLoader = false;
   bool isWelderLoader = false;
 
@@ -64,7 +70,7 @@ class AddWelderRepairBloc
     on<SelectWeatherEvent>(_selectWeather);
     on<AddWelderRepairSelectJointTypeEvent>(_selectJointType);
     on<AddWelderRepairSelectJointNumberEvent>(_selectJointNumber);
-    on<AddWelderRepairSelectWelderRepairStatusEvent>(_selectWelderRepairStatus);
+    on<AddWelderRepairSelectWeldVisualEvent>(_selectWelderRepairStatus);
     on<AddWelderRepairSelectSegmentEvent>(_selectSegment);
     on<AddWelderRepairSelectWPSTypeEvent>(_selectWpsType);
     on<AddWelderRepairSelectWelderEvent>(_selectWelder);
@@ -80,12 +86,12 @@ class AddWelderRepairBloc
     jointTypeData = JointTypeModel();
     alignmentData = AlignmentModel();
     weatherData = WeatherModel();
-    welderRepairStatusData = WelderRepairStatusModel();
+    _weldVisualData = VisualChecksModel();
     weatherList = [];
     alignmentList = [];
     jointTypeList = [];
     jointNumberList = [];
-    welderRepairStatusList = [];
+    _weldVisualList = [];
     selectedSegmentStatusList = [];
     welderList = [];
     wpsTypeList = [];
@@ -117,17 +123,32 @@ class AddWelderRepairBloc
       jointTypeList = resJointType;
     }
 
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+      context: event.context,
+      userData: userData,
+      type: "afterndtrt",
+    );
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
+    }
+
     var resSegment = await AddRadiographyHelper.fetchSegmentData(
         context: !event.context.mounted ? event.context : event.context, userData: userData, welderList: welderList);
     if (resSegment != null) {
       segmentStatusList = resSegment;
     }
-
-    var resweldStatus = await AddWelderRepairHelper.fetchWelderRepairStatusData(
+    var resVisual = await AddBendingHelper.fetchVisualChecks(
         context: !event.context.mounted ? event.context : event.context);
-    if (resweldStatus != null) {
-      welderRepairStatusList = resweldStatus;
+    if (resVisual != null) {
+      _weldVisualList = resVisual;
     }
+
+
+    // var resweldStatus = await AddWelderRepairHelper.fetchWelderRepairStatusData(
+    //     context: !event.context.mounted ? event.context : event.context);
+    // if (resweldStatus != null) {
+    //   welderRepairStatusList = resweldStatus;
+    // }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
@@ -172,21 +193,23 @@ class AddWelderRepairBloc
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+        jointTypeData: jointTypeData,
+      type: "afterndtrt",
+    );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
     _eventComplete(emit);
   }
 
-  _selectWelderRepairStatus(
-      AddWelderRepairSelectWelderRepairStatusEvent event, emit) {
-    welderRepairStatusData = event.welderRepairStatusData;
+  _selectWelderRepairStatus(AddWelderRepairSelectWeldVisualEvent event, emit) {
+
+    _weldVisualData = event.weldVisualData;
     _eventComplete(emit);
   }
 
@@ -249,7 +272,7 @@ class AddWelderRepairBloc
         jointTypeData: jointTypeData,
         jointNumberData: jointNumberData,
         segmentList: selectedSegmentStatusList,
-        welderRepairStatusData: welderRepairStatusData,
+        weldVisualData: weldVisualData,
         wpsTypeData: wpsTypeData,
         welderData: welderData,
         e6010: e6010Controller.text.toString(),
@@ -266,7 +289,7 @@ class AddWelderRepairBloc
       jointNumberData = JointNumberModel();
       jointTypeData = JointTypeModel();
       alignmentData = AlignmentModel();
-      welderRepairStatusData = WelderRepairStatusModel();
+      _weldVisualData = VisualChecksModel();
       selectedSegmentStatusList = [];
       dateController.text = "";
       activityRemarkController.text = "";
@@ -314,8 +337,8 @@ class AddWelderRepairBloc
       jointNumberData: jointNumberData,
       jointTypeData: jointTypeData,
       jointTypeList: jointTypeList,
-      welderRepairStatusData: welderRepairStatusData,
-      welderRepairStatusList: welderRepairStatusList,
+      weldVisualData: weldVisualData,
+      weldVisualList: weldVisualList,
       isJointNumberLoader: isJointNumberLoader,
       preHeatingTemperatureController: preHeatingTemperatureController,
       isWelderLoader: isWelderLoader,

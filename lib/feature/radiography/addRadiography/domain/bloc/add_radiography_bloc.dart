@@ -144,14 +144,24 @@ class AddRadiographyBloc
       jointTypeList = resJointType;
     }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+        jointTypeData: jointTypeData,
+      type: "afterwelding"
+    );
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
+    }*/
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
+        type: "afterwelding"
+      //  jointTypeData: jointTypeData
+    );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }
-
     var resWelder = await AddWeldingHelper.fetchWelderData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
@@ -235,13 +245,13 @@ class AddRadiographyBloc
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

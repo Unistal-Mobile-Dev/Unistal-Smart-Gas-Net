@@ -40,6 +40,16 @@ class AddStringingAddPipeLengthEvent extends AddStringingEvent {
   List<Object?> get props => [context];
 }
 
+class AddStringingChainageFromAddEvent extends AddStringingEvent {
+  final BuildContext context;
+  final int index;
+
+  const AddStringingChainageFromAddEvent({required this.context, required this.index});
+
+  @override
+  List<Object?> get props => [context, index];
+}
+
 class AddStringingDeletePipeLengthEvent extends AddStringingEvent {
   final BuildContext context;
   final int index;

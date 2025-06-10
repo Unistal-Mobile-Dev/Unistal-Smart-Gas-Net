@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -57,9 +58,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<DrawerSubModel> get restaurantMenu => _restaurantMenu;
 
-  String _appInfo = "";
 
-  String get appInfo => _appInfo;
+
+
+  List<ActivitySectionData> _listActivityData = [];
+  List<ActivitySectionData> get listActivityData => _listActivityData;
+  List<ActivitySectionData> _listFilterActivityData = [];
+  List<ActivitySectionData> get listFilterActivityData => _listFilterActivityData;
 
   HomeBloc() : super(HomeInitial()) {
     on<HomePageLoadEvent>(_pageLoad);
@@ -76,18 +81,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _bottomNavigationBarItemList = [];
     _restaurantMenu = [];
     _pageWidgetList = [];
+    _listActivityData = [];
+    _listFilterActivityData = [];
     _isLoader = false;
     _title = "Dashboard";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
+    _listActivityData = await HomeHelper.activityBySectionApi(userData: userData) ?? [];
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
 
     HomeHelper.checkAppUpdate(
         context: !event.context.mounted ? event.context : event.context);
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
-    _appInfo =
-        "Version : $version\n Date : 10-01-2025\nUnistal systems pvt. Ltd";
+
     _eventCompleted(emit);
   }
 
@@ -162,7 +169,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       childWidget: childWidget,
       title: title,
       actionButtonWidget: actionButtonWidget,
-      appInfo: appInfo,
     ));
   }
 }

@@ -93,9 +93,10 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     Singleton.instanceInit()?.context = context;
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+   /* SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));*/
     AppConfig.instanceInit()!.setClient(client: widget.client);
+
     return MultiProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => LoginBloc()),

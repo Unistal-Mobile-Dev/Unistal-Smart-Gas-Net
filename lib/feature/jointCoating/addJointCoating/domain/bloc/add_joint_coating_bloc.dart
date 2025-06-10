@@ -164,9 +164,10 @@ class AddJointCoatingBloc
     }*/
 
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
+        context: event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "welding"
+    );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -274,14 +275,14 @@ class AddJointCoatingBloc
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

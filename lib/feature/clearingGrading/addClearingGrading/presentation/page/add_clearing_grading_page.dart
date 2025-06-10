@@ -147,7 +147,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       controller: dataState.chainageFromController,
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(CalculateLengthEvent(isChainageTo: false, value: value));
+            .add(CalculateLengthEvent(isChainageTo: false, value: value, context:context));
       },
     );
   }
@@ -161,7 +161,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       controller: dataState.chainageToController,
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(CalculateLengthEvent(isChainageTo: true, value: value));
+            .add(CalculateLengthEvent(isChainageTo: true, value: value, context:context));
       },
     );
   }
@@ -304,7 +304,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _terrainDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget(
-      isRequired: true,
       hint: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
@@ -326,7 +325,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _gapLengthController(
       {required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.lengthMeter,
       controller: dataState.gapLengthController,
@@ -336,7 +334,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _gapDescriptionController(
       {required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.description,
       controller: dataState.gapDescriptionController,

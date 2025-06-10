@@ -11,8 +11,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 part 'add_stringing_event.dart';
+
 part 'add_stringing_state.dart';
 
 class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
@@ -52,6 +54,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   AlignmentModel get alignmentData => _alignmentData;
 
+  double totalChainage = 0.0;
+  List<String> formattedPipeChainageList = [];
+
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
@@ -76,6 +81,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   TextEditingController searchPipeController = TextEditingController();
 
   List<PipeModel> pipeLengthList = [];
+  List<TextEditingController> chainageFromControllers = [];
+  List<TextEditingController> chainageToControllers = [];
 
   AddStringingBloc() : super(AddStringingInitial()) {
     on<AddStringingPageLoadEvent>(_pageLoadEvent);
@@ -85,6 +92,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     on<AddStringingSelectDateEvent>(_selectDate);
     on<AddStringingSelectPipeDataEvent>(_selectPipe);
     on<AddStringingAddPipeLengthEvent>(_addPipeLength);
+    on<AddStringingChainageFromAddEvent>(_chainageFromAdd);
     on<AddStringingDeletePipeLengthEvent>(_deletePipeLength);
     on<AddStringingSearchPipeDataEvent>(_searchPipeData);
     on<AddStringingSelectConcreteCoatingEvent>(_selectConcreteCoating);
@@ -101,6 +109,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _pipeList = [];
     _concreteCoatingList = [];
     pipeLengthList = [];
+    chainageFromControllers = [];
+    chainageToControllers = [];
     _concreteCoatingData = ConcreteCoatingModel();
     _isLoader = false;
     _alignmentList = [];
@@ -111,6 +121,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     chainageToController.text = "";
     searchPipeController.text = "";
     _searchPipeLoader = false;
+    totalChainage = 0.0;
+    formattedPipeChainageList = [];
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
@@ -173,17 +185,96 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   }
 
   _addPipeLength(AddStringingAddPipeLengthEvent event, emit) {
-    if (searchPipeController.text.toString().isEmpty) {
+    if (searchPipeController.text.trim().isEmpty) {
       SnackBarErrorWidget(event.context)
           .show(message: "Please enter pipe length");
       return;
     }
+
+    final matchingPipes = _pipeList
+        .where((pipe) =>
+            "${pipe.pipeNumber.toString().trim()}|${pipe.heatNumber.toString().trim()}|${pipe.pipeLength.toString().trim()}" ==
+            searchPipeController.text.trim())
+        .toList();
+
+    if (matchingPipes.isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Pipe number not found, Please check");
+      return;
+    }
     _isLoader = true;
     _eventComplete(emit);
+
+    double chainageFrom =
+        double.tryParse(chainageFromController.text.toString()) ?? 0.0;
+    print("chainageFrom--->${chainageFrom}");
+
+    if (chainageToControllers.isNotEmpty) {
+      chainageFrom = double.tryParse(chainageToControllers.last.text) ?? 0.0;
+    }
+
+    double pipeLength = double.tryParse(pipeData.pipeLength.toString()) ?? 0.0;
+    double chainageTo = chainageFrom + pipeLength;
+
+    chainageFromController =
+        TextEditingController(text: chainageFrom.toStringAsFixed(2));
+    chainageToController =
+        TextEditingController(text: chainageTo.toStringAsFixed(2));
+
+    chainageFromControllers.add(chainageFromController);
+    chainageToControllers.add(chainageToController);
+
+    formattedPipeChainageList.add(
+        "${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
+
     pipeLengthList.add(pipeData);
+
     searchPipeController.text = "";
     _isLoader = false;
     _searchPipeList = [];
+    _eventComplete(emit);
+  }
+
+  _chainageFromAdd(AddStringingChainageFromAddEvent event, emit) {
+    final index = event.index;
+    double? fromValue = double.tryParse(chainageFromControllers[index].text);
+    double pipeLength =
+        double.tryParse(pipeLengthList[index].pipeLength.toString()) ?? 0;
+
+    if (fromValue != null) {
+      double toValue = fromValue + pipeLength;
+      chainageToControllers[index].text = toValue.toStringAsFixed(2);
+      String formattedFrom = fromValue.toStringAsFixed(2);
+      String formattedTo = toValue.toStringAsFixed(2);
+      if (formattedPipeChainageList.length > index) {
+        formattedPipeChainageList[index] =
+            "${pipeLengthList[index].id} : $formattedFrom : $formattedTo";
+      } else {
+        formattedPipeChainageList
+            .add("${pipeLengthList[index].id} : $formattedFrom : $formattedTo");
+      }
+      for (int i = index + 1; i < pipeLengthList.length; i++) {
+        double prevTo = double.tryParse(chainageToControllers[i - 1].text) ?? 0;
+        double nextPipeLength =
+            double.tryParse(pipeLengthList[i].pipeLength.toString()) ?? 0;
+        chainageFromControllers[i].text = prevTo.toStringAsFixed(2);
+        chainageToControllers[i].text =
+            (prevTo + nextPipeLength).toStringAsFixed(2);
+        String formattedFromNext = prevTo.toStringAsFixed(2);
+        String formattedToNext = (prevTo + nextPipeLength).toStringAsFixed(2);
+        if (formattedPipeChainageList.length > i) {
+          formattedPipeChainageList[i] =
+              "${pipeLengthList[i].id} : $formattedFromNext : $formattedToNext";
+        } else {
+          formattedPipeChainageList.add(
+              "${pipeLengthList[i].id} : $formattedFromNext : $formattedToNext");
+        }
+      }
+    }
+
+    print("formattedPipeChainageList --> $formattedPipeChainageList");
+    print("chainageToControllers --> ${chainageToControllers[index].text}");
+    print("chainageFromControllers --> ${chainageFromControllers[index].text}");
     _eventComplete(emit);
   }
 
@@ -191,6 +282,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _isLoader = true;
     _eventComplete(emit);
     pipeLengthList.removeAt(event.index);
+    chainageFromControllers.removeAt(event.index);
+    chainageToControllers.removeAt(event.index);
+    formattedPipeChainageList.removeAt(event.index);
     _isLoader = false;
     _eventComplete(emit);
   }
@@ -251,10 +345,11 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       activityRemark: activityRemarkController.text.toString(),
       userData: userData,
       file: file,
-      chainageFrom: chainageFromController.text.toString(),
-      chainageTo: chainageToController.text.toString(),
+      chainageFrom: "0",
+      chainageTo: "0",
       weatherData: weatherData,
-      pipeLength: pipeLengthList,
+      //  pipeLength: pipeLengthList,
+      pipeLength: formattedPipeChainageList,
     );
     _isLoader = false;
     _eventComplete(emit);
@@ -292,8 +387,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       pipeList: pipeList,
       weatherData: weatherData,
       weatherList: weatherList,
-      chainageFromController: chainageFromController,
-      chainageToController: chainageToController,
+      chainageFromController: chainageFromControllers,
+      chainageToController: chainageToControllers,
       searchPipeList: searchPipeList,
       searchPipeController: searchPipeController,
       pipeLengthController: pipeLengthController,

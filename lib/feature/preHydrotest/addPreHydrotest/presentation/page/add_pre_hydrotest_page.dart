@@ -218,7 +218,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _pressureGaugeNoController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.text,
       labelText: AppString.pressureGaugeNo,
       controller: dataState.pressureGaugeNoController,
@@ -228,7 +227,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _pressureGaugeCalibrationDateController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       enabled: false,
       labelText: AppString.pressureGaugeCalibrationDate,
       controller: dataState.pressureGaugeCalibrationDateController,
@@ -244,7 +242,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _testPressureController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.text,
       labelText: AppString.testPressure,
       controller: dataState.testPressureController,
@@ -253,7 +250,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
 
   Widget _rangeController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.range,
       controller: dataState.rangeController,
@@ -263,7 +259,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _pipeSizeController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.text,
       labelText: AppString.pipeSize,
       controller: dataState.pipeSizeController,
@@ -273,7 +268,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _durationController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.duration,
       controller: dataState.durationController,
@@ -282,7 +276,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
 
   Widget _timeOnController({required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.timeOn,
       controller: dataState.timeOnController,
@@ -292,7 +285,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _timeOffController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.timeOff,
       controller: dataState.timeOffController,
@@ -302,7 +294,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _timeInHoursController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.timeInHours,
       controller: dataState.timeInHoursController,
@@ -312,7 +303,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _pressureReading1KGController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.pressureReading1Kg,
       controller: dataState.pressureReading1KGController,
@@ -322,7 +312,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   Widget _pressureReading2KGController(
       {required FetchAddPreHydrotestDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.pressureReading2Kg,
       controller: dataState.pressureReading2KGController,
@@ -344,6 +333,10 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddPreHydrotestBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: true, value: value, context: context));
+      },
     );
   }
 
@@ -354,6 +347,10 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddPreHydrotestBloc>(context)
+            .add(CalculateLengthEvent(isChainageTo: true, value: value, context: context));
+      },
     );
   }
 

@@ -6,16 +6,31 @@ import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart'
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-/*  await HiveDataBase().init();*/
+
   var configuredApp = const EnvironmentConfig(
-      flavours: EnvironmentFlavours.productionMgl,
-      child: Root(
-        client: Client.mgl,
-      ));
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom]);
+    flavours: EnvironmentFlavours.productionMgl,
+    child: Root(
+      client: Client.mgl,
+    ),
+  );
+
+
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+  );
+
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.dark,
+  ));
+
   runApp(configuredApp);
 }

@@ -132,10 +132,22 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       jointTypeList = resJointType;
     }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+        jointTypeData: jointTypeData,
+      type: "afterndtrt",
+    );
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
+    }*/
+
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
+      type: "afterndtrt",);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -216,14 +228,14 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

@@ -146,10 +146,12 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "afterwelding",
+    );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }
+
 
     var resSegment = await AddNdtMutHelper.fetchSegmentData(
         context: !event.context.mounted ? event.context: event.context, userData: userData);
@@ -185,13 +187,13 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

@@ -39,8 +39,8 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final JointTypeModel jointTypeData;
   final List<JointNumberModel> jointNumberList;
   final JointNumberModel jointNumberData;
-  final List<WelderRepairStatusModel> welderRepairStatusList;
-  final WelderRepairStatusModel welderRepairStatusData;
+  final List<VisualChecksModel> weldVisualList;
+  final VisualChecksModel weldVisualData;
   final bool isJointNumberLoader;
   final bool isWelderLoader;
 
@@ -68,8 +68,8 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
     required this.jointNumberData,
     required this.jointTypeData,
     required this.jointTypeList,
-    required this.welderRepairStatusList,
-    required this.welderRepairStatusData,
+    required this.weldVisualList,
+    required this.weldVisualData,
     required this.isJointNumberLoader,
     required this.isWelderLoader,
     required this.preHeatingTemperatureController,
@@ -100,8 +100,8 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
         jointNumberData,
         jointTypeData,
         jointTypeList,
-        welderRepairStatusList,
-        welderRepairStatusData,
+    weldVisualList,
+    weldVisualData,
         isJointNumberLoader,
         isWelderLoader,
         preHeatingTemperatureController,

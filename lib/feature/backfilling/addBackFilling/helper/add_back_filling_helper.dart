@@ -100,19 +100,19 @@ class AddBackFillingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "0",
+            alignmentData.id != null ? alignmentData.id.toString() : "",
         "plastic_grating":
             plasticGrating.id != null ? plasticGrating.id.toString() : "0",
         "joint_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "0",
         "from_joint_id":
-            fromJointData.id != null ? fromJointData.id.toString() : "0",
-        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "0",
+            fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "post_padding": postPadding,
         "slope_breaker": slopeBreaker,
         "warning_mat": warningMat,
         "anti_buoyancy": antiBuoyancy,
-        "weather": weatherData.id != null ? weatherData.id.toString() : "0",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "0",
         "pipe_thickness_id":
             thicknessData.id != null ? thicknessData.id.toString() : "0",

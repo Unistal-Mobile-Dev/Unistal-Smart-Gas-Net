@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -55,7 +56,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            _verticalSpace(),
+          /*  _verticalSpace(),
             TextWidget(
               "Electrode/Filler Wire No.",
               color: AppColor.themeColor,
@@ -72,21 +73,21 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
             _verticalSpace(),
             _e81TM21ABController(dataState: dataState),
             _verticalSpace(),
-            const Divider(),
+            const Divider(),*/
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+          /*  _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
-            _repairStatusDropDown(dataState: dataState),
             _verticalSpace(),
             _segmentDropdown(dataState: dataState),
             _verticalSpace(),
             _wpdTypeDropDown(dataState: dataState),
             _verticalSpace(),
+            _welderDropDown(dataState: dataState),
+            _verticalSpace(),
             _preHeatingTemperatureController(dataState: dataState),
             _verticalSpace(),
-            _welderDropDown(dataState: dataState),
+            _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -118,6 +119,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   Widget _alignmentDropdown(
       {required FetchAddWelderRepairDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
@@ -134,6 +136,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
   Widget _weatherDropDown({required FetchAddWelderRepairDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -197,6 +200,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   Widget _jointTypeDropDown(
       {required FetchAddWelderRepairDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
@@ -219,6 +223,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
       {required FetchAddWelderRepairDataState dataState}) {
     return dataState.isJointNumberLoader == false
         ? DropdownWidget(
+      isRequired: true,
             hint: AppString.selectJointNumber,
             dropdownValue: dataState.jointNumberData.id != null
                 ? dataState.jointNumberData
@@ -240,31 +245,28 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
         : const DottedLoaderWidget();
   }
 
-  Widget _repairStatusDropDown(
-      {required FetchAddWelderRepairDataState dataState}) {
+  Widget _weldVisualDropDown({required FetchAddWelderRepairDataState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectRepairStatus,
-      dropdownValue: dataState.welderRepairStatusData.id != null
-          ? dataState.welderRepairStatusData
-          : null,
+      hint: AppString.selectWeldVisual,
+      dropdownValue:
+      dataState.weldVisualData.id != null ? dataState.weldVisualData : null,
       onChanged: (value) {
-        BlocProvider.of<AddWelderRepairBloc>(context).add(
-            AddWelderRepairSelectWelderRepairStatusEvent(
-                welderRepairStatusData: value));
+        BlocProvider.of<AddWelderRepairBloc>(context)
+            .add(AddWelderRepairSelectWeldVisualEvent(weldVisualData: value));
       },
-      items: dataState.welderRepairStatusList
-          .map<DropdownMenuItem<WelderRepairStatusModel>>(
-              (WelderRepairStatusModel welderRepairStatusData) {
-        return DropdownMenuItem<WelderRepairStatusModel>(
-          value: welderRepairStatusData,
-          child: Text(welderRepairStatusData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.weldVisualList.map<DropdownMenuItem<VisualChecksModel>>(
+              (VisualChecksModel welderData) {
+            return DropdownMenuItem<VisualChecksModel>(
+              value: welderData,
+              child: Text(welderData.value.toString()),
+            );
+          }).toList(),
     );
   }
 
   Widget _segmentDropdown({required FetchAddWelderRepairDataState dataState}) {
     return DropDownSearchMultiSelectWidget(
+      isRequired: true,
       selectedItem: dataState.selectedSegmentStatusList,
       hint: AppString.selectSegment,
       items: dataState.segmentStatusList,
@@ -304,7 +306,6 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   Widget _preHeatingTemperatureController(
       {required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.preHeatingTemperature,
       controller: dataState.preHeatingTemperatureController,
@@ -334,7 +335,6 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
   Widget _activityRemark({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

@@ -131,7 +131,9 @@ class AddBackFillingBloc
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+        type: "afterndtrt"
+      //jointTypeData: jointTypeData
+    );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -174,12 +176,22 @@ class AddBackFillingBloc
     } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
       double chainageTo =  double.parse(value.toString());
       double chainageFrom =  double.parse(chainageFromController.text.toString());
-      lengthController.text =  "${chainageTo - chainageFrom}";
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text = "${chainageTo - chainageFrom}";
+      }
 
     } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
       double chainageTo =  double.parse(chainageToController.text.toString());
       double chainageFrom =  double.parse(value);
-      lengthController.text =  "${chainageTo - chainageFrom}";
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text = "${chainageTo - chainageFrom}";
+      }
     }
     _eventComplete(emit);
   }
@@ -213,14 +225,15 @@ class AddBackFillingBloc
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "afterndtrt",
+    );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

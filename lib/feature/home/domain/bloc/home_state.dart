@@ -24,7 +24,6 @@ class FetchHomeDataState extends HomeInitial {
   final Widget childWidget;
   final Widget actionButtonWidget;
   final String title;
-  final String appInfo;
 
   FetchHomeDataState({
     required this.isLoader,
@@ -36,7 +35,6 @@ class FetchHomeDataState extends HomeInitial {
     required this.childWidget,
     required this.title,
     required this.actionButtonWidget,
-    required this.appInfo,
   });
 
   @override
@@ -50,6 +48,5 @@ class FetchHomeDataState extends HomeInitial {
         childWidget,
         title,
         actionButtonWidget,
-        appInfo,
       ];
 }

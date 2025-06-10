@@ -6,6 +6,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_batch_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -269,13 +271,15 @@ class AddWeldingHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&
           res['success'] == 415 &&
           res['data'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['data']);
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['data']);
         return null;
       } else if (res != null &&
           res['success'] != null &&
@@ -287,11 +291,13 @@ class AddWeldingHelper {
               ..replaceAll("}", ""));
         return null;
       } else {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }
@@ -312,6 +318,51 @@ class AddWeldingHelper {
           res['success'] == 200 &&
           res['data'] != null) {
         return wpsListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchElectrodeDia(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getElectrodeDiaBatch;
+      var param = {
+        "schema": userData.schema,
+        "section_id": userData.sectionId,
+      };
+      String json = Uri(queryParameters: param).query;
+      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
+        return electrodeDiaListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchElectrodeBatch(
+      {required BuildContext context, required LoginDataModel userData, required String diaValue}) async {
+    try {
+      String url = APIs.getElectrodeDiaBatch;
+      var param = {
+        "schema": userData.schema,
+        "section_id": userData.sectionId,
+        "dia_value": diaValue,
+      };
+      String json = Uri(queryParameters: param).query;
+      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
+        return electrodeBatchListResponse(res['data']);
       }
       return null;
     } catch (e) {
@@ -341,16 +392,14 @@ class AddWeldingHelper {
   }
 
   static Future<dynamic> fetchJointNumberData(
-      {required BuildContext context,
-      required LoginDataModel userData,
-      String? type,
-      required JointTypeModel jointTypeData}) async {
+      {required BuildContext context, required LoginDataModel userData, required String type,
+      }) async {
     try {
       String url = APIs.getJointNumberWithTypeApi;
       var param = {
         "schema": userData.schema,
         "section_id": userData.sectionId,
-        "type": type ?? "afterwelding"
+        "type": type,
       };
       String json = Uri(queryParameters: param).query;
       var res = await ServerRequest.getData(urlEndPoint: "$url?$json");

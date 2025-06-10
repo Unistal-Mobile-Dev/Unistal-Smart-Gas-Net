@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -47,7 +48,7 @@ class AddWelderRepairHelper {
       required JointTypeModel jointTypeData,
       required JointNumberModel jointNumberData,
       required List<SegmentModel> segmentList,
-      required WelderRepairStatusModel welderRepairStatusData,
+      required VisualChecksModel weldVisualData,
       required WPSModel wpsTypeData,
       required WelderModel welderData,
       required String? e6010,
@@ -93,7 +94,8 @@ class AddWelderRepairHelper {
         "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
         "welderId": welderData.id != null ? welderData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "repairStatus": welderRepairStatusData.id.toString(),
+        "repairStatus": "",
+        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
         "preHeatingTemp": preHeatingTemperature.toString(),
         "electrodeFillerE6010": e6010.toString(),
         "electrodeFillerE8010p1": e8010P1.toString(),

@@ -12,6 +12,8 @@ class APIs {
 
   static get getAlignmentSheetApi => "api/steel/get-alignment-sheet";
 
+  static get activityBySection  => "api/steel/GetActivitybySection?";
+
   static get addRouteSurveyApi => "api/steel/rousurveyinsert";
 
   static get addCGinsertApi => "api/steel/cginsert";
@@ -39,6 +41,8 @@ class APIs {
   static get getWelderApi => "api/steel/get-welder";
 
   static get getWPSApi => "api/steel/get-wps";
+
+  static get getElectrodeDiaBatch => "api/steel/getelectrodediabatch";
 
   static get getJointTypeApi => "api/steel/get-joint-type";
 
@@ -88,7 +92,8 @@ class APIs {
 
   static get addPreHydroTestApi => "api/steel/prehydrotestinsert";
 
-  static get addHydroTestApi => "api/steel/hydrotest";
+  //static get addHydroTestApi => "api/steel/hydrotest";
+  static get addHydroTestApi => "api/steel/hydrotestapi";
 
   static get addHDPEDuctTestingApi => "api/steel/hdpe-duct-testing";
 

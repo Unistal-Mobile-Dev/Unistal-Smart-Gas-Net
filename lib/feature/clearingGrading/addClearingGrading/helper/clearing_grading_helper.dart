@@ -144,7 +144,7 @@ class AddClearingGradingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentData.id == null ? "" :alignmentData.id.toString(),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "terrain_id":
             terrainTypeData.id != null ? terrainTypeData.id.toString() : "",

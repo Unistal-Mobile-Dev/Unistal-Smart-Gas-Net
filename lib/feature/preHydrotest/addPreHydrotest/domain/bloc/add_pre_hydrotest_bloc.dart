@@ -79,6 +79,7 @@ class AddPreHydrotestBloc
     on<AddPreHydrotestSelectPressureDateEvent>(_selectPressureDate);
     on<AddPreHydrotestAddImageEvent>(_selectFile);
     on<AddPreHydrotestSelectSelectThicknessDataEvent>(_selectThickness);
+    on<CalculateLengthEvent>(_calculateChainage);
     on<AddPreHydrotestSubmitDataEvent>(_submitData);
   }
 
@@ -137,10 +138,23 @@ class AddPreHydrotestBloc
       jointTypeList = resJointType;
     }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+        jointTypeData: jointTypeData,
+      type: "afterndtrt",
+    );
+    if (resJointNumber != null) {
+      jointFromList = resJointNumber;
+      jointToList = jointFromList;
+    }*/
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+        context: event.context,
+        userData: userData,
+     type: "afterndtrt"
+     //   jointTypeData: jointTypeData
+    );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -152,7 +166,6 @@ class AddPreHydrotestBloc
     if (thicknessRes != null) {
       _thicknessList = thicknessRes;
     }
-
     _eventComplete(emit);
   }
 
@@ -184,14 +197,14 @@ class AddPreHydrotestBloc
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -213,8 +226,7 @@ class AddPreHydrotestBloc
     }
   }
 
-  _selectPressureDate(
-      AddPreHydrotestSelectPressureDateEvent event, emit) async {
+  _selectPressureDate(AddPreHydrotestSelectPressureDateEvent event, emit) async {
     DateTime? pickedDate = await showDatePicker(
         context: event.context,
         initialDate: DateTime.now(),
@@ -237,6 +249,33 @@ class AddPreHydrotestBloc
     _eventComplete(emit);
   }
 
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text = "${chainageTo - chainageFrom}";
+      }
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text =  "${chainageTo - chainageFrom}";
+      }
+    }
+    _eventComplete(emit);
+  }
   _selectFile(AddPreHydrotestAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);

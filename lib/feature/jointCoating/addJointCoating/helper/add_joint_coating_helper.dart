@@ -143,7 +143,7 @@ class AddJointCoatingHelper {
         "primer_a_batch": primaryAbatch,
         "primer_b_batch": primaryBbatch,
         "batch_no": batchNo,
-        "sleeve": "",
+        "sleeve": coatingTypeData.id != null ? coatingTypeData.id.toString() : "",
         "surface_contamination": "",
         "surface_roughness": surface,
         "test_voltage": primaryBbatch,

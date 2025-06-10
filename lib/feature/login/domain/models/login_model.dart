@@ -19,6 +19,9 @@ class LoginDataModel {
   String? schema;
   String? spreadId;
   String? sectionId;
+  String? sectionName;
+  String? diameter;
+  String? diauom;
   String? token;
   RoleType? roleType;
 
@@ -33,6 +36,9 @@ class LoginDataModel {
     this.schema,
     this.spreadId,
     this.sectionId,
+    this.sectionName,
+    this.diameter,
+    this.diauom,
     this.token,
     this.roleType,
   });
@@ -48,6 +54,9 @@ class LoginDataModel {
     schema = json['schema'];
     spreadId = json['spread_id'];
     sectionId = json['section_id'];
+    sectionName = json['section_name'];
+    diameter = json['diameter'];
+    diauom = json['diauom'];
     roleType =
         json['role'] != null ? getRole(role: json['role']) : RoleType.engineer;
   }

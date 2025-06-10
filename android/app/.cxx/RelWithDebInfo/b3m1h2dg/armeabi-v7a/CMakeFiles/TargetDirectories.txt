@@ -1,0 +1,2 @@
+D:/All Update Office Project/PurvaBharti Project/Steel/android/app/.cxx/RelWithDebInfo/b3m1h2dg/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/All Update Office Project/PurvaBharti Project/Steel/android/app/.cxx/RelWithDebInfo/b3m1h2dg/armeabi-v7a/CMakeFiles/rebuild_cache.dir

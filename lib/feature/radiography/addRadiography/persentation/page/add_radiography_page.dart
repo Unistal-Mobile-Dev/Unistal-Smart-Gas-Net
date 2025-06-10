@@ -176,33 +176,30 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _chainageController(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _chainageController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainage,
       controller: dataState.chainageController,
     );
   }
 
-  Widget _filmTypeController(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.filmType,
       controller: dataState.filmTypeController,
     );
   }
 
-  Widget _inspectTechniqueController(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.inspectionTechnique,
       controller: dataState.inspectTechniqueController,
     );
   }
 
-  Widget _sensivityController(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _sensivityController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.sensivity,
       controller: dataState.sensivityController,
@@ -216,8 +213,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _equipmentController(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.equipment,
       controller: dataState.equipmentController,
@@ -261,8 +257,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _segmentListBuilder(
-      {required FetchAddRadiographyDataState dataState}) {
+  Widget _segmentListBuilder({required FetchAddRadiographyDataState dataState}) {
     return ListView.builder(
         itemCount: dataState.segmentList.length,
         shrinkWrap: true,
@@ -295,7 +290,6 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         _verticalSpace(),
         _radioButtonList(segmentData: segmentData, segmentIndex: index),
         TextFieldWidget(
-          isRequired: true,
           labelText: "${segmentData.observation}",
           controller: segmentData.observationController,
         ),
@@ -372,7 +366,6 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       required int index,
       required int welderIndex}) {
     return DropdownWidget(
-      isRequired: true,
       hint: AppString.selectWelder,
       dropdownValue: welderData.id != null ? welderData : null,
       onChanged: (value) {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 
 class AppConfig {
   static AppConfig? instance;
@@ -10,6 +11,12 @@ class AppConfig {
     instance ??= AppConfig();
     return instance;
   }
+
+  String _buildNumber = "";
+  String get buildNumber => _buildNumber;
+
+
+  List<ActivitySectionData> listOfActivitySection = [];
 
   setClient({required Client client}) {
     this.client = client;
@@ -28,5 +35,14 @@ class AppConfig {
         : DeviceType.tablet;*/
 
     return isPortrait == true ? DeviceType.phone : DeviceType.tablet;
+  }
+
+  void setBuildNumber({required String buildNumber}) {
+    _buildNumber = buildNumber;
+    print("buildNumber : $_buildNumber");
+  }
+
+  void setListActivityData({required List<ActivitySectionData> newListOfActivitySection}) {
+    this.listOfActivitySection = newListOfActivitySection;
   }
 }

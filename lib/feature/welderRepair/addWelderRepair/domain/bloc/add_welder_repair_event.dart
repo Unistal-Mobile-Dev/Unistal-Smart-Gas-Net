@@ -60,15 +60,13 @@ class AddWelderRepairSelectSegmentEvent extends AddWelderRepairEvent {
   List<Object?> get props => [selectedSegmentList];
 }
 
-class AddWelderRepairSelectWelderRepairStatusEvent
-    extends AddWelderRepairEvent {
-  final WelderRepairStatusModel welderRepairStatusData;
+class AddWelderRepairSelectWeldVisualEvent extends AddWelderRepairEvent {
+  final VisualChecksModel weldVisualData;
 
-  const AddWelderRepairSelectWelderRepairStatusEvent(
-      {required this.welderRepairStatusData});
+  const AddWelderRepairSelectWeldVisualEvent({required this.weldVisualData});
 
   @override
-  List<Object?> get props => [welderRepairStatusData];
+  List<Object?> get props => [weldVisualData];
 }
 
 class AddWelderRepairSelectJointTypeEvent extends AddWelderRepairEvent {

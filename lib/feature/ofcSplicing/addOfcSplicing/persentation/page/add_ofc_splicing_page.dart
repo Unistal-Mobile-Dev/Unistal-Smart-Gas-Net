@@ -63,8 +63,8 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
             _verticalSpace(),
             _cableReadingMinusDirectionController(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+           /* _jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _jointPitController(dataState: dataState),

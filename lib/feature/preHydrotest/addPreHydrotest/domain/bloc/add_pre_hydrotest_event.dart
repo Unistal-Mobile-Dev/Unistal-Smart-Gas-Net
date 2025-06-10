@@ -109,3 +109,11 @@ class AddPreHydrotestSubmitDataEvent extends AddPreHydrotestEvent {
   @override
   List<Object?> get props => [context];
 }
+class CalculateLengthEvent extends AddPreHydrotestEvent {
+  final bool isChainageTo;
+  final String value;
+  final BuildContext context;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value, required this.context});
+  @override
+  List<Object?> get props => [isChainageTo, value, context];
+}

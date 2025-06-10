@@ -133,12 +133,21 @@ class AddRouteSurveyBloc
     } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
       double chainageTo =  double.parse(value.toString());
       double chainageFrom =  double.parse(chainageFromController.text.toString());
-      lengthController.text =  "${chainageTo - chainageFrom}";
-
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text = "${chainageTo - chainageFrom}";
+      }
     } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
       double chainageTo =  double.parse(chainageToController.text.toString());
       double chainageFrom =  double.parse(value);
-      lengthController.text =  "${chainageTo - chainageFrom}";
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text =  "${chainageTo - chainageFrom}";
+      }
     }
     _eventComplete(emit);
   }

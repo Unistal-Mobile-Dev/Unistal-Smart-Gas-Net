@@ -60,7 +60,8 @@ class AddStringingHelper {
     required LoginDataModel userData,
     required File file,
     required WeatherModel weatherData,
-    required List<PipeModel> pipeLength,
+  //  required List<PipeModel> pipeLength,
+    required List<String> pipeLength,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -73,7 +74,7 @@ class AddStringingHelper {
 
       List<dynamic> pipeId = [];
       for (var pipeData in pipeLength) {
-        pipeId.add(pipeData.id.toString());
+        pipeId.add(pipeData.toString());
       }
 
       String url = APIs.addStringingApi;
@@ -100,7 +101,7 @@ class AddStringingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentData.id == null ? "" :alignmentData.id.toString(),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(

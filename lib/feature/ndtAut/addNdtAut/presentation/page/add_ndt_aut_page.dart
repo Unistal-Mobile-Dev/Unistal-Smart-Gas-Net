@@ -57,8 +57,8 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),
+            /*_jointTypeDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _autStatusDropDown(dataState: dataState),

@@ -178,7 +178,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "afterndtrt",
+    );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -276,14 +277,14 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

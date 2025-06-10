@@ -114,7 +114,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _tpIpChainageController(
       {required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.tpFrom,
       controller: dataState.tpChainageController,
@@ -123,7 +122,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpIpNOSController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.tpTo,
       controller: dataState.tpChainageNumberController,
@@ -166,7 +164,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       controller: dataState.chainageFromController,
       onChanged: (value) {
         BlocProvider.of<AddRouteSurveyBloc>(context)
-            .add(CalculateLengthEvent(isChainageTo: false, value: value));
+            .add(CalculateLengthEvent(isChainageTo: false, value: value,context: context));
       },
     );
   }
@@ -180,7 +178,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       controller: dataState.chainageToController,
       onChanged: (value) {
       BlocProvider.of<AddRouteSurveyBloc>(context)
-          .add(CalculateLengthEvent(isChainageTo: true, value: value));
+          .add(CalculateLengthEvent(isChainageTo: true, value: value, context: context));
       },
     );
   }

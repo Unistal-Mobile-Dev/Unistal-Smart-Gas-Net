@@ -14,6 +14,10 @@ class AddStringingPage extends StatefulWidget {
 }
 
 class _AddStringingPageState extends State<AddStringingPage> {
+
+
+  List<TextEditingController> chainageFromControllers = [];
+  List<TextEditingController> chainageToControllers = [];
   @override
   void initState() {
     BlocProvider.of<AddStringingBloc>(context)
@@ -54,8 +58,8 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
+            /*  _chainageFromController(dataState: dataState),
+            _verticalSpace(),*/
             _pipeLengthController(dataState: dataState),
             _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
@@ -63,7 +67,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
             AppConfig.instanceInit()!.client != Client.mgl
                 ? Column(
                     children: [
-                      _chainageToController(dataState: dataState),
+                    //  _chainageToController(dataState: dataState,index: in),
                       _verticalSpace(),
                       _concreteCoatingDropDown(dataState: dataState),
                       _verticalSpace(),
@@ -107,12 +111,13 @@ class _AddStringingPageState extends State<AddStringingPage> {
   }
 
   Widget _chainageFromController(
-      {required FetchAddStringingDataState dataState}) {
+      {required FetchAddStringingDataState dataState, required int index}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.chainage,
-      controller: dataState.chainageFromController,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController[index],
+
     );
   }
 
@@ -160,21 +165,80 @@ class _AddStringingPageState extends State<AddStringingPage> {
               return Container(
                 color: AppColor.lightGrey,
                 padding: const EdgeInsets.all(5.0),
-                child: Row(
+                child: Column(
                   children: [
-                    Expanded(
-                        child: TextWidget(
-                            "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
-                    IconButton(
-                        onPressed: () {
-                          BlocProvider.of<AddStringingBloc>(context).add(
-                              AddStringingDeletePipeLengthEvent(
-                                  context: context, index: index));
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: AppColor.themeLightColor,
-                        ))
+                    Row(
+                      children: [
+                        Expanded(
+                            child: TextWidget(
+                                "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
+                        IconButton(
+                            onPressed: () {
+                              BlocProvider.of<AddStringingBloc>(context).add(
+                                  AddStringingDeletePipeLengthEvent(
+                                      context: context, index: index));
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              color: AppColor.red,
+                            ))
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 4),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  Flexible(
+                                      child: TextFieldWidget(
+                                        isRequired: true,
+                                        textInputType: TextInputType.number,
+                                        labelText: AppString.chainageFrom,
+                                        controller: dataState.chainageFromController[index],
+                                        onChanged: (value){
+                                          if (value.toString().isNotEmpty) {
+                                            BlocProvider.of<AddStringingBloc>(context).add(
+                                                AddStringingChainageFromAddEvent(
+                                                  context: context,
+                                                    index: index
+                                                ));
+
+                                          }
+                                        },
+                                      )),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.01,
+                                  ),
+                                  Flexible(
+                                      child: _chainageToController(dataState: dataState, index: index)),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.01,
+                                  ),
+                                  Flexible(
+                                      child: TextFieldWidget(
+                                        enabled: false,
+                                        textInputType: TextInputType.number,
+                                        labelText: AppString.lengthMeter,
+                                        controller: TextEditingController(text: pipeData.pipeLength.toString()),
+                                      )
+                                      ),
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(),
                   ],
                 ),
               );
@@ -183,14 +247,15 @@ class _AddStringingPageState extends State<AddStringingPage> {
   }
 
   Widget _chainageToController(
-      {required FetchAddStringingDataState dataState}) {
+      {required FetchAddStringingDataState dataState,required int index}) {
     return TextFieldWidget(
-      isRequired: true,
+      enabled: false,
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
-      controller: dataState.chainageToController,
+      controller: dataState.chainageToController[index],
     );
   }
+
 
 /*  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
     LoginDataModel userData =  UserInfo.instanceInit()!.userData!;

@@ -7,6 +7,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
   final ValueChanged<dynamic> onChanged;
   final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
+  final bool? isRequired;
   final List<dynamic>? selectedItem;
 
   const DropDownSearchMultiSelectWidget({
@@ -15,6 +16,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
     required this.onChanged,
     required this.itemAsString,
     required this.hint,
+     this.isRequired,
     this.selectedItem,
   });
 
@@ -35,13 +37,27 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
                 style: BorderStyle.none,
               ),
             ),
-            hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: AppColor.themeColor),
+            label: Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: hint,
+                  style: TextStyle(
+                    color: AppColor.themeColor,
+                    fontSize: AppFont.font_14,
+                  )),
+              TextSpan(
+                  text: isRequired == true ? " *" : '',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: AppFont.font_14,
+                  )),
+            ])),
+           /* hintStyle: TextStyle(
+                fontSize: AppFont.font_14, color: AppColor.themeColor),*/
             contentPadding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.018,
               left: MediaQuery.of(context).size.height * 0.01,
             ),
-            hintText: hint,
+           // hintText: "$hint ${star}",
             filled: false,
           ),
         ),

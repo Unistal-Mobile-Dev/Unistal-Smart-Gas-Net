@@ -72,7 +72,8 @@ class AddRouteSurveySubmitDataEvent extends AddRouteSurveyEvent {
 class CalculateLengthEvent extends AddRouteSurveyEvent {
   final bool isChainageTo;
   final String value;
-  const CalculateLengthEvent({required this.isChainageTo, required this.value});
+  final BuildContext context;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value, required this.context});
   @override
-  List<Object?> get props => [isChainageTo, value];
+  List<Object?> get props => [isChainageTo, value, context];
 }

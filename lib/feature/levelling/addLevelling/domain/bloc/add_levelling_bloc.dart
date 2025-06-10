@@ -122,7 +122,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-        jointTypeData: jointTypeData);
+      type: "afterndtrt",
+    );
     if (resJointNumber != null) {
       jointList = resJointNumber;
     }
@@ -151,13 +152,13 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     jointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       jointList = resJointNumber;
-    }
+    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

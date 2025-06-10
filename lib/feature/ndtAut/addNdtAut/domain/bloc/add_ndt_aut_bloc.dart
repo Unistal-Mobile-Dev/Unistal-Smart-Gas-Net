@@ -106,11 +106,20 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     if (res != null) {
       alignmentList = res;
     }
-    var resJointType = await AddWeldingHelper.fetchJointType(
+   /* var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resJointType != null) {
       jointTypeList = resJointType;
+    }*/
+
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+      context: event.context,
+      userData: userData,
+      type: "afterwelding",
+    );
+    if (resJointNumber != null) {
+      jointNumberList = resJointNumber;
     }
     var resWPS = await AddWeldingHelper.fetchWPSType(
         context: !event.context.mounted ? event.context : event.context,
@@ -172,13 +181,6 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointNumberList = resJointNumber;
-    }
     isJointNumberLoader = false;
     _eventComplete(emit);
     _eventComplete(emit);

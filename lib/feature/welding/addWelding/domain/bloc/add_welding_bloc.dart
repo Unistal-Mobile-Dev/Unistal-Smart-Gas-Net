@@ -10,6 +10,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_batch_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_welding_event.dart';
+
 part 'add_welding_state.dart';
 
 class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
@@ -78,12 +81,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   WelderModel stripWelder1Data = WelderModel();
   WelderModel stripWelder2Data = WelderModel();
 
-  TextEditingController electrodeDiaE6010Controller = TextEditingController();
-  TextEditingController electrodeDiaE6010BatchController =
-      TextEditingController();
-  TextEditingController electrodeEiaE8010p1BatchController =
-      TextEditingController();
-  TextEditingController electrodeEiaE8010p1Controller = TextEditingController();
   TextEditingController electrodeDiaE9045p2Controller = TextEditingController();
   TextEditingController electrodeDiaE9045p2BatchController =
       TextEditingController();
@@ -121,6 +118,33 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   List<WPSModel> _wpsList = [];
 
   List<WPSModel> get wpsList => _wpsList;
+
+  bool isLoaderDiaE6010BatchBatch = false;
+  bool isLoaderEiaE8010p1BatchBatch = false;
+  ElectrodeDiaData electrodeDiaE6010Value = ElectrodeDiaData();
+  ElectrodeDiaData electrodeEiaE8010p1Value = ElectrodeDiaData();
+  ElectrodeBatchData electrodeDiaE6010BatchValue = ElectrodeBatchData();
+  ElectrodeBatchData electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+
+  List<ElectrodeDiaData> _electrodeDiaE6010DiaList = [];
+
+  List<ElectrodeDiaData> get electrodeDiaE6010DiaList =>
+      _electrodeDiaE6010DiaList;
+
+  List<ElectrodeDiaData> _electrodeEiaE8010p1DiaList = [];
+
+  List<ElectrodeDiaData> get electrodeEiaE8010p1DiaList =>
+      _electrodeEiaE8010p1DiaList;
+
+  List<ElectrodeBatchData> _electrodeDiaE6010BatchList = [];
+
+  List<ElectrodeBatchData> get electrodeDiaE6010BatchList =>
+      _electrodeDiaE6010BatchList;
+
+  List<ElectrodeBatchData> _electrodeEiaE8010p1BatchList = [];
+
+  List<ElectrodeBatchData> get electrodeEiaE8010p1BatchList =>
+      _electrodeEiaE8010p1BatchList;
 
   WPSModel _wpsData = WPSModel();
 
@@ -227,6 +251,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     on<AddWeldingSelectFitupDataEvent>(_selectFitUp);
     on<AddWeldingSelectWeldVisualEvent>(_selectWeldVisual);
     on<AddWeldingAddImageEvent>(_selectFile);
+    on<SelectElectrodeDiaE6010Event>(_selectElectrodeDiaE6010);
+    on<SelectElectrodeEiaE8010p1Event>(_selectElectrodeEiaE8010p1);
+    on<SelectElectrodeDiaE6010BatchEvent>(_selectElectrodeDiaE6010Batch);
+    on<SelectElectrodeEiaE8010p1BatchEvent>(_selectElectrodeEiaE8010p1Batch);
     on<AddWeldingSubmitDataEvent>(_submit);
   }
 
@@ -259,6 +287,11 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     cappingWelder2List = [];
     stripWelder1List = [];
     stripWelder2List = [];
+    _electrodeDiaE6010DiaList = [];
+    _electrodeEiaE8010p1DiaList = [];
+    _electrodeDiaE6010BatchList = [];
+    _electrodeEiaE8010p1BatchList = [];
+
     rootWelders1Data = WelderModel();
     rootWelders2Data = WelderModel();
     hotWelders1Data = WelderModel();
@@ -284,14 +317,18 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     cappingWelder2Data = WelderModel();
     stripWelder1Data = WelderModel();
     stripWelder2Data = WelderModel();
+    isLoaderDiaE6010BatchBatch = false;
+    isLoaderEiaE8010p1BatchBatch = false;
+    electrodeDiaE6010Value = ElectrodeDiaData();
+    electrodeEiaE8010p1Value = ElectrodeDiaData();
+    electrodeDiaE6010BatchValue = ElectrodeBatchData();
+    electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
     electrodeDiaE81t8gBatchController.text = "";
     electrodeDiaE81t8gController.text = "";
-    electrodeDiaE6010BatchController.text = "";
-    electrodeDiaE6010Controller.text = "";
+
     electrodeDiaE9045p2BatchController.text = "";
     electrodeDiaE9045p2Controller.text = "";
-    electrodeEiaE8010p1BatchController.text = "";
-    electrodeEiaE8010p1Controller.text = "";
+
     searchJointController.text = "";
     leftPipeNumberController.text = "";
     rightPipeNumberController.text = "";
@@ -345,6 +382,19 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _wpsList = resWPS;
     }
 
+    var resElectrodeDia = await AddWeldingHelper.fetchElectrodeDia(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
+    if (resElectrodeDia != null) {
+      _electrodeDiaE6010DiaList = resElectrodeDia;
+      _electrodeEiaE8010p1DiaList = resElectrodeDia;
+    }
+    /*var resElectrodeEiaE8010p1Dia = await AddWeldingHelper.fetchElectrodeDia(
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    if (resElectrodeEiaE8010p1Dia != null) {
+      _electrodeEiaE8010p1DiaList = resElectrodeEiaE8010p1Dia;
+    }*/
+
 /*    var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
@@ -352,15 +402,24 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _jointTypeList = resJointType;
     }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+/*    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
         type: "welding",
-        jointTypeData: jointTypeData);
+      //  jointTypeData: jointTypeData
+    );
+    if (resJointNumber != null) {
+      _jointNumberList = resJointNumber;
+    }*/
+    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+      context: event.context,
+      userData: userData,
+      type: "welding",
+      //  jointTypeData: jointTypeData
+    );
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
     }
-
     var resVisual = await AddBendingHelper.fetchVisualChecks(
         context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
@@ -412,19 +471,23 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   }
 
   _calculateChainage(AddWeldingCalculateLengthEvent event, emit) {
-    bool isChainageTo =  event.isChainageTo;
-    String value =  event.value;
-    if(value.isEmpty) {
+    bool isChainageTo = event.isChainageTo;
+    String value = event.value;
+    if (value.isEmpty) {
       lengthController.text = "";
-    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
-       double chainageTo =  double.parse(value.toString());
-       double chainageFrom =  double.parse(chainageFromController.text.toString());
-       lengthController.text =  "${chainageTo - chainageFrom}";
-
-    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
-      double chainageTo =  double.parse(chainageToController.text.toString());
-      double chainageFrom =  double.parse(value);
-      lengthController.text =  "${chainageTo - chainageFrom}";
+    } else if (isChainageTo == true &&
+        value.isNotEmpty &&
+        chainageFromController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(value.toString());
+      double chainageFrom =
+          double.parse(chainageFromController.text.toString());
+      lengthController.text = "${chainageTo - chainageFrom}";
+    } else if (isChainageTo == false &&
+        value.isNotEmpty &&
+        chainageToController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(chainageToController.text.toString());
+      double chainageFrom = double.parse(value);
+      lengthController.text = "${chainageTo - chainageFrom}";
     }
     _eventComplete(emit);
   }
@@ -447,8 +510,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _wpsData = event.wpsData;
     _welderList = [];
     _welderData = WelderModel();
-     rootWelders1Data =  WelderModel();
-     rootWelders2Data =  WelderModel();
+    rootWelders1Data = WelderModel();
+    rootWelders2Data = WelderModel();
     rootWelders2Data = WelderModel();
     hotWelders1Data = WelderModel();
     hotWelders2Data = WelderModel();
@@ -535,7 +598,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       stripWelder2Data = event.welderData;
       cappingWelder1Data = event.welderData;
       cappingWelder2Data = event.welderData;
-
     } else if (event.name == AppString.rootWelders2) {
       rootWelders2Data = event.welderData;
     } else if (event.name == AppString.hotWelders1) {
@@ -619,14 +681,14 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _jointNumberData = JointNumberModel();
     _isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         type: "welding",
         jointTypeData: jointTypeData);
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
-    }
+    }*/
     _isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -659,6 +721,55 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       }
     }
     Navigator.pop(!event.context.mounted ? event.context : event.context);
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeDiaE6010(SelectElectrodeDiaE6010Event event, emit) async {
+    _electrodeDiaE6010BatchList = [];
+    electrodeDiaE6010BatchValue = ElectrodeBatchData();
+    electrodeDiaE6010Value = event.electrodeDiaE6010Value;
+    if (electrodeDiaE6010Value.diaValue != null) {
+      isLoaderDiaE6010BatchBatch = true;
+      _eventComplete(emit);
+      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
+          context: !event.context.mounted ? event.context : event.context,
+          userData: userData,
+          diaValue: electrodeDiaE6010Value.diaValue.toString());
+      if (resElectrodeDia != null) {
+        _electrodeDiaE6010BatchList = resElectrodeDia;
+      }
+    }
+    isLoaderDiaE6010BatchBatch = false;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeEiaE8010p1(SelectElectrodeEiaE8010p1Event event, emit) async {
+    _electrodeEiaE8010p1BatchList = [];
+    electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+    electrodeEiaE8010p1Value = event.electrodeEiaE8010p1Value;
+    if (electrodeDiaE6010Value.diaValue != null) {
+      isLoaderEiaE8010p1BatchBatch = true;
+      _eventComplete(emit);
+      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
+          context: !event.context.mounted ? event.context : event.context,
+          userData: userData,
+          diaValue: electrodeEiaE8010p1Value.diaValue.toString());
+      if (resElectrodeDia != null) {
+        _electrodeEiaE8010p1BatchList = resElectrodeDia;
+      }
+    }
+    isLoaderEiaE8010p1BatchBatch = false;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeDiaE6010Batch(SelectElectrodeDiaE6010BatchEvent event, emit) {
+    electrodeDiaE6010BatchValue = event.electrodeDiaE6010BatchValue;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeEiaE8010p1Batch(
+      SelectElectrodeEiaE8010p1BatchEvent event, emit) {
+    electrodeEiaE8010p1BatchValue = event.electrodeEiaE8010p1BatchValue;
     _eventComplete(emit);
   }
 
@@ -698,14 +809,13 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       electrodeDiaE81t8gBatch:
           electrodeDiaE81t8gBatchController.text.toString(),
       electrodeDiaE81t8g: electrodeDiaE81t8gController.text.toString(),
-      electrodeDiaE6010Batch: electrodeDiaE6010BatchController.text.toString(),
-      electrodeDiaE6010: electrodeDiaE6010Controller.text.toString(),
+      electrodeDiaE6010Batch: electrodeDiaE6010BatchValue.toString(),
+      electrodeDiaE6010: electrodeDiaE6010Value.toString(),
       electrodeDiaE9045p2Batch:
           electrodeDiaE9045p2BatchController.text.toString(),
       electrodeDiaE9045p2: electrodeDiaE9045p2Controller.text.toString(),
-      electrodeEiaE8010p1Batch:
-          electrodeEiaE8010p1BatchController.text.toString(),
-      electrodeEiaE8010p1: electrodeEiaE8010p1Controller.text.toString(),
+      electrodeEiaE8010p1Batch: electrodeEiaE8010p1BatchValue.toString(),
+      electrodeEiaE8010p1: electrodeEiaE8010p1Value.toString(),
       leftPipeData: leftPipeData,
       rightPipeData: rightPipeData,
       wpsData: wpsData,
@@ -727,12 +837,13 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       activityRemarkController.text = "";
       electrodeDiaE81t8gBatchController.text = "";
       electrodeDiaE81t8gController.text = "";
-      electrodeDiaE6010BatchController.text = "";
-      electrodeDiaE6010Controller.text = "";
+
       electrodeDiaE9045p2BatchController.text = "";
       electrodeDiaE9045p2Controller.text = "";
+      /*electrodeDiaE6010BatchController.text = "";
+      electrodeDiaE6010Controller.text = "";
       electrodeEiaE8010p1BatchController.text = "";
-      electrodeEiaE8010p1Controller.text = "";
+      electrodeEiaE8010p1Controller.text = "";*/
       leftPipeNumberController.text = "";
       rightPipeNumberController.text = "";
       _welderData = WelderModel();
@@ -774,6 +885,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       rightPipeData = PipeModel();
       leftPipeData = PipeModel();
       _weatherData = WeatherModel();
+      electrodeDiaE6010Value = ElectrodeDiaData();
+      electrodeEiaE8010p1Value = ElectrodeDiaData();
+      electrodeDiaE6010BatchValue = ElectrodeBatchData();
+      electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
     }
     _eventComplete(emit);
   }
@@ -823,12 +938,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       weldVisualList: weldVisualList,
       electrodeDiaE81t8gBatchController: electrodeDiaE81t8gBatchController,
       electrodeDiaE81t8gController: electrodeDiaE81t8gController,
-      electrodeDiaE6010BatchController: electrodeDiaE6010BatchController,
-      electrodeDiaE6010Controller: electrodeDiaE6010Controller,
       electrodeDiaE9045p2BatchController: electrodeDiaE9045p2BatchController,
       electrodeDiaE9045p2Controller: electrodeDiaE9045p2Controller,
-      electrodeEiaE8010p1BatchController: electrodeEiaE8010p1BatchController,
-      electrodeEiaE8010p1Controller: electrodeEiaE8010p1Controller,
       isWelderLoader: isWelderLoader,
       jointTypeData: jointTypeData,
       jointTypeList: jointTypeList,
@@ -875,6 +986,16 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       searchRightPipeLoader: searchRightPipeLoader,
       searchJointController: searchJointController,
       lengthController: lengthController,
+      isLoaderDiaE6010BatchBatch: isLoaderDiaE6010BatchBatch,
+      isLoaderEiaE8010p1BatchBatch: isLoaderEiaE8010p1BatchBatch,
+      electrodeDiaE6010BatchValue: electrodeDiaE6010BatchValue,
+      electrodeEiaE8010p1Value: electrodeEiaE8010p1Value,
+      electrodeDiaE6010Value: electrodeDiaE6010Value,
+      electrodeEiaE8010p1BatchValue: electrodeEiaE8010p1BatchValue,
+      electrodeDiaE6010DiaList: electrodeDiaE6010DiaList,
+      electrodeEiaE8010p1DiaList: electrodeEiaE8010p1DiaList,
+      electrodeDiaE6010BatchList: electrodeDiaE6010BatchList,
+      electrodeEiaE8010p1BatchList: electrodeEiaE8010p1BatchList,
     ));
   }
 }
