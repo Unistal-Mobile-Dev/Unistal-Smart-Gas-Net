@@ -92,7 +92,7 @@ class AddHydroTestHelper {
       required String length,
       required String reportNumber,
       required List<FileModel> fileList}) async {
-    try {
+   // try {
       var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
       if (location != null) {
@@ -147,10 +147,12 @@ class AddHydroTestHelper {
             .show(message: "Internal Server Error");
         return null;
       }
-    } catch (e) {
+  /*  } catch (e) {
+
+      print("-----------------------------${e.toString()}");
       SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: e.toString());
       return null;
-    }
+    }*/
   }
 }

@@ -81,6 +81,8 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               child: Image.asset(
                 AppConfig.instanceInit()!.client == Client.mgl
                     ? AppIcon.appLogoMGL
+               : AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.unistal
                         ? AppIcon.appLogoUnistal
                         : AppIcon.appLogoIgl,
