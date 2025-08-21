@@ -1,5 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/presentation/pages/add_hdd_clean_pass_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/presentation/pages/add_hdd_crossing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/presentation/pages/add_hdd_pulling_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/presentation/pages/add_hdd_reaming_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/presentation/pages/add_pilot_drill_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/presentation/pages/add_cable_installation_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/presentation/pages/add_pin_brazzing.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/polarisationCoupan/addPolarisationCoupan/presentation/pages/add_polarisation_coupan_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/sacrificialAnode/addSacrificialAnode/presentation/pages/add_sacrificial_anode_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/ssd/addSSD/presentation/pages/add_ssd_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/surgeDiverter/addSurgeDiverter/presentation/pages/add_surge_diverter_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/presentation/pages/test_station_box_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/thermitWeld/addThermitWeld/presentation/pages/add_thermit_weld_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/presentation/pages/add_zn_grounding_anode_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
@@ -47,6 +61,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_mes
 import 'package:package_info_plus/package_info_plus.dart';
 
 class HomeHelper {
+
+
   static Future<List<ActivitySectionData>?> activityBySectionApi(
       {required LoginDataModel userData}) async {
     try {
@@ -81,8 +97,12 @@ class HomeHelper {
       {required BuildContext context}) async {
     try {
       List<DrawerModel> drawerList = [];
+
       List<ActivitySectionData> listOfActivitySection =
           await AppConfig.instanceInit()?.listOfActivitySection ?? [];
+
+
+
       drawerList.add(DrawerModel(
           widget: const DashboardPage(),
           icon: Icons.home_outlined,
@@ -92,8 +112,9 @@ class HomeHelper {
 
       for (var item in listOfActivitySection) {
         String modelName = item.activityId?.toString().trim() ?? '';
+        final List<String> tcpModelNames = ["40", "41", "44", "45", "46", "66", "67", "68", "75"];
         switch (modelName) {
-          case '1':
+           /*case '1':
             drawerList.add(DrawerModel(
                 widget: const AddRouteSurveyPage(),
                 icon: Icons.alt_route_sharp,
@@ -101,17 +122,15 @@ class HomeHelper {
                 sublist: [],
                 isSelected: false,
                 actionButtonWidget: null));
-            break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddRouHandoverPage(),
-                  icon: Icons.handshake_outlined,
-                  label: AppString.rouHandover,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
+            break;*/
+          case '2':
+            drawerList.add(DrawerModel(
+                widget: const AddRouHandoverPage(),
+                icon: Icons.handshake_outlined,
+                label: AppString.rouHandover,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
             break;
           case '3':
             drawerList.add(DrawerModel(
@@ -143,16 +162,14 @@ class HomeHelper {
                 actionButtonWidget: null));
 
             break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddBendingPage(),
-                  icon: Icons.webhook_rounded,
-                  label: AppString.bending,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
+          case '6':
+            drawerList.add(DrawerModel(
+                widget: const AddBendingPage(),
+                icon: Icons.webhook_rounded,
+                label: AppString.bending,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
             break;
           case '7':
             drawerList.add(DrawerModel(
@@ -172,6 +189,16 @@ class HomeHelper {
                 isSelected: false,
                 actionButtonWidget: null));
             break;
+          case '9':
+            drawerList.add(DrawerModel(
+                widget: const AddNdtAutPage(),
+                icon: Icons.auto_awesome_mosaic_outlined,
+                label: AppString.ndtAut,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
+            break;
+
           case '10':
             drawerList.add(DrawerModel(
                 widget: const AddRadioGraphyPage(),
@@ -181,40 +208,20 @@ class HomeHelper {
                 isSelected: false,
                 actionButtonWidget: null));
             break;
-          case '':
-            drawerList.add(DrawerModel(
-                widget: const AddTieinPage(),
-                icon: Icons.send_time_extension_outlined,
-                label: AppString.tiein,
-                sublist: [],
-                isSelected: false,
-                actionButtonWidget: null));
-            break;
-          case '':
-            drawerList.add(DrawerModel(
-                widget: const AddLptPage(),
-                icon: Icons.local_play_outlined,
-                label: AppString.ndtLpt,
-                sublist: [],
-                isSelected: false,
-                actionButtonWidget: null));
-            break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddNdtAutPage(),
-                  icon: Icons.auto_awesome_mosaic_outlined,
-                  label: AppString.ndtAut,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
-            break;
           case '11':
             drawerList.add(DrawerModel(
                 widget: const AddNdtMutPage(),
                 icon: Icons.nearby_error_rounded,
                 label: AppString.ndtMut,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
+            break;
+          case '12':
+            drawerList.add(DrawerModel(
+                widget: const AddLptPage(),
+                icon: Icons.local_play_outlined,
+                label: AppString.ndtLpt,
                 sublist: [],
                 isSelected: false,
                 actionButtonWidget: null));
@@ -228,53 +235,20 @@ class HomeHelper {
                 isSelected: false,
                 actionButtonWidget: null));
             break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddConcreteCoatingPage(),
-                  icon: Icons.business,
-                  label: AppString.concreteCoating,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
+          case '14':
+            drawerList.add(DrawerModel(
+                widget: const AddConcreteCoatingPage(),
+                icon: Icons.business,
+                label: AppString.concreteCoating,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
             break;
           case '15':
             drawerList.add(DrawerModel(
                 widget: const AddLoweringPage(),
                 icon: Icons.bookmark_added_outlined,
                 label: AppString.lowering,
-                sublist: [],
-                isSelected: false,
-                actionButtonWidget: null));
-            break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddHdpeDuctPage(),
-                  icon: Icons.padding_outlined,
-                  label: AppString.hdpeDuctLaying,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
-            break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddHDPEDuctTestingPage(),
-                  icon: Icons.pages_outlined,
-                  label: AppString.hdpeDuctTesting,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
-            break;
-          case '18':
-            drawerList.add(DrawerModel(
-                widget: const AddBackFillingPage(),
-                icon: Icons.newspaper,
-                label: AppString.backFilling,
                 sublist: [],
                 isSelected: false,
                 actionButtonWidget: null));
@@ -288,27 +262,23 @@ class HomeHelper {
                 isSelected: false,
                 actionButtonWidget: null));
             break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddOfcSplicingPage(),
-                  icon: Icons.offline_share,
-                  label: AppString.ofcSplicing,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
+          case '17':
+            drawerList.add(DrawerModel(
+                widget: const AddLevellingPage(),
+                icon: Icons.file_present,
+                label: AppString.levelling,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
             break;
-          case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
-              drawerList.add(DrawerModel(
-                  widget: const AddPostHydroTestPage(),
-                  icon: Icons.fire_hydrant_alt_outlined,
-                  label: AppString.postHydrotest,
-                  sublist: [],
-                  isSelected: false,
-                  actionButtonWidget: null));
-            }
+          case '18':
+            drawerList.add(DrawerModel(
+                widget: const AddBackFillingPage(),
+                icon: Icons.newspaper,
+                label: AppString.backFilling,
+                sublist: [],
+                isSelected: false,
+                actionButtonWidget: null));
             break;
           case '23':
             drawerList.add(DrawerModel(
@@ -337,16 +307,58 @@ class HomeHelper {
                 isSelected: false,
                 actionButtonWidget: null));
             break;
-          case '17':
+          case '32':
             drawerList.add(DrawerModel(
-                widget: const AddLevellingPage(),
-                icon: Icons.file_present,
-                label: AppString.levelling,
+                widget: const AddTieinPage(),
+                icon: Icons.send_time_extension_outlined,
+                label: AppString.tiein,
                 sublist: [],
                 isSelected: false,
                 actionButtonWidget: null));
             break;
           case '':
+            if (AppConfig.instanceInit()!.client != Client.mgl) {
+              drawerList.add(DrawerModel(
+                  widget: const AddHdpeDuctPage(),
+                  icon: Icons.padding_outlined,
+                  label: AppString.hdpeDuctLaying,
+                  sublist: [],
+                  isSelected: false,
+                  actionButtonWidget: null));
+            }
+            break;
+          case '':
+            if (AppConfig.instanceInit()!.client != Client.mgl) {
+              drawerList.add(DrawerModel(
+                  widget: const AddHDPEDuctTestingPage(),
+                  icon: Icons.pages_outlined,
+                  label: AppString.hdpeDuctTesting,
+                  sublist: [],
+                  isSelected: false,
+                  actionButtonWidget: null));
+            }
+            break;
+          case '':
+            if (AppConfig.instanceInit()!.client != Client.mgl) {
+              drawerList.add(DrawerModel(
+                  widget: const AddOfcSplicingPage(),
+                  icon: Icons.offline_share,
+                  label: AppString.ofcSplicing,
+                  sublist: [],
+                  isSelected: false,
+                  actionButtonWidget: null));
+            }
+            break;
+          case '':
+              drawerList.add(DrawerModel(
+                  widget: const AddPostHydroTestPage(),
+                  icon: Icons.fire_hydrant_alt_outlined,
+                  label: AppString.postHydrotest,
+                  sublist: [],
+                  isSelected: false,
+                  actionButtonWidget: null));
+            break;
+            case '':
             if (AppConfig.instanceInit()!.client != Client.mgl) {
               drawerList.add(DrawerModel(
                   widget: const AddSwabbingPage(),
@@ -358,7 +370,6 @@ class HomeHelper {
             }
             break;
           case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
               drawerList.add(DrawerModel(
                   widget: const AddDryingPage(),
                   icon: Icons.dry_outlined,
@@ -366,10 +377,8 @@ class HomeHelper {
                   sublist: [],
                   isSelected: false,
                   actionButtonWidget: null));
-            }
             break;
           case '':
-            if (AppConfig.instanceInit()!.client != Client.mgl) {
               drawerList.add(DrawerModel(
                   widget: const AddCutPipePage(),
                   icon: Icons.panorama_horizontal_rounded,
@@ -377,8 +386,70 @@ class HomeHelper {
                   sublist: [],
                   isSelected: false,
                   actionButtonWidget: _restoreActionWidget(context: context)));
-            }
             break;
+          case "1":
+            drawerList.add(DrawerModel(
+                widget: TextButton(
+                  child: const Text(""),
+                  onPressed: () {},
+                ),
+                icon: Icons.hd_outlined,
+                label: AppString.tcp,
+                sublist: [
+                  DrawerSubModel(
+                      label: AppString.pilotDrill,
+                      widget: const AddPilotDrillPage(),
+                      isSelected: false,
+                      actionButtonWidget: null),
+                  DrawerSubModel(
+                      label: AppString.hddReaming,
+                      widget: const AddHddReamingPage(),
+                      isSelected: false,
+                      actionButtonWidget: null),
+                  DrawerSubModel(
+                      label: AppString.hddCleanPass,
+                      widget: const AddHddCleanPassPage(),
+                      isSelected: false,
+                      actionButtonWidget: null),
+                  DrawerSubModel(
+                      label: AppString.hddPulling,
+                      widget: const AddHddPullingPage(),
+                      isSelected: false,
+                      actionButtonWidget: null),
+                  DrawerSubModel(
+                      label: AppString.hddCrossing,
+                      widget: const AddHddCrossingPage(),
+                      isSelected: false,
+                      actionButtonWidget: null),
+                ],
+                isSelected: false,
+                actionButtonWidget: null));
+            break;
+         /* case "40"|| "41"||"44"||"45"||"46"||"66"||"67"||"68"||"75":
+            drawerList.add(
+              DrawerModel(
+                widget: TextButton(child: const Text(""), onPressed: () {}),
+                icon: Icons.table_chart_outlined,
+                label: AppString.tcp,
+                sublist: tcpSublist(modelName),
+                isSelected: false,
+                actionButtonWidget: null,
+              ),
+            );
+            break;*/
+
+        }
+        if (tcpModelNames.contains(modelName)) {
+          drawerList.add(
+            DrawerModel(
+              widget: TextButton(child: const Text(""), onPressed: () {}),
+              icon: Icons.table_chart_outlined,
+              label: AppString.tcp,
+              sublist: tcpSublist(modelName),
+              isSelected: false,
+              actionButtonWidget: null,
+            ),
+          );
         }
       }
       return drawerList;
@@ -386,6 +457,90 @@ class HomeHelper {
       return null;
     }
   }
+
+  static List<DrawerSubModel> tcpSublist(String modelName) {
+    final List<DrawerSubModel> sublist = [];
+
+      switch (modelName) {
+        case "40":
+          sublist.add(DrawerSubModel(
+            label: AppString.pinBrazzing,
+            widget: const AddPinBrazzingPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "41":
+          sublist.add(DrawerSubModel(
+            label: AppString.installationCables,
+            widget: const AddCableInstallationPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "44":
+          sublist.add(DrawerSubModel(
+            label: AppString.groundingAnode,
+            widget: const AddZnGroundingAnodePage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "45":
+          sublist.add(DrawerSubModel(
+            label: AppString.testStationBoxes,
+            widget: const AddTestStationBoxPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "46":
+          sublist.add(DrawerSubModel(
+            label: AppString.thermitWelding,
+            widget: const AddThermitWeldPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "66":
+          sublist.add(DrawerSubModel(
+            label: AppString.surgeDiverter,
+            widget: const AddSurgeDiverterPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "67":
+          sublist.add(DrawerSubModel(
+            label: AppString.ssd,
+            widget: const AddSsdPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "68":
+          sublist.add(DrawerSubModel(
+            label: AppString.polarisationCoupan,
+            widget: const AddPolarisationCoupanPage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+        case "75":
+          sublist.add(DrawerSubModel(
+            label: AppString.sacrificialAnode,
+            widget: const AddSacrificialAnodePage(),
+            isSelected: false,
+            actionButtonWidget: null,
+          ));
+          break;
+      }
+
+
+    return sublist;
+  }
+
+
 
   static Widget _restoreActionWidget({required BuildContext context}) {
     return Row(
