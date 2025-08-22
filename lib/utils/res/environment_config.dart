@@ -37,7 +37,7 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.developmentMgl:
         return "https://mgldev.smartgasnet.com/";
       case EnvironmentFlavours.productionMgl:
-        return "https://mgl.smartgasnet.com/";
+        return "https://mgldev.smartgasnet.com/";
     }
   }
 }

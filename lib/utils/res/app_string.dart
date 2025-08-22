@@ -3,7 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart'
 class AppString {
   static get appName => "Smart Gas Net";
 
-  static String version = "Version : 1.0.0 -Steel-11-06-2025";
+  static String version = "Version : 1.0.0 -Steel-21-08-2025";
   static String companyName = "© Unistal Systems Pvt. Ltd.";
   static get googleApiKey => "AIzaSyAiFoe5ZuDbEVu0B3wyCrQsODy0lFQTxZ0";
 

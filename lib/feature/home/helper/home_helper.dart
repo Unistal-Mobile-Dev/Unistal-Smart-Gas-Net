@@ -114,7 +114,7 @@ class HomeHelper {
         String modelName = item.activityId?.toString().trim() ?? '';
         final List<String> tcpModelNames = ["40", "41", "44", "45", "46", "66", "67", "68", "75"];
         switch (modelName) {
-           /*case '1':
+           case '1':
             drawerList.add(DrawerModel(
                 widget: const AddRouteSurveyPage(),
                 icon: Icons.alt_route_sharp,
@@ -122,7 +122,7 @@ class HomeHelper {
                 sublist: [],
                 isSelected: false,
                 actionButtonWidget: null));
-            break;*/
+            break;
           case '2':
             drawerList.add(DrawerModel(
                 widget: const AddRouHandoverPage(),
@@ -387,7 +387,7 @@ class HomeHelper {
                   isSelected: false,
                   actionButtonWidget: _restoreActionWidget(context: context)));
             break;
-          case "1":
+          case "":
             drawerList.add(DrawerModel(
                 widget: TextButton(
                   child: const Text(""),
