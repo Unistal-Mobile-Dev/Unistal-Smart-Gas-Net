@@ -112,7 +112,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectAlignmentEvent(alignmentData: value,));
+            AddRadiographySelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -393,8 +393,10 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

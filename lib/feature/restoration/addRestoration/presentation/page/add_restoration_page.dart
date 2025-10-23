@@ -110,7 +110,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
-            AddRestorationSelectAlignmentEvent(alignmentData: value,));
+            AddRestorationSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -292,8 +292,10 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

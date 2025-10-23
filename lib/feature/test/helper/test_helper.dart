@@ -176,8 +176,10 @@ class TestHelper {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -263,7 +265,7 @@ class TestHelper {
         List<TestListModel> tempTestList = [];
         for(var testListData in testData.list!) {
           TestListModel testData = testListData;
-          if(testListData.name.toString() == value.name.toString()){
+          if(testListData.name.toString() == value!.name.toString()){
             testData.isSelected =  true;
           } else {
             testData.isSelected =  false;
@@ -272,7 +274,7 @@ class TestHelper {
         }
         testList[index].list =  tempTestList;
         if(kDebugMode){
-          print(value.name.toString());
+          print(value!.name.toString());
           BlocProvider.of<TestBloc>(context).add(TestPageSelectAlignmentData(testList: testList, context: context));
         }
       },

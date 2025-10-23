@@ -123,7 +123,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectAlignmentEvent(alignmentData: value,));
+            AddCrossingSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -519,8 +519,10 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

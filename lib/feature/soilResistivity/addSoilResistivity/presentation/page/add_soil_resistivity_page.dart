@@ -119,7 +119,7 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddSoilResistivityBloc>(context).add(
-            AddSoilResistivitySelectAlignmentEvent(alignmentData: value,));
+            AddSoilResistivitySelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -150,8 +150,10 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
          mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

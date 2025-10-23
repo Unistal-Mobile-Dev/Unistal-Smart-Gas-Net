@@ -117,7 +117,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddPreHydrotestBloc>(context).add(
-            AddPreHydrotestSelectAlignmentEvent(alignmentData: value,));
+            AddPreHydrotestSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -333,8 +333,10 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

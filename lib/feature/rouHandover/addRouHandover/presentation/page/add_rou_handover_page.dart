@@ -152,7 +152,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddRouHandoverBloc>(context).add(
-            AddRouHandoverSelectAlignmentEvent(alignmentData: value,));
+            AddRouHandoverSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -183,8 +183,10 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
          mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

@@ -126,7 +126,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectAlignmentEvent(alignmentData: value,));
+            AddBackFillingSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -320,8 +320,10 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

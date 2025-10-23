@@ -108,7 +108,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddHdpeDuctBloc>(context).add(
-            AddHdpeDuctSelectAlignmentEvent(alignmentData: value,));
+            AddHdpeDuctSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -273,8 +273,10 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

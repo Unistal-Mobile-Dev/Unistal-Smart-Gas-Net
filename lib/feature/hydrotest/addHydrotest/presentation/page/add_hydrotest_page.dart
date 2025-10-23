@@ -92,7 +92,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddHydrotestBloc>(context).add(
-            AddHydrotestSelectAlignmentEvent(alignmentData: value,));
+            AddHydrotestSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -191,8 +191,10 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             mediaType(context: context, index: index);
           },
           child: DottedBorder(
-            color: AppColor.grey,
-            strokeWidth: 1,
+            options: RectDottedBorderOptions(
+              color: AppColor.grey,
+              strokeWidth: 1,
+            ),
             child: fileData.file == null
                 ||fileData.file.path.isEmpty ?
             Column(

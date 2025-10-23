@@ -92,7 +92,7 @@ class _AddSwabbingPageState extends State<AddSwabbingPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddSwabbingBloc>(context).add(
-            AddSwabbingSelectAlignmentEvent(alignmentData: value,));
+            AddSwabbingSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -194,8 +194,10 @@ class _AddSwabbingPageState extends State<AddSwabbingPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

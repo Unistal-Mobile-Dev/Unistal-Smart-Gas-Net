@@ -106,7 +106,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context).add(
-            AddNdtMutSelectAlignmentEvent(alignmentData: value,));
+            AddNdtMutSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -327,8 +327,10 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -208,7 +208,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context).add(
-            AddClearingGradingSelectAlignmentEvent(alignmentData: value,));
+            AddClearingGradingSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -256,8 +256,10 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

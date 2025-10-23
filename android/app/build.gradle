@@ -27,7 +27,7 @@ def keystoreProperties = new Properties()
 
 android {
     namespace "com.unistalsmartgasnet.app.flutter_unistal_smart_gas_net"
-    compileSdkVersion 35
+    compileSdkVersion 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -99,7 +99,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com"
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 36
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

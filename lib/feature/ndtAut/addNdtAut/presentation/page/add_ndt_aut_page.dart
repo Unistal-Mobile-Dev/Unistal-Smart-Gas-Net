@@ -107,7 +107,7 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddNdtAutBloc>(context).add(
-            AddNdtAutSelectAlignmentEvent(alignmentData: value,));
+            AddNdtAutSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -278,8 +278,10 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

@@ -12,6 +12,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/wid
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/wave_backgorund.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -34,11 +35,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
   callMethodeChannel() async {
     try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String applicationId = packageInfo.packageName;
+      String androidPlayStoreUrl =
+          "https://play.google.com/store/apps/details?id=$applicationId&hl=en&gl=US";
       if (Platform.isAndroid) {
         final dynamic result = await platform.invokeMethod('getAppUpdate');
         if(result.toString() == "success"){
           if(context.mounted){
-            AppUpdateMessage.showAlertDialog(context: context);
+            AppUpdateMessage.showAlertDialog(context: context,url: androidPlayStoreUrl,);
           }
         }
       } else if (Platform.isIOS) {

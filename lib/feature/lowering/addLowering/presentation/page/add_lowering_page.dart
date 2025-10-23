@@ -139,7 +139,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectAlignmentEvent(alignmentData: value,));
+            AddLoweringSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -374,8 +374,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file == null
               ||dataState.file.path.isEmpty ?
           Column(

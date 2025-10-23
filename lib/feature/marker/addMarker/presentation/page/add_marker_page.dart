@@ -146,7 +146,7 @@ class _AddMarkerPageState extends State<AddMarkerPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddMarkerBloc>(context).add(
-            AddMarkerSelectAlignmentEvent(alignmentData: value,));
+            AddMarkerSelectAlignmentEvent(alignmentData: value!,));
       },
     );
   }
@@ -430,8 +430,10 @@ class _AddMarkerPageState extends State<AddMarkerPage> {
           mediaType(context: context);
         },
         child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
+          options: RectDottedBorderOptions(
+            color: AppColor.grey,
+            strokeWidth: 1,
+          ),
           child: dataState.file.path.isEmpty ?
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
