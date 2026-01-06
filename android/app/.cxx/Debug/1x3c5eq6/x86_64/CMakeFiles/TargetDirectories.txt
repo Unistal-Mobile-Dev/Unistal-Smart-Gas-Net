@@ -1,2 +1,0 @@
-D:/All Update Office Project/PurvaBharti Project/Steel/android/app/.cxx/Debug/1x3c5eq6/x86_64/CMakeFiles/edit_cache.dir
-D:/All Update Office Project/PurvaBharti Project/Steel/android/app/.cxx/Debug/1x3c5eq6/x86_64/CMakeFiles/rebuild_cache.dir

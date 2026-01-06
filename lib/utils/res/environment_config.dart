@@ -22,7 +22,9 @@ class EnvironmentConfig extends InheritedWidget {
   String get generalUrlBaseOnFlavour {
     switch (flavours) {
       case EnvironmentFlavours.developmentUnistal:
-        return "http://unistal.smartgasnet.com/";
+        return "https://unistaldev.plcms.net/";
+       // return "https://unistaluat.plcms.net/";
+      //  return "http://unistal.smartgasnet.com/";
       case EnvironmentFlavours.productionUnistal:
         return "http://unistal.smartgasnet.com/";
       case EnvironmentFlavours.developmentPurvaBharti:
