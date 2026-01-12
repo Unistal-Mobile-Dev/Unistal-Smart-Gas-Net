@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/card_backgound.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class ReportWidget extends StatelessWidget {
   const ReportWidget({super.key});
@@ -19,8 +20,8 @@ class ReportWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 2.15,
               child: Card(
                 elevation: 3,
-                shadowColor: AppColor.themeLightColor,
-                color: AppColor.themeLightColor,
+                shadowColor:EnvironmentConfig.of(context)!.primaryTheme,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),

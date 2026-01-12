@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class ProfileWidget extends StatelessWidget {
   ProfileWidget({super.key});
@@ -14,7 +15,7 @@ class ProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
@@ -29,7 +30,7 @@ class ProfileWidget extends StatelessWidget {
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: AppColor.themeLightColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
               ),
               child: Icon(

@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_state.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
@@ -29,7 +30,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           scrollDirection: Axis.vertical,
           child: Card(
             elevation: 2,
-            shadowColor: AppColor.themeLightColor,
+            shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
             color: AppColor.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
@@ -81,11 +82,17 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               child: Image.asset(
                 AppConfig.instanceInit()!.client == Client.mgl
                     ? AppIcon.appLogoMGL
-               : AppConfig.instanceInit()!.client == Client.purvaBharti
+                    : AppConfig.instanceInit()!.client == Client.purvaBharti
                     ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.unistal
-                        ? AppIcon.appLogoUnistal
-                        : AppIcon.appLogoIgl,
+                    ? AppIcon.appLogoUnistal
+                    : AppConfig.instanceInit()!.client == Client.oilIndia
+                    ? AppIcon.oilIndiaLogo
+                    : AppConfig.instanceInit()!.client == Client.vppl
+                    ? AppIcon.vpplLogo
+                    : AppConfig.instanceInit()!.client == Client.vrpl
+                    ? AppIcon.vrplLogo
+                    :  AppIcon.appLogoUnistal,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -93,7 +100,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 AppIcon.colourStrip,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
               ),

@@ -9,9 +9,9 @@ void main() async {
 /*  await HiveDataBase().init();*/
  // AppColor(themeColor: 0xFF0077bd, themeLightColor: 0xFF1AABFF);
   var configuredApp = const EnvironmentConfig(
-      flavours: EnvironmentFlavours.productionUnistal,
+      flavours: EnvironmentFlavours.developmentOilIndia,
       child: Root(
-        client: Client.unistal,
+        client: Client.oilIndia,
       ));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom]);

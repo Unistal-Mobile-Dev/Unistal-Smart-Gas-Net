@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class CenterLoaderWidget extends StatelessWidget {
   const CenterLoaderWidget({super.key});
@@ -12,7 +13,7 @@ class CenterLoaderWidget extends StatelessWidget {
         : MediaQuery.of(context).size.width * 0.05;
     return Center(
       child: SpinKitCubeGrid(
-        color: AppColor.themeColor,
+        color: EnvironmentConfig.of(context)!.primaryTheme,
         size: size,
       ),
     );

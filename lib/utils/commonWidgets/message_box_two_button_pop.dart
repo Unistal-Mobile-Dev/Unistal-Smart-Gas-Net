@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final String message;
@@ -64,7 +65,7 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                             },
                             child: TextWidget(
                               "Cancel",
-                              color: AppColor.themeLightColor,
+                              color:EnvironmentConfig.of(context)!.primaryTheme,
                               fontSize: AppFont.font_16,
                             ),
                           ),
@@ -80,7 +81,7 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                             child: TextWidget(
                               okButtonText ?? "OK",
                               fontWeight: FontWeight.w700,
-                              color: AppColor.themeColor,
+                              color: EnvironmentConfig.of(context)!.primaryTheme,
                               fontSize: AppFont.font_16,
                             ),
                           ),

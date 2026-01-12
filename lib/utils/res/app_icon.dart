@@ -11,5 +11,9 @@ class AppIcon {
 
   static get smartgasnetLog => "assets/smartgasnet_log.png";
 
+  static get vpplLogo => "assets/vppl_plcms.png";
+  static get vrplLogo => "assets/vrpl_plcms.png";
+  static get oilIndiaLogo => "assets/oil_India.png";
+
   static get loader => "assets/ic_loader.gif";
 }

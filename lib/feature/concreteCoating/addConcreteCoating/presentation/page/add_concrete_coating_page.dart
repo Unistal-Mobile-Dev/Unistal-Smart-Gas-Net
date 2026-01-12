@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcret
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddConcreteCoatingPage extends StatefulWidget {
   const AddConcreteCoatingPage({super.key});
@@ -254,7 +255,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -266,7 +267,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

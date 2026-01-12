@@ -36,6 +36,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/domain/bloc
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 import 'package:provider/provider.dart';
 
 import 'ExportFile/app_export_file.dart';
@@ -58,37 +59,37 @@ class _RootState extends State<Root> {
     super.initState();
   }
 
-  MaterialColor primaryColor = MaterialColor(
-    AppColor.theme_Color,
-    <int, Color>{
-      50: AppColor.themeColor,
-      100: AppColor.themeColor,
-      200: AppColor.themeColor,
-      300: AppColor.themeColor,
-      400: AppColor.themeColor,
-      500: AppColor.themeColor,
-      600: AppColor.themeColor,
-      700: AppColor.themeColor,
-      800: AppColor.themeColor,
-      900: AppColor.themeColor,
-    },
-  );
-
-  MaterialColor primarySwatch = MaterialColor(
-    AppColor.theme_LightColor,
-    <int, Color>{
-      50: AppColor.themeLightColor,
-      100: AppColor.themeLightColor,
-      200: AppColor.themeLightColor,
-      300: AppColor.themeLightColor,
-      400: AppColor.themeLightColor,
-      500: AppColor.themeLightColor,
-      600: AppColor.themeLightColor,
-      700: AppColor.themeLightColor,
-      800: AppColor.themeLightColor,
-      900: AppColor.themeLightColor,
-    },
-  );
+  // MaterialColor primaryColor = MaterialColor(
+  //   AppColor.theme_Color,
+  //   <int, Color>{
+  //     50: AppColor.themeColor,
+  //     100: AppColor.themeColor,
+  //     200: AppColor.themeColor,
+  //     300: AppColor.themeColor,
+  //     400: AppColor.themeColor,
+  //     500: AppColor.themeColor,
+  //     600: AppColor.themeColor,
+  //     700: AppColor.themeColor,
+  //     800: AppColor.themeColor,
+  //     900: AppColor.themeColor,
+  //   },
+  // );
+  //
+  // MaterialColor primarySwatch = MaterialColor(
+  //   AppColor.theme_LightColor,
+  //   <int, Color>{
+  //     50: AppColor.themeLightColor,
+  //     100: AppColor.themeLightColor,
+  //     200: AppColor.themeLightColor,
+  //     300: AppColor.themeLightColor,
+  //     400: AppColor.themeLightColor,
+  //     500: AppColor.themeLightColor,
+  //     600: AppColor.themeLightColor,
+  //     700: AppColor.themeLightColor,
+  //     800: AppColor.themeLightColor,
+  //     900: AppColor.themeLightColor,
+  //   },
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -144,14 +145,13 @@ class _RootState extends State<Root> {
         debugShowCheckedModeBanner: false,
         title: "Smart Gas Net",
         theme: ThemeData(
-          fontFamily: AppFont.rubik,
-          appBarTheme: AppBarTheme(
-            color: AppColor.themeLightColor,
-            iconTheme: const IconThemeData(color: Colors.white),
-            foregroundColor: AppColor.themeColor,
+          primaryColor: EnvironmentConfig.of(context)!.primaryTheme,
+          hintColor: EnvironmentConfig.of(context)!.primaryTheme,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: EnvironmentConfig.of(context)!.primaryTheme,
           ),
-          primaryColor: primaryColor,
-          primarySwatch: primarySwatch,
         ),
         home: const SplashScreen(),
       ),

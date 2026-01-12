@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydro
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddPostHydroTestPage extends StatefulWidget {
   const AddPostHydroTestPage({super.key});
@@ -273,7 +274,7 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -285,7 +286,7 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

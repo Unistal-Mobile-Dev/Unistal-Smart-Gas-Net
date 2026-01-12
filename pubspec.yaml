@@ -75,9 +75,9 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "ic_launcher_unistal"
+  android: "vrpl_plcms"
   ios: true
-  image_path: "assets/ic_launcher_unistal.png"
+  image_path: "assets/vrpl_plcms.png"
   min_sdk_android: 21
 
 

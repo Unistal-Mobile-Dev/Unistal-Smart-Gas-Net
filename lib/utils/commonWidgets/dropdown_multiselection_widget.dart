@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class DropDownSearchMultiSelectWidget extends StatelessWidget {
   final List<dynamic> items;
@@ -41,7 +42,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
               TextSpan(
                   text: hint,
                   style: TextStyle(
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_14,
                   )),
               TextSpan(
@@ -52,7 +53,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
                   )),
             ])),
            /* hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: AppColor.themeColor),*/
+                fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),*/
             contentPadding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.018,
               left: MediaQuery.of(context).size.height * 0.01,

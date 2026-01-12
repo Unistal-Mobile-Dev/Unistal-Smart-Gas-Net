@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/dropdown_widgets.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddWeldingPage extends StatefulWidget {
   const AddWeldingPage({super.key});
@@ -1094,7 +1095,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),
@@ -1107,7 +1108,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

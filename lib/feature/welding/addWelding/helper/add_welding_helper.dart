@@ -429,6 +429,7 @@ class AddWeldingHelper {
       };
       String json = Uri(queryParameters: param).query;
       var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      log("getWelderApi-->$url?$json");
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

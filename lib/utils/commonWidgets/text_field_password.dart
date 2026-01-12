@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class TextFieldPasswordWidget extends StatelessWidget {
   final String labelText;
@@ -51,7 +52,7 @@ class TextFieldPasswordWidget extends StatelessWidget {
                     style: const TextStyle(color: Colors.red)),
               ])),
               labelStyle: TextStyle(
-                  fontSize: AppFont.font_14, color: AppColor.themeColor),
+                  fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),

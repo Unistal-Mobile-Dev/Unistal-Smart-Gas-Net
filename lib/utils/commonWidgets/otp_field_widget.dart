@@ -280,7 +280,7 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
       _pin[i] = digit;
     }
 
-    FocusScope.of(context).requestFocus(_focusNodes[widget.length - 1]);
+    FocusScope.of(context!).requestFocus(_focusNodes[widget.length - 1]);
 
     String currentPin = _getCurrentPin();
 

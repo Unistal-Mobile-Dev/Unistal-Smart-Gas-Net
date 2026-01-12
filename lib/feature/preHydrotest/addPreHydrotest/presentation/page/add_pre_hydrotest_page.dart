@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/domain/bloc/add_pre_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddPreHydroTestPage extends StatefulWidget {
   const AddPreHydroTestPage({super.key});
@@ -438,7 +439,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),
@@ -451,7 +452,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

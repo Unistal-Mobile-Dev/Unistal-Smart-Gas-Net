@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AppBarWidget extends StatelessWidget {
   final String titleName;
@@ -33,7 +34,7 @@ class AppBarWidget extends StatelessWidget {
               child: TextWidget(
                 titleName,
                 textAlign: TextAlign.center,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fontWeight: FontWeight.w600,
                 fontSize: AppFont.font_16,
               ),

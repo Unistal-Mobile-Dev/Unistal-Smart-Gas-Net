@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcret
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddBackFillingPage extends StatefulWidget {
   const AddBackFillingPage({super.key});
@@ -420,7 +421,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),
@@ -433,7 +434,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color:EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_m
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
   HomeDrawerWidget({super.key});
@@ -49,9 +50,17 @@ class HomeDrawerWidget extends StatelessWidget {
           child: Image.asset(
             AppConfig.instanceInit()!.client == Client.mgl
                 ? AppIcon.appLogoMGL
+                : AppConfig.instanceInit()!.client == Client.purvaBharti
+                ? AppIcon.appLogoPurvaBharti
                 : AppConfig.instanceInit()!.client == Client.unistal
-                    ? AppIcon.appLogoUnistal
-                    : AppIcon.appLogoIgl,
+                ? AppIcon.appLogoUnistal
+                : AppConfig.instanceInit()!.client == Client.oilIndia
+                ? AppIcon.oilIndiaLogo
+                : AppConfig.instanceInit()!.client == Client.vppl
+                ? AppIcon.vpplLogo
+                : AppConfig.instanceInit()!.client == Client.vrpl
+                ? AppIcon.vrplLogo
+                :  AppIcon.appLogoUnistal,
             height: MediaQuery.of(context).size.width * 0.12,
             width: MediaQuery.of(context).size.width * 0.12,
           ),
@@ -117,7 +126,7 @@ class HomeDrawerWidget extends StatelessWidget {
                 Icon(
                   drawerData.icon,
                   color: drawerData.isSelected == true
-                      ? AppColor.themeColor
+                      ? EnvironmentConfig.of(context)!.primaryTheme
                       : AppColor.black,
                 ),
                 SizedBox(
@@ -128,7 +137,7 @@ class HomeDrawerWidget extends StatelessWidget {
                     drawerData.label,
                     fontSize: AppFont.font_13,
                     color: drawerData.isSelected == true
-                        ? AppColor.themeColor
+                        ? EnvironmentConfig.of(context)!.primaryTheme
                         : AppColor.black,
                     fontWeight: drawerData.isSelected == true
                         ? FontWeight.w700
@@ -186,7 +195,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       Icons.circle,
                       size: MediaQuery.of(context).size.width * 0.03,
                       color: drawerData.sublist[index].isSelected == true
-                          ? AppColor.themeColor
+                          ? EnvironmentConfig.of(context)!.primaryTheme
                           : AppColor.black,
                     ),
                     SizedBox(
@@ -197,7 +206,7 @@ class HomeDrawerWidget extends StatelessWidget {
                         drawerData.sublist[index].label.toString(),
                         fontSize: AppFont.font_12,
                         color: drawerData.sublist[index].isSelected == true
-                            ? AppColor.themeColor
+                            ? EnvironmentConfig.of(context)!.primaryTheme
                             : AppColor.black,
                       ),
                     ),

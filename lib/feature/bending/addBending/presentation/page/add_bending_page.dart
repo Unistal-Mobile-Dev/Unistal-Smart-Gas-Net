@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddBendingPage extends StatefulWidget {
   const AddBendingPage({super.key});
@@ -416,7 +417,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -428,7 +429,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/bloc/add_hydrotest_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHydroTestPage extends StatefulWidget {
   const AddHydroTestPage({super.key});
@@ -258,7 +259,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
                           TextWidget(
                             fileData.name,
                             textAlign: TextAlign.center,
-                            color: AppColor.themeColor,
+                            color: EnvironmentConfig.of(context)!.primaryTheme,
                             fontSize: AppFont.font_12,
                           ),
                         ],
@@ -270,7 +271,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
                           child: Center(
                               child: Icon(
                             Icons.refresh,
-                            color: AppColor.themeColor,
+                            color: EnvironmentConfig.of(context)!.primaryTheme,
                           ))),
                     ],
                   ),

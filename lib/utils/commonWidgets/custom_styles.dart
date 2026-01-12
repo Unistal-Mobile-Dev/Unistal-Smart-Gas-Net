@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+
+// BuildContext? context = Singleton.instanceInit()?.context;
 
 class CustomStyleText {
   static TextStyle appBarStyle = TextStyle(
@@ -146,25 +150,30 @@ class CustomStyleText {
       fontWeight: FontWeight.bold);
 }
 
-Widget styleAppBar() {
+Widget styleAppBar(BuildContext context) {
+  final primary = EnvironmentConfig.of(context)!.primaryTheme;
+  final secondary = EnvironmentConfig.of(context)!.secondaryTheme;
   return Container(
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
         gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: <Color>[Color(0xFF2D3194), Color(0xFF02A7E7)])),
+            colors: <Color> [primary, secondary])),
   );
 }
 
-BoxDecoration gradientDecoration = BoxDecoration(
+BoxDecoration gradientDecoration(BuildContext context) {
+  final primary = EnvironmentConfig.of(context)!.primaryTheme;
+
+  return BoxDecoration(
     borderRadius: BorderRadius.circular(24),
     gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[
-          AppColor.themeColor,
-          AppColor.themeColor,
-        ]));
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [primary, primary],
+    ),
+  );
+}
 
 BoxDecoration gradientGrayColorDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(24),
@@ -178,10 +187,13 @@ LinearGradient gradientColor = const LinearGradient(
     end: Alignment.bottomRight,
     colors: <Color>[Color(0xFF2D3194), Color(0xFF02A7E7)]);
 
-BoxDecoration buttonFlat = BoxDecoration(
+BoxDecoration buttonFlat(BuildContext context) {
+  return BoxDecoration(
     borderRadius: BorderRadius.circular(24),
-    border: Border.all(color: AppColor.themeColor, width: 1),
-    gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [AppColor.white]));
+    border: Border.all(
+      color: EnvironmentConfig.of(context)!.primaryTheme,
+      width: 1,
+    ),
+    color: AppColor.white,
+  );
+}

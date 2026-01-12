@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/forgotPassword/domain/bloc/forgot_password_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class TabletForgotPasswordWidget extends StatefulWidget {
   final FetchForgotPasswordDataState dataState;
@@ -90,9 +91,17 @@ class _TabletForgotPasswordWidgetState
               child: Image.asset(
                 AppConfig.instanceInit()!.client == Client.mgl
                     ? AppIcon.appLogoMGL
+                    : AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.unistal
-                        ? AppIcon.appLogoUnistal
-                        : AppIcon.appLogoIgl,
+                    ? AppIcon.appLogoUnistal
+                    : AppConfig.instanceInit()!.client == Client.oilIndia
+                    ? AppIcon.oilIndiaLogo
+                    : AppConfig.instanceInit()!.client == Client.vppl
+                    ? AppIcon.vpplLogo
+                    : AppConfig.instanceInit()!.client == Client.vrpl
+                    ? AppIcon.vrplLogo
+                    :  AppIcon.appLogoUnistal,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -100,7 +109,7 @@ class _TabletForgotPasswordWidgetState
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 AppIcon.colourStrip,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fit: BoxFit.cover,
 /*                width: MediaQuery.of(context).size.width/2.3,*/
               ),
@@ -153,7 +162,7 @@ class _TabletForgotPasswordWidgetState
         alignment: Alignment.bottomCenter,
         child: TextWidget("Login",
             textDecoration: TextDecoration.underline,
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontWeight: FontWeight.w600),
       ),
     );

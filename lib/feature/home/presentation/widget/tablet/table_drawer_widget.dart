@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_m
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/message_box_two_button_pop.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class TabletDrawerWidget extends StatelessWidget {
   final FetchHomeDataState dataState;
@@ -14,7 +15,7 @@ class TabletDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.themeLightColor,
+      color: EnvironmentConfig.of(context)!.primaryTheme,
       height: MediaQuery.of(context).size.height,
       child: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
@@ -48,16 +49,36 @@ class TabletDrawerWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
 /*            Image.asset(
-              AppIcon.appLogo,
+               AppConfig.instanceInit()!.client == Client.mgl
+                  ? AppIcon.appLogoMGL
+                  : AppConfig.instanceInit()!.client == Client.purvaBharti
+                  ? AppIcon.appLogoPurvaBharti
+                  : AppConfig.instanceInit()!.client == Client.unistal
+                  ? AppIcon.appLogoUnistal
+                  : AppConfig.instanceInit()!.client == Client.oilIndia
+                  ? AppIcon.oilIndiaLogo
+                  : AppConfig.instanceInit()!.client == Client.vppl
+                  ? AppIcon.vpplLogo
+                  : AppConfig.instanceInit()!.client == Client.vrpl
+                  ? AppIcon.vrplLogo
+                  :  AppIcon.appLogoUnistal,
             ),*/
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
                 AppConfig.instanceInit()!.client == Client.mgl
                     ? AppIcon.appLogoMGL
+                    : AppConfig.instanceInit()!.client == Client.purvaBharti
+                    ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.unistal
-                        ? AppIcon.appLogoUnistal
-                        : AppIcon.appLogoIgl,
+                    ? AppIcon.appLogoUnistal
+                    : AppConfig.instanceInit()!.client == Client.oilIndia
+                    ? AppIcon.oilIndiaLogo
+                    : AppConfig.instanceInit()!.client == Client.vppl
+                    ? AppIcon.vpplLogo
+                    : AppConfig.instanceInit()!.client == Client.vrpl
+                    ? AppIcon.vrplLogo
+                    :  AppIcon.appLogoUnistal,
                 width: MediaQuery.of(context).size.width * 0.13,
               ),
             ),

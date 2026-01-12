@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class CommonStyle {
   static BuildContext? context = Singleton.instanceInit()?.context;
 
   static TextStyle text = TextStyle(
       fontSize: 14,
-      color: Colors.green.shade800);
+      color: EnvironmentConfig.of(context!)!.primaryTheme,);
 
   static TextStyle labels = TextStyle(
 
       fontSize: 14,
-      color: Colors.green.shade800,
+      color:EnvironmentConfig.of(context!)!.primaryTheme,
   );
 
   static TextStyle texts = const TextStyle(
@@ -23,7 +24,7 @@ class CommonStyle {
   static OutlineInputBorder border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(5.0),
     borderSide: BorderSide(
-        color: AppColor.themeLightColor, style: BorderStyle.solid, width: 0.80),
+        color: EnvironmentConfig.of(context!)!.primaryTheme, style: BorderStyle.solid, width: 0.80),
   );
 
   static OutlineInputBorder borderGrey = OutlineInputBorder(

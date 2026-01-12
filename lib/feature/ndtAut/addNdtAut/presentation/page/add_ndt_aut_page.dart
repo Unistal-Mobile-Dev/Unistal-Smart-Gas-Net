@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddNdtAutPage extends StatefulWidget {
   const AddNdtAutPage({super.key});
@@ -351,7 +352,7 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -363,7 +364,7 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

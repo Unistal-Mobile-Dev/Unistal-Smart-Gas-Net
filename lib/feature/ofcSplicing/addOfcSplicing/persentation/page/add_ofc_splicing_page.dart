@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddOfcSplicingPage extends StatefulWidget {
   const AddOfcSplicingPage({super.key});
@@ -339,7 +340,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -351,7 +352,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

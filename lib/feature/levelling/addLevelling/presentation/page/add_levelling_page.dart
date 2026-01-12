@@ -3,6 +3,7 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/domain/bloc/add_levelling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddLevellingPage extends StatefulWidget {
   const AddLevellingPage({super.key});
@@ -49,7 +50,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
                   children: [
                     TextWidget(
                       "Accuracy :  ",
-                      color: AppColor.themeColor,
+                      color: EnvironmentConfig.of(context)!.primaryTheme,
                     ),
                     TextWidget(
                       dataState.accuracy.isNotEmpty
@@ -339,7 +340,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -351,7 +352,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

@@ -20,6 +20,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_radiography_event.dart';
+
 part 'add_radiography_state.dart';
 
 class AddRadiographyBloc
@@ -153,15 +154,16 @@ class AddRadiographyBloc
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }*/
+
+
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "afterwelding"
-      //  jointTypeData: jointTypeData
-    );
+        context: event.context, userData: userData, type: "afterwelding"
+        //  jointTypeData: jointTypeData
+        );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }
+
     var resWelder = await AddWeldingHelper.fetchWelderData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
@@ -245,7 +247,7 @@ class AddRadiographyBloc
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
+    /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
         jointTypeData: jointTypeData);

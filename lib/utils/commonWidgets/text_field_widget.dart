@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -70,10 +71,10 @@ class TextFieldWidget extends StatelessWidget {
             labelStyle: TextStyle(
               fontSize: AppFont.font_14,
               color: controller == null
-                  ? AppColor.themeColor
+                  ? EnvironmentConfig.of(context)!.primaryTheme
                   : controller!.text.toString().isNotEmpty
-                      ? AppColor.themeColor
-                      : AppColor.themeColor,
+                      ? EnvironmentConfig.of(context)!.primaryTheme
+                      : EnvironmentConfig.of(context)!.primaryTheme,
             ),
             fillColor: Colors.white,
             border: OutlineInputBorder(

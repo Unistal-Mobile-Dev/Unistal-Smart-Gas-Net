@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/cutPipe/restoreCutePipe/domain/bloc/restore_cut_pipe_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class RestoreCutPipePage extends StatefulWidget {
   const RestoreCutPipePage({super.key});
@@ -51,7 +52,7 @@ class _RestoreCutPipePageState extends State<RestoreCutPipePage> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Card(
-                    shadowColor: AppColor.themeColor,
+                    shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

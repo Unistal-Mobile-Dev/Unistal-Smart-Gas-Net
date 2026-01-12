@@ -10,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddWelderRepairPage extends StatefulWidget {
   const AddWelderRepairPage({super.key});
@@ -59,7 +60,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
           /*  _verticalSpace(),
             TextWidget(
               "Electrode/Filler Wire No.",
-              color: AppColor.themeColor,
+              color: EnvironmentConfig.of(context)!.primaryTheme,
               fontWeight: FontWeight.w600,
             ),
             const Divider(),
@@ -403,7 +404,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
                                 : const Icon(Icons.document_scanner_outlined),
                         TextWidget(
                           dataState.file.path.split('/').last.toString(),
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_12,
                         ),
                       ],
@@ -415,7 +416,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class PhoneDashboardWidget extends StatefulWidget {
   const PhoneDashboardWidget({
@@ -48,7 +49,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         },
                         icon: Icon(
                           dataState.drawerList[index].icon,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ),
                         label: TextWidget(dataState.drawerList[index].label),
                       ),
