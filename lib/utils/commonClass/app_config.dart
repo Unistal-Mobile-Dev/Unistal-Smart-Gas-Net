@@ -16,6 +16,7 @@ class AppConfig {
   String get buildNumber => _buildNumber;
 
 
+  String sectionId = "";
   List<ActivitySectionData> listOfActivitySection = [];
 
   setClient({required Client client}) {
@@ -42,6 +43,9 @@ class AppConfig {
     print("buildNumber : $_buildNumber");
   }
 
+  void setSectionId({required String newSectionId}) {
+    this.sectionId = newSectionId;
+  }
   void setListActivityData({required List<ActivitySectionData> newListOfActivitySection}) {
     this.listOfActivitySection = newListOfActivitySection;
   }

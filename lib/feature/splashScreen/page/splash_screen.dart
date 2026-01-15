@@ -28,8 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(builder: (_) => const LoginScreenPage()),
           (route) => false);
     } else {
-      String password =
-          await SharedPreferencesUtils.getString(key: PreferencesName.password);
+      String password = await SharedPreferencesUtils.getString(key: PreferencesName.password);
       BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
           .add(LoginSetPasswordEvent(password: password));
       BlocProvider.of<LoginBloc>(!context.mounted ? context : context)

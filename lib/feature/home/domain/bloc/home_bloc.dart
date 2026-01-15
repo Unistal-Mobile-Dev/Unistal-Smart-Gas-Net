@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/pag
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper1.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -88,10 +89,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
     _listActivityData = await HomeHelper.activityBySectionApi(userData: userData) ?? [];
-    _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
+    _drawerList = (await HomeHelper.fetchDrawerList(context: event.context))!;
 
-    HomeHelper.checkAppUpdate(
-        context: !event.context.mounted ? event.context : event.context);
+    // HomeHelper.checkAppUpdate(context: !event.context.mounted ? event.context : event.context);
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
 

@@ -23,6 +23,8 @@ class LoginDataModel {
   String? diameter;
   String? diauom;
   String? token;
+  String? smartLogo;
+  String? projectLogo;
   RoleType? roleType;
 
   LoginDataModel({
@@ -41,9 +43,13 @@ class LoginDataModel {
     this.diauom,
     this.token,
     this.roleType,
+    this.smartLogo,
+    this.projectLogo,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
+    smartLogo = json['smartLogo'];
+    projectLogo = json['projectLogo'];
     userId = json['id'];
     email = json['email'];
     moduleId = json['module_id'];

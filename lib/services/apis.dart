@@ -148,4 +148,37 @@ class APIs {
   static get addComplaint => "admin/rest/add_complain";
 
   static get forgotPasswordApi => "";
+
+  static get addCleanPassInsertApi => "api/steel/cleanpassinsert";
+
+  static get addTestStationInsertApi => "api/steel/teststationinsert";
+
+  static get addSacrificialAnodeInsertApi => "api/steel/sacrificialanodeinsert";
+
+  static get addZnGroundInsertApi => "api/steel/zngroundinsert";
+
+  static get addCableLayingInsertApi => "api/steel/cablelayinginsert";
+
+  static get addThermitWeldInsertApi => "api/steel/thermitweldinsert";
+
+  static get addPinBrazzingInsertApi => "api/steel/pinbrazzinginsert";
+
+  static get addSsdInsertApi => "api/steel/ssdinsert";
+
+  static get addSurgeDiverterInsertApi => "api/steel/surgediverterinsert";
+
+  static get addPolerisationCoupanInsertApi => "api/steel/polerisationcoupaninsert";
+
+  static get addPipePullInsertApi => "api/steel/pipepullinsert";
+
+  static get addPipeCrossingInsertApi => "api/steel/hddcrossinginsert";
+
+  static get addPilotDrillingInsertApi => "api/steel/pilotdrillinginsert";
+
+  static get getTLPTypeApi => "api/steel/get-tlp-type";
+
+
+  static get getAnodeTypeApi => "api/steel/get-anode-type";
+
+  static get addReamingInsertApi => "api/steel/reaminginsert";
 }

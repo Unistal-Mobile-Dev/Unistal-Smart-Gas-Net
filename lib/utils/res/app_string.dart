@@ -288,6 +288,12 @@ class AppString {
   static get ndtRT => "NDT RT";
 
   static get tiein => "Tie In";
+  static get totalWeldJoints => "Total Weld Joints";
+  static get dpt => "DPT";
+  static get hindrance => "Hindrance";
+  static get ofcFinalTesting => "OFC Final Testing";
+  static get svInstallation  => "SV Installation";
+  static get ipInstallation  => "IP Installation";
 
   static get ndtMut => "NDT Mut";
 
@@ -450,6 +456,7 @@ class AppString {
   static get bending => "Bending";
 
   static get welding => "Welding";
+  static get marker => "Marker";
 
   static get weldRepair => "Weld Repair";
 
@@ -466,6 +473,7 @@ class AppString {
   static get lowering => "Lowering";
 
   static get ofcSplicing => "OFC Splicing/Jointing";
+  static get ofcBlowing => "OFC Blowing";
 
   static get postHydrotest => "Post Hydrotest";
 
@@ -617,4 +625,158 @@ class AppString {
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
+
+
+  static get hdd => "HDD";
+  static get pilotDrill => "Drilling";
+  static get hddReaming => "Reaming";
+  static get hddBore => "HDD Bore";
+  static get hddCleanPass => "HDD Clean Pass";
+  static get hddPulling => "HDD Pulling";
+  static get hddCrossing => "HDD Crossing";
+  static get gauging => "Gauging";
+  static get molling => "Molling";
+
+  static get tcp => "TCP";
+  static get testStationBoxes => "Test Station Boxes";
+  static get sacrificialAnode => "COMMISSIONING OF SACRIFICIAL ANODES";
+  static get groundingAnode => "ZN GROUNDING ANODE/CELL";
+  static get installationCables => "INSTALLATION OF CABLES";
+  static get mgAnodeInstallation => "Mg Anode Installation";
+  static get anodeBedInstallation => "PCP Anode Bed Installation";
+  static get cableLaying => "Cable Laying";
+  static get thermitWelding => "Thermit Welding";
+  static get pinBrazzing => "Pin Brazzing";
+  static get ssd => "SSD";
+  static get surgeDiverter => "Surge Diverter";
+  static get polarisationCoupan => "Polarisation Coupan";
+  static get tcpMonitoringReport => "TCP Monitoring Report";
+
+  static get selectFromJoint => "Select From Joint";
+  static get selectToJoint => "Select To Joint";
+  static get selectStartDateOfPilotHole => "Start Date Of Pilot Hole";
+  static get selectEndDateOfPilotHole => "End Date Of Pilot Hole";
+  static get selectStartDateReaming => "Start Date Of Reaming";
+  static get selectEndDateOfReaming => "End Date Of Reaming";
+  static get selectStartDateCleanPass => "Start Date Of Cleanpass";
+  static get selectEndDateCleanPass => "End Date Of Cleanpass";
+  static get selectStartDatePulling => "Start Date Of Pulling";
+  static get selectEndDatePulling => "End Date Of Pulling";
+  static get selectHDDMachineCapacity => "HDD Machine Capacity";
+  static get selectSizeReaming => "Size Of Reaming(Max)";
+  static get selectSizeCleanPass => "Size Of Cleanpass";
+  static get selectSizePulling => "Size Of Pulling";
+  static get selectReamerSize => "Reamer Size";
+  static get selectSizePilotBitSize => "Size of Pilot & Bit Size";
+  static get selectLength => "Length";
+  static get selectLengthCrossing => "Length of Crossing";
+  static get selectRodNo => "Rod No";
+  static get selectTotalLength  => "Total % Length from Entry point to pilot (mtr.)";
+  static get selectTotalReamingLength => "Total Reaming Length from Exit point to pilot (Mtr.)";
+  static get selectPitch => "Pitch (%)";
+  static get selectDegree => "Degree";
+  static get selectDepth => "Depth (Mtr.)";
+  static get selectRigLoad => "Rig output Load";
+  static get selectPullBackPressure => "Pull back Pressure(PSI)";
+  static get selectRotaryPressure => "Rotary Pressure(PSI)";
+  static get selectPumpRate => "Pump Rate(GPM)";
+  static get selectStartingDatePulling => "Starting Date Of Pulling";
+  static get selectEndingDatePulling => "Ending Date Of Pulling";
+  static get selectEquipmentCapacity => "Equipment Capacity";
+  static get selectEquipmentUsed => "Equipment Used";
+  static get selectDateCommencement => "Date Of Commencement";
+  static get selectDateCompletion => "Date of Completion";
+  static get selectDatePreHydro => "Date of Pre-Hydro test";
+  static get selectPipeSpecification => "Pipe Specification";
+  static get selectPipeODThickness => "Pipe OD x Thickness";
+  static get selectHddLocation => "HDD Location";
+  static get selectPipeBoreDetails => "Pilot Bore Details";
+  static get selectBoreStartTime => "Pilot Bore Start time";
+  static get selectPilotBoreCompleted => "Pilot Bore Completed time";
+  static get selectPilotBoreDiameter => "Pilot Bore Diameter";
+  static get selectDuration => "Duration(Hrs)";
+  static get selectReamerSizeUsed => "Reamer Size Used";
+  static get selectStart => "Start";
+  static get selectEnd => "End";
+  static get selectReamingOperation => "Reaming Operation";
+  static get selectLoadObservedPSI => "Load Observed PSI";
+  static get selectTLPType => "TLP Type";
+  static get selectArea => "Area";
+  static get selectTestLocation => "Test station Location (Chainage in Km)";
+  static get selectAnodeLocation => "Anode Location (Chainage in Km)";
+  static get selectTestType => "Test Station Type and No";
+  static get selectDistance => "Distance from the pipeline (m)";
+  static get selectFoundation => "Foundation check(As per drawing)";
+  static get selectMounting => "Test Station Mounting (As per drawing)";
+  static get selectDoors => "Test station Doors/ Locks/ Gasket";
+  static get selectCable => "Cable entry sealing";
+  static get selectTermination => "Cable Termination and ferruling check";
+  static get selectNamePlate => "Name plate & connection scheme diagram check";
+  static get selectIndividual => "Individual resistor & shunt value check at Mg anode Location";
+  static get selectCompaction => "Compaction & Alignment";
+  static get selectCableSealing => "Cable sealing";
+  static get selectTestStation => "Test Station No";
+  static get selectSacrificialAnode => "Type of Sacrificial Anode";
+  static get selectAnode => "No. of Anodes";
+  static get selectSpacingAnode => "Spacing Between Anodes";
+  static get selectOutputAnode => "Current Output of Anode";
+  static get selectAnodeCondition => "Anode Condition & Anode Laying & Termination with Test station";
+  static get selectAnodeTail => "Anode Tail Cable Length(mtr)";
+  static get selectA1 => "A1";
+  static get selectA2 => "A2";
+  static get selectA3 => "A3";
+  static get selectA4 => "A4";
+  static get selectAnodeCircuit  => "Anode Open circuit potential w.r.t Cu/CuSO4 Ref. Cell";
+  static get selectBeforePSP  => "PSP w.r.to Cu/CuSO4 Ref. Cell (Before Connecting Anode)";
+  static get selectAfterPSP  => "PSP w.r.to Cu/CuSO4 Ref. Cell (After Connecting Anode)";
+  static get selectTypeAnode => "Type of anode";
+  static get selectAnodeWeight => "Anode Weight/length";
+  static get selectDepthAuger => "Depth of Auger Hole / Excavation";
+  static get selectNoAnode => "No of Anodes & Spacing between anodes";
+  static get selectEarthingResistance => "Earthing Resistance";
+  static get selectACPSPBefore => "AC PSP before connecting earthing";
+  static get selectDCPSPAfter => "AC current after installation of earthing";
+  static get selectACPSPAfter => "DC PSP after connecting anodes";
+  static get selectDCPSPBefore => "DC PSP before connecting anodes";
+  static get selectInstallationType => "Installation Type (Vertical/Horizontal)";
+  static get selectCheckWater => "Check water filling during backfilling, cable termination, laying & backfilling odf soil";
+  static get selectCableSize => "Cable size & length";
+  static get selectCableTrench => "Cable trench";
+  static get selectDepthLaying => "Depth of laying";
+  static get selectSand => "Sand / brick spreading";
+  static get selectWarning => "Warning mat placement";
+  static get selectBackfilling => "Backfilling/ restoration";
+  static get selectTagging => "Tagging/ Ferruling";
+  static get selectRoute => "Route Marking (at 2m)";
+  static get selectIR => "IR value of cable (>2mΩ)";
+  static get selectSpacingConnection => "Spacing between connection";
+  static get selectCableResistance => "Cable to pipe contact resistance";
+  static get selectEpoxy => "Epoxy & Hardner Filling";
+  static get selectCableLength => "Cable length (in m)";
+  static get selectPinBrazing  => "Pin Brazing Connection";
+  static get selectContinuityCheck  => "Continuity Check";
+  static get selectRestorationCheck  => "Restoration Check";
+  static get selectVoltageRating  => "Voltage rating of HT line";
+  static get selectHTTower  => "HT tower footing distance from Pipeline both side and crossing angle";
+  static get selectInstallation  => "Installation of Polarization cell in test station, Proper fitting and tightness check";
+  static get selectCableTermination  => "Cable Termination, Fer-ruling check";
+  static get selectCheckACVol  => "Check AC voltage before and after connecting polarisation cell";
+  static get selectPSP  => "PSP w.r.t. reference cell";
+  static get selectFinalRestoration  => "Final Restoration";
+  static get selectNoSurgeDiverter  => "Sr No. Of Surge Diverted";
+  static get selectInstallSurgeDiverter  => "Installation. Of Surge Diverted";
+  static get selectCableConnection => "Cable Connection";
+  static get selectPSPReadingProtection  => "PSP Reading of Protection Section(mV)";
+  static get selectPSPReadingOther => "PSP Reading of Other Section(mV)";
+  static get selectPolarityCheck => "Polarity Check";
+  static get selectBackfillRestoration => "Back-fill & Restoration";
+  static get selectCorrosion => "Corrosion Coupon condition (back-fill, cable, bag)";
+  static get selectDistanceMM => "Distance from pipeline(mm)";
+  static get selectCableTerminationTest => "Cable termination at Test Station";
+  static get selectPSPMeasurement => "PSP measurement With permanent(mV)";
+  static get selectCouponInstant => "Coupon Instant OFF potential(V)";
+  static get selectDigitalMultimete => "Digital Multimeter";
+  static get selectModelNo => "Model No.";
+  static get selectMake => "Make";
+  static get selectDateCalibration => "Date of Calibration";
 }
