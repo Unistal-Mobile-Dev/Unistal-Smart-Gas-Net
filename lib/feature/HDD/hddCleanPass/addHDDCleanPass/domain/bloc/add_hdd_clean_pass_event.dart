@@ -21,8 +21,16 @@ class AddHddCleanPassSelectDateEvent extends AddHddCleanPassEvent {
 }
 
 class AddHddCleanPassSelectAlignmentEvent extends AddHddCleanPassEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
   AddHddCleanPassSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddHddCleanPassMultipleSelectAlignmentEvent extends AddHddCleanPassEvent {
+  final List<AlignmentModel> alignmentData;
+  AddHddCleanPassMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

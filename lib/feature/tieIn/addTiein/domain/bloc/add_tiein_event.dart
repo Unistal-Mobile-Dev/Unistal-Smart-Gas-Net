@@ -23,9 +23,18 @@ class AddTieinSelectDateEvent extends AddTieinEvent {
 }
 
 class AddTieinSelectAlignmentEvent extends AddTieinEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddTieinSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddTieinMultipleSelectAlignmentEvent extends AddTieinEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddTieinMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

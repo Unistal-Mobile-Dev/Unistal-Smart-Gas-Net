@@ -31,6 +31,15 @@ class AddNdtAutSelectAlignmentEvent extends AddNdtAutEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddNdtAutMultipleSelectAlignmentEvent extends AddNdtAutEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddNdtAutMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
 class AddNdtAutSelectWelderEvent extends AddNdtAutEvent {
   final List<WelderModel> selectedWelderList;
 
@@ -71,9 +80,7 @@ class AddNdtAutSelectDefectLayerEvent extends AddNdtAutEvent {
 
 class AddNdtAutSelectDefectTypeEvent extends AddNdtAutEvent {
   final List<DefectTypeModel> selectedDefectType;
-
   const AddNdtAutSelectDefectTypeEvent({required this.selectedDefectType});
-
   @override
   List<Object?> get props => [selectedDefectType];
 }

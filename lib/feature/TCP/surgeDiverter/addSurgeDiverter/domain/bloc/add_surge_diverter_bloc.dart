@@ -32,13 +32,16 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
     on<AddSurgeDiverterCableTerminationEvent>(_selectCableTermination);
     on<AddSurgeDiverterBackfillEvent>(_selectBackfill);
     on<AddSurgeDiverterSelectAlignmentEvent>(_selectAlignment);
+    on<AddSurgeDiverterMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddSurgeDiverterAddImageEvent>(_selectFile);
     on<AddSurgeDiverterSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController reportNumberController= TextEditingController();
@@ -94,6 +97,7 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
     listOfCableTermination = [];
     listOfBackfill = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     installationValue = VisualChecksModel();
@@ -128,6 +132,12 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddSurgeDiverterMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -198,6 +208,7 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
     var res = await AddSurgerDiverterHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -231,6 +242,7 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
       pspReadingOtherController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       installationValue = VisualChecksModel();
@@ -247,6 +259,7 @@ class AddSurgeDiverterBloc extends Bloc<AddSurgeDiverterEvent, AddSurgeDiverterS
       alignmentList : alignmentList,
       isLoader : isLoader,
       alignmentData : alignmentData,
+      multipleAlignmentData : multipleAlignmentData,
       file : file,
       weatherList : weatherList,
       weatherData : weatherData,

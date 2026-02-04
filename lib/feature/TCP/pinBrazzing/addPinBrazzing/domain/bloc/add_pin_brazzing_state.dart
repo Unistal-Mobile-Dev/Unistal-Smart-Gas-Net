@@ -19,6 +19,7 @@ class FetchAddPinBrazzingState extends AddPinBrazzingState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -48,6 +49,7 @@ class FetchAddPinBrazzingState extends AddPinBrazzingState {
     required this.file,
     required this.isLoader,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.alignmentList,
     required this.weatherList,
     required this.weatherData,
@@ -78,6 +80,7 @@ class FetchAddPinBrazzingState extends AddPinBrazzingState {
     file,
     isLoader,
     alignmentData,
+    multipleAlignmentData,
     alignmentList,
     weatherList,
     weatherData,

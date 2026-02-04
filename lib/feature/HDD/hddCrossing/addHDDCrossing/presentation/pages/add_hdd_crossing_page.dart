@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/domain/bloc/add_hdd_crossing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHddCrossingPage extends StatefulWidget {
@@ -128,7 +130,24 @@ class _AddHddCrossingPageState extends State<AddHddCrossingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHddCrossingDataState dataState}) {
-    return DropDownSearchWidget(
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      isRequired: true,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddHddCrossingBloc>(context)
+            .add(AddHddCrossingMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) :  DropDownSearchWidget(
       selectedItem:
       dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,

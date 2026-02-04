@@ -18,13 +18,9 @@ class AddRouHandoverBloc
 
   bool get isLoader => _isLoader;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -56,6 +52,7 @@ class AddRouHandoverBloc
     on<AddRouHandoverSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRouHandoverSelectAlignmentEvent>(_selectAlignment);
+    on<AddRouHandoverMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddRouHandoverSelectDateEvent>(_selectDate);
     on<AddRouHandoverAddImageEvent>(_selectFile);
   }
@@ -71,18 +68,19 @@ class AddRouHandoverBloc
     terrainController.text = "";
     activityRemarkController.text = "";
     _isLoader = false;
-    _alignmentList = [];
     file = File("");
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
-    _alignmentData = AlignmentModel();
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
     _eventComplete(emit);
   }
@@ -93,7 +91,12 @@ class AddRouHandoverBloc
   }
 
   _selectAlignment(AddRouHandoverSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddRouHandoverMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -148,6 +151,7 @@ class AddRouHandoverBloc
     var res = await AddRouHandover.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         typeofGround: typeofGroundController.text.toString(),
@@ -173,7 +177,9 @@ class AddRouHandoverBloc
       terrainController.text = "";
       activityRemarkController.text = "";
       _isLoader = false;
-      _alignmentData = AlignmentModel();
+      alignmentList = [];
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       chainageFromController.text = "";
       chainageToController.text = "";
       file = File("");
@@ -195,6 +201,7 @@ class AddRouHandoverBloc
       tpChainageNumberController: tpChainageNumberController,
       tpRemarkController: tpRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

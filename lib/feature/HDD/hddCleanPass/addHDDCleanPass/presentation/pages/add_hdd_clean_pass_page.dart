@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/domain/bloc/add_hdd_clean_pass_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart'
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/button_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/center_loader_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dotted_loader_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_search_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/text_field_widget.dart';
@@ -130,7 +132,24 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHddCleanPassDataState dataState}) {
-    return DropDownSearchWidget(
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      isRequired: true,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddHddCleanPassBloc>(context)
+            .add(AddHddCleanPassMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) : DropDownSearchWidget(
       selectedItem:
       dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,

@@ -23,9 +23,18 @@ class AddConcreteCoatingSelectDateEvent extends AddConcreteCoatingEvent {
 }
 
 class AddConcreteCoatingSelectAlignmentEvent extends AddConcreteCoatingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
 
   const AddConcreteCoatingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddConcreteCoatingMultipleSelectAlignmentEvent extends AddConcreteCoatingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddConcreteCoatingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

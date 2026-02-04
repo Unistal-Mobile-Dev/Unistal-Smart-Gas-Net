@@ -17,6 +17,7 @@ class AddOfcSplicingPageLoadState extends AddOfcSplicingInitial {
 class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -48,6 +49,7 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -75,6 +77,7 @@ class FetchAddOfcSplicingDataState extends AddOfcSplicingInitial {
         chainageFromController,
         chainageToController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

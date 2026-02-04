@@ -23,9 +23,18 @@ class AddOfcSplicingSelectDateEvent extends AddOfcSplicingEvent {
 }
 
 class AddOfcSplicingSelectAlignmentEvent extends AddOfcSplicingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddOfcSplicingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddOfcSplicingMultipleSelectAlignmentEvent extends AddOfcSplicingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddOfcSplicingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

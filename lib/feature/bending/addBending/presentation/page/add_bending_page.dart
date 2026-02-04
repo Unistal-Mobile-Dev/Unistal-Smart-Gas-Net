@@ -4,7 +4,9 @@ import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/bending_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
@@ -321,7 +323,23 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBendingDataState dataState}) {
-    return DropDownSearchWidget(
+    return AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddBendingBloc>(context)
+            .add(AddBendingMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) :DropDownSearchWidget(
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,

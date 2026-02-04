@@ -45,6 +45,7 @@ class APIs {
   static get getElectrodeDiaBatch => "api/steel/getelectrodediabatch";
 
   static get getJointTypeApi => "api/steel/get-joint-type";
+  static get getMarkerTypeApi => "api/steel/marker-types";
 
   static get getJointNumberApi => "api/steel/get-joints-chainage";
 
@@ -150,6 +151,7 @@ class APIs {
   static get forgotPasswordApi => "";
 
   static get addCleanPassInsertApi => "api/steel/cleanpassinsert";
+  static get addMarkerApi => "api/steel/marker";
 
   static get addTestStationInsertApi => "api/steel/teststationinsert";
 
@@ -181,4 +183,5 @@ class APIs {
   static get getAnodeTypeApi => "api/steel/get-anode-type";
 
   static get addReamingInsertApi => "api/steel/reaminginsert";
+  static get addOfcBlowingInsertApi => "api/steel/ofcblowinsert";
 }

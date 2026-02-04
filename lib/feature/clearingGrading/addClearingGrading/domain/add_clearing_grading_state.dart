@@ -33,6 +33,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController gapDescriptionController;
   final TextEditingController lengthController;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -40,6 +41,8 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController chainageToController;
   final List<TerrainTypeModel> terrainTypeList;
   final TerrainTypeModel terrainTypeData;
+  final List<GroundTypeModel> groundTypeList;
+  final GroundTypeModel groundTypeData;
 
   FetchAddClearingGradingDataState({
     required this.isLoader,
@@ -57,6 +60,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.ipNumberController,
     required this.ipNumberFromController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -67,6 +71,9 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.gapDescriptionController,
     required this.gapLengthController,
     required this.lengthController,
+    required this.groundTypeList,
+    required this.groundTypeData,
+
   });
 
   @override
@@ -84,6 +91,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
         tpRemarkNumberController,
         boundaryLocationController,
         alignmentData,
+    multipleAlignmentData,
         file,
         ipNumberFromController,
         ipNumberController,
@@ -96,5 +104,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
         gapDescriptionController,
         gapLengthController,
         lengthController,
+    groundTypeList,
+    groundTypeData,
       ];
 }

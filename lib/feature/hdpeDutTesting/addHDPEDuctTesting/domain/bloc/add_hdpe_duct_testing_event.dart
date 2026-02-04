@@ -23,9 +23,18 @@ class AddHdpeDuctTestingSelectDateEvent extends AddHdpeDuctTestingEvent {
 }
 
 class AddHdpeDuctTestingSelectAlignmentEvent extends AddHdpeDuctTestingEvent {
-  final AlignmentModel alignmentData;
+final AlignmentModel alignmentData;
 
   const AddHdpeDuctTestingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddHdpeDuctTestingMultipleSelectAlignmentEvent extends AddHdpeDuctTestingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddHdpeDuctTestingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

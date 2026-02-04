@@ -74,7 +74,8 @@ class AddJointCoatingHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String onWeld,
       required String date,
       required HolidayChecksModel holidayChecksData,
@@ -101,6 +102,9 @@ class AddJointCoatingHelper {
       required CoatingTypeModel coatingTypeData,
       required PaddingModel peelTestData,
       required String reportNumber,
+      required String humidityMeter,
+      required String digitalPyrometer,
+      required String profileGauge,
       required File file}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -109,6 +113,11 @@ class AddJointCoatingHelper {
         locationData = location;
       } else {
         return null;
+      }
+
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
       }
 
       String url = APIs.addJointCoatingApi;
@@ -127,8 +136,9 @@ class AddJointCoatingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
         "pipe_thickness_id":
             thicknessData.id != null ? thicknessData.id.toString() : "",
@@ -137,19 +147,22 @@ class AddJointCoatingHelper {
         "holiday_test":
             holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
         "visuals":
-            visualChecksData.id != null ? visualChecksData.id.toString() : "",
+        visualChecksData.id != null ? visualChecksData.id.toString() : "",
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
-        "location": locationName,
-        "primer_a_batch": primaryAbatch,
-        "primer_b_batch": primaryBbatch,
-        "batch_no": batchNo,
+        "location": locationName.toString(),
+        "primer_a_batch": primaryAbatch.toString(),
+        "primer_b_batch": primaryBbatch.toString(),
+        "batch_no": batchNo.toString(),
         "sleeve": coatingTypeData.id != null ? coatingTypeData.id.toString() : "",
         "surface_contamination": "",
-        "surface_roughness": surface,
-        "test_voltage": primaryBbatch,
-        "holiday_detector": holidayTestNo,
-        "coating_damage_repair": electrometerNo,
-        "thickness_on_body": onBody,
+        "surface_roughness": surface.toString(),
+        "test_voltage": primaryBbatch.toString(),
+        "holiday_detector": holidayTestNo.toString(),
+        "humidity_meter": humidityMeter.toString(),
+        "digital_pyrometer": digitalPyrometer.toString(),
+        "profile_gauge": profileGauge.toString(),
+        "coating_damage_repair": electrometerNo.toString(),
+        "thickness_on_body": onBody.toString(),
         "thickness_on_weld": onWeld.toString(),
         "peel_test": peelTestData.id != null ? peelTestData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",

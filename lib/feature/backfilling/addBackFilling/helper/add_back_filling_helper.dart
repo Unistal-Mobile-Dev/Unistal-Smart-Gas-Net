@@ -15,7 +15,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddBackFillingHelper {
   static Future<dynamic> textFiledValidation(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required String chainageFrom,
@@ -26,7 +27,7 @@ class AddBackFillingHelper {
       if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (alignmentData.id == null) {
+      } else if (alignmentData.id == null || multipleAlignmentData.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
       } else if (reportNumber.isEmpty) {
@@ -58,6 +59,7 @@ class AddBackFillingHelper {
   static Future<dynamic> submitData({
     required BuildContext context,
     required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
     required String reportNumber,
     required String date,
     required VisualChecksModel plasticGrating,
@@ -86,6 +88,11 @@ class AddBackFillingHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addBackFillingApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -99,8 +106,9 @@ class AddBackFillingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "plastic_grating":
             plasticGrating.id != null ? plasticGrating.id.toString() : "0",
         "joint_id":

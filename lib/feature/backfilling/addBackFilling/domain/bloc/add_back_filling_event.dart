@@ -23,9 +23,18 @@ class AddBackFillingSelectDateEvent extends AddBackFillingEvent {
 }
 
 class AddBackFillingSelectAlignmentEvent extends AddBackFillingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
 
   const AddBackFillingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddBackFillingMultipleSelectAlignmentEvent extends AddBackFillingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddBackFillingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

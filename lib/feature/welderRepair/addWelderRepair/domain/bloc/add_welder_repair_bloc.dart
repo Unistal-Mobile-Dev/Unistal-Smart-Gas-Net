@@ -11,7 +11,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/model/welder_repair_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/helper/add_welder_repair_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
@@ -31,9 +30,13 @@ class AddWelderRepairBloc
   WPSModel wpsTypeData = WPSModel();
   List<SegmentModel> segmentStatusList = [];
   List<SegmentModel> selectedSegmentStatusList = [];
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController e6010Controller = TextEditingController();
   TextEditingController e8010P1Controller = TextEditingController();
@@ -67,6 +70,7 @@ class AddWelderRepairBloc
     on<AddWelderRepairLoadEvent>(_pageLoad);
     on<AddWelderRepairSelectDateEvent>(_selectDate);
     on<AddWelderRepairSelectAlignmentEvent>(_selectAlignment);
+    on<AddWelderRepairMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddWelderRepairSelectJointTypeEvent>(_selectJointType);
     on<AddWelderRepairSelectJointNumberEvent>(_selectJointNumber);
@@ -84,7 +88,8 @@ class AddWelderRepairBloc
     wpsTypeData = WPSModel();
     jointNumberData = JointNumberModel();
     jointTypeData = JointTypeModel();
-    alignmentData = AlignmentModel();
+    alignmentData =  AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     _weldVisualData = VisualChecksModel();
     weatherList = [];
@@ -96,6 +101,7 @@ class AddWelderRepairBloc
     welderList = [];
     wpsTypeList = [];
     dateController.text = "";
+    reportNumberController.text = "";
     activityRemarkController.text = "";
     e6010Controller.text = "";
     e8010P1Controller.text = "";
@@ -182,6 +188,12 @@ class AddWelderRepairBloc
     _eventComplete(emit);
   }
 
+  _selectMultipleAlignment(AddWelderRepairMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
     _eventComplete(emit);
@@ -265,7 +277,9 @@ class AddWelderRepairBloc
     var res = await AddWelderRepairHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
+        reportNo: reportNumberController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
         userData: userData,
@@ -288,10 +302,12 @@ class AddWelderRepairBloc
       weatherData = WeatherModel();
       jointNumberData = JointNumberModel();
       jointTypeData = JointTypeModel();
-      alignmentData = AlignmentModel();
+      alignmentData =  AlignmentModel();
+      multipleAlignmentData = [];
       _weldVisualData = VisualChecksModel();
       selectedSegmentStatusList = [];
       dateController.text = "";
+      reportNumberController.text = "";
       activityRemarkController.text = "";
       e6010Controller.text = "";
       e8010P1Controller.text = "";
@@ -321,9 +337,11 @@ class AddWelderRepairBloc
       segmentStatusList: segmentStatusList,
       selectedSegmentStatusList: selectedSegmentStatusList,
       dateController: dateController,
+      reportNumberController: reportNumberController,
       file: file,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       alignmentList: alignmentList,
       e81TM21ABController: e81TM21ABController,
       e6010Controller: e6010Controller,

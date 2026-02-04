@@ -21,8 +21,16 @@ class AddPilotDrillSelectDateEvent extends AddPilotDrillEvent {
 }
 
 class AddPilotDrillSelectAlignmentEvent extends AddPilotDrillEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
   AddPilotDrillSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddPilotDrillMultipleSelectAlignmentEvent extends AddPilotDrillEvent {
+  final List<AlignmentModel> alignmentData;
+  AddPilotDrillMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

@@ -19,6 +19,7 @@ class FetchAddSacrificialAnodeState extends AddSacrificialAnodeState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -52,6 +53,7 @@ class FetchAddSacrificialAnodeState extends AddSacrificialAnodeState {
     required this.isLoader,
     required this.alignmentList,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -86,6 +88,7 @@ class FetchAddSacrificialAnodeState extends AddSacrificialAnodeState {
     alignmentList,
     isLoader,
     alignmentData,
+    multipleAlignmentData,
     file,
     weatherList,
     weatherData,

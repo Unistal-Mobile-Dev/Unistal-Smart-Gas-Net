@@ -17,6 +17,7 @@ class AddHdpeDuctPageLoadState extends AddHdpeDuctInitial {
 class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -50,6 +51,7 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
     required this.chainageToController,
     required this.lengthController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -78,6 +80,7 @@ class FetchAddHdpeDuctDataState extends AddHdpeDuctInitial {
         chainageToController,
         lengthController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

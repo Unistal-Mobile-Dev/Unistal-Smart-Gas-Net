@@ -17,6 +17,7 @@ class AddLevellingPageLoadState extends AddLevellingInitial {
 class FetchAddLevellingDataState extends AddLevellingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -51,6 +52,7 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -81,6 +83,7 @@ class FetchAddLevellingDataState extends AddLevellingInitial {
         chainageFromController,
         chainageToController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

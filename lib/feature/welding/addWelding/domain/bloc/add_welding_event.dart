@@ -23,9 +23,18 @@ class AddWeldingSelectDateEvent extends AddWeldingEvent {
 }
 
 class AddWeldingSelectAlignmentEvent extends AddWeldingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddWeldingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddWeldingMultipleSelectAlignmentEvent extends AddWeldingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddWeldingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

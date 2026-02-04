@@ -24,6 +24,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     on<AddHddReamingSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHddReamingSelectAlignmentEvent>(_selectAlignment);
+    on<AddHddReamingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectFromJointEvent>(_selectFromJoint);
     on<SelectToJointEvent>(_selectToJoint);
@@ -34,8 +35,10 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController startDateReamingController= TextEditingController();
@@ -100,6 +103,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     toJointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -118,6 +122,11 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
 
   _selectAlignment(AddHddReamingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddHddReamingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -236,6 +245,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     var res = await AddHddReamingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -279,6 +289,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
       sizeReamingController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       fromJointValue = JointNumberModel();
       toJointValue = JointNumberModel();
@@ -293,6 +304,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

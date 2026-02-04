@@ -17,6 +17,7 @@ class AddRestorationPageLoadState extends AddRestorationInitial {
 class FetchAddRestorationDataState extends AddRestorationInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -52,6 +53,7 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
     required this.chainageToController,
     required this.lengthController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -82,6 +84,7 @@ class FetchAddRestorationDataState extends AddRestorationInitial {
         chainageToController,
         lengthController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

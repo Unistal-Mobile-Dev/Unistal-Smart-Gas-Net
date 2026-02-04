@@ -17,6 +17,7 @@ class AddCrossingPageLoadState extends AddCrossingInitial {
 class FetchAddCrossingDataState extends AddCrossingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -71,6 +72,7 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     required this.casingPipeLengthController,
     required this.batchNoController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -120,6 +122,7 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
         casingPipeLengthController,
         batchNoController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

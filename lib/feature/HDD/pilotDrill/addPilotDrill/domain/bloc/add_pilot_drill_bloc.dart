@@ -25,6 +25,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
     on<AddPilotDrillSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddPilotDrillSelectAlignmentEvent>(_selectAlignment);
+    on<AddPilotDrillMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectFromJointEvent>(_selectFromJoint);
     on<SelectToJointEvent>(_selectToJoint);
@@ -37,6 +38,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
   bool isLoader = false;
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController startDateOfPilotHoleController= TextEditingController();
@@ -89,6 +91,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
     listOfFromJoint = [];
     listOfToJoint = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     fromJointValue = JointNumberModel();
     toJointValue = JointNumberModel();
@@ -115,6 +118,12 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddPilotDrillMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
 
   _selectWeather(SelectWeatherEvent event, emit) {
@@ -229,6 +238,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
     var res = await AddPilotDrillHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -267,6 +277,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
       depthController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       fromJointValue = JointNumberModel();
       toJointValue = JointNumberModel();
@@ -281,6 +292,7 @@ class AddPilotDrillBloc extends Bloc<AddPilotDrillEvent, AddPilotDrillState> {
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

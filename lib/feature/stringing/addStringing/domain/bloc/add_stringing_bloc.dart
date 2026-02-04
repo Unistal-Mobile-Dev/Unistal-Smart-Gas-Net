@@ -46,13 +46,9 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   bool get isLoader => _isLoader;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   double totalChainage = 0.0;
   List<String> formattedPipeChainageList = [];
@@ -89,6 +85,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     on<AddStringingSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddStringingSelectAlignmentEvent>(_selectAlignment);
+    on<AddStringingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddStringingSelectDateEvent>(_selectDate);
     on<AddStringingSelectPipeDataEvent>(_selectPipe);
     on<AddStringingAddPipeLengthEvent>(_addPipeLength);
@@ -113,9 +110,10 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     chainageToControllers = [];
     _concreteCoatingData = ConcreteCoatingModel();
     _isLoader = false;
-    _alignmentList = [];
+    alignmentList = [];
     file = File("");
-    _alignmentData = AlignmentModel();
+    alignmentData =  AlignmentModel();
+    multipleAlignmentData = [];
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
@@ -130,7 +128,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var resConcreteCoating = await AddStringingHelper.fetchConcreteCoatingData(
@@ -166,9 +164,15 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   }
 
   _selectAlignment(AddStringingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddStringingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectConcreteCoating(AddStringingSelectConcreteCoatingEvent event, emit) {
     _concreteCoatingData = event.concreteCoatingData;
@@ -338,6 +342,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     var res = await AddStringingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       concreteCoatingData: concreteCoatingData,
@@ -365,7 +370,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       chainageToController.text = "";
       searchPipeController.text = "";
       pipeLengthController.text = "";
-      _alignmentData = AlignmentModel();
+      alignmentData =  AlignmentModel();
+      multipleAlignmentData = [];
       _weatherData = WeatherModel();
       pipeLengthList = [];
       _eventComplete(emit);
@@ -380,6 +386,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       activityRemarkController: activityRemarkController,
       reportNumberController: reportNumberController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       concreteCoatingData: concreteCoatingData,
       concreteCoatingList: concreteCoatingList,

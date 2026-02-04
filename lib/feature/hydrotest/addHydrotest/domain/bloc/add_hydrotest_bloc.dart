@@ -30,6 +30,8 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -46,6 +48,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     on<AddHydrotestPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHydrotestSelectAlignmentEvent>(_selectAlignment);
+    on<AddHydrotestMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddHydrotestSelectFromJointDataEvent>(_selectJointFrom);
     on<AddHydrotestSelectToJointDataEvent>(_selectJointTo);
     on<AddHydrotestSelectJointTypeDataEvent>(_selectJointType);
@@ -66,6 +69,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
@@ -113,6 +117,11 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
 
   _selectAlignment(AddHydrotestSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddHydrotestMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -188,6 +197,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     var res = await AddHydroTestHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         userData: userData,
@@ -205,6 +215,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
       reportNumberController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -222,6 +233,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       fileList: fileList,
       weatherData: weatherData,
       jointTypeData: jointTypeData,

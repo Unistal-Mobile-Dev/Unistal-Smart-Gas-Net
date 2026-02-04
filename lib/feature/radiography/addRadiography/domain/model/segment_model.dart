@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/enums.dart';
 
 List<SegmentModel> segmentListResponse(var json, List<WelderModel> welderList) {
   return List<SegmentModel>.from(
@@ -102,7 +104,28 @@ class SegmentModel {
                 .replaceAll("]", "")
             : "0",
         "remarks": remarkController!.text.toString(),
-        "weld_details": segmentWelderList!.map((v) => v.toJson()).toList(),
+        "weld_details": AppConfig.instanceInit()!.client == Client.vppl
+          ?segmentWelderList!
+            .map((v) => v.toJsonList())
+            .toList()
+        //     ? segmentWelderList!
+        //     .where((e) =>
+        // e.multipleWelderData != null &&
+        //     e.multipleWelderData!.isNotEmpty)
+        //     .expand((e) => e.multipleWelderData!)
+        //     .map((v) => v.toJson())
+        //     .toList()
+            : segmentWelderList!
+            .map((v) => v.toJsonList())
+            .toList(),
+
+        // "weld_details": AppConfig.instanceInit()!.client == Client.vppl
+        //     ? segmentWelderList!
+        //     .where((e) => e.multipleWelderData != null && e.multipleWelderData!.isNotEmpty)
+        //     .expand((e) => e.multipleWelderData!)
+        //     .map((v) => v.toJson())
+        //     .toList()
+        //     : segmentWelderList!.map((v) => v.toJson()).toList(),
       };
       return json;
 

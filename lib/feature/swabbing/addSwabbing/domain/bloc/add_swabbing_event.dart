@@ -23,9 +23,18 @@ class AddSwabbingSelectDateEvent extends AddSwabbingEvent {
 }
 
 class AddSwabbingSelectAlignmentEvent extends AddSwabbingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddSwabbingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddSwabbingMultipleSelectAlignmentEvent extends AddSwabbingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddSwabbingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

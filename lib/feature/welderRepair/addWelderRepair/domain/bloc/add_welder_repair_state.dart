@@ -23,7 +23,9 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final List<SegmentModel> selectedSegmentStatusList;
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final TextEditingController dateController;
+  final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final TextEditingController preHeatingTemperatureController;
   final TextEditingController e6010Controller;
@@ -52,9 +54,11 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
     required this.segmentStatusList,
     required this.selectedSegmentStatusList,
     required this.dateController,
+    required this.reportNumberController,
     required this.file,
     required this.activityRemarkController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.alignmentList,
     required this.e81TM21ABController,
     required this.e6010Controller,
@@ -84,9 +88,11 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
         segmentStatusList,
         selectedSegmentStatusList,
         dateController,
+    reportNumberController,
         file,
         activityRemarkController,
         alignmentData,
+    multipleAlignmentData,
         alignmentList,
         e81TM21ABController,
         e6010Controller,

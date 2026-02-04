@@ -24,6 +24,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
     on<AddHddPullingSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHddPullingSelectAlignmentEvent>(_selectAlignment);
+    on<AddHddPullingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectFromJointEvent>(_selectFromJoint);
     on<SelectToJointEvent>(_selectToJoint);
@@ -34,8 +35,10 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController startDatePullingController= TextEditingController();
@@ -100,6 +103,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
     toJointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -118,6 +122,11 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
 
   _selectAlignment(AddHddPullingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddHddPullingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -233,6 +242,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
     var res = await AddHddPullingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -276,6 +286,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
       sizePullingController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       fromJointValue = JointNumberModel();
       toJointValue = JointNumberModel();
@@ -290,6 +301,7 @@ class AddHddPullingBloc extends Bloc<AddHddPullingEvent, AddHddPullingState> {
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

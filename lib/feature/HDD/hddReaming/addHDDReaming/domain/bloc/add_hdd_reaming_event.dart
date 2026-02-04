@@ -27,6 +27,14 @@ class AddHddReamingSelectAlignmentEvent extends AddHddReamingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddHddReamingMultipleSelectAlignmentEvent extends AddHddReamingEvent {
+  final List<AlignmentModel> alignmentData;
+  AddHddReamingMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
 class AddHddReamingAddImageEvent extends AddHddReamingEvent {
   final BuildContext context;
   final int mediaType;

@@ -20,8 +20,16 @@ class AddCableInstallationSelectDateEvent extends AddCableInstallationEvent {
 }
 
 class AddCableInstallationSelectAlignmentEvent extends AddCableInstallationEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
   AddCableInstallationSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddCableInstallationMultipleSelectAlignmentEvent extends AddCableInstallationEvent {
+  final List<AlignmentModel> alignmentData;
+  AddCableInstallationMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

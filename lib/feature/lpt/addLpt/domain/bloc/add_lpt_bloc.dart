@@ -33,6 +33,8 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel jointData = JointNumberModel();
   JointTypeModel jointTypeData = JointTypeModel();
@@ -67,6 +69,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     on<AddLptPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddLptSelectAlignmentEvent>(_selectAlignment);
+    on<AddLptMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddLptSelectJointDataEvent>(_selectJointTo);
     on<AddLptSelectJointTypeDataEvent>(_selectJointType);
     on<AddLptSelectLptStatusDataEvent>(_selectLptStatus);
@@ -92,6 +95,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     _pipeList = [];
     _searchPipeList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     jointData = JointNumberModel();
     jointTypeData = JointTypeModel();
@@ -148,6 +152,12 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddLptMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _searchPipeNumber(AddLptSearchPipeDataEvent event, emit) async {
     _pipeList = [];
@@ -235,6 +245,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
     var res = await AddLptHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData:multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -254,6 +265,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       activityRemarkController.text = "";
       observationResultsController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       jointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -276,6 +288,7 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       reportNumberController: reportNumberController,
       observationResultsController: observationResultsController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

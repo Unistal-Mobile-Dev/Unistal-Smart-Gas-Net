@@ -43,6 +43,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel jointData = JointNumberModel();
   JointTypeModel jointTypeData = JointTypeModel();
@@ -58,6 +60,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     on<AddLevellingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddLevellingSelectAlignmentEvent>(_selectAlignment);
+    on<AddLevellingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddLevellingSelectJointDataEvent>(_selectJointTo);
     on<AddLevellingSelectJointTypeDataEvent>(_selectJointType);
     on<AddLevellingSelectDateEvent>(_selectDate);
@@ -88,6 +91,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     jointData = JointNumberModel();
     jointTypeData = JointTypeModel();
@@ -140,6 +144,12 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddLevellingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectJointTo(AddLevellingSelectJointDataEvent event, emit) {
     jointData = event.jointNumberData;
@@ -234,6 +244,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
     var res = await AddLevellingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -267,6 +278,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
       northingLatController.text = "";
       coverController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       jointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -287,6 +299,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
         chainageFromController: chainageFromController,
         chainageToController: chainageToController,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         file: file,
         weatherList: weatherList,
         weatherData: weatherData,

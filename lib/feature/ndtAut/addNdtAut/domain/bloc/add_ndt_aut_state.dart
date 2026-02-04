@@ -21,6 +21,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
   final WPSModel wpsTypeData;
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
   final TextEditingController defectLocationController;
@@ -40,6 +41,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
   final List<DefectLayerModel> selectedDefectLayerList;
   final List<DefectTypeModel> defectTypeList;
   final List<DefectTypeModel> selectedDefectTypeList;
+  final List<AlignmentModel> selectedAlignmentList;
 
   FetchAddNdtAutDataState({
     required this.selectedWelderList,
@@ -50,6 +52,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
     required this.file,
     required this.activityRemarkController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.alignmentList,
     required this.isLoader,
     required this.weatherData,
@@ -67,6 +70,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
     required this.defectTypeList,
     required this.selectedDefectLayerList,
     required this.selectedDefectTypeList,
+    required this.selectedAlignmentList,
   });
 
   @override
@@ -79,6 +83,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
         file,
         activityRemarkController,
         alignmentData,
+    multipleAlignmentData,
         alignmentList,
         isLoader,
         weatherData,
@@ -96,5 +101,6 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
         defectTypeList,
         selectedDefectLayerList,
         selectedDefectTypeList,
+        selectedAlignmentList,
       ];
 }

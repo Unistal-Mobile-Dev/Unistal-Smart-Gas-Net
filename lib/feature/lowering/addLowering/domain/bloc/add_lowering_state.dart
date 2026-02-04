@@ -17,6 +17,7 @@ class AddLoweringPageLoadState extends AddLoweringInitial {
 class FetchAddLoweringDataState extends AddLoweringInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController calibarationDateController;
@@ -58,6 +59,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
       required this.chainageToController,
       required this.postPaddingController,
       required this.alignmentData,
+      required this.multipleAlignmentData,
       required this.file,
       required this.weatherList,
       required this.weatherData,
@@ -93,6 +95,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
         chainageToController,
         postPaddingController,
         alignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,

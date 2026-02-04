@@ -21,8 +21,16 @@ class AddPinBrazzingSelectDateEvent extends AddPinBrazzingEvent {
 }
 
 class AddPinBrazzingSelectAlignmentEvent extends AddPinBrazzingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddPinBrazzingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddPinBrazzingMultipleSelectAlignmentEvent extends AddPinBrazzingEvent {
+  final List<AlignmentModel> alignmentData;
+  AddPinBrazzingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

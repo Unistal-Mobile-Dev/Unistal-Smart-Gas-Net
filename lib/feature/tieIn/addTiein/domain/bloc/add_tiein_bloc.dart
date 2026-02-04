@@ -113,13 +113,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
 
   VisualChecksModel get weldVisualData => _weldVisualData;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   List<WPSModel> _wpsList = [];
 
@@ -218,6 +214,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     on<AddTieinSelectMultiWelderEvent>(_selectMultiWelder);
     on<AddTieinSelectWelderEvent>(_selectWelder);
     on<AddTieinSelectAlignmentEvent>(_selectAlignment);
+    on<AddTieinMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddTieinSelectDateEvent>(_selectDate);
     on<AddTieinSelectJointTypeEvent>(_selectJointType);
     on<AddTieinSelectJointNumberEvent>(_selectJointNumber);
@@ -302,8 +299,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     _welderList = [];
     _jointNumberData = JointNumberModel();
     _jointNumberList = [];
-    _alignmentData = AlignmentModel();
-    _alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
+    alignmentList = [];
     _wpsData = WPSModel();
     _wpsList = [];
     _weldVisualData = VisualChecksModel();
@@ -330,7 +328,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
@@ -527,9 +525,15 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   }
 
   _selectAlignment(AddTieinSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddTieinMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectDate(AddTieinSelectDateEvent event, emit) async {
     DateTime? pickedDate = await showDatePicker(
@@ -604,6 +608,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     var res = await AddTieinHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       preHeatTempreture: preheatTempController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -651,7 +656,8 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       rightPipeNumberController.text = "";
       _welderData = WelderModel();
       _jointNumberData = JointNumberModel();
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       _wpsData = WPSModel();
       _weldVisualData = VisualChecksModel();
       _fitupData = VisualChecksModel();
@@ -703,6 +709,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       preheatTempController: preheatTempController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       welderData: welderData,
       welderList: welderList,

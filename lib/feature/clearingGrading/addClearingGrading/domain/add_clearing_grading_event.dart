@@ -23,12 +23,30 @@ class AddClearingGradingSelectDateEvent extends AddClearingGradingEvent {
 }
 
 class AddClearingGradingSelectAlignmentEvent extends AddClearingGradingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
 
   const AddClearingGradingSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];
+}
+
+class AddClearingGradingMultipleSelectAlignmentEvent extends AddClearingGradingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddClearingGradingMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddClearingGradingSelectGroundTypeEvent extends AddClearingGradingEvent {
+  final GroundTypeModel groundTypeData;
+
+  const AddClearingGradingSelectGroundTypeEvent({required this.groundTypeData});
+
+  @override
+  List<Object?> get props => [groundTypeData];
 }
 
 class AddClearingGradingSelectTerrainEvent extends AddClearingGradingEvent {

@@ -17,6 +17,7 @@ class AddDryingPageLoadState extends AddDryingInitial {
 class FetchAddDryingDataState extends AddDryingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -44,6 +45,7 @@ class FetchAddDryingDataState extends AddDryingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -67,6 +69,7 @@ class FetchAddDryingDataState extends AddDryingInitial {
         chainageFromController,
         chainageToController,
         alignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,

@@ -31,13 +31,16 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     on<AddTestStationBoxRouteMarkingEvent>(_selectMarking);
     on<AddTestStationBoxIREvent>(_selectIR);
     on<AddCableInstallationSelectAlignmentEvent>(_selectAlignment);
+    on<AddCableInstallationMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddCableInstallationAddImageEvent>(_selectFile);
     on<AddCableInstallationSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController reportNumberController= TextEditingController();
@@ -92,6 +95,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     listOfRouteMarking = [];
     listOfIR = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     cableTrenchValue = VisualChecksModel();
@@ -139,6 +143,12 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddCableInstallationMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -226,6 +236,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
     var res = await AddCableInstallationHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -261,6 +272,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       cableTrenchValue = VisualChecksModel();
@@ -281,6 +293,7 @@ class AddCableInstallationBloc extends Bloc<AddCableInstallationEvent, AddCableI
       isLoader : isLoader,
       alignmentData : alignmentData,
       alignmentList : alignmentList,
+      multipleAlignmentData : multipleAlignmentData,
       weatherList : weatherList,
       weatherData : weatherData,
       listOfTLPType : listOfTLPType,

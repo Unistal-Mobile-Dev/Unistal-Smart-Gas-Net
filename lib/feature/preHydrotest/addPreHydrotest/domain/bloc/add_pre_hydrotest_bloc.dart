@@ -48,6 +48,8 @@ class AddPreHydrotestBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -72,6 +74,7 @@ class AddPreHydrotestBloc
     on<AddPreHydrotestPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddPreHydrotestSelectAlignmentEvent>(_selectAlignment);
+    on<AddPreHydrotestMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddPreHydrotestSelectFromJointDataEvent>(_selectJointFrom);
     on<AddPreHydrotestSelectToJointDataEvent>(_selectJointTo);
     on<AddPreHydrotestSelectJointTypeDataEvent>(_selectJointType);
@@ -94,7 +97,9 @@ class AddPreHydrotestBloc
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData = AlignmentModel();
+    alignmentData =  AlignmentModel();
+    multipleAlignmentData = [];
+    multipleAlignmentData = [];
     _thicknessList = [];
     _thicknessData = ThicknessModel();
     isLoader = false;
@@ -178,6 +183,12 @@ class AddPreHydrotestBloc
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddPreHydrotestMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectJointFrom(AddPreHydrotestSelectFromJointDataEvent event, emit) {
     fromJointData = event.jointNumberData;
@@ -298,6 +309,7 @@ class AddPreHydrotestBloc
     var res = await AddPreHydroTestHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
       weatherData: weatherData,
@@ -333,7 +345,8 @@ class AddPreHydrotestBloc
       activityRemarkController.text = "";
       lengthController.text = "";
       ndeClearanceController.text = "";
-      alignmentData = AlignmentModel();
+      alignmentData =  AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -368,6 +381,7 @@ class AddPreHydrotestBloc
         dateController: dateController,
         activityRemarkController: activityRemarkController,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         file: file,
         weatherList: weatherList,
         weatherData: weatherData,

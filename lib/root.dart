@@ -53,6 +53,8 @@ import 'feature/TCP/surgeDiverter/addSurgeDiverter/domain/bloc/add_surge_diverte
 import 'feature/TCP/testStationBoxs/addTestStationBoxs/domain/bloc/add_test_station_box_bloc.dart';
 import 'feature/TCP/thermitWeld/addThermitWeld/domain/bloc/add_thermit_weld_bloc.dart';
 import 'feature/TCP/znGroundingAnode/addZnGroundingAnode/domain/bloc/add_zn_grounding_anode_bloc.dart';
+import 'feature/markerInstallation/addMarkerInstallation/domain/bloc/add_marker_installation_bloc.dart';
+import 'feature/ofcBlowing/addOFCBlowing/domain/add_ofc_blowing_bloc.dart';
 import 'feature/section_id/domain/bloc/section_id_bloc.dart';
 
 class Root extends StatefulWidget {
@@ -140,13 +142,11 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddLptBloc()),
         BlocProvider(create: (BuildContext context) => AddCutPipeBloc()),
         BlocProvider(create: (BuildContext context) => RestoreCutPipeBloc()),
-        BlocProvider(
-            create: (BuildContext context) => AddConcreteCoatingBloc()),
+        BlocProvider(create: (BuildContext context) => AddConcreteCoatingBloc()),
         BlocProvider(create: (BuildContext context) => AddPostHydrotestBloc()),
         BlocProvider(create: (BuildContext context) => AddPreHydrotestBloc()),
         BlocProvider(create: (BuildContext context) => AddHydrotestBloc()),
-        BlocProvider(
-            create: (BuildContext context) => AddHdpeDuctTestingBloc()),
+        BlocProvider(create: (BuildContext context) => AddHdpeDuctTestingBloc()),
         BlocProvider(create: (BuildContext context) => AddSwabbingBloc()),
         BlocProvider(create: (BuildContext context) => AddWelderRepairBloc()),
         BlocProvider(create: (BuildContext context) => AddNdtAutBloc()),
@@ -168,6 +168,8 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddZnGroundingAnodeBloc()),
         BlocProvider(create: (BuildContext context) => AddSsdBloc()),
         BlocProvider(create: (BuildContext context) => SectionIdBloc()),
+        BlocProvider(create: (BuildContext context) => AddMarkerInstallationBloc()),
+        BlocProvider(create: (BuildContext context) => AddOFCBlowingBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

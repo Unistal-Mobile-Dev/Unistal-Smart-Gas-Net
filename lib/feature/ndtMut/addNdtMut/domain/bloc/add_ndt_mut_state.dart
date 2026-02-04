@@ -17,6 +17,7 @@ class AddNdtMutPageLoadState extends AddNdtMutInitial {
 class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -52,6 +53,7 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     required this.activityRemarkController,
     required this.reportNumberController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -85,6 +87,7 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
         activityRemarkController,
         reportNumberController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

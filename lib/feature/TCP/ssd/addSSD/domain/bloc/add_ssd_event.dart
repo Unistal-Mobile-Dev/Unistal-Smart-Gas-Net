@@ -21,8 +21,16 @@ class  AddSsdSelectDateEvent extends  AddSsdEvent {
 }
 
 class  AddSsdSelectAlignmentEvent extends  AddSsdEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddSsdSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class  AddSsdMultipleSelectAlignmentEvent extends  AddSsdEvent {
+  final List<AlignmentModel> alignmentData;
+  AddSsdMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

@@ -43,6 +43,9 @@ class AddJointCoatingBloc
   TextEditingController batchNoController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
+  TextEditingController humidityMeterDetailsController = TextEditingController();
+  TextEditingController digitalPyrometerDetailsController = TextEditingController();
+  TextEditingController profileGaugeDetailsController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -52,6 +55,8 @@ class AddJointCoatingBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   HolidayChecksModel holidayChecksData = HolidayChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -87,6 +92,7 @@ class AddJointCoatingBloc
     on<AddJointCoatingPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddJointCoatingSelectAlignmentEvent>(_selectAlignment);
+    on<AddJointCoatingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddJointCoatingSelectCoatingTypeDataEvent>(_selectCoatingType);
     on<AddJointCoatingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddJointCoatingSelectVisualChecksDataEvent>(_selectVisualCheck);
@@ -119,13 +125,17 @@ class AddJointCoatingBloc
     batchNoController.text = "";
     surfaceController.text = "";
     reportNumberController.text = "";
+    profileGaugeDetailsController.text = "";
+    digitalPyrometerDetailsController.text = "";
+    humidityMeterDetailsController.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData = AlignmentModel();
+    alignmentData  = AlignmentModel();
+    multipleAlignmentData  = [];
     isLoader = false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
@@ -229,6 +239,11 @@ class AddJointCoatingBloc
 
   _selectAlignment(AddJointCoatingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddJointCoatingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -356,6 +371,7 @@ class AddJointCoatingBloc
     var res = await AddJointCoatingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       onWeld: onWeldController.text.toString(),
       date: dateController.text.toString(),
       holidayChecksData: holidayChecksData,
@@ -383,6 +399,9 @@ class AddJointCoatingBloc
       pipeMaterialData: pipeMaterialData,
       peelTestData: peelTestData,
       reportNumber: reportNumberController.text.toString(),
+      digitalPyrometer: digitalPyrometerDetailsController.text.toString(),
+      humidityMeter: humidityMeterDetailsController.text.toString(),
+      profileGauge: profileGaugeDetailsController.text.toString()
     );
     isLoader = false;
     _eventComplete(emit);
@@ -393,7 +412,8 @@ class AddJointCoatingBloc
       chainageFromController.text = "";
       chainageToController.text = "";
       batchNoController.text = "";
-      alignmentData = AlignmentModel();
+      alignmentData  = AlignmentModel();
+      multipleAlignmentData  = [];
       isLoader = false;
       holidayChecksData = HolidayChecksModel();
       primaryBbatchController.text = "";
@@ -404,6 +424,9 @@ class AddJointCoatingBloc
       surfaceController.text = "";
       primaryAbatchController.text = "";
       reportNumberController.text = "";
+      profileGaugeDetailsController.text = "";
+      digitalPyrometerDetailsController.text = "";
+      humidityMeterDetailsController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -430,6 +453,7 @@ class AddJointCoatingBloc
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,
@@ -463,6 +487,9 @@ class AddJointCoatingBloc
       visualChecksData: visualChecksData,
       visualsChecksList: visualsChecksList,
       reportNumberController: reportNumberController,
+        profileGaugeDetailsController : profileGaugeDetailsController,
+        digitalPyrometerDetailsController : digitalPyrometerDetailsController,
+        humidityMeterDetailsController : humidityMeterDetailsController,
     ));
   }
 }

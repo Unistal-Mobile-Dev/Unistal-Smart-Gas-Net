@@ -82,7 +82,8 @@ class AddHydroTestHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String date,
       required String activityRemark,
       required LoginDataModel userData,
@@ -101,6 +102,11 @@ class AddHydroTestHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -111,8 +117,8 @@ class AddHydroTestHelper {
         "remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignmentSheet":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignmentSheet": alignmentData.id.toString(),
+        "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "jointFrom":
             fromJointData.id != null ? fromJointData.id.toString() : "",

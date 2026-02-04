@@ -19,6 +19,7 @@ class FetchAddPolarisationCoupanState extends AddPolarisationCoupanState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -47,6 +48,7 @@ class FetchAddPolarisationCoupanState extends AddPolarisationCoupanState {
     required this.isLoader,
     required this.alignmentList,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -76,6 +78,7 @@ class FetchAddPolarisationCoupanState extends AddPolarisationCoupanState {
     alignmentList,
     isLoader,
     alignmentData,
+    multipleAlignmentData,
     file,
     weatherList,
     weatherData,

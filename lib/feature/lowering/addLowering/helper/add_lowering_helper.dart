@@ -39,7 +39,8 @@ class AddLoweringHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required HolidayChecksModel holidayChecksData,
@@ -71,6 +72,11 @@ class AddLoweringHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addLoweringApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -84,8 +90,9 @@ class AddLoweringHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "holiday_test":
             holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",

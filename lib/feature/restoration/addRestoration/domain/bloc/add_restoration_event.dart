@@ -23,9 +23,18 @@ class AddRestorationSelectDateEvent extends AddRestorationEvent {
 }
 
 class AddRestorationSelectAlignmentEvent extends AddRestorationEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddRestorationSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddRestorationMultipleSelectAlignmentEvent extends AddRestorationEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddRestorationMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

@@ -9,8 +9,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domai
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddCrossingPage extends StatefulWidget {
@@ -118,10 +120,26 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
-    return DropDownSearchWidget(
+    return AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddCrossingBloc>(context)
+            .add(AddCrossingMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) :  DropDownSearchWidget(
+      isRequired: true,
+      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),

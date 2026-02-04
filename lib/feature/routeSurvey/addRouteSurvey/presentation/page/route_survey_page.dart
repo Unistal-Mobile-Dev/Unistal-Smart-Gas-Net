@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/bloc/add_route_survey_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddRouteSurveyPage extends StatefulWidget {
@@ -19,7 +21,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
         .add(AddRouteSurveyPageLoadEvent(context: context));
     super.initState();
   }
-
+  final client = AppConfig.instanceInit()!.client;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,23 +61,24 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _tpIpChainageController(dataState: dataState),
-            _verticalSpace(),
+            client != Client.vppl ? _tpIpChainageController(dataState: dataState) : const SizedBox.shrink(),
+            client != Client.vppl ? _verticalSpace() : const SizedBox.shrink(),
             _tpIpNOSController(dataState: dataState),
             _verticalSpace(),
             _groundTypeDropDown(dataState: dataState),
-            AppConfig.instanceInit()!.client != Client.mgl
+            _verticalSpace(),
+            client != Client.mgl
                 ? Column(
                     children: [
-                      _tpRemarkController(dataState: dataState),
-                      _verticalSpace(),
+                      client == Client.vppl ? SizedBox.shrink() :_tpRemarkController(dataState: dataState),
+                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
                       _bearingController(dataState: dataState),
+                      client == Client.vppl ? SizedBox.shrink() :  _verticalSpace(),
+                      client == Client.vppl ? SizedBox.shrink() : _terrainController(dataState: dataState),
                       _verticalSpace(),
-                      _terrainController(dataState: dataState),
                     ],
                   )
                 : const SizedBox.shrink(),
-            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -123,14 +126,13 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpIpNOSController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: TextInputType.number,
-      labelText: AppString.tpTo,
+      textInputType: client == Client.vppl ? TextInputType.text :TextInputType.number,
+      labelText: client == Client.vppl ? "Markers for IP Nos./TP Nos.": AppString.tpTo,
       controller: dataState.tpChainageNumberController,
     );
   }
 
-  Widget _tpRemarkController(
-      {required FetchAddRouteSurveyDataState dataState}) {
+  Widget _tpRemarkController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       maxLine: 2,
@@ -142,8 +144,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _bearingController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: AppString.bearingAngle,
+      textInputType: client == Client.vppl ? TextInputType.text : TextInputType.number,
+      labelText: client == Client.vppl ? "Details of Structure In/Across ROU Such as P/L, HT Crossings": AppString.bearingAngle,
       controller: dataState.bearingAngleController,
     );
   }
@@ -156,8 +158,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddRouteSurveyDataState dataState}) {
+  Widget _chainageFromController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -203,7 +204,24 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
-    return DropDownSearchWidget(
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      isRequired: true,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddRouteSurveyBloc>(context)
+            .add(AddRouteSurveyMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) : DropDownSearchWidget(
       isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,

@@ -107,13 +107,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
 
   VisualChecksModel get weldVisualData => _weldVisualData;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   List<WPSModel> _wpsList = [];
 
@@ -245,6 +241,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
     on<AddWeldingSelectWelderEvent>(_selectWelder);
     on<AddWeldingSelectAlignmentEvent>(_selectAlignment);
+    on<AddWeldingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddWeldingSelectDateEvent>(_selectDate);
     on<AddWeldingSelectJointTypeEvent>(_selectJointType);
     on<AddWeldingSelectJointNumberEvent>(_selectJointNumber);
@@ -344,8 +341,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _welderList = [];
     _jointNumberData = JointNumberModel();
     _jointNumberList = [];
-    _alignmentData = AlignmentModel();
-    _alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
+    alignmentList = [];
     _wpsData = WPSModel();
     _wpsList = [];
     _weldVisualData = VisualChecksModel();
@@ -372,7 +370,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var resWPS = await AddWeldingHelper.fetchWPSType(
@@ -655,7 +653,12 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   }
 
   _selectAlignment(AddWeldingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+ _selectMultipleAlignment(AddWeldingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -779,6 +782,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     var res = await AddWeldingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -848,7 +852,8 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       rightPipeNumberController.text = "";
       _welderData = WelderModel();
       _jointNumberData = JointNumberModel();
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       _wpsData = WPSModel();
       _weldVisualData = VisualChecksModel();
       _fitupData = VisualChecksModel();
@@ -901,6 +906,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       reportNumberController: reportNumberController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       welderData: welderData,
       welderList: welderList,
@@ -998,4 +1004,6 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       electrodeEiaE8010p1BatchList: electrodeEiaE8010p1BatchList,
     ));
   }
+
+
 }

@@ -23,9 +23,18 @@ class AddLevellingSelectDateEvent extends AddLevellingEvent {
 }
 
 class AddLevellingSelectAlignmentEvent extends AddLevellingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddLevellingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddLevellingMultipleSelectAlignmentEvent extends AddLevellingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddLevellingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

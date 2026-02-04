@@ -21,6 +21,7 @@ class FetchAddHddCleanPassDataState extends AddHddCleanPassState {
   final JointTypeModel jointTypeDataValue;
   final bool isJointNumberLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -54,6 +55,7 @@ class FetchAddHddCleanPassDataState extends AddHddCleanPassState {
     required this.listOfJointType,
     required this.alignmentList,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -88,6 +90,7 @@ class FetchAddHddCleanPassDataState extends AddHddCleanPassState {
     jointTypeDataValue,
     listOfJointType,
     alignmentData,
+    multipleAlignmentData,
     file,
     weatherList,
     weatherData,

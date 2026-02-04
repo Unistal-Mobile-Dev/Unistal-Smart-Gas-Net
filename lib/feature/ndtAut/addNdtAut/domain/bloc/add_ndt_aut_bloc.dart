@@ -27,8 +27,11 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   List<WelderModel> selectedWelderList = [];
   List<WPSModel> wpsTypeList = [];
   WPSModel wpsTypeData = WPSModel();
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController defectLocationController = TextEditingController();
@@ -49,6 +52,9 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   List<DefectTypeModel> defectTypeList = [];
   List<DefectTypeModel> selectedDefectTypeList = [];
 
+
+  List<AlignmentModel> selectedAlignmentList = [];
+
   LoginDataModel _userData = LoginDataModel();
 
   LoginDataModel get userData => _userData;
@@ -57,6 +63,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     on<AddNdtAutLoadEvent>(_pageLoad);
     on<AddNdtAutSelectDateEvent>(_selectDate);
     on<AddNdtAutSelectAlignmentEvent>(_selectAlignment);
+    on<AddNdtAutMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddNdtAutSelectJointTypeEvent>(_selectJointType);
     on<AddNdtAutSelectAutDataEvent>(_selectAutStatus);
@@ -77,6 +84,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     wpsTypeData = WPSModel();
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     dateController.text = "";
     activityRemarkController.text = "";
     defectLocationController.text = "";
@@ -96,17 +104,16 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     selectedDefectLayerList = [];
     defectTypeList = [];
     selectedDefectTypeList = [];
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
-    _userData = UserInfo.instanceInit()!.userData!;
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    selectedAlignmentList = [];
+
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData(context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
-   /* var resJointType = await AddWeldingHelper.fetchJointType(
+    /* var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resJointType != null) {
@@ -169,6 +176,12 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddNdtAutMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -248,6 +261,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     var res = await AddNdtAutHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
@@ -266,6 +280,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       selectedWelderList = [];
       wpsTypeData = WPSModel();
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       dateController.text = "";
       activityRemarkController.text = "";
       defectLocationController.text = "";
@@ -299,6 +314,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       file: file,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       alignmentList: alignmentList,
       isLoader: isLoader,
       weatherData: weatherData,
@@ -316,6 +332,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       defectTypeList: defectTypeList,
       selectedDefectLayerList: selectedDefectLayerList,
       selectedDefectTypeList: selectedDefectTypeList,
+      selectedAlignmentList:selectedAlignmentList,
     ));
   }
 }

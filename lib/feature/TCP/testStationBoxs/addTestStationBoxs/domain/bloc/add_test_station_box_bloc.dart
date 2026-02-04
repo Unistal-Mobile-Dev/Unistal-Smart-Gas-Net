@@ -28,6 +28,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
     on<AddTestStationBoxSelectDateEvent>(_selectDate);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddTestStationBoxSelectAlignmentEvent>(_selectAlignment);
+    on<AddTestStationBoxMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddTestStationBoxTLPTypeEvent>(_selectTLPType);
     on<AddTestStationBoxDistanceEvent>(_selectDistance);
     on<AddTestStationBoxFoundationCheckEvent>(_selectFoundationCheck);
@@ -44,8 +45,10 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -121,6 +124,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
     listOfIndividualResistor = [];
     listOfCableSealing = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     distanceValue = VisualChecksModel();
@@ -169,6 +173,12 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddTestStationBoxMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -270,6 +280,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
     var res = await AddTestStationBoxHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -304,6 +315,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
       testStationTypeController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       distanceValue = VisualChecksModel();
@@ -326,6 +338,7 @@ class AddTestStationBoxBloc extends Bloc<AddTestStationBoxEvent, AddTestStationB
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

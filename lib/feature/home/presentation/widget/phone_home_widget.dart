@@ -20,6 +20,7 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
         drawer: HomeDrawerWidget(),
         appBar: AppBar(
           elevation: 0,
+          toolbarHeight: 40,
           backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
           title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
             if (state is FetchHomeDataState) {
@@ -130,7 +131,8 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
               return Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(5),
+                    height: MediaQuery.of(context).size.height * 0.04, // responsive height
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     color: EnvironmentConfig.of(context)!.primaryTheme,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,13 +142,15 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                           UserInfo.instance!.userData!.projectLogo,
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          "${UserInfo.instance!.userData!.sectionName}\n (Dia - ${UserInfo.instance!.userData!.diameter}${UserInfo.instance!.userData!.diauom})",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: AppColor.white,
-                              fontWeight: FontWeight.bold),
+                        Flexible(
+                          child: Text(
+                            "${UserInfo.instance!.userData!.sectionName}\n (Dia - ${UserInfo.instance!.userData!.diameter}${UserInfo.instance!.userData!.diauom})",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: AppColor.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         _logoContainer(
@@ -209,9 +213,9 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
 
   Widget _logoContainer(BuildContext context, String? url) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.12,
+      width: MediaQuery.of(context).size.width *  0.09,
       // FIXED width (important)
-      height:  MediaQuery.of(context).size.width * 0.11,
+      height:  MediaQuery.of(context).size.width * 0.09,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

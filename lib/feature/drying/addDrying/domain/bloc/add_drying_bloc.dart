@@ -32,6 +32,8 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -48,6 +50,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     on<AddDryingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddDryingSelectAlignmentEvent>(_selectAlignment);
+    on<AddDryingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddDryingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddDryingSelectToJointDataEvent>(_selectJointTo);
     on<AddDryingSelectJointTypeDataEvent>(_selectJointType);
@@ -70,6 +73,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
@@ -115,6 +119,11 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
 
   _selectAlignment(AddDryingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddDryingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -188,6 +197,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     var res = await AddDryingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData:multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -210,6 +220,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
       chainageToController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -231,6 +242,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

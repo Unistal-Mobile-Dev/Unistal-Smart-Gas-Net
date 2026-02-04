@@ -44,6 +44,8 @@ class AddBackFillingBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   VisualChecksModel plasticGratingData = VisualChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -68,6 +70,7 @@ class AddBackFillingBloc
     on<SelectWeatherEvent>(_selectWeather);
     on<CalculateLengthEvent>(_calculateChainage);
     on<AddBackFillingSelectAlignmentEvent>(_selectAlignment);
+    on<AddBackFillingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddBackFillingSelectPlasticGratingEvent>(_selectPlasticGratingData);
     on<AddBackFillingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddBackFillingSelectToJointDataEvent>(_selectJointTo);
@@ -98,6 +101,7 @@ class AddBackFillingBloc
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     plasticGratingData = VisualChecksModel();
     fromJointData = JointNumberModel();
@@ -201,6 +205,11 @@ class AddBackFillingBloc
     _eventComplete(emit);
   }
 
+  _selectMultipleAlignment(AddBackFillingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
   _selectPlasticGratingData(
       AddBackFillingSelectPlasticGratingEvent event, emit) {
     plasticGratingData = event.plasticGratingData;
@@ -288,6 +297,7 @@ class AddBackFillingBloc
     var res = await AddBackFillingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         plasticGrating: plasticGratingData,
@@ -320,6 +330,7 @@ class AddBackFillingBloc
       antiBuoyancyController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       plasticGratingData = VisualChecksModel();
       fromJointData = JointNumberModel();
@@ -344,6 +355,7 @@ class AddBackFillingBloc
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

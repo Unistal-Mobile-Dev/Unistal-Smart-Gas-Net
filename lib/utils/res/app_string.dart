@@ -10,7 +10,7 @@ class AppString {
     Client.purvaBharti: "11-06-2025",
     Client.unistal: "11-06-2025",
     Client.oilIndia: "11-06-2025",
-    Client.vppl: "12-01-2026",
+    Client.vppl: "28-01-2026",
     Client.vrpl: "12-01-2026",
   };
 
@@ -456,7 +456,7 @@ class AppString {
   static get bending => "Bending";
 
   static get welding => "Welding";
-  static get marker => "Marker";
+  static get marker => "Marker Installation";
 
   static get weldRepair => "Weld Repair";
 
@@ -508,6 +508,7 @@ class AppString {
   static get selectLptStatus => "Select Lpt Status";
 
   static get selectFromJointNumber => "Select From Joint Number";
+  static get selectMarkerType => "Marker Type";
 
   static get selectToJointNumber => "Select To Joint Number";
 

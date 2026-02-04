@@ -20,8 +20,16 @@ class AddHddCrossingSelectDateEvent extends AddHddCrossingEvent {
 }
 
 class AddHddCrossingSelectAlignmentEvent extends AddHddCrossingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddHddCrossingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddHddCrossingMultipleSelectAlignmentEvent extends AddHddCrossingEvent {
+  final List<AlignmentModel> alignmentData;
+  AddHddCrossingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

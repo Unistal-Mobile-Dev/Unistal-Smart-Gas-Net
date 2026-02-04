@@ -4,9 +4,12 @@ import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/mo
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddRadioGraphyPage extends StatefulWidget {
@@ -23,6 +26,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         .add(AddRadiographyPageLoadEvent(context: context));
     super.initState();
   }
+
+  final client  =  AppConfig.instanceInit()!.client;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +64,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _ndtSourceDropDown(dataState: dataState),
             _verticalSpace(),
+            //  _wpdTypeDropDown(dataState: dataState),
+            // _verticalSpace(),
             _filmTypeController(dataState: dataState),
             _verticalSpace(),
             _inspectTechniqueController(dataState: dataState),
@@ -121,20 +128,41 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
-    return DropDownSearchWidget(
-      isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddRadiographyBloc>(context)
-            .add(AddRadiographySelectAlignmentEvent(
-          alignmentData: value,
-        ));
-      },
-    );
+    return AppConfig.instanceInit()!.client == Client.vppl
+        ? DropDownSearchMultiSelectWidget(
+            isRequired: true,
+            selectedItem: dataState.multipleAlignmentData,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) =>
+                alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              List<AlignmentModel> selectedAlignmentDataList = [];
+              for (var data in value) {
+                selectedAlignmentDataList.add(data);
+              }
+              BlocProvider.of<AddRadiographyBloc>(context)
+                  .add(AddRadiographyMultipleSelectAlignmentEvent(
+                alignmentData: selectedAlignmentDataList,
+              ));
+            },
+          )
+        : DropDownSearchWidget(
+            isRequired: true,
+            selectedItem: dataState.alignmentData.id != null
+                ? dataState.alignmentData
+                : null,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) =>
+                alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              BlocProvider.of<AddRadiographyBloc>(context)
+                  .add(AddRadiographySelectAlignmentEvent(
+                alignmentData: value,
+              ));
+            },
+          );
   }
 
   Widget _weatherDropDown({required FetchAddRadiographyDataState dataState}) {
@@ -160,7 +188,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget(
       isRequired: true,
-      hint: AppString.selectRtSource,
+      hint: client == Client.vppl ? "Source":AppString.selectRtSource,
       dropdownValue:
           dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
@@ -188,7 +216,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.filmType,
+      labelText: client == Client.vppl ? "Film": AppString.filmType,
       controller: dataState.filmTypeController,
     );
   }
@@ -214,9 +242,10 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
+  Widget _equipmentController(
+      {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.equipment,
+      labelText: client == Client.vppl ? "Penetrameter":AppString.equipment,
       controller: dataState.equipmentController,
     );
   }
@@ -258,7 +287,28 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _segmentListBuilder({required FetchAddRadiographyDataState dataState}) {
+  Widget _wpdTypeDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectWPS,
+      dropdownValue:
+          dataState.wpsTypeData.id != null ? dataState.wpsTypeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographySelectWPSTypeEvent(
+                wpsTypeData: value, context: context));
+      },
+      items: dataState.wpsTypeList
+          .map<DropdownMenuItem<WPSModel>>((WPSModel wpsData) {
+        return DropdownMenuItem<WPSModel>(
+          value: wpsData,
+          child: Text(wpsData.wps.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _segmentListBuilder(
+      {required FetchAddRadiographyDataState dataState}) {
     return ListView.builder(
         itemCount: dataState.segmentList.length,
         shrinkWrap: true,
@@ -302,6 +352,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                 itemCount: segmentData.segmentWelderList!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, welderIndex) {
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -311,13 +362,21 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                         fontWeight: FontWeight.w700,
                         color: AppColor.black,
                       ),
-                      _welderDropDown(
-                          welderData: segmentData
-                              .segmentWelderList![welderIndex].welderData!,
-                          welderList: segmentData
-                              .segmentWelderList![welderIndex].welderList!,
-                          index: index,
-                          welderIndex: welderIndex),
+                      AppConfig.instanceInit()!.client == Client.vppl
+                          ? _welderMultiSelectDropDown(
+                              welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],
+
+                              welderList: segmentData
+                                  .segmentWelderList![welderIndex].welderList!,
+                              index: index,
+                              welderIndex: welderIndex)
+                          : _welderDropDown(
+                              welderData: segmentData
+                                  .segmentWelderList![welderIndex].welderData!,
+                              welderList: segmentData
+                                  .segmentWelderList![welderIndex].welderList!,
+                              index: index,
+                              welderIndex: welderIndex),
                       _verticalSpace(),
                     ],
                   );
@@ -381,6 +440,32 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           child: Text(welderData.welderName.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _welderMultiSelectDropDown(
+      {required List<WelderModel> welderData,
+      required List<WelderModel> welderList,
+      required int index,
+      required int welderIndex}) {
+    return DropDownSearchMultiSelectWidget(
+      hint: AppString.selectWelder,
+      selectedItem: welderData,
+      items: welderList,
+      itemAsString: (welderData) => welderData.welderName.toString(),
+      onChanged: (value) {
+        List<WelderModel> selectedWelderModelList = [];
+        for (var data in value) {
+          selectedWelderModelList.add(data);
+        }
+
+        BlocProvider.of<AddRadiographyBloc>(context).add(
+            AddRadiographyMultipleSelectWelderDataEvent(
+                welderData: selectedWelderModelList,
+                index: index,
+                welderIndex: welderIndex));
+
+      },
     );
   }
 
@@ -517,7 +602,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
+                                color:
+                                    EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),

@@ -21,8 +21,16 @@ class AddPolarisationCoupanSelectDateEvent extends AddPolarisationCoupanEvent {
 }
 
 class AddPolarisationCoupanSelectAlignmentEvent extends AddPolarisationCoupanEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddPolarisationCoupanSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddPolarisationCoupanMultipleSelectAlignmentEvent extends AddPolarisationCoupanEvent {
+  final List<AlignmentModel> alignmentData;
+  AddPolarisationCoupanMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

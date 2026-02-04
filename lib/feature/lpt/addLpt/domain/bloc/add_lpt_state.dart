@@ -17,6 +17,7 @@ class AddLptPageLoadState extends AddLptInitial {
 class FetchAddLptDataState extends AddLptInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -44,6 +45,7 @@ class FetchAddLptDataState extends AddLptInitial {
     required this.reportNumberController,
     required this.observationResultsController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -68,6 +70,7 @@ class FetchAddLptDataState extends AddLptInitial {
         reportNumberController,
         observationResultsController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

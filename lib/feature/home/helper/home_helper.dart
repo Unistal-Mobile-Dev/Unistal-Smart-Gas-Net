@@ -9,8 +9,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/presentation/pages/add_marker_installation_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/presentation/page/add_ndt_aut_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/ofcBlowing/addOFCBlowing/presentation/page/add_ofc_blowing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/presentation/page/add_pre_hydrotest_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/persentation/page/add_radiography_page.dart';
@@ -210,7 +212,7 @@ class HomeHelper {
       case "21":
         return [_sub(AppString.ofcSplicing, const AddOfcSplicingPage())];
       case "22":
-        return [_sub(AppString.ofcBlowing, Center(child: Text("${AppString.ofcBlowing} Page not Found"),))];
+        return [_sub(AppString.ofcBlowing, AddOFCBlowingPage())];
       case "23":
         return [_sub(AppString.preHydrotest, const AddPreHydroTestPage())];
       case "24":
@@ -220,7 +222,7 @@ class HomeHelper {
       case "26":
         return [_sub(AppString.restoration, const AddRestorationPage())];
       case "27":
-        return [_sub(AppString.marker, Center(child: Text("${AppString.marker} Page not Found"),))];
+        return [_sub(AppString.marker, const AddMarkerInstallationPage())];
         case "30":
         return [_sub(AppString.soilResistivity, const AddSoilResistivityPage())];
       case "32":

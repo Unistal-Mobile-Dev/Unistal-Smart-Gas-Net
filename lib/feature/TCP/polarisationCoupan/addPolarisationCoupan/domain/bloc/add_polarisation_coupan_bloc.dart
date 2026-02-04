@@ -32,13 +32,16 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
     on<AddPolarisationCoupanCableTerminationEvent>(_selectCableTermination);
     on<AddPolarisationCoupanDateCalibrationEvent>(_selectDateCalibration);
     on<AddPolarisationCoupanSelectAlignmentEvent>(_selectAlignment);
+    on<AddPolarisationCoupanMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddPolarisationCoupanAddImageEvent>(_selectFile);
     on<AddPolarisationCoupanSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController chainageController = TextEditingController();
@@ -92,6 +95,7 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
     listOfCorrosion = [];
     listOfCableTermination = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     corrosionValue = VisualChecksModel();
@@ -122,6 +126,12 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddPolarisationCoupanMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -201,6 +211,7 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
     var res = await AddPolarisation.submitData(
       context: event.context,
       alignmentData: alignmentData,
+        multipleAlignmentData:multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -241,6 +252,7 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       corrosionValue = VisualChecksModel();
@@ -255,6 +267,7 @@ class AddPolarisationCoupanBloc extends Bloc<AddPolarisationCoupanEvent, AddPola
       alignmentList : alignmentList,
       isLoader : isLoader,
       alignmentData : alignmentData,
+      multipleAlignmentData : multipleAlignmentData,
       file : file,
       weatherList : weatherList,
       weatherData : weatherData,

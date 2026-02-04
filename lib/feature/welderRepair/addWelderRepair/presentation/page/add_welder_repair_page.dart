@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
@@ -53,6 +54,8 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
+            _verticalSpace(),
+            _reportNumberController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
@@ -117,9 +120,34 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _alignmentDropdown(
-      {required FetchAddWelderRepairDataState dataState}) {
-    return DropDownSearchWidget(
+  Widget _reportNumberController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.reportNumber,
+      controller: dataState.reportNumberController,
+    );
+  }
+
+
+  Widget _alignmentDropdown({required FetchAddWelderRepairDataState dataState}) {
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      isRequired: true,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddWelderRepairBloc>(context)
+            .add(AddWelderRepairMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) : DropDownSearchWidget(
       isRequired: true,
       selectedItem:
           dataState.alignmentData.id != null ? dataState.alignmentData : null,

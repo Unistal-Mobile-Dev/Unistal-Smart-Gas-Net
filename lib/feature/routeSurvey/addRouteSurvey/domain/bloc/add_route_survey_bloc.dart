@@ -19,13 +19,9 @@ class AddRouteSurveyBloc
 
   bool get isLoader => _isLoader;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -63,6 +59,7 @@ class AddRouteSurveyBloc
     on<SelectWeatherEvent>(_selectWeather);
     on<CalculateLengthEvent>(_calculateChainage);
     on<AddRouteSurveySelectAlignmentEvent>(_selectAlignment);
+    on<AddRouteSurveyMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddRouteSurveySelectGroundTypeEvent>(_selectGroundType);
     on<AddRouteSurveySelectDateEvent>(_selectDate);
     on<AddRouteSurveyAddImageEvent>(_selectFile);
@@ -82,9 +79,10 @@ class AddRouteSurveyBloc
     chainageToController.text = "";
     lengthController.text = "";
     _isLoader = false;
-    _alignmentList = [];
+    alignmentList = [];
     file = File("");
-    _alignmentData = AlignmentModel();
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     _weatherData = WeatherModel();
     groundTypeList = [];
     groundTypeData = GroundTypeModel();
@@ -96,7 +94,7 @@ class AddRouteSurveyBloc
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
@@ -110,9 +108,15 @@ class AddRouteSurveyBloc
   }
 
   _selectAlignment(AddRouteSurveySelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddRouteSurveyMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectGroundType(AddRouteSurveySelectGroundTypeEvent event, emit) {
     groundTypeData = event.groundTypeData;
@@ -205,6 +209,7 @@ class AddRouteSurveyBloc
     var res = await AddRouteSurveyHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       tpIpChainage: tpChainageController.text.toString(),
@@ -232,7 +237,8 @@ class AddRouteSurveyBloc
       terrainController.text = "";
       activityRemarkController.text = "";
       _isLoader = false;
-      _alignmentData = AlignmentModel();
+      alignmentData =  AlignmentModel();
+      multipleAlignmentData = [];
       file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
@@ -247,6 +253,8 @@ class AddRouteSurveyBloc
     emit(FetchAddRouteSurveyDataState(
       isLoader: isLoader,
       alignmentList: alignmentList,
+      alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       bearingAngleController: bearingAngleController,
@@ -255,7 +263,6 @@ class AddRouteSurveyBloc
       tpChainageController: tpChainageController,
       tpChainageNumberController: tpChainageNumberController,
       tpRemarkNumberController: tpRemarkNumberController,
-      alignmentData: alignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

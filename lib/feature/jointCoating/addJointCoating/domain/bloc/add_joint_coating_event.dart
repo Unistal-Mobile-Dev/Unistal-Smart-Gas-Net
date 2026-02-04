@@ -40,6 +40,15 @@ class AddJointCoatingSelectAlignmentEvent extends AddJointCoatingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddJointCoatingMultipleSelectAlignmentEvent extends AddJointCoatingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddJointCoatingMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
 class AddJointCoatingSelectHolidayDataEvent extends AddJointCoatingEvent {
   final HolidayChecksModel holidayChecksData;
 

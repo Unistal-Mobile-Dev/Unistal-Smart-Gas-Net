@@ -14,6 +14,7 @@ class AddHddPullingHelper {
   static Future<dynamic> submitData(
       {required BuildContext context,
         required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
         required String date,
         required String reportNumber,
         required String activityRemark,
@@ -42,7 +43,10 @@ class AddHddPullingHelper {
       } else {
         return null;
       }
-
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
       String url = APIs.addPipePullInsertApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -54,7 +58,9 @@ class AddHddPullingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "from_joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",

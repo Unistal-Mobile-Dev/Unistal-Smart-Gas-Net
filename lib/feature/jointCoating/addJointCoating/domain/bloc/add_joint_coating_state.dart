@@ -17,6 +17,7 @@ class AddJointCoatingPageLoadState extends AddJointCoatingInitial {
 class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -56,6 +57,9 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final List<VisualChecksModel> visualsChecksList;
   final VisualChecksModel visualChecksData;
   final TextEditingController reportNumberController;
+  final TextEditingController humidityMeterDetailsController;
+  final TextEditingController digitalPyrometerDetailsController;
+  final TextEditingController profileGaugeDetailsController;
 
   FetchAddJointCoatingDataState({
     required this.isLoader,
@@ -67,6 +71,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.chainageToController,
     required this.batchNoController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -99,6 +104,9 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.visualChecksData,
     required this.visualsChecksList,
     required this.reportNumberController,
+    required this.humidityMeterDetailsController,
+    required this.digitalPyrometerDetailsController,
+    required this.profileGaugeDetailsController,
   });
 
   @override
@@ -112,6 +120,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         chainageToController,
         batchNoController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -144,5 +153,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         visualChecksData,
         visualsChecksList,
         reportNumberController,
+   humidityMeterDetailsController,
+   digitalPyrometerDetailsController,
+   profileGaugeDetailsController,
       ];
 }

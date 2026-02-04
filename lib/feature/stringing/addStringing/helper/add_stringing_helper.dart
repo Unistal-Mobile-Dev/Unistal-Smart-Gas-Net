@@ -12,7 +12,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddStringingHelper {
   static Future<dynamic> textFiledValidation(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required PipeModel pipeData,
       required ConcreteCoatingModel concreteCoatingData,
       required String reportNumber,
@@ -22,7 +23,7 @@ class AddStringingHelper {
       if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (alignmentData.id == null) {
+      } else if (alignmentData.id == null || multipleAlignmentData.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
       } else if (reportNumber.isEmpty) {
@@ -50,6 +51,7 @@ class AddStringingHelper {
   static Future<dynamic> submitData({
     required BuildContext context,
     required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
     required PipeModel pipeData,
     required ConcreteCoatingModel concreteCoatingData,
     required String reportNumber,
@@ -77,6 +79,11 @@ class AddStringingHelper {
         pipeId.add(pipeData.toString());
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addStringingApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -101,7 +108,9 @@ class AddStringingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id == null ? "" :alignmentData.id.toString(),
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(

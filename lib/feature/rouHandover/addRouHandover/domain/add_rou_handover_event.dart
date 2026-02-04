@@ -23,9 +23,18 @@ class AddRouHandoverSelectDateEvent extends AddRouHandoverEvent {
 }
 
 class AddRouHandoverSelectAlignmentEvent extends AddRouHandoverEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
 
   const AddRouHandoverSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddRouHandoverMultipleSelectAlignmentEvent extends AddRouHandoverEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddRouHandoverMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

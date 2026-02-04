@@ -28,6 +28,8 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -44,6 +46,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     on<AddSwabbingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddSwabbingSelectAlignmentEvent>(_selectAlignment);
+    on<AddSwabbingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddSwabbingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddSwabbingSelectToJointDataEvent>(_selectJointTo);
     on<AddSwabbingSelectJointTypeDataEvent>(_selectJointType);
@@ -63,6 +66,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
@@ -110,6 +114,12 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddSwabbingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectJointFrom(AddSwabbingSelectFromJointDataEvent event, emit) {
     fromJointData = event.jointNumberData;
@@ -173,6 +183,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
     var res = await AddSwabbingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
@@ -189,6 +200,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
       activityRemarkController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -207,6 +219,7 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

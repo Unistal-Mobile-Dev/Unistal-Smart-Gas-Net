@@ -30,13 +30,16 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     on<AddTestStationBoxSacrificialAnodeTypeEvent>(_selectSacrificialAnode);
     on<AddTestStationBoxAnodeConditionEvent>(_selectAnodeCondition);
     on<AddSacrificialAnodeSelectAlignmentEvent>(_selectAlignment);
+    on<AddSacrificialAnodeMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddSacrificialAnodeAddImageEvent>(_selectFile);
     on<AddSacrificialAnodeSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -102,6 +105,7 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     anodeConditionValue = VisualChecksModel();
     sacrificialAnodeValue = TlpTypeModel();
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     userData = UserInfo.instanceInit()!.userData!;
@@ -133,6 +137,13 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddSacrificialAnodeMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -195,6 +206,7 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     var res = await AddSacrificialAnodeHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -245,6 +257,7 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
       anodeConditionValue = VisualChecksModel();
       sacrificialAnodeValue = TlpTypeModel();
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       file = File("");
@@ -257,6 +270,7 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

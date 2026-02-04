@@ -19,7 +19,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddRadiographyHelper {
   static Future<dynamic> submitData({
     required BuildContext context,
-    required AlignmentModel alignmentData,
+     required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
     required String reportNumber,
     required String date,
     required String activityRemark,
@@ -50,14 +51,19 @@ class AddRadiographyHelper {
         return null;
       }
 
-      List<dynamic> data = [];
+      List<SegmentModel> data = [];
       for (var segmentData in selectedSegmentList) {
         if (segmentData.toJson().isNotEmpty) {
-          data.add(segmentData.toJson());
+          data.add(segmentData..toJson());
         }
       }
       if (kDebugMode) {
         print(data);
+      }
+
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
       }
 
       String url = APIs.addRadiographyApi;
@@ -71,8 +77,9 @@ class AddRadiographyHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "joint_type_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "joint_id":
@@ -95,6 +102,7 @@ class AddRadiographyHelper {
         "chainage": chainage,
         "equipment": equipment,
       };
+      print("json--->${json}");
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,

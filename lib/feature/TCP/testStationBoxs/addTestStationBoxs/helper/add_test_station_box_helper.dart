@@ -58,6 +58,7 @@ class AddTestStationBoxHelper{
   static Future<dynamic> submitData(
       {required BuildContext context,
         required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
         required String date,
         required String reportNumber,
         required String activityRemark,
@@ -89,6 +90,12 @@ class AddTestStationBoxHelper{
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
+
       String url = APIs.addTestStationInsertApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -100,7 +107,9 @@ class AddTestStationBoxHelper{
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "test_station_location": testStationLocation,
         "distance_pipeline": distancePipeline.id != null ?distancePipeline.id.toString() : "",

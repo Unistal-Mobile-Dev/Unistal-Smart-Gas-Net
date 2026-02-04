@@ -35,6 +35,8 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   PaddingModel warningMeterData = PaddingModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -53,6 +55,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     on<AddHdpeDuctPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHdpeDuctSelectAlignmentEvent>(_selectAlignment);
+    on<AddHdpeDuctMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddHdpeDuctSelectPaddingDataEvent>(_selectPaddingData);
     on<AddHdpeDuctSelectFromJointDataEvent>(_selectJointFrom);
     on<AddHdpeDuctSelectToJointDataEvent>(_selectJointTo);
@@ -78,7 +81,8 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData = AlignmentModel();
+    alignmentData  = AlignmentModel();
+    multipleAlignmentData  = [];
     isLoader = false;
     warningMeterData = PaddingModel();
     fromJointData = JointNumberModel();
@@ -135,6 +139,13 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddHdpeDuctMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
 
   _selectPaddingData(AddHdpeDuctSelectPaddingDataEvent event, emit) {
     paddingData = event.paddingData;
@@ -215,6 +226,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     var res = await AddHDPEDuctHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         warningMeterData: warningMeterData,
@@ -241,6 +253,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       jointPitController.text = "";
       lengthController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       warningMeterData = PaddingModel();
       fromJointData = JointNumberModel();
@@ -264,6 +277,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

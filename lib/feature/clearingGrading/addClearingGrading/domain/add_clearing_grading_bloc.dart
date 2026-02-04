@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearin
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
@@ -20,13 +21,9 @@ class AddClearingGradingBloc
 
   bool get isLoader => _isLoader;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -61,6 +58,9 @@ class AddClearingGradingBloc
 
   WeatherModel get weatherData => _weatherData;
 
+  List<GroundTypeModel> groundTypeList = [];
+  GroundTypeModel groundTypeData = GroundTypeModel();
+
   List<TerrainTypeModel> terrainTypeList = [];
   TerrainTypeModel terrainTypeData = TerrainTypeModel();
 
@@ -68,6 +68,8 @@ class AddClearingGradingBloc
     on<AddClearingGradingPageLoadEvent>(_pageLoadEvent);
     on<AddClearingGradingSubmitDataEvent>(_submitData);
     on<AddClearingGradingSelectAlignmentEvent>(_selectAlignment);
+    on<AddClearingGradingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
+    on<AddClearingGradingSelectGroundTypeEvent>(_selectGroundType);
     on<AddClearingGradingSelectTerrainEvent>(_selectTerrain);
     on<AddClearingGradingSelectDateEvent>(_selectDate);
     on<AddClearingGradingAddImageEvent>(_selectFile);
@@ -89,8 +91,9 @@ class AddClearingGradingBloc
     gapLengthController.text = "";
     gapDescriptionController.text = "";
     _isLoader = false;
-    _alignmentList = [];
-    _alignmentData = AlignmentModel();
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     ipNumberController.text = "";
     ipNumberFromController.text = "";
     boundaryLocationController.text = "";
@@ -103,6 +106,8 @@ class AddClearingGradingBloc
     terrainTypeData = TerrainTypeModel();
     file = File("");
     _weatherData = WeatherModel();
+     groundTypeList = [];
+     groundTypeData = GroundTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: !event.context.mounted ? event.context : event.context,
@@ -111,9 +116,14 @@ class AddClearingGradingBloc
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
-
+    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
+    if (res != null) {
+      groundTypeList = groundTypeRes;
+    }
     var resTerrain = await AddClearingGradingHelper.fetchTerrainData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
@@ -158,7 +168,17 @@ class AddClearingGradingBloc
   }
 
   _selectAlignment(AddClearingGradingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddClearingGradingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectGroundType(AddClearingGradingSelectGroundTypeEvent event, emit) {
+    groundTypeData = event.groundTypeData;
     _eventComplete(emit);
   }
 
@@ -207,6 +227,7 @@ class AddClearingGradingBloc
     var res = await AddClearingGradingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       tpIpChainage: tpChainageController.text.toString(),
@@ -215,7 +236,7 @@ class AddClearingGradingBloc
       structureDetail: structureNameController.text.toString(),
       boundaryLocation: boundaryLocationController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
-      groundType: groundTypeController.text.toString(),
+      groundType: AppConfig.instanceInit()!.client == Client.vppl ? terrainTypeData.id.toString() :groundTypeController.text.toString(),
       userData: userData,
       file: file,
       ipNumber: ipNumberController.text.toString(),
@@ -240,7 +261,8 @@ class AddClearingGradingBloc
       boundaryLocation.text = "";
       activityRemarkController.text = "";
       groundTypeController.text = "";
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       ipNumberController.text = "";
       ipNumberFromController.text = "";
       boundaryLocationController.text = "";
@@ -272,6 +294,7 @@ class AddClearingGradingBloc
       tpChainageNumberController: tpChainageNumberController,
       tpRemarkNumberController: tpRemarkNumberController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       groundTypeController: groundTypeController,
       boundaryLocationController: boundaryLocationController,
@@ -286,6 +309,8 @@ class AddClearingGradingBloc
       gapDescriptionController: gapDescriptionController,
       gapLengthController: gapLengthController,
       lengthController: lengthController,
+      groundTypeData: groundTypeData,
+      groundTypeList: groundTypeList,
     ));
   }
 }

@@ -19,6 +19,7 @@ part 'add_hdpe_duct_testing_state.dart';
 class AddHdpeDuctTestingBloc
     extends Bloc<AddHdpeDuctTestingEvent, AddHdpeDuctTestingState> {
   TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
   TextEditingController airPressureTestController = TextEditingController();
@@ -32,6 +33,8 @@ class AddHdpeDuctTestingBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -48,6 +51,7 @@ class AddHdpeDuctTestingBloc
     on<AddHdpeDuctTestingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHdpeDuctTestingSelectAlignmentEvent>(_selectAlignment);
+    on<AddHdpeDuctTestingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddHdpeDuctTestingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddHdpeDuctTestingSelectToJointDataEvent>(_selectJointTo);
     on<AddHdpeDuctTestingSelectJointTypeDataEvent>(_selectJointType);
@@ -59,6 +63,7 @@ class AddHdpeDuctTestingBloc
   _pageLoad(AddHdpeDuctTestingPageLoadEvent event, emit) async {
     emit(AddHdpeDuctTestingPageLoadState());
     dateController.text = "";
+    reportNumberController.text = "";
     activityRemarkController.text = "";
     lengthController.text = "";
     airPressureTestController.text = "";
@@ -70,6 +75,7 @@ class AddHdpeDuctTestingBloc
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
@@ -115,6 +121,11 @@ class AddHdpeDuctTestingBloc
 
   _selectAlignment(AddHdpeDuctTestingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddHdpeDuctTestingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -188,7 +199,9 @@ class AddHdpeDuctTestingBloc
     var res = await AddHdpeDuctTestingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
+        reportNumber: reportNumberController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
         userData: userData,
@@ -204,9 +217,11 @@ class AddHdpeDuctTestingBloc
     _eventComplete(emit);
     if (res != null) {
       dateController.text = "";
+      reportNumberController.text = "";
       activityRemarkController.text = "";
       lengthController.text = "";
-      alignmentData = AlignmentModel();
+      alignmentData  =  AlignmentModel();
+      multipleAlignmentData  = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -226,8 +241,10 @@ class AddHdpeDuctTestingBloc
       isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
+      reportNumberController: reportNumberController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

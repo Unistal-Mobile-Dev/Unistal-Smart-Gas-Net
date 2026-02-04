@@ -51,6 +51,8 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   HolidayChecksModel holidayChecksData = HolidayChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -92,6 +94,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     on<AddCrossingPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddCrossingSelectAlignmentEvent>(_selectAlignment);
+    on<AddCrossingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddCrossingSelectCoatingTypeDataEvent>(_selectCoatingType);
     on<AddCrossingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddCrossingSelectCrossingTypeDataEvent>(_selectCrossingType);
@@ -132,6 +135,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     crossingTypeList = [];
     crossingTypeData = CrossingTypeModel();
     isLoader = false;
@@ -223,6 +227,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddCrossingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectCoatingType(AddCrossingSelectCoatingTypeDataEvent event, emit) {
     coatingTypeData = event.coatingTypeData;
@@ -357,6 +367,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     var res = await AddCrossingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       onWeld: onWeldController.text.toString(),
       date: dateController.text.toString(),
       holidayChecksData: holidayChecksData,
@@ -397,6 +408,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       casingPipeLengthController.text = "";
       batchNoController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       holidayChecksData = HolidayChecksModel();
       crossingNameController.text = "";
@@ -435,6 +447,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         sectionLengthController: sectionLengthController,
         casingPipeLengthController: casingPipeLengthController,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         file: file,
         weatherList: weatherList,
         weatherData: weatherData,

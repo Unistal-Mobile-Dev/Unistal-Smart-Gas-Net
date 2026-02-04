@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/domain/bloc/add_restoration_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddRestorationPage extends StatefulWidget {
@@ -48,6 +50,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
           children: [
             _verticalSpace(),
             _dateController(dataState: dataState),
+            _verticalSpace(),
+            _reportNumberController(dataState: dataState),
             _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
@@ -106,9 +110,24 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRestorationDataState dataState}) {
-    return DropDownSearchWidget(
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddRestorationBloc>(context)
+            .add(AddRestorationMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) : DropDownSearchWidget(
+      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),

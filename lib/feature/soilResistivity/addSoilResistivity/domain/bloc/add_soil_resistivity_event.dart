@@ -23,9 +23,18 @@ class AddSoilResistivitySelectDateEvent extends AddSoilResistivityEvent {
 }
 
 class AddSoilResistivitySelectAlignmentEvent extends AddSoilResistivityEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddSoilResistivitySelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddSoilResistivityMultipleSelectAlignmentEvent extends AddSoilResistivityEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddSoilResistivityMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

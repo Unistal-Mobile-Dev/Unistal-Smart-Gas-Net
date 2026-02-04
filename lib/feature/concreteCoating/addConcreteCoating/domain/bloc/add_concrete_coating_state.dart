@@ -17,6 +17,7 @@ class AddConcreteCoatingPageLoadState extends AddConcreteCoatingInitial {
 class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController concreteCoatingLengthController;
@@ -41,6 +42,7 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
     required this.concreteCoatingLengthController,
     required this.chainageController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.pipeData,
     required this.pipeList,
@@ -62,6 +64,7 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
         concreteCoatingLengthController,
         chainageController,
         alignmentData,
+    multipleAlignmentData,
         file,
         pipeData,
         pipeList,

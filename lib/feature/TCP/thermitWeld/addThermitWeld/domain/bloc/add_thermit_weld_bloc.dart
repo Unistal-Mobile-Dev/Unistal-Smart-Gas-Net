@@ -32,13 +32,16 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     on<AddTestStationBoxContinuityCheckEvent>(_selectContinuityCheck);
     on<AddTestStationBoxRestorationCheckEvent>(_selectRestorationCheck);
     on<AddThermitWeldSelectAlignmentEvent>(_selectAlignment);
+    on<AddThermitWeldMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddThermitWeldAddImageEvent>(_selectFile);
     on<AddThermitWeldSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
  
 
@@ -96,6 +99,7 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     listOfContinuityCheck = [];
     listOfRestorationCheck = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     pinBrazingValue = VisualChecksModel();
@@ -129,6 +133,12 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddThermitWeldMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -195,6 +205,7 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     var res = await AddThermitWeldHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -232,6 +243,7 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       pinBrazingValue = VisualChecksModel();
@@ -247,6 +259,7 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
       file : file,
       isLoader : isLoader,
       alignmentData : alignmentData,
+      multipleAlignmentData : multipleAlignmentData,
       alignmentList : alignmentList,
       weatherList : weatherList,
       weatherData : weatherData,

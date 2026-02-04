@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/domain/model/marker_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
@@ -18,7 +19,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddWeldingHelper {
   static Future<dynamic> textFiledValidation({
     required BuildContext context,
-    required AlignmentModel alignmentData,
+    // required AlignmentModel alignmentData,
+    required List<AlignmentModel> alignmentData,
     required String reportNumber,
     required String date,
     required String activityRemark,
@@ -66,7 +68,7 @@ class AddWeldingHelper {
       if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (alignmentData.id == null) {
+      } else if (alignmentData.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
       } else if (reportNumber.isEmpty) {
@@ -136,7 +138,8 @@ class AddWeldingHelper {
 
   static Future<dynamic> submitData({
     required BuildContext context,
-    required AlignmentModel alignmentData,
+     required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
     required String reportNumber,
     required String date,
     required String activityRemark,
@@ -194,6 +197,11 @@ class AddWeldingHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addWeldingApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -207,8 +215,9 @@ class AddWeldingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
         "root_welder1": rootWelders1Data.id ?? "",
         "root_welder2": rootWelders2Data.id ?? "",
@@ -414,6 +423,28 @@ class AddWeldingHelper {
       return null;
     }
   }
+
+  static Future<dynamic> fetchMarkerType(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getMarkerTypeApi;
+      var param = {
+        "schema": userData.schema,
+      };
+      String json = Uri(queryParameters: param).query;
+      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
+      if (res != null &&
+          res['success'] != null &&
+          res['success'] == 200 &&
+          res['data'] != null) {
+        return markerTypeListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
 
   static Future<dynamic> fetchWelderData(
       {required BuildContext context,

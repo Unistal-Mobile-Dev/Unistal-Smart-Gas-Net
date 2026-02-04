@@ -23,9 +23,18 @@ class AddTrenChingSelectDateEvent extends AddTrenChingEvent {
 }
 
 class AddTrenChingSelectAlignmentEvent extends AddTrenChingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddTrenChingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddTrenChingMultipleSelectAlignmentEvent extends AddTrenChingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddTrenChingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

@@ -32,9 +32,18 @@ class AddCrossingCalibarationDataEvent extends AddCrossingEvent {
 }
 
 class AddCrossingSelectAlignmentEvent extends AddCrossingEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddCrossingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddCrossingMultipleSelectAlignmentEvent extends AddCrossingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddCrossingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

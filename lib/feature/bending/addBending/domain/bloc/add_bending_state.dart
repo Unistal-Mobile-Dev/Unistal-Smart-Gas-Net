@@ -17,6 +17,7 @@ class AddBendingPageLoadState extends AddBendingInitial {
 class FetchAddBendingDataState extends AddBendingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -62,6 +63,7 @@ class FetchAddBendingDataState extends AddBendingInitial {
     required this.bendAngleDegreeController,
     required this.chainageController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.bendingTypeData,
     required this.bendingTypeList,
@@ -99,6 +101,7 @@ class FetchAddBendingDataState extends AddBendingInitial {
         bendAngleDegreeController,
         chainageController,
         alignmentData,
+    multipleAlignmentData,
         file,
         bendingTypeData,
         bendingTypeList,

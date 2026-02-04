@@ -21,8 +21,16 @@ class  AddSacrificialAnodeSelectDateEvent extends  AddSacrificialAnodeEvent {
 }
 
 class  AddSacrificialAnodeSelectAlignmentEvent extends  AddSacrificialAnodeEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
    AddSacrificialAnodeSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class  AddSacrificialAnodeMultipleSelectAlignmentEvent extends  AddSacrificialAnodeEvent {
+  final List<AlignmentModel> alignmentData;
+   AddSacrificialAnodeMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

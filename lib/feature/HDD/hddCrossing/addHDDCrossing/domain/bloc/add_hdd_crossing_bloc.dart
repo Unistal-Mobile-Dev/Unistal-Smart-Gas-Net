@@ -25,6 +25,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
     on<AddHddCrossingSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHddCrossingSelectAlignmentEvent>(_selectAlignment);
+    on<AddHddCrossingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectFromJointEvent>(_selectFromJoint);
     on<SelectToJointEvent>(_selectToJoint);
@@ -38,8 +39,10 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController dateCommencementController= TextEditingController();
@@ -115,6 +118,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
     toJointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -133,6 +137,11 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
 
   _selectAlignment(AddHddCrossingSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddHddCrossingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -302,6 +311,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
     var res = await AddHddCrossingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -358,6 +368,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
       roDurationController.text = "";
       loadObservedPSIController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       fromJointValue = JointNumberModel();
       toJointValue = JointNumberModel();
@@ -373,6 +384,7 @@ class AddHddCrossingBloc extends Bloc<AddHddCrossingEvent, AddHddCrossingState> 
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

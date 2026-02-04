@@ -14,7 +14,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddBendingHelper {
   static Future<dynamic> textFiledValidation(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required String bendTpNumber,
@@ -33,7 +34,7 @@ class AddBendingHelper {
       if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (alignmentData.id == null) {
+      } else if (alignmentData.id == null || multipleAlignmentData.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
       } else if (reportNumber.isEmpty) {
@@ -90,9 +91,10 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> submitData(
-      {required BuildContext context,
-      required AlignmentModel alignmentData,
+  static Future<dynamic> submitData({
+    required BuildContext context,
+    required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required String bendTpNumber,
@@ -122,6 +124,11 @@ class AddBendingHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addBendinginsertApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -133,7 +140,9 @@ class AddBendingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id.toString(),
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "pipe_id": pipeData.id.toString(),
         "chainage": chainage.toString(),
         "visual_checks": visualChecksData.id.toString(),

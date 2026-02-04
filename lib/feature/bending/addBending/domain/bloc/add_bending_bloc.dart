@@ -19,13 +19,11 @@ part 'add_bending_event.dart';
 part 'add_bending_state.dart';
 
 class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
-  List<AlignmentModel> _alignmentList = [];
 
-  List<AlignmentModel> get alignmentList => _alignmentList;
 
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   bool _isLoader = false;
 
@@ -121,6 +119,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     on<AddBendingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddBendingSelectAlignmentEvent>(_selectAlignment);
+    on<AddBendingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddBendingSelectDateEvent>(_selectDate);
     on<AddBendingSelectHolidayDataEvent>(_selectHolidayCheck);
     on<AddBendingSelectSelectPipeDataEvent>(_selectPipeData);
@@ -135,8 +134,9 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
 
   _pageLoad(AddBendingPageLoadEvent event, emit) async {
     emit(AddBendingPageLoadState());
-    _alignmentList = [];
-    _alignmentData = AlignmentModel();
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     _isLoader = false;
     dateController.text = "";
     reportNumberController.text = "";
@@ -173,7 +173,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var resBending = await AddBendingHelper.fetchBendingType(
@@ -205,9 +205,15 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
   }
 
   _selectAlignment(AddBendingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddBendingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectDate(AddBendingSelectDateEvent event, emit) async {
     DateTime? pickedDate = await showDatePicker(
@@ -298,6 +304,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     var res = await AddBendingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -321,7 +328,8 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     _isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       _isLoader = false;
       dateController.text = "";
       reportNumberController.text = "";
@@ -360,6 +368,7 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
       bendAngleDegreeController: bendAngleDegreeController,
       chainageController: chainageController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       bendingTypeData: bendingTypeData,
       bendingTypeList: bendingTypeList,

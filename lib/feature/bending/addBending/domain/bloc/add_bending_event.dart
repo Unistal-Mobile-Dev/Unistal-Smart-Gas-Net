@@ -23,9 +23,18 @@ class AddBendingSelectDateEvent extends AddBendingEvent {
 }
 
 class AddBendingSelectAlignmentEvent extends AddBendingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
 
   const AddBendingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddBendingMultipleSelectAlignmentEvent extends AddBendingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddBendingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

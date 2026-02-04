@@ -20,8 +20,16 @@ class AddHddPullingSelectDateEvent extends AddHddPullingEvent {
 }
 
 class AddHddPullingSelectAlignmentEvent extends AddHddPullingEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddHddPullingSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddHddPullingMultipleSelectAlignmentEvent extends AddHddPullingEvent {
+  final List<AlignmentModel> alignmentData;
+  AddHddPullingMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

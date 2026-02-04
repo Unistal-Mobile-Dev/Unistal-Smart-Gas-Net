@@ -12,7 +12,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddConcreteCoatingHelper {
   static Future<dynamic> textFiledValidation(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required String concreteCoatingLength,
@@ -25,7 +26,7 @@ class AddConcreteCoatingHelper {
       if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (alignmentData.id == null) {
+      } else if (alignmentData.id == null || multipleAlignmentData.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select alignment");
         return false;
       } else if (reportNumber.isEmpty) {
@@ -75,7 +76,8 @@ class AddConcreteCoatingHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String date,
       required String concreteCoatingLength,
       required String chainage,
@@ -95,11 +97,18 @@ class AddConcreteCoatingHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
+
       String url = APIs.addConcreteCoatingApi;
       var json = {
         "activityDate": date,
         "weather": weatherData.name.toString(),
-        "alignmentSheet": alignmentData.id.toString(),
+        // "alignmentSheet": alignmentData.id.toString(),
+        "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "spreadId": userData.spreadId.toString(),
         "sectionId": userData.sectionId.toString(),
         "pipeId": pipeData.id.toString(),

@@ -45,6 +45,8 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   HolidayChecksModel holidayChecksData = HolidayChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -69,6 +71,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     on<SelectWeatherEvent>(_selectWeather);
     on<CalculateLengthEvent>(_calculateChainage);
     on<AddLoweringSelectAlignmentEvent>(_selectAlignment);
+    on<AddLoweringMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddLoweringSelectHolidayDataEvent>(_selectHolidayData);
     on<AddLoweringSelectFromJointDataEvent>(_selectJointFrom);
     on<AddLoweringSelectToJointDataEvent>(_selectJointTo);
@@ -103,6 +106,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
@@ -204,6 +208,13 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddLoweringMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
 
   _selectHolidayData(AddLoweringSelectHolidayDataEvent event, emit) {
     holidayChecksData = event.holidayChecksData;
@@ -308,6 +319,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     var res = await AddLoweringHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       holidayChecksData: holidayChecksData,
@@ -341,6 +353,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       chainageToController.text = "";
       postPaddingController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       holidayChecksData = HolidayChecksModel();
       testVoltageController.text = "";
@@ -372,6 +385,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

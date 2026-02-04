@@ -21,8 +21,16 @@ class  AddTestStationBoxSelectDateEvent extends  AddTestStationBoxEvent {
 }
 
 class  AddTestStationBoxSelectAlignmentEvent extends  AddTestStationBoxEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddTestStationBoxSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class  AddTestStationBoxMultipleSelectAlignmentEvent extends  AddTestStationBoxEvent {
+  final List<AlignmentModel> alignmentData;
+  AddTestStationBoxMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

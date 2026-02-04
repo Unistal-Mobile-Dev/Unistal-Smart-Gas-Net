@@ -42,7 +42,10 @@ class AddRadiographyBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
+  bool isWelderLoader = false;
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
   File file = File("");
@@ -52,7 +55,13 @@ class AddRadiographyBloc
 
   LoginDataModel get userData => _userData;
 
+  WelderModel welderData = WelderModel();
+  List<WPSModel> wpsTypeList = [];
+  WPSModel wpsTypeData = WPSModel();
+
   List<SegmentModel> segmentList = [];
+
+
   SegmentModel segmentData = SegmentModel();
 
   List<SegmentModel> selectedSegmentList = [];
@@ -76,8 +85,10 @@ class AddRadiographyBloc
     on<AddRadiographyPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRadiographySelectAlignmentEvent>(_selectAlignment);
-
+    on<AddRadiographyMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
+    on<AddRadiographySelectWPSTypeEvent>(_selectWpsType);
     on<AddRadiographySelectWelderDataEvent>(_selectRootWelder);
+    on<AddRadiographyMultipleSelectWelderDataEvent>(_selectMultipleRootWelder);
     on<AddRadiographySelectHotPassWelderEvent>(_selectHotPassWelder);
     on<AddRadiographySelectFillerWelderEvent>(_selectFillerWelder);
     on<AddRadiographySelectCappingWelderEvent>(_selectCappingWelder);
@@ -103,13 +114,18 @@ class AddRadiographyBloc
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
+    isWelderLoader = false;
     segmentData = SegmentModel();
     segmentList = [];
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
     file = File("");
     jointNumberList = [];
+    welderData = WelderModel();
+     wpsTypeList = [];
+     wpsTypeData = WPSModel();
     jointNumberData = JointNumberModel();
     weatherData = WeatherModel();
     ndtAgencyList = [];
@@ -137,6 +153,12 @@ class AddRadiographyBloc
     if (res != null) {
       alignmentList = res;
     }
+    var resWPS = await AddWeldingHelper.fetchWPSType(
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    if (resWPS != null) {
+      wpsTypeList = resWPS;
+    }
+
 
 /*    var resJointType = await AddWeldingHelper.fetchJointType(
         context: !event.context.mounted ? event.context : event.context,
@@ -208,11 +230,38 @@ class AddRadiographyBloc
     _eventComplete(emit);
   }
 
+  _selectMultipleAlignment(AddRadiographyMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectWpsType(AddRadiographySelectWPSTypeEvent event, emit) async {
+    wpsTypeData = event.wpsTypeData;
+    isWelderLoader = true;
+    _eventComplete(emit);
+    welderData = WelderModel();
+    var resWelder = await AddWeldingHelper.fetchWelderData(
+        context: event.context, userData: userData, wpsData: wpsTypeData);
+    if (resWelder != null) {
+      welderList = resWelder;
+    }
+    isWelderLoader = false;
+    _eventComplete(emit);
+  }
+
   _selectRootWelder(AddRadiographySelectWelderDataEvent event, emit) {
     isLoader = true;
     _eventComplete(emit);
     segmentList[event.index].segmentWelderList![event.welderIndex].welderData =
         event.welderData;
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleRootWelder(AddRadiographyMultipleSelectWelderDataEvent event, emit) {
+    isLoader = true;
+    _eventComplete(emit);
+    segmentList[event.index].segmentWelderList![event.welderIndex].multipleWelderData = event.welderData;
     isLoader = false;
     _eventComplete(emit);
   }
@@ -353,6 +402,7 @@ class AddRadiographyBloc
     var res = await AddRadiographyHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -380,6 +430,7 @@ class AddRadiographyBloc
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
@@ -409,6 +460,7 @@ class AddRadiographyBloc
       activityRemarkController: activityRemarkController,
       reportNumberController: reportNumberController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,
@@ -433,6 +485,8 @@ class AddRadiographyBloc
       filmTypeController: filmTypeController,
       inspectTechniqueController: inspectTechniqueController,
       sensivityController: sensivityController,
+      wpsTypeData: wpsTypeData,
+      wpsTypeList: wpsTypeList,
     ));
   }
 }

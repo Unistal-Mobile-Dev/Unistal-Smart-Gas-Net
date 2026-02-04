@@ -17,6 +17,7 @@ class AddTieinPageLoadState extends AddTieinInitial {
 class FetchAddTieinDataState extends AddTieinInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController preheatTempController;
   final TextEditingController dateController;
@@ -131,6 +132,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.preheatTempController,
     required this.activityRemarkController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.welderData,
     required this.welderList,
@@ -229,6 +231,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
         preheatTempController,
         activityRemarkController,
         alignmentData,
+    multipleAlignmentData,
         file,
         welderData,
         welderList,

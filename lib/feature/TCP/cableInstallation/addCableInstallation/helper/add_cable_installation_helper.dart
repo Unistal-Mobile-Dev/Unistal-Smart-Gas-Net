@@ -10,15 +10,18 @@ import 'package:flutter_unistal_smart_gas_net/services/apis.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/server_request.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_error_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/enums.dart';
 
 class AddCableInstallationHelper{
 
 
-  static Future<dynamic> submitData(
-      {required BuildContext context,
+  static Future<dynamic> submitData({
+    required BuildContext context,
         required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
         required String date,
         required String reportNumber,
         required String activityRemark,
@@ -49,6 +52,12 @@ class AddCableInstallationHelper{
       } else {
         return null;
       }
+
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addCableLayingInsertApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -60,7 +69,9 @@ class AddCableInstallationHelper{
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "cable_size": cableSize.toString(),
         "cable_trench": cableTrench.toString(),

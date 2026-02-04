@@ -21,8 +21,16 @@ class  AddSurgeDiverterSelectDateEvent extends  AddSurgeDiverterEvent {
 }
 
 class AddSurgeDiverterSelectAlignmentEvent extends  AddSurgeDiverterEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddSurgeDiverterSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddSurgeDiverterMultipleSelectAlignmentEvent extends  AddSurgeDiverterEvent {
+  final List<AlignmentModel> alignmentData;
+  AddSurgeDiverterMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

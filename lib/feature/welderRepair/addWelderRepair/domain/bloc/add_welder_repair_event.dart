@@ -23,9 +23,18 @@ class AddWelderRepairSelectDateEvent extends AddWelderRepairEvent {
 }
 
 class AddWelderRepairSelectAlignmentEvent extends AddWelderRepairEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddWelderRepairSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddWelderRepairMultipleSelectAlignmentEvent extends AddWelderRepairEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddWelderRepairMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

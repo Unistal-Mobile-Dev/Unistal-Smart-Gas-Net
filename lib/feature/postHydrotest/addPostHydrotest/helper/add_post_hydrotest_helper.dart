@@ -12,7 +12,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddPostHydroTestHelper {
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String date,
       required String activityRemark,
       required WeatherModel weatherData,
@@ -31,6 +32,11 @@ class AddPostHydroTestHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addPostHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -40,8 +46,8 @@ class AddPostHydroTestHelper {
         "remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignmentSheet":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+     //   "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "alignmentSheet":  alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "jointFrom":
             fromJointData.id != null ? fromJointData.id.toString() : "",

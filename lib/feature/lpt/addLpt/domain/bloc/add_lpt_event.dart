@@ -23,9 +23,18 @@ class AddLptSelectDateEvent extends AddLptEvent {
 }
 
 class AddLptSelectAlignmentEvent extends AddLptEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddLptSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddLptMultipleSelectAlignmentEvent extends AddLptEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddLptMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

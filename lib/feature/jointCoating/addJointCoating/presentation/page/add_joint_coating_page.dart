@@ -8,9 +8,11 @@ import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoati
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddJointCoatingPage extends StatefulWidget {
@@ -27,6 +29,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
         .add(AddJointCoatingPageLoadEvent(context: context));
     super.initState();
   }
+
+  final client = AppConfig.instanceInit()!.client;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +83,18 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
+            client != Client.vppl
+                ? SizedBox.shrink()
+                : _humidityMeterDetailsController(dataState: dataState),
+            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
+            client != Client.vppl
+                ? SizedBox.shrink()
+                : _digitalPyrometerDetailsController(dataState: dataState),
+            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
+            client != Client.vppl
+                ? SizedBox.shrink()
+                : _profileGaugeDetailsController(dataState: dataState),
+            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
 /*            _pipeMaterialDropDown(dataState: dataState),
             _verticalSpace(),*/
 /*            _pipeDiaDropDown(dataState: dataState),
@@ -91,8 +107,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
-            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),
+            client == Client.vppl
+                ? SizedBox.shrink()
+                : _thicknessDropDown(dataState: dataState),
+            client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
 /*            _electrometerNoController(dataState: dataState),
             _verticalSpace(),*/
             _onBodyController(dataState: dataState),
@@ -144,20 +162,41 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _alignmentDropdown(
       {required FetchAddJointCoatingDataState dataState}) {
-    return DropDownSearchWidget(
-      isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddJointCoatingBloc>(context)
-            .add(AddJointCoatingSelectAlignmentEvent(
-          alignmentData: value,
-        ));
-      },
-    );
+    return AppConfig.instanceInit()!.client == Client.vppl
+        ? DropDownSearchMultiSelectWidget(
+            isRequired: true,
+            selectedItem: dataState.multipleAlignmentData,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) =>
+                alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              List<AlignmentModel> selectedAlignmentDataList = [];
+              for (var data in value) {
+                selectedAlignmentDataList.add(data);
+              }
+              BlocProvider.of<AddJointCoatingBloc>(context)
+                  .add(AddJointCoatingMultipleSelectAlignmentEvent(
+                alignmentData: selectedAlignmentDataList,
+              ));
+            },
+          )
+        : DropDownSearchWidget(
+            isRequired: true,
+            selectedItem: dataState.alignmentData.id != null
+                ? dataState.alignmentData
+                : null,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) =>
+                alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              BlocProvider.of<AddJointCoatingBloc>(context)
+                  .add(AddJointCoatingSelectAlignmentEvent(
+                alignmentData: value,
+              ));
+            },
+          );
   }
 
   Widget _weatherDropDown({required FetchAddJointCoatingDataState dataState}) {
@@ -288,7 +327,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
       {required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.location,
+      labelText:
+          client == Client.vppl ? "Relative Humidity" : AppString.location,
       controller: dataState.locationController,
     );
   }
@@ -317,6 +357,30 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
       isRequired: true,
       labelText: AppString.primerBBatch,
       controller: dataState.primaryBbatchController,
+    );
+  }
+
+  Widget _humidityMeterDetailsController(
+      {required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Humidity Meter Details",
+      controller: dataState.humidityMeterDetailsController,
+    );
+  }
+
+  Widget _digitalPyrometerDetailsController(
+      {required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Digital Pyrometer Details",
+      controller: dataState.digitalPyrometerDetailsController,
+    );
+  }
+
+  Widget _profileGaugeDetailsController(
+      {required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Profile Gauge Details",
+      controller: dataState.profileGaugeDetailsController,
     );
   }
 
@@ -451,7 +515,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
       {required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.batchNo,
+      labelText: client == Client.vppl ? "Sleeve Batch No." : AppString.batchNo,
       controller: dataState.batchNoController,
     );
   }
@@ -552,7 +616,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
+                                color:
+                                    EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),

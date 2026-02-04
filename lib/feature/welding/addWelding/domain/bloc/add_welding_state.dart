@@ -17,6 +17,7 @@ class AddWeldingPageLoadState extends AddWeldingInitial {
 class FetchAddWeldingDataState extends AddWeldingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController reportNumberController;
   final TextEditingController dateController;
@@ -139,6 +140,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.reportNumberController,
     required this.activityRemarkController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.welderData,
     required this.welderList,
@@ -244,6 +246,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         reportNumberController,
         activityRemarkController,
         alignmentData,
+    multipleAlignmentData,
         file,
         welderData,
         welderList,

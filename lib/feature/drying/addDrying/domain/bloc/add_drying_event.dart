@@ -31,6 +31,15 @@ class AddDryingSelectAlignmentEvent extends AddDryingEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddDryingMultipleSelectAlignmentEvent extends AddDryingEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddDryingMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
 class AddDryingSelectFromJointDataEvent extends AddDryingEvent {
   final JointNumberModel jointNumberData;
 

@@ -38,6 +38,8 @@ class AddRestorationBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   VisualChecksModel plasticGratingData = VisualChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
@@ -63,6 +65,7 @@ class AddRestorationBloc
     on<AddRestorationPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddRestorationSelectAlignmentEvent>(_selectAlignment);
+    on<AddRestorationMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddRestorationSelectRemovalOfSurplusMaterialDataEvent>(
         _selectRemovalOfSurplusMaterialData);
     on<AddRestorationSelectReplacementofTopSoilDataEvent>(
@@ -93,6 +96,7 @@ class AddRestorationBloc
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     plasticGratingData = VisualChecksModel();
     fromJointData = JointNumberModel();
@@ -155,6 +159,12 @@ class AddRestorationBloc
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddRestorationMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectRemovalOfSurplusMaterialData(
       AddRestorationSelectRemovalOfSurplusMaterialDataEvent event, emit) {
@@ -246,6 +256,7 @@ class AddRestorationBloc
     var res = await AddRestorationHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         landType: landTypeController.text.toString(),
@@ -272,7 +283,8 @@ class AddRestorationBloc
       chainageToController.text = "";
       landTypeController.text = "";
       lengthController.text = "";
-      alignmentData = AlignmentModel();
+      alignmentData =  AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       plasticGratingData = VisualChecksModel();
       fromJointData = JointNumberModel();
@@ -298,6 +310,7 @@ class AddRestorationBloc
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

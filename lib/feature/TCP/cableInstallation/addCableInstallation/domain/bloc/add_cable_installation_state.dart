@@ -18,6 +18,7 @@ class FetchAddCableInstallationState extends AddCableInstallationState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -50,6 +51,7 @@ class FetchAddCableInstallationState extends AddCableInstallationState {
     required this.file,
     required this.isLoader,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.alignmentList,
     required this.weatherList,
     required this.weatherData,
@@ -83,6 +85,7 @@ class FetchAddCableInstallationState extends AddCableInstallationState {
     file,
     isLoader,
     alignmentData,
+    multipleAlignmentData,
     alignmentList,
     weatherList,
     weatherData,

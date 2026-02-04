@@ -23,9 +23,18 @@ class AddPostHydrotestSelectDateEvent extends AddPostHydrotestEvent {
 }
 
 class AddPostHydrotestSelectAlignmentEvent extends AddPostHydrotestEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddPostHydrotestSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddPostHydrotestMultipleSelectAlignmentEvent extends AddPostHydrotestEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddPostHydrotestMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

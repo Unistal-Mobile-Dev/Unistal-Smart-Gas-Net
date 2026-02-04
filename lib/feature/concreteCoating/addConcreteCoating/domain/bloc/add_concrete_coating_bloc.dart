@@ -19,13 +19,10 @@ part 'add_concrete_coating_state.dart';
 
 class AddConcreteCoatingBloc
     extends Bloc<AddConcreteCoatingEvent, AddConcreteCoatingState> {
-  List<AlignmentModel> _alignmentList = [];
 
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   bool _isLoader = false;
 
@@ -81,6 +78,7 @@ class AddConcreteCoatingBloc
     on<AddConcreteCoatingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddConcreteCoatingSelectAlignmentEvent>(_selectAlignment);
+    on<AddConcreteCoatingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddConcreteCoatingSelectDateEvent>(_selectDate);
     on<AddConcreteCoatingSelectSelectPipeDataEvent>(_selectPipeData);
     on<AddConcreteCoatingSelectSelectThicknessDataEvent>(_selectThickness);
@@ -91,8 +89,10 @@ class AddConcreteCoatingBloc
 
   _pageLoad(AddConcreteCoatingPageLoadEvent event, emit) async {
     emit(AddConcreteCoatingPageLoadState());
-    _alignmentList = [];
-    _alignmentData = AlignmentModel();
+    alignmentList = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
+
     _isLoader = false;
     dateController.text = "";
     concreteCoatingLengthController.text = "";
@@ -112,7 +112,7 @@ class AddConcreteCoatingBloc
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
     var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
@@ -130,7 +130,12 @@ class AddConcreteCoatingBloc
   }
 
   _selectAlignment(AddConcreteCoatingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddConcreteCoatingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -204,6 +209,7 @@ class AddConcreteCoatingBloc
     var res = await AddConcreteCoatingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         concreteCoatingLength: concreteCoatingLengthController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -217,7 +223,8 @@ class AddConcreteCoatingBloc
     _isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       _isLoader = false;
       dateController.text = "";
       activityRemarkController.text = "";
@@ -229,7 +236,6 @@ class AddConcreteCoatingBloc
       _pipeList = [];
       searchPipeController.text = "";
       _weatherData = WeatherModel();
-      _alignmentData = AlignmentModel();
       _eventComplete(emit);
     }
   }
@@ -243,6 +249,7 @@ class AddConcreteCoatingBloc
       concreteCoatingLengthController: concreteCoatingLengthController,
       chainageController: chainageController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       pipeList: pipeList,
       pipeData: pipeData,

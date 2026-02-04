@@ -24,6 +24,7 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
     on<AddHddCleanPassSubmitDataEvent>(_submitData);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddHddCleanPassSelectAlignmentEvent>(_selectAlignment);
+    on<AddHddCleanPassMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectFromJointEvent>(_selectFromJoint);
     on<SelectToJointEvent>(_selectToJoint);
@@ -34,8 +35,10 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController startDateCleanPassController= TextEditingController();
@@ -92,16 +95,16 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
     pumpRateController.text = "";
     sizeCleanPassController.text = "";
     activityRemarkController.text = "";
-    alignmentList = [];
     listOfJointType = [];
     listOfFromJoint = [];
     listOfToJoint = [];
+    alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     fromJointValue = JointNumberModel();
     toJointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
-    alignmentData = AlignmentModel();
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
@@ -123,6 +126,10 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
     _eventComplete(emit);
   }
 
+  _selectMultipleAlignment(AddHddCleanPassMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -235,6 +242,7 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
     var res = await AddHddCleanPassHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -278,6 +286,7 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
       sizeCleanPassController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       fromJointValue = JointNumberModel();
       toJointValue = JointNumberModel();
@@ -292,6 +301,7 @@ class AddHddCleanPassBloc extends Bloc<AddHddCleanPassEvent, AddHddCleanPassStat
       isLoader: isLoader,
       alignmentList: alignmentList,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

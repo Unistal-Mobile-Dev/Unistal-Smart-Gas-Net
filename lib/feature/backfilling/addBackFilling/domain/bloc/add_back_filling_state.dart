@@ -17,6 +17,7 @@ class AddBackFillingPageLoadState extends AddBackFillingInitial {
 class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
@@ -54,6 +55,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
       required this.chainageFromController,
       required this.chainageToController,
       required this.alignmentData,
+      required this.multipleAlignmentData,
       required this.file,
       required this.weatherList,
       required this.weatherData,
@@ -86,6 +88,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
         chainageFromController,
         chainageToController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

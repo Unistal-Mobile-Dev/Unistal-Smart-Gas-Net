@@ -13,7 +13,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddHDPEDuctHelper {
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required PaddingModel warningMeterData,
@@ -38,6 +39,11 @@ class AddHDPEDuctHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addHDPEDuctApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -51,8 +57,9 @@ class AddHDPEDuctHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "from_joint_id":
             fromJointData.id != null ? fromJointData.id.toString() : "",

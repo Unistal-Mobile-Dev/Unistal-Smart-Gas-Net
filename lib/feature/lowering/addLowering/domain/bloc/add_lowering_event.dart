@@ -32,9 +32,18 @@ class AddLoweringCalibarationDataEvent extends AddLoweringEvent {
 }
 
 class AddLoweringSelectAlignmentEvent extends AddLoweringEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddLoweringSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddLoweringMultipleSelectAlignmentEvent extends AddLoweringEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddLoweringMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

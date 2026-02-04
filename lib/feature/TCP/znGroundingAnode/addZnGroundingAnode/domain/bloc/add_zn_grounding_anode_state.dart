@@ -26,6 +26,7 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
   final List<TlpTypeModel> listOfSacrificialAnode;
   final TlpTypeModel typeNodeValue;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -63,6 +64,7 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
     required this.isLoader,
     required this.alignmentList,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -108,6 +110,7 @@ class FetchAddZnGroundingAnodeState extends AddZnGroundingAnodeState {
     isLoader,
     alignmentList,
     alignmentData,
+    multipleAlignmentData,
     file,
     weatherList,
     weatherData,

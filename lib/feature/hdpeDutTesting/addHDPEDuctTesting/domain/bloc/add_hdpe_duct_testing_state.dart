@@ -17,8 +17,10 @@ class AddHdpeDuctTestingPageLoadState extends AddHdpeDuctTestingInitial {
 class FetchAddHdpeDuctTestingDataState extends AddHdpeDuctTestingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
+  final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final TextEditingController lengthController;
   final TextEditingController ductCleaningController;
@@ -39,9 +41,11 @@ class FetchAddHdpeDuctTestingDataState extends AddHdpeDuctTestingInitial {
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
+    required this.reportNumberController,
     required this.activityRemarkController,
     required this.lengthController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -62,9 +66,11 @@ class FetchAddHdpeDuctTestingDataState extends AddHdpeDuctTestingInitial {
         isLoader,
         alignmentList,
         dateController,
+        reportNumberController,
         activityRemarkController,
         lengthController,
         alignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,

@@ -17,6 +17,7 @@ class AddHydrotestPageLoadState extends AddHydrotestInitial {
 class FetchAddHydrotestDataState extends AddHydrotestInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -39,6 +40,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
     required this.activityRemarkController,
     required this.lengthController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.fileList,
     required this.weatherData,
     required this.jointTypeData,
@@ -59,6 +61,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
         activityRemarkController,
         lengthController,
         alignmentData,
+    multipleAlignmentData,
         fileList,
         weatherData,
         jointTypeData,

@@ -20,8 +20,16 @@ class  AddZnGroundingAnodeSelectDateEvent extends  AddZnGroundingAnodeEvent {
 }
 
 class  AddZnGroundingAnodeSelectAlignmentEvent extends  AddZnGroundingAnodeEvent {
-  final AlignmentModel alignmentData;
+ final AlignmentModel alignmentData;
   AddZnGroundingAnodeSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class  AddZnGroundingAnodeMultipleSelectAlignmentEvent extends  AddZnGroundingAnodeEvent {
+  final List<AlignmentModel> alignmentData;
+  AddZnGroundingAnodeMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

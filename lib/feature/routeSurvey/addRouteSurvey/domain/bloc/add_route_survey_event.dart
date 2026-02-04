@@ -31,6 +31,15 @@ class AddRouteSurveySelectAlignmentEvent extends AddRouteSurveyEvent {
   List<Object?> get props => [alignmentData];
 }
 
+class AddRouteSurveyMultipleSelectAlignmentEvent extends AddRouteSurveyEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddRouteSurveyMultipleSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
 class AddRouteSurveySelectGroundTypeEvent extends AddRouteSurveyEvent {
   final GroundTypeModel groundTypeData;
 

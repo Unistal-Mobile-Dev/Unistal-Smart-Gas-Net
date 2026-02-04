@@ -27,6 +27,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final TextEditingController activityRemarkController;
   final TextEditingController lengthController;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -47,6 +48,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.tpChainageNumberController,
     required this.tpRemarkNumberController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -70,6 +72,7 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
         tpChainageNumberController,
         tpRemarkNumberController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

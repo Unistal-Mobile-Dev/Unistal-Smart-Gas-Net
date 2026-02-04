@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
@@ -19,6 +21,8 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   List<TextEditingController> chainageFromControllers = [];
   List<TextEditingController> chainageToControllers = [];
+
+  final client  =  AppConfig.instanceInit()!.client;
   @override
   void initState() {
     BlocProvider.of<AddStringingBloc>(context)
@@ -64,10 +68,11 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _pipeLengthController(dataState: dataState),
             _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
-            _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.mgl
+          //  _verticalSpace(),
+            client != Client.mgl && client != Client.vppl
                 ? Column(
                     children: [
+                      _verticalSpace(),
                     //  _chainageToController(dataState: dataState,index: in),
                       _verticalSpace(),
                       _concreteCoatingDropDown(dataState: dataState),
@@ -154,96 +159,100 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _pipeLengthListWidget(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _pipeLengthListWidget({required FetchAddStringingDataState dataState}) {
     return dataState.pipeLengthList.isNotEmpty
-        ? ListView.builder(
-            itemCount: dataState.pipeLengthList.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              PipeModel pipeData = dataState.pipeLengthList[index];
-              return Container(
-                color: AppColor.lightGrey,
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  children: [
-                    Row(
+        ? Column(
+          children: [
+            ListView.builder(
+                itemCount: dataState.pipeLengthList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  PipeModel pipeData = dataState.pipeLengthList[index];
+                  return Container(
+                    color: AppColor.lightGrey,
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
                       children: [
-                        Expanded(
-                            child: TextWidget(
-                                "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
-                        IconButton(
-                            onPressed: () {
-                              BlocProvider.of<AddStringingBloc>(context).add(
-                                  AddStringingDeletePipeLengthEvent(
-                                      context: context, index: index));
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              color: AppColor.red,
-                            ))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        Row(
+                          children: [
+                            Expanded(
+                                child: TextWidget(
+                                    "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
+                            IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<AddStringingBloc>(context).add(
+                                      AddStringingDeletePipeLengthEvent(
+                                          context: context, index: index));
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: AppColor.red,
+                                ))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 4),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
 
-                                  Flexible(
-                                      child: TextFieldWidget(
-                                        isRequired: true,
-                                        textInputType: TextInputType.number,
-                                        labelText: AppString.chainageFrom,
-                                        controller: dataState.chainageFromController[index],
-                                        onChanged: (value){
-                                          if (value.toString().isNotEmpty) {
-                                            BlocProvider.of<AddStringingBloc>(context).add(
-                                                AddStringingChainageFromAddEvent(
-                                                  context: context,
-                                                    index: index
-                                                ));
+                                      Flexible(
+                                          child: TextFieldWidget(
+                                            isRequired: true,
+                                            textInputType: TextInputType.number,
+                                            labelText: AppString.chainageFrom,
+                                            controller: dataState.chainageFromController[index],
+                                            onChanged: (value){
+                                              if (value.toString().isNotEmpty) {
+                                                BlocProvider.of<AddStringingBloc>(context).add(
+                                                    AddStringingChainageFromAddEvent(
+                                                      context: context,
+                                                        index: index
+                                                    ));
 
-                                          }
-                                        },
-                                      )),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.01,
-                                  ),
-                                  Flexible(
-                                      child: _chainageToController(dataState: dataState, index: index)),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.01,
-                                  ),
-                                  Flexible(
-                                      child: TextFieldWidget(
-                                        enabled: false,
-                                        textInputType: TextInputType.number,
-                                        labelText: AppString.lengthMeter,
-                                        controller: TextEditingController(text: pipeData.pipeLength.toString()),
-                                      )
+                                              }
+                                            },
+                                          )),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.01,
                                       ),
+                                      Flexible(
+                                          child: _chainageToController(dataState: dataState, index: index)),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.01,
+                                      ),
+                                      Flexible(
+                                          child: TextFieldWidget(
+                                            enabled: false,
+                                            textInputType: TextInputType.number,
+                                            labelText: AppString.lengthMeter,
+                                            controller: TextEditingController(text: pipeData.pipeLength.toString()),
+                                          )
+                                          ),
+                                    ],
+                                  ),
+
                                 ],
                               ),
-
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
+                        Divider(),
                       ],
                     ),
-                    Divider(),
-                  ],
-                ),
-              );
-            })
+                  );
+                }),
+            _verticalSpace(),
+          ],
+        )
         : const SizedBox.shrink();
   }
 
@@ -304,10 +313,26 @@ class _AddStringingPageState extends State<AddStringingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddStringingDataState dataState}) {
-    return DropDownSearchWidget(
+    return  AppConfig.instanceInit()!.client == Client.vppl
+        ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddStringingBloc>(context)
+            .add(AddStringingMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    ) : DropDownSearchWidget(
+      isRequired: true,
+      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),

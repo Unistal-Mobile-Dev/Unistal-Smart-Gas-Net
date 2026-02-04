@@ -40,8 +40,10 @@ class AddWelderRepairHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-      required AlignmentModel alignmentData,
+        required AlignmentModel alignmentData,
+        required List<AlignmentModel> multipleAlignmentData,
       required String date,
+      required String reportNo,
       required String activityRemark,
       required WeatherModel weatherData,
       required LoginDataModel userData,
@@ -67,6 +69,11 @@ class AddWelderRepairHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       List<dynamic> segmentArray = [];
       Map<String, String> segmentData = <String, String>{};
       for (var element in segmentList) {
@@ -85,12 +92,11 @@ class AddWelderRepairHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignmentSheet":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
-        "joint_type_id":
-            jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "joint":
-            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "report_no": reportNo.toString(),
+      //  "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
+       "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "joint_type_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint": jointNumberData.id != null ? jointNumberData.id.toString() : "",
         "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
         "welderId": welderData.id != null ? welderData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",

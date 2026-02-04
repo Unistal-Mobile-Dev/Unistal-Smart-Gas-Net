@@ -31,13 +31,16 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     on<AddTestStationBoxContinuityCheckEvent>(_selectContinuityCheck);
     on<AddTestStationBoxRestorationCheckEvent>(_selectRestorationCheck);
     on<AddPinBrazzingSelectAlignmentEvent>(_selectAlignment);
+    on<AddPinBrazzingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddPinBrazzingAddImageEvent>(_selectFile);
     on<AddPinBrazzingSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
 
 
@@ -95,6 +98,7 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     listOfContinuityCheck = [];
     listOfRestorationCheck = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     pinBrazingValue = VisualChecksModel();
@@ -128,6 +132,12 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddPinBrazzingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -194,6 +204,7 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     var res = await AddPinBrazzingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -232,9 +243,9 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
-      alignmentData = AlignmentModel();
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       pinBrazingValue = VisualChecksModel();
@@ -249,6 +260,7 @@ class AddPinBrazzingBloc extends Bloc<AddPinBrazzingEvent, AddPinBrazzingState> 
     emit(FetchAddPinBrazzingState(
       file : file,
       isLoader : isLoader,
+      multipleAlignmentData : multipleAlignmentData,
       alignmentData : alignmentData,
       alignmentList : alignmentList,
       weatherList : weatherList,

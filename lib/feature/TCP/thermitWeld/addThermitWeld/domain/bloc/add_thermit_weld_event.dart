@@ -21,8 +21,16 @@ class  AddThermitWeldSelectDateEvent extends  AddThermitWeldEvent {
 }
 
 class  AddThermitWeldSelectAlignmentEvent extends  AddThermitWeldEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
   AddThermitWeldSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class  AddThermitWeldMultipleSelectAlignmentEvent extends  AddThermitWeldEvent {
+  final List<AlignmentModel> alignmentData;
+  AddThermitWeldMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

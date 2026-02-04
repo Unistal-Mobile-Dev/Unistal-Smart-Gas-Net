@@ -13,7 +13,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddPreHydroTestHelper {
   static Future<dynamic> submitData({
     required BuildContext context,
-    required AlignmentModel alignmentData,
+     required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
     required String date,
     required String activityRemark,
     required WeatherModel weatherData,
@@ -50,6 +51,11 @@ class AddPreHydroTestHelper {
         return null;
       }
 
+      List<dynamic> alignmentIdList = [];
+      for (var alignmentId in multipleAlignmentData) {
+        alignmentIdList.add(alignmentId.id);
+      }
+
       String url = APIs.addPreHydroTestApi;
       var json = {
         "schema": userData.schema.toString(),
@@ -61,8 +67,9 @@ class AddPreHydroTestHelper {
         "activity_remarks": activityRemark.toString(),
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
-        "alignment_sheet_id":
-            alignmentData.id != null ? alignmentData.id.toString() : "",
+        // "alignment_sheet_id": alignmentData.id.toString(),
+        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "from_joint_id":
             fromJointData.id != null ? fromJointData.id.toString() : "",

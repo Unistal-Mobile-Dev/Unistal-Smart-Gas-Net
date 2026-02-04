@@ -20,13 +20,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   bool get isLoader => _isLoader;
 
-  List<AlignmentModel> _alignmentList = [];
-
-  List<AlignmentModel> get alignmentList => _alignmentList;
-
-  AlignmentModel _alignmentData = AlignmentModel();
-
-  AlignmentModel get alignmentData => _alignmentData;
+  List<AlignmentModel> alignmentList = [];
+  AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -76,6 +72,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
     on<AddTrenChingSelectAlignmentEvent>(_selectAlignment);
+    on<AddTrenChingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectWeatherEvent>(_selectWeather);
     on<CalculateLengthEvent>(_calculateChainage);
     on<AddTrenChingSelectDateEvent>(_selectDate);
@@ -99,13 +96,14 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     toWidthController.text = "";
     lengthController.text = "";
     _isLoader = false;
-    _alignmentList = [];
+    alignmentList = [];
     file = File("");
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
-    _alignmentData = AlignmentModel();
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     _jointNumberData = JointNumberModel();
     _jointNumberList = [];
     jointFromList = [];
@@ -120,7 +118,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
-      _alignmentList = res;
+      alignmentList = res;
     }
 
 /*    var resJointType = await AddWeldingHelper.fetchJointType(
@@ -176,9 +174,15 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _selectAlignment(AddTrenChingSelectAlignmentEvent event, emit) {
-    _alignmentData = event.alignmentData;
+    alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddTrenChingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectDate(AddTrenChingSelectDateEvent event, emit) async {
     DateTime? pickedDate = await showDatePicker(
@@ -262,6 +266,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     var res = await AddTrenChingHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       jointNumberFromModel: fromJointData,
@@ -289,7 +294,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       activityRemarkController.text = "";
       toWidthController.text = "";
       _isLoader = false;
-      _alignmentData = AlignmentModel();
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       file = File("");
       chainageFromController.text = "";
       chainageToController.text = "";
@@ -314,6 +320,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       toJointIdController: toJointIdController,
       trenchingDepthController: trenchingDepthController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       jointNumberList: jointNumberList,
       jointNumberData: jointNumberData,

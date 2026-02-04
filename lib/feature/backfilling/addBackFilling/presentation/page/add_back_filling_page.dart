@@ -4,8 +4,10 @@ import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddBackFillingPage extends StatefulWidget {
@@ -125,20 +127,40 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
-    return DropDownSearchWidget(
-      isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context)
-            .add(AddBackFillingSelectAlignmentEvent(
-          alignmentData: value,
-        ));
-      },
-    );
+    return AppConfig.instanceInit()!.client == Client.vppl
+        ? DropDownSearchMultiSelectWidget(
+            isRequired: true,
+            selectedItem: dataState.multipleAlignmentData,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              List<AlignmentModel> selectedAlignmentDataList = [];
+              for (var data in value) {
+                selectedAlignmentDataList.add(data);
+              }
+              BlocProvider.of<AddBackFillingBloc>(context)
+                  .add(AddBackFillingMultipleSelectAlignmentEvent(
+                alignmentData: selectedAlignmentDataList,
+              ));
+            },
+          )
+        : DropDownSearchWidget(
+            isRequired: true,
+            selectedItem: dataState.alignmentData.id != null
+                ? dataState.alignmentData
+                : null,
+            hint: AppString.selectAlignment,
+            items: dataState.alignmentList,
+            itemAsString: (alignmentData) =>
+                alignmentData.alignmentName.toString(),
+            onChanged: (value) {
+              BlocProvider.of<AddBackFillingBloc>(context)
+                  .add(AddBackFillingSelectAlignmentEvent(
+                alignmentData: value,
+              ));
+            },
+          );
   }
 
   Widget _weatherDropDown({required FetchAddBackFillingDataState dataState}) {
@@ -259,8 +281,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context)
-            .add(CalculateLengthEvent(isChainageTo: false, value: value, context:context));
+        BlocProvider.of<AddBackFillingBloc>(context).add(CalculateLengthEvent(
+            isChainageTo: false, value: value, context: context));
       },
     );
   }
@@ -273,8 +295,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
       onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context)
-            .add(CalculateLengthEvent(isChainageTo: true, value: value, context:context));
+        BlocProvider.of<AddBackFillingBloc>(context).add(CalculateLengthEvent(
+            isChainageTo: true, value: value, context: context));
       },
     );
   }
@@ -421,7 +443,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
+                                color:
+                                    EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),
@@ -434,7 +457,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color:EnvironmentConfig.of(context)!.primaryTheme,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
                   ],
                 ),

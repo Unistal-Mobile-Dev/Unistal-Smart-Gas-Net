@@ -23,9 +23,18 @@ class AddRadiographySelectDateEvent extends AddRadiographyEvent {
 }
 
 class AddRadiographySelectAlignmentEvent extends AddRadiographyEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddRadiographySelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddRadiographyMultipleSelectAlignmentEvent extends AddRadiographyEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddRadiographyMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];
@@ -86,6 +95,18 @@ class AddRadiographyAddImageEvent extends AddRadiographyEvent {
   List<Object?> get props => [context, mediaType];
 }
 
+class AddRadiographySelectWPSTypeEvent extends AddRadiographyEvent {
+  final WPSModel wpsTypeData;
+  final BuildContext context;
+
+  const AddRadiographySelectWPSTypeEvent(
+      {required this.wpsTypeData, required this.context});
+
+  @override
+  List<Object?> get props => [wpsTypeData, context];
+}
+
+
 class AddRadiographySelectWelderDataEvent extends AddRadiographyEvent {
   final int index;
   final int welderIndex;
@@ -97,8 +118,22 @@ class AddRadiographySelectWelderDataEvent extends AddRadiographyEvent {
       required this.welderIndex});
 
   @override
+  List<Object?> get props => [index, welderData, welderIndex];
+}
+
+class AddRadiographyMultipleSelectWelderDataEvent extends AddRadiographyEvent {
+  final int index;
+  final int welderIndex;
+  final List<WelderModel> welderData;
+
+  const AddRadiographyMultipleSelectWelderDataEvent(
+      {required this.index,
+        required this.welderData,
+        required this.welderIndex});
+
+  @override
   List<Object?> get props =>
-      [AddRadiographySelectWelderDataEvent, welderData, welderIndex];
+      [index, welderData, welderIndex];
 }
 
 class AddRadiographySelectHotPassWelderEvent extends AddRadiographyEvent {

@@ -17,6 +17,7 @@ class AddSwabbingPageLoadState extends AddSwabbingInitial {
 class FetchAddSwabbingDataState extends AddSwabbingInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -39,6 +40,7 @@ class FetchAddSwabbingDataState extends AddSwabbingInitial {
     required this.activityRemarkController,
     required this.lengthController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -59,6 +61,7 @@ class FetchAddSwabbingDataState extends AddSwabbingInitial {
         activityRemarkController,
         lengthController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

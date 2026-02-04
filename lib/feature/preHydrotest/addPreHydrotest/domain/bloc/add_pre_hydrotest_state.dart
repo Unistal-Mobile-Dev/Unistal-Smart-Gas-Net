@@ -17,6 +17,7 @@ class AddPreHydrotestPageLoadState extends AddPreHydrotestInitial {
 class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
@@ -58,6 +59,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
     required this.lengthController,
     required this.ndeClearanceController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -96,6 +98,7 @@ class FetchAddPreHydrotestDataState extends AddPreHydrotestInitial {
         lengthController,
         ndeClearanceController,
         alignmentData,
+    multipleAlignmentData,
         file,
         weatherList,
         weatherData,

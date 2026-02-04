@@ -21,6 +21,7 @@ class FetchAddPilotDrillDataState extends AddPilotDrillState {
  final JointTypeModel jointTypeDataValue;
  final bool isJointNumberLoader;
  final AlignmentModel alignmentData;
+ final List<AlignmentModel> multipleAlignmentData;
  final List<AlignmentModel> alignmentList;
  final List<WeatherModel> weatherList;
  final WeatherModel weatherData;
@@ -50,6 +51,7 @@ class FetchAddPilotDrillDataState extends AddPilotDrillState {
   required this.listOfJointType,
   required this.alignmentList,
   required this.alignmentData,
+  required this.multipleAlignmentData,
   required this.file,
   required this.weatherList,
   required this.weatherData,
@@ -80,6 +82,7 @@ class FetchAddPilotDrillDataState extends AddPilotDrillState {
   jointTypeDataValue,
   listOfJointType,
   alignmentData,
+   multipleAlignmentData,
   file,
   weatherList,
   weatherData,

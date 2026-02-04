@@ -27,6 +27,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     on<SelectWeatherEvent>(_selectWeather);
     on<AddTestStationBoxTLPTypeEvent>(_selectTLPType);
     on<AddZnGroundingAnodeSelectAlignmentEvent>(_selectAlignment);
+    on<AddZnGroundingAnodeMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectJointTypeDataEvent>(_selectJointType);
     on<SelectJointEvent>(_selectJoint);
     on<AddTestStationBoxSacrificialAnodeTypeEvent>(_selectTypeNode);
@@ -65,8 +66,10 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
   File file = File("");
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   List<WeatherModel> weatherList = [];
   WeatherModel weatherData = WeatherModel();
@@ -120,6 +123,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     listOfJointType = [];
     listOfSacrificialAnode = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     jointValue = JointNumberModel();
     jointTypeDataValue = JointTypeModel();
@@ -155,6 +159,11 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
 
   _selectAlignment(AddZnGroundingAnodeSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+  _selectMultipleAlignment(AddZnGroundingAnodeMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
@@ -235,6 +244,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
     var res = await AddZnGroundingAnodeHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -298,6 +308,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
       checkWaterFillingController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       jointValue = JointNumberModel();
       jointTypeDataValue = JointTypeModel();
@@ -313,6 +324,7 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
       isLoader : isLoader,
       alignmentList : alignmentList,
       alignmentData : alignmentData,
+      multipleAlignmentData : multipleAlignmentData,
       file : file,
       weatherList : weatherList,
       weatherData : weatherData,

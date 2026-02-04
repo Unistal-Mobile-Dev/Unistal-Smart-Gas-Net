@@ -18,6 +18,7 @@ class FetchAddThermitWeldState extends AddThermitWeldState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -47,6 +48,7 @@ class FetchAddThermitWeldState extends AddThermitWeldState {
     required this.file,
     required this.isLoader,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.alignmentList,
     required this.weatherList,
     required this.weatherData,
@@ -77,6 +79,7 @@ class FetchAddThermitWeldState extends AddThermitWeldState {
     file,
     isLoader,
     alignmentData,
+    multipleAlignmentData,
     alignmentList,
     weatherList,
     weatherData,

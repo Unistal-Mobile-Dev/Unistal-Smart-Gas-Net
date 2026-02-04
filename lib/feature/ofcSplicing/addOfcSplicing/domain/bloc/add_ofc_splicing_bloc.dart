@@ -41,6 +41,8 @@ class AddOfcSplicingBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
@@ -58,6 +60,7 @@ class AddOfcSplicingBloc
     on<AddOfcSplicingPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddOfcSplicingSelectAlignmentEvent>(_selectAlignment);
+    on<AddOfcSplicingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddOfcSplicingSelectJointTypeDataEvent>(_selectJointType);
     on<AddOfcSplicingSelectJointNumberDataEvent>(_selectJointNumber);
     on<AddOfcSplicingSelectDateEvent>(_selectDate);
@@ -77,6 +80,7 @@ class AddOfcSplicingBloc
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
@@ -127,6 +131,13 @@ class AddOfcSplicingBloc
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddOfcSplicingMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
 
   _selectJointType(AddOfcSplicingSelectJointTypeDataEvent event, emit) async {
     jointTypeData = event.jointTypeData;
@@ -190,6 +201,7 @@ class AddOfcSplicingBloc
     var res = await AddOfcSplicingHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -222,6 +234,7 @@ class AddOfcSplicingBloc
       chainageToController.text = "";
       jointPitController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
@@ -248,6 +261,7 @@ class AddOfcSplicingBloc
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

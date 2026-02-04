@@ -37,6 +37,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
@@ -82,6 +84,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     on<AddNdtMutPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddNdtMutSelectAlignmentEvent>(_selectAlignment);
+    on<AddNdtMutMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddNdtMutSelectJointTypeDataEvent>(_selectJointType);
     on<AddNdtMutSelectJointNumberDataEvent>(_selectJointNumber);
     on<AddNdtMutSelectNdtAgencyDataEvent>(_selectNdtAgency);
@@ -104,6 +107,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     weatherList = [];
     alignmentList = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     segmentData = SegmentModel();
     segmentList = [];
@@ -180,6 +184,12 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddNdtMutMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectJointType(AddNdtMutSelectJointTypeDataEvent event, emit) async {
     jointTypeData = event.jointTypeData;
@@ -335,6 +345,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     var res = await AddNdtMutHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
@@ -363,6 +374,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       reportNumberController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
@@ -392,6 +404,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       activityRemarkController: activityRemarkController,
       reportNumberController: reportNumberController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

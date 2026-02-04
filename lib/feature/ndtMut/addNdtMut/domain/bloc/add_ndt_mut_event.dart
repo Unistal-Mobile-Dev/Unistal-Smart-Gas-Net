@@ -23,9 +23,18 @@ class AddNdtMutSelectDateEvent extends AddNdtMutEvent {
 }
 
 class AddNdtMutSelectAlignmentEvent extends AddNdtMutEvent {
-  final AlignmentModel alignmentData;
+   final AlignmentModel alignmentData;
 
   const AddNdtMutSelectAlignmentEvent({required this.alignmentData});
+
+  @override
+  List<Object?> get props => [alignmentData];
+}
+
+class AddNdtMutMultipleSelectAlignmentEvent extends AddNdtMutEvent {
+  final List<AlignmentModel> alignmentData;
+
+  const AddNdtMutMultipleSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];

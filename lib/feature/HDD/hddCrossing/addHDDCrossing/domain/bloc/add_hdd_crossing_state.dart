@@ -21,6 +21,7 @@ class FetchAddHddCrossingDataState extends AddHddCrossingState {
  final JointTypeModel jointTypeDataValue;
  final bool isJointNumberLoader;
  final AlignmentModel alignmentData;
+ final List<AlignmentModel> multipleAlignmentData;
  final List<AlignmentModel> alignmentList;
  final List<WeatherModel> weatherList;
  final WeatherModel weatherData;
@@ -57,6 +58,7 @@ class FetchAddHddCrossingDataState extends AddHddCrossingState {
   required this.isLoader,
   required this.alignmentList,
   required this.alignmentData,
+  required this.multipleAlignmentData,
   required this.file,
   required this.weatherList,
   required this.weatherData,
@@ -97,6 +99,7 @@ class FetchAddHddCrossingDataState extends AddHddCrossingState {
   alignmentList,
   isLoader,
   alignmentData,
+   multipleAlignmentData,
   file,
   weatherList,
   weatherData,

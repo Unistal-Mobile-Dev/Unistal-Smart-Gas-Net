@@ -29,6 +29,8 @@ class AddPostHydrotestBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
+
   bool isLoader = false;
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
@@ -45,6 +47,7 @@ class AddPostHydrotestBloc
     on<AddPostHydrotestPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
     on<AddPostHydrotestSelectAlignmentEvent>(_selectAlignment);
+    on<AddPostHydrotestMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddPostHydrotestSelectFromJointDataEvent>(_selectJointFrom);
     on<AddPostHydrotestSelectToJointDataEvent>(_selectJointTo);
     on<AddPostHydrotestSelectJointTypeDataEvent>(_selectJointType);
@@ -63,7 +66,8 @@ class AddPostHydrotestBloc
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData = AlignmentModel();
+    alignmentData  = AlignmentModel();
+    multipleAlignmentData  = [];
     isLoader = false;
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
@@ -111,6 +115,13 @@ class AddPostHydrotestBloc
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+
+  _selectMultipleAlignment(AddPostHydrotestMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
 
   _selectJointFrom(AddPostHydrotestSelectFromJointDataEvent event, emit) {
     fromJointData = event.jointNumberData;
@@ -182,6 +193,7 @@ class AddPostHydrotestBloc
     var res = await AddPostHydroTestHelper.submitData(
         context: event.context,
         alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
         date: dateController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         weatherData: weatherData,
@@ -197,7 +209,8 @@ class AddPostHydrotestBloc
       dateController.text = "";
       activityRemarkController.text = "";
       lengthController.text = "";
-      alignmentData = AlignmentModel();
+      alignmentData  = AlignmentModel();
+      multipleAlignmentData  = [];
       isLoader = false;
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
@@ -216,6 +229,7 @@ class AddPostHydrotestBloc
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       file: file,
       weatherList: weatherList,
       weatherData: weatherData,

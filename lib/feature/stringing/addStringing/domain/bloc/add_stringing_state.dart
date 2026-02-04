@@ -21,6 +21,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final File file;
   final List<ConcreteCoatingModel> concreteCoatingList;
   final ConcreteCoatingModel concreteCoatingData;
@@ -44,6 +45,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.reportNumberController,
     required this.searchPipeController,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.pipeList,
     required this.searchPipeList,
@@ -70,6 +72,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
         searchPipeLoader,
         searchPipeList,
         alignmentData,
+    multipleAlignmentData,
         file,
         pipeList,
         pipeData,

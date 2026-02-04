@@ -34,13 +34,16 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     on<AddSsdFinalRestorationEvent>(_selectFinalRestoration);
     on<AddSsdPSPEvent>(_selectPspValue);
     on<AddSsdSelectAlignmentEvent>(_selectAlignment);
+    on<AddSsdMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddSsdAddImageEvent>(_selectFile);
     on<AddSsdSubmitDataEvent>(_submitData);
   }
 
   bool isLoader = false;
+
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
+  List<AlignmentModel> multipleAlignmentData =  [];
 
   TextEditingController dateController= TextEditingController();
   TextEditingController reportNumberController= TextEditingController();
@@ -96,6 +99,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     listOfPSP = [];
     listOfFinalRestoration = [];
     alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     installationValue = VisualChecksModel();
@@ -132,6 +136,13 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
+
+  _selectMultipleAlignment(AddSsdMultipleSelectAlignmentEvent event, emit) {
+    multipleAlignmentData = event.alignmentData;
+    _eventComplete(emit);
+  }
+
+
 
   _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
@@ -208,6 +219,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
     var res = await AddSSDHelper.submitData(
       context: event.context,
       alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -239,6 +251,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
       htTowerController.text = "";
       activityRemarkController.text = "";
       alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       weatherData = WeatherModel();
       tlpTypeValue = TlpTypeModel();
       installationValue = VisualChecksModel();
@@ -256,6 +269,7 @@ class AddSsdBloc extends Bloc<AddSsdEvent, AddSsdState> {
       isLoader : isLoader,
       alignmentList : alignmentList,
       alignmentData : alignmentData,
+      multipleAlignmentData : multipleAlignmentData,
       file : file,
       weatherList : weatherList,
       weatherData : weatherData,

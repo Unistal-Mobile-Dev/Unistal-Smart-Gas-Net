@@ -19,6 +19,7 @@ class FetchAddSsdState extends AddSsdState {
   final File file;
   final bool isLoader;
   final AlignmentModel alignmentData;
+  final List<AlignmentModel> multipleAlignmentData;
   final List<AlignmentModel> alignmentList;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
@@ -48,6 +49,7 @@ class FetchAddSsdState extends AddSsdState {
     required this.isLoader,
     required this.alignmentList,
     required this.alignmentData,
+    required this.multipleAlignmentData,
     required this.file,
     required this.weatherList,
     required this.weatherData,
@@ -78,6 +80,7 @@ class FetchAddSsdState extends AddSsdState {
     isLoader,
     alignmentList,
     alignmentData,
+    multipleAlignmentData,
     file,
     weatherList,
     weatherData,
