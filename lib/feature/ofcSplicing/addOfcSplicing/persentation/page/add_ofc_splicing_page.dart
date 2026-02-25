@@ -109,7 +109,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddOfcSplicingDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -140,48 +140,36 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddOfcSplicingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddOfcSplicingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddOfcSplicingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddOfcSplicingBloc>(context).add(
             AddOfcSplicingSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _jointNumberDropDown(
       {required FetchAddOfcSplicingDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectJointNumber,
             dropdownValue: dataState.jointNumberData.id != null
                 ? dataState.jointNumberData
@@ -189,16 +177,9 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
             onChanged: (value) {
               BlocProvider.of<AddOfcSplicingBloc>(context).add(
                   AddOfcSplicingSelectJointNumberDataEvent(
-                      jointNumberData: value));
+                      jointNumberData: value!));
             },
             items: dataState.jointNumberList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }

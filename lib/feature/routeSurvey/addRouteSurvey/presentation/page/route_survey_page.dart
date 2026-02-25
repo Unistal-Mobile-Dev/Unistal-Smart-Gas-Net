@@ -204,7 +204,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -238,42 +238,30 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   }
 
   Widget _weatherDropDown({required FetchAddRouteSurveyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddRouteSurveyBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _groundTypeDropDown(
       {required FetchAddRouteSurveyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<GroundTypeModel>(
       hint: AppString.selectGroundType,
       dropdownValue:
           dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRouteSurveyBloc>(context)
-            .add(AddRouteSurveySelectGroundTypeEvent(groundTypeData: value));
+            .add(AddRouteSurveySelectGroundTypeEvent(groundTypeData: value!));
       },
-      items: dataState.groundTypeList.map<DropdownMenuItem<GroundTypeModel>>(
-          (GroundTypeModel groundTypeData) {
-        return DropdownMenuItem<GroundTypeModel>(
-          value: groundTypeData,
-          child: Text(groundTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.groundTypeList
     );
   }
 

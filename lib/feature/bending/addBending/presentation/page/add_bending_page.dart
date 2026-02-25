@@ -161,107 +161,73 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _visualChecksDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectVisualChecks,
       dropdownValue: dataState.visualChecksData.id != null
           ? dataState.visualChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context)
-            .add(AddBendingSelectVisualDataEvent(visualChecksData: value));
+            .add(AddBendingSelectVisualDataEvent(visualChecksData: value!));
       },
-      items: dataState.visualChecksList
-          .map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel visualChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksData,
-          child: Text(visualChecksData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.visualChecksList,
     );
   }
 
   Widget _gaugingChecksDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectGaugingChecks,
       dropdownValue: dataState.gaugingChecksData.id != null
           ? dataState.gaugingChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context)
-            .add(AddBendingSelectGaugingEvent(gaugingChecksData: value));
+            .add(AddBendingSelectGaugingEvent(gaugingChecksData: value!));
       },
-      items: dataState.gaugingChecksList
-          .map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel gaugingChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: gaugingChecksData,
-          child: Text(gaugingChecksData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.gaugingChecksList,
     );
   }
 
   Widget _disbomdmentChecksDropDown(
       {required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectDisbomdmentChecks,
       dropdownValue: dataState.disbomdmentChecksData.id != null
           ? dataState.disbomdmentChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context).add(
-            AddBendingSelectDisbomdmentEvent(disbomdmentChecksData: value));
+            AddBendingSelectDisbomdmentEvent(disbomdmentChecksData: value!));
       },
-      items: dataState.disbomdmentChecksList
-          .map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel disbomdmentChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: disbomdmentChecksData,
-          child: Text(disbomdmentChecksData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.disbomdmentChecksList,
     );
   }
 
   Widget _holidayChecksDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<HolidayChecksModel>(
       hint: AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context)
-            .add(AddBendingSelectHolidayDataEvent(holidayChecksData: value));
+            .add(AddBendingSelectHolidayDataEvent(holidayChecksData: value!));
       },
-      items: dataState.holidayChecksList
-          .map<DropdownMenuItem<HolidayChecksModel>>(
-              (HolidayChecksModel holidayChecksData) {
-        return DropdownMenuItem<HolidayChecksModel>(
-          value: holidayChecksData,
-          child: Text(holidayChecksData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.holidayChecksList,
     );
   }
 
   Widget _bendingTypeDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<BendingTypeModel>(
       hint: AppString.selectBendingType,
       dropdownValue: dataState.bendingTypeData.id != null
           ? dataState.bendingTypeData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context)
-            .add(AddBendingSelectBendingTypeEvent(bendingTypeData: value));
+            .add(AddBendingSelectBendingTypeEvent(bendingTypeData: value!));
       },
-      items: dataState.bendingTypeList.map<DropdownMenuItem<BendingTypeModel>>(
-          (BendingTypeModel bendingTypeData) {
-        return DropdownMenuItem<BendingTypeModel>(
-          value: bendingTypeData,
-          child: Text(bendingTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.bendingTypeList,
     );
   }
 
@@ -323,7 +289,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBendingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -355,21 +321,15 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddBendingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddBendingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
-      items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.weatherList,
     );
   }
 

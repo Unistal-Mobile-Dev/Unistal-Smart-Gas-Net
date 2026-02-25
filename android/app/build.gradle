@@ -38,7 +38,7 @@ android {
 
     flavorDimensions "default"
     productFlavors {
-        unistal {
+        prodUnistal {
             resValue "string", "app_name", "Unistal Steel"
             applicationIdSuffix ".unistalsmartgasnet.app"
             manifestPlaceholders = [
@@ -52,7 +52,7 @@ android {
             versionCode 1
             versionName "1.0.0-unistal"
         }
-        purvaBharti {
+        prodPBGPL {
             resValue "string", "app_name", "PBG Steel"
             applicationIdSuffix ".purvabhartisteel.app"
             manifestPlaceholders = [
@@ -64,9 +64,9 @@ android {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
             versionCode 1
-            versionName "1.0.0-purvaBharti"
+            versionName "1.0.0-pbgpl"
         }
-        mgl {
+        prodMGL {
             resValue "string", "app_name", "MGL Steel"
             applicationIdSuffix ".mglsteel.app"
             manifestPlaceholders = [
@@ -80,7 +80,7 @@ android {
             versionCode 1
             versionName "1.0.0-mgl"
         }
-        igl {
+        prodIGL {
             resValue "string", "app_name", "IGL Steel"
             applicationIdSuffix ".iglsmartgasnet.app"
             manifestPlaceholders = [
@@ -94,7 +94,7 @@ android {
             versionCode 1
             versionName "1.0.1-igl"
         }
-        oilIndia {
+        prodHPOIL {
             resValue "string", "app_name", "Oil India Steel"
             applicationIdSuffix ".oilIndia.Smartgasnet.app"
             manifestPlaceholders = [
@@ -102,27 +102,47 @@ android {
                     appIconRound: "@mipmap/ic_launcher_unistal"
             ]
             versionCode 1
-            versionName "1.0.0-oilIndia"
+            versionName "1.0.0-hpoil"
         }
-        vppl {
+        prodVPPL {
             resValue "string", "app_name", "VPPL Steel"
             applicationIdSuffix ".vppl.plcms.Smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/vppl_plcms",
-                    appIconRound: "@mipmap/vppl_plcms"
+                    appIcon: "@mipmap/vppl_logo",
+                    appIconRound: "@mipmap/vppl_logo"
             ]
             versionCode 1
             versionName "1.0.0-VPPL"
         }
-        vrpl  {
+        prodVRPL  {
             resValue "string", "app_name", "VRPL Steel"
             applicationIdSuffix ".vrpl.plcms.Smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_plcms",
-                    appIconRound: "@mipmap/vrpl_plcms"
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
             ]
             versionCode 1
             versionName "1.0.0-VRPL"
+        }
+        prodGJPL {
+            resValue "string", "app_name", "GJPL Steel"
+            applicationIdSuffix ".gjpl.smartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/vppl_logo",
+                    appIconRound: "@mipmap/vppl_logo"
+            ]
+            versionCode 1
+            versionName "1.0.0-GJPL"
+        }
+        prodJDPL  {
+            resValue "string", "app_name", "JDPL Steel"
+            applicationIdSuffix ".jdpl.smartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
+            ]
+            versionCode 1
+            versionName "1.0.0-JDPL"
         }
     }
 

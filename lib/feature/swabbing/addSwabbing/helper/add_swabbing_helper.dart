@@ -48,7 +48,7 @@ class AddSwabbingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
+        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
             ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "from_joint_id":

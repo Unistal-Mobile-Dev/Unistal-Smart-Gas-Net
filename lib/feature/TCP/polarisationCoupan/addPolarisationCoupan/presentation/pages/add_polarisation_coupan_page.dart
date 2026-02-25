@@ -119,7 +119,7 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPolarisationCoupanState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -150,21 +150,15 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _weatherDropDown({required FetchAddPolarisationCoupanState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddPolarisationCoupanBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -179,21 +173,15 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _tlpTypeDropDown({required FetchAddPolarisationCoupanState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPolarisationCoupanBloc>(context)
-            .add(AddPolarisationCoupanTLPTypeEvent(tlpTypeValue: value));
+            .add(AddPolarisationCoupanTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -215,21 +203,15 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _corrosionDropDown({required FetchAddPolarisationCoupanState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCorrosion,
       dropdownValue:
       dataState.corrosionValue.id != null ? dataState.corrosionValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPolarisationCoupanBloc>(context)
-            .add(AddPolarisationCoupanCorrosionEvent(corrosionValue: value));
+            .add(AddPolarisationCoupanCorrosionEvent(corrosionValue: value!));
       },
       items: dataState.listOfCorrosion
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -243,21 +225,15 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _cableTerminationDropDown({required FetchAddPolarisationCoupanState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableTermination,
       dropdownValue:
       dataState.cableTerminationValue.id != null ? dataState.cableTerminationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPolarisationCoupanBloc>(context)
-            .add(AddPolarisationCoupanCableTerminationEvent(cableTerminationValue: value));
+            .add(AddPolarisationCoupanCableTerminationEvent(cableTerminationValue: value!));
       },
       items: dataState.listOfCableTermination
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 

@@ -32,6 +32,8 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   TextEditingController northingLongController = TextEditingController();
   TextEditingController eastingLatController = TextEditingController();
   TextEditingController eastingLongController = TextEditingController();
+  TextEditingController extraPipeController = TextEditingController(text: "0");
+  TextEditingController extraPriceController = TextEditingController(text: "0");
 
   String _accuracy = "";
 

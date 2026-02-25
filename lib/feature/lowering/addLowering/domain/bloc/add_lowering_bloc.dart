@@ -151,7 +151,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-      type: "afterndtrt",);
+      type: "welding",);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;

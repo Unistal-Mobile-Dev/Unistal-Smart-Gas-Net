@@ -316,7 +316,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _alignmentDropdown(
       {required FetchAddClearingGradingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ? DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -354,63 +354,45 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _weatherDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
-      items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.weatherList,
     );
   }
 
   Widget _groundTypeDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<GroundTypeModel>(
       hint: AppString.selectGroundType,
       dropdownValue:
       dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context).add(
-            AddClearingGradingSelectGroundTypeEvent(groundTypeData: value));
+            AddClearingGradingSelectGroundTypeEvent(groundTypeData: value!));
       },
-      items: dataState.groundTypeList.map<DropdownMenuItem<GroundTypeModel>>(
-              (GroundTypeModel groundTypeData) {
-            return DropdownMenuItem<GroundTypeModel>(
-              value: groundTypeData,
-              child: Text(groundTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.groundTypeList,
     );
   }
 
   Widget _terrainDropDown(
       {required FetchAddClearingGradingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TerrainTypeModel>(
       hint: client == Client.vppl ? AppString.selectGroundType: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(AddClearingGradingSelectTerrainEvent(terrainTypeData: value));
+            .add(AddClearingGradingSelectTerrainEvent(terrainTypeData: value!));
       },
-      items: dataState.terrainTypeList.map<DropdownMenuItem<TerrainTypeModel>>(
-              (TerrainTypeModel terrainTypeData) {
-            return DropdownMenuItem<TerrainTypeModel>(
-              value: terrainTypeData,
-              child: Text(terrainTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.terrainTypeList,
     );
   }
 

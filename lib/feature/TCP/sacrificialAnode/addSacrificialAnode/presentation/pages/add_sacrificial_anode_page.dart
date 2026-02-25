@@ -125,7 +125,7 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSacrificialAnodeState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -158,21 +158,15 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   }
 
   Widget _weatherDropDown({required FetchAddSacrificialAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddSacrificialAnodeBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -185,21 +179,15 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
     );
   }
   Widget _tlpTypeDropDown({required FetchAddSacrificialAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSacrificialAnodeBloc>(context)
-            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -240,21 +228,15 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   }
 
   Widget _sacrificialAnodeDropDown({required FetchAddSacrificialAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectSacrificialAnode,
       dropdownValue:
       dataState.sacrificialAnodeValue.id != null ? dataState.sacrificialAnodeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSacrificialAnodeBloc>(context)
-            .add(AddTestStationBoxSacrificialAnodeTypeEvent(sacrificialAnodeValue: value));
+            .add(AddTestStationBoxSacrificialAnodeTypeEvent(sacrificialAnodeValue: value!));
       },
       items: dataState.listOfSacrificialAnode
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -295,21 +277,15 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   }
 
   Widget _anodeConditionDropDown({required FetchAddSacrificialAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectAnodeCondition,
       dropdownValue:
       dataState.anodeConditionValue.id != null ? dataState.anodeConditionValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSacrificialAnodeBloc>(context)
-            .add(AddTestStationBoxAnodeConditionEvent(anodeConditionValue: value));
+            .add(AddTestStationBoxAnodeConditionEvent(anodeConditionValue: value!));
       },
       items: dataState.listOfAnodeCondition
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 

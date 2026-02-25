@@ -110,7 +110,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRestorationDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -141,48 +141,36 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   }
 
   Widget _weatherDropDown({required FetchAddRestorationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddRestorationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddRestorationDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectFromJointNumber,
             dropdownValue: dataState.fromJointData.id != null
                 ? dataState.fromJointData
@@ -190,16 +178,9 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
             onChanged: (value) {
               BlocProvider.of<AddRestorationBloc>(context).add(
                   AddRestorationSelectFromJointDataEvent(
-                      jointNumberData: value));
+                      jointNumberData: value!));
             },
             items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -207,22 +188,15 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddRestorationDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectToJointNumber,
             dropdownValue:
                 dataState.toJointData.id != null ? dataState.toJointData : null,
             onChanged: (value) {
               BlocProvider.of<AddRestorationBloc>(context).add(
-                  AddRestorationSelectToJointDataEvent(jointNumberData: value));
+                  AddRestorationSelectToJointDataEvent(jointNumberData: value!));
             },
             items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -267,7 +241,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
 
   Widget _removalOfSurplusMaterialDropDown(
       {required FetchAddRestorationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectRemovalOfSurplusMaterialData,
       dropdownValue: dataState.removalOfSurplusMaterialData.id != null
           ? dataState.removalOfSurplusMaterialData
@@ -275,22 +249,15 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectRemovalOfSurplusMaterialDataEvent(
-                removalOfSurplusMaterialData: value));
+                removalOfSurplusMaterialData: value!));
       },
       items: dataState.removalOfSurplusMaterialList
-          .map<DropdownMenuItem<PaddingModel>>(
-              (PaddingModel removalOfSurplusMaterialData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: removalOfSurplusMaterialData,
-          child: Text(removalOfSurplusMaterialData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _replacementofTopSoilDropDown(
       {required FetchAddRestorationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectReplacementofTopSoilData,
       dropdownValue: dataState.replacementofTopSoilData.id != null
           ? dataState.replacementofTopSoilData
@@ -298,22 +265,15 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectReplacementofTopSoilDataEvent(
-                replacementofTopSoilData: value));
+                replacementofTopSoilData: value!));
       },
       items: dataState.replacementofTopSoilList
-          .map<DropdownMenuItem<PaddingModel>>(
-              (PaddingModel replacementofTopSoilData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: replacementofTopSoilData,
-          child: Text(replacementofTopSoilData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _reinstallationBoundaryStoneDropDown(
       {required FetchAddRestorationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectReinstallationBoundaryStonesData,
       dropdownValue: dataState.reinstallationBoundaryStonesData.id != null
           ? dataState.reinstallationBoundaryStonesData
@@ -321,16 +281,9 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
       onChanged: (value) {
         BlocProvider.of<AddRestorationBloc>(context).add(
             AddRestorationSelectReinstallationBoundaryStonesDataEvent(
-                reinstallationBoundaryStonesData: value));
+                reinstallationBoundaryStonesData: value!));
       },
       items: dataState.replacementofTopSoilList
-          .map<DropdownMenuItem<PaddingModel>>(
-              (PaddingModel reinstallationBoundaryStonesData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: reinstallationBoundaryStonesData,
-          child: Text(reinstallationBoundaryStonesData.value.toString()),
-        );
-      }).toList(),
     );
   }
 

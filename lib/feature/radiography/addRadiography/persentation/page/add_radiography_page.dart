@@ -128,7 +128,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ? DropDownSearchMultiSelectWidget(
             isRequired: true,
             selectedItem: dataState.multipleAlignmentData,
@@ -166,42 +166,30 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _weatherDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtSourceModel>(
       isRequired: true,
       hint: client == Client.vppl ? "Source":AppString.selectRtSource,
       dropdownValue:
           dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context)
-            .add(AddRadiographySelectNdtSourceDataEvent(ndtSourceData: value));
+            .add(AddRadiographySelectNdtSourceDataEvent(ndtSourceData: value!));
       },
-      items: dataState.ndtSourceList.map<DropdownMenuItem<NdtSourceModel>>(
-          (NdtSourceModel ndtSourceData) {
-        return DropdownMenuItem<NdtSourceModel>(
-          value: ndtSourceData,
-          child: Text(ndtSourceData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.ndtSourceList
     );
   }
 
@@ -251,22 +239,16 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
@@ -288,22 +270,16 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _wpdTypeDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WPSModel>(
       hint: AppString.selectWPS,
       dropdownValue:
           dataState.wpsTypeData.id != null ? dataState.wpsTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectWPSTypeEvent(
-                wpsTypeData: value, context: context));
+                wpsTypeData: value!, context: context));
       },
       items: dataState.wpsTypeList
-          .map<DropdownMenuItem<WPSModel>>((WPSModel wpsData) {
-        return DropdownMenuItem<WPSModel>(
-          value: wpsData,
-          child: Text(wpsData.wps.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -362,7 +338,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                         fontWeight: FontWeight.w700,
                         color: AppColor.black,
                       ),
-                      AppConfig.instanceInit()!.client == Client.vppl
+                      AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
                           ? _welderMultiSelectDropDown(
                               welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],
 
@@ -425,21 +401,15 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       required List<WelderModel> welderList,
       required int index,
       required int welderIndex}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.selectWelder,
       dropdownValue: welderData.id != null ? welderData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
             AddRadiographySelectWelderDataEvent(
-                welderData: value, index: index, welderIndex: welderIndex));
+                welderData: value!, index: index, welderIndex: welderIndex));
       },
       items: welderList
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -470,61 +440,43 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _ndtAgencyDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectNdtAgency,
       dropdownValue:
           dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context)
-            .add(AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value));
+            .add(AddRadiographySelectNdtAgencyDataEvent(ndtAgencyData: value!));
       },
-      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.ndtAgencyList
     );
   }
 
   Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectDSPPL,
       dropdownValue: dataState.dSPPLAgencyData.id != null
           ? dataState.dSPPLAgencyData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context)
-            .add(AddRadiographySelectDspplDataEvent(dspplData: value));
+            .add(AddRadiographySelectDspplDataEvent(dspplData: value!));
       },
-      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.dSPPLAgencyList
     );
   }
 
   Widget _mECONPBGPLDropDown(
       {required FetchAddRadiographyDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectMECONPBGPL,
       dropdownValue:
           dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context).add(
-            AddRadiographySelectMeconPbgplDataEvent(meconPbgplData: value));
+            AddRadiographySelectMeconPbgplDataEvent(meconPbgplData: value!));
       },
-      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.meconPbgplList
     );
   }
 

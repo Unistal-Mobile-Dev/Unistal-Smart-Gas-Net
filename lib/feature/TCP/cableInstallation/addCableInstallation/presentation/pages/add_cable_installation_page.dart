@@ -117,7 +117,7 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddCableInstallationState dataState}) {
-    return   AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -148,21 +148,15 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   }
 
   Widget _weatherDropDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -176,21 +170,15 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   }
 
   Widget _tlpTypeDropDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -213,21 +201,15 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   }
 
   Widget _cableTrenchDropDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableTrench,
       dropdownValue:
       dataState.cableTrenchValue.id != null ? dataState.cableTrenchValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxCableTrenchEvent(cableTrenchValue: value));
+            .add(AddTestStationBoxCableTrenchEvent(cableTrenchValue: value!));
       },
       items: dataState.listOfCableTrench
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -241,116 +223,80 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   }
 
   Widget _sandDropDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectSand,
       dropdownValue:
       dataState.sandValue.id != null ? dataState.sandValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxSandEvent(sandValue: value));
+            .add(AddTestStationBoxSandEvent(sandValue: value!));
       },
       items: dataState.listOfSand
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _warningDropDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectWarning,
       dropdownValue:
       dataState.warningValue.id != null ? dataState.warningValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxWarningEvent(warningValue: value));
+            .add(AddTestStationBoxWarningEvent(warningValue: value!));
       },
       items: dataState.listOfWarning
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _backfillingDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectBackfilling,
       dropdownValue:
       dataState.backfillingValue.id != null ? dataState.backfillingValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxBackfillingEvent(backfillingValue: value));
+            .add(AddTestStationBoxBackfillingEvent(backfillingValue: value!));
       },
       items: dataState.listOfBackfilling
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _taggingDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectTagging,
       dropdownValue:
       dataState.taggingValue.id != null ? dataState.taggingValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxTaggingEvent(taggingValue: value));
+            .add(AddTestStationBoxTaggingEvent(taggingValue: value!));
       },
       items: dataState.listOfTagging
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _routeMarkingDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectRoute,
       dropdownValue:
       dataState.routeMarkingValue.id != null ? dataState.routeMarkingValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxRouteMarkingEvent(routeMarkingValue: value));
+            .add(AddTestStationBoxRouteMarkingEvent(routeMarkingValue: value!));
       },
       items: dataState.listOfRouteMarking
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _irDown({required FetchAddCableInstallationState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectIR,
       dropdownValue:
       dataState.irValue.id != null ? dataState.irValue : null,
       onChanged: (value) {
         BlocProvider.of<AddCableInstallationBloc>(context)
-            .add(AddTestStationBoxIREvent(irValue: value));
+            .add(AddTestStationBoxIREvent(irValue: value!));
       },
       items: dataState.listOfIR
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 

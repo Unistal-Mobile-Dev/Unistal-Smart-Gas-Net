@@ -135,7 +135,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddLoweringDataState dataState}) {
-    return   AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -169,60 +169,42 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
   Widget _weatherDropDown({required FetchAddLoweringDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _pipeDiaDropDown({required FetchAddLoweringDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PipeDiaModel>(
       hint: AppString.selectPipeDia,
       dropdownValue:
           dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context)
-            .add(AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value));
+            .add(AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value!));
       },
       items: dataState.pipeDialList
-          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
-        return DropdownMenuItem<PipeDiaModel>(
-          value: pipeDiaData,
-          child: Text(pipeDiaData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _thicknessDropDown({required FetchAddLoweringDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<ThicknessModel>(
       hint: AppString.selectPipeThickness,
       dropdownValue:
           dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context)
-            .add(AddLoweringSelectThicknessDataEvent(thicknessData: value));
+            .add(AddLoweringSelectThicknessDataEvent(thicknessData: value!));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
-          (ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.thicknessList
     );
   }
 
@@ -297,22 +279,16 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddLoweringDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context).add(
             AddLoweringSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
@@ -385,23 +361,16 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _holidayChecksDropDown(
       {required FetchAddLoweringDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<HolidayChecksModel>(
       hint: AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddLoweringBloc>(context)
-            .add(AddLoweringSelectHolidayDataEvent(holidayChecksData: value));
+            .add(AddLoweringSelectHolidayDataEvent(holidayChecksData: value!));
       },
-      items: dataState.holidayCheckList
-          .map<DropdownMenuItem<HolidayChecksModel>>(
-              (HolidayChecksModel holidayChecksData) {
-        return DropdownMenuItem<HolidayChecksModel>(
-          value: holidayChecksData,
-          child: Text(holidayChecksData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.holidayCheckList,
     );
   }
 

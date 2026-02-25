@@ -132,7 +132,7 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPilotDrillDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -165,64 +165,45 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
   }
 
   Widget _weatherDropDown({required FetchAddPilotDrillDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddPilotDrillBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddPilotDrillDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
       dataState.jointTypeDataValue.id != null ? dataState.jointTypeDataValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPilotDrillBloc>(context).add(
             SelectJointTypeDataEvent(
-                jointTypeDataValue: value, context: context));
+                jointTypeDataValue: value!, context: context));
       },
-      items: dataState.listOfJointType.map<DropdownMenuItem<JointTypeModel>>(
-              (JointTypeModel jointTypeData) {
-            return DropdownMenuItem<JointTypeModel>(
-              value: jointTypeData,
-              child: Text(jointTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.listOfJointType
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddPilotDrillDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       hint: AppString.selectFromJointNumber,
       dropdownValue: dataState.fromJointValue.id != null
           ? dataState.fromJointValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddPilotDrillBloc>(context).add(
-            SelectFromJointEvent(fromJointValue: value));
+            SelectFromJointEvent(fromJointValue: value!));
       },
       items: dataState.listOfFromJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData.jointNumber.toString()),
-            );
-          }).toList(),
     )
         : const DottedLoaderWidget();
   }
@@ -230,22 +211,15 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddPilotDrillDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       hint: AppString.selectToJointNumber,
       dropdownValue:
       dataState.toJointValue.id != null ? dataState.toJointValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPilotDrillBloc>(context).add(
-            SelectToJointEvent(toJointValue: value));
+            SelectToJointEvent(toJointValue: value!));
       },
       items: dataState.listOfToJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel? jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData!.jointNumber.toString()),
-            );
-          }).toList(),
     )
         : const DottedLoaderWidget();
   }

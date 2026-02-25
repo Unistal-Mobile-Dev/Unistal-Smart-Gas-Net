@@ -119,22 +119,16 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
 
   Widget _concreteCoatingThicknessDropDown(
       {required FetchAddConcreteCoatingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<ThicknessModel>(
       hint: AppString.concreteCoatingThickness,
       dropdownValue:
           dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
         BlocProvider.of<AddConcreteCoatingBloc>(context).add(
             AddConcreteCoatingSelectSelectThicknessDataEvent(
-                thicknessData: value));
+                thicknessData: value!));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
-          (ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.thicknessList,
     );
   }
 
@@ -159,7 +153,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddConcreteCoatingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -192,21 +186,15 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
 
   Widget _weatherDropDown(
       {required FetchAddConcreteCoatingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddConcreteCoatingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
-      items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.weatherList,
     );
   }
 

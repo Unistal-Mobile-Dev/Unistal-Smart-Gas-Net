@@ -127,7 +127,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ? DropDownSearchMultiSelectWidget(
             isRequired: true,
             selectedItem: dataState.multipleAlignmentData,
@@ -164,80 +164,56 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddBackFillingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
-      items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.weatherList,
     );
   }
 
   Widget _pipeDiaDropDown({required FetchAddBackFillingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PipeDiaModel>(
       hint: AppString.selectPipeDia,
       dropdownValue:
           dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context)
-            .add(AddBackFillingSelectPipeDiaDataEvent(pipeDiaData: value));
+            .add(AddBackFillingSelectPipeDiaDataEvent(pipeDiaData: value!));
       },
-      items: dataState.pipeDialList
-          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
-        return DropdownMenuItem<PipeDiaModel>(
-          value: pipeDiaData,
-          child: Text(pipeDiaData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.pipeDialList,
     );
   }
 
   Widget _thicknessDropDown({required FetchAddBackFillingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<ThicknessModel>(
       hint: AppString.selectPipeThickness,
       dropdownValue:
           dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context)
-            .add(AddBackFillingSelectThicknessDataEvent(thicknessData: value));
+            .add(AddBackFillingSelectThicknessDataEvent(thicknessData: value!));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
-          (ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.thicknessList
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddBackFillingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
             AddBackFillingSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList,
     );
   }
 
@@ -331,23 +307,16 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _plasticGratingDropDown(
       {required FetchAddBackFillingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectPlasticGrating,
       dropdownValue: dataState.plasticGratingData.id != null
           ? dataState.plasticGratingData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectPlasticGratingEvent(plasticGratingData: value));
+            AddBackFillingSelectPlasticGratingEvent(plasticGratingData: value!));
       },
-      items: dataState.plasticGratingList
-          .map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel plasticGratingData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: plasticGratingData,
-          child: Text(plasticGratingData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.plasticGratingList,
     );
   }
 

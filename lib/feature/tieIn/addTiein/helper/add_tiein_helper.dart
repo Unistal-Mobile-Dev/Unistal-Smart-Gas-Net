@@ -72,8 +72,7 @@ class AddTieinHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id":  AppConfig.instanceInit()!.client == Client.vppl
-            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
+        "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
         "left_pipe_id":
             leftPipeData.id != null ? leftPipeData.id.toString() : "",

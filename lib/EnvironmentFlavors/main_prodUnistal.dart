@@ -9,7 +9,7 @@ void main() async {
 /*  await HiveDataBase().init();*/
  // AppColor(themeColor: 0xFF0077bd, themeLightColor: 0xFF1AABFF);
   var configuredApp = const EnvironmentConfig(
-      flavours: EnvironmentFlavours.productionUnistal,
+      flavours: EnvironmentFlavours.prodUnistal,
       child: Root(
         client: Client.unistal,
       ));

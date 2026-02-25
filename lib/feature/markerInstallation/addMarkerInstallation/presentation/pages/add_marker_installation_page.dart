@@ -115,7 +115,7 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddMarkerInstallationDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -148,66 +148,46 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
   }
 
   Widget _weatherDropDown({required FetchAddMarkerInstallationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddMarkerInstallationBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
 
   Widget _jointNumberDropDown(
       {required FetchAddMarkerInstallationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointNumberModel>(
       hint: AppString.selectJointNumber,
       dropdownValue: dataState.jointValue.id != null
           ? dataState.jointValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddMarkerInstallationBloc>(context).add(
-            SelectJointEvent(jointValue: value));
+            SelectJointEvent(jointValue: value!));
       },
       items: dataState.listOfJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData.jointNumber.toString()),
-            );
-          }).toList(),
     );
   }
 
   Widget _markerTypeDropDown(
       {required FetchAddMarkerInstallationDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<MarkerTypeModel>(
       hint: AppString.selectMarkerType,
       dropdownValue: dataState.markerTypeDataValue.id != null
           ? dataState.markerTypeDataValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddMarkerInstallationBloc>(context).add(
-            SelectMarkerTypeEvent(markerTypeValue: value));
+            SelectMarkerTypeEvent(markerTypeValue: value!));
       },
       items: dataState.listOfMarkerType
-          .map<DropdownMenuItem<MarkerTypeModel>>(
-              (MarkerTypeModel markerType) {
-            return DropdownMenuItem<MarkerTypeModel>(
-              value: markerType,
-              child: Text(markerType.name.toString()),
-            );
-          }).toList(),
     );
   }
 

@@ -52,9 +52,7 @@ class AddWeldingSelectWPSEvent extends AddWeldingEvent {
   final WPSModel wpsData;
   final BuildContext context;
 
-  const AddWeldingSelectWPSEvent(
-      {required this.wpsData, required this.context});
-
+  const AddWeldingSelectWPSEvent({required this.wpsData, required this.context});
   @override
   List<Object?> get props => [wpsData, context];
 }
@@ -146,6 +144,15 @@ class AddWeldingSelectMultiWelderEvent extends AddWeldingEvent {
 
   @override
   List<Object?> get props => [welderData, name];
+}
+
+class AddWeldingSelectMultiWelderClearEvent extends AddWeldingEvent {
+  final String name;
+
+  const AddWeldingSelectMultiWelderClearEvent({required this.name});
+
+  @override
+  List<Object?> get props => [ name];
 }
 
 class SelectWeatherEvent extends AddWeldingEvent {

@@ -188,26 +188,20 @@ class _AddTieinPageState extends State<AddTieinPage> {
   }
 
   Widget _rootWelders1Dropdown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.welder1,
       dropdownValue:
           dataState.welderData.id != null ? dataState.welderData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(AddTieinSelectWelderEvent(welderData: value));
+            .add(AddTieinSelectWelderEvent(welderData: value!));
       },
       items: dataState.rootWelders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _rootWelders2Dropdown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.welder2,
       dropdownValue: dataState.rootWelders2Data.id != null
           ? dataState.rootWelders2Data
@@ -215,20 +209,14 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.rootWelders2));
+                welderData: value!, name: AppString.rootWelders2));
       },
       items: dataState.rootWelders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _hotWelders1Controller({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.hotWelders,
       dropdownValue: dataState.hotWelders1Data.id != null
           ? dataState.hotWelders1Data
@@ -236,20 +224,14 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.hotWelders1));
+                welderData: value!, name: AppString.hotWelders1));
       },
       items: dataState.hotWelders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _hotWelders2Controller({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.hotWelders2,
       dropdownValue: dataState.hotWelders2Data.id != null
           ? dataState.hotWelders2Data
@@ -257,21 +239,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.hotWelders2));
+                welderData: value!, name: AppString.hotWelders2));
       },
       items: dataState.hotWelders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler1Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.fillerWelders,
       dropdownValue: dataState.filler1Welders1Data.id != null
           ? dataState.filler1Welders1Data
@@ -279,21 +255,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler1Welders1));
+                welderData: value!, name: AppString.filler1Welders1));
       },
       items: dataState.filler1Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler1Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler1Welders2,
       dropdownValue: dataState.filler1Welders2Data.id != null
           ? dataState.filler1Welders2Data
@@ -301,21 +271,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler1Welders2));
+                welderData: value!, name: AppString.filler1Welders2));
       },
       items: dataState.filler1Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler2Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler2Welders1,
       dropdownValue: dataState.filler2Welders1Data.id != null
           ? dataState.filler2Welders1Data
@@ -323,21 +287,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler2Welders1));
+                welderData: value!, name: AppString.filler2Welders1));
       },
       items: dataState.filler2Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler2Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler2Welders2,
       dropdownValue: dataState.filler2Welders2Data.id != null
           ? dataState.filler2Welders2Data
@@ -345,21 +303,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler2Welders2));
+                welderData: value!, name: AppString.filler2Welders2));
       },
       items: dataState.filler2Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler3Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler3Welders1,
       dropdownValue: dataState.filler3Welders1Data.id != null
           ? dataState.filler3Welders1Data
@@ -367,21 +319,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler3Welders1));
+                welderData: value!, name: AppString.filler3Welders1));
       },
       items: dataState.filler3Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler3Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler3Welders2,
       dropdownValue: dataState.filler3Welders2Data.id != null
           ? dataState.filler3Welders2Data
@@ -389,21 +335,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler3Welders2));
+                welderData: value!, name: AppString.filler3Welders2));
       },
       items: dataState.filler3Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler4Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler4Welders1,
       dropdownValue: dataState.filler4Welders1Data.id != null
           ? dataState.filler4Welders1Data
@@ -411,21 +351,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler4Welders1));
+                welderData: value!, name: AppString.filler4Welders1));
       },
       items: dataState.filler4Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler4Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler4Welders2,
       dropdownValue: dataState.filler4Welders2Data.id != null
           ? dataState.filler4Welders2Data
@@ -433,21 +367,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler4Welders2));
+                welderData: value!, name: AppString.filler4Welders2));
       },
       items: dataState.filler4Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler5Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler5Welders1,
       dropdownValue: dataState.filler5Welders1Data.id != null
           ? dataState.filler5Welders1Data
@@ -455,21 +383,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler5Welders1));
+                welderData: value!, name: AppString.filler5Welders1));
       },
       items: dataState.filler5Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler5Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler5Welders2,
       dropdownValue: dataState.filler5Welders2Data.id != null
           ? dataState.filler5Welders2Data
@@ -477,21 +399,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler5Welders2));
+                welderData: value!, name: AppString.filler5Welders2));
       },
       items: dataState.filler5Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler6Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler6Welders1,
       dropdownValue: dataState.filler6Welders1Data.id != null
           ? dataState.filler6Welders1Data
@@ -499,21 +415,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler6Welders1));
+                welderData: value!, name: AppString.filler6Welders1));
       },
       items: dataState.filler6Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler6Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler6Welders2,
       dropdownValue: dataState.filler6Welders2Data.id != null
           ? dataState.filler6Welders2Data
@@ -521,21 +431,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler6Welders2));
+                welderData: value!, name: AppString.filler6Welders2));
       },
       items: dataState.filler6Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler7Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler7Welders1,
       dropdownValue: dataState.filler7Welders1Data.id != null
           ? dataState.filler7Welders1Data
@@ -543,21 +447,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler7Welders1));
+                welderData: value!, name: AppString.filler7Welders1));
       },
       items: dataState.filler7Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler7Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler7Welders2,
       dropdownValue: dataState.filler7Welders2Data.id != null
           ? dataState.filler7Welders2Data
@@ -565,21 +463,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler7Welders2));
+                welderData: value!, name: AppString.filler7Welders2));
       },
       items: dataState.filler7Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler8Welders1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler8Welders1,
       dropdownValue: dataState.filler8Welders1Data.id != null
           ? dataState.filler8Welders1Data
@@ -587,21 +479,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler8Welders1));
+                welderData: value!, name: AppString.filler8Welders1));
       },
       items: dataState.filler8Welders1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _filler8Welders2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.filler8Welders2,
       dropdownValue: dataState.filler8Welders2Data.id != null
           ? dataState.filler8Welders2Data
@@ -609,20 +495,14 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.filler8Welders2));
+                welderData: value!, name: AppString.filler8Welders2));
       },
       items: dataState.filler8Welders2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _stripWelder1Controller({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.stripWelder1,
       dropdownValue: dataState.stripWelder1Data.id != null
           ? dataState.stripWelder1Data
@@ -630,20 +510,14 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.stripWelder1));
+                welderData: value!, name: AppString.stripWelder1));
       },
       items: dataState.stripWelder1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _stripWelder2Controller({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.stripWelder2,
       dropdownValue: dataState.stripWelder2Data.id != null
           ? dataState.stripWelder2Data
@@ -651,21 +525,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.stripWelder2));
+                welderData: value!, name: AppString.stripWelder2));
       },
       items: dataState.stripWelder2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _cappingWelder1Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.cappingWelder,
       dropdownValue: dataState.cappingWelder1Data.id != null
           ? dataState.cappingWelder1Data
@@ -673,21 +541,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.cappingWelder1));
+                welderData: value!, name: AppString.cappingWelder1));
       },
       items: dataState.cappingWelder1List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _cappingWelder2Controller(
       {required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WelderModel>(
       hint: AppString.cappingWelder2,
       dropdownValue: dataState.cappingWelder2Data.id != null
           ? dataState.cappingWelder2Data
@@ -695,15 +557,9 @@ class _AddTieinPageState extends State<AddTieinPage> {
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(
             AddTieinSelectMultiWelderEvent(
-                welderData: value, name: AppString.cappingWelder2));
+                welderData: value!, name: AppString.cappingWelder2));
       },
       items: dataState.cappingWelder2List
-          .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-        return DropdownMenuItem<WelderModel>(
-          value: welderData,
-          child: Text(welderData.welderName.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -776,7 +632,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddTieinDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -802,67 +658,50 @@ class _AddTieinPageState extends State<AddTieinPage> {
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(AddTieinSelectAlignmentEvent(
-          alignmentData: value,
+          alignmentData: value!,
         ));
       },
     );
   }
 
   Widget _weatherDropDown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _wpsDropDown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WPSModel>(
       isRequired: true,
       hint: AppString.selectWPS,
       dropdownValue: dataState.wpsData.id != null ? dataState.wpsData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(AddTieinSelectWPSEvent(wpsData: value, context: context));
+            .add(AddTieinSelectWPSEvent(wpsData: value!, context: context));
       },
       items:
-          dataState.wpsList.map<DropdownMenuItem<WPSModel>>((WPSModel wpsData) {
-        return DropdownMenuItem<WPSModel>(
-          value: wpsData,
-          child: Text(wpsData.wps.toString()),
-        );
-      }).toList(),
+          dataState.wpsList
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context).add(AddTieinSelectJointTypeEvent(
-            jointTypeData: value, context: context));
+            jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
@@ -877,46 +716,34 @@ class _AddTieinPageState extends State<AddTieinPage> {
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(AddTieinSelectJointNumberEvent(jointNumberData: value));
+            .add(AddTieinSelectJointNumberEvent(jointNumberData: value!));
       },
     );
   }
 
   Widget _fitupDropDown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectFitup,
       dropdownValue:
           dataState.fitupData.id != null ? dataState.fitupData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(AddTieinSelectFitupDataEvent(fitupData: value));
+            .add(AddTieinSelectFitupDataEvent(fitupData: value!));
       },
-      items: dataState.fitupList.map<DropdownMenuItem<VisualChecksModel>>(
-          (VisualChecksModel fitupData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: fitupData,
-          child: Text(fitupData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.fitupList
     );
   }
 
   Widget _weldVisualDropDown({required FetchAddTieinDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectWeldVisual,
       dropdownValue:
           dataState.weldVisualData.id != null ? dataState.weldVisualData : null,
       onChanged: (value) {
         BlocProvider.of<AddTieinBloc>(context)
-            .add(AddTieinSelectWeldVisualEvent(weldVisualData: value));
+            .add(AddTieinSelectWeldVisualEvent(weldVisualData: value!));
       },
-      items: dataState.weldVisualList.map<DropdownMenuItem<VisualChecksModel>>(
-          (VisualChecksModel welderData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: welderData,
-          child: Text(welderData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.weldVisualList
     );
   }
 

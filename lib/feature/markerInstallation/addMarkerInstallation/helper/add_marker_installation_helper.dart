@@ -49,7 +49,7 @@ class AddMarkerInstallationHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl
+        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
             ? alignmentIdList
                 .toString()
                 .replaceAll("[", "")

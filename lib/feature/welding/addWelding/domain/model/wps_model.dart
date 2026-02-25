@@ -19,4 +19,9 @@ class WPSModel {
     data['wps'] = wps;
     return data;
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return wps.toString();
+  }
 }

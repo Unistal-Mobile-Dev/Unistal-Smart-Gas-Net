@@ -119,7 +119,7 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPinBrazzingState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -150,21 +150,15 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddPinBrazzingState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddPinBrazzingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
   Widget _chainageController(
@@ -178,21 +172,15 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   }
 
   Widget _tlpTypeDropDown({required FetchAddPinBrazzingState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPinBrazzingBloc>(context)
-            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -259,59 +247,41 @@ class _AddPinBrazzingPageState extends State<AddPinBrazzingPage> {
   }
 
   Widget _pinBrazingDropDown({required FetchAddPinBrazzingState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectPinBrazing,
       dropdownValue:
       dataState.pinBrazingValue.id != null ? dataState.pinBrazingValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPinBrazzingBloc>(context)
-            .add(AddTestStationBoxPinBrazingEvent(pinBrazingValue: value));
+            .add(AddTestStationBoxPinBrazingEvent(pinBrazingValue: value!));
       },
       items: dataState.listOfPinBrazing
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _cableTrenchDropDown({required FetchAddPinBrazzingState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableTrench,
       dropdownValue:
       dataState.continuityCheckValue.id != null ? dataState.continuityCheckValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPinBrazzingBloc>(context)
-            .add(AddTestStationBoxContinuityCheckEvent(continuityCheckValue: value));
+            .add(AddTestStationBoxContinuityCheckEvent(continuityCheckValue: value!));
       },
       items: dataState.listOfContinuityCheck
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _restorationCheckDropDown({required FetchAddPinBrazzingState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectRestorationCheck,
       dropdownValue:
       dataState.restorationCheckValue.id != null ? dataState.restorationCheckValue : null,
       onChanged: (value) {
         BlocProvider.of<AddPinBrazzingBloc>(context)
-            .add(AddTestStationBoxRestorationCheckEvent(restorationCheckValue: value));
+            .add(AddTestStationBoxRestorationCheckEvent(restorationCheckValue: value!));
       },
       items: dataState.listOfRestorationCheck
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
   Widget _activityRemark({required FetchAddPinBrazzingState dataState}) {

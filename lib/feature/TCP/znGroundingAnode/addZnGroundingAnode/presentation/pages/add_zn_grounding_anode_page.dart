@@ -139,7 +139,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
   }
 
   Widget _alignmentDropdown({required FetchAddZnGroundingAnodeState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -172,21 +172,15 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
   }
 
   Widget _weatherDropDown({required FetchAddZnGroundingAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -199,21 +193,15 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
     );
   }
   Widget _tlpTypeDropDown({required FetchAddZnGroundingAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context)
-            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value));
+            .add(AddTestStationBoxTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -227,68 +215,48 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
   }
   
   Widget _jointTypeDropDown({required FetchAddZnGroundingAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
       dataState.jointTypeDataValue.id != null ? dataState.jointTypeDataValue : null,
       onChanged: (value) {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context).add(
             SelectJointTypeDataEvent(
-                jointTypeDataValue: value, context: context));
+                jointTypeDataValue: value!, context: context));
       },
-      items: dataState.listOfJointType.map<DropdownMenuItem<JointTypeModel>>(
-              (JointTypeModel jointTypeData) {
-            return DropdownMenuItem<JointTypeModel>(
-              value: jointTypeData,
-              child: Text(jointTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.listOfJointType
     );
   }
 
   Widget _jointNumberDropDown(
       {required FetchAddZnGroundingAnodeState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       hint: AppString.selectFromJointNumber,
       dropdownValue: dataState.jointValue.id != null
           ? dataState.jointValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context).add(
-            SelectJointEvent(jointValue: value));
+            SelectJointEvent(jointValue: value!));
       },
       items: dataState.listOfJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData.jointNumber.toString()),
-            );
-          }).toList(),
     )
         : const DottedLoaderWidget();
   }
 
   Widget _typeAnodeDropDown(
       {required FetchAddZnGroundingAnodeState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTypeAnode,
       dropdownValue: dataState.typeNodeValue.id != null
           ? dataState.typeNodeValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context).add(
-            AddTestStationBoxSacrificialAnodeTypeEvent(typeNodeValue: value));
+            AddTestStationBoxSacrificialAnodeTypeEvent(typeNodeValue: value!));
       },
       items: dataState.listOfSacrificialAnode
-          .map<DropdownMenuItem<TlpTypeModel>>(
-              (TlpTypeModel jointNumberData) {
-            return DropdownMenuItem<TlpTypeModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData.name.toString()),
-            );
-          }).toList(),
     );
   }
 

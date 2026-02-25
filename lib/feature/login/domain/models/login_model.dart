@@ -48,21 +48,21 @@ class LoginDataModel {
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
-    smartLogo = json['smartLogo'];
-    projectLogo = json['projectLogo'];
-    userId = json['id'];
-    email = json['email'];
-    moduleId = json['module_id'];
-    name = json['name'];
-    userStatus = json['user_status'];
-    pwdChanged = json['pwd_changed'];
-    modules = json['modules'];
-    schema = json['schema'];
-    spreadId = json['spread_id'];
-    sectionId = json['section_id'];
-    sectionName = json['section_name'];
-    diameter = json['diameter'];
-    diauom = json['diauom'];
+    smartLogo = json['smartLogo'] ?? "";
+    projectLogo = json['projectLogo'] ?? "";
+    userId = json['id'] ?? "";
+    email = json['email'] ?? "";
+    moduleId = json['module_id'] ?? "";
+    name = json['name'] ?? "";
+    userStatus = json['user_status'] ?? "";
+    pwdChanged = json['pwd_changed'] ?? "";
+    modules = json['modules'] ?? "";
+    schema = json['schema'] ?? "";
+    spreadId = json['spread_id'] ?? "";
+    sectionId = json['section_id'] ?? "";
+    sectionName = json['section_name'] ?? "";
+    diameter = json['diameter'] ?? "";
+    diauom = json['diauom'] ?? "";
     roleType =
         json['role'] != null ? getRole(role: json['role']) : RoleType.engineer;
   }

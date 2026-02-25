@@ -90,7 +90,7 @@ class _AddSwabbingPageState extends State<AddSwabbingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSwabbingDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -121,64 +121,45 @@ class _AddSwabbingPageState extends State<AddSwabbingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddSwabbingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddSwabbingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddSwabbingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddSwabbingBloc>(context).add(
             AddSwabbingSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddSwabbingDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectFromJointNumber,
             dropdownValue: dataState.fromJointData.id != null
                 ? dataState.fromJointData
                 : null,
             onChanged: (value) {
               BlocProvider.of<AddSwabbingBloc>(context).add(
-                  AddSwabbingSelectFromJointDataEvent(jointNumberData: value));
+                  AddSwabbingSelectFromJointDataEvent(jointNumberData: value!));
             },
             items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -186,22 +167,15 @@ class _AddSwabbingPageState extends State<AddSwabbingPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddSwabbingDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectToJointNumber,
             dropdownValue:
                 dataState.toJointData.id != null ? dataState.toJointData : null,
             onChanged: (value) {
               BlocProvider.of<AddSwabbingBloc>(context).add(
-                  AddSwabbingSelectToJointDataEvent(jointNumberData: value));
+                  AddSwabbingSelectToJointDataEvent(jointNumberData: value!));
             },
             items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }

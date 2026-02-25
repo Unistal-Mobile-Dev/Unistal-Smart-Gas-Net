@@ -117,7 +117,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddNdtMutDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -150,22 +150,16 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _weatherDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -223,22 +217,16 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context).add(
             AddNdtMutSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
@@ -346,60 +334,42 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _ndtAgencyDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectNdtAgency,
       dropdownValue:
           dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context)
-            .add(AddNdtMutSelectNdtAgencyDataEvent(ndtAgencyData: value));
+            .add(AddNdtMutSelectNdtAgencyDataEvent(ndtAgencyData: value!));
       },
-      items: dataState.ndtAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.ndtAgencyList
     );
   }
 
   Widget _dSPPLDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectDSPPL,
       dropdownValue: dataState.dSPPLAgencyData.id != null
           ? dataState.dSPPLAgencyData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context)
-            .add(AddNdtMutSelectDspplDataEvent(dspplData: value));
+            .add(AddNdtMutSelectDspplDataEvent(dspplData: value!));
       },
-      items: dataState.dSPPLAgencyList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.dSPPLAgencyList
     );
   }
 
   Widget _mECONPBGPLDropDown({required FetchAddNdtMutDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<NdtStatusModel>(
       hint: AppString.selectMECONPBGPL,
       dropdownValue:
           dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
         BlocProvider.of<AddNdtMutBloc>(context)
-            .add(AddNdtMutSelectMeconPbgplDataEvent(meconPbgplData: value));
+            .add(AddNdtMutSelectMeconPbgplDataEvent(meconPbgplData: value!));
       },
-      items: dataState.meconPbgplList.map<DropdownMenuItem<NdtStatusModel>>(
-          (NdtStatusModel ndtAgencyData) {
-        return DropdownMenuItem<NdtStatusModel>(
-          value: ndtAgencyData,
-          child: Text(ndtAgencyData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.meconPbgplList
     );
   }
 

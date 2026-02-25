@@ -120,7 +120,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -153,140 +153,97 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _pipeMaterialDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PipeMaterialModel>(
       hint: AppString.selectPipeMaterial,
       dropdownValue: dataState.pipeMaterialData.id != null
           ? dataState.pipeMaterialData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectPipeMaterialDataEvent(pipeMaterialData: value));
+            AddCrossingSelectPipeMaterialDataEvent(pipeMaterialData: value!));
       },
-      items: dataState.pipeMaterialList
-          .map<DropdownMenuItem<PipeMaterialModel>>(
-              (PipeMaterialModel pipeMaterialData) {
-        return DropdownMenuItem<PipeMaterialModel>(
-          value: pipeMaterialData,
-          child: Text(pipeMaterialData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.pipeMaterialList,
     );
   }
 
   Widget _pipeDiaDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PipeDiaModel>(
       hint: AppString.selectPipeDia,
       dropdownValue:
           dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectPipeDiaDataEvent(pipeDiaData: value));
+            .add(AddCrossingSelectPipeDiaDataEvent(pipeDiaData: value!));
       },
-      items: dataState.pipeDialList
-          .map<DropdownMenuItem<PipeDiaModel>>((PipeDiaModel pipeDiaData) {
-        return DropdownMenuItem<PipeDiaModel>(
-          value: pipeDiaData,
-          child: Text(pipeDiaData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.pipeDialList,
     );
   }
 
   Widget _thicknessDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<ThicknessModel>(
       hint: AppString.selectPipeThickness,
       dropdownValue:
           dataState.thicknessData.id != null ? dataState.thicknessData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectThicknessDataEvent(thicknessData: value));
+            .add(AddCrossingSelectThicknessDataEvent(thicknessData: value!));
       },
-      items: dataState.thicknessList.map<DropdownMenuItem<ThicknessModel>>(
-          (ThicknessModel thicknessData) {
-        return DropdownMenuItem<ThicknessModel>(
-          value: thicknessData,
-          child: Text(thicknessData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.thicknessList,
     );
   }
 
   Widget _coatingTypeDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<CoatingTypeModel>(
       hint: AppString.selectCoatingType,
       dropdownValue: dataState.coatingTypeData.id != null
           ? dataState.coatingTypeData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectCoatingTypeDataEvent(coatingTypeData: value));
+            .add(AddCrossingSelectCoatingTypeDataEvent(coatingTypeData: value!));
       },
-      items: dataState.coatingTypeList.map<DropdownMenuItem<CoatingTypeModel>>(
-          (CoatingTypeModel coatingTypeData) {
-        return DropdownMenuItem<CoatingTypeModel>(
-          value: coatingTypeData,
-          child: Text(coatingTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.coatingTypeList,
     );
   }
 
   Widget _prePaddingDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectPrePadding,
       dropdownValue:
           dataState.prePaddingData.id != null ? dataState.prePaddingData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectPrePaddingDataEvent(prePaddingData: value));
+            .add(AddCrossingSelectPrePaddingDataEvent(prePaddingData: value!));
       },
-      items: dataState.prePaddingList
-          .map<DropdownMenuItem<PaddingModel>>((PaddingModel prePaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: prePaddingData,
-          child: Text(prePaddingData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.prePaddingList,
     );
   }
 
   Widget _postPaddingDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectPostPadding,
       dropdownValue: dataState.postPaddingData.id != null
           ? dataState.postPaddingData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectPostPaddingDataEvent(postPaddingData: value));
+            .add(AddCrossingSelectPostPaddingDataEvent(postPaddingData: value!));
       },
       items: dataState.postPaddingList
-          .map<DropdownMenuItem<PaddingModel>>((PaddingModel postPaddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: postPaddingData,
-          child: Text(postPaddingData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -333,23 +290,16 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _visualChecksDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectVisualChecks,
       dropdownValue: dataState.visualChecksData.id != null
           ? dataState.visualChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectVisualChecksDataEvent(visualChecksData: value));
+            AddCrossingSelectVisualChecksDataEvent(visualChecksData: value!));
       },
       items: dataState.visualsChecksList
-          .map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel visualChecksData) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksData,
-          child: Text(visualChecksData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -371,22 +321,16 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
             AddCrossingSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList,
     );
   }
 
@@ -449,7 +393,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _crossingTypeDropDown({required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<CrossingTypeModel>(
       isRequired: true,
       hint: AppString.selectCrossingType,
       dropdownValue: dataState.crossingTypeData.id != null
@@ -457,37 +401,24 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context).add(
-            AddCrossingSelectCrossingTypeDataEvent(crossingTypeData: value));
+            AddCrossingSelectCrossingTypeDataEvent(crossingTypeData: value!));
       },
-      items: dataState.crossingTyeList.map<DropdownMenuItem<CrossingTypeModel>>(
-          (CrossingTypeModel crossingTypeData) {
-        return DropdownMenuItem<CrossingTypeModel>(
-          value: crossingTypeData,
-          child: Text(crossingTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.crossingTyeList
     );
   }
 
   Widget _holidayChecksDropDown(
       {required FetchAddCrossingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<HolidayChecksModel>(
       hint: AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectHolidayDataEvent(holidayChecksData: value));
+            .add(AddCrossingSelectHolidayDataEvent(holidayChecksData: value!));
       },
       items: dataState.holidayCheckList
-          .map<DropdownMenuItem<HolidayChecksModel>>(
-              (HolidayChecksModel holidayChecksData) {
-        return DropdownMenuItem<HolidayChecksModel>(
-          value: holidayChecksData,
-          child: Text(holidayChecksData.value.toString()),
-        );
-      }).toList(),
     );
   }
 

@@ -24,8 +24,11 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
       }
     });
   }
+
   Widget _listBuilder({required FetchHomeDataState dataState}) {
-    return ListView.builder(
+    return dataState.drawerList.first.label == "Dashboard"  && dataState.drawerList.length == 1 ? Center(
+      child: Text("No records found"),
+    ) :ListView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: dataState.drawerList.length,
       itemBuilder: (context, index) {

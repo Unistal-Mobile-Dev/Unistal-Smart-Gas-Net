@@ -117,7 +117,7 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSurgeDiverterState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -148,21 +148,15 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   }
 
   Widget _weatherDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -176,21 +170,15 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   }
 
   Widget _tlpTypeDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(AddSurgeDiverterTLPTypeEvent(tlpTypeValue: value));
+            .add(AddSurgeDiverterTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -221,40 +209,28 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   }
 
   Widget _installationDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectInstallation,
       dropdownValue:
       dataState.installationValue.id != null ? dataState.installationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(AddSurgeDiverterInstallationEvent(installationValue: value));
+            .add(AddSurgeDiverterInstallationEvent(installationValue: value!));
       },
       items: dataState.listOfInstallation
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _cableConnectionDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableConnection,
       dropdownValue:
       dataState.cableConnectionValue.id != null ? dataState.cableConnectionValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(AddSurgeDiverterCableConnectionEvent(cableConnectionValue: value));
+            .add(AddSurgeDiverterCableConnectionEvent(cableConnectionValue: value!));
       },
       items: dataState.listOfCableConnection
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -283,39 +259,27 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   }
 
   Widget _cableTerminationDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableTermination,
       dropdownValue:
       dataState.cableTerminationValue.id != null ? dataState.cableTerminationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(AddSurgeDiverterCableTerminationEvent(cableTerminationValue: value));
+            .add(AddSurgeDiverterCableTerminationEvent(cableTerminationValue: value!));
       },
       items: dataState.listOfCableTermination
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
   Widget _backfillDropDown({required FetchAddSurgeDiverterState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectBackfilling,
       dropdownValue:
       dataState.backfillValue.id != null ? dataState.backfillValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSurgeDiverterBloc>(context)
-            .add(AddSurgeDiverterBackfillEvent(backfillValue: value));
+            .add(AddSurgeDiverterBackfillEvent(backfillValue: value!));
       },
       items: dataState.listOfBackfill
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 

@@ -102,7 +102,7 @@ class _AddLptPageState extends State<AddLptPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddLptDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -134,22 +134,16 @@ class _AddLptPageState extends State<AddLptPage> {
   }
 
   Widget _weatherDropDown({required FetchAddLptDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddLptBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -171,21 +165,15 @@ class _AddLptPageState extends State<AddLptPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddLptDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddLptBloc>(context).add(AddLptSelectJointTypeDataEvent(
-            jointTypeData: value, context: context));
+            jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
@@ -204,21 +192,15 @@ class _AddLptPageState extends State<AddLptPage> {
   }
 
   Widget _lptStatusDropDown({required FetchAddLptDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<LptStatusModel>(
       hint: AppString.selectLptStatus,
       dropdownValue:
           dataState.lptStatusData.id != null ? dataState.lptStatusData : null,
       onChanged: (value) {
         BlocProvider.of<AddLptBloc>(context)
-            .add(AddLptSelectLptStatusDataEvent(lptStatusData: value));
+            .add(AddLptSelectLptStatusDataEvent(lptStatusData: value!));
       },
-      items: dataState.lptStatusList.map<DropdownMenuItem<LptStatusModel>>(
-          (LptStatusModel lptStatusData) {
-        return DropdownMenuItem<LptStatusModel>(
-          value: lptStatusData,
-          child: Text(lptStatusData.value.toString()),
-        );
-      }).toList(),
+      items: dataState.lptStatusList
     );
   }
 

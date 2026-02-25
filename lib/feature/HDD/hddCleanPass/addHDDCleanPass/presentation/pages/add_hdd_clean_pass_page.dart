@@ -132,8 +132,7 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHddCleanPassDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
-        ?  DropDownSearchMultiSelectWidget(
+    return  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -149,80 +148,49 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
           alignmentData: selectedAlignmentDataList,
         ));
       },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddHddCleanPassBloc>(context)
-            .add(AddHddCleanPassSelectAlignmentEvent(
-          alignmentData: value,
-        ));
-      },
     );
   }
 
   Widget _weatherDropDown({required FetchAddHddCleanPassDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddHddCleanPassBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddHddCleanPassDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
       dataState.jointTypeDataValue.id != null ? dataState.jointTypeDataValue : null,
       onChanged: (value) {
         BlocProvider.of<AddHddCleanPassBloc>(context).add(
             SelectJointTypeDataEvent(
-                jointTypeDataValue: value, context: context));
+                jointTypeDataValue: value!, context: context));
       },
-      items: dataState.listOfJointType.map<DropdownMenuItem<JointTypeModel>>(
-              (JointTypeModel jointTypeData) {
-            return DropdownMenuItem<JointTypeModel>(
-              value: jointTypeData,
-              child: Text(jointTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.listOfJointType
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddHddCleanPassDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       hint: AppString.selectFromJointNumber,
       dropdownValue: dataState.fromJointValue.id != null
           ? dataState.fromJointValue
           : null,
       onChanged: (value) {
         BlocProvider.of<AddHddCleanPassBloc>(context).add(
-            SelectFromJointEvent(fromJointValue: value));
+            SelectFromJointEvent(fromJointValue: value!));
       },
       items: dataState.listOfFromJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData.jointNumber.toString()),
-            );
-          }).toList(),
     )
         : const DottedLoaderWidget();
   }
@@ -230,22 +198,15 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddHddCleanPassDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       hint: AppString.selectToJointNumber,
       dropdownValue:
       dataState.toJointValue.id != null ? dataState.toJointValue : null,
       onChanged: (value) {
         BlocProvider.of<AddHddCleanPassBloc>(context).add(
-            SelectToJointEvent(toJointValue: value));
+            SelectToJointEvent(toJointValue: value!));
       },
       items: dataState.listOfToJoint
-          .map<DropdownMenuItem<JointNumberModel>>(
-              (JointNumberModel? jointNumberData) {
-            return DropdownMenuItem<JointNumberModel>(
-              value: jointNumberData,
-              child: Text(jointNumberData!.jointNumber.toString()),
-            );
-          }).toList(),
     )
         : const DottedLoaderWidget();
   }

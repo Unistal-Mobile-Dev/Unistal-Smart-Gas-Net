@@ -19,4 +19,9 @@ class JointTypeModel {
     data['name'] = name;
     return data;
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return name.toString();
+  }
 }

@@ -68,7 +68,7 @@ class HomeHelper {
       Map<String, String> para = {
         "schema": "${userData.schema}",
         "userid": "${userData.userId}",
-        "section_id":"${ userData.sectionId} "
+        "section_id":"${userData.sectionId}"
       };
 
       String json = Uri(queryParameters: para).query;

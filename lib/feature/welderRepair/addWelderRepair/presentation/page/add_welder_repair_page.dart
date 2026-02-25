@@ -6,7 +6,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/model/welder_repair_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -130,7 +129,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
 
   Widget _alignmentDropdown({required FetchAddWelderRepairDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -164,22 +163,16 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   }
 
   Widget _weatherDropDown({required FetchAddWelderRepairDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddWelderRepairBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -228,7 +221,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
   Widget _jointTypeDropDown(
       {required FetchAddWelderRepairDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       isRequired: true,
       hint: AppString.selectJointType,
       dropdownValue:
@@ -236,22 +229,16 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
       onChanged: (value) {
         BlocProvider.of<AddWelderRepairBloc>(context).add(
             AddWelderRepairSelectJointTypeEvent(
-                jointTypeModel: value, context: context));
+                jointTypeModel: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _jointNumberDropDown(
       {required FetchAddWelderRepairDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
       isRequired: true,
             hint: AppString.selectJointNumber,
             dropdownValue: dataState.jointNumberData.id != null
@@ -260,36 +247,23 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
             onChanged: (value) {
               BlocProvider.of<AddWelderRepairBloc>(context).add(
                   AddWelderRepairSelectJointNumberEvent(
-                      jointNumberData: value));
+                      jointNumberData: value!));
             },
             items: dataState.jointNumberList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
 
   Widget _weldVisualDropDown({required FetchAddWelderRepairDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectWeldVisual,
       dropdownValue:
       dataState.weldVisualData.id != null ? dataState.weldVisualData : null,
       onChanged: (value) {
         BlocProvider.of<AddWelderRepairBloc>(context)
-            .add(AddWelderRepairSelectWeldVisualEvent(weldVisualData: value));
+            .add(AddWelderRepairSelectWeldVisualEvent(weldVisualData: value!));
       },
-      items: dataState.weldVisualList.map<DropdownMenuItem<VisualChecksModel>>(
-              (VisualChecksModel welderData) {
-            return DropdownMenuItem<VisualChecksModel>(
-              value: welderData,
-              child: Text(welderData.value.toString()),
-            );
-          }).toList(),
+      items: dataState.weldVisualList
     );
   }
 
@@ -313,22 +287,16 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   }
 
   Widget _wpdTypeDropDown({required FetchAddWelderRepairDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WPSModel>(
       hint: AppString.selectWPS,
       dropdownValue:
           dataState.wpsTypeData.id != null ? dataState.wpsTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddWelderRepairBloc>(context).add(
             AddWelderRepairSelectWPSTypeEvent(
-                wpsTypeData: value, context: context));
+                wpsTypeData: value!, context: context));
       },
       items: dataState.wpsTypeList
-          .map<DropdownMenuItem<WPSModel>>((WPSModel wpsData) {
-        return DropdownMenuItem<WPSModel>(
-          value: wpsData,
-          child: Text(wpsData.wps.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -343,21 +311,15 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
   Widget _welderDropDown({required FetchAddWelderRepairDataState dataState}) {
     return dataState.isWelderLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<WelderModel>(
             hint: AppString.selectWelder,
             dropdownValue:
                 dataState.welderData.id != null ? dataState.welderData : null,
             onChanged: (value) {
               BlocProvider.of<AddWelderRepairBloc>(context)
-                  .add(AddWelderRepairSelectWelderEvent(welderData: value));
+                  .add(AddWelderRepairSelectWelderEvent(welderData: value!));
             },
             items: dataState.welderList
-                .map<DropdownMenuItem<WelderModel>>((WelderModel welderData) {
-              return DropdownMenuItem<WelderModel>(
-                value: welderData,
-                child: Text(welderData.welderName.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }

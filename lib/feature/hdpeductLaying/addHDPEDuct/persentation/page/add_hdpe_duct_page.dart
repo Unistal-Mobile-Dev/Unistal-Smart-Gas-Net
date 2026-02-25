@@ -108,7 +108,7 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHdpeDuctDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -141,64 +141,45 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   }
 
   Widget _weatherDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddHdpeDuctBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddHdpeDuctBloc>(context).add(
             AddHdpeDuctSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddHdpeDuctDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectFromJointNumber,
             dropdownValue: dataState.fromJointData.id != null
                 ? dataState.fromJointData
                 : null,
             onChanged: (value) {
               BlocProvider.of<AddHdpeDuctBloc>(context).add(
-                  AddHdpeDuctSelectFromJointDataEvent(jointNumberData: value));
+                  AddHdpeDuctSelectFromJointDataEvent(jointNumberData: value!));
             },
             items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -206,22 +187,15 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddHdpeDuctDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectToJointNumber,
             dropdownValue:
                 dataState.toJointData.id != null ? dataState.toJointData : null,
             onChanged: (value) {
               BlocProvider.of<AddHdpeDuctBloc>(context).add(
-                  AddHdpeDuctSelectToJointDataEvent(jointNumberData: value));
+                  AddHdpeDuctSelectToJointDataEvent(jointNumberData: value!));
             },
             items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -263,41 +237,29 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   }
 
   Widget _warningDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectWarningMatMeter,
       dropdownValue: dataState.warningMeterData.id != null
           ? dataState.warningMeterData
           : null,
       onChanged: (value) {
         BlocProvider.of<AddHdpeDuctBloc>(context).add(
-            AddHdpeDuctSelectWarningMeterDataEvent(warningMeterData: value));
+            AddHdpeDuctSelectWarningMeterDataEvent(warningMeterData: value!));
       },
       items: dataState.warningMeterList
-          .map<DropdownMenuItem<PaddingModel>>((PaddingModel warningMeterData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: warningMeterData,
-          child: Text(warningMeterData.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _paddingDropDown({required FetchAddHdpeDuctDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<PaddingModel>(
       hint: AppString.selectPaddingMeter,
       dropdownValue:
           dataState.paddingData.id != null ? dataState.paddingData : null,
       onChanged: (value) {
         BlocProvider.of<AddHdpeDuctBloc>(context)
-            .add(AddHdpeDuctSelectPaddingDataEvent(paddingData: value));
+            .add(AddHdpeDuctSelectPaddingDataEvent(paddingData: value!));
       },
       items: dataState.paddingList
-          .map<DropdownMenuItem<PaddingModel>>((PaddingModel paddingData) {
-        return DropdownMenuItem<PaddingModel>(
-          value: paddingData,
-          child: Text(paddingData.value.toString()),
-        );
-      }).toList(),
     );
   }
 

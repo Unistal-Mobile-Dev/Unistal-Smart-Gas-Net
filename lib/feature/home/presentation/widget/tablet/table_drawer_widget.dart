@@ -49,36 +49,12 @@ class TabletDrawerWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
 /*            Image.asset(
-               AppConfig.instanceInit()!.client == Client.mgl
-                  ? AppIcon.appLogoMGL
-                  : AppConfig.instanceInit()!.client == Client.purvaBharti
-                  ? AppIcon.appLogoPurvaBharti
-                  : AppConfig.instanceInit()!.client == Client.unistal
-                  ? AppIcon.appLogoUnistal
-                  : AppConfig.instanceInit()!.client == Client.oilIndia
-                  ? AppIcon.oilIndiaLogo
-                  : AppConfig.instanceInit()!.client == Client.vppl
-                  ? AppIcon.vpplLogo
-                  : AppConfig.instanceInit()!.client == Client.vrpl
-                  ? AppIcon.vrplLogo
-                  :  AppIcon.appLogoUnistal,
+              AppIcon.appLogo(),
             ),*/
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
-                AppConfig.instanceInit()!.client == Client.mgl
-                    ? AppIcon.appLogoMGL
-                    : AppConfig.instanceInit()!.client == Client.purvaBharti
-                    ? AppIcon.appLogoPurvaBharti
-                    : AppConfig.instanceInit()!.client == Client.unistal
-                    ? AppIcon.appLogoUnistal
-                    : AppConfig.instanceInit()!.client == Client.oilIndia
-                    ? AppIcon.oilIndiaLogo
-                    : AppConfig.instanceInit()!.client == Client.vppl
-                    ? AppIcon.vpplLogo
-                    : AppConfig.instanceInit()!.client == Client.vrpl
-                    ? AppIcon.vrplLogo
-                    :  AppIcon.appLogoUnistal,
+                AppIcon.appLogo(),
                 width: MediaQuery.of(context).size.width * 0.13,
               ),
             ),

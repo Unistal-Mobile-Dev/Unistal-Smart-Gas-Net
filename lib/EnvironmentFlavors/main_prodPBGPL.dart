@@ -8,14 +8,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 /*  await HiveDataBase().init();*/
   var configuredApp = const EnvironmentConfig(
-      flavours: EnvironmentFlavours.developmentMgl,
+      flavours: EnvironmentFlavours.prodPBGPL,
       child: Root(
-        client: Client.mgl,
+        client: Client.pbgpl,
       ));
-
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom]);
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

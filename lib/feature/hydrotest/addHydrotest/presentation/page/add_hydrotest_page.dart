@@ -100,7 +100,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHydrotestDataState dataState}) {
-    return   AppConfig.instanceInit()!.client == Client.vppl
+    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -131,22 +131,16 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
   }
 
   Widget _jointTypeDropDown({required FetchAddHydrotestDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddHydrotestBloc>(context).add(
             AddHydrotestSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/OFCBlowing/addOFCBlowing/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ofcBlowing/addOFCBlowing/domain/add_ofc_blowing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
@@ -156,44 +154,30 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
   }
 
   Widget _fromJointNumberDropDown({required FetchAddOFCBlowingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointNumberModel>(
             hint: AppString.selectFromJointNumber,
             dropdownValue: dataState.fromJointValue.id != null
                 ? dataState.fromJointValue
                 : null,
             onChanged: (value) {
               BlocProvider.of<AddOFCBlowingBloc>(context)
-                  .add(SelectFromJointEvent(fromJointValue: value));
+                  .add(SelectFromJointEvent(fromJointValue: value!));
             },
             items: dataState.listOfFromJoint
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           );
   }
 
   Widget _toJointNumberDropDown({required FetchAddOFCBlowingDataState dataState}) {
-    return  DropdownWidget(
+    return  DropdownWidget<JointNumberModel>(
             hint: AppString.selectToJointNumber,
             dropdownValue: dataState.toJointValue.id != null
                 ? dataState.toJointValue
                 : null,
             onChanged: (value) {
               BlocProvider.of<AddOFCBlowingBloc>(context)
-                  .add(SelectToJointEvent(toJointValue: value));
+                  .add(SelectToJointEvent(toJointValue: value!));
             },
             items: dataState.listOfToJoint
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel? jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData!.jointNumber.toString()),
-              );
-            }).toList(),
           );
   }
 
@@ -258,7 +242,7 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddOFCBlowingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ? DropDownSearchMultiSelectWidget(
             selectedItem: dataState.multipleAlignmentData,
             hint: AppString.selectAlignment,
@@ -295,22 +279,16 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
   }
 
   Widget _weatherDropDown({required FetchAddOFCBlowingDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddOFCBlowingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 

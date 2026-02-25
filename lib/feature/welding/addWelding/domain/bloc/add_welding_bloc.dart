@@ -239,6 +239,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     on<AddWeldingSelectLeftPipeDataEvent>(_selectLeftPipe);
     on<AddWeldingSelectRightPipeDataEvent>(_selectRigthPipe);
     on<AddWeldingSelectMultiWelderEvent>(_selectMultiWelder);
+    on<AddWeldingSelectMultiWelderClearEvent>(_selectMultiWelderClear);
     on<AddWeldingSelectWelderEvent>(_selectWelder);
     on<AddWeldingSelectAlignmentEvent>(_selectAlignment);
     on<AddWeldingMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
@@ -573,29 +574,29 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   _selectMultiWelder(AddWeldingSelectMultiWelderEvent event, emit) {
     if (event.name == AppString.rootWelders1) {
       rootWelders1Data = event.welderData;
-      rootWelders2Data = event.welderData;
-      hotWelders1Data = event.welderData;
-      hotWelders2Data = event.welderData;
-      filler1Welders1Data = event.welderData;
-      filler1Welders2Data = event.welderData;
-      filler2Welders1Data = event.welderData;
-      filler2Welders2Data = event.welderData;
-      filler3Welders1Data = event.welderData;
-      filler3Welders2Data = event.welderData;
-      filler4Welders1Data = event.welderData;
-      filler4Welders2Data = event.welderData;
-      filler5Welders1Data = event.welderData;
-      filler5Welders2Data = event.welderData;
-      filler6Welders1Data = event.welderData;
-      filler6Welders2Data = event.welderData;
-      filler7Welders1Data = event.welderData;
-      filler7Welders2Data = event.welderData;
-      filler8Welders1Data = event.welderData;
-      filler8Welders2Data = event.welderData;
-      stripWelder1Data = event.welderData;
-      stripWelder2Data = event.welderData;
-      cappingWelder1Data = event.welderData;
-      cappingWelder2Data = event.welderData;
+      // rootWelders2Data = event.welderData;
+      // hotWelders1Data = event.welderData;
+      // hotWelders2Data = event.welderData;
+      // filler1Welders1Data = event.welderData;
+      // filler1Welders2Data = event.welderData;
+      // filler2Welders1Data = event.welderData;
+      // filler2Welders2Data = event.welderData;
+      // filler3Welders1Data = event.welderData;
+      // filler3Welders2Data = event.welderData;
+      // filler4Welders1Data = event.welderData;
+      // filler4Welders2Data = event.welderData;
+      // filler5Welders1Data = event.welderData;
+      // filler5Welders2Data = event.welderData;
+      // filler6Welders1Data = event.welderData;
+      // filler6Welders2Data = event.welderData;
+      // filler7Welders1Data = event.welderData;
+      // filler7Welders2Data = event.welderData;
+      // filler8Welders1Data = event.welderData;
+      // filler8Welders2Data = event.welderData;
+      // stripWelder1Data = event.welderData;
+      // stripWelder2Data = event.welderData;
+      // cappingWelder1Data = event.welderData;
+      // cappingWelder2Data = event.welderData;
     } else if (event.name == AppString.rootWelders2) {
       rootWelders2Data = event.welderData;
     } else if (event.name == AppString.hotWelders1) {
@@ -642,6 +643,60 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       cappingWelder1Data = event.welderData;
     } else if (event.name == AppString.cappingWelder2) {
       cappingWelder2Data = event.welderData;
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectMultiWelderClear(AddWeldingSelectMultiWelderClearEvent event, emit) {
+    if (event.name == AppString.rootWelders1) {
+      rootWelders1Data = WelderModel();
+    } else if (event.name == AppString.rootWelders2) {
+      rootWelders2Data =  WelderModel();
+    } else if (event.name == AppString.hotWelders1) {
+      hotWelders1Data =  WelderModel();
+    } else if (event.name == AppString.hotWelders2) {
+      hotWelders2Data =  WelderModel();
+    } else if (event.name == AppString.filler1Welders1) {
+      filler1Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler1Welders2) {
+      filler1Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler2Welders1) {
+      filler2Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler2Welders2) {
+      filler2Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler3Welders1) {
+      filler3Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler3Welders2) {
+      filler3Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler4Welders1) {
+      filler4Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler4Welders2) {
+      filler4Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler5Welders1) {
+      filler5Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler5Welders2) {
+      filler5Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler6Welders1) {
+      filler6Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler6Welders2) {
+      filler6Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler7Welders1) {
+      filler7Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler7Welders2) {
+      filler7Welders2Data =  WelderModel();
+    } else if (event.name == AppString.filler8Welders1) {
+      filler8Welders1Data =  WelderModel();
+    } else if (event.name == AppString.filler8Welders2) {
+      filler8Welders2Data =  WelderModel();
+    } else if (event.name == AppString.stripWelder1) {
+      stripWelder1Data =  WelderModel();
+    } else if (event.name == AppString.stripWelder2) {
+      stripWelder2Data =  WelderModel();
+    } else if (event.name == AppString.cappingWelder1) {
+      cappingWelder1Data =  WelderModel();
+    } else if (event.name == AppString.cappingWelder2) {
+      cappingWelder2Data = WelderModel();
     }
 
     _eventComplete(emit);

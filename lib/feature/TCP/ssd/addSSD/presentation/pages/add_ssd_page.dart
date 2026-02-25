@@ -115,7 +115,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSsdState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -146,21 +146,15 @@ class _AddSsdPageState extends State<AddSsdPage> {
   }
 
   Widget _weatherDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -175,21 +169,15 @@ class _AddSsdPageState extends State<AddSsdPage> {
   }
 
   Widget _tlpTypeDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<TlpTypeModel>(
       hint: AppString.selectTLPType,
       dropdownValue:
       dataState.tlpTypeValue.id != null ? dataState.tlpTypeValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdTLPTypeEvent(tlpTypeValue: value));
+            .add(AddSsdTLPTypeEvent(tlpTypeValue: value!));
       },
       items: dataState.listOfTLPType
-          .map<DropdownMenuItem<TlpTypeModel>>((TlpTypeModel tlpTypeData) {
-        return DropdownMenuItem<TlpTypeModel>(
-          value: tlpTypeData,
-          child: Text(tlpTypeData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -228,97 +216,67 @@ class _AddSsdPageState extends State<AddSsdPage> {
   }
 
   Widget _installationDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectInstallation,
       dropdownValue:
       dataState.installationValue.id != null ? dataState.installationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdInstallationEvent(installationValue: value));
+            .add(AddSsdInstallationEvent(installationValue: value!));
       },
       items: dataState.listOfInstallation
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _cableTerminationDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCableTermination,
       dropdownValue:
       dataState.cableTerminationValue.id != null ? dataState.cableTerminationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdCableTerminationEvent(cableTerminationValue: value));
+            .add(AddSsdCableTerminationEvent(cableTerminationValue: value!));
       },
       items: dataState.listOfCableTermination
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _checkACVolDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectCheckACVol,
       dropdownValue:
       dataState.checkACVolValue.id != null ? dataState.checkACVolValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdCheckACVolEvent(checkACVolValue: value));
+            .add(AddSsdCheckACVolEvent(checkACVolValue: value!));
       },
       items: dataState.listOfCheckACVol
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _pspDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectPSP,
       dropdownValue:
       dataState.pspValue.id != null ? dataState.pspValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdPSPEvent(pspValue: value));
+            .add(AddSsdPSPEvent(pspValue: value!));
       },
       items: dataState.listOfPSP
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _finalRestorationDropDown({required FetchAddSsdState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectFinalRestoration,
       dropdownValue:
       dataState.finalRestorationValue.id != null ? dataState.finalRestorationValue : null,
       onChanged: (value) {
         BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdFinalRestorationEvent(finalRestorationValue: value));
+            .add(AddSsdFinalRestorationEvent(finalRestorationValue: value!));
       },
       items: dataState.listOfFinalRestoration
-          .map<DropdownMenuItem<VisualChecksModel>>((VisualChecksModel visualChecksModel) {
-        return DropdownMenuItem<VisualChecksModel>(
-          value: visualChecksModel,
-          child: Text(visualChecksModel.value.toString()),
-        );
-      }).toList(),
     );
   }
 

@@ -90,7 +90,7 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPostHydrotestDataState dataState}) {
-    return   AppConfig.instanceInit()!.client == Client.vppl
+    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
         ?  DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -121,49 +121,37 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
   }
 
   Widget _weatherDropDown({required FetchAddPostHydrotestDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<WeatherModel>(
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddPostHydrotestBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value));
+            .add(SelectWeatherEvent(weatherData: value!));
       },
       items: dataState.weatherList
-          .map<DropdownMenuItem<WeatherModel>>((WeatherModel weatherData) {
-        return DropdownMenuItem<WeatherModel>(
-          value: weatherData,
-          child: Text(weatherData.name.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _jointTypeDropDown(
       {required FetchAddPostHydrotestDataState dataState}) {
-    return DropdownWidget(
+    return DropdownWidget<JointTypeModel>(
       hint: AppString.selectJointType,
       dropdownValue:
           dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddPostHydrotestBloc>(context).add(
             AddPostHydrotestSelectJointTypeDataEvent(
-                jointTypeData: value, context: context));
+                jointTypeData: value!, context: context));
       },
-      items: dataState.jointTypeList.map<DropdownMenuItem<JointTypeModel>>(
-          (JointTypeModel jointTypeData) {
-        return DropdownMenuItem<JointTypeModel>(
-          value: jointTypeData,
-          child: Text(jointTypeData.name.toString()),
-        );
-      }).toList(),
+      items: dataState.jointTypeList
     );
   }
 
   Widget _fromJointNumberDropDown(
       {required FetchAddPostHydrotestDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectFromJointNumber,
             dropdownValue: dataState.fromJointData.id != null
                 ? dataState.fromJointData
@@ -171,16 +159,9 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
             onChanged: (value) {
               BlocProvider.of<AddPostHydrotestBloc>(context).add(
                   AddPostHydrotestSelectFromJointDataEvent(
-                      jointNumberData: value));
+                      jointNumberData: value!));
             },
             items: dataState.jointFromList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }
@@ -188,23 +169,16 @@ class _AddPostHydroTestPageState extends State<AddPostHydroTestPage> {
   Widget _toJointNumberDropDown(
       {required FetchAddPostHydrotestDataState dataState}) {
     return dataState.isJointNumberLoader == false
-        ? DropdownWidget(
+        ? DropdownWidget<JointNumberModel>(
             hint: AppString.selectToJointNumber,
             dropdownValue:
                 dataState.toJointData.id != null ? dataState.toJointData : null,
             onChanged: (value) {
               BlocProvider.of<AddPostHydrotestBloc>(context).add(
                   AddPostHydrotestSelectToJointDataEvent(
-                      jointNumberData: value));
+                      jointNumberData: value!));
             },
             items: dataState.jointToList
-                .map<DropdownMenuItem<JointNumberModel>>(
-                    (JointNumberModel jointNumberData) {
-              return DropdownMenuItem<JointNumberModel>(
-                value: jointNumberData,
-                child: Text(jointNumberData.jointNumber.toString()),
-              );
-            }).toList(),
           )
         : const DottedLoaderWidget();
   }

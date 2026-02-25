@@ -21,4 +21,9 @@ class WelderModel {
     data['welder_name'] = welderName;
     return data;
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "${welderName.toString()} (${welderNumber.toString()})".toString();
+  }
 }

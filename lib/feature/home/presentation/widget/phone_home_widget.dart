@@ -131,7 +131,8 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
               return Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.04, // responsive height
+                    height: MediaQuery.of(context).size.height *
+                        0.04, // responsive height
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     color: EnvironmentConfig.of(context)!.primaryTheme,
                     child: Row(
@@ -183,20 +184,13 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                             child: Text(
                           AppString.companyName,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: AppColor.white
-                          ),
+                          style: TextStyle(fontSize: 10, color: AppColor.white),
                         )),
-                        Flexible(
-                            child: Text(
+                        Text(
                           AppString.version,
                           textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 10,
-                              color: AppColor.white
-                          ),
-                        )),
+                          style: TextStyle(fontSize: 10, color: AppColor.white),
+                        ),
                       ],
                     ),
                   )
@@ -213,9 +207,9 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
 
   Widget _logoContainer(BuildContext context, String? url) {
     return Container(
-      width: MediaQuery.of(context).size.width *  0.09,
+      width: MediaQuery.of(context).size.width * 0.09,
       // FIXED width (important)
-      height:  MediaQuery.of(context).size.width * 0.09,
+      height: MediaQuery.of(context).size.width * 0.09,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

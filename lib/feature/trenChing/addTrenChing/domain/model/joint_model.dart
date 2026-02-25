@@ -20,4 +20,9 @@ class JointNumberModel {
     data['joint_number'] = jointNumber;
     return data;
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return jointNumber.toString();
+  }
 }

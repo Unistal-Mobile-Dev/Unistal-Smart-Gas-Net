@@ -49,19 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Align(
             alignment: Alignment.center,
             child: Image.asset(
-              AppConfig.instanceInit()!.client == Client.mgl
-                  ? AppIcon.appLogoMGL
-                  : AppConfig.instanceInit()!.client == Client.purvaBharti
-                  ? AppIcon.appLogoPurvaBharti
-                  : AppConfig.instanceInit()!.client == Client.unistal
-                  ? AppIcon.appLogoUnistal
-                  : AppConfig.instanceInit()!.client == Client.oilIndia
-                  ? AppIcon.oilIndiaLogo
-                  : AppConfig.instanceInit()!.client == Client.vppl
-                  ? AppIcon.vpplLogo
-                  : AppConfig.instanceInit()!.client == Client.vrpl
-                  ? AppIcon.vrplLogo
-                  :  AppIcon.appLogoUnistal,
+              AppIcon.appLogo(),
               height: MediaQuery.of(context).size.width * 0.30,
               width: MediaQuery.of(context).size.width * 0.30,
             ),
