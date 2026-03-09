@@ -95,11 +95,11 @@ android {
             versionName "1.0.1-igl"
         }
         prodHPOIL {
-            resValue "string", "app_name", "Oil India Steel"
-            applicationIdSuffix ".oilIndia.Smartgasnet.app"
+            resValue "string", "app_name", "HP Oil Steel"
+            applicationIdSuffix ".hpoil.Smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_unistal",
-                    appIconRound: "@mipmap/ic_launcher_unistal"
+                    appIcon: "@mipmap/hp_oil_logo",
+                    appIconRound: "@mipmap/hp_oil_logo"
             ]
             versionCode 1
             versionName "1.0.0-hpoil"
@@ -144,6 +144,17 @@ android {
             versionCode 1
             versionName "1.0.0-JDPL"
         }
+        prodBRCPL  {
+            resValue "string", "app_name", "BRCPL Steel"
+            applicationIdSuffix ".brcpl.smartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
+            ]
+            versionCode 1
+            versionName "1.0.0-BRCPL"
+        }
+
     }
 
     defaultConfig {

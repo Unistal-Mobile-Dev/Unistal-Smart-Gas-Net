@@ -106,8 +106,7 @@ class _AddHDPEDuctTestingPageState extends State<AddHDPEDuctTestingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHdpeDuctTestingDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -121,18 +120,6 @@ class _AddHDPEDuctTestingPageState extends State<AddHDPEDuctTestingPage> {
         BlocProvider.of<AddHdpeDuctTestingBloc>(context)
             .add(AddHdpeDuctTestingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddHdpeDuctTestingBloc>(context)
-            .add(AddHdpeDuctTestingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

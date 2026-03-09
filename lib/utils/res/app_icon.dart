@@ -11,7 +11,7 @@ class AppIcon {
             : AppConfig.instanceInit()!.client == Client.unistal
                 ? AppIcon.appLogoUnistal
                 : AppConfig.instanceInit()!.client == Client.hpoil
-                    ? AppIcon.oilIndiaLogo
+                    ? AppIcon.hpOilLogo
                     : AppConfig.instanceInit()!.client == Client.vppl
                         ? AppIcon.vpplLogo
                         : AppConfig.instanceInit()!.client == Client.vrpl
@@ -20,7 +20,9 @@ class AppIcon {
                                 ? AppIcon.vpplLogo
                                 : AppConfig.instanceInit()!.client == Client.jdpl
                                     ? AppIcon.vrplLogo
-                                    : AppIcon.appLogoUnistal;
+         : AppConfig.instanceInit()!.client == Client.brcpl
+                                        ? AppIcon.vrplLogo
+                                        : AppIcon.appLogoUnistal;
   }
 
   static get appLogoPurvaBharti => "assets/logo.png";
@@ -40,6 +42,8 @@ class AppIcon {
   static get vrplLogo => "assets/vrpl_logo.png";
 
   static get oilIndiaLogo => "assets/oil_india_logo.png";
+
+  static get hpOilLogo => "assets/hp_oil_logo.png";
 
   static get loader => "assets/ic_loader.gif";
 }

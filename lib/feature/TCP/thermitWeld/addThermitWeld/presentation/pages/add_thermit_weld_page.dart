@@ -119,8 +119,7 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddThermitWeldState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -133,17 +132,6 @@ class _AddThermitWeldPageState extends State<AddThermitWeldPage> {
         BlocProvider.of<AddThermitWeldBloc>(context)
             .add(AddThermitWeldMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddThermitWeldBloc>(context)
-            .add(AddThermitWeldSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

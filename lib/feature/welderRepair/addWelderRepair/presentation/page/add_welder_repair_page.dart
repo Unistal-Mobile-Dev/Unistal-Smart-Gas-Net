@@ -129,8 +129,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
 
 
   Widget _alignmentDropdown({required FetchAddWelderRepairDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -144,19 +143,6 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
         BlocProvider.of<AddWelderRepairBloc>(context)
             .add(AddWelderRepairMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddWelderRepairBloc>(context)
-            .add(AddWelderRepairSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

@@ -157,8 +157,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRouHandoverDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -171,17 +170,6 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
         BlocProvider.of<AddRouHandoverBloc>(context)
             .add(AddRouHandoverMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddRouHandoverBloc>(context)
-            .add(AddRouHandoverSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

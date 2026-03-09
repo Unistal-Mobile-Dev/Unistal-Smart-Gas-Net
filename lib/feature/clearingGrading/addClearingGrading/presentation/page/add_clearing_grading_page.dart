@@ -314,10 +314,8 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _alignmentDropdown(
-      {required FetchAddClearingGradingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ? DropDownSearchMultiSelectWidget(
+  Widget _alignmentDropdown({required FetchAddClearingGradingDataState dataState}) {
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -331,22 +329,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         BlocProvider.of<AddClearingGradingBloc>(context)
             .add(AddClearingGradingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    )
-        : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem: dataState.alignmentData.id != null
-          ? dataState.alignmentData
-          : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) =>
-          alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(AddClearingGradingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

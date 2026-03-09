@@ -306,8 +306,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddStringingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -321,18 +320,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
         BlocProvider.of<AddStringingBloc>(context)
             .add(AddStringingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddStringingBloc>(context)
-            .add(AddStringingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

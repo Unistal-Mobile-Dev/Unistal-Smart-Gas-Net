@@ -173,15 +173,6 @@ class SelectElectrodeDiaE6010Event extends AddWeldingEvent {
   List<Object?> get props => [electrodeDiaE6010Value, context];
 }
 
-class SelectElectrodeEiaE8010p1Event extends AddWeldingEvent {
-  final BuildContext context;
-  final ElectrodeDiaData electrodeEiaE8010p1Value;
-  const SelectElectrodeEiaE8010p1Event({required this.electrodeEiaE8010p1Value, required this.context});
-
-  @override
-  List<Object?> get props => [electrodeEiaE8010p1Value, context];
-}
-
 class SelectElectrodeDiaE6010BatchEvent extends AddWeldingEvent {
   final BuildContext context;
   final ElectrodeBatchData electrodeDiaE6010BatchValue;
@@ -194,6 +185,15 @@ class SelectElectrodeDiaE6010BatchEvent extends AddWeldingEvent {
   List<Object?> get props => [electrodeDiaE6010BatchValue, context];
 }
 
+class SelectElectrodeEiaE8010p1Event extends AddWeldingEvent {
+  final BuildContext context;
+  final ElectrodeDiaData electrodeEiaE8010p1Value;
+  const SelectElectrodeEiaE8010p1Event({required this.electrodeEiaE8010p1Value, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeEiaE8010p1Value, context];
+}
+
 class SelectElectrodeEiaE8010p1BatchEvent extends AddWeldingEvent {
   final BuildContext context;
   final ElectrodeBatchData electrodeEiaE8010p1BatchValue;
@@ -202,6 +202,28 @@ class SelectElectrodeEiaE8010p1BatchEvent extends AddWeldingEvent {
   @override
   List<Object?> get props => [electrodeEiaE8010p1BatchValue, context];
 }
+
+class SelectElectrodeDiaE9045Event extends AddWeldingEvent {
+  final BuildContext context;
+  final ElectrodeDiaData electrodeDiaE9045Value;
+  const SelectElectrodeDiaE9045Event({required this.electrodeDiaE9045Value, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeDiaE9045Value, context];
+}
+
+class SelectElectrodeDiaE9045BatchEvent extends AddWeldingEvent {
+  final BuildContext context;
+  final ElectrodeBatchData electrodeDiaE9045BatchValue;
+  const SelectElectrodeDiaE9045BatchEvent({
+    required this.electrodeDiaE9045BatchValue,
+    required this.context,
+  });
+
+  @override
+  List<Object?> get props => [electrodeDiaE9045BatchValue, context];
+}
+
 
 class AddWeldingSearchPipeDataEvent extends AddWeldingEvent {
   final String keyword;

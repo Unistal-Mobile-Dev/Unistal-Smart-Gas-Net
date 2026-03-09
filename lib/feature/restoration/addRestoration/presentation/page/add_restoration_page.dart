@@ -110,8 +110,7 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRestorationDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -124,17 +123,6 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
         BlocProvider.of<AddRestorationBloc>(context)
             .add(AddRestorationMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddRestorationBloc>(context)
-            .add(AddRestorationSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

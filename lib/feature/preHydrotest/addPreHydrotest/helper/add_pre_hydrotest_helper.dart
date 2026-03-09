@@ -68,8 +68,7 @@ class AddPreHydroTestHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "from_joint_id":
             fromJointData.id != null ? fromJointData.id.toString() : "",

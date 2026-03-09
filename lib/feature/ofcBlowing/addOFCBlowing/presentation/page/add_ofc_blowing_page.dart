@@ -242,8 +242,7 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddOFCBlowingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ? DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
             selectedItem: dataState.multipleAlignmentData,
             hint: AppString.selectAlignment,
             items: dataState.alignmentList,
@@ -257,22 +256,6 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
               BlocProvider.of<AddOFCBlowingBloc>(context)
                   .add(AddOFCBlowingMultipleSelectAlignmentEvent(
                 alignmentData: selectedAlignmentDataList,
-              ));
-            },
-          )
-        : DropDownSearchWidget(
-            isRequired: true,
-            selectedItem: dataState.alignmentData.id != null
-                ? dataState.alignmentData
-                : null,
-            hint: AppString.selectAlignment,
-            items: dataState.alignmentList,
-            itemAsString: (alignmentData) =>
-                alignmentData.alignmentName.toString(),
-            onChanged: (value) {
-              BlocProvider.of<AddOFCBlowingBloc>(context)
-                  .add(AddOFCBlowingSelectAlignmentEvent(
-                alignmentData: value,
               ));
             },
           );

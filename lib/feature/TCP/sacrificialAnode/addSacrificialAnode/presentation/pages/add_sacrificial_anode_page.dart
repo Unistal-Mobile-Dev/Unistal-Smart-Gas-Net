@@ -125,8 +125,7 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSacrificialAnodeState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -140,18 +139,6 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
         BlocProvider.of<AddSacrificialAnodeBloc>(context)
             .add(AddSacrificialAnodeMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddSacrificialAnodeBloc>(context)
-            .add(AddSacrificialAnodeSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

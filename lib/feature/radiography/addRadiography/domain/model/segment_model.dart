@@ -104,8 +104,12 @@ class SegmentModel {
                 .replaceAll("]", "")
             : "0",
         "remarks": remarkController!.text.toString(),
-        "weld_details": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-          ?segmentWelderList!
+        "weld_details": AppConfig.instanceInit()!.client == Client.vppl
+            || AppConfig.instanceInit()!.client == Client.vrpl
+            || AppConfig.instanceInit()!.client == Client.gjpl
+            || AppConfig.instanceInit()!.client == Client.jdpl
+            || AppConfig.instanceInit()!.client == Client.brcpl
+          ? segmentWelderList!
             .map((v) => v.toJsonList())
             .toList()
         //     ? segmentWelderList!
@@ -119,7 +123,7 @@ class SegmentModel {
             .map((v) => v.toJsonList())
             .toList(),
 
-        // "weld_details": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
+        // "weld_details": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl|| AppConfig.instanceInit()!.client == Client.gjpl
         //     ? segmentWelderList!
         //     .where((e) => e.multipleWelderData != null && e.multipleWelderData!.isNotEmpty)
         //     .expand((e) => e.multipleWelderData!)

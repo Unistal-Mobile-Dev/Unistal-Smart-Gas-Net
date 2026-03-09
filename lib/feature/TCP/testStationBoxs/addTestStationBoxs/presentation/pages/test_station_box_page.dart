@@ -123,8 +123,7 @@ class _AddTestStationBoxPageState extends State<AddTestStationBoxPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddTestStationBoxState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -137,17 +136,6 @@ class _AddTestStationBoxPageState extends State<AddTestStationBoxPage> {
         BlocProvider.of<AddTestStationBoxBloc>(context)
             .add(AddTestStationBoxMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddTestStationBoxBloc>(context)
-            .add(AddTestStationBoxSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

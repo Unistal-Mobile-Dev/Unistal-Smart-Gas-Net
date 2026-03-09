@@ -107,8 +107,7 @@ class AddBackFillingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id":AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
+        "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "plastic_grating":
             plasticGrating.id != null ? plasticGrating.id.toString() : "0",
         "joint_id":

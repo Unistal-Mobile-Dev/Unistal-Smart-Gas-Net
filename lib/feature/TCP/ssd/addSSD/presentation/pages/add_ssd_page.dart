@@ -115,8 +115,7 @@ class _AddSsdPageState extends State<AddSsdPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSsdState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -129,17 +128,6 @@ class _AddSsdPageState extends State<AddSsdPage> {
         BlocProvider.of<AddSsdBloc>(context)
             .add(AddSsdMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddSsdBloc>(context)
-            .add(AddSsdSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

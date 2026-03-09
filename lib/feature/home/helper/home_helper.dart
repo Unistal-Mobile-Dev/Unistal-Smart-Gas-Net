@@ -75,12 +75,9 @@ class HomeHelper {
       var res = await ServerRequest.getData(urlEndPoint: url + json);
 
       if (res != null && res['success'] == 200 && res['data'] != null) {
-        final list = (res['data'] as List)
-            .map((e) => ActivitySectionData.fromJson(e))
-            .toList();
+        final list = (res['data'] as List).map((e) => ActivitySectionData.fromJson(e)).toList();
 
-        AppConfig.instanceInit()
-            ?.setListActivityData(newListOfActivitySection: list);
+        AppConfig.instanceInit()?.setListActivityData(newListOfActivitySection: list);
         return list;
       }
       return null;
@@ -116,9 +113,10 @@ class HomeHelper {
 
       const mainlineModels = [
         "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
-        "16","17","18","19","20","21","22","23","24","25","26","27","30",
-        "32","33","52","56","59","60","61",
+        "16","17","18","19","20","21","22","23","24","25","26","27",
+        "30", "32","33","52","56","59","60","61",
       ];
+
 
       const tcpModels = [
         "28","29","31","40","41","42","43","44","45","46","54","66","68","75","76",
@@ -129,7 +127,9 @@ class HomeHelper {
       ];
 
       for (final item in activeActivities) {
-        final model = item.activityId?.toString() ?? "";
+        final model = item.activityId?.toString().trim() ?? "";
+
+        debugPrint("MODEL VALUE -> $model");
 
         if (mainlineModels.contains(model)) {
           mainlineSubItems.addAll(_mainlineSublist(model));
@@ -145,18 +145,15 @@ class HomeHelper {
       }
 
       if (mainlineSubItems.isNotEmpty) {
-        drawerList.add(_groupItem(
-            "Mainline", Icons.alt_route, mainlineSubItems));
+        drawerList.add(_groupItem("Mainline", Icons.alt_route, mainlineSubItems));
       }
 
       if (tcpSubItems.isNotEmpty) {
-        drawerList.add(
-            _groupItem(AppString.tcp, Icons.table_chart_outlined, tcpSubItems));
+        drawerList.add(_groupItem(AppString.tcp, Icons.table_chart_outlined, tcpSubItems));
       }
 
       if (hddSubItems.isNotEmpty) {
-        drawerList.add(
-            _groupItem(AppString.hdd, Icons.hd_outlined, hddSubItems));
+        drawerList.add(_groupItem(AppString.hdd, Icons.hd_outlined, hddSubItems));
       }
 
       return drawerList;

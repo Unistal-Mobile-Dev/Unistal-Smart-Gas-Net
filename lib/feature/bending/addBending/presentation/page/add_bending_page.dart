@@ -289,8 +289,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBendingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -303,18 +302,6 @@ class _AddBendingPageState extends State<AddBendingPage> {
         BlocProvider.of<AddBendingBloc>(context)
             .add(AddBendingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) :DropDownSearchWidget(
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddBendingBloc>(context)
-            .add(AddBendingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

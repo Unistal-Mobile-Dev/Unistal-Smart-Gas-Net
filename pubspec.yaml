@@ -75,9 +75,9 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "vppl_logo"
+  android: "hp_oil_logo"
   ios: true
-  image_path: "assets/vppl_logo.png"
+  image_path: "assets/hp_oil_logo.png"
   min_sdk_android: 21
 
 

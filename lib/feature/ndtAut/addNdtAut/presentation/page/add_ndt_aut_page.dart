@@ -103,8 +103,7 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddNdtAutDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -118,18 +117,6 @@ class _AddNdtAutPageState extends State<AddNdtAutPage> {
         BlocProvider.of<AddNdtAutBloc>(context)
             .add(AddNdtAutMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddNdtAutBloc>(context)
-            .add(AddNdtAutSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

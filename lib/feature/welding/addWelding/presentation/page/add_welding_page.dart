@@ -45,6 +45,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _itemBuilder({required FetchAddWeldingDataState dataState}) {
+    final hideExtraWelders = client == Client.vppl || client == Client.vrpl;
     return Container(
         margin: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -70,7 +71,11 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _electrodeDiaE6010Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeDiaE6010BatchController(dataState: dataState),
-         _verticalSpace(),
+           _verticalSpace(),
+            _electrodeDiaE9045Controller(dataState: dataState),
+            _verticalSpace(),
+            _electrodeDiaE9045BatchController(dataState: dataState),
+            _verticalSpace(),
             _electrodeEiaE8010p1Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeEiaE8010p1BatchController(dataState: dataState),
@@ -97,51 +102,50 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-           client != Client.mgl
-                ? Column(
-                    children: [
-                      _filler2Welders1Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _filler2Welders2Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _filler3Welders1Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _filler3Welders2Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _filler4Welders1Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _filler4Welders2Controller(dataState: dataState),
-                      _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _filler5Welders1Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _filler5Welders2Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _filler6Welders1Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() :_filler6Welders2Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _filler7Welders1Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _filler7Welders2Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() :_filler8Welders1Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() :_filler8Welders2Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _stripWelder1Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _stripWelder2Controller(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
-                    ],
-                  )
+            client != Client.mgl ? Column(
+              children: [
+                _filler2Welders1Controller(dataState: dataState),
+                _verticalSpace(),
+                _filler2Welders2Controller(dataState: dataState),
+                _verticalSpace(),
+                _filler3Welders1Controller(dataState: dataState),
+                _verticalSpace(),
+                _filler3Welders2Controller(dataState: dataState),
+                _verticalSpace(),
+                _filler4Welders1Controller(dataState: dataState),
+                _verticalSpace(),
+                _filler4Welders2Controller(dataState: dataState),
+                _verticalSpace(),
+                if (!hideExtraWelders) ...[
+                  _filler5Welders1Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler5Welders2Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler6Welders1Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler6Welders2Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler7Welders1Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler7Welders2Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler8Welders1Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _filler8Welders2Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _stripWelder1Controller(dataState: dataState),
+                  _verticalSpace(),
+                  _stripWelder2Controller(dataState: dataState),
+                  _verticalSpace(),
+                ],
+              ],
+            )
                 : const SizedBox.shrink(),
             _cappingWelder1Controller(dataState: dataState),
             _verticalSpace(),
             _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
-           client != Client.mgl && client != Client.vppl
-                ? Column(
-                    children: [
+            if (!hideExtraWelders) ... [
                       _electrodeDiaE9045p2Controller(dataState: dataState),
                       _verticalSpace(),
                       _electrodeDiaE9045p2BatchController(dataState: dataState),
@@ -151,9 +155,9 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                       _electrodeDiaE81t8gBatchController(dataState: dataState),
                       _verticalSpace(),
                     ],
-                  )
-                : const SizedBox.shrink(),
             _weldVisualDropDown(dataState: dataState),
+            _verticalSpace(),
+            _bendDetailController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -721,8 +725,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _cappingWelder2Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _cappingWelder2Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
       hint: AppString.cappingWelder2,
       dropdownValue: dataState.cappingWelder2Data.id != null
@@ -741,8 +744,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE6010Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE6010Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidgets(
       label: AppString.electrodeDiaE6010,
       hint: AppString.electrodeDiaE6010,
@@ -760,8 +762,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeDiaE6010BatchController({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidgets(
-      label: client == Client.vppl ? "Batch No.": AppString.electrodeDiaE6010Batch,
-      hint:client == Client.vppl ? "Batch No.": AppString.electrodeDiaE6010Batch,
+      label:client == Client.vppl || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
+      hint: client == Client.vppl || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
       items: dataState.electrodeDiaE6010BatchList,
       dropdownValue:dataState.electrodeDiaE6010BatchValue.batchNo != null ? dataState.electrodeDiaE6010BatchValue : null,
       onChanged: (value) {
@@ -774,11 +776,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     ) : DottedLoaderWidget();
   }
 
-  Widget _electrodeEiaE8010p1Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidgets(
-      label: client == Client.vppl ? "E8010 Dia":AppString.electrodeDiaE7010P1,
-      hint:client == Client.vppl ?  "E8010 Dia":AppString.electrodeDiaE7010P1,
+      label:client == Client.vppl ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
+      hint: client == Client.vppl ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,
       dropdownValue:dataState.electrodeEiaE8010p1Value.diaValue != null ? dataState.electrodeEiaE8010p1Value : null,
       onChanged: (value) {
@@ -793,8 +794,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidgets(
-      label: client == Client.vppl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
-      hint: client == Client.vppl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
+      label:client == Client.vppl || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
+      hint: client == Client.vppl || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
       items: dataState.electrodeEiaE8010p1BatchList,
       dropdownValue:dataState.electrodeEiaE8010p1BatchValue.batchNo != null ? dataState.electrodeEiaE8010p1BatchValue : null,
         onChanged: (value) {
@@ -807,6 +808,40 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     ) : DottedLoaderWidget();
   }
 
+
+  Widget _electrodeDiaE9045Controller({required FetchAddWeldingDataState dataState}) {
+    return DropdownWidgets(
+      label:"E9045 Dia",
+      hint: "E9045  Dia",
+      items: dataState.electrodeDiaE9045DiaList,
+      dropdownValue:dataState.electrodeDiaE9045Value.diaValue != null ? dataState.electrodeDiaE9045Value : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(SelectElectrodeDiaE9045Event(
+            electrodeDiaE9045Value: value!,
+            context: context
+        ));
+      },
+    );
+  }
+
+  Widget _electrodeDiaE9045BatchController({required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderDiaE9045BatchBatch  == false ? DropdownWidgets(
+      label:"Batch No.",
+       hint:"Batch No.",
+      items: dataState.electrodeDiaE9045BatchList,
+      dropdownValue:dataState.electrodeDiaE9045BatchValue.batchNo != null ? dataState.electrodeDiaE9045BatchValue : null,
+      onChanged: (value) {
+        BlocProvider.of<AddWeldingBloc>(context)
+            .add(SelectElectrodeDiaE9045BatchEvent(
+            electrodeDiaE9045BatchValue: value!,
+            context: context
+        ));
+      },
+    ) : DottedLoaderWidget();
+  }
+
+
   Widget _electrodeDiaE9045p2Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -816,8 +851,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE9045p2BatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045p2BatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE9045p2Batch,
@@ -825,8 +859,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -835,14 +868,21 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gBatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gBatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE81t8gBatch,
       controller: dataState.electrodeDiaE81t8gBatchController,
     );
   }
+
+  Widget _bendDetailController({required FetchAddWeldingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Bend Detail",
+      controller: dataState.bendDetailController,
+    );
+  }
+
 
   Widget _activityRemark({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
@@ -853,8 +893,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddWeldingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -868,18 +907,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         BlocProvider.of<AddWeldingBloc>(context)
             .add(AddWeldingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingSelectAlignmentEvent(
-          alignmentData: value!,
         ));
       },
     );

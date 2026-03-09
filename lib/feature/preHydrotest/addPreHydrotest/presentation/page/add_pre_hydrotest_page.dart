@@ -128,8 +128,7 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPreHydrotestDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -143,19 +142,6 @@ class _AddPreHydroTestPageState extends State<AddPreHydroTestPage> {
         BlocProvider.of<AddPreHydrotestBloc>(context)
             .add(AddPreHydrotestMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddPreHydrotestBloc>(context)
-            .add(AddPreHydrotestSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

@@ -132,8 +132,7 @@ class _AddHddReamingPageState extends State<AddHddReamingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddHddReamingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -147,18 +146,6 @@ class _AddHddReamingPageState extends State<AddHddReamingPage> {
         BlocProvider.of<AddHddReamingBloc>(context)
             .add(AddHddReamingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddHddReamingBloc>(context)
-            .add(AddHddReamingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

@@ -124,8 +124,7 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddSoilResistivityDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -138,17 +137,6 @@ class _AddSoilResistivityPageState extends State<AddSoilResistivityPage> {
         BlocProvider.of<AddSoilResistivityBloc>(context)
             .add(AddSoilResistivityMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddSoilResistivityBloc>(context)
-            .add(AddSoilResistivitySelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

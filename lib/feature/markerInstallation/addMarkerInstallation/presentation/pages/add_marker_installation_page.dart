@@ -115,8 +115,7 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddMarkerInstallationDataState dataState}) {
-    return  AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -130,18 +129,6 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
         BlocProvider.of<AddMarkerInstallationBloc>(context)
             .add(AddMarkerInstallationMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddMarkerInstallationBloc>(context)
-            .add(AddMarkerInstallationSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

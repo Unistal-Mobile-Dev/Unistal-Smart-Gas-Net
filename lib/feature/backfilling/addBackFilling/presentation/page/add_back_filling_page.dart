@@ -127,8 +127,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ? DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
             isRequired: true,
             selectedItem: dataState.multipleAlignmentData,
             hint: AppString.selectAlignment,
@@ -142,22 +141,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
               BlocProvider.of<AddBackFillingBloc>(context)
                   .add(AddBackFillingMultipleSelectAlignmentEvent(
                 alignmentData: selectedAlignmentDataList,
-              ));
-            },
-          )
-        : DropDownSearchWidget(
-            isRequired: true,
-            selectedItem: dataState.alignmentData.id != null
-                ? dataState.alignmentData
-                : null,
-            hint: AppString.selectAlignment,
-            items: dataState.alignmentList,
-            itemAsString: (alignmentData) =>
-                alignmentData.alignmentName.toString(),
-            onChanged: (value) {
-              BlocProvider.of<AddBackFillingBloc>(context)
-                  .add(AddBackFillingSelectAlignmentEvent(
-                alignmentData: value,
               ));
             },
           );

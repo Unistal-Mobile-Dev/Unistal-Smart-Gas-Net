@@ -132,8 +132,7 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPilotDrillDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -147,18 +146,6 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
         BlocProvider.of<AddPilotDrillBloc>(context)
             .add(AddPilotDrillMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddPilotDrillBloc>(context)
-            .add(AddPilotDrillSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

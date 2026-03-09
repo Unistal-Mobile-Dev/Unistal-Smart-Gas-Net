@@ -47,6 +47,9 @@ class EnvironmentConfig extends InheritedWidget {
 
       case EnvironmentFlavours.prodJDPL:
         return "https://jdpl.plcms.net/";
+
+      case EnvironmentFlavours.prodBRCPL:
+        return "https://brcpl.plcms.net/";
     }
   }
 
@@ -76,6 +79,9 @@ class EnvironmentConfig extends InheritedWidget {
         return Colors.green.shade700;
 
       case EnvironmentFlavours.prodJDPL:
+        return Colors.amber.shade400;
+
+      case EnvironmentFlavours.prodBRCPL:
         return Colors.amber.shade400;
     }
   }
@@ -109,6 +115,9 @@ class EnvironmentConfig extends InheritedWidget {
 
       case EnvironmentFlavours.prodJDPL:
         return Colors.amber.shade400;
+
+      case EnvironmentFlavours.prodBRCPL:
+        return Colors.amber.shade400;
     }
   }
 }
@@ -123,4 +132,5 @@ enum EnvironmentFlavours {
   prodVRPL,
   prodGJPL,
   prodJDPL,
+  prodBRCPL,
 }

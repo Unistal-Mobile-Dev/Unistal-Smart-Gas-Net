@@ -117,8 +117,7 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddNdtMutDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -132,18 +131,6 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
         BlocProvider.of<AddNdtMutBloc>(context)
             .add(AddNdtMutMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      isRequired: true,
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddNdtMutBloc>(context)
-            .add(AddNdtMutSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

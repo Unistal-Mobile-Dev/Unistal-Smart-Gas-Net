@@ -202,15 +202,13 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         .toList();
 
     if (matchingPipes.isEmpty) {
-      SnackBarErrorWidget(event.context)
-          .show(message: "Pipe number not found, Please check");
+      SnackBarErrorWidget(event.context).show(message: "Pipe number not found, Please check");
       return;
     }
     _isLoader = true;
     _eventComplete(emit);
 
-    double chainageFrom =
-        double.tryParse(chainageFromController.text.toString()) ?? 0.0;
+    double chainageFrom = double.tryParse(chainageFromController.text.toString()) ?? 0.0;
     print("chainageFrom--->${chainageFrom}");
 
     if (chainageToControllers.isNotEmpty) {
@@ -220,16 +218,13 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     double pipeLength = double.tryParse(pipeData.pipeLength.toString()) ?? 0.0;
     double chainageTo = chainageFrom + pipeLength;
 
-    chainageFromController =
-        TextEditingController(text: chainageFrom.toStringAsFixed(2));
-    chainageToController =
-        TextEditingController(text: chainageTo.toStringAsFixed(2));
+    chainageFromController = TextEditingController(text: chainageFrom.toStringAsFixed(2));
+    chainageToController = TextEditingController(text: chainageTo.toStringAsFixed(2));
 
     chainageFromControllers.add(chainageFromController);
     chainageToControllers.add(chainageToController);
 
-    formattedPipeChainageList.add(
-        "${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
+    formattedPipeChainageList.add("${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
 
     pipeLengthList.add(pipeData);
 
@@ -242,8 +237,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   _chainageFromAdd(AddStringingChainageFromAddEvent event, emit) {
     final index = event.index;
     double? fromValue = double.tryParse(chainageFromControllers[index].text);
-    double pipeLength =
-        double.tryParse(pipeLengthList[index].pipeLength.toString()) ?? 0;
+    double pipeLength = double.tryParse(pipeLengthList[index].pipeLength.toString()) ?? 0;
 
     if (fromValue != null) {
       double toValue = fromValue + pipeLength;
@@ -251,22 +245,19 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       String formattedFrom = fromValue.toStringAsFixed(2);
       String formattedTo = toValue.toStringAsFixed(2);
       if (formattedPipeChainageList.length > index) {
-        formattedPipeChainageList[index] =
-            "${pipeLengthList[index].id} : $formattedFrom : $formattedTo";
+        formattedPipeChainageList[index] = "${pipeLengthList[index].id} : $formattedFrom : $formattedTo";
       } else {
-        formattedPipeChainageList
-            .add("${pipeLengthList[index].id} : $formattedFrom : $formattedTo");
+        formattedPipeChainageList.add("${pipeLengthList[index].id} : $formattedFrom : $formattedTo");
       }
       for (int i = index + 1; i < pipeLengthList.length; i++) {
         double prevTo = double.tryParse(chainageToControllers[i - 1].text) ?? 0;
-        double nextPipeLength =
-            double.tryParse(pipeLengthList[i].pipeLength.toString()) ?? 0;
+        double nextPipeLength = double.tryParse(pipeLengthList[i].pipeLength.toString()) ?? 0;
         chainageFromControllers[i].text = prevTo.toStringAsFixed(2);
-        chainageToControllers[i].text =
-            (prevTo + nextPipeLength).toStringAsFixed(2);
+        chainageToControllers[i].text = (prevTo + nextPipeLength).toStringAsFixed(2);
         String formattedFromNext = prevTo.toStringAsFixed(2);
         String formattedToNext = (prevTo + nextPipeLength).toStringAsFixed(2);
         if (formattedPipeChainageList.length > i) {
+          formattedPipeChainageList.clear();
           formattedPipeChainageList[i] =
               "${pipeLengthList[i].id} : $formattedFromNext : $formattedToNext";
         } else {

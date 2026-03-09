@@ -236,7 +236,12 @@ class AddClearingGradingBloc
       structureDetail: structureNameController.text.toString(),
       boundaryLocation: boundaryLocationController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
-      groundType: AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl ? terrainTypeData.id.toString() :groundTypeController.text.toString(),
+      groundType: AppConfig.instanceInit()!.client == Client.vppl
+          || AppConfig.instanceInit()!.client == Client.vrpl
+          || AppConfig.instanceInit()!.client == Client.jdpl
+          || AppConfig.instanceInit()!.client == Client.gjpl
+          || AppConfig.instanceInit()!.client == Client.brcpl
+          ? terrainTypeData.id.toString() :groundTypeController.text.toString(),
       userData: userData,
       file: file,
       ipNumber: ipNumberController.text.toString(),

@@ -153,8 +153,7 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddConcreteCoatingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -167,18 +166,6 @@ class _AddConcreteCoatingPageState extends State<AddConcreteCoatingPage> {
         BlocProvider.of<AddConcreteCoatingBloc>(context)
             .add(AddConcreteCoatingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) :  DropDownSearchWidget(
-      selectedItem:
-          dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddConcreteCoatingBloc>(context)
-            .add(AddConcreteCoatingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

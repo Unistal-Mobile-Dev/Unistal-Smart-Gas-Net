@@ -139,8 +139,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
   }
 
   Widget _alignmentDropdown({required FetchAddZnGroundingAnodeState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -154,18 +153,6 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
         BlocProvider.of<AddZnGroundingAnodeBloc>(context)
             .add(AddZnGroundingAnodeMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem:
-      dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddZnGroundingAnodeBloc>(context)
-            .add(AddZnGroundingAnodeSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

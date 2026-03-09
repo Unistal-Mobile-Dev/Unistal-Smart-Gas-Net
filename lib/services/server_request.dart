@@ -213,13 +213,13 @@ class ServerRequest {
     return null;
   }
 
-  static Future<dynamic> postDataWithFile(
-      {required String urlEndPoint,
-      required var body,
-      required BuildContext context,
-      String? filePath,
-      String? keyWord,
-      List<FileModel>? fileList}) async {
+  static Future<dynamic> postDataWithFile({
+    required String urlEndPoint,
+    required Map<String, String?> body,
+    required BuildContext context,
+    String? filePath,
+    String? keyWord,
+    List<FileModel>? fileList}) async {
     try {
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
@@ -256,8 +256,10 @@ class ServerRequest {
           }
         }
       }
-
-      request.fields.addAll(body);
+      request.fields.addAll(
+          body.map((key, value) => MapEntry(key, value ?? ""))
+      );
+     // request.fields.addAll(body);
       request.headers.addAll(header);
       var response = await request.send();
       var responseData = await response.stream.toBytes();
@@ -279,7 +281,7 @@ class ServerRequest {
         return null;
       }
     } catch (e) {
-      log(e.toString());
+      log("postDataWithFile--> ${e.toString()}");
       return null;
     }
   }

@@ -128,8 +128,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddRadiographyDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ? DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
             isRequired: true,
             selectedItem: dataState.multipleAlignmentData,
             hint: AppString.selectAlignment,
@@ -144,22 +143,6 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
               BlocProvider.of<AddRadiographyBloc>(context)
                   .add(AddRadiographyMultipleSelectAlignmentEvent(
                 alignmentData: selectedAlignmentDataList,
-              ));
-            },
-          )
-        : DropDownSearchWidget(
-            isRequired: true,
-            selectedItem: dataState.alignmentData.id != null
-                ? dataState.alignmentData
-                : null,
-            hint: AppString.selectAlignment,
-            items: dataState.alignmentList,
-            itemAsString: (alignmentData) =>
-                alignmentData.alignmentName.toString(),
-            onChanged: (value) {
-              BlocProvider.of<AddRadiographyBloc>(context)
-                  .add(AddRadiographySelectAlignmentEvent(
-                alignmentData: value,
               ));
             },
           );
@@ -338,7 +321,11 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                         fontWeight: FontWeight.w700,
                         color: AppColor.black,
                       ),
-                      AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
+                      AppConfig.instanceInit()!.client == Client.vppl
+                          || AppConfig.instanceInit()!.client == Client.vrpl
+                          || AppConfig.instanceInit()!.client == Client.gjpl
+                          || AppConfig.instanceInit()!.client == Client.brcpl
+                          || AppConfig.instanceInit()!.client == Client.jdpl
                           ? _welderMultiSelectDropDown(
                               welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],
 

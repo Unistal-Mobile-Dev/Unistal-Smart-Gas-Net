@@ -137,8 +137,7 @@ class AddJointCoatingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
         "pipe_thickness_id":
             thicknessData.id != null ? thicknessData.id.toString() : "",

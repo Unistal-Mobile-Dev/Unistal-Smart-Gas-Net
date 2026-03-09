@@ -142,13 +142,7 @@ class AddOFCBlowingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-            ? alignmentIdList
-            .toString()
-            .replaceAll("[", "")
-            .toString()
-            .replaceAll("]", "")
-            : alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "from_joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "ofc_drum_no": ofcDrumNo.toString(),

@@ -120,8 +120,7 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddCrossingDataState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
@@ -135,18 +134,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
         BlocProvider.of<AddCrossingBloc>(context)
             .add(AddCrossingMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) :  DropDownSearchWidget(
-      isRequired: true,
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddCrossingBloc>(context)
-            .add(AddCrossingSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

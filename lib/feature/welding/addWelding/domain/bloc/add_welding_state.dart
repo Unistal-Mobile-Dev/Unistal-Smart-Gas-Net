@@ -77,6 +77,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final TextEditingController leftPipeNumberController;
   final TextEditingController rightPipeNumberController;
   final TextEditingController searchJointController;
+  final TextEditingController bendDetailController;
 
   final WelderModel rootWelders1Data;
   final WelderModel rootWelders2Data;
@@ -124,6 +125,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
 
   final bool isLoaderDiaE6010BatchBatch;
   final bool isLoaderEiaE8010p1BatchBatch;
+  final bool isLoaderDiaE9045BatchBatch;
   final ElectrodeDiaData electrodeEiaE8010p1Value;
   final ElectrodeBatchData electrodeDiaE6010BatchValue;
   final ElectrodeDiaData electrodeDiaE6010Value;
@@ -132,6 +134,10 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final List<ElectrodeDiaData> electrodeEiaE8010p1DiaList;
   final List<ElectrodeBatchData> electrodeDiaE6010BatchList;
   final List<ElectrodeBatchData> electrodeEiaE8010p1BatchList;
+  final ElectrodeBatchData electrodeDiaE9045BatchValue;
+  final ElectrodeDiaData electrodeDiaE9045Value;
+  final List<ElectrodeDiaData> electrodeDiaE9045DiaList;
+  final List<ElectrodeBatchData> electrodeDiaE9045BatchList;
 
   FetchAddWeldingDataState({
     required this.isLoader,
@@ -225,9 +231,11 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
     required this.searchJointController,
+    required this.bendDetailController,
     required this.lengthController,
     required this.isLoaderDiaE6010BatchBatch,
     required this.isLoaderEiaE8010p1BatchBatch,
+    required this.isLoaderDiaE9045BatchBatch,
     required this.electrodeDiaE6010BatchValue,
     required this.electrodeEiaE8010p1Value,
     required this.electrodeDiaE6010Value,
@@ -236,6 +244,10 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.electrodeEiaE8010p1DiaList,
     required this.electrodeDiaE6010BatchList,
     required this.electrodeEiaE8010p1BatchList,
+    required this.electrodeDiaE9045Value,
+    required this.electrodeDiaE9045BatchValue,
+    required this.electrodeDiaE9045DiaList,
+    required this.electrodeDiaE9045BatchList,
   });
 
   @override
@@ -246,7 +258,7 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         reportNumberController,
         activityRemarkController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         welderData,
         welderList,
@@ -331,9 +343,11 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         searchRightPipeList,
         searchRightPipeLoader,
         searchJointController,
+        bendDetailController,
         lengthController,
         isLoaderDiaE6010BatchBatch,
         isLoaderEiaE8010p1BatchBatch,
+        isLoaderDiaE9045BatchBatch,
         electrodeDiaE6010BatchValue,
         electrodeEiaE8010p1Value,
         electrodeDiaE6010Value,
@@ -342,5 +356,9 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         electrodeEiaE8010p1DiaList,
         electrodeDiaE6010BatchList,
         electrodeEiaE8010p1BatchList,
+        electrodeDiaE9045Value,
+        electrodeDiaE9045BatchValue,
+        electrodeDiaE9045DiaList,
+        electrodeDiaE9045BatchList,
       ];
 }

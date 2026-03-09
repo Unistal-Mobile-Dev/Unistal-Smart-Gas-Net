@@ -119,8 +119,7 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
   }
 
   Widget _alignmentDropdown({required FetchAddPolarisationCoupanState dataState}) {
-    return AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-        ?  DropDownSearchMultiSelectWidget(
+    return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -133,17 +132,6 @@ class _AddPolarisationCoupanPageState extends State<AddPolarisationCoupanPage> {
         BlocProvider.of<AddPolarisationCoupanBloc>(context)
             .add(AddPolarisationCoupanMultipleSelectAlignmentEvent(
           alignmentData: selectedAlignmentDataList,
-        ));
-      },
-    ) : DropDownSearchWidget(
-      selectedItem: dataState.alignmentData.id != null ? dataState.alignmentData : null,
-      hint: AppString.selectAlignment,
-      items: dataState.alignmentList,
-      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddPolarisationCoupanBloc>(context)
-            .add(AddPolarisationCoupanSelectAlignmentEvent(
-          alignmentData: value,
         ));
       },
     );

@@ -130,8 +130,7 @@ class AddNdtAutHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl
-            ? alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", "") :alignmentData.id.toString(),
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "joint_type_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "joint_id":
