@@ -30,7 +30,7 @@ class AppString {
 
   static get lastName => "Last Name";
 
-  static get emailPhoneNumber => "Email/Phone Number";
+  static get emailPhoneNumber => "Enter Email ID";
 
   static get login => "Login";
 

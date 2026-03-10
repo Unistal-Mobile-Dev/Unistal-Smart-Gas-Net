@@ -62,7 +62,6 @@ class AddStringingHelper {
     required LoginDataModel userData,
     required File file,
     required WeatherModel weatherData,
-  //  required List<PipeModel> pipeLength,
     required List<String> pipeLength,
   }) async {
     try {

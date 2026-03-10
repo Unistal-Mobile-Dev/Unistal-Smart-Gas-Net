@@ -134,7 +134,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpRemarkController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 2,
       labelText: AppString.tpRemark,
       controller: dataState.tpRemarkNumberController,
@@ -143,7 +142,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _bearingController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: client == Client.vppl ? TextInputType.text : TextInputType.number,
       labelText: client == Client.vppl ? "Details of Structure In/Across ROU Such as P/L, HT Crossings": AppString.bearingAngle,
       controller: dataState.bearingAngleController,
@@ -152,7 +150,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _terrainController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.terrain,
       controller: dataState.terrainController,
     );

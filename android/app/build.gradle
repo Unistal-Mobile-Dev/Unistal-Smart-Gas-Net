@@ -95,8 +95,8 @@ android {
             versionName "1.0.1-igl"
         }
         prodHPOIL {
-            resValue "string", "app_name", "HP Oil Steel"
-            applicationIdSuffix ".hpoil.Smartgasnet.app"
+            resValue "string", "app_name", "HPOIL Steel"
+            applicationIdSuffix ".hpoil.smartgasnet.app"
             manifestPlaceholders = [
                     appIcon: "@mipmap/hp_oil_logo",
                     appIconRound: "@mipmap/hp_oil_logo"
@@ -116,11 +116,15 @@ android {
         }
         prodVRPL  {
             resValue "string", "app_name", "VRPL Steel"
-            applicationIdSuffix ".vrpl.plcms.Smartgasnet.app"
+            applicationIdSuffix ".vrpl.plcms.smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_logo",
-                    appIconRound: "@mipmap/vrpl_logo"
+                    appIcon: "@mipmap/unistal_logo",
+                    appIconRound: "@mipmap/unistal_logo"
             ]
+            def keystorePropertiesFile = rootProject.file('vrpl.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
             versionCode 1
             versionName "1.0.0-VRPL"
         }

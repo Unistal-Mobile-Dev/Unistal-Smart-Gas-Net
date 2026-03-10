@@ -102,7 +102,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
   Widget _smartGasNetLogo() {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
-      child: Image.asset(AppIcon.smartgasnetLog),
+      child: Image.asset(AppIcon.smartLogo()),
     );
   }
 

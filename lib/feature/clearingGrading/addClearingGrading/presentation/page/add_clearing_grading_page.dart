@@ -232,7 +232,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _tpIpChainageController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: "TP No. From",
       controller: dataState.tpChainageController,
@@ -241,17 +240,14 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _tpIpNOSController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: "TP No. To",
       controller: dataState.tpChainageNumberController,
     );
   }
 
-  Widget _ipNumberController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _ipNumberController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType:TextInputType.number,
       labelText: client == Client.vppl ? "Chainage From":"IP No. From" ,
       controller: dataState.ipNumberController,
@@ -260,34 +256,28 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _ipNumberFrom({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText:  client == Client.vppl ? "Chainage To": AppString.ipNoTo,
       controller: dataState.ipNumberFromController,
     );
   }
 
-  Widget _groundTypeController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _groundTypeController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       maxLine: 2,
       labelText: AppString.groundType,
       controller: dataState.groundTypeController,
     );
   }
 
-  Widget _structureNameController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _structureNameController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.structureName,
       controller: dataState.structureNameController,
     );
   }
 
-  Widget _chainageController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _chainageController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -296,17 +286,14 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _boundaryLocationController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _boundaryLocationController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.boundaryLocation,
       controller: dataState.boundaryLocationController,
     );
   }
 
-  Widget _activityRemark(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _activityRemark({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       maxLine: 3,
       labelText: AppString.activityRemark,
@@ -334,8 +321,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _weatherDropDown(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _weatherDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
@@ -349,8 +335,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _groundTypeDropDown(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _groundTypeDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<GroundTypeModel>(
       hint: AppString.selectGroundType,
       dropdownValue:
@@ -363,8 +348,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _terrainDropDown(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _terrainDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
       hint: client == Client.vppl ? AppString.selectGroundType: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
@@ -378,8 +362,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _gapLengthController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _gapLengthController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: AppString.lengthMeter,

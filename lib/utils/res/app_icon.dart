@@ -24,6 +24,17 @@ class AppIcon {
                                         ? AppIcon.vrplLogo
                                         : AppIcon.appLogoUnistal;
   }
+  static smartLogo() {
+    return AppConfig.instanceInit()!.client == Client.mgl
+        || AppConfig.instanceInit()!.client == Client.pbgpl
+        || AppConfig.instanceInit()!.client == Client.unistal
+        ? AppIcon.smartgasnetLog
+        : AppConfig.instanceInit()!.client == Client.vppl
+        || AppConfig.instanceInit()!.client == Client.vrpl
+        || AppConfig.instanceInit()!.client == Client.gjpl
+        || AppConfig.instanceInit()!.client == Client.gjpl
+            ? AppIcon.pcmsLog : "";
+  }
 
   static get appLogoPurvaBharti => "assets/logo.png";
 
@@ -36,6 +47,7 @@ class AppIcon {
   static get colourStrip => "assets/ic_strip.png";
 
   static get smartgasnetLog => "assets/smartgasnet_log.png";
+  static get pcmsLog => "assets/pcms-logo.png";
 
   static get vpplLogo => "assets/vppl_logo.png";
 

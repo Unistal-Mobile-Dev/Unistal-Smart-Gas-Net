@@ -365,6 +365,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       multipleAlignmentData = [];
       _weatherData = WeatherModel();
       pipeLengthList = [];
+      formattedPipeChainageList = [];
       _eventComplete(emit);
     }
   }
