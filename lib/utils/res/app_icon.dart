@@ -28,11 +28,13 @@ class AppIcon {
     return AppConfig.instanceInit()!.client == Client.mgl
         || AppConfig.instanceInit()!.client == Client.pbgpl
         || AppConfig.instanceInit()!.client == Client.unistal
+        || AppConfig.instanceInit()!.client == Client.hpoil
         ? AppIcon.smartgasnetLog
         : AppConfig.instanceInit()!.client == Client.vppl
         || AppConfig.instanceInit()!.client == Client.vrpl
         || AppConfig.instanceInit()!.client == Client.gjpl
-        || AppConfig.instanceInit()!.client == Client.gjpl
+        || AppConfig.instanceInit()!.client == Client.jdpl
+        || AppConfig.instanceInit()!.client == Client.brcpl
             ? AppIcon.pcmsLog : "";
   }
 
