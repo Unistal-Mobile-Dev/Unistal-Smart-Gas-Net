@@ -118,8 +118,8 @@ android {
             resValue "string", "app_name", "VRPL Steel"
             applicationIdSuffix ".vrpl.plcms.smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
             ]
             def keystorePropertiesFile = rootProject.file('vrpl.properties')
             if (keystorePropertiesFile.exists()) {
