@@ -82,8 +82,8 @@ class AddHydroTestHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-        required AlignmentModel alignmentData,
-        required List<AlignmentModel> multipleAlignmentData,
+      required AlignmentModel alignmentData,
+      required List<AlignmentModel> multipleAlignmentData,
       required String date,
       required String activityRemark,
       required LoginDataModel userData,
@@ -93,67 +93,70 @@ class AddHydroTestHelper {
       required String length,
       required String reportNumber,
       required List<FileModel> fileList}) async {
-   // try {
-      var location = await LocationHelper.getLocation(context: context);
-      LocationModel locationData = LocationModel();
-      if (location != null) {
-        locationData = location;
-      } else {
-        return null;
-      }
+    // try {
+    var location = await LocationHelper.getLocation(context: context);
+    LocationModel locationData = LocationModel();
+    if (location != null) {
+      locationData = location;
+    } else {
+      return null;
+    }
 
-      List<dynamic> alignmentIdList = [];
-      for (var alignmentId in multipleAlignmentData) {
-        alignmentIdList.add(alignmentId.id);
-      }
+    List<dynamic> alignmentIdList = [];
+    for (var alignmentId in multipleAlignmentData) {
+      alignmentIdList.add(alignmentId.id);
+    }
 
-      String url = APIs.addHydroTestApi;
-      var json = {
-        "schema": userData.schema.toString(),
-        "spreadId": userData.spreadId.toString(),
-        "sectionId": userData.sectionId.toString(),
-        "activityDate": date.toString(),
-        "report_no": reportNumber.toString(),
-        "remarks": activityRemark.toString(),
-        "latitude": locationData.lat.toString(),
-        "longitude": locationData.long.toString(),
-        // "alignmentSheet": alignmentData.id.toString(),
-        "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "jointFrom":
-            fromJointData.id != null ? fromJointData.id.toString() : "",
-        "jointTo": toJointData.id != null ? toJointData.id.toString() : "",
-        "totalLength": length.toString(),
-      };
-      var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-          context: !context.mounted ? context : context,
-          fileList: fileList);
-      if (res != null &&
-          res['status'] != null &&
-          res['status'] == true &&
-          res['message'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context)
-            .show(message: res['message']);
-        return res;
-      } else if (res != null &&
-          res['status'] != null &&
-          res['errors'] != null &&
-          res['message'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(
-            message: res['message']
-                .toString()
-                .replaceAll("{", "")
-                .toString()
-                .replaceAll("}", ""));
-        return null;
-      } else {
-        SnackBarErrorWidget(!context.mounted ? context : context)
-            .show(message: "Internal Server Error");
-        return null;
-      }
-  /*  } catch (e) {
+    String url = APIs.addHydroTestApi;
+    var json = {
+      "schema": userData.schema.toString(),
+      "spreadId": userData.spreadId.toString(),
+      "sectionId": userData.sectionId.toString(),
+      "activityDate": date.toString(),
+      "report_no": reportNumber.toString(),
+      "remarks": activityRemark.toString(),
+      "latitude": locationData.lat.toString(),
+      "longitude": locationData.long.toString(),
+      // "alignmentSheet": alignmentData.id.toString(),
+      "alignmentSheet": alignmentIdList
+          .toString()
+          .replaceAll("[", "")
+          .toString()
+          .replaceAll("]", ""),
+      "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+      "jointFrom": fromJointData.id != null ? fromJointData.id.toString() : "",
+      "jointTo": toJointData.id != null ? toJointData.id.toString() : "",
+      "totalLength": length.toString(),
+    };
+    var res = await ServerRequest.postDataWithFile(
+        urlEndPoint: url,
+        body: json,
+        context: !context.mounted ? context : context,
+        fileList: fileList);
+    if (res != null &&
+        res['status'] != null &&
+        res['status'] == true &&
+        res['message'] != null) {
+      SnackBarSuccessWidget(!context.mounted ? context : context)
+          .show(message: res['message']);
+      return res;
+    } else if (res != null &&
+        res['status'] != null &&
+        res['errors'] != null &&
+        res['message'] != null) {
+      SnackBarErrorWidget(!context.mounted ? context : context).show(
+          message: res['message']
+              .toString()
+              .replaceAll("{", "")
+              .toString()
+              .replaceAll("}", ""));
+      return null;
+    } else {
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "Internal Server Error");
+      return null;
+    }
+    /*  } catch (e) {
 
       print("-----------------------------${e.toString()}");
       SnackBarErrorWidget(!context.mounted ? context : context)

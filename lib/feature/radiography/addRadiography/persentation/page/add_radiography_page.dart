@@ -324,7 +324,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                       AppConfig.instanceInit()!.client == Client.vppl
                           || AppConfig.instanceInit()!.client == Client.vrpl
                           || AppConfig.instanceInit()!.client == Client.gjpl
-                          || AppConfig.instanceInit()!.client == Client.brcpl
+                          || AppConfig.instanceInit()!.client == Client.bcpl
                           || AppConfig.instanceInit()!.client == Client.jdpl
                           ? _welderMultiSelectDropDown(
                               welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],

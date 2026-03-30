@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/domain/bloc/edit_hindrance_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/bloc/view_hindrance_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/bloc/add_bending_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
@@ -44,6 +46,7 @@ import 'feature/HDD/hddCrossing/addHDDCrossing/domain/bloc/add_hdd_crossing_bloc
 import 'feature/HDD/hddPulling/addHDDPulling/domain/bloc/add_hdd_pulling_bloc.dart';
 import 'feature/HDD/hddReaming/addHDDReaming/domain/bloc/add_hdd_reaming_bloc.dart';
 import 'feature/HDD/pilotDrill/addPilotDrill/domain/bloc/add_pilot_drill_bloc.dart';
+import 'feature/Hindrance/addHindrance/domain/bloc/add_hindrance_bloc.dart';
 import 'feature/TCP/cableInstallation/addCableInstallation/domain/bloc/add_cable_installation_bloc.dart';
 import 'feature/TCP/pinBrazzing/addPinBrazzing/domain/bloc/add_pin_brazzing_bloc.dart';
 import 'feature/TCP/polarisationCoupan/addPolarisationCoupan/domain/bloc/add_polarisation_coupan_bloc.dart';
@@ -75,38 +78,6 @@ class _RootState extends State<Root> {
     super.initState();
   }
 
-  // MaterialColor primaryColor = MaterialColor(
-  //   AppColor.theme_Color,
-  //   <int, Color>{
-  //     50: AppColor.themeColor,
-  //     100: AppColor.themeColor,
-  //     200: AppColor.themeColor,
-  //     300: AppColor.themeColor,
-  //     400: AppColor.themeColor,
-  //     500: AppColor.themeColor,
-  //     600: AppColor.themeColor,
-  //     700: AppColor.themeColor,
-  //     800: AppColor.themeColor,
-  //     900: AppColor.themeColor,
-  //   },
-  // );
-  //
-  // MaterialColor primarySwatch = MaterialColor(
-  //   AppColor.theme_LightColor,
-  //   <int, Color>{
-  //     50: AppColor.themeLightColor,
-  //     100: AppColor.themeLightColor,
-  //     200: AppColor.themeLightColor,
-  //     300: AppColor.themeLightColor,
-  //     400: AppColor.themeLightColor,
-  //     500: AppColor.themeLightColor,
-  //     600: AppColor.themeLightColor,
-  //     700: AppColor.themeLightColor,
-  //     800: AppColor.themeLightColor,
-  //     900: AppColor.themeLightColor,
-  //   },
-  // );
-
   @override
   Widget build(BuildContext context) {
     Singleton.instanceInit()?.context = context;
@@ -117,14 +88,15 @@ class _RootState extends State<Root> {
     return MultiProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => LoginBloc()),
+        BlocProvider(create: (BuildContext context) => AddHindranceBloc()),
+        BlocProvider(create: (BuildContext context) => ViewHindranceBloc()),
+        BlocProvider(create: (BuildContext context) => EditHindranceBloc()),
         BlocProvider(create: (BuildContext context) => ForgotPasswordBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => DashboardBloc()),
         BlocProvider(create: (BuildContext context) => AddRouteSurveyBloc()),
-        BlocProvider(
-            create: (BuildContext context) => AddClearingGradingBloc()),
-        BlocProvider(
-            create: (BuildContext context) => AddSoilResistivityBloc()),
+        BlocProvider(create: (BuildContext context) => AddClearingGradingBloc()),
+        BlocProvider(create: (BuildContext context) => AddSoilResistivityBloc()),
         BlocProvider(create: (BuildContext context) => AddRouHandoverBloc()),
         BlocProvider(create: (BuildContext context) => AddTrenChingBloc()),
         BlocProvider(create: (BuildContext context) => AddStringingBloc()),
@@ -174,7 +146,7 @@ class _RootState extends State<Root> {
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        title: "Smart Gas Net",
+        title: "Steel",
         theme: ThemeData(
           primaryColor: EnvironmentConfig.of(context)!.primaryTheme,
           hintColor: EnvironmentConfig.of(context)!.primaryTheme,

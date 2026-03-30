@@ -61,28 +61,48 @@ class TextFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 8, vertical: maxLine != null ? 8 : 0),
-            suffixIcon: suffixIcon ?? const Text(""),
+
             label: Text.rich(TextSpan(children: [
               TextSpan(text: labelText),
               TextSpan(
-                  text: isRequired != null && isRequired == true ? ' *' : "",
-                  style: const TextStyle(color: Colors.red)),
+                text: isRequired == true ? ' *' : "",
+                style: const TextStyle(color: Colors.red),
+              ),
             ])),
-            labelStyle: TextStyle(
-              fontSize: AppFont.font_14,
-              color: controller == null
-                  ? EnvironmentConfig.of(context)!.primaryTheme
-                  : controller!.text.toString().isNotEmpty
-                      ? EnvironmentConfig.of(context)!.primaryTheme
-                      : EnvironmentConfig.of(context)!.primaryTheme,
+
+            fillColor: enabled == false ? Colors.grey.shade100 : Colors.white,
+            filled: true,
+
+            // ✅ Normal state
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: EnvironmentConfig.of(context)!.primaryTheme,
+                width: 1,
+              ),
             ),
-            fillColor: Colors.white,
+
+            // ✅ Focused state (highlight)
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: EnvironmentConfig.of(context)!.primaryTheme,
+                width: 2, // thicker for focus
+              ),
+            ),
+
+            // ✅ Disabled state (visually distinct)
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Colors.grey.shade400, // 👈 change here
+                width: 1,
+              ),
+            ),
+
+            // Optional fallback
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                width: 1,
-                style: BorderStyle.none,
-              ),
             ),
           ),
           onChanged: onChanged),

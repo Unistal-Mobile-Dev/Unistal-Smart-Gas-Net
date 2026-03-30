@@ -103,6 +103,10 @@ android {
             ]
             versionCode 1
             versionName "1.0.0-HPOIL"
+            def keystorePropertiesFile = rootProject.file('hpoil.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
         }
         prodVPPL {
             resValue "string", "app_name", "VPPL Steel"
@@ -152,19 +156,29 @@ android {
             versionCode 1
             versionName "1.0.0-JDPL"
         }
-        prodBRCPL  {
-            resValue "string", "app_name", "BRCPL Steel"
+        prodBCPL  {
+            resValue "string", "app_name", "BCPL Steel"
             applicationIdSuffix ".brcpl.smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
             ]
             def keystorePropertiesFile = rootProject.file('brcpl.properties')
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
+            versionCode 2
+            versionName "1.0.0-BCPL"
+        }
+        prodAGCL  {
+            resValue "string", "app_name", "AGCL Steel"
+            applicationIdSuffix ".agcl.smartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/agcl_logo",
+                    appIconRound: "@mipmap/agcl_logo"
+            ]
             versionCode 1
-            versionName "1.0.0-BRCPL"
+            versionName "1.0.0-AGCL"
         }
 
     }

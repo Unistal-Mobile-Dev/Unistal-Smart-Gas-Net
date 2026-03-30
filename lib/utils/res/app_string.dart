@@ -9,11 +9,12 @@ class AppString {
     Client.mgl: "Version : 1.0.0 - MGL Steel - 11-06-2025",
     Client.pbgpl: "Version : 1.0.0 - PBGPL Steel - 11-06-2025",
     Client.unistal: "Version : 1.0.0 - Unistal Steel - 11-06-2025",
-    Client.hpoil: "Version : 1.0.0 - HP OIL Steel - 19-02-2026",
+    Client.hpoil: "Version : 1.0.0 - HPOIL Steel-13-03-2026",
     Client.vppl: "Version : 1.0.0 - VPPL Steel - 28-01-2026",
     Client.vrpl: "Version : 1.0.0 - VRPL Steel - 06-03-2026",
     Client.gjpl: "Version : 1.0.0 - GJPL Steel - 06-02-2026",
     Client.jdpl: "Version : 1.0.0 - JDPL Steel - 28-01-2026",
+    Client.agcl: "Version : 1.0.0 - AGCL Steel - 23-03-2026",
   };
 
   static String get version => _releaseDates[AppConfig.instanceInit()!.client] ?? "";

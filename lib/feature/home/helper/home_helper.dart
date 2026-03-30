@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/presentation/page/add_hindrance_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/presentation/page/view_hindrance_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/presentation/page/add_concrete_coating_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/presentation/page/add_crossing_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuctTesting/presentation/page/add_hdpe_duct_testing_page.dart';
@@ -37,7 +38,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/pre
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/presentation/page/add_bending_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/presentation/page/add_welding_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/presentation/page/add_tiein_page.dart';
 
 /* ===================== TCP ===================== */
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/presentation/pages/add_pin_brazzing.dart';
@@ -68,16 +68,20 @@ class HomeHelper {
       Map<String, String> para = {
         "schema": "${userData.schema}",
         "userid": "${userData.userId}",
-        "section_id":"${userData.sectionId}"
+        "section_id": "${userData.sectionId}"
       };
 
       String json = Uri(queryParameters: para).query;
       var res = await ServerRequest.getData(urlEndPoint: url + json);
 
       if (res != null && res['success'] == 200 && res['data'] != null) {
-        final list = (res['data'] as List).map((e) => ActivitySectionData.fromJson(e)).toList();
+        final list = (res['data'] as List)
+            .map((e) => ActivitySectionData.fromJson(e))
+            .toList();
 
-        AppConfig.instanceInit()?.setListActivityData(newListOfActivitySection: list);
+        AppConfig.instanceInit()
+            ?.setListActivityData(newListOfActivitySection: list);
+
         return list;
       }
       return null;
@@ -93,10 +97,12 @@ class HomeHelper {
   }) async {
     try {
       final drawerList = <DrawerModel>[];
-      final activities = AppConfig.instanceInit()?.listOfActivitySection ?? [];
+      final activities =
+          AppConfig.instanceInit()?.listOfActivitySection ?? [];
 
-      final activeActivities = activities.where((e) => e.status == "1").toList();
+      final activeActivities = activities.where((e) => e.status == "1" || e.status == "0").toList();
 
+      /// Dashboard
       drawerList.add(
         DrawerModel(
           widget: const DashboardPage(),
@@ -107,203 +113,209 @@ class HomeHelper {
         ),
       );
 
+      // drawerList.add(
+      //   DrawerModel(
+      //     widget: const AddHindrancePage(),
+      //     icon: Icons.warning_amber_outlined,
+      //     label: "Hindrance",
+      //     sublist: [], // no sub items
+      //     isSelected: false,
+      //   ),
+      // );
+
       final mainlineSubItems = <DrawerSubModel>[];
       final tcpSubItems = <DrawerSubModel>[];
       final hddSubItems = <DrawerSubModel>[];
 
-      const mainlineModels = [
-        "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
-        "16","17","18","19","20","21","22","23","24","25","26","27",
-        "30", "32","33","52","56","59","60","61",
-      ];
-
-
-      const tcpModels = [
-        "28","29","31","40","41","42","43","44","45","46","54","66","68","75","76",
-      ];
-
-      const hddModels = [
-        "34","35","36","37","38","39","57","73",
-      ];
+      /// Prevent duplicates
+      final addedModels = <String>{};
 
       for (final item in activeActivities) {
-        final model = item.activityId?.toString().trim() ?? "";
+        final model = (item.modelName ?? "").trim();
 
-        debugPrint("MODEL VALUE -> $model");
+        if (model.isEmpty) continue;
+        if (addedModels.contains(model)) continue;
 
-        if (mainlineModels.contains(model)) {
-          mainlineSubItems.addAll(_mainlineSublist(model));
+        debugPrint(
+            "Activity -> ${item.activityName} | Model -> $model");
+
+        /// MAINLINE
+        if (_mainlineRoutes.containsKey(model)) {
+          mainlineSubItems.add(_sub(
+            _mainlineLabels[model] ?? model,
+            _mainlineRoutes[model]!,
+          ));
+          addedModels.add(model);
         }
 
-        if (tcpModels.contains(model)) {
-          tcpSubItems.addAll(_tcpSublist(model));
+        /// TCP
+        else if (_tcpRoutes.containsKey(model)) {
+          tcpSubItems.add(_sub(
+            _tcpLabels[model] ?? model,
+            _tcpRoutes[model]!,
+          ));
+          addedModels.add(model);
         }
 
-        if (hddModels.contains(model)) {
-          hddSubItems.addAll(_hddSublist(model));
+        /// HDD
+        else if (_hddRoutes.containsKey(model)) {
+          hddSubItems.add(_sub(
+            _hddLabels[model] ?? model,
+            _hddRoutes[model]!,
+          ));
+          addedModels.add(model);
+        }
+
+
+        /// UNKNOWN (Optional Debug)
+        else {
+          debugPrint("⚠️ No mapping found for model: $model");
         }
       }
 
       if (mainlineSubItems.isNotEmpty) {
-        drawerList.add(_groupItem("Mainline", Icons.alt_route, mainlineSubItems));
+        drawerList.add(
+            _groupItem("Mainline", Icons.alt_route, mainlineSubItems));
       }
 
       if (tcpSubItems.isNotEmpty) {
-        drawerList.add(_groupItem(AppString.tcp, Icons.table_chart_outlined, tcpSubItems));
+        drawerList.add(
+            _groupItem(AppString.tcp, Icons.table_chart, tcpSubItems));
       }
 
       if (hddSubItems.isNotEmpty) {
-        drawerList.add(_groupItem(AppString.hdd, Icons.hd_outlined, hddSubItems));
+        drawerList.add(
+            _groupItem(AppString.hdd, Icons.hd, hddSubItems));
       }
 
+      drawerList.add(
+        _groupItem(
+          "Hindrance",
+          Icons.warning_amber_outlined,
+          [
+            _sub("Add Hindrance", const AddHindrancePage()),
+            _sub("View Hindrance", const ViewHindrancePage()),
+          ],
+        ),
+      );
+
       return drawerList;
-    } catch (_) {
+    } catch (e) {
+      debugPrint("Drawer Error: $e");
       return null;
     }
   }
 
-  /* ===================== SUBLIST BUILDERS ===================== */
+  /* ===================== ROUTE MAPS ===================== */
 
-  static List<DrawerSubModel> _mainlineSublist(String model) {
-    switch (model) {
-      case "1":
-        return [_sub(AppString.routeSurvey, const AddRouteSurveyPage())];
-      case "2":
-        return [_sub(AppString.rouHandover, const AddRouHandoverPage())];
-      case "3":
-        return [_sub(AppString.clearingGrading, const AddClearingGradingPage())];
-      case "4":
-        return [_sub(AppString.trenChing, const AddTrenChingPage())];
-      case "5":
-        return [_sub(AppString.stringing, const AddStringingPage())];
-      case "6":
-        return [_sub(AppString.bending, const AddBendingPage())];
-      case "7":
-        return [_sub(AppString.welding, const AddWeldingPage())];
-      case "8":
-        return [_sub(AppString.weldRepair, const AddWelderRepairPage())];
-      case "9":
-        return [_sub(AppString.ndtAut, const AddNdtAutPage())];
-      case "10":
-        return [_sub(AppString.radiography, const AddRadioGraphyPage())];
-      case "11":
-        return [_sub(AppString.ndtMut, const AddNdtMutPage())];
-      case "12":
-        return [_sub(AppString.lpt, const AddLptPage())];
-      case "13":
-        return [_sub(AppString.jointCoating, const AddJointCoatingPage())];
-      case "14":
-        return [_sub(AppString.concreteCoating, const AddConcreteCoatingPage())];
-      case "15":
-        return [_sub(AppString.lowering, const AddLoweringPage())];
-      case "16":
-        return [_sub(AppString.crossing, const AddCrossingPage())];
-      case "17":
-        return [_sub(AppString.levelling, const AddLevellingPage())];
-      case "18":
-        return [_sub(AppString.backFilling, const AddBackFillingPage())];
-      case "19":
-        return [_sub(AppString.hdpeDuctLaying, const AddHdpeDuctPage())];
-      case "20":
-        return [_sub(AppString.hdpeDuctTesting, const AddHDPEDuctTestingPage())];
-      case "21":
-        return [_sub(AppString.ofcSplicing, const AddOfcSplicingPage())];
-      case "22":
-        return [_sub(AppString.ofcBlowing, AddOFCBlowingPage())];
-      case "23":
-        return [_sub(AppString.preHydrotest, const AddPreHydroTestPage())];
-      case "24":
-        return [_sub(AppString.preHydrotest, const AddPreHydroTestPage())];
-      case "25":
-        return [_sub(AppString.hydrotest, const AddHydroTestPage())];
-      case "26":
-        return [_sub(AppString.restoration, const AddRestorationPage())];
-      case "27":
-        return [_sub(AppString.marker, const AddMarkerInstallationPage())];
-        case "30":
-        return [_sub(AppString.soilResistivity, const AddSoilResistivityPage())];
-      case "32":
-        return [_sub(AppString.tiein, const AddTieinPage())];
-      case "33":
-      return [_sub(AppString.totalWeldJoints, Center(child: Text("${AppString.totalWeldJoints} Page not Found"),))];
-      case "52":
-        return [_sub(AppString.dpt, Center(child: Text("${AppString.dpt} Page not Found"),))];
-      case "56":
-        return [_sub(AppString.hindrance, Center(child: Text("${AppString.hindrance} Page not Found"),))];
-      case "59":
-        return [_sub(AppString.ofcFinalTesting, Center(child: Text("${AppString.ofcFinalTesting} Page not Found"),))];
-      case "60":
-        return [_sub(AppString.svInstallation, Center(child: Text("${AppString.svInstallation} Page not Found"),))];
-      case "61":
-        return [_sub(AppString.ipInstallation, Center(child: Text("${AppString.ipInstallation} Page not Found"),))];
-      default:
-        return [];
-    }
-  }
+  /// -------- MAINLINE --------
+  static final Map<String, Widget> _mainlineRoutes = {
+    "RouteSurvey": const AddRouteSurveyPage(),
+    "RouHandover": const AddRouHandoverPage(),
+    "Clearingngrading": const AddClearingGradingPage(),
+    "Trenching": const AddTrenChingPage(),
+    "Stringing": const AddStringingPage(),
+    "Bending": const AddBendingPage(),
+    "Welding": const AddWeldingPage(),
+    "WeldRepair": const AddWelderRepairPage(),
+    "NdtAut": const AddNdtAutPage(),
+    "Ndtrt": const AddRadioGraphyPage(),
+    "NdtMut": const AddNdtMutPage(),
+    "NdtLpt": const AddLptPage(),
+    "JointCoating": const AddJointCoatingPage(),
+    "ConcreteCoating": const AddConcreteCoatingPage(),
+    "Lowering": const AddLoweringPage(),
+    "Crossing": const AddCrossingPage(),
+    "Levelling": const AddLevellingPage(),
+    "Backfilling": const AddBackFillingPage(),
+    "HDPEDuctLaying": const AddHdpeDuctPage(),
+    "HdpeDuctTesting": const AddHDPEDuctTestingPage(),
+    "OfcSplicing": const AddOfcSplicingPage(),
+    "OfcBlowing": AddOFCBlowingPage(),
+    "PrepostHydrotest": const AddPreHydroTestPage(), // handle both
+    "Hydrotest": const AddHydroTestPage(),
+    "Restoration": const AddRestorationPage(),
+    "Marker": const AddMarkerInstallationPage(),
+    "SoilResistivity": const AddSoilResistivityPage(),
+  };
 
-  static List<DrawerSubModel> _tcpSublist(String model) {
-    switch (model) {
-      case "28":
-        return [_sub(AppString.sacrificialAnode, const AddSacrificialAnodePage())];
-      case "29":
-        return [_sub(AppString.sacrificialAnode, const AddZnGroundingAnodePage())];
-      case "31":
-        return [_sub(AppString.installationCables, const AddCableInstallationPage())];
-        case "40":
-        return [_sub(AppString.pinBrazzing, const AddPinBrazzingPage())];
-      case "41":
-        return [_sub(AppString.mgAnodeInstallation,Center(child: Text("${AppString.mgAnodeInstallation} Page not Found"),))];
-      case "42":
-        return [_sub(AppString.anodeBedInstallation, Center(child: Text("${AppString.anodeBedInstallation} Page not Found"),))];
-      case "43":
-        return [_sub(AppString.cableLaying, Center(child: Text("${AppString.cableLaying} Page not Found"),))];
-      case "44":
-        return [_sub(AppString.groundingAnode, const AddZnGroundingAnodePage())];
-      case "45":
-        return [_sub(AppString.testStationBoxes, const AddTestStationBoxPage())];
-      case "46":
-        return [_sub(AppString.thermitWelding, const AddThermitWeldPage())];
-      case "54":
-        return [_sub(AppString.ssd, const AddSsdPage())];
-        case "66":
-        return [_sub(AppString.surgeDiverter, const AddSurgeDiverterPage())];
-        case "68":
-        return [_sub(AppString.polarisationCoupan, const AddPolarisationCoupanPage())];
-        case "75":
-        return [_sub(AppString.sacrificialAnode, const AddSacrificialAnodePage())];
-      case "76":
-        return [_sub(AppString.tcpMonitoringReport, Center(child: Text("${AppString.tcpMonitoringReport} Page not Found"),))];
-      default:
-        return [];
-    }
-  }
+  static final Map<String, String> _mainlineLabels = {
+    "RouteSurvey": AppString.routeSurvey,
+    "RouHandover": AppString.rouHandover,
+    "Clearingngrading": AppString.clearingGrading,
+    "Trenching": AppString.trenChing,
+    "Stringing": AppString.stringing,
+    "Bending": AppString.bending,
+    "Welding": AppString.welding,
+    "WeldRepair": AppString.weldRepair,
+    "NdtAut": AppString.ndtAut,
+    "Ndtrt": AppString.radiography,
+    "NdtMut": AppString.ndtMut,
+    "NdtLpt": AppString.lpt,
+    "JointCoating": AppString.jointCoating,
+    "ConcreteCoating": AppString.concreteCoating,
+    "Lowering": AppString.lowering,
+    "Crossing": AppString.crossing,
+    "Levelling": AppString.levelling,
+    "Backfilling": AppString.backFilling,
+    "HDPEDuctLaying": AppString.hdpeDuctLaying,
+    "HdpeDuctTesting": AppString.hdpeDuctTesting,
+    "OfcSplicing": AppString.ofcSplicing,
+    "OfcBlowing": AppString.ofcBlowing,
+    "PrepostHydrotest": AppString.preHydrotest,
+    "Hydrotest": AppString.hydrotest,
+    "Restoration": AppString.restoration,
+    "Marker": AppString.marker,
+    "SoilResistivity": AppString.soilResistivity,
+  };
 
-  static List<DrawerSubModel> _hddSublist(String model) {
-    switch (model) {
-      case "34":
-        return [_sub(AppString.hddReaming, const AddHddReamingPage())];
-      case "35":
-        return [_sub(AppString.pilotDrill, const AddPilotDrillPage())];
-      case "36":
-        return [_sub(AppString.hddBore,  Center(child: Text("${AppString.hddBore} Page not Found"),))];
-      case "37":
-        return [_sub(AppString.hddPulling, const AddHddPullingPage())];
-      case "38":
-        return [_sub(AppString.gauging,  Center(child: Text("${AppString.gauging} Page not Found"),))];
-      case "39":
-        return [_sub(AppString.molling, Center(child: Text("${AppString.molling} Page not Found"),))];
-      case "57":
-        return [_sub(AppString.hddCleanPass, const AddHddCleanPassPage())];
-      case "73":
-        return [_sub(AppString.hddCrossing, const AddHddCrossingPage())];
-      default:
-        return [];
-    }
-  }
+  /// -------- TCP --------
+  static final Map<String, Widget> _tcpRoutes = {
+    "PinBrazzing": const AddPinBrazzingPage(),
+    "CableInstallation": const AddCableInstallationPage(),
+    "ZnGroundingAnode": const AddZnGroundingAnodePage(),
+    "TestStationBox": const AddTestStationBoxPage(),
+    "ThermitWelding": const AddThermitWeldPage(),
+    "SurgeDiverter": const AddSurgeDiverterPage(),
+    "SSD": const AddSsdPage(),
+    "PolarisationCoupan": const AddPolarisationCoupanPage(),
+    "SacrificialAnode": const AddSacrificialAnodePage(),
+  };
+
+  static final Map<String, String> _tcpLabels = {
+    "PinBrazzing": AppString.pinBrazzing,
+    "CableInstallation": AppString.installationCables,
+    "ZnGroundingAnode": AppString.groundingAnode,
+    "TestStationBox": AppString.testStationBoxes,
+    "ThermitWelding": AppString.thermitWelding,
+    "SurgeDiverter": AppString.surgeDiverter,
+    "SSD": AppString.ssd,
+    "PolarisationCoupan": AppString.polarisationCoupan,
+    "SacrificialAnode": AppString.sacrificialAnode,
+  };
+
+  /// -------- HDD --------
+  static final Map<String, Widget> _hddRoutes = {
+    "Reaming": const AddHddReamingPage(),
+    "Drilling": const AddPilotDrillPage(),
+    "PipePull": const AddHddPullingPage(),
+    "CleanPass": const AddHddCleanPassPage(),
+    "HddCrossing": const AddHddCrossingPage(),
+  };
+
+  static final Map<String, String> _hddLabels = {
+    "Reaming": AppString.hddReaming,
+    "Drilling": AppString.pilotDrill,
+    "PipePull": AppString.hddPulling,
+    "CleanPass": AppString.hddCleanPass,
+    "HddCrossing": AppString.hddCrossing,
+  };
+
 
   /* ===================== HELPERS ===================== */
 
-  static DrawerModel _groupItem(String label, IconData icon, List<DrawerSubModel> sublist) {
+  static DrawerModel _groupItem(
+      String label, IconData icon, List<DrawerSubModel> sublist) {
     return DrawerModel(
       widget: const SizedBox.shrink(),
       icon: icon,
@@ -326,10 +338,12 @@ class HomeHelper {
   static checkAppUpdate({required BuildContext context}) async {
     try {
       PackageInfo info = await PackageInfo.fromPlatform();
+
       String url =
           "http://unistal.smartgasnet.com/api/app-details?packageName=${info.packageName}";
 
       var res = await ServerRequest.getGoogleData(url: Uri.parse(url));
+
       if (res != null &&
           res['status'] == true &&
           double.parse(info.buildNumber) <

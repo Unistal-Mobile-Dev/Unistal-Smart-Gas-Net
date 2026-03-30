@@ -6,4 +6,4 @@ enum OrderStatus { pending, confirm, complete, cancel }
 
 enum DeviceType { phone, tablet }
 
-enum Client {unistal, mgl, igl, pbgpl, hpoil, vppl, vrpl, gjpl, jdpl, brcpl}
+enum Client {unistal, mgl, igl, pbgpl, hpoil, vppl, vrpl, gjpl, jdpl, bcpl, agcl}

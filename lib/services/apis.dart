@@ -5,8 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart'
 class APIs {
   static BuildContext? context = Singleton.instanceInit()?.context;
 
-  static final String baseUrl =
-      EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
+  static final String baseUrl = EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
 
   static get login => "api/auth";
 
@@ -183,5 +182,13 @@ class APIs {
   static get getAnodeTypeApi => "api/steel/get-anode-type";
 
   static get addReamingInsertApi => "api/steel/reaminginsert";
+
   static get addOfcBlowingInsertApi => "api/steel/ofcblowinsert";
+  static get hindranceNextId => "api/steel/hindrance-getNextId";
+  static get hindranceCategory => "api/steel/hindrence-category";
+  static get hindranceType => "api/steel/hindrance-type";
+  static get activityAffected => "api/steel/activity-affected";
+  static get responsibleBy => "api/steel/responsible-by";
+  static get Addhindranceinsert => "api/steel/hindranceinsert";
+  static get hindranceList => "api/steel/hindrance-list";
 }

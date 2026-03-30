@@ -120,4 +120,9 @@ class ActivitySectionData {
     data['end_date'] = this.endDate;
     return data;
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return activityName.toString();
+  }
 }

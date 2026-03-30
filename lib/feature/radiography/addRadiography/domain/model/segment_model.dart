@@ -108,7 +108,7 @@ class SegmentModel {
             || AppConfig.instanceInit()!.client == Client.vrpl
             || AppConfig.instanceInit()!.client == Client.gjpl
             || AppConfig.instanceInit()!.client == Client.jdpl
-            || AppConfig.instanceInit()!.client == Client.brcpl
+            || AppConfig.instanceInit()!.client == Client.bcpl
           ? segmentWelderList!
             .map((v) => v.toJsonList())
             .toList()

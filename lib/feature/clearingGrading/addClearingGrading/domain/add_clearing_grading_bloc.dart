@@ -240,7 +240,7 @@ class AddClearingGradingBloc
           || AppConfig.instanceInit()!.client == Client.vrpl
           || AppConfig.instanceInit()!.client == Client.jdpl
           || AppConfig.instanceInit()!.client == Client.gjpl
-          || AppConfig.instanceInit()!.client == Client.brcpl
+          || AppConfig.instanceInit()!.client == Client.bcpl
           ? terrainTypeData.id.toString() :groundTypeController.text.toString(),
       userData: userData,
       file: file,

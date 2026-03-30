@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 
 class AppConfig {
@@ -18,6 +19,8 @@ class AppConfig {
 
   String sectionId = "";
   List<ActivitySectionData> listOfActivitySection = [];
+
+  HindranceListData hindranceListData = HindranceListData();
 
   setClient({required Client client}) {
     this.client = client;
@@ -44,9 +47,15 @@ class AppConfig {
   }
 
   void setSectionId({required String newSectionId}) {
-    this.sectionId = newSectionId;
+    sectionId = newSectionId;
   }
+
   void setListActivityData({required List<ActivitySectionData> newListOfActivitySection}) {
-    this.listOfActivitySection = newListOfActivitySection;
+    listOfActivitySection = newListOfActivitySection;
   }
+
+  void setHindranceListData({required HindranceListData newValue}) {
+    hindranceListData = newValue;
+  }
+
 }

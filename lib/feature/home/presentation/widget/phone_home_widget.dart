@@ -86,18 +86,6 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   color: EnvironmentConfig.of(context)!.primaryTheme,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: Text(
-                  //     "${UserInfo.instance!.userData!.sectionName}\n (Dia - ${UserInfo.instance!.userData!.diameter}${UserInfo.instance!.userData!.diauom})",
-                  //     textAlign: TextAlign.center,
-                  //     style: TextStyle(
-                  //         fontSize: 12,
-                  //         color: AppColor.white,
-                  //         fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
                   Expanded(child: state.childWidget),
                   Container(
                     color: EnvironmentConfig.of(context)!.primaryTheme,

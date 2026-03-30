@@ -20,22 +20,27 @@ class AppIcon {
                                 ? AppIcon.vpplLogo
                                 : AppConfig.instanceInit()!.client == Client.jdpl
                                     ? AppIcon.vrplLogo
-         : AppConfig.instanceInit()!.client == Client.brcpl
+                                    : AppConfig.instanceInit()!.client == Client.bcpl
                                         ? AppIcon.vrplLogo
-                                        : AppIcon.appLogoUnistal;
+                                        : AppConfig.instanceInit()!.client == Client.agcl
+                                            ? AppIcon.agclLogo
+                                            : AppIcon.appLogoUnistal;
   }
+
   static smartLogo() {
     return AppConfig.instanceInit()!.client == Client.mgl
         || AppConfig.instanceInit()!.client == Client.pbgpl
         || AppConfig.instanceInit()!.client == Client.unistal
         || AppConfig.instanceInit()!.client == Client.hpoil
+        || AppConfig.instanceInit()!.client == Client.agcl
         ? AppIcon.smartgasnetLog
         : AppConfig.instanceInit()!.client == Client.vppl
         || AppConfig.instanceInit()!.client == Client.vrpl
         || AppConfig.instanceInit()!.client == Client.gjpl
         || AppConfig.instanceInit()!.client == Client.jdpl
-        || AppConfig.instanceInit()!.client == Client.brcpl
-            ? AppIcon.pcmsLog : "";
+        || AppConfig.instanceInit()!.client == Client.bcpl
+            ? AppIcon.pcmsLog
+            : "";
   }
 
   static get appLogoPurvaBharti => "assets/logo.png";
@@ -49,11 +54,14 @@ class AppIcon {
   static get colourStrip => "assets/ic_strip.png";
 
   static get smartgasnetLog => "assets/smartgasnet_log.png";
+
   static get pcmsLog => "assets/pcms-logo.png";
 
   static get vpplLogo => "assets/vppl_logo.png";
 
   static get vrplLogo => "assets/vrpl_logo.png";
+
+  static get agclLogo => "assets/agcl_banner.png";
 
   static get oilIndiaLogo => "assets/oil_india_logo.png";
 
