@@ -43,7 +43,8 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://bcpl.plcms.net/";
       case EnvironmentFlavours.prodAGCL:
         return "https://agcl.smartgasnet.com/";
-        throw UnimplementedError();
+      case EnvironmentFlavours.prodDBPL:
+        return "https://dbpl.plcms.net/";
     }
   }
 
@@ -62,42 +63,46 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.prodVPPL:
         return Colors.green.shade700;
       case EnvironmentFlavours.prodVRPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodGJPL:
         return Colors.green.shade700;
       case EnvironmentFlavours.prodJDPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodBCPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodAGCL:
-        return Colors.blue.shade800;
+        return Color(0xFFF5C400);
+      case EnvironmentFlavours.prodDBPL:
+       return Color(0xFFF5C400);
     }
   }
 
   Color get secondaryTheme {
     switch (flavours) {
       case EnvironmentFlavours.prodPBGPL:
-        return Colors.yellow.shade800;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodUnistal:
         return Colors.blue;
       case EnvironmentFlavours.prodIGL:
-        return Colors.yellow.shade800;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodMGL:
-        return Colors.yellow.shade800;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodHPOIL:
         return Colors.green.shade800;
       case EnvironmentFlavours.prodVPPL:
         return Colors.green.shade700;
       case EnvironmentFlavours.prodVRPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodGJPL:
         return Colors.green.shade700;
       case EnvironmentFlavours.prodJDPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodBCPL:
-        return Colors.amber.shade400;
+        return Color(0xFFF5C400);
       case EnvironmentFlavours.prodAGCL:
         return Colors.blue.shade800;
+      case EnvironmentFlavours.prodDBPL:
+        return Color(0xFF1E1E1E);
     }
   }
 }
@@ -114,4 +119,5 @@ enum EnvironmentFlavours {
   prodJDPL,
   prodBCPL,
   prodAGCL,
+  prodDBPL,
 }

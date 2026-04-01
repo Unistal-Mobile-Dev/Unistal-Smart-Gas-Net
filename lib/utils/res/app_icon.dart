@@ -24,6 +24,7 @@ class AppIcon {
                                         ? AppIcon.vrplLogo
                                         : AppConfig.instanceInit()!.client == Client.agcl
                                             ? AppIcon.agclLogo
+                                             : AppConfig.instanceInit()!.client == Client.dbpl ? AppIcon.vrplLogo
                                             : AppIcon.appLogoUnistal;
   }
 
@@ -39,6 +40,7 @@ class AppIcon {
         || AppConfig.instanceInit()!.client == Client.gjpl
         || AppConfig.instanceInit()!.client == Client.jdpl
         || AppConfig.instanceInit()!.client == Client.bcpl
+        || AppConfig.instanceInit()!.client == Client.dbpl
             ? AppIcon.pcmsLog
             : "";
   }

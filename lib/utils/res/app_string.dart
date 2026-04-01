@@ -15,6 +15,7 @@ class AppString {
     Client.gjpl: "Version : 1.0.0 - GJPL Steel - 06-02-2026",
     Client.jdpl: "Version : 1.0.0 - JDPL Steel - 28-01-2026",
     Client.agcl: "Version : 1.0.0 - AGCL Steel - 23-03-2026",
+    Client.dbpl: "Version : 1.0.0 - DBPL Steel - 01-04-2026",
   };
 
   static String get version => _releaseDates[AppConfig.instanceInit()!.client] ?? "";
