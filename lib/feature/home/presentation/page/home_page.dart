@@ -30,12 +30,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> _onWillPop() async {
+    final bloc = context.read<HomeBloc>();
+
+    // ✅ If not on dashboard → go back
+    if (bloc.showBackButton) {
+      bloc.add(BackToHomeEvent());
+      return false;
+    }
+
+    // ✅ If on dashboard → confirm exit
     return (await showDialog(
-            context: context,
-            builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
-                message: "Do you want to exit an App?",
-                okButtonText: "Exit",
-                onPressed: () => Navigator.of(context).pop(true)))) ??
+      context: context,
+      builder: (BuildContext mContext) =>
+          MessageBoxTwoButtonPopWidget(
+            message: "Do you want to exit an App?",
+            okButtonText: "Exit",
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+    )) ??
         false;
   }
 }

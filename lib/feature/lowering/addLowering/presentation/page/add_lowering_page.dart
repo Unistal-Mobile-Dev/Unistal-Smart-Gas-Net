@@ -113,7 +113,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   Widget _dateController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
@@ -196,16 +197,13 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _locatinController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.location,
       controller: dataState.locationController,
     );
   }
 
-  Widget _holidayDetectorDetailsController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _holidayDetectorDetailsController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.holidayDetectorDetails,
       controller: dataState.holidayDetectorDetailsController,
     );
@@ -213,16 +211,13 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _modelController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.makeModel,
       controller: dataState.modelController,
     );
   }
 
-  Widget _testVoltageController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.testVoltage,
       controller: dataState.testVoltageController,
@@ -239,11 +234,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _calibarationDateController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _calibarationDateController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.calibarationDate,
       controller: dataState.calibarationDateController,
       onTap: () {
@@ -255,10 +249,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _repairCoatingController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _repairCoatingController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.repairCoatingDamage,
       controller: dataState.repairCoatingController,
     );

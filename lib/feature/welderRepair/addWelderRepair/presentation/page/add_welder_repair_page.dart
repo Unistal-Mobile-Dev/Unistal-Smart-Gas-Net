@@ -107,7 +107,8 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   Widget _dateController({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

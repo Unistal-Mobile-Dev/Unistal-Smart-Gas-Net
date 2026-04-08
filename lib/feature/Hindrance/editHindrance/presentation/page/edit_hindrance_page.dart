@@ -137,7 +137,8 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
   Widget _dateController({required FetchEditHindranceDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+        enabled: true,
+        readOnly: true,
       labelText: "Report Date",
       controller: dataState.dateCtrl
     );

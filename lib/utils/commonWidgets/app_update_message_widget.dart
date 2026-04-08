@@ -4,16 +4,9 @@ import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart'
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdateMessage {
-  static showAlertDialog({required BuildContext context, required String url}) {
-    Widget cancelButton = TextButton(
-      child: TextWidget(
-        "Update Later",
-        fontSize: AppFont.font_14,
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
+
+  static showAlertDialog({required BuildContext context, required String url, bool? isLater}) {
+
     Widget continueButton = TextButton(
       child: TextWidget(
         "Update Now",
@@ -43,7 +36,7 @@ class AppUpdateMessage {
         fontSize: AppFont.font_14,
       ),
       actions: [
-        cancelButton,
+        //   cancelButton,
         continueButton,
       ],
     );
@@ -51,8 +44,13 @@ class AppUpdateMessage {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return WillPopScope(
+            onWillPop: () => _onWillPop(),
+            child: alert);
       },
     );
+  }
+  static Future<bool> _onWillPop() async {
+    return false;
   }
 }

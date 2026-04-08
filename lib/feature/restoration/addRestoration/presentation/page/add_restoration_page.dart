@@ -88,7 +88,8 @@ class _AddRestorationPageState extends State<AddRestorationPage> {
   Widget _dateController({required FetchAddRestorationDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

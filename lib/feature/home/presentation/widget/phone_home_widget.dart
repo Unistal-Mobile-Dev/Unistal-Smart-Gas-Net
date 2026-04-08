@@ -22,6 +22,28 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
           elevation: 0,
           toolbarHeight: 40,
           backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
+          iconTheme: const IconThemeData(
+            color: Colors.white, // ✅ change both menu + back color here
+          ),
+          leading: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is FetchHomeDataState && state.showBackButton) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    context.read<HomeBloc>().add(BackToHomeEvent());
+                  },
+                );
+              }
+
+              return Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+              );
+            },
+          ),
           title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
             if (state is FetchHomeDataState) {
               return TextWidget(

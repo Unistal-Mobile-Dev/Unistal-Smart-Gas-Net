@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
@@ -38,11 +39,15 @@ class AddRadiographyBloc
   TextEditingController equipmentController = TextEditingController();
 
   List<JointTypeModel> jointTypeList = [];
+
   List<WeatherModel> weatherList = [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+
+  List<TerrainTypeModel> inspectionTechniqueList = [];
+  TerrainTypeModel inspectionVal = TerrainTypeModel();
 
   bool isLoader = false;
   bool isWelderLoader = false;
@@ -52,7 +57,6 @@ class AddRadiographyBloc
   WeatherModel weatherData = WeatherModel();
 
   LoginDataModel _userData = LoginDataModel();
-
   LoginDataModel get userData => _userData;
 
   WelderModel welderData = WelderModel();
@@ -60,10 +64,7 @@ class AddRadiographyBloc
   WPSModel wpsTypeData = WPSModel();
 
   List<SegmentModel> segmentList = [];
-
-
   SegmentModel segmentData = SegmentModel();
-
   List<SegmentModel> selectedSegmentList = [];
 
   List<JointNumberModel> jointNumberList = [];
@@ -74,6 +75,7 @@ class AddRadiographyBloc
   List<NdtStatusModel> ndtAgencyList = [];
   List<NdtStatusModel> meconPbgplList = [];
   List<NdtStatusModel> dSPPLAgencyList = [];
+
   NdtStatusModel ndtAgencyData = NdtStatusModel();
   NdtStatusModel meconPbgplData = NdtStatusModel();
   NdtStatusModel dSPPLAgencyData = NdtStatusModel();
@@ -101,6 +103,7 @@ class AddRadiographyBloc
     on<AddRadiographySelectSegmentDataEvent>(_selectSegment);
     on<AddRadiographySelectDateEvent>(_selectDate);
     on<AddRadiographySelectNdtSourceDataEvent>(_selectNdtSource);
+    on<AddRadiographySelectInspectionEvent>(_selectInspection);
     on<AddRadiographyAddImageEvent>(_selectFile);
     on<AddRadiographySubmitDataEvent>(_submitData);
   }
@@ -124,8 +127,8 @@ class AddRadiographyBloc
     file = File("");
     jointNumberList = [];
     welderData = WelderModel();
-     wpsTypeList = [];
-     wpsTypeData = WPSModel();
+    wpsTypeList = [];
+    wpsTypeData = WPSModel();
     jointNumberData = JointNumberModel();
     weatherData = WeatherModel();
     ndtAgencyList = [];
@@ -143,6 +146,8 @@ class AddRadiographyBloc
     densityController.text = "";
     equipmentController.text = "";
     locationDiscoverDefectController.text = "";
+    inspectionTechniqueList = [];
+    inspectionVal = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
@@ -154,9 +159,36 @@ class AddRadiographyBloc
       alignmentList = res;
     }
     var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
     if (resWPS != null) {
       wpsTypeList = resWPS;
+    }
+    var resFilmType = await AddRadiographyHelper.fetchFilmTypeData();
+    if (resFilmType != null) {
+      filmTypeController.text = resFilmType.name ?? "";
+    } else {
+      filmTypeController.clear();
+    }
+
+    var resDensity = await AddRadiographyHelper.fetchDensityData();
+    if (resDensity != null) {
+      densityController.text = resDensity.name ?? "";
+    } else {
+      densityController.clear();
+    }
+
+    var resSensitivity = await AddRadiographyHelper.fetchSensitivityData();
+    if (resSensitivity != null) {
+      sensivityController.text = resSensitivity.name ?? "";
+    } else {
+      sensivityController.clear();
+    }
+
+    var resInspectionTechnique =
+        await AddRadiographyHelper.fetchInspectionTechnique();
+    if (resInspectionTechnique != null) {
+      inspectionTechniqueList = resInspectionTechnique;
     }
 
 
@@ -176,7 +208,6 @@ class AddRadiographyBloc
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }*/
-
 
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context, userData: userData, type: "afterwelding"
@@ -230,7 +261,8 @@ class AddRadiographyBloc
     _eventComplete(emit);
   }
 
-  _selectMultipleAlignment(AddRadiographyMultipleSelectAlignmentEvent event, emit) {
+  _selectMultipleAlignment(
+      AddRadiographyMultipleSelectAlignmentEvent event, emit) {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
@@ -258,10 +290,13 @@ class AddRadiographyBloc
     _eventComplete(emit);
   }
 
-  _selectMultipleRootWelder(AddRadiographyMultipleSelectWelderDataEvent event, emit) {
+  _selectMultipleRootWelder(
+      AddRadiographyMultipleSelectWelderDataEvent event, emit) {
     isLoader = true;
     _eventComplete(emit);
-    segmentList[event.index].segmentWelderList![event.welderIndex].multipleWelderData = event.welderData;
+    segmentList[event.index]
+        .segmentWelderList![event.welderIndex]
+        .multipleWelderData = event.welderData;
     isLoader = false;
     _eventComplete(emit);
   }
@@ -379,6 +414,11 @@ class AddRadiographyBloc
     _eventComplete(emit);
   }
 
+  _selectInspection(AddRadiographySelectInspectionEvent event, emit) {
+    inspectionVal = event.inspectionVal;
+    _eventComplete(emit);
+  }
+
   _selectFile(AddRadiographyAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
@@ -420,7 +460,7 @@ class AddRadiographyBloc
         density: densityController.text.toString(),
         equipment: equipmentController.text.toString(),
         filmType: filmTypeController.text.toString(),
-        inspectTechnique: inspectTechniqueController.text.toString(),
+        inspectTechnique: inspectionVal,
         sensivity: sensivityController.text.toString(),
         file: file);
     isLoader = false;
@@ -445,6 +485,7 @@ class AddRadiographyBloc
       chainageController.text = "";
       filmTypeController.text = "";
       inspectTechniqueController.text = "";
+      inspectionVal = TerrainTypeModel();
       sensivityController.text = "";
       densityController.text = "";
       equipmentController.text = "";
@@ -487,6 +528,8 @@ class AddRadiographyBloc
       sensivityController: sensivityController,
       wpsTypeData: wpsTypeData,
       wpsTypeList: wpsTypeList,
+      inspectionTechniqueList: inspectionTechniqueList,
+      inspectionVal: inspectionVal,
     ));
   }
 }

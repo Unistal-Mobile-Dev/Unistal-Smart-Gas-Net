@@ -86,7 +86,8 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _dateController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

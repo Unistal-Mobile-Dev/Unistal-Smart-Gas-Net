@@ -5,6 +5,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/dom
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_pop_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHydroTestPage extends StatefulWidget {
@@ -51,8 +53,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
             _verticalSpace(),
-/*            _alignmentDropdown(dataState: dataState),
-            _verticalSpace(),*/
+            _alignmentDropdown(dataState: dataState),
+            _verticalSpace(),
 /*            _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _fromJointNumberDropDown(dataState: dataState),
@@ -61,7 +63,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _listBuilder(dataState: dataState),
+            _photoList(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -78,7 +80,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
   Widget _dateController({required FetchAddHydrotestDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
@@ -101,6 +104,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
 
   Widget _alignmentDropdown({required FetchAddHydrotestDataState dataState}) {
     return DropDownSearchMultiSelectWidget(
+      isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
@@ -147,11 +151,9 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddHydrotestDataState dataState}) {
+  Widget _toJointNumberDropDown({required FetchAddHydrotestDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-          dataState.toJointData.id != null ? dataState.toJointData : null,
+      selectedItem: dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
@@ -171,18 +173,6 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-  Widget _listBuilder({required FetchAddHydrotestDataState dataState}) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        for (int i = 0; i < dataState.fileList.length; i++)
-          _photo(fileData: dataState.fileList[i], index: i),
-      ],
-    );
-  }
-
   Widget _activityRemark({required FetchAddHydrotestDataState dataState}) {
     return TextFieldWidget(
       maxLine: 3,
@@ -191,91 +181,46 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
     );
   }
 
-  Widget _photo({required FileModel fileData, required int index}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width / 3,
-        height: MediaQuery.of(context).size.width / 3,
-        child: InkWell(
-          onTap: () {
-            mediaType(context: context, index: index);
-          },
-          child: DottedBorder(
-            color: AppColor.grey,
-            strokeWidth: 1,
-            child: fileData.file.path.isEmpty
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Center(
-                        child: Icon(Icons.photo_camera_back_outlined),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
-                        child: TextWidget(
-                          fileData.name.toString(),
-                          textAlign: TextAlign.center,
-                          fontSize: AppFont.font_12,
-                          color: AppColor.grey,
-                        ),
-                      ),
-                    ],
-                  )
-                : Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          fileData.file.path
-                                      .toString()
-                                      .toLowerCase()
-                                      .contains(".jpg") ||
-                                  fileData.file.path
-                                      .toString()
-                                      .toLowerCase()
-                                      .contains(".png") ||
-                                  fileData.file.path
-                                      .toString()
-                                      .toLowerCase()
-                                      .contains(".jpeg")
-                              ? Image.file(
-                                  fileData.file,
-                                  fit: BoxFit.fill,
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  height:
-                                      MediaQuery.of(context).size.width / 4.5,
-                                )
-                              : fileData.file.path
-                                      .toString()
-                                      .toLowerCase()
-                                      .contains(".pdf")
-                                  ? const Icon(Icons.picture_as_pdf_outlined)
-                                  : const Icon(Icons.document_scanner_outlined),
-                          TextWidget(
-                            fileData.name,
-                            textAlign: TextAlign.center,
-                            color: EnvironmentConfig.of(context)!.primaryTheme,
-                            fontSize: AppFont.font_12,
-                          ),
-                        ],
-                      ),
-                      Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.width / 3,
-                          color: Colors.white.withOpacity(0.6),
-                          child: Center(
-                              child: Icon(
-                            Icons.refresh,
-                            color: EnvironmentConfig.of(context)!.primaryTheme,
-                          ))),
-                    ],
-                  ),
-          ),
-        ),
+  Widget _photoList({required FetchAddHydrotestDataState dataState}) {
+    return GridView.count(
+      crossAxisCount: 3,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
+      padding: EdgeInsets.zero,
+    //  childAspectRatio: 1,
+
+      children: List.generate(
+        dataState.fileList.length,
+            (index) {
+          final fileModel = dataState.fileList[index];
+          return ImageWidget(
+            title: fileModel.name.toString(),
+            imagePath: fileModel.file.path,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) {
+                  return ImagePopWidget(
+                    onTapCamera: () {
+                      Navigator.pop(context);
+                      context.read<AddHydrotestBloc>().add(
+                        SelectCameraCaptureEvent(index: index),
+                      );
+                    },
+                    onTapGallery: () {
+                      Navigator.pop(context);
+                      context.read<AddHydrotestBloc>().add(
+                        SelectGalleryCaptureEvent(index: index),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }

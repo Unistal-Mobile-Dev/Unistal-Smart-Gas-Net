@@ -95,7 +95,8 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   Widget _dateController({required FetchAddCableInstallationState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

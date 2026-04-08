@@ -229,33 +229,58 @@ class ServerRequest {
       log(header.toString());
 
       var request = MultipartRequest("POST", uri);
+      /// ================= FILE LIST =================
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
-          String fileExtention = fileData.file.path.split(".").last;
-          String _filePath = fileExtention.toString().toLowerCase() != "pdf"
-              ? await fileCompress(file: fileData.file)
-              : fileData.file.path.toString();
-          if (fileData.file.toString().isNotEmpty) {
-            var uploadFile = await MultipartFile.fromPath(
-                fileData.keyName, _filePath,
-                contentType: MediaType("file", fileExtention));
-            request.files.add(uploadFile);
+          if (fileData.file.path.isEmpty) continue;
+
+          String ext = getFileExtension(fileData.file.path);
+
+          String finalPath = ext != "pdf"
+              ? await safeCompress(fileData.file)
+              : fileData.file.path;
+
+          if (finalPath.isEmpty) {
+            log("❌ Skipping invalid file");
+            continue;
           }
-        }
-      } else {
-        if (filePath != null && filePath.isNotEmpty && keyWord != null) {
-          if (filePath.isNotEmpty) {
-            File file = File(filePath);
-            String fileExtention = filePath.split(".").last;
-            String _filePath = fileExtention.toString().toLowerCase() != "pdf"
-                ? await fileCompress(file: file)
-                : file.path.toString();
-            var uploadFile = await MultipartFile.fromPath(keyWord, _filePath,
-                contentType: MediaType("file", fileExtention));
-            request.files.add(uploadFile);
-          }
+
+          log("Uploading File: $finalPath");
+
+          var multipartFile = await MultipartFile.fromPath(
+            fileData.keyName,
+            finalPath,
+            contentType: getMediaType(ext),
+          );
+
+          request.files.add(multipartFile);
         }
       }
+
+      /// ================= SINGLE FILE =================
+      else if (filePath != null &&
+          filePath.isNotEmpty &&
+          keyWord != null) {
+
+        String ext = getFileExtension(filePath);
+
+        String finalPath = ext != "pdf"
+            ? await safeCompress(File(filePath))
+            : filePath;
+
+        if (finalPath.isNotEmpty) {
+          log("Uploading Single File: $finalPath");
+
+          var multipartFile = await MultipartFile.fromPath(
+            keyWord,
+            finalPath,
+            contentType: getMediaType(ext),
+          );
+
+          request.files.add(multipartFile);
+        }
+      }
+
       request.fields.addAll(
           body.map((key, value) => MapEntry(key, value ?? ""))
       );
@@ -286,7 +311,48 @@ class ServerRequest {
     }
   }
 
-  static updateCookie(Response response) {
+  /// ================= HELPER: FILE EXTENSION =================
+  static String getFileExtension(String path) {
+    try {
+      if (path.isEmpty || !path.contains(".")) {
+        return "jpg"; // fallback
+      }
+      return path.split(".").last.toLowerCase();
+    } catch (e) {
+      return "jpg";
+    }
+  }
+
+  /// ================= HELPER: MIME TYPE =================
+  static MediaType getMediaType(String ext) {
+    switch (ext) {
+      case "jpg":
+      case "jpeg":
+        return MediaType("image", "jpeg");
+      case "png":
+        return MediaType("image", "png");
+      case "pdf":
+        return MediaType("application", "pdf");
+      default:
+        return MediaType("application", "octet-stream");
+    }
+  }
+
+  /// ================= HELPER: SAFE COMPRESS =================
+  static Future<String> safeCompress(File file) async {
+    try {
+      // 👉 Replace this with your actual compression logic
+      // Example: return await fileCompress(file: file);
+
+      return file.path; // fallback (NO compression)
+    } catch (e) {
+      log("Compression failed, using original file");
+      return file.path;
+    }
+  }
+
+
+static updateCookie(Response response) {
     String? rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');

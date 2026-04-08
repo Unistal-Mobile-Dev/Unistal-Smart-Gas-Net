@@ -95,54 +95,9 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                 ),
               );
             },
-
-            // onTap: () {
-            //   if (subItem.widget != null) {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (_) => subItem.widget!),
-            //     );
-            //   }
-            // },
           );
         }).toList(),
       ),
     );
   }
-
-  // Widget _listBuilder({required FetchHomeDataState dataState}) {
-  //   return Container(
-  //     margin: const EdgeInsets.all(10.0),
-  //     child: ListView.builder(
-  //         itemCount: dataState.drawerList.length,
-  //         itemBuilder: (context, index) {
-  //           return index != 0
-  //               ? SizedBox(
-  //                   height: MediaQuery.of(context).size.height * 0.08,
-  //                   child: Padding(
-  //                     padding: const EdgeInsets.all(8.0),
-  //                     child: ElevatedButton.icon(
-  //                       style: ButtonStyle(
-  //                         backgroundColor:
-  //                             MaterialStateProperty.all(Colors.white),
-  //                       ),
-  //                       onPressed: () {
-  //                         BlocProvider.of<HomeBloc>(context).add(
-  //                             HomeDrawerItemSelectedEvent(
-  //                                 isSelected: true,
-  //                                 index: index,
-  //                                 context: context));
-  //                       },
-  //                       icon: Icon(
-  //                         dataState.drawerList[index].icon,
-  //                         color: EnvironmentConfig.of(context)!.primaryTheme,
-  //                       ),
-  //                       label: TextWidget(dataState.drawerList[index].label),
-  //                     ),
-  //                   ),
-  //                 )
-  //               : const SizedBox.shrink();
-  //         }),
-  //   );
-  // }
 }

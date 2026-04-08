@@ -79,10 +79,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _northCoordinateButton(dataState: dataState),
-            _northingLatController(dataState: dataState),
-            _verticalSpace(),
-            _northingLongController(dataState: dataState),
+            northCoordinateWidget(dataState: dataState),
             _verticalSpace(),
             _elevationPipetopController(dataState: dataState),
             _verticalSpace(),
@@ -102,7 +99,8 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _dateController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
@@ -173,6 +171,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
 
   Widget _jointNumberDropDown({required FetchAddLevellingDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.jointData.id != null ? dataState.jointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointList,
@@ -184,15 +183,10 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _northCoordinateButton(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _northCoordinateButton({required FetchAddLevellingDataState dataState}) {
     return dataState.isLoader == false
-        ? ButtonWidget(
-            text: AppString.captureGPS,
-            height:
-                AppConfig.getDeviceType(context: context) == DeviceType.tablet
-                    ? MediaQuery.of(context).size.height * 0.13
-                    : null,
+        ? IconButton(
+         icon: Icon(Icons.location_on_outlined),
             onPressed: () {
               BlocProvider.of<AddLevellingBloc>(context).add(
                   AddLevellingCaptureNorthingLocationEvent(context: context));
@@ -200,8 +194,18 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
         : const DottedLoaderWidget();
   }
 
-  Widget _northingLatController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget northCoordinateWidget({required FetchAddLevellingDataState dataState}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(child: _northingLatController(dataState: dataState)),
+        Flexible(child: _northingLongController(dataState: dataState)),
+        Flexible(child: _northCoordinateButton(dataState: dataState)),
+      ],
+    );
+  }
+
+  Widget _northingLatController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
       textInputType: TextInputType.number,
@@ -210,8 +214,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _northingLongController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _northingLongController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
       textInputType: TextInputType.number,
@@ -220,16 +223,14 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _elevationPipetopController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _elevationPipetopController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.elevationPipeTop,
       controller: dataState.elevationPipetopController,
     );
   }
 
-  Widget _natureGroundLeveController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _natureGroundLeveController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.naturalGroundLeve,
@@ -245,18 +246,18 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _chainageFromController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
   }
 
-  Widget _chainageToController(
-      {required FetchAddLevellingDataState dataState}) {
+  Widget _chainageToController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,

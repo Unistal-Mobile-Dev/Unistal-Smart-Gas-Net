@@ -77,7 +77,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _dateController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

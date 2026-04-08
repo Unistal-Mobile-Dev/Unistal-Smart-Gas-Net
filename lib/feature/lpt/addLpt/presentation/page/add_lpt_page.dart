@@ -82,7 +82,8 @@ class _AddLptPageState extends State<AddLptPage> {
   Widget _dateController({required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

@@ -98,7 +98,8 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   Widget _dateController({required FetchAddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

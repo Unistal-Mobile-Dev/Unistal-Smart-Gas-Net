@@ -2,15 +2,16 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'input_decoration_style.dart';
 
-class DropDownSearchWidget extends StatelessWidget {
-  final List<dynamic> items;
+class DropDownSearchWidget<T> extends StatelessWidget {
+  final List<T> items;
   final ValueChanged<dynamic>? onChanged;
   final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
-  final dynamic selectedItem;
-  final bool? isRequired;
-  final bool? enabled;
+  final T? selectedItem;
+  final bool isRequired;
+  final bool enabled;
 
   const DropDownSearchWidget({
     super.key,
@@ -19,108 +20,75 @@ class DropDownSearchWidget extends StatelessWidget {
     required this.itemAsString,
     required this.hint,
     this.selectedItem,
-    this.isRequired,
-    this.enabled,
+    this.isRequired = false,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppConfig.getDeviceType(context: context) == DeviceType.phone
-          ? MediaQuery.of(context).size.height * 0.07
-          : MediaQuery.of(context).size.height * 0.15,
-      child: DropdownSearch<dynamic>(
-        selectedItem: selectedItem,
-        enabled: enabled ?? true,
-        compareFn: (i, s) => i.isEqual(s),
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          textAlign: TextAlign.start,
-          textAlignVertical: TextAlignVertical.center,
-          dropdownSearchDecoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                width: 1,
-                style: BorderStyle.none,
-              ),
-            ),
-            label: Text.rich(TextSpan(children: [
-              TextSpan(
-                  text: hint,
-                  style: TextStyle(
-                    color: EnvironmentConfig.of(context)!.primaryTheme,
-                    fontSize: AppFont.font_14,
-                  )),
-              TextSpan(
-                  text: isRequired == true ? " *" : '',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: AppFont.font_14,
-                  )),
-            ])),
-            labelStyle: TextStyle(
-                fontSize: AppFont.font_16, color: EnvironmentConfig.of(context)!.primaryTheme),
-            hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),
-            contentPadding: EdgeInsets.only(
-                top: AppConfig.getDeviceType(context: context) ==
-                    DeviceType.phone
-                    ? MediaQuery.of(context).size.height * 0.018
-                    : MediaQuery.of(context).size.height * 0.03,
-                left: AppConfig.getDeviceType(context: context) ==
-                    DeviceType.phone
-                    ? MediaQuery.of(context).size.height * 0.01
-                    : MediaQuery.of(context).size.height * 0.02),
-            hintText: hint,
-            filled: false,
+    return DropdownSearch<T>(
+      items: items,
+      selectedItem: selectedItem,
+      enabled: enabled,
+      itemAsString: itemAsString,
+      onChanged: onChanged,
+
+      /// ✅ FIXED: REMOVE unsafe compareFn
+      compareFn: (item, selected) => item == selected,
+
+      /// ✅ USE COMMON DECORATION
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecorationStyle.inputDecoration(
+          context,
+          labelText: hint,
+          isRequired: isRequired,
+        ).copyWith(
+          fillColor: enabled ? Colors.white : Colors.grey.shade100,
+        ),
+      ),
+
+      /// ✅ ICON CONSISTENCY
+      dropdownButtonProps: DropdownButtonProps(
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
+        ),
+      ),
+
+      /// ✅ CLEAN POPUP
+      popupProps: PopupProps.dialog(
+        showSearchBox: true,
+
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecorationStyle.inputDecoration(
+            context,
+            labelText: "Search",
           ),
         ),
-        // items: (filter, infiniteScrollProps) => items,
-        items: items,
-        itemAsString: itemAsString,
-        onChanged: onChanged,
-        popupProps: PopupProps.dialog(
-            searchFieldProps: TextFieldProps(
-              decoration: InputDecoration(
-                hintText: hint,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    width: 1,
-                    style: BorderStyle.none,
+
+        containerBuilder: (context, popupWidget) {
+          return Column(
+            children: [
+              Expanded(child: popupWidget),
+
+              /// Footer button
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: SizedBox(
+                    width: 120,
+                    child: ButtonWidget(
+                      fontSize: AppFont.font_12,
+                      onPressed: () => Navigator.pop(context),
+                      text: AppString.cancel,
+                    ),
                   ),
                 ),
               ),
-            ),
-            showSearchBox: true,
-            containerBuilder: (context, popupWidget) {
-              return Column(
-                children: [
-                  Expanded(child: popupWidget),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.03),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.30,
-                        child: ButtonWidget(
-                          fontSize: AppFont.font_12,
-                          height: AppConfig.getDeviceType(context: context) ==
-                              DeviceType.tablet
-                              ? 50
-                              : MediaQuery.of(context).size.height * 0.038,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          text: AppString.cancel,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+            ],
+          );
+        },
       ),
     );
   }

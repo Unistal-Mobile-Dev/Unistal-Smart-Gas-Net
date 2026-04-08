@@ -105,10 +105,11 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _dateController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
-      onTap: () {
+      onTap:  (){
         BlocProvider.of<AddBackFillingBloc>(context)
             .add(AddBackFillingSelectDateEvent(
           context: context,
@@ -117,8 +118,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _reportNumberController(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _reportNumberController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -273,7 +273,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _postPaddingController(
       {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
+
       labelText: AppString.postPadding,
       controller: dataState.postPaddingController,
     );
@@ -282,14 +282,13 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   Widget _slopeBreakerController(
       {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
+
       labelText: AppString.slopBreaker,
       controller: dataState.slopeBreakerController,
     );
   }
 
-  Widget _plasticGratingDropDown(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _plasticGratingDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectPlasticGrating,
       dropdownValue: dataState.plasticGratingData.id != null
@@ -303,19 +302,16 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _antiBuoyancyController(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
+
       labelText: AppString.antiBuoyancy,
       controller: dataState.antiBuoyancyController,
     );
   }
 
-  Widget _warningMatController(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _warningMatController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.warningMat,
       controller: dataState.warningMatController,
     );

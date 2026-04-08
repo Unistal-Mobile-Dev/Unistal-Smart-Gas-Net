@@ -181,6 +181,8 @@ class APIs {
 
   static get getAnodeTypeApi => "api/steel/get-anode-type";
 
+  static get getConstantApi => "api/getConstant";
+
   static get addReamingInsertApi => "api/steel/reaminginsert";
 
   static get addOfcBlowingInsertApi => "api/steel/ofcblowinsert";

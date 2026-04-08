@@ -81,6 +81,23 @@ class AddHydrotestAddImageEvent extends AddHydrotestEvent {
   List<Object?> get props => [context, mediaType, index];
 }
 
+class SelectCameraCaptureEvent extends AddHydrotestEvent {
+  final int index;
+  const SelectCameraCaptureEvent({required this.index});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [index];
+}
+
+
+class SelectGalleryCaptureEvent extends AddHydrotestEvent {
+  final int index;
+  const SelectGalleryCaptureEvent({required this.index});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [index];
+}
+
 class SelectWeatherEvent extends AddHydrotestEvent {
   final WeatherModel weatherData;
 

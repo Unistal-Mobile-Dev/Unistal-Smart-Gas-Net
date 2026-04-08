@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'enlarge_widge.dart';
 
 class ImageWidget extends StatelessWidget {
@@ -28,71 +27,58 @@ class ImageWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-
-        /// 🔴 Title with required *
-        Text.rich(
-          TextSpan(
-            children: [
-              if (isRequired) TextSpan(text: "* ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
-              TextSpan(text: title, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800)),
-            ],
-          ),
-        ),
-
-        SizedBox(height: MediaQuery.of(context).size.height * 0.001),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.12,
+        AspectRatio(
+          aspectRatio: 1, // square grid
           child: InkWell(
-              onTap: onPressed,
-              child: hasImage
-                  ? ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Stack(
-                  children: [
-                    _buildImage(isNetwork),
-          
-                    /// Zoom Button
-                    Positioned(
-                      top: 4,
-                      right: 4,
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          if (!hasImage) return;
-          
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.black,
-                            builder: (_) => EnlargeWidget(
-                              file: isNetwork
-                                  ? null
-                                  : File(imagePath),
-                              imageUrl:
-                              isNetwork ? imagePath : null,
-                            ),
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(6),
+            onTap: onPressed,
+            child: hasImage
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Stack(
+                children: [
+                  _buildImage(isNetwork),
+
+                  /// Zoom Button
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (!hasImage) return;
+
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.black,
+                          builder: (_) => EnlargeWidget(
+                            file: isNetwork
+                                ? null
+                                : File(imagePath),
+                            imageUrl:
+                            isNetwork ? imagePath : null,
                           ),
-                          child: const Icon(
-                            Icons.zoom_out_map,
-                            size: 16,
-                            color: Colors.white,
-                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Icon(
+                          Icons.zoom_out_map,
+                          size: 16,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              )
-                  : _emptyCard(),
-            ),
+                  ),
+                ],
+              ),
+            )
+                : _emptyCard(),
+          ),
         ),
 
       ],
@@ -131,16 +117,25 @@ class ImageWidget extends StatelessWidget {
 
   /// Empty State
   Widget _emptyCard() {
-    return const Card(
+    return  Card(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.add_a_photo),
             SizedBox(height: 4),
-            Text(
-              "Tap to add photo",
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 7),
+            if (isRequired)
+              Text(
+                "* ",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+            Flexible(
+              child: Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: 8, ),
+              ),
             ),
           ],
         ),

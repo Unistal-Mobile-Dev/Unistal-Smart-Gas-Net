@@ -48,6 +48,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final TextEditingController equipmentController;
   final WPSModel wpsTypeData;
   final List<WPSModel> wpsTypeList;
+  final List<TerrainTypeModel> inspectionTechniqueList;
+  final TerrainTypeModel inspectionVal;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -83,6 +85,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.sensivityController,
     required this.wpsTypeData,
     required this.wpsTypeList,
+    required this.inspectionTechniqueList,
+    required this.inspectionVal,
   });
 
   @override
@@ -93,7 +97,7 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
         activityRemarkController,
         reportNumberController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -118,7 +122,10 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
         filmTypeController,
         inspectTechniqueController,
         sensivityController,
-    wpsTypeData,
-    wpsTypeList,
+        wpsTypeData,
+        wpsTypeList,
+        inspectionTechniqueList,
+        inspectionVal,
+
       ];
 }

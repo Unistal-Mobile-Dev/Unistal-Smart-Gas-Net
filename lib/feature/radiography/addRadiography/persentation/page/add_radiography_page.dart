@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/bloc/add_radiography_bloc.dart';
@@ -68,7 +69,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             // _verticalSpace(),
             _filmTypeController(dataState: dataState),
             _verticalSpace(),
-            _inspectTechniqueController(dataState: dataState),
+            _inspectTechniqueDropdown(dataState: dataState),
             _verticalSpace(),
             _equipmentController(dataState: dataState),
             _verticalSpace(),
@@ -106,7 +107,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _dateController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
@@ -192,10 +194,22 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
     );
   }
 
-  Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
+  /*Widget _inspectTechniqueController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.inspectionTechnique,
       controller: dataState.inspectTechniqueController,
+    );
+  }*/
+
+  Widget _inspectTechniqueDropdown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: AppString.inspectionTechnique,
+        dropdownValue: dataState.inspectionVal.id != null ? dataState.inspectionVal : null,
+        onChanged: (value) {
+          BlocProvider.of<AddRadiographyBloc>(context).add(
+              AddRadiographySelectInspectionEvent(inspectionVal: value!));
+        },
+        items: dataState.inspectionTechniqueList
     );
   }
 

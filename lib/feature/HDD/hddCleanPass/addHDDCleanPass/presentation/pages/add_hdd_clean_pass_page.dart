@@ -110,7 +110,8 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   Widget _dateController({required FetchAddHddCleanPassDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

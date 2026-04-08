@@ -15,6 +15,7 @@ class AddHydrotestPageLoadState extends AddHydrotestInitial {
 }
 
 class FetchAddHydrotestDataState extends AddHydrotestInitial {
+  final  List<File?> images;
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
@@ -34,6 +35,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
   final WeatherModel weatherData;
 
   FetchAddHydrotestDataState({
+    required this.images,
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
@@ -55,6 +57,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
 
   @override
   List<Object> get props => [
+    images,
         isLoader,
         alignmentList,
         dateController,

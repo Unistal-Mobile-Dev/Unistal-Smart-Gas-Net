@@ -82,7 +82,8 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
   Widget _dateController({required FetchAddHindranceDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: "Report Date",
       controller: dataState.dateCtrl,
       onTap: () {

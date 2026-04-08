@@ -95,7 +95,8 @@ class _AddSurgeDiverterPageState extends State<AddSurgeDiverterPage> {
   Widget _dateController({required FetchAddSurgeDiverterState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

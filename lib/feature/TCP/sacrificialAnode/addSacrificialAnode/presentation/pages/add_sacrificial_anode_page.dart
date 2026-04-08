@@ -103,7 +103,8 @@ class _AddSacrificialAnodePageState extends State<AddSacrificialAnodePage> {
   Widget _dateController({required FetchAddSacrificialAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

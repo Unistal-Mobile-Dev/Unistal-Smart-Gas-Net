@@ -101,7 +101,8 @@ class _AddTestStationBoxPageState extends State<AddTestStationBoxPage> {
   Widget _dateController({required FetchAddTestStationBoxState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

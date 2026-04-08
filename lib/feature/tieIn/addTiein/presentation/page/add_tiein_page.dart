@@ -102,7 +102,8 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _dateController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

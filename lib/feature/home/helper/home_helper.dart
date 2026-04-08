@@ -110,6 +110,7 @@ class HomeHelper {
           label: AppString.dashboard,
           sublist: [],
           isSelected: true,
+          isRoot: true,
         ),
       );
 
@@ -135,9 +136,6 @@ class HomeHelper {
 
         if (model.isEmpty) continue;
         if (addedModels.contains(model)) continue;
-
-        debugPrint(
-            "Activity -> ${item.activityName} | Model -> $model");
 
         /// MAINLINE
         if (_mainlineRoutes.containsKey(model)) {

@@ -1,111 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'input_decoration_style.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
   final GestureTapCallback? onTap;
   final String labelText;
-  final bool? enabled;
+  final bool enabled;
+  final bool readOnly;
   final ValueChanged<String>? onChanged;
   final TextInputType? textInputType;
   final int? maxLength;
-  final int? maxLine;
+  final int maxLine;
   final Widget? suffixIcon;
-  final bool? isRequired;
+  final bool isRequired;
 
   const TextFieldWidget({
     super.key,
     required this.labelText,
-    this.enabled,
+    this.enabled = true,
+    this.readOnly = false,
     this.controller,
     this.onTap,
     this.onChanged,
     this.textInputType,
     this.maxLength,
     this.suffixIcon,
-    this.maxLine,
-    this.isRequired,
+    this.maxLine = 1,
+    this.isRequired = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TextFormField(
+      controller: controller,
       onTap: onTap,
-      child: TextFormField(
-          enabled: enabled ?? true,
-          controller: controller,
-          style: TextStyle(
-            fontSize: AppFont.font_14,
-            color: AppColor.black,
-          ),
-          inputFormatters: textInputType != null
-              ? textInputType == TextInputType.number
-                  ? [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,4}'))
-                    ]
-                  : null
-              : null,
-          keyboardType: textInputType == null
-              ? TextInputType.text
-              : Platform.isIOS
-                  ? textInputType == TextInputType.number
-                      ? const TextInputType.numberWithOptions(
-                          signed: true, decimal: true)
-                      : textInputType ?? TextInputType.text
-                  : textInputType ?? TextInputType.text,
-          maxLength: maxLength,
-          maxLines: maxLine ?? 1,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: 8, vertical: maxLine != null ? 8 : 0),
+      enabled: enabled,
+      readOnly: readOnly,
+      onChanged: onChanged,
+      maxLength: maxLength,
+      maxLines: maxLine,
 
-            label: Text.rich(TextSpan(children: [
-              TextSpan(text: labelText),
-              TextSpan(
-                text: isRequired == true ? ' *' : "",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ])),
+      style: TextStyle(
+        fontSize: AppFont.font_14,
+        color: AppColor.black,
+      ),
 
-            fillColor: enabled == false ? Colors.grey.shade100 : Colors.white,
-            filled: true,
+      /// ✅ INPUT FORMATTER (optimized)
+      inputFormatters: _getInputFormatter(),
 
-            // ✅ Normal state
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: EnvironmentConfig.of(context)!.primaryTheme,
-                width: 1,
-              ),
-            ),
+      /// ✅ KEYBOARD TYPE FIX (cleaned logic)
+      keyboardType: _getKeyboardType(),
 
-            // ✅ Focused state (highlight)
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: EnvironmentConfig.of(context)!.primaryTheme,
-                width: 2, // thicker for focus
-              ),
-            ),
-
-            // ✅ Disabled state (visually distinct)
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: Colors.grey.shade400, // 👈 change here
-                width: 1,
-              ),
-            ),
-
-            // Optional fallback
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          onChanged: onChanged),
+      /// ✅ USE COMMON DECORATION
+      decoration:  InputDecorationStyle.inputDecoration(
+        context,
+        labelText: labelText,
+        isRequired: isRequired,
+      ).copyWith(
+        /// only override what is specific
+        fillColor: enabled ? Colors.white : Colors.grey.shade100,
+        // contentPadding: EdgeInsets.symmetric(
+        //   horizontal: 10,
+        //   vertical: maxLine > 1 ? 12 : 8,
+        // ),
+        counterText: "", // removes maxLength counter if needed
+      ),
     );
+  }
+
+  /// 🔹 Extracted formatter logic (clean)
+  List<TextInputFormatter>? _getInputFormatter() {
+    if (textInputType == TextInputType.number) {
+      return [
+        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,4}')),
+      ];
+    }
+    return null;
+  }
+
+  /// 🔹 Clean keyboard handling
+  TextInputType _getKeyboardType() {
+    if (textInputType == null) return TextInputType.text;
+
+    if (Platform.isIOS && textInputType == TextInputType.number) {
+      return const TextInputType.numberWithOptions(
+        signed: true,
+        decimal: true,
+      );
+    }
+
+    return textInputType!;
   }
 }

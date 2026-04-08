@@ -85,7 +85,8 @@ class _AddHDPEDuctTestingPageState extends State<AddHDPEDuctTestingPage> {
   Widget _dateController({required FetchAddHdpeDuctTestingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

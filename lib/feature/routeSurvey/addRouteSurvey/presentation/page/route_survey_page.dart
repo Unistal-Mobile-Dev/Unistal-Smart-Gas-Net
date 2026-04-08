@@ -94,7 +94,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   Widget _dateController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

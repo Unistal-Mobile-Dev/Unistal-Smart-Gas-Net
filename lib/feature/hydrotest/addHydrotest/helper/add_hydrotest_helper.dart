@@ -93,7 +93,7 @@ class AddHydroTestHelper {
       required String length,
       required String reportNumber,
       required List<FileModel> fileList}) async {
-    // try {
+    try {
     var location = await LocationHelper.getLocation(context: context);
     LocationModel locationData = LocationModel();
     if (location != null) {
@@ -133,35 +133,23 @@ class AddHydroTestHelper {
         body: json,
         context: !context.mounted ? context : context,
         fileList: fileList);
-    if (res != null &&
-        res['status'] != null &&
-        res['status'] == true &&
-        res['message'] != null) {
-      SnackBarSuccessWidget(!context.mounted ? context : context)
-          .show(message: res['message']);
+    if (res != null && res['success'] == 200 && res['error'] == false && res['data'] != null) {
+      SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
       return res;
-    } else if (res != null &&
-        res['status'] != null &&
-        res['errors'] != null &&
-        res['message'] != null) {
+    } else if (res != null && res['success'] == 415 && res['error'] == true && res['data'] != null) {
       SnackBarErrorWidget(!context.mounted ? context : context).show(
-          message: res['message']
-              .toString()
-              .replaceAll("{", "")
-              .toString()
-              .replaceAll("}", ""));
+          message: res['data'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
       return null;
     } else {
-      SnackBarErrorWidget(!context.mounted ? context : context)
-          .show(message: "Internal Server Error");
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: "Internal Server Error");
       return null;
     }
-    /*  } catch (e) {
+      } catch (e) {
 
       print("-----------------------------${e.toString()}");
       SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: e.toString());
       return null;
-    }*/
+    }
   }
 }

@@ -22,6 +22,11 @@ class HomePageRefreshEvent extends HomeEvent {
   List<Object?> get props => [context];
 }
 
+class BackToHomeEvent  extends HomeEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class HomeDrawerItemSelectedEvent extends HomeEvent {
   final bool isSelected;
   final int index;

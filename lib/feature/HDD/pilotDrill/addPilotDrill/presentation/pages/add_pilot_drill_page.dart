@@ -110,7 +110,8 @@ class _AddPilotDrillPageState extends State<AddPilotDrillPage> {
   Widget _dateController({required FetchAddPilotDrillDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

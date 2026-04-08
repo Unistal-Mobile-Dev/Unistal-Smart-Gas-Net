@@ -110,7 +110,8 @@ class _AddHddReamingPageState extends State<AddHddReamingPage> {
   Widget _dateController({required FetchAddHddReamingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: true,
+      readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {

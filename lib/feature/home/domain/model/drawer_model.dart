@@ -8,6 +8,7 @@ class DrawerModel {
   List<DrawerSubModel> sublist;
   bool isSelected;
   Widget? actionButtonWidget;
+  bool isRoot;
   bool? isSublistLoader = false;
 
   DrawerModel(
@@ -17,6 +18,7 @@ class DrawerModel {
       required this.sublist,
       required this.isSelected,
       this.isSublistLoader,
+      this.isRoot= false,
       this.actionButtonWidget});
 }
 

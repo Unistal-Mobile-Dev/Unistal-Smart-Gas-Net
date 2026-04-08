@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
+import 'input_decoration_style.dart';
+
 class DropDownSearchMultiSelectWidget extends StatelessWidget {
   final List<dynamic> items;
-  final ValueChanged<dynamic> onChanged;
+  final ValueChanged<List<dynamic>> onChanged;
   final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
-  final bool? isRequired;
+  final bool isRequired;
   final List<dynamic>? selectedItem;
 
   const DropDownSearchMultiSelectWidget({
@@ -17,74 +19,62 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
     required this.onChanged,
     required this.itemAsString,
     required this.hint,
-     this.isRequired,
+    this.isRequired = false,
     this.selectedItem,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      /*  height: MediaQuery.of(context).size.height * 0.07,*/
-      child: DropdownSearch<dynamic>.multiSelection(
-        selectedItems: selectedItem ?? [],
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          textAlign: TextAlign.start,
-          textAlignVertical: TextAlignVertical.center,
-          dropdownSearchDecoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                width: 1,
-                style: BorderStyle.none,
-              ),
-            ),
-            label: Text.rich(TextSpan(children: [
-              TextSpan(
-                  text: hint,
-                  style: TextStyle(
-                    color: EnvironmentConfig.of(context)!.primaryTheme,
-                    fontSize: AppFont.font_14,
-                  )),
-              TextSpan(
-                  text: isRequired == true ? " *" : '',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: AppFont.font_14,
-                  )),
-            ])),
-           /* hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),*/
-            contentPadding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.018,
-              left: MediaQuery.of(context).size.height * 0.01,
-            ),
-           // hintText: "$hint ${star}",
-            filled: false,
+    return DropdownSearch<dynamic>.multiSelection(
+      items: items,
+      selectedItems: selectedItem ?? [],
+      itemAsString: itemAsString,
+      onChanged: onChanged,
+
+      /// ✅ USE COMMON DECORATION HERE
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecorationStyle.inputDecoration(
+          context,
+          labelText: hint,
+          isRequired: isRequired,
+        ),
+      ),
+
+      /// ✅ CLEAN POPUP UI
+      popupProps: PopupPropsMultiSelection.dialog(
+        showSearchBox: true,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecorationStyle.inputDecoration(
+            context,
+            labelText: "Search",
           ),
         ),
-        items: items,
-        itemAsString: itemAsString,
-        onChanged: onChanged,
-        popupProps: PopupPropsMultiSelection.dialog(
-          validationWidgetBuilder: (ctx, selectedItems) {
-            return Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.30,
-                  child: ButtonWidget(
-                    onPressed: () {
-                      onChanged.call(selectedItems);
-                      Navigator.pop(context);
-                    },
-                    text: AppString.ok,
-                  ),
+
+        validationWidgetBuilder: (ctx, selectedItems) {
+          return Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: SizedBox(
+                width: 120,
+                child: ButtonWidget(
+                  onPressed: () {
+                    onChanged(selectedItems);
+                    Navigator.pop(context);
+                  },
+                  text: AppString.ok,
                 ),
               ),
-            );
-          },
+            ),
+          );
+        },
+      ),
+
+      /// ✅ BETTER UX
+      dropdownButtonProps: DropdownButtonProps(
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
         ),
       ),
     );

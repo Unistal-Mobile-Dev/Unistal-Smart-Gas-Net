@@ -58,7 +58,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<DrawerSubModel> get restaurantMenu => _restaurantMenu;
 
+  bool _showBackButton = false;
 
+  bool get showBackButton => _showBackButton;
 
 
   List<ActivitySectionData> _listActivityData = [];
@@ -70,6 +72,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomePageLoadEvent>(_pageLoad);
     on<HomeDrawerItemSelectedEvent>(_drawerItemSelected);
     on<HomeDrawerItemSubListSelectedEvent>(_drawerSublistSelected);
+    on<BackToHomeEvent>(_backToHome);
     on<HomeChangeBottomNavigationItemEvent>(_changeBottomNavigationBarIndex);
   }
 
@@ -97,6 +100,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _eventCompleted(emit);
   }
 
+  _backToHome(BackToHomeEvent event, emit) {
+    _childWidget = const DashboardPage();
+    _title = "Dashboard";
+    _actionButtonWidget = const SizedBox.shrink();
+    _showBackButton = false;
+
+    // reset drawer selection (optional but recommended)
+    for (var item in _drawerList) {
+      item.isSelected = false;
+      for (var sub in item.sublist) {
+        sub.isSelected = false;
+      }
+    }
+
+    _eventCompleted(emit);
+  }
+
   _drawerItemSelected(HomeDrawerItemSelectedEvent event, emit) async {
     List<DrawerModel> tempList = drawerList;
     _drawerList = [];
@@ -110,6 +130,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           _actionButtonWidget = tempList[event.index].actionButtonWidget ??
               const SizedBox.shrink();
         }
+        _showBackButton = tempList[event.index].label != "Dashboard";
       } else {
         tempList[i].isSelected = false;
         for (int j = 0; j < tempList[i].sublist.length; j++) {
@@ -137,6 +158,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             _title = tempList[i].sublist[j].label.toString();
             _actionButtonWidget = tempList[i].sublist[j].actionButtonWidget ??
                 const SizedBox.shrink();
+            _showBackButton = true;
           } else {
             tempList[i].sublist[j].isSelected = false;
           }
@@ -168,6 +190,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       childWidget: childWidget,
       title: title,
       actionButtonWidget: actionButtonWidget,
+      showBackButton: showBackButton,
     ));
   }
 }

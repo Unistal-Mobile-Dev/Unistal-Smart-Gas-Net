@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_source_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
@@ -17,6 +17,84 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddRadiographyHelper {
+
+  static Future<dynamic> fetchFilmTypeData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=filmtype";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        // Take first entry from map
+        final entry = res.entries.first;
+        return TerrainTypeModel(
+          id: entry.key,
+          name: entry.value,
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchDensityData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=rtdensity";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        // Take first entry from map
+        final entry = res.entries.first;
+        return TerrainTypeModel(
+          id: entry.key,
+          name: entry.value,
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchSensitivityData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=RTSensitivity";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        // Take first entry from map
+        final entry = res.entries.first;
+        return TerrainTypeModel(
+          id: entry.key,
+          name: entry.value,
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchInspectionTechnique() async {
+    try {
+      String url = APIs.getConstantApi + "?key=inspectiontechnique";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        return res.entries.map((entry) {
+          return TerrainTypeModel(
+            id: entry.key,
+            name: entry.value,
+          );
+        }).toList();
+      }
+      return [];
+    } catch (e) {
+      return null;
+    }
+  }
+
+
+
   static Future<dynamic> submitData({
     required BuildContext context,
      required AlignmentModel alignmentData,
@@ -37,7 +115,7 @@ class AddRadiographyHelper {
     required File file,
     required String chainage,
     required String filmType,
-    required String inspectTechnique,
+    required TerrainTypeModel inspectTechnique,
     required String sensivity,
     required String density,
     required String equipment,
@@ -95,7 +173,7 @@ class AddRadiographyHelper {
         "segments": jsonEncode(data),
         "defects": locationDefect,
         "flaw_detector_type": filmType,
-        "inspection_technique": inspectTechnique,
+        "inspection_technique":  inspectTechnique.id != null ? inspectTechnique.id.toString() : "",
         "sensivity": sensivity,
         "density": density,
         "chainage": chainage,

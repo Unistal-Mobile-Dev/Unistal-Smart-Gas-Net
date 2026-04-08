@@ -43,7 +43,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   LoginDataModel _userData = LoginDataModel();
 
   LoginDataModel get userData => _userData;
-
+  List<File> images = [];
   AddHydrotestBloc() : super(AddHydrotestInitial()) {
     on<AddHydrotestPageLoadEvent>(_pageLoad);
     on<SelectWeatherEvent>(_selectWeather);
@@ -54,6 +54,8 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     on<AddHydrotestSelectJointTypeDataEvent>(_selectJointType);
     on<AddHydrotestSelectDateEvent>(_selectDate);
     on<AddHydrotestAddImageEvent>(_selectFile);
+    on<SelectCameraCaptureEvent>(_selectCameraCapture);
+    on<SelectGalleryCaptureEvent>(_selectGalleryCapture);
     on<AddHydrotestSubmitDataEvent>(_submitData);
   }
 
@@ -68,6 +70,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
+    images = [];
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     isLoader = false;
@@ -132,6 +135,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
 
   _selectJointTo(AddHydrotestSelectToJointDataEvent event, emit) {
     toJointData = event.jointNumberData;
+
     _eventComplete(emit);
   }
 
@@ -191,6 +195,31 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     _eventComplete(emit);
   }
 
+  _selectCameraCapture(SelectCameraCaptureEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var photo = await DashboardHelper.cameraCapture();
+
+    if (photo != null) {
+      fileList[event.index].file = photo;
+    }
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectGalleryCapture(SelectGalleryCaptureEvent event, emit) async {
+    isLoader = true;
+    _eventComplete(emit);
+    var photo = await DashboardHelper.galleryCapture();
+
+    if (photo != null) {
+      fileList[event.index].file = photo;
+      _eventComplete(emit);
+    }
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
   _submitData(AddHydrotestSubmitDataEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
@@ -228,6 +257,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
 
   _eventComplete(Emitter<AddHydrotestState> emit) {
     emit(FetchAddHydrotestDataState(
+      images: images,
       isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
