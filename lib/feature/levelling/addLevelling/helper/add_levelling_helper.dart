@@ -10,6 +10,29 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddLevellingHelper {
+
+  static Future<dynamic> textFieldValidation({
+    required BuildContext context,
+    required WeatherModel weather,
+    required String lat,
+    required String long,
+  }) async {
+
+    try{
+      if(weather.id == null){
+        SnackBarErrorWidget(context).show(message: "The Weather field is required");
+        return false;
+      }
+      else if(lat.isEmpty && long.isEmpty){
+        SnackBarErrorWidget(context).show(message:"The northing and easting field is required");
+        return false;
+      }
+      return true;
+    }catch(_){}
+    return false;
+  }
+
+
   static Future<dynamic> submitData(
       {required BuildContext context,
       required AlignmentModel alignmentData,

@@ -7,7 +7,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/dropdown_widgets.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
@@ -273,18 +272,16 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
       hint: AppString.rootWelders1,
-      dropdownValue: dataState.rootWelders1Data.id != null
-          ? dataState.rootWelders1Data
-          : null,
+      dropdownValue: dataState.rootWelders1Data.id != null ? dataState.rootWelders1Data : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context).add(
             AddWeldingSelectMultiWelderEvent(
                 welderData: value!, name: AppString.rootWelders1));
       },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.rootWelders1));
-      },
+      // onPressed: (){
+      //   BlocProvider.of<AddWeldingBloc>(context).add(
+      //       AddWeldingSelectMultiWelderClearEvent( name: AppString.rootWelders1));
+      // },
       items: dataState.rootWelders1List
     );
   }
@@ -746,8 +743,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _electrodeDiaE6010Controller({required FetchAddWeldingDataState dataState}) {
-    return DropdownWidgets(
-      label: AppString.electrodeDiaE6010,
+    return DropdownWidget(
       hint: AppString.electrodeDiaE6010,
       items: dataState.electrodeDiaE6010DiaList,
       dropdownValue:dataState.electrodeDiaE6010Value.diaValue != null ? dataState.electrodeDiaE6010Value : null,
@@ -762,8 +758,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _electrodeDiaE6010BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidgets(
-      label:client == Client.vppl || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
+    return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidget(
       hint: client == Client.vppl || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
       items: dataState.electrodeDiaE6010BatchList,
       dropdownValue:dataState.electrodeDiaE6010BatchValue.batchNo != null ? dataState.electrodeDiaE6010BatchValue : null,
@@ -778,8 +773,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
-    return DropdownWidgets(
-      label:client == Client.vppl ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
+    return DropdownWidget(
       hint: client == Client.vppl ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,
       dropdownValue:dataState.electrodeEiaE8010p1Value.diaValue != null ? dataState.electrodeEiaE8010p1Value : null,
@@ -794,8 +788,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidgets(
-      label:client == Client.vppl || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
+    return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidget(
       hint: client == Client.vppl || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
       items: dataState.electrodeEiaE8010p1BatchList,
       dropdownValue:dataState.electrodeEiaE8010p1BatchValue.batchNo != null ? dataState.electrodeEiaE8010p1BatchValue : null,
@@ -811,8 +804,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
 
   Widget _electrodeDiaE9045Controller({required FetchAddWeldingDataState dataState}) {
-    return DropdownWidgets(
-      label:"E9045 Dia",
+    return DropdownWidget(
       hint: "E9045  Dia",
       items: dataState.electrodeDiaE9045DiaList,
       dropdownValue:dataState.electrodeDiaE9045Value.diaValue != null ? dataState.electrodeDiaE9045Value : null,
@@ -827,8 +819,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _electrodeDiaE9045BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderDiaE9045BatchBatch  == false ? DropdownWidgets(
-      label:"Batch No.",
+    return dataState.isLoaderDiaE9045BatchBatch  == false ? DropdownWidget(
        hint:"Batch No.",
       items: dataState.electrodeDiaE9045BatchList,
       dropdownValue:dataState.electrodeDiaE9045BatchValue.batchNo != null ? dataState.electrodeDiaE9045BatchValue : null,
@@ -917,8 +908,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
-      dropdownValue:
-          dataState.weatherData.id != null ? dataState.weatherData : null,
+      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context)
             .add(SelectWeatherEvent(weatherData: value!));
@@ -979,8 +969,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _fitupDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectFitup,
-      dropdownValue:
-          dataState.fitupData.id != null ? dataState.fitupData : null,
+      dropdownValue: dataState.fitupData.id != null ? dataState.fitupData : null,
       onChanged: (value) {
         BlocProvider.of<AddWeldingBloc>(context)
             .add(AddWeldingSelectFitupDataEvent(fitupData: value!));

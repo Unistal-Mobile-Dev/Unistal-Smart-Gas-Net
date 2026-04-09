@@ -133,7 +133,7 @@ android {
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
-            versionCode 1
+            versionCode 2
             versionName "1.0.0-VRPL"
         }
 //        prodGJPL {
@@ -164,20 +164,20 @@ android {
 //            versionCode 1
 //            versionName "1.0.0-JDPL"
 //        }
-        prodBCPL  {
-            resValue "string", "app_name", "BCPL Steel"
-            applicationIdSuffix ".brcpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_logo",
-                    appIconRound: "@mipmap/vrpl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('brcpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 4
-            versionName "1.0.0-BCPL"
-        }
+//        prodBCPL  {
+//            resValue "string", "app_name", "BCPL Steel"
+//            applicationIdSuffix ".brcpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vrpl_logo",
+//                    appIconRound: "@mipmap/vrpl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('brcpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 5
+//            versionName "1.0.0-BCPL"
+//        }
 //        prodAGCL  {
 //            resValue "string", "app_name", "AGCL Steel"
 //            applicationIdSuffix ".agcl.smartgasnet.app"

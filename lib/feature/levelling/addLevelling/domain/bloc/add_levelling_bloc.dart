@@ -241,6 +241,17 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
   }
 
   _submitData(AddLevellingSubmitDataEvent event, emit) async {
+    var textFiledValidation = await AddLevellingHelper.textFieldValidation(
+      context: event.context,
+      weather: weatherData,
+      lat: northingLongController.text.toString(),
+      long: northingLatController.text.toString(),
+    );
+
+    if (textFiledValidation == false) {
+      return;
+    }
+
     isLoader = true;
     _eventComplete(emit);
     var res = await AddLevellingHelper.submitData(

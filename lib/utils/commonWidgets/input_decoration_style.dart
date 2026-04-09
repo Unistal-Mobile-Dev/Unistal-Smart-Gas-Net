@@ -33,9 +33,10 @@ class InputDecorationStyle {
           children: [
             TextSpan(
               text: labelText ?? '',
-              style: TextStyle(
-              //  color: EnvironmentConfig.of(context)!.primaryTheme,
-              //  fontSize: AppFont.font_14,
+              style:TextStyle(
+                color: AppColor.black,
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w500,
               ),
             ),
             if (isRequired)

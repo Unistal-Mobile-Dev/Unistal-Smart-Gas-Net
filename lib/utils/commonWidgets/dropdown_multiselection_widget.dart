@@ -69,14 +69,6 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
           );
         },
       ),
-
-      /// ✅ BETTER UX
-      dropdownButtonProps: DropdownButtonProps(
-        icon: Icon(
-          Icons.arrow_drop_down,
-          color: EnvironmentConfig.of(context)!.primaryTheme,
-        ),
-      ),
     );
   }
 }

@@ -47,14 +47,6 @@ class DropDownSearchWidget<T> extends StatelessWidget {
         ),
       ),
 
-      /// ✅ ICON CONSISTENCY
-      dropdownButtonProps: DropdownButtonProps(
-        icon: Icon(
-          Icons.arrow_drop_down,
-          color: EnvironmentConfig.of(context)!.primaryTheme,
-        ),
-      ),
-
       /// ✅ CLEAN POPUP
       popupProps: PopupProps.dialog(
         showSearchBox: true,
