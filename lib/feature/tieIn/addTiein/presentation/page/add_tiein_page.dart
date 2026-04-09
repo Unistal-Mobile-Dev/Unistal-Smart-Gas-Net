@@ -564,48 +564,39 @@ class _AddTieinPageState extends State<AddTieinPage> {
     );
   }
 
-  Widget _electrodeDiaE6010Controller(
-      {required FetchAddTieinDataState dataState}) {
+  Widget _electrodeDiaE6010Controller({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010,
       controller: dataState.electrodeDiaE6010Controller,
     );
   }
 
-  Widget _electrodeDiaE6010BatchController(
-      {required FetchAddTieinDataState dataState}) {
+  Widget _electrodeDiaE6010BatchController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE6010Batch,
       controller: dataState.electrodeDiaE6010BatchController,
     );
   }
 
-  Widget _electrodeEiaE7010p1Controller(
-      {required FetchAddTieinDataState dataState}) {
+  Widget _electrodeEiaE7010p1Controller({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE7010P1,
       controller: dataState.electrodeEiaE8010p1Controller,
     );
   }
 
-  Widget _electrodeEiaE7010p1BatchController(
-      {required FetchAddTieinDataState dataState}) {
+  Widget _electrodeEiaE7010p1BatchController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.electrodeDiaE7010P1Batch,
       controller: dataState.electrodeEiaE8010p1BatchController,
     );
   }
 
-  Widget _electrodeDiaE9045p2Controller(
-      {required FetchAddTieinDataState dataState}) {
+  Widget _electrodeDiaE9045p2Controller({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,

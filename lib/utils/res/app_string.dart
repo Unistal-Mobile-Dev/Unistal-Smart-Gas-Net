@@ -5,22 +5,6 @@ import 'enums.dart';
 class AppString {
   static get appName => "Smart Gas Net";
 
-  static const Map<Client, String> _releaseDates = {
-    Client.mgl:      "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.pbgpl:    "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.unistal:  "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.hpoil:    "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.vppl:     "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.vrpl:     "Version : 1.0.0 -  Steel-08-04-2026",
-    Client.gjpl:     "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.jdpl:     "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.agcl:     "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.dbpl:     "Version : 1.0.0 -  Steel-07-04-2026",
-    Client.bcpl:     "Version : 1.0.0 -  Steel-07-04-2026",
-  };
-
-  static String get version => _releaseDates[AppConfig.instanceInit()!.client] ?? "";
-
   static String companyName = "© Unistal Systems Pvt. Ltd.";
 
   static get googleApiKey => "AIzaSyAiFoe5ZuDbEVu0B3wyCrQsODy0lFQTxZ0";

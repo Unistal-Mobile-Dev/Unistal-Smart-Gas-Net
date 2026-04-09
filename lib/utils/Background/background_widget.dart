@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_string.dart';
 
@@ -40,7 +41,7 @@ class BackgroundWidget extends StatelessWidget {
                           )),
                       Flexible(
                           child: Text(
-                            AppString.version,
+                            "Version - ${AppConfig.instanceInit()!.buildNumber.toString()}",
                             textAlign: TextAlign.start,
                           )),
                     ],

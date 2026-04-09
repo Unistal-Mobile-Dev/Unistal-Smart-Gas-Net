@@ -119,6 +119,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             key: PreferencesName.password, value: password.toString());
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String version = packageInfo.version;
+        String buildNumber = packageInfo.buildNumber;
+        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "${buildNumber}($version)");
         Navigator.pushAndRemoveUntil(
             !event.context.mounted ? event.context : event.context,
             MaterialPageRoute(builder: (_) => const HomePage()),

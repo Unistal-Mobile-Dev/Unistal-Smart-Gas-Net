@@ -122,7 +122,7 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                           style: TextStyle(fontSize: 10, color: AppColor.white),
                         )),
                         Text(
-                          AppString.version,
+                          "Version - ${AppConfig.instanceInit()!.buildNumber.toString()}",
                           textAlign: TextAlign.end,
                           style: TextStyle(fontSize: 10, color: AppColor.white),
                         ),

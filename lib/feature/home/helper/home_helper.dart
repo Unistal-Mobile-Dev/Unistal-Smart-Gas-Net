@@ -19,6 +19,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrote
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/persentation/page/add_radiography_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/presentation/page/add_soil_resistivity_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/presentation/page/add_tiein_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -91,16 +92,17 @@ class HomeHelper {
   }
 
   /* ===================== DRAWER ===================== */
+/* ===================== DRAWER ===================== */
 
   static Future<List<DrawerModel>?> fetchDrawerList({
     required BuildContext context,
   }) async {
     try {
       final drawerList = <DrawerModel>[];
-      final activities =
-          AppConfig.instanceInit()?.listOfActivitySection ?? [];
+      final activities = AppConfig.instanceInit()?.listOfActivitySection ?? [];
 
-      final activeActivities = activities.where((e) => e.status == "1" || e.status == "0").toList();
+      final activeActivities =
+      activities.where((e) => e.status == "1" || e.status == "0").toList();
 
       /// Dashboard
       drawerList.add(
@@ -114,76 +116,49 @@ class HomeHelper {
         ),
       );
 
-      // drawerList.add(
-      //   DrawerModel(
-      //     widget: const AddHindrancePage(),
-      //     icon: Icons.warning_amber_outlined,
-      //     label: "Hindrance",
-      //     sublist: [], // no sub items
-      //     isSelected: false,
-      //   ),
-      // );
-
       final mainlineSubItems = <DrawerSubModel>[];
       final tcpSubItems = <DrawerSubModel>[];
       final hddSubItems = <DrawerSubModel>[];
 
-      /// Prevent duplicates
-      final addedModels = <String>{};
+      final addedIds = <String>{};
 
       for (final item in activeActivities) {
-        final model = (item.modelName ?? "").trim();
+        final id = (item.activityId ?? "").trim(); // <-- use activityId
 
-        if (model.isEmpty) continue;
-        if (addedModels.contains(model)) continue;
+        if (id.isEmpty) continue;
+        if (addedIds.contains(id)) continue;
 
-        /// MAINLINE
-        if (_mainlineRoutes.containsKey(model)) {
+        if (_mainlineRoutes.containsKey(id)) {
           mainlineSubItems.add(_sub(
-            _mainlineLabels[model] ?? model,
-            _mainlineRoutes[model]!,
+            item.activityName ?? id,
+            _mainlineRoutes[id]!,
           ));
-          addedModels.add(model);
-        }
-
-        /// TCP
-        else if (_tcpRoutes.containsKey(model)) {
+          addedIds.add(id);
+        } else if (_tcpRoutes.containsKey(id)) {
           tcpSubItems.add(_sub(
-            _tcpLabels[model] ?? model,
-            _tcpRoutes[model]!,
+            item.activityName ?? id,
+            _tcpRoutes[id]!,
           ));
-          addedModels.add(model);
-        }
-
-        /// HDD
-        else if (_hddRoutes.containsKey(model)) {
+          addedIds.add(id);
+        } else if (_hddRoutes.containsKey(id)) {
           hddSubItems.add(_sub(
-            _hddLabels[model] ?? model,
-            _hddRoutes[model]!,
+            item.activityName ?? id,
+            _hddRoutes[id]!,
           ));
-          addedModels.add(model);
-        }
-
-
-        /// UNKNOWN (Optional Debug)
-        else {
-          debugPrint("⚠️ No mapping found for model: $model");
+          addedIds.add(id);
+        } else {
+          debugPrint("⚠️ No mapping found for activity_id: $id");
         }
       }
 
       if (mainlineSubItems.isNotEmpty) {
-        drawerList.add(
-            _groupItem("Mainline", Icons.alt_route, mainlineSubItems));
+        drawerList.add(_groupItem("Mainline", Icons.alt_route, mainlineSubItems));
       }
-
       if (tcpSubItems.isNotEmpty) {
-        drawerList.add(
-            _groupItem(AppString.tcp, Icons.table_chart, tcpSubItems));
+        drawerList.add(_groupItem(AppString.tcp, Icons.table_chart, tcpSubItems));
       }
-
       if (hddSubItems.isNotEmpty) {
-        drawerList.add(
-            _groupItem(AppString.hdd, Icons.hd, hddSubItems));
+        drawerList.add(_groupItem(AppString.hdd, Icons.hd, hddSubItems));
       }
 
       drawerList.add(
@@ -204,109 +179,69 @@ class HomeHelper {
     }
   }
 
-  /* ===================== ROUTE MAPS ===================== */
+  /* ===================== ROUTE MAPS (keyed by activity_id) ===================== */
 
   /// -------- MAINLINE --------
   static final Map<String, Widget> _mainlineRoutes = {
-    "RouteSurvey": const AddRouteSurveyPage(),
-    "RouHandover": const AddRouHandoverPage(),
-    "Clearingngrading": const AddClearingGradingPage(),
-    "Trenching": const AddTrenChingPage(),
-    "Stringing": const AddStringingPage(),
-    "Bending": const AddBendingPage(),
-    "Welding": const AddWeldingPage(),
-    "WeldRepair": const AddWelderRepairPage(),
-    "NdtAut": const AddNdtAutPage(),
-    "Ndtrt": const AddRadioGraphyPage(),
-    "NdtMut": const AddNdtMutPage(),
-    "NdtLpt": const AddLptPage(),
-    "JointCoating": const AddJointCoatingPage(),
-    "ConcreteCoating": const AddConcreteCoatingPage(),
-    "Lowering": const AddLoweringPage(),
-    "Crossing": const AddCrossingPage(),
-    "Levelling": const AddLevellingPage(),
-    "Backfilling": const AddBackFillingPage(),
-    "HDPEDuctLaying": const AddHdpeDuctPage(),
-    "HdpeDuctTesting": const AddHDPEDuctTestingPage(),
-    "OfcSplicing": const AddOfcSplicingPage(),
-    "OfcBlowing": AddOFCBlowingPage(),
-    "PrepostHydrotest": const AddPreHydroTestPage(), // handle both
-    "Hydrotest": const AddHydroTestPage(),
-    "Restoration": const AddRestorationPage(),
-    "Marker": const AddMarkerInstallationPage(),
-    "SoilResistivity": const AddSoilResistivityPage(),
-  };
-
-  static final Map<String, String> _mainlineLabels = {
-    "RouteSurvey": AppString.routeSurvey,
-    "RouHandover": AppString.rouHandover,
-    "Clearingngrading": AppString.clearingGrading,
-    "Trenching": AppString.trenChing,
-    "Stringing": AppString.stringing,
-    "Bending": AppString.bending,
-    "Welding": AppString.welding,
-    "WeldRepair": AppString.weldRepair,
-    "NdtAut": AppString.ndtAut,
-    "Ndtrt": AppString.radiography,
-    "NdtMut": AppString.ndtMut,
-    "NdtLpt": AppString.lpt,
-    "JointCoating": AppString.jointCoating,
-    "ConcreteCoating": AppString.concreteCoating,
-    "Lowering": AppString.lowering,
-    "Crossing": AppString.crossing,
-    "Levelling": AppString.levelling,
-    "Backfilling": AppString.backFilling,
-    "HDPEDuctLaying": AppString.hdpeDuctLaying,
-    "HdpeDuctTesting": AppString.hdpeDuctTesting,
-    "OfcSplicing": AppString.ofcSplicing,
-    "OfcBlowing": AppString.ofcBlowing,
-    "PrepostHydrotest": AppString.preHydrotest,
-    "Hydrotest": AppString.hydrotest,
-    "Restoration": AppString.restoration,
-    "Marker": AppString.marker,
-    "SoilResistivity": AppString.soilResistivity,
+    "1":  const AddRouteSurveyPage(),        // ROUTE SURVEY
+    "2":  const AddRouHandoverPage(),         // ROU HANDOVER
+    "3":  const AddClearingGradingPage(),     // CLEARING AND GRADING
+    "4":  const AddTrenChingPage(),           // TRENCHING
+    "5":  const AddStringingPage(),           // STRINGING
+    "6":  const AddBendingPage(),             // BENDING
+    "7":  const AddWeldingPage(),             // Mainline Welding
+    "8":  const AddWelderRepairPage(),        // Weld Repair
+    "9":  const AddNdtAutPage(),              // NDT AUT
+    "10": const AddRadioGraphyPage(),         // NDT RT
+    "11": const AddNdtMutPage(),              // NDT MUT
+    "12": const AddLptPage(),                 // NDT LPT
+    "13": const AddJointCoatingPage(),        // Joint Coating
+    "14": const AddConcreteCoatingPage(),     // Concrete Coating
+    "15": const AddLoweringPage(),            // Lowering
+    "16": const AddCrossingPage(),            // Crossing
+    "17": const AddLevellingPage(),           // Levelling
+    "18": const AddBackFillingPage(),         // Backfilling
+    "19": const AddHdpeDuctPage(),            // HDPE Duct Laying
+    "20": const AddHDPEDuctTestingPage(),     // HDPE Duct Testing
+    "21": const AddOfcSplicingPage(),         // OFC Splicing/Jointing
+    "22": AddOFCBlowingPage(),                // OFC Blowing
+    "23": const AddPreHydroTestPage(),        // Pre Hydrotest
+    "24": const AddPreHydroTestPage(),        // Post Hydrotest (same page)
+    "25": const AddHydroTestPage(),           // Hydrotest
+    "26": const AddRestorationPage(),         // Restoration
+    "27": const AddMarkerInstallationPage(),  // Marker Installation
+    "30": const AddSoilResistivityPage(),     // Soil Resistivity Survey
+    "32": const AddTieinPage(),             // Tie-In Welding
+    "33": const AddWeldingPage(),             // Total Weld Joints
+    "79": const AddWeldingPage(),             // Total Weld Length
   };
 
   /// -------- TCP --------
   static final Map<String, Widget> _tcpRoutes = {
-    "PinBrazzing": const AddPinBrazzingPage(),
-    "CableInstallation": const AddCableInstallationPage(),
-    "ZnGroundingAnode": const AddZnGroundingAnodePage(),
-    "TestStationBox": const AddTestStationBoxPage(),
-    "ThermitWelding": const AddThermitWeldPage(),
-    "SurgeDiverter": const AddSurgeDiverterPage(),
-    "SSD": const AddSsdPage(),
-    "PolarisationCoupan": const AddPolarisationCoupanPage(),
-    "SacrificialAnode": const AddSacrificialAnodePage(),
-  };
-
-  static final Map<String, String> _tcpLabels = {
-    "PinBrazzing": AppString.pinBrazzing,
-    "CableInstallation": AppString.installationCables,
-    "ZnGroundingAnode": AppString.groundingAnode,
-    "TestStationBox": AppString.testStationBoxes,
-    "ThermitWelding": AppString.thermitWelding,
-    "SurgeDiverter": AppString.surgeDiverter,
-    "SSD": AppString.ssd,
-    "PolarisationCoupan": AppString.polarisationCoupan,
-    "SacrificialAnode": AppString.sacrificialAnode,
+    "28": const AddSacrificialAnodePage(),    // Sacrificial Anode
+    "29": const AddZnGroundingAnodePage(),    // Zn Grounding Anode
+    "31": const AddCableInstallationPage(),   // Cable Installation
+    "40": const AddPinBrazzingPage(),         // Pin Brazzing
+    "45": const AddTestStationBoxPage(),      // Test Station Box
+    "46": const AddThermitWeldPage(),         // Thermit Welding
+    "54": const AddSsdPage(),                 // SSD
+    "55": const AddSsdPage(),                 // TCP Installation (map to SSD or create new page)
+    "66": const AddSurgeDiverterPage(),       // Surge Diverter
+    "68": const AddPolarisationCoupanPage(),  // Polarisation Coupan
+    "75": const AddSurgeDiverterPage(),       // TCP Commission Report (map accordingly)
+    "76": const AddSurgeDiverterPage(),       // TCP Monitoring Report (map accordingly)
   };
 
   /// -------- HDD --------
   static final Map<String, Widget> _hddRoutes = {
-    "Reaming": const AddHddReamingPage(),
-    "Drilling": const AddPilotDrillPage(),
-    "PipePull": const AddHddPullingPage(),
-    "CleanPass": const AddHddCleanPassPage(),
-    "HddCrossing": const AddHddCrossingPage(),
-  };
-
-  static final Map<String, String> _hddLabels = {
-    "Reaming": AppString.hddReaming,
-    "Drilling": AppString.pilotDrill,
-    "PipePull": AppString.hddPulling,
-    "CleanPass": AppString.hddCleanPass,
-    "HddCrossing": AppString.hddCrossing,
+    "34": const AddHddReamingPage(),    // Reaming
+    "35": const AddPilotDrillPage(),    // Drilling
+    "36": const AddHddCleanPassPage(),  // HDD Bore (map accordingly)
+    "37": const AddHddPullingPage(),    // Pipe Pull
+    "38": const AddHddCleanPassPage(),  // Gauging (map accordingly)
+    "39": const AddHddCleanPassPage(),  // Molling (map accordingly)
+    "57": const AddHddCleanPassPage(),  // Clean Pass
+    "73": const AddHddCrossingPage(),   // HDD Crossing
   };
 
 
@@ -331,24 +266,4 @@ class HomeHelper {
     );
   }
 
-  /* ===================== APP UPDATE ===================== */
-
-  static checkAppUpdate({required BuildContext context}) async {
-    try {
-      PackageInfo info = await PackageInfo.fromPlatform();
-
-      String url =
-          "http://unistal.smartgasnet.com/api/app-details?packageName=${info.packageName}";
-
-      var res = await ServerRequest.getGoogleData(url: Uri.parse(url));
-
-      if (res != null &&
-          res['status'] == true &&
-          double.parse(info.buildNumber) <
-              double.parse(res['data']['app_version_code'])) {
-        AppUpdateMessage.showAlertDialog(
-            context: context, url: res['data']['app_url']);
-      }
-    } catch (_) {}
-  }
 }
