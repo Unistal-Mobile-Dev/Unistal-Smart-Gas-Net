@@ -84,6 +84,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     _eventCompleted(emit);
   }
 
+  bool isAllowedRole(RoleType role) {
+    return [
+      RoleType.engineer,
+      RoleType.admin,
+      RoleType.siteFieldEngineer,
+    ].contains(role);
+  }
+
   _submitLoginData(LoginSubmitDataEvent event, emit) async {
     if (await ConnectivityHelper.allConnectivityCheck(context: event.context) ==
         false) {
@@ -108,21 +116,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _loginData = loginResponse(res['user']);
         String token = res['token'] ?? "";
         _loginData.token = token;
-        if(_loginData.roleType != RoleType.engineer){
-          SnackBarErrorWidget(event.context.mounted ? event.context : event.context)
+        if (!isAllowedRole(_loginData.roleType ?? RoleType.unknown)) {
+          SnackBarErrorWidget(event.context)
               .show(message: "Invalid user");
           return;
         }
-        SharedPreferencesUtils.setString(
-            key: PreferencesName.userName, value: email.toString());
-        SharedPreferencesUtils.setString(
-            key: PreferencesName.password, value: password.toString());
+        SharedPreferencesUtils.setString(key: PreferencesName.userName, value: email.toString());
+        SharedPreferencesUtils.setString(key: PreferencesName.password, value: password.toString());
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         String version = packageInfo.version;
         String buildNumber = packageInfo.buildNumber;
-        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "${buildNumber}($version)");
+        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
         Navigator.pushAndRemoveUntil(
             !event.context.mounted ? event.context : event.context,
             MaterialPageRoute(builder: (_) => const HomePage()),

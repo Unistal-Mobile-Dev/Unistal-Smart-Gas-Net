@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/helper/edit_hindrance_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/presentation/page/view_hindrance_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/phone_dashboard_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
@@ -66,7 +69,7 @@ class EditHindranceBloc extends Bloc<EditHindranceEvent, EditHindranceState> {
     _userData = UserInfo.instanceInit()!.userData!;
      hindranceListData = await  AppConfig.instanceInit()!.hindranceListData;
     hindranceId =  hindranceListData.id.toString();
-    dateCtrl.text = hindranceListData.reportDate.toString();
+    dateCtrl.text = hindranceListData.fromDate.toString();
     hindranceCategoryCtrl.text = hindranceListData.hindranceCategoryName.toString();
     hindranceTypeCtrl.text = hindranceListData.hindranceTypeName.toString();
     activityAffectedCtrl.text = hindranceListData.activityAffected.toString();
@@ -80,16 +83,15 @@ class EditHindranceBloc extends Bloc<EditHindranceEvent, EditHindranceState> {
     double chainageTo = double.tryParse(chainageToCtrl.text.toString()) ?? 0.0;
     double length = chainageTo - chainageFrom;
     lengthCtrl.text = length.toString();
-    resolutionDateCtrl.text = "";
-    resolutionEditNotesCtrl.text = "";
+    resolutionDateCtrl.text = hindranceListData.status != null && hindranceListData.status ==  "Close" ? hindranceListData.toDate.toString() : "";
+    resolutionEditNotesCtrl.text = hindranceListData.status != null && hindranceListData.status ==  "Close" ? hindranceListData.editRemarks.toString() : "";
     _eventComplete(emit);
   }
 
   _selectResolutionCloseDate(EditHindranceResolutionCloseDateEvent event, emit) async {
 
-    DateTime reportDate = DateTime.parse(dateCtrl.text.toString()); // API value
+    DateTime reportDate = DateTime.parse(dateCtrl.text.toString());
     DateTime currentDate = DateTime.now();
-
     DateTime? pickedDate = await showDatePicker(
       context: event.context,
       initialDate: currentDate,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/EditHindrance/domain/model/hindrance_category_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/domain/bloc/edit_hindrance_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/domain/bloc/edit_hindrance_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/domain/bloc/edit_hindrance_state.dart';
@@ -17,6 +16,8 @@ class EditHindrancePage extends StatefulWidget {
 }
 
 class _EditHindrancePageState extends State<EditHindrancePage> {
+
+  bool hindranceStatus = AppConfig.instanceInit()?.hindranceListData.status == "Close";
   @override
   void initState() {
     BlocProvider.of<EditHindranceBloc>(context)
@@ -30,6 +31,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
+        foregroundColor: AppColor.white,
         backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
         title:TextWidget(
          "Hindrance",
@@ -64,10 +66,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _logoContainer(
-                  context,
-                  UserInfo.instance!.userData!.projectLogo,
-                ),
+                _logoContainer(UserInfo.instance!.userData!.projectLogo),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
@@ -80,10 +79,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _logoContainer(
-                  context,
-                  UserInfo.instance!.userData!.smartLogo,
-                ),
+                _logoContainer(UserInfo.instance!.userData!.smartLogo),
               ],
             ),
           ),
@@ -114,16 +110,15 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
                     _verticalSpace(),
                     _lengthController(dataState: dataState),
                     _verticalSpace(),
-                    _activityRemark(dataState: dataState),
-                    _verticalSpace(),
+                    // _activityRemark(dataState: dataState),
+                    // _verticalSpace(),
                     _resolutionCloseDateController(dataState: dataState),
                     _verticalSpace(),
                     _activityEditRemark(dataState: dataState),
                     _verticalSpace(),
                     _photo(dataState: dataState),
                     _verticalSpace(),
-                    _verticalSpace(),
-                    _button(dataState: dataState),
+                    hindranceStatus ? SizedBox.shrink() : _button(dataState: dataState),
                   ],
                 ),
               ),
@@ -227,6 +222,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
   }
 
   Widget _activityRemark({required FetchEditHindranceDataState dataState}) {
+
     return TextFieldWidget(
       maxLine: 3,
       enabled: false,
@@ -238,10 +234,11 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
   Widget _resolutionCloseDateController({required FetchEditHindranceDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: false,
+      enabled: hindranceStatus ? false : true,
       labelText: "Resolution Close Date",
       controller: dataState.resolutionDateCtrl,
       onTap: () {
+        hindranceStatus == true ? {} :
         BlocProvider.of<EditHindranceBloc>(context)
             .add(EditHindranceResolutionCloseDateEvent(
           context: context,
@@ -254,7 +251,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
   Widget _activityEditRemark({required FetchEditHindranceDataState dataState}) {
     return TextFieldWidget(
       maxLine: 3,
-      enabled: false,
+      enabled: hindranceStatus ? false :true,
       labelText: "Resolution Notes",
       controller:  dataState.resolutionEditNotesCtrl,
     );
@@ -312,11 +309,25 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
+  Widget _logoContainer(String? url) {
+    final String originalPath = url ?? "";
 
-  Widget _logoContainer(BuildContext context, String? url) {
+    final uri = Uri.tryParse(originalPath);
+
+    final bool isNetwork =
+        uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
+
+    final bool isFile =
+        uri != null && uri.scheme == 'file';
+
+    String fixedPath = originalPath;
+
+    if (isFile) {
+      fixedPath = originalPath.replaceFirst('file://', '');
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.09,
-      // FIXED width (important)
       height: MediaQuery.of(context).size.width * 0.09,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -325,12 +336,33 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
       padding: const EdgeInsets.all(2),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.network(
-          url ?? "",
-          fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        child: _buildLogoImage(
+          isNetwork: isNetwork,
+          fixedPath: fixedPath,
+          originalPath: originalPath,
         ),
       ),
     );
+  }
+  Widget _buildLogoImage({
+    required bool isNetwork,
+    required String fixedPath,
+    required String originalPath,
+  }) {
+    if (isNetwork) {
+      return Image.network(
+        originalPath,
+        fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+      );
+    } else if (fixedPath.isNotEmpty) {
+      return Image.file(
+        File(fixedPath),
+        fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }

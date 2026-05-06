@@ -43,7 +43,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 _verticalSpace(),
                 _logo(),
                 _verticalSpace(),
-                _smartGasNetLogo(),
+                AppConfig.instanceInit()!.client == Client.urjagati ? SizedBox.shrink() :_smartGasNetLogo(),
 /*                TextWidget("Login to your account",
                   fontSize: AppFont.font_18, fontWeight: FontWeight.w700,),*/
                 _verticalSpace(),
@@ -68,29 +68,37 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
   }
 
   Widget _logo() {
+    final size = MediaQuery.sizeOf(context); // more efficient
+
     return Hero(
       tag: 'logo',
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.27,
+        height: size.height * 0.2,
+        width: double.infinity,
         child: Stack(
+          fit: StackFit.expand,
           children: [
-            Positioned(
-              left: 00.0,
-              top: 00.0,
-              right: 00.0,
-              bottom: MediaQuery.of(context).size.height * 0.08,
-              child: Image.asset(
-                AppIcon.appLogo(),
-                width: MediaQuery.of(context).size.width * 0.30,
+            // Logo (centered upper portion)
+            Align(
+              alignment: Alignment.topCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.7, // replaces manual bottom calculation
+                child: Image.asset(
+                  AppIcon.appLogo(),
+                  width: size.width * 0.6,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
+
+            // Bottom strip
             Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 AppIcon.colourStrip,
-                color: EnvironmentConfig.of(context)!.primaryTheme,
+                width: size.width,
                 fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
               ),
             ),
           ],

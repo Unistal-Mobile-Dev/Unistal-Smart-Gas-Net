@@ -84,7 +84,7 @@ class AddHindranceBloc extends Bloc<AddHindranceEvent, AddHindranceState> {
       reportNumberCtrl.text = res.toString();
     }
     listOfHindranceCategory = await AddHindranceHelper.fetchHindranceCategoryData();
-    listOfActivityAffected = (await HomeHelper.activityBySectionApi(userData: userData))!;
+    listOfActivityAffected = (await HomeHelper.activityBySectionApi(userData: userData)) ?? [];
     listOfResponsibleBy = await AddHindranceHelper.fetchResponsibleByData();
     _eventComplete(emit);
   }

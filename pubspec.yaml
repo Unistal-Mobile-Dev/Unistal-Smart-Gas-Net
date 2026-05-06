@@ -58,6 +58,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/logo/
 
 
   fonts:
@@ -75,9 +76,9 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "vrpl_logo"
+  android: "urjagati_logo"
   ios: true
-  image_path: "assets/vrpl_logo.png"
+  image_path: "assets/logo/urjagati_logo.png"
   min_sdk_android: 21
 
 

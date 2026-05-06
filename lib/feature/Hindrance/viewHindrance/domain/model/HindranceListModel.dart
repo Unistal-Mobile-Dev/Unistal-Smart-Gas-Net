@@ -81,6 +81,7 @@ class HindranceListData {
   String? hindranceTypeName;
   int? sno;
   String? activity;
+  String? editRemarks;
 
   HindranceListData(
       {this.id,
@@ -129,6 +130,7 @@ class HindranceListData {
         this.hindranceTypeName,
         this.sno,
         this.activity,
+        this.editRemarks,
        });
 
   HindranceListData.fromJson(Map<String, dynamic> json) {
@@ -178,6 +180,7 @@ class HindranceListData {
     hindranceTypeName = json['hindrance_type_name'] ?? "";
     sno = json['sno'] ?? "";
     activity = json['activity'] ?? "";
+    editRemarks = json['edit_remarks'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -228,6 +231,7 @@ class HindranceListData {
     data['hindrance_type_name'] = hindranceTypeName;
     data['sno'] = sno;
     data['activity'] = activity;
+    data['edit_remarks'] = editRemarks;
     return data;
   }
 }

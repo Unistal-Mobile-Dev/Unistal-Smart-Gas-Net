@@ -119,10 +119,11 @@ class AddHindranceHelper {
       } else if (chainageTo.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter chainage To");
         return false;
-      } else if (resolutionNotes.isEmpty) {
-        SnackBarErrorWidget(context).show(message: "Please enter resolution notes");
-        return false;
       }
+      // else if (resolutionNotes.isEmpty) {
+      //   SnackBarErrorWidget(context).show(message: "Please enter resolution notes");
+      //   return false;
+      // }
       return true;
     } catch (e) {
       return false;

@@ -63,14 +63,22 @@ class LoginDataModel {
     sectionName = json['section_name'] ?? "";
     diameter = json['diameter'] ?? "";
     diauom = json['diauom'] ?? "";
-    roleType =
-        json['role'] != null ? getRole(role: json['role']) : RoleType.engineer;
+    roleType = getRole(json['role'] ?? "");
   }
 
-  getRole({required String role}) {
-    switch (role) {
+  RoleType getRole(String role) {
+    switch (role.trim().toLowerCase()) {
       case "engineer":
         return RoleType.engineer;
+
+      case "admin":
+        return RoleType.admin;
+
+      case "site/field engineers":
+        return RoleType.siteFieldEngineer;
+
+      default:
+        return RoleType.unknown;
     }
   }
 }

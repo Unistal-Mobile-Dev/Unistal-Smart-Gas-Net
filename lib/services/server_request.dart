@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/dom
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
 
 class ServerRequest {
   static BuildContext? context = Singleton.instanceInit()?.context;

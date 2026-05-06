@@ -16,76 +16,82 @@ class ImageWidget extends StatelessWidget {
     required this.onPressed,
   });
 
-  bool _isNetworkPath(String path) =>
-      path.startsWith('http://') || path.startsWith('https://');
+  /// ✅ Better network detection
+  bool _isNetworkPath(String path) {
+    final uri = Uri.tryParse(path);
+    return uri != null &&
+        (uri.scheme == 'http' || uri.scheme == 'https');
+  }
+
+  /// ✅ Normalize file:// → real file path
+  String _normalizePath(String path) {
+    if (path.startsWith('file://')) {
+      return path.replaceFirst('file://', '');
+    }
+    return path;
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool hasImage = imagePath.isNotEmpty;
     final bool isNetwork = _isNetworkPath(imagePath);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AspectRatio(
-          aspectRatio: 1, // square grid
-          child: InkWell(
-            onTap: onPressed,
-            child: hasImage
-                ? ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Stack(
-                children: [
-                  _buildImage(isNetwork),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.height * 0.15,
+      child: InkWell(
+        onTap: onPressed,
+        child: hasImage
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Stack(
+            children: [
+              _buildImage(isNetwork),
 
-                  /// Zoom Button
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        if (!hasImage) return;
+              /// 🔍 Zoom Button
+              Positioned(
+                top: 4,
+                right: 4,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    if (!hasImage) return;
 
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.black,
-                          builder: (_) => EnlargeWidget(
-                            file: isNetwork
-                                ? null
-                                : File(imagePath),
-                            imageUrl:
-                            isNetwork ? imagePath : null,
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: const Icon(
-                          Icons.zoom_out_map,
-                          size: 16,
-                          color: Colors.white,
-                        ),
+                    final fixedPath = _normalizePath(imagePath);
+
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.black,
+                      builder: (_) => EnlargeWidget(
+                        file: isNetwork ? null : File(fixedPath),
+                        imageUrl: isNetwork ? imagePath : null,
                       ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Icon(
+                      Icons.zoom_out_map,
+                      size: 16,
+                      color: Colors.white,
                     ),
                   ),
-                ],
+                ),
               ),
-            )
-                : _emptyCard(),
+            ],
           ),
-        ),
-
-      ],
+        )
+            : _emptyCard(),
+      ),
     );
   }
 
-  /// Image Builder
+  /// 🖼 Image Builder
   Widget _buildImage(bool isNetwork) {
     if (isNetwork) {
       return Image.network(
@@ -106,27 +112,31 @@ class ImageWidget extends StatelessWidget {
         errorBuilder: (_, __, ___) => _emptyCard(),
       );
     } else {
+      final fixedPath = _normalizePath(imagePath);
+
       return Image.file(
-        File(imagePath),
+        File(fixedPath),
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
+        errorBuilder: (_, __, ___) => _emptyCard(),
       );
     }
   }
 
-  /// Empty State
+  /// 📭 Empty State
   Widget _emptyCard() {
-    return  Card(
+    return Card(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_a_photo),
-            SizedBox(height: 4),
+            const Icon(Icons.add_a_photo),
+            const SizedBox(height: 4),
+
             if (isRequired)
-              Text(
-                "* ",
+              const Text(
+                "*",
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -134,7 +144,10 @@ class ImageWidget extends StatelessWidget {
               ),
 
             Flexible(
-              child: Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: 8, ),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
               ),
             ),
           ],
