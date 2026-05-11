@@ -15,7 +15,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
-  provider: ^6.0.5
   equatable: ^2.0.5
   http: ^1.1.0
   shared_preferences: ^2.2.1
@@ -28,8 +27,6 @@ dependencies:
   geocoding: ^4.0.0
   permission_handler: ^12.0.0+1
   dotted_border: ^2.1.0
-  camera: ^0.11.1
-  flutter_local_notifications: ^19.2.1
   hive_flutter: ^1.1.0
   intl: ^0.20.2
   dropdown_search: ^5.0.6
@@ -76,9 +73,9 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "urjagati_logo"
+  android: "vrpl_logo"
   ios: true
-  image_path: "assets/logo/urjagati_logo.png"
+  image_path: "assets/logo/vrpl_logo.png"
   min_sdk_android: 21
 
 
