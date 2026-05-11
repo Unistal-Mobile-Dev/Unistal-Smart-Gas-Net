@@ -20,15 +20,15 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/presentation/page/add_soil_resistivity_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/presentation/page/add_tiein_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/web_dashboard/presenation/web_dashboard_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+
 
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
 
 /* ===================== MAINLINE ===================== */
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/presentation/page/route_survey_page.dart';
@@ -100,27 +100,35 @@ class HomeHelper {
       final drawerList = <DrawerModel>[];
       final activities = AppConfig.instanceInit()?.listOfActivitySection ?? [];
 
-      final activeActivities =
-      activities.where((e) => e.status == "1" || e.status == "0").toList();
+      final activeActivities = activities.where((e) => e.status == "1" || e.status == "0").toList();
 
       /// Dashboard
-      drawerList.add(
-        DrawerModel(
-          widget: const DashboardPage(),
-          icon: Icons.home_outlined,
-          label: AppString.dashboard,
-          sublist: [],
-          isSelected: true,
-          isRoot: true,
-        ),
-      );
+      // drawerList.add(
+      //   DrawerModel(
+      //     widget: const DashboardPage(),
+      //     icon: Icons.home_outlined,
+      //     label: AppString.dashboard,
+      //     sublist: [],
+      //     isSelected: true,
+      //     isRoot: true,
+      //   ),
+      // );
 
       final mainlineSubItems = <DrawerSubModel>[];
       final tcpSubItems = <DrawerSubModel>[];
       final hddSubItems = <DrawerSubModel>[];
 
       final addedIds = <String>{};
-
+      // drawerList.add(
+      //   DrawerModel(
+      //     widget: const WebDashboardPage(),
+      //     icon: Icons.home_outlined,
+      //     label: AppString.dashboard,
+      //     sublist: [],
+      //     isSelected: true,
+      //     isRoot: true,
+      //   ),
+      // );
       for (final item in activeActivities) {
         final id = (item.activityId ?? "").trim(); // <-- use activityId
 
@@ -129,44 +137,43 @@ class HomeHelper {
 
         if (_mainlineRoutes.containsKey(id)) {
           mainlineSubItems.add(_sub(
-            item.activityName ?? id,
-            _mainlineRoutes[id]!,
+           label: item.activityName ?? id,
+           page: _mainlineRoutes[id]!,
           ));
           addedIds.add(id);
         } else if (_tcpRoutes.containsKey(id)) {
           tcpSubItems.add(_sub(
-            item.activityName ?? id,
-            _tcpRoutes[id]!,
+           label:  item.activityName ?? id,
+           page:  _tcpRoutes[id]!,
           ));
           addedIds.add(id);
         } else if (_hddRoutes.containsKey(id)) {
           hddSubItems.add(_sub(
-            item.activityName ?? id,
-            _hddRoutes[id]!,
+           label:  item.activityName ?? id,
+          page:   _hddRoutes[id]!,
           ));
           addedIds.add(id);
         } else {
           debugPrint("⚠️ No mapping found for activity_id: $id");
         }
       }
-
       if (mainlineSubItems.isNotEmpty) {
-        drawerList.add(_groupItem("Mainline", Icons.alt_route, mainlineSubItems));
+        drawerList.add(_groupItem(label: "Mainline",icon: Icons.alt_route,sublist:mainlineSubItems));
       }
       if (tcpSubItems.isNotEmpty) {
-        drawerList.add(_groupItem(AppString.tcp, Icons.table_chart, tcpSubItems));
+        drawerList.add(_groupItem(label: AppString.tcp,icon: Icons.table_chart,sublist:tcpSubItems));
       }
       if (hddSubItems.isNotEmpty) {
-        drawerList.add(_groupItem(AppString.hdd, Icons.hd, hddSubItems));
+        drawerList.add(_groupItem(label: AppString.hdd,icon: Icons.hd,sublist: hddSubItems));
       }
 
       drawerList.add(
         _groupItem(
-          "Hindrance",
-          Icons.warning_amber_outlined,
-          [
-            _sub("Add Hindrance", const AddHindrancePage()),
-            _sub("View Hindrance", const ViewHindrancePage()),
+         label:  "Hindrance",
+        icon:   Icons.warning_amber_outlined,
+         sublist:  [
+            _sub(label: "Add Hindrance",page:  const AddHindrancePage()),
+            _sub(label: "View Hindrance",page:  const ViewHindrancePage()),
           ],
         ),
       );
@@ -246,8 +253,7 @@ class HomeHelper {
 
   /* ===================== HELPERS ===================== */
 
-  static DrawerModel _groupItem(
-      String label, IconData icon, List<DrawerSubModel> sublist) {
+  static DrawerModel _groupItem({required String label, required IconData icon, required List<DrawerSubModel> sublist}) {
     return DrawerModel(
       widget: const SizedBox.shrink(),
       icon: icon,
@@ -257,7 +263,7 @@ class HomeHelper {
     );
   }
 
-  static DrawerSubModel _sub(String label, Widget page) {
+  static DrawerSubModel _sub({required String label, required Widget page}) {
     return DrawerSubModel(
       label: label,
       widget: page,

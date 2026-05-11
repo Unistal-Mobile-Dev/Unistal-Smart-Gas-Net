@@ -44,7 +44,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _itemBuilder({required FetchAddWeldingDataState dataState}) {
-    final hideExtraWelders = client == Client.vppl || client == Client.vrpl;
+    final hideExtraWelders = client == Client.vppl|| client == Client.urjagati  || client == Client.vrpl;
     return Container(
         margin: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -759,7 +759,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeDiaE6010BatchController({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidget(
-      hint: client == Client.vppl || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
+      hint: client == Client.vppl || client == Client.urjagati || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
       items: dataState.electrodeDiaE6010BatchList,
       dropdownValue:dataState.electrodeDiaE6010BatchValue.batchNo != null ? dataState.electrodeDiaE6010BatchValue : null,
       onChanged: (value) {
@@ -774,7 +774,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: client == Client.vppl ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
+      hint: client == Client.vppl || client == Client.urjagati ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,
       dropdownValue:dataState.electrodeEiaE8010p1Value.diaValue != null ? dataState.electrodeEiaE8010p1Value : null,
       onChanged: (value) {
@@ -789,7 +789,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidget(
-      hint: client == Client.vppl || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
+      hint: client == Client.vppl || client == Client.urjagati || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
       items: dataState.electrodeEiaE8010p1BatchList,
       dropdownValue:dataState.electrodeEiaE8010p1BatchValue.batchNo != null ? dataState.electrodeEiaE8010p1BatchValue : null,
         onChanged: (value) {

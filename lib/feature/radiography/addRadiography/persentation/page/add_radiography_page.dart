@@ -167,7 +167,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtSourceModel>(
       isRequired: true,
-      hint: client == Client.vppl ? "Source":AppString.selectRtSource,
+      hint: client == Client.vppl || client == Client.urjagati? "Source":AppString.selectRtSource,
       dropdownValue:
           dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
@@ -189,7 +189,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: client == Client.vppl ? "Film": AppString.filmType,
+      labelText: client == Client.vppl || client == Client.urjagati? "Film": AppString.filmType,
       controller: dataState.filmTypeController,
     );
   }
@@ -230,7 +230,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _equipmentController(
       {required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
-      labelText: client == Client.vppl ? "Penetrameter":AppString.equipment,
+      labelText: client == Client.vppl || client == Client.urjagati? "Penetrameter":AppString.equipment,
       controller: dataState.equipmentController,
     );
   }
@@ -335,7 +335,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                         fontWeight: FontWeight.w700,
                         color: AppColor.black,
                       ),
-                      AppConfig.instanceInit()!.client == Client.vppl
+                      AppConfig.instanceInit()!.client == Client.vppl ||
+                      AppConfig.instanceInit()!.client == Client.urjagati
                           || AppConfig.instanceInit()!.client == Client.vrpl
                           || AppConfig.instanceInit()!.client == Client.gjpl
                           || AppConfig.instanceInit()!.client == Client.bcpl

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/Background/background_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_bar_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class PhoneDashboardWidget extends StatefulWidget {
@@ -26,27 +28,32 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
   }
 
   Widget _listBuilder({required FetchHomeDataState dataState}) {
-    return dataState.drawerList.first.label == "Dashboard"  && dataState.drawerList.length == 1 ? Center(
-      child: Text("No records found"),
-    ) :ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: dataState.drawerList.length,
-      itemBuilder: (context, index) {
-        final drawerItem = dataState.drawerList[index];
+    return dataState.drawerList.first.label == "Dashboard" &&
+            dataState.drawerList.length == 1
+        ? Center(
+            child: Text("No records found"),
+          )
+        : ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: dataState.drawerList.length,
+            itemBuilder: (context, index) {
+              final drawerItem = dataState.drawerList[index];
 
-        // Skip dashboard (index 0) if needed
-        if (index == 0) return const SizedBox.shrink();
+              // Skip dashboard (index 0) if needed
+           //   if (index == 0) return const SizedBox.shrink();
 
-        // ================= NO SUBLIST =================
-        if (drawerItem.sublist.isEmpty) {
-          return _singleDrawerItem(drawerItem, index);
-        }
+              // ================= NO SUBLIST =================
+              if (drawerItem.sublist.isEmpty) {
+                return _singleDrawerItem(drawerItem, index);
+              }
 
-        // ================= WITH SUBLIST =================
-        return _expandableDrawerItem(dataState: dataState,item: drawerItem);
-      },
-    );
+              // ================= WITH SUBLIST =================
+              return _expandableDrawerItem(
+                  dataState: dataState, item: drawerItem);
+            },
+          );
   }
+
   Widget _singleDrawerItem(DrawerModel item, int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -56,16 +63,36 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
           minimumSize: const Size.fromHeight(50),
         ),
         onPressed: () {
-          BlocProvider.of<HomeBloc>(context).add(
-            HomeDrawerItemSelectedEvent(
-              isSelected: true,
-              index: index,
-              context: context,
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              // builder: (_) => item.widget,
+              builder: (_) => Scaffold(
+                appBar: AppBarWidget(
+                  boolLeading: false,
+                  title: item.label ?? "",
+                ),
+                // appBar: AppBar(
+                //   title: Text(item.label ?? ""),
+                // ),
+
+                body: BackgroundWidget(child: item.widget),
+              ),
             ),
           );
+
+          // BlocProvider.of<HomeBloc>(context).add(
+          //   HomeDrawerItemSelectedEvent(
+          //     isSelected: true,
+          //     index: index,
+          //     context: context,
+          //   ),
+          // );
         },
         icon: Icon(
-          item.icon, color: EnvironmentConfig.of(context)!.primaryTheme,
+          item.icon,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
         ),
         label: Align(
           alignment: Alignment.centerLeft,
@@ -74,26 +101,40 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
       ),
     );
   }
-  Widget _expandableDrawerItem(
-      {required DrawerModel item, required FetchHomeDataState dataState}) {
+
+  Widget _expandableDrawerItem({required DrawerModel item, required FetchHomeDataState dataState}) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: ExpansionTile(
-        leading: Icon(item.icon, color: EnvironmentConfig.of(context)!.primaryTheme,),
+        leading: Icon(
+          item.icon,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
+        ),
         title: TextWidget(item.label),
         children: item.sublist.map((subItem) {
           return ListTile(
             contentPadding: const EdgeInsets.only(left: 60),
             title: TextWidget(subItem.label ?? ""),
-
             onTap: () {
-              BlocProvider.of<HomeBloc>(context).add(
-                HomeDrawerItemSubListSelectedEvent(
-                  isSelected: true,
-                  index: item.sublist.indexOf(subItem),
-                  listIndex: dataState.drawerList.indexOf(item),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Scaffold(
+                    appBar: AppBarWidget(
+                      boolLeading: true,
+                      title: subItem.label ?? "",
+                    ),
+                    body: BackgroundWidget(child: subItem.widget),
+                  ),
                 ),
               );
+              // BlocProvider.of<HomeBloc>(context).add(
+              //   HomeDrawerItemSubListSelectedEvent(
+              //     isSelected: true,
+              //     index: item.sublist.indexOf(subItem),
+              //     listIndex: dataState.drawerList.indexOf(item),
+              //   ),
+              // );
             },
           );
         }).toList(),

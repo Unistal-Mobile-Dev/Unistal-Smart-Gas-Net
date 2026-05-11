@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/Background/background_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_bar_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
@@ -16,256 +19,422 @@ class HomeDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        if (state is FetchHomeDataState) {
-          return Container(
-            color: AppColor.white,
-            width: MediaQuery.of(context).size.width / 1.5,
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-            child: ListView(
-              children: [
-                _header(context: context),
-                const Divider(),
-                _listBuilder(dataState: state),
-/*            _changePassword(context: context),*/
-                _logout(context: context),
-              ],
-            ),
-          );
-        } else {
-          return const Center(
-            child: CenterLoaderWidget(),
-          );
-        }
-      },
-    );
-  }
+    return Drawer(
+      width: MediaQuery.of(context).size.width * 0.68,
+      elevation: 10,
+    //  backgroundColor: AppColor.white,
 
-  Widget _header({required BuildContext context}) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            AppIcon.appLogo(),
-            height: MediaQuery.of(context).size.width * 0.12,
-            width: MediaQuery.of(context).size.width * 0.12,
-          ),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.03,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextWidget(
-                userData.name.toString(),
-                fontSize: AppFont.font_14,
-              ),
-              TextWidget(
-                userData.email.toString(),
-                color: AppColor.grey,
-                fontSize: AppFont.font_12,
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
+      child: SafeArea(
+        top: false,
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is FetchHomeDataState) {
+              return Column(
+                children: [
 
-  Widget _listBuilder({required FetchHomeDataState dataState}) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: dataState.drawerList.length,
-        itemBuilder: (context, index) {
-          return _itemBuilder(
-              context: context,
-              drawerData: dataState.drawerList[index],
-              index: index);
-        });
-  }
+                  /// ================= HEADER =================
+                  _header(context: context),
 
-  Widget _itemBuilder(
-      {required BuildContext context,
-      required DrawerModel drawerData,
-      required int index}) {
-    return GestureDetector(
-      onTap: () {
-        if (drawerData.sublist.isEmpty) {
-          Navigator.pop(context);
-        }
-        if (drawerData.isSelected == false) {
-          BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
-              isSelected: true, index: index, context: context));
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.width * 0.02,
-            bottom: MediaQuery.of(context).size.width * 0.02),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Icon(
-                  drawerData.icon,
-                  color: drawerData.isSelected == true
-                      ? EnvironmentConfig.of(context)!.primaryTheme
-                      : AppColor.black,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.03,
-                ),
-                Expanded(
-                  child: TextWidget(
-                    drawerData.label,
-                    fontSize: AppFont.font_13,
-                    color: drawerData.isSelected == true
-                        ? EnvironmentConfig.of(context)!.primaryTheme
-                        : AppColor.black,
-                    fontWeight: drawerData.isSelected == true
-                        ? FontWeight.w700
-                        : FontWeight.w400,
+                  /// ================= MENU =================
+                  Flexible(
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: _horizontal(context: context),
+                        vertical: _vertical(context: context),
+                      ),
+                      children: [
+                        _listBuilder(dataState: state),
+                      ],
+                    ),
                   ),
-                ),
-                Icon(
-                  drawerData.isSelected == true && drawerData.sublist.isNotEmpty
-                      ? Icons.keyboard_arrow_down_sharp
-                      : Icons.keyboard_arrow_right_sharp,
-                  color: AppColor.black,
-                ),
-              ],
-            ),
-            drawerData.isSublistLoader == false ||
-                    drawerData.isSublistLoader == null
-                ? drawerData.sublist.isNotEmpty && drawerData.isSelected == true
-                    ? _subListBuilder(
-                        context: context,
-                        drawerData: drawerData,
-                        listIndex: index)
-                    : const SizedBox.shrink()
-                : const DottedLoaderWidget(),
-          ],
+
+                  /// ================= LOGOUT =================
+                  _logout(context: context),
+                ],
+              );
+            } else {
+              return const Center(
+                child: CenterLoaderWidget(),
+              );
+            }
+          },
         ),
       ),
     );
   }
 
-  Widget _subListBuilder(
-      {required BuildContext context,
-      required DrawerModel drawerData,
-      required int listIndex}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: drawerData.sublist.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  BlocProvider.of<HomeBloc>(context).add(
-                      HomeDrawerItemSubListSelectedEvent(
-                          isSelected: true,
-                          index: index,
-                          listIndex: listIndex));
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      size: MediaQuery.of(context).size.width * 0.03,
-                      color: drawerData.sublist[index].isSelected == true
-                          ? EnvironmentConfig.of(context)!.primaryTheme
-                          : AppColor.black,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.03,
-                    ),
-                    Expanded(
-                      child: TextWidget(
-                        drawerData.sublist[index].label.toString(),
-                        fontSize: AppFont.font_12,
-                        color: drawerData.sublist[index].isSelected == true
-                            ? EnvironmentConfig.of(context)!.primaryTheme
-                            : AppColor.black,
-                      ),
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right_sharp,
-                      color: AppColor.black,
-                    ),
-                  ],
+  /// ================= HEADER =================
+
+  Widget _header({required BuildContext context}) {
+
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+
+    return Container(
+      width: double.infinity,
+
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.04,
+        vertical: width * 0.1,
+      ),
+
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            EnvironmentConfig.of(context)!.primaryTheme,
+            EnvironmentConfig.of(context)!.secondaryTheme,
+          ],
+        ),
+
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(5),
+          bottomRight: Radius.circular(5),
+        ),
+      ),
+
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+
+          /// ================= LOGO =================
+
+          Container(
+            padding: EdgeInsets.all(width * 0.015),
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+
+            child: Image.asset(
+              AppIcon.appLogo(),
+              height: width * 0.11,
+              width: width * 0.11,
+              fit: BoxFit.contain,
+            ),
+          ),
+
+          SizedBox(width: width * 0.035),
+
+          /// ================= USER INFO =================
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+
+                /// USER NAME
+                TextWidget(
+                  userData.name.toString(),
+
+                  maxLines: 1,
+
+
+                  color: Colors.white,
+
+                  fontSize: width * 0.038,
+
+                  fontWeight: FontWeight.w700,
+                ),
+
+                SizedBox(height: width * 0.01),
+
+                /// EMAIL
+                TextWidget(
+                  userData.email.toString(),
+
+                  maxLines: 1,
+
+                  color: Colors.white70,
+
+                  fontSize: width * 0.028,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// ================= MENU LIST =================
+
+  Widget _listBuilder({
+    required FetchHomeDataState dataState,
+  }) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: dataState.drawerList.length,
+      itemBuilder: (context, index) {
+        final item = dataState.drawerList[index];
+
+        /// ================= NORMAL MENU =================
+        if (item.sublist.isEmpty) {
+          return _singleMenuItem(
+            context: context,
+            item: item,
+          );
+        }
+
+        /// ================= EXPANSION MENU =================
+        return _expandableMenuItem(
+          context: context,
+          item: item,
+        );
+      },
+    );
+  }
+
+  /// ================= SINGLE MENU =================
+
+  Widget _singleMenuItem({
+    required BuildContext context,
+    required DrawerModel item,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+      ),
+
+      child: Material(
+        color: Colors.transparent,
+
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+
+          onTap: () {
+            Navigator.pop(context);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => Scaffold(
+                  appBar: AppBarWidget(
+                    boolLeading: true,
+                    title: item.label ?? "",
+                  ),
+                  body: BackgroundWidget(
+                    child: item.widget,
+                  ),
                 ),
               ),
             );
-          }),
-    );
-  }
+          },
 
-  Widget _changePassword({required BuildContext context}) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width * 0.02,
-          bottom: MediaQuery.of(context).size.width * 0.02),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-/*          Navigator.push(context,
-              MaterialPageRoute(builder: (_) =>  const ChangePasswordPage()));*/
-        },
-        child: Row(
-          children: [
-            Icon(
-              Icons.password_rounded,
-              color: AppColor.black,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.03,
+
+            child: Row(
+              children: [
+
+                /// ICON
+                Icon(
+                  item.icon,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
+                  size: 24,
+                ),
+
+                const SizedBox(width: 14),
+
+                /// TITLE
+                Expanded(
+                  child: TextWidget(
+                    item.label,
+                    fontSize: AppFont.font_13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                /// ARROW
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.grey.shade500,
+                ),
+              ],
             ),
-            TextWidget(
-              AppString.changePassword,
-              fontSize: AppFont.font_12,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+
+  /// ================= EXPANSION MENU =================
+
+  Widget _expandableMenuItem({
+    required BuildContext context,
+    required DrawerModel item,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+      ),
+
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+        ),
+
+        childrenPadding: EdgeInsets.zero,
+
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+
+        iconColor: AppColor.black,
+        collapsedIconColor: AppColor.black,
+
+        leading: Icon(
+          item.icon,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
+          size: 24,
+        ),
+
+        title: TextWidget(
+          item.label,
+          fontSize: AppFont.font_13,
+          fontWeight: FontWeight.w600,
+        ),
+
+        children: item.sublist.map((subItem) {
+          return ListTile(
+            contentPadding: const EdgeInsets.only(
+              left: 58,
+              right: 16,
+            ),
+
+            leading: Container(
+              height: 8,
+              width: 8,
+              decoration: BoxDecoration(
+                color: EnvironmentConfig.of(context)!.primaryTheme,
+                shape: BoxShape.circle,
+              ),
+            ),
+
+            horizontalTitleGap: 10,
+
+            title: TextWidget(
+              subItem.label ?? "",
+              fontSize: AppFont.font_12,
+              fontWeight: FontWeight.w500,
+            ),
+
+            onTap: () {
+              Navigator.pop(context);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Scaffold(
+                    appBar: AppBarWidget(
+                      boolLeading: true,
+                      title: subItem.label ?? "",
+                    ),
+                    body: BackgroundWidget(
+                      child: subItem.widget,
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  /// ================= LOGOUT =================
 
   Widget _logout({required BuildContext context}) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width * 0.02,
-          bottom: MediaQuery.of(context).size.width * 0.02),
-      child: GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-              context: context, builder: (context) => const LogoutWidget());
-        },
-        child: Row(
-          children: [
-            Icon(
-              Icons.logout,
-              color: AppColor.black,
+    return Container(
+      padding: const EdgeInsets.all(12),
+
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.shade300,
+          ),
+        ),
+      ),
+
+      child: Material(
+        color: Colors.transparent,
+
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => const LogoutWidget(),
+            );
+          },
+
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.03,
+
+            decoration: BoxDecoration(
+              color: Colors.red.shade50,
+              borderRadius: BorderRadius.circular(14),
             ),
-            TextWidget(
-              AppString.logout,
-              fontSize: AppFont.font_12,
+
+            child: Row(
+              children: [
+
+                Icon(
+                  Icons.logout_rounded,
+                  color: Colors.red.shade700,
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: TextWidget(
+                    AppString.logout,
+                    fontSize: AppFont.font_13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.red.shade700,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  _vertical({required BuildContext context}){
+    return MediaQuery.of(context).size.height * 0.001;
+  }
+  _horizontal({required BuildContext context}){
+    return MediaQuery.of(context).size.height * 0.002;
   }
 }

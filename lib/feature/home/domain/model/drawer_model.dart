@@ -25,9 +25,42 @@ class DrawerModel {
 class DrawerSubModel {
   String? label;
   bool? isSelected;
-  Widget? widget;
+  Widget widget;
   Widget? actionButtonWidget;
 
   DrawerSubModel(
-      {this.label, this.isSelected, this.widget, this.actionButtonWidget});
+      {this.label, this.isSelected, required this.widget, this.actionButtonWidget});
+}
+
+
+/// ===================== DRAWER MODEL =====================
+
+class DrawerDemoModel {
+  final Widget widget;
+  final IconData icon;
+  final String label;
+  final List<DrawerSubDemoModel> sublist;
+  bool isSelected;
+  bool isRoot;
+
+  DrawerDemoModel({
+    required this.widget,
+    required this.icon,
+    required this.label,
+    required this.sublist,
+    this.isSelected = false,
+    this.isRoot = false,
+  });
+}
+
+class DrawerSubDemoModel {
+  final String label;
+  final Widget widget;
+  bool isSelected;
+
+  DrawerSubDemoModel({
+    required this.label,
+    required this.widget,
+    this.isSelected = false,
+  });
 }

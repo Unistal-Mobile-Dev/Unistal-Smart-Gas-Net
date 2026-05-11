@@ -53,6 +53,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/swabbing/addSwabbing/domain/bloc/add_swabbing_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/domain/bloc/add_tiein_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/web_dashboard/domain/bloc/web_dashboard_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/bloc/add_welder_repair_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/bloc/add_welding_bloc.dart';
 
@@ -60,6 +61,7 @@ MultiBlocProvider multiBlocProvider({required Widget child}) {
   return MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => LoginBloc()),
+      BlocProvider(create: (BuildContext context) => WebDashboardBloc()),
       BlocProvider(create: (BuildContext context) => AddHindranceBloc()),
       BlocProvider(create: (BuildContext context) => ViewHindranceBloc()),
       BlocProvider(create: (BuildContext context) => EditHindranceBloc()),

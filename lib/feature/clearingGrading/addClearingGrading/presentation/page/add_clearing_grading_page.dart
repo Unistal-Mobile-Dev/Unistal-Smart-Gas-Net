@@ -66,7 +66,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             _verticalSpace(),
             _terrainDropDown(dataState: dataState),
             _verticalSpace(),
-            client != Client.vppl
+            client != Client.vppl || client != Client.urjagati
                 ? DottedBorder(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -90,7 +90,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
             client != Client.mgl
                 ? Column(
               children: [
-                client == Client.vppl
+                client == Client.vppl || client == Client.urjagati
                     ? DottedBorder(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -110,12 +110,12 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
                   ),
                 )
                     : SizedBox.shrink(),
-                client != Client.vppl ? _tpIpChainageController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl ? _tpIpNOSController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl ? _verticalSpace() : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _tpIpChainageController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _tpIpNOSController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
                 _verticalSpace(),
-                client == Client.vppl
+                client == Client.vppl || client == Client.urjagati
                     ? DottedBorder(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -137,17 +137,17 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
                   ),
                 )
                     : SizedBox.shrink(),
-                client != Client.vppl ? _ipNumberController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl ? _ipNumberFrom(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _ipNumberController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _ipNumberFrom(dataState: dataState) : SizedBox.shrink(),
                  _verticalSpace(),
-                client != Client.vppl ? _groundTypeController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl ? _structureNameController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _groundTypeController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _structureNameController(dataState: dataState) : SizedBox.shrink(),
                 _verticalSpace(),
-                client != Client.vppl ? _chainageController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl ? _boundaryLocationController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _chainageController(dataState: dataState) : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
+                client != Client.vppl || client != Client.urjagati ? _boundaryLocationController(dataState: dataState) : SizedBox.shrink(),
                 _verticalSpace(),
               ],
             )
@@ -250,7 +250,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _ipNumberController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       textInputType:TextInputType.number,
-      labelText: client == Client.vppl ? "Chainage From":"IP No. From" ,
+      labelText: client == Client.vppl || client == Client.urjagati ? "Chainage From":"IP No. From" ,
       controller: dataState.ipNumberController,
     );
   }
@@ -258,7 +258,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _ipNumberFrom({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText:  client == Client.vppl ? "Chainage To": AppString.ipNoTo,
+      labelText:  client == Client.vppl || client == Client.urjagati ? "Chainage To": AppString.ipNoTo,
       controller: dataState.ipNumberFromController,
     );
   }
@@ -350,7 +350,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _terrainDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-      hint: client == Client.vppl ? AppString.selectGroundType: AppString.selectTerrain,
+      hint: client == Client.vppl || client == Client.urjagati ? AppString.selectGroundType: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
           : null,

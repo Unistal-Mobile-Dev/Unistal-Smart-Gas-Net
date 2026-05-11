@@ -69,7 +69,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
           //  _verticalSpace(),
-            client != Client.mgl && client != Client.vppl
+            client != Client.mgl && client != Client.vppl && client != Client.urjagati
                 ? Column(
                     children: [
                       _verticalSpace(),

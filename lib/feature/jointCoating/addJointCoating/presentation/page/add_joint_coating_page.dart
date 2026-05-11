@@ -83,18 +83,18 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
-            client != Client.vppl
+            client != Client.vppl || client != Client.urjagati
                 ? SizedBox.shrink()
                 : _humidityMeterDetailsController(dataState: dataState),
-            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-            client != Client.vppl
+            client != Client.vppl || client != Client.urjagati? SizedBox.shrink() : _verticalSpace(),
+            client != Client.vppl || client != Client.urjagati
                 ? SizedBox.shrink()
                 : _digitalPyrometerDetailsController(dataState: dataState),
-            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
-            client != Client.vppl
+            client != Client.vppl || client != Client.urjagati? SizedBox.shrink() : _verticalSpace(),
+            client != Client.vppl || client != Client.urjagati
                 ? SizedBox.shrink()
                 : _profileGaugeDetailsController(dataState: dataState),
-            client != Client.vppl ? SizedBox.shrink() : _verticalSpace(),
+            client != Client.vppl || client != Client.urjagati ? SizedBox.shrink() : _verticalSpace(),
 /*            _pipeMaterialDropDown(dataState: dataState),
             _verticalSpace(),*/
 /*            _pipeDiaDropDown(dataState: dataState),
@@ -107,10 +107,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
-            client == Client.vppl
+            client == Client.vppl || client == Client.urjagati
                 ? SizedBox.shrink()
                 : _thicknessDropDown(dataState: dataState),
-            client == Client.vppl ? SizedBox.shrink() : _verticalSpace(),
+            client == Client.vppl || client == Client.urjagati? SizedBox.shrink() : _verticalSpace(),
 /*            _electrometerNoController(dataState: dataState),
             _verticalSpace(),*/
             _onBodyController(dataState: dataState),
@@ -275,7 +275,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     return TextFieldWidget(
       isRequired: true,
       labelText:
-          client == Client.vppl ? "Relative Humidity" : AppString.location,
+          client == Client.vppl || client == Client.urjagati? "Relative Humidity" : AppString.location,
       controller: dataState.locationController,
     );
   }
@@ -442,7 +442,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
       {required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: client == Client.vppl ? "Sleeve Batch No." : AppString.batchNo,
+      labelText: client == Client.vppl || client == Client.urjagati? "Sleeve Batch No." : AppString.batchNo,
       controller: dataState.batchNoController,
     );
   }

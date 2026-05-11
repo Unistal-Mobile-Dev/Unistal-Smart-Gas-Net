@@ -105,6 +105,7 @@ class SegmentModel {
             : "0",
         "remarks": remarkController!.text.toString(),
         "weld_details": AppConfig.instanceInit()!.client == Client.vppl
+            || AppConfig.instanceInit()!.client == Client.urjagati
             || AppConfig.instanceInit()!.client == Client.vrpl
             || AppConfig.instanceInit()!.client == Client.gjpl
             || AppConfig.instanceInit()!.client == Client.jdpl

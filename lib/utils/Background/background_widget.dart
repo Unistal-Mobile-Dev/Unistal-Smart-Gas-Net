@@ -2,51 +2,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_string.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget child;
 
-  const BackgroundWidget({Key? key, required this.child}) : super(key: key);
+  const BackgroundWidget({
+    super.key,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: Stack(
-        children: [
-          child,
-          Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: <Color>[
-                          Colors.green.shade800
-                          /*EnvironmentConfig.of(context)!.secondaryTheme,
-                          EnvironmentConfig.of(context)!.primaryTheme,*/
-                        ]),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                          child: Text(
-                            AppString.companyName,
-                            textAlign: TextAlign.start,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: child),
 
-                          )),
-                      Flexible(
-                          child: Text(
-                            "Version - ${AppConfig.instanceInit()!.buildNumber.toString()}",
-                            textAlign: TextAlign.start,
-                          )),
-                    ],
-                  )))
-        ],
+            /// BOTTOM BAR
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 2,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    EnvironmentConfig.of(context)!.primaryTheme,
+                    EnvironmentConfig.of(context)!.secondaryTheme,
+                  ],
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      AppString.companyName,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+
+                  Flexible(
+                    child: Text(
+                      "Version - ${AppConfig.instanceInit()!.buildNumber}",
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

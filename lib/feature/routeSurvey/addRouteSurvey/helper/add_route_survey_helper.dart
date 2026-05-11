@@ -45,10 +45,10 @@ class AddRouteSurveyHelper {
       } else if (tpIpRemark.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter tp ip remark");
         return false;
-      } else if (bearing.isEmpty && client != Client.vppl) {
+      } else if (bearing.isEmpty && (client == Client.vppl || client == Client.urjagati)) {
         SnackBarErrorWidget(context).show(message: "Please enter bearing angle");
         return false;
-      } else if (terrain.isEmpty && client != Client.vppl) {
+      } else if (terrain.isEmpty && (client == Client.vppl || client == Client.urjagati)) {
         SnackBarErrorWidget(context).show(message: "Please enter terrain");
         return false;
       } else if (activityRemark.isEmpty) {

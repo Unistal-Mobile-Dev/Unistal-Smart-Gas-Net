@@ -61,8 +61,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            client != Client.vppl ? _tpIpChainageController(dataState: dataState) : const SizedBox.shrink(),
-            client != Client.vppl ? _verticalSpace() : const SizedBox.shrink(),
+            client != Client.vppl || client != Client.urjagati? _tpIpChainageController(dataState: dataState) : const SizedBox.shrink(),
+            client != Client.vppl || client != Client.urjagati? _verticalSpace() : const SizedBox.shrink(),
             _tpIpNOSController(dataState: dataState),
             _verticalSpace(),
             _groundTypeDropDown(dataState: dataState),
@@ -70,11 +70,11 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
             client != Client.mgl
                 ? Column(
                     children: [
-                      client == Client.vppl ? SizedBox.shrink() :_tpRemarkController(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :_verticalSpace(),
+                      client == Client.vppl || client == Client.urjagati ? SizedBox.shrink() :_tpRemarkController(dataState: dataState),
+                      client == Client.vppl || client == Client.urjagati ? SizedBox.shrink() :_verticalSpace(),
                       _bearingController(dataState: dataState),
-                      client == Client.vppl ? SizedBox.shrink() :  _verticalSpace(),
-                      client == Client.vppl ? SizedBox.shrink() : _terrainController(dataState: dataState),
+                      client == Client.vppl || client == Client.urjagati ? SizedBox.shrink() :  _verticalSpace(),
+                      client == Client.vppl || client == Client.urjagati ? SizedBox.shrink() : _terrainController(dataState: dataState),
                       _verticalSpace(),
                     ],
                   )
@@ -127,8 +127,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpIpNOSController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: client == Client.vppl ? TextInputType.text :TextInputType.number,
-      labelText: client == Client.vppl ? "Markers for IP Nos./TP Nos.": AppString.tpTo,
+      textInputType: client == Client.vppl || client == Client.urjagati  ? TextInputType.text :TextInputType.number,
+      labelText: client == Client.vppl || client == Client.urjagati ? "Markers for IP Nos./TP Nos.": AppString.tpTo,
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -143,8 +143,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _bearingController({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: client == Client.vppl ? TextInputType.text : TextInputType.number,
-      labelText: client == Client.vppl ? "Details of Structure In/Across ROU Such as P/L, HT Crossings": AppString.bearingAngle,
+      textInputType: client == Client.vppl || client == Client.urjagati ? TextInputType.text : TextInputType.number,
+      labelText: client == Client.vppl || client == Client.urjagati ? "Details of Structure In/Across ROU Such as P/L, HT Crossings": AppString.bearingAngle,
       controller: dataState.bearingAngleController,
     );
   }
