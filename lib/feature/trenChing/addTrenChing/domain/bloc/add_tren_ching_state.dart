@@ -22,9 +22,16 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController fromJointIdController;
   final TextEditingController toJointIdController;
   final TextEditingController trenchingDepthController;
-  final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
   final TextEditingController lengthController;
+  final TextEditingController detailsStructureCtrl;
+  final TextEditingController mimimumCoverCtrl;
+  final TextEditingController arableSoilCtrl;
+  final TextEditingController trenchProfileCtrl;
+  final TextEditingController fromCtrl;
+  final TextEditingController toCtrl;
+  final TextEditingController ipFromCtrl;
+  final TextEditingController ipToCtrl;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
   final File file;
@@ -42,6 +49,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController toWidthController;
+  final List<TerrainTypeModel> terrainTypeList;
+  final TerrainTypeModel terrainTypeData;
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -49,7 +58,6 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.dateController,
     required this.activityRemarkController,
     required this.reportNumberController,
-    required this.terrainController,
     required this.fromJointIdController,
     required this.toJointIdController,
     required this.trenchingDepthController,
@@ -71,6 +79,16 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.chainageToController,
     required this.toWidthController,
     required this.lengthController,
+    required this.terrainTypeList,
+    required this.terrainTypeData,
+    required this.detailsStructureCtrl,
+    required this.mimimumCoverCtrl,
+    required this.arableSoilCtrl,
+    required this.trenchProfileCtrl,
+    required this.fromCtrl,
+    required this.toCtrl,
+    required this.ipFromCtrl,
+    required this.ipToCtrl,
   });
 
   @override
@@ -80,12 +98,11 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         dateController,
         activityRemarkController,
         reportNumberController,
-        terrainController,
         fromJointIdController,
         toJointIdController,
         trenchingDepthController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         jointNumberData,
         jointNumberList,
@@ -102,5 +119,15 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         chainageToController,
         toWidthController,
         lengthController,
+        terrainTypeList,
+        terrainTypeData,
+        detailsStructureCtrl,
+        mimimumCoverCtrl,
+        arableSoilCtrl,
+        trenchProfileCtrl,
+        fromCtrl,
+        toCtrl,
+        ipFromCtrl,
+        ipToCtrl,
       ];
 }

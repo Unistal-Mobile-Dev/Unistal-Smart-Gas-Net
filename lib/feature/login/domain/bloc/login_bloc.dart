@@ -4,6 +4,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/page/hom
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/helper/login_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/web_dashboard/presenation/web_dashboard_page.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -112,8 +113,48 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           context: !event.context.mounted ? event.context : event.context);
       _isLoader = false;
       _eventCompleted(emit);
-      if (res != null) {
+     // if (res != null && (res['roleId'] == null || res['roleId'] == "43"|| res['roleId'] == "44")) {
+      if (res != null && (res['user']['roleId'] == null)) {
         _loginData = loginResponse(res['user']);
+
+        String token = res['token'] ?? "";
+        _loginData.token = token;
+
+        SharedPreferencesUtils.setString(key: PreferencesName.userName, value: email.toString());
+        SharedPreferencesUtils.setString(key: PreferencesName.password, value: password.toString());
+
+        AppConfig.instanceInit()?.roleType = loginData.roleType;
+        UserInfo.instanceInit()?.userData = loginData;
+
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+        String version = packageInfo.version;
+        String buildNumber = packageInfo.buildNumber;
+
+        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
+        var dashboardLink = await LoginHelper.loginURL(
+          context: event.context,
+          token: res['token'],
+        );
+
+        if (dashboardLink != null) {
+          Navigator.pushAndRemoveUntil(
+            event.context,
+            MaterialPageRoute(
+              builder: (_) => WebDashboardPage(
+                url: dashboardLink["redirect_url"],
+                token: dashboardLink["token"],
+                name: "Dashboard",
+              ),
+            ),
+                (route) => false,
+          );
+        }
+
+      } else if (res != null) {
+
+        _loginData = loginResponse(res['user']);
+
         String token = res['token'] ?? "";
         _loginData.token = token;
         if (!isAllowedRole(_loginData.roleType ?? RoleType.unknown)) {
@@ -121,25 +162,37 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               .show(message: "Invalid user");
           return;
         }
+
         SharedPreferencesUtils.setString(key: PreferencesName.userName, value: email.toString());
         SharedPreferencesUtils.setString(key: PreferencesName.password, value: password.toString());
+
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
+
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
         String version = packageInfo.version;
         String buildNumber = packageInfo.buildNumber;
+
         AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
+
         Navigator.pushAndRemoveUntil(
-            !event.context.mounted ? event.context : event.context,
-            MaterialPageRoute(builder: (_) => const HomePage()),
-            (route) => false);
+          event.context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+              (route) => false,
+        );
+
       } else {
         if (event.isLoginPage == false) {
           Navigator.pushAndRemoveUntil(
-              !event.context.mounted ? event.context : event.context,
-              MaterialPageRoute(builder: (_) => const LoginScreenPage()),
-              (route) => false);
+            event.context,
+            MaterialPageRoute(
+              builder: (_) => const LoginScreenPage(),
+            ),
+                (route) => false,
+          );
         }
+
       }
     }
   }

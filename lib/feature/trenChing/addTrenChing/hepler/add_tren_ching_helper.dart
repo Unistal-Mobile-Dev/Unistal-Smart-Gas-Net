@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddTrenChingHelper {
   static Future<dynamic> textFiledValidation(
@@ -72,6 +73,14 @@ class AddTrenChingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String toWidth,
+    required String ipFrom,
+    required String ipTo,
+    required String detailsOfStructure,
+    required String availabilityOfMimimumCover,
+    required String separationOfArableSoil,
+    required String suitabilityOfTrenchProfileForBends,
+    required String chainageFromSingle,
+    required String chainageToSingle,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -96,12 +105,16 @@ class AddTrenChingHelper {
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
         "top_width": toWidth,
-        "from_joint_id": jointNumberFromModel.id != null
-            ? jointNumberFromModel.id.toString()
-            : "",
-        "to_joint_id": jointNumberToModel.id != null
-            ? jointNumberToModel.id.toString()
-            : "",
+        "ip_from": ipFrom,
+        "ip_to": ipTo,
+        "details_of_structure": detailsOfStructure,
+        "availability_of_mimimum_cover": availabilityOfMimimumCover,
+        "separation_of_arable_soil": separationOfArableSoil,
+        "suitability_of_trench_profile_for_bends": suitabilityOfTrenchProfileForBends,
+        "chainage_from_single": chainageFromSingle,
+        "chainage_to_single": chainageToSingle,
+        "from_joint_id": jointNumberFromModel.id != null ? jointNumberFromModel.id.toString() : "",
+        "to_joint_id": jointNumberToModel.id != null ? jointNumberToModel.id.toString() : "",
         "trenching_depth": trenchingDepth,
         "terrain_type": terrainType,
         "latitude": locationData.lat.toString(),
@@ -121,7 +134,7 @@ class AddTrenChingHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context,).show(message: res['data']);
+        SnackBarSuccessWidget(!context.mounted ? context : context,).show(message: res['data']);
         return res;
       } else if (res != null &&
           res['success'] != null &&

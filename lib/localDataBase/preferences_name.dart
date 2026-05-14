@@ -2,6 +2,7 @@ class PreferencesName {
   static get userName => "userName";
 
   static get password => "password";
+  static get userInfo => "userInfo";
 
   static get userId => "userId";
 

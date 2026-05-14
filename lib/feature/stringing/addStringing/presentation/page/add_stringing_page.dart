@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
@@ -18,13 +20,18 @@ class AddStringingPage extends StatefulWidget {
 
 class _AddStringingPageState extends State<AddStringingPage> {
 
+  final client = AppConfig.instanceInit()!.client;
 
-  List<TextEditingController> chainageFromControllers = [];
-  List<TextEditingController> chainageToControllers = [];
-
-  final client  =  AppConfig.instanceInit()!.client;
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl= false;
+  late bool isUrjagati= false;
+  late bool isMgl= false;
   @override
   void initState() {
+    isVppl = client == Client.vppl;
+    isUrjagati =  client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    isMgl = client == Client.mgl;
     BlocProvider.of<AddStringingBloc>(context)
         .add(AddStringingPageLoadEvent(context: context));
     super.initState();
@@ -63,23 +70,22 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _corrosionCoatingController(dataState: dataState),
+            _verticalSpace(),
+            _nameManufactureDropDown(dataState: dataState),
+            _verticalSpace(),
+            _weightCoatingDropDown(dataState: dataState),
+            _verticalSpace(),
             /*  _chainageFromController(dataState: dataState),
             _verticalSpace(),*/
             _pipeLengthController(dataState: dataState),
             _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
-          //  _verticalSpace(),
-            client != Client.mgl && client != Client.vppl && client != Client.urjagati
-                ? Column(
-                    children: [
-                      _verticalSpace(),
-                    //  _chainageToController(dataState: dataState,index: in),
-                      _verticalSpace(),
-                      _concreteCoatingDropDown(dataState: dataState),
-                      _verticalSpace(),
-                    ],
-                  )
-                : const SizedBox.shrink(),
+           if( !isMgl && !isVpplOrUrjagati)...[
+             //  _chainageToController(dataState: dataState,index: in),
+             _concreteCoatingDropDown(dataState: dataState),
+             _verticalSpace(),
+           ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -108,8 +114,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _reportNumberController(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _reportNumberController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -128,8 +133,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _pipeLengthController(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _pipeLengthController({required FetchAddStringingDataState dataState}) {
     return Row(
       children: [
         Expanded(
@@ -257,8 +261,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
         : const SizedBox.shrink();
   }
 
-  Widget _chainageToController(
-      {required FetchAddStringingDataState dataState,required int index}) {
+  Widget _chainageToController({required FetchAddStringingDataState dataState,required int index}) {
     return TextFieldWidget(
       enabled: false,
       textInputType: TextInputType.number,
@@ -282,8 +285,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }*/
 
-  Widget _concreteCoatingDropDown(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _concreteCoatingDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget<ConcreteCoatingModel>(
       hint: AppString.selectConcreteCoating,
       dropdownValue: dataState.concreteCoatingData.id != null
@@ -339,6 +341,43 @@ class _AddStringingPageState extends State<AddStringingPage> {
       items: dataState.weatherList
     );
   }
+
+  Widget _corrosionCoatingController({required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Type of corrosion coating",
+      controller: dataState.corrosionCoatingCtrl,
+    );
+  }
+
+  Widget _nameManufactureDropDown({required FetchAddStringingDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Name of the Manufacture",
+        dropdownValue:
+        dataState.manufactureData.id != null ? dataState.manufactureData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddStringingBloc>(context)
+              .add(SelectNameManufactureEvent(nameManufactureData: value!));
+        },
+        items: dataState.manufactureList
+    );
+  }
+  Widget _weightCoatingDropDown({required FetchAddStringingDataState dataState}) {
+    return DropdownWidget<PaddingModel>(
+      hint: "Concrete weight coating",
+      dropdownValue: dataState.weightCoatingData.id != null
+          ? dataState.weightCoatingData
+          : null,
+      onChanged: (value) {
+        context.read<AddStringingBloc>().add(
+          SelectWeightCoatingEvent(
+            weightCoatingData: value!,
+          ),
+        );
+      },
+      items: dataState.weightCoatingList,
+    );
+  }
+
 
   Widget _photo({required FetchAddStringingDataState dataState}) {
     return SizedBox(

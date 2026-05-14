@@ -18,8 +18,21 @@ class AddBackFillingPage extends StatefulWidget {
 }
 
 class _AddBackFillingPageState extends State<AddBackFillingPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl= false;
+  late bool isUrjagati= false;
+  late bool isMgl= false;
+
   @override
   void initState() {
+
+    isVppl = client == Client.vppl;
+    isUrjagati =  client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    isMgl = client == Client.mgl;
+
     BlocProvider.of<AddBackFillingBloc>(context)
         .add(AddBackFillingPageLoadEvent(context: context));
     super.initState();
@@ -58,12 +71,16 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-/*            _pipeDiaDropDown(dataState: dataState),
+            _recordingPipelineCtrl(dataState: dataState),
             _verticalSpace(),
-            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),*/
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
+            _antiBuoyancyController(dataState: dataState),
+            _verticalSpace(),
+            _gratingsCtrl(dataState: dataState),
+            _verticalSpace(),
+            _slopeBreakerCtrl(dataState: dataState),
+            _verticalSpace(),
+            _locationCtrl(dataState: dataState),
+            _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -74,22 +91,18 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? Column(
-                    children: [
-                      _postPaddingController(dataState: dataState),
-                      _verticalSpace(),
-                      _slopeBreakerController(dataState: dataState),
-                      _verticalSpace(),
-                      _plasticGratingDropDown(dataState: dataState),
-                      _verticalSpace(),
-                      _antiBuoyancyController(dataState: dataState),
-                      _verticalSpace(),
-                      _warningMatController(dataState: dataState),
-                      _verticalSpace(),
-                    ],
-                  )
-                : const SizedBox.shrink(),
+            _minimumCoverCtrl(dataState: dataState),
+            _verticalSpace(),
+            _hdpeDuctCtrl(dataState: dataState),
+            _verticalSpace(),
+            if(!isMgl && !isUrjagati)...[
+            _postPaddingController(dataState: dataState),
+            _verticalSpace(),
+            _plasticGratingDropDown(dataState: dataState),
+            _verticalSpace(),
+          ],
+            _warningMatController(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -159,6 +172,59 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       items: dataState.weatherList,
     );
   }
+
+  Widget _recordingPipelineCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Recording of Pipeline centre line and Level",
+      controller: dataState.recordingPipelineCtrl,
+    );
+  }
+
+  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: isUrjagati ? "Anti-Buoyancy Measures" : AppString.antiBuoyancy,
+      controller: dataState.antiBuoyancyController,
+    );
+  }
+
+  Widget _gratingsCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Gratings / Concrete slabs at electrical / other Crossing",
+      controller: dataState.gratingsCtrl,
+    );
+  }
+
+  Widget _slopeBreakerCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.slopBreaker,
+      controller: dataState.slopeBreakerCtrl,
+    );
+  }
+
+  Widget _locationCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Location",
+      controller: dataState.locationCtrl,
+    );
+  }
+
+  Widget _minimumCoverCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: "Availability of Minimum cover",
+      controller: dataState.minimumCoverCtrl,
+    );
+  }
+
+  Widget _hdpeDuctCtrl({required FetchAddBackFillingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: "HDPE Duct",
+      controller: dataState.hdpeDuctCtrl,
+    );
+  }
+
+
 
   Widget _pipeDiaDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget<PipeDiaModel>(
@@ -279,15 +345,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _slopeBreakerController(
-      {required FetchAddBackFillingDataState dataState}) {
-    return TextFieldWidget(
-
-      labelText: AppString.slopBreaker,
-      controller: dataState.slopeBreakerController,
-    );
-  }
-
   Widget _plasticGratingDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
       hint: AppString.selectPlasticGrating,
@@ -302,13 +359,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
-    return TextFieldWidget(
-
-      labelText: AppString.antiBuoyancy,
-      controller: dataState.antiBuoyancyController,
-    );
-  }
 
   Widget _warningMatController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(

@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/domain/bloc/add_hdd_clean_pass_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -299,28 +300,23 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   }
 
   Widget _rigOutputLoad({required FetchAddHddCleanPassDataState dataState}){
-    return DottedBorder(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const Text("Rig Output Load", textAlign: TextAlign.center,),
-            TextFieldWidget(
-              isRequired: true,
-              textInputType: TextInputType.number,
-              labelText: AppString.selectPullBackPressure,
-              controller: dataState.pullBackPressureController,
-            ),
-            _verticalSpace(),
-            TextFieldWidget(
-              isRequired: true,
-              textInputType: TextInputType.number,
-              labelText: AppString.selectRotaryPressure,
-              controller: dataState.rotaryPressureController,
-            ),
-          ],
+    return DottedBorderWidget(
+      title: "Rig Output Load",
+      children: [
+        TextFieldWidget(
+          isRequired: true,
+          textInputType: TextInputType.number,
+          labelText: AppString.selectPullBackPressure,
+          controller: dataState.pullBackPressureController,
         ),
-      ),
+        _verticalSpace(),
+        TextFieldWidget(
+          isRequired: true,
+          textInputType: TextInputType.number,
+          labelText: AppString.selectRotaryPressure,
+          controller: dataState.rotaryPressureController,
+        ),
+      ],
     );
   }
 

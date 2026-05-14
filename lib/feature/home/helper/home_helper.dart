@@ -57,6 +57,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReami
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/presentation/pages/add_hdd_clean_pass_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/presentation/pages/add_hdd_pulling_page.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/presentation/pages/add_hdd_crossing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 
 class HomeHelper {
   /* ===================== API ===================== */
@@ -129,6 +130,20 @@ class HomeHelper {
       //     isRoot: true,
       //   ),
       // );
+
+      // String? dashboardLink =  AppConfig.instanceInit()?.dashboardLink.toString();
+      // String? dashboardToken =  AppConfig.instanceInit()?.dashboardToken.toString();
+      //   if(dashboardLink != null){
+      //     drawerList.add(DrawerModel(
+      //         widget: WebDashboardPage(url: dashboardLink.toString(),token: dashboardToken.toString(), name: "Dashboard",),
+      //         icon: Icons.dashboard_outlined,
+      //         label: "Dashboard",
+      //         isSelected: true,
+      //         sublist: [],
+      //        )
+      //     );
+      //   }
+
       for (final item in activeActivities) {
         final id = (item.activityId ?? "").trim(); // <-- use activityId
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/domain/bloc/add_hdd_crossing_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -315,30 +316,24 @@ class _AddHddCrossingPageState extends State<AddHddCrossingPage> {
 
 
   Widget _pilotBoreDetails({required FetchAddHddCrossingDataState dataState}){
-    return DottedBorder(
-      child: Padding(
-        padding: const EdgeInsets.all( 5.0),
-        child: Column(
-          children: [
-            const Text("Pilot Bore Details"),
-            _verticalSpace(),
-            _pilotBoreDateCommencementController(dataState: dataState),
-            _verticalSpace(),
-            _pilotBoreStartTimeController(dataState: dataState),
-            _verticalSpace(),
-            _pilotBoreDateCompletionController(dataState: dataState),
-            _verticalSpace(),
-            _pilotBoreCompletedTimeController(dataState: dataState),
-            _verticalSpace(),
-            _pilotBoreDiameterController(dataState: dataState),
-            _verticalSpace(),
-            _pilotBoreDurationController(dataState: dataState),
-
-          ],
-        ),
-      ),
+    return DottedBorderWidget(
+      title: "Pilot Bore Details",
+      children: [
+        _pilotBoreDateCommencementController(dataState: dataState),
+        _verticalSpace(),
+        _pilotBoreStartTimeController(dataState: dataState),
+        _verticalSpace(),
+        _pilotBoreDateCompletionController(dataState: dataState),
+        _verticalSpace(),
+        _pilotBoreCompletedTimeController(dataState: dataState),
+        _verticalSpace(),
+        _pilotBoreDiameterController(dataState: dataState),
+        _verticalSpace(),
+        _pilotBoreDurationController(dataState: dataState),
+      ],
     );
   }
+
   Widget _pilotBoreDateCommencementController({required FetchAddHddCrossingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,

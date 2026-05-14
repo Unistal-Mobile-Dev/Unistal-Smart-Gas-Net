@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 
 class AppConfig {
   static AppConfig? instance;
@@ -13,8 +14,11 @@ class AppConfig {
     return instance;
   }
 
+  String dashboardLink = "";
+  String dashboardToken = "";
   String _buildNumber = "";
   String get buildNumber => _buildNumber;
+  LoginDataModel loginData = LoginDataModel();
 
 
   String sectionId = "";
@@ -40,6 +44,21 @@ class AppConfig {
 
     return isPortrait == true ? DeviceType.phone : DeviceType.tablet;
   }
+
+  setLoginData({required LoginDataModel newLoginData}) {
+    this.loginData = newLoginData;
+  }
+
+  void setDashboardLink({required String link}) {
+    dashboardLink = link;
+    print("dashboardLink : $dashboardLink");
+  }
+
+  void setDashboardToken({required String token}) {
+    dashboardToken = token;
+    print("dashboardToken : $token");
+  }
+
 
   void setBuildNumber({required String buildNumber}) {
     _buildNumber = buildNumber;

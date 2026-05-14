@@ -71,11 +71,18 @@ class AddJointCoatingSelectCoatingTypeDataEvent extends AddJointCoatingEvent {
 
 class AddJointCoatingSelectPeelTestDataEvent extends AddJointCoatingEvent {
   final PaddingModel peelTestData;
-
   const AddJointCoatingSelectPeelTestDataEvent({required this.peelTestData});
 
   @override
   List<Object?> get props => [peelTestData];
+}
+
+class SelectSurfacePreparationEvent extends AddJointCoatingEvent {
+  final PaddingModel surfacePreparationData;
+  const SelectSurfacePreparationEvent({required this.surfacePreparationData});
+
+  @override
+  List<Object?> get props => [surfacePreparationData];
 }
 
 class AddJointCoatingSelectPipeMaterialDataEvent extends AddJointCoatingEvent {

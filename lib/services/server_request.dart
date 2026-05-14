@@ -44,8 +44,7 @@ class ServerRequest {
     return null;
   }
 
-  static Future<dynamic> putData(
-      {required var urlEndPoint, required var body}) async {
+  static Future<dynamic> putData({required var urlEndPoint, required var body}) async {
     try {
       if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
           false) {
@@ -211,13 +210,13 @@ class ServerRequest {
     return null;
   }
 
-  static Future<dynamic> postDataWithFile({
-    required String urlEndPoint,
-    required Map<String, String?> body,
-    required BuildContext context,
-    String? filePath,
-    String? keyWord,
-    List<FileModel>? fileList}) async {
+  static Future<dynamic> postDataWithFile(
+      {required String urlEndPoint,
+      required Map<String, String?> body,
+      required BuildContext context,
+      String? filePath,
+      String? keyWord,
+      List<FileModel>? fileList}) async {
     try {
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
@@ -227,6 +226,7 @@ class ServerRequest {
       log(header.toString());
 
       var request = MultipartRequest("POST", uri);
+
       /// ================= FILE LIST =================
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
@@ -256,15 +256,11 @@ class ServerRequest {
       }
 
       /// ================= SINGLE FILE =================
-      else if (filePath != null &&
-          filePath.isNotEmpty &&
-          keyWord != null) {
-
+      else if (filePath != null && filePath.isNotEmpty && keyWord != null) {
         String ext = getFileExtension(filePath);
 
-        String finalPath = ext != "pdf"
-            ? await safeCompress(File(filePath))
-            : filePath;
+        String finalPath =
+            ext != "pdf" ? await safeCompress(File(filePath)) : filePath;
 
         if (finalPath.isNotEmpty) {
           log("Uploading Single File: $finalPath");
@@ -279,10 +275,9 @@ class ServerRequest {
         }
       }
 
-      request.fields.addAll(
-          body.map((key, value) => MapEntry(key, value ?? ""))
-      );
-     // request.fields.addAll(body);
+      request.fields
+          .addAll(body.map((key, value) => MapEntry(key, value ?? "")));
+      // request.fields.addAll(body);
       request.headers.addAll(header);
       var response = await request.send();
       var responseData = await response.stream.toBytes();
@@ -349,8 +344,7 @@ class ServerRequest {
     }
   }
 
-
-static updateCookie(Response response) {
+  static updateCookie(Response response) {
     String? rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');

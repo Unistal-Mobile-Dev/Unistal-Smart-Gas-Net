@@ -87,6 +87,8 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
+            _photo(dataState: dataState),
+            _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
             _verticalSpace(),

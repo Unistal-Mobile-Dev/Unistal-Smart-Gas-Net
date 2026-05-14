@@ -13,8 +13,8 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_succ
 class AddHDPEDuctHelper {
   static Future<dynamic> submitData(
       {required BuildContext context,
-        required AlignmentModel alignmentData,
-        required List<AlignmentModel> multipleAlignmentData,
+      required AlignmentModel alignmentData,
+      required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required PaddingModel warningMeterData,
@@ -58,7 +58,11 @@ class AddHDPEDuctHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "alignment_sheet_id": alignmentIdList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
         "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "from_joint_id":
             fromJointData.id != null ? fromJointData.id.toString() : "",

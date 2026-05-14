@@ -94,6 +94,25 @@ class AddRadiographyHelper {
   }
 
 
+  static Future<dynamic> fetchPenetrameterData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=Penetrameter";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        // Take first entry from map
+        final entry = res.entries.first;
+        return TerrainTypeModel(
+          id: entry.key,
+          name: entry.value,
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
 
   static Future<dynamic> submitData({
     required BuildContext context,

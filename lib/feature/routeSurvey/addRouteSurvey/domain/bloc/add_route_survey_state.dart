@@ -21,11 +21,13 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
   final TextEditingController reportNumberController;
   final TextEditingController tpChainageController;
   final TextEditingController tpChainageNumberController;
-  final TextEditingController tpRemarkNumberController;
   final TextEditingController bearingAngleController;
   final TextEditingController terrainController;
   final TextEditingController activityRemarkController;
   final TextEditingController lengthController;
+  final TextEditingController structureController;
+  final TextEditingController chainageController;
+  final TextEditingController detailController;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
   final File file;
@@ -46,7 +48,6 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.terrainController,
     required this.tpChainageController,
     required this.tpChainageNumberController,
-    required this.tpRemarkNumberController,
     required this.alignmentData,
     required this.multipleAlignmentData,
     required this.file,
@@ -57,6 +58,9 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
     required this.groundTypeList,
     required this.groundTypeData,
     required this.lengthController,
+    required this.structureController,
+    required this.chainageController,
+    required this.detailController,
   });
 
   @override
@@ -70,9 +74,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
         terrainController,
         tpChainageController,
         tpChainageNumberController,
-        tpRemarkNumberController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -80,5 +83,8 @@ class FetchAddRouteSurveyDataState extends AddRouteSurveyInitial {
         chainageToController,
         groundTypeList,
         groundTypeData,
+        structureController,
+        chainageController,
+        detailController,
       ];
 }

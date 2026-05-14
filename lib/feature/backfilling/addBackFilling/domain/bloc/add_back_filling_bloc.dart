@@ -25,16 +25,22 @@ part 'add_back_filling_state.dart';
 
 class AddBackFillingBloc
     extends Bloc<AddBackFillingEvent, AddBackFillingState> {
+
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
   TextEditingController postPaddingController = TextEditingController();
-  TextEditingController slopeBreakerController = TextEditingController();
   TextEditingController warningMatController = TextEditingController();
   TextEditingController antiBuoyancyController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
+  TextEditingController recordingPipelineCtrl = TextEditingController();
+  TextEditingController gratingsCtrl = TextEditingController();
+  TextEditingController slopeBreakerCtrl = TextEditingController();
+  TextEditingController locationCtrl = TextEditingController();
+  TextEditingController minimumCoverCtrl = TextEditingController();
+  TextEditingController hdpeDuctCtrl = TextEditingController();
 
   List<VisualChecksModel> plasticGratingList = [];
   List<JointNumberModel> jointFromList = [];
@@ -84,16 +90,21 @@ class AddBackFillingBloc
 
   _pageLoad(AddBackFillingPageLoadEvent event, emit) async {
     emit(AddBackFillingPageLoadState());
-    dateController.text = "";
-    reportNumberController.text = "";
-    activityRemarkController.text = "";
-    chainageFromController.text = "";
-    chainageToController.text = "";
-    postPaddingController.text = "";
-    slopeBreakerController.text = "";
-    warningMatController.text = "";
-    antiBuoyancyController.text = "";
-    lengthController.text = "";
+    dateController = TextEditingController();
+    reportNumberController = TextEditingController();
+    activityRemarkController = TextEditingController();
+    chainageFromController = TextEditingController();
+    chainageToController = TextEditingController();
+    postPaddingController = TextEditingController();
+    warningMatController = TextEditingController();
+    antiBuoyancyController = TextEditingController();
+    lengthController = TextEditingController();
+    recordingPipelineCtrl = TextEditingController();
+    gratingsCtrl = TextEditingController();
+    slopeBreakerCtrl = TextEditingController();
+    locationCtrl = TextEditingController();
+    minimumCoverCtrl = TextEditingController();
+    hdpeDuctCtrl = TextEditingController();
     plasticGratingList = [];
     jointFromList = [];
     jointToList = [];
@@ -310,25 +321,35 @@ class AddBackFillingBloc
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
         warningMat: warningMatController.text.toString(),
-        slopeBreaker: slopeBreakerController.text.toString(),
+        slopeBreaker: slopeBreakerCtrl.text.toString(),
         postPadding: postPaddingController.text.toString(),
         antiBuoyancy: antiBuoyancyController.text.toString(),
         file: file,
         pipeDiaData: pipeDiaData,
-        thicknessData: thicknessData);
+        thicknessData: thicknessData,
+      cover: minimumCoverCtrl.text.toString(),
+      hdpeDuct: hdpeDuctCtrl.text.toString(),
+      locationString: locationCtrl.text.toString(),
+      plastiGrating: gratingsCtrl.text.toString()
+    );
     isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      dateController.text = "";
-      reportNumberController.text = "";
-      activityRemarkController.text = "";
-      chainageFromController.text = "";
-      chainageToController.text = "";
-      postPaddingController.text = "";
-      slopeBreakerController.text = "";
-      warningMatController.text = "";
-      antiBuoyancyController.text = "";
-      lengthController.text = "";
+      dateController = TextEditingController();
+      reportNumberController = TextEditingController();
+      activityRemarkController = TextEditingController();
+      chainageFromController = TextEditingController();
+      chainageToController = TextEditingController();
+      postPaddingController = TextEditingController();
+      warningMatController = TextEditingController();
+      antiBuoyancyController = TextEditingController();
+      lengthController = TextEditingController();
+      recordingPipelineCtrl = TextEditingController();
+      gratingsCtrl = TextEditingController();
+      slopeBreakerCtrl = TextEditingController();
+      locationCtrl = TextEditingController();
+      minimumCoverCtrl = TextEditingController();
+      hdpeDuctCtrl = TextEditingController();
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       isLoader = false;
@@ -368,7 +389,6 @@ class AddBackFillingBloc
       plasticGratingData: plasticGratingData,
       plasticGratingList: plasticGratingList,
       postPaddingController: postPaddingController,
-      slopeBreakerController: slopeBreakerController,
       toJointData: toJointData,
       warningMatController: warningMatController,
       antiBuoyancyController: antiBuoyancyController,
@@ -377,6 +397,12 @@ class AddBackFillingBloc
       thicknessData: thicknessData,
       thicknessList: thicknessList,
       lengthController: lengthController,
+      gratingsCtrl: gratingsCtrl,
+      hdpeDuctCtrl: hdpeDuctCtrl,
+      locationCtrl: locationCtrl,
+      minimumCoverCtrl: minimumCoverCtrl,
+      recordingPipelineCtrl: recordingPipelineCtrl,
+      slopeBreakerCtrl: slopeBreakerCtrl,
     ));
   }
 }

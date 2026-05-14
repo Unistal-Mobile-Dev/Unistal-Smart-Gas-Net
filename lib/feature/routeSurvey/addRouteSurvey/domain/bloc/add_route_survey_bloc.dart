@@ -27,7 +27,6 @@ class AddRouteSurveyBloc
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController tpChainageController = TextEditingController();
   TextEditingController tpChainageNumberController = TextEditingController();
-  TextEditingController tpRemarkNumberController = TextEditingController();
   TextEditingController bearingAngleController = TextEditingController();
   TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
@@ -35,6 +34,9 @@ class AddRouteSurveyBloc
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
+  TextEditingController structureController= TextEditingController();
+  TextEditingController chainageController= TextEditingController();
+  TextEditingController detailController= TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -71,13 +73,15 @@ class AddRouteSurveyBloc
     reportNumberController.text = "";
     tpChainageController.text = "";
     tpChainageNumberController.text = "";
-    tpRemarkNumberController.text = "";
     bearingAngleController.text = "";
     terrainController.text = "";
     activityRemarkController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
     lengthController.text = "";
+    structureController= TextEditingController();
+    chainageController= TextEditingController();
+    detailController= TextEditingController();
     _isLoader = false;
     alignmentList = [];
     file = File("");
@@ -214,8 +218,10 @@ class AddRouteSurveyBloc
       date: dateController.text.toString(),
       tpIpChainage: tpChainageController.text.toString(),
       tpIpNOS: tpChainageNumberController.text.toString(),
-      tpIpRemark: tpRemarkNumberController.text.toString(),
-      bearing: bearingAngleController.text.toString(),
+      detail: detailController.text.toString(),
+      detailStructure: structureController.text.toString(),
+      chainage: chainageController.text.toString(),
+      bearing: groundTypeData.id == null ? "" : groundTypeData.id.toString(),
       terrain: terrainController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
       userData: userData,
@@ -232,17 +238,16 @@ class AddRouteSurveyBloc
       reportNumberController.text = "";
       tpChainageController.text = "";
       tpChainageNumberController.text = "";
-      tpRemarkNumberController.text = "";
       bearingAngleController.text = "";
       terrainController.text = "";
       activityRemarkController.text = "";
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      lengthController.text = "";
       _isLoader = false;
       alignmentData =  AlignmentModel();
       multipleAlignmentData = [];
       file = File("");
-      chainageFromController.text = "";
-      chainageToController.text = "";
-      lengthController.text = "";
       _weatherData = WeatherModel();
       groundTypeData = GroundTypeModel();
       _eventComplete(emit);
@@ -262,7 +267,9 @@ class AddRouteSurveyBloc
       terrainController: terrainController,
       tpChainageController: tpChainageController,
       tpChainageNumberController: tpChainageNumberController,
-      tpRemarkNumberController: tpRemarkNumberController,
+      chainageController: chainageController,
+      detailController: detailController,
+      structureController: structureController,
       file: file,
       weatherData: weatherData,
       weatherList: weatherList,

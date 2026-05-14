@@ -4,6 +4,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 import '../domain/models/login_model.dart';
 
@@ -85,6 +87,31 @@ class LoginHelper {
       print(e.toString());
       SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: "Internal server error");
+      return null;
+    }
+  }
+
+  static Future<dynamic> loginURL({
+    required BuildContext context,
+    required String token,
+  }) async {
+   try {
+      String url = APIs.login_url;
+      var json = {
+        "token": token.toString(),
+      };
+      var res = await ServerRequest.postData(urlEndPoint: url, body: json,);
+      if (res != null && res['success'] != null && res['success'] == true ) {
+        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['message']);
+        return res;
+      } else {
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error");
+        return null;
+      }
+    } catch (e) {
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

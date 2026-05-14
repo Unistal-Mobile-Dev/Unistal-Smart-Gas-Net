@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
@@ -15,8 +16,20 @@ class AddTrenChingPage extends StatefulWidget {
 }
 
 class _AddTrenChingPageState extends State<AddTrenChingPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl= false;
+  late bool isUrjagati= false;
+  late bool isMgl= false;
+
   @override
   void initState() {
+
+    isVppl = client == Client.vppl;
+    isUrjagati =  client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    isMgl = client == Client.mgl;
     BlocProvider.of<AddTrenChingBloc>(context)
         .add(AddTrenChingPageLoadEvent(context: context));
     super.initState();
@@ -55,11 +68,25 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            /*         _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
+            _detailsStructure(dataState: dataState),
+            _verticalSpace(),
+            _mimimumCover(dataState: dataState),
+            _verticalSpace(),
+            _arableSoil(dataState: dataState),
+            _verticalSpace(),
+            _trenchProfile(dataState: dataState),
+            _verticalSpace(),
+            _from(dataState: dataState),
+            _verticalSpace(),
+            _to(dataState: dataState),
+            _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
+            _ipFromController(dataState: dataState),
+            _verticalSpace(),
+            _ipToController(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
@@ -67,16 +94,12 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? _terrainTypeController(dataState: dataState)
-                : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
             _toWidthController(dataState: dataState),
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
+            isMgl ? const SizedBox.shrink(): _terrainDropDown(dataState: dataState),
+            isMgl ? const SizedBox.shrink(): _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -114,8 +137,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageFromController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -128,8 +150,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageToController(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageToController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -288,13 +309,24 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _terrainTypeController(
-      {required FetchAddTrenChingDataState dataState}) {
-    return TextFieldWidget(
-      isRequired: true,
-      textInputType: TextInputType.text,
-      labelText: AppString.terrainType,
-      controller: dataState.terrainController,
+
+
+  Widget _terrainDropDown({required FetchAddTrenChingDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+      hint: isVppl
+          ? AppString.selectGroundType
+          : AppString.selectTerrain,
+      dropdownValue: dataState.terrainTypeData.id != null
+          ? dataState.terrainTypeData
+          : null,
+      onChanged: (value) {
+        context.read<AddTrenChingBloc>().add(
+          AddClearingGradingSelectTerrainEvent(
+            terrainTypeData: value!,
+          ),
+        );
+      },
+      items: dataState.terrainTypeList,
     );
   }
 
@@ -313,6 +345,66 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       controller: dataState.activityRemarkController,
     );
   }
+
+  Widget _detailsStructure({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Details of Structure",
+      controller: dataState.detailsStructureCtrl,
+    );
+  }
+
+  Widget _mimimumCover({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Availability of mimimum cover",
+      controller: dataState.mimimumCoverCtrl,
+    );
+  }
+  Widget _arableSoil({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Separation of Arable soil",
+      controller: dataState.arableSoilCtrl,
+    );
+  }
+
+  Widget _trenchProfile({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Suitability of trench profile for bends",
+      controller: dataState.trenchProfileCtrl,
+    );
+  }
+  Widget _from({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "From",
+      controller: dataState.fromCtrl,
+    );
+  }
+
+  Widget _to({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "To",
+      controller: dataState.toCtrl,
+    );
+  }
+
+  Widget _ipFromController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: "IP From",
+      controller: dataState.ipFromCtrl,
+    );
+  }
+
+  Widget _ipToController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText:"IP To",
+      controller: dataState.ipToCtrl,
+    );
+  }
+
+
 
   Widget _photo({required FetchAddTrenChingDataState dataState}) {
     return SizedBox(

@@ -19,8 +19,23 @@ class AddTieinPage extends StatefulWidget {
 }
 
 class _AddTieinPageState extends State<AddTieinPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl = false;
+  late bool isUrjagati = false;
+  late bool isMgl = false;
+  late final bool hideExtraWelders;
+
   @override
   void initState() {
+
+    isVppl = client == Client.vppl;
+    isUrjagati = client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    hideExtraWelders = isVppl || isUrjagati || client == Client.vrpl;
+    isMgl = client == Client.mgl;
+
     BlocProvider.of<AddTieinBloc>(context)
         .add(AddTieinPageLoadEvent(context: context));
     super.initState();
@@ -61,8 +76,6 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _wpsDropDown(dataState: dataState),
             _verticalSpace(),
-            _jointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
@@ -78,6 +91,8 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
             _rigthPipeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _fitupDropDown(dataState: dataState),
             _verticalSpace(),
@@ -125,7 +140,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _preheatTempController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: AppString.preHeatTemperature,
+      labelText:isUrjagati ? "Bend Details" : AppString.preHeatTemperature,
       controller: dataState.preheatTempController,
     );
   }
@@ -583,7 +598,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _electrodeEiaE7010p1Controller({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE7010P1,
+      labelText: isUrjagati ? "E8010 Dia" :  AppString.electrodeDiaE7010P1,
       controller: dataState.electrodeEiaE8010p1Controller,
     );
   }
@@ -591,7 +606,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _electrodeEiaE7010p1BatchController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: AppString.electrodeDiaE7010P1Batch,
+      labelText: isUrjagati ? "Batch No." :AppString.electrodeDiaE7010P1Batch,
       controller: dataState.electrodeEiaE8010p1BatchController,
     );
   }
@@ -715,7 +730,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _weldVisualDropDown({required FetchAddTieinDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
-      hint: AppString.selectWeldVisual,
+      hint: isUrjagati ? "	Visual Inspection" : AppString.selectWeldVisual,
       dropdownValue:
           dataState.weldVisualData.id != null ? dataState.weldVisualData : null,
       onChanged: (value) {

@@ -48,6 +48,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _chainageFromController(dataState: dataState),

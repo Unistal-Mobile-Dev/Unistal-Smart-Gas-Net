@@ -87,7 +87,9 @@ class AddRouteSurveyHelper {
     required String date,
     required String tpIpChainage,
     required String tpIpNOS,
-    required String tpIpRemark,
+    required String detail,
+    required String detailStructure,
+    required String chainage,
     required String bearing,
     required String terrain,
     required String activityRemark,
@@ -123,7 +125,9 @@ class AddRouteSurveyHelper {
         "activity_date": date.toString(),
         "tp_ip_chainage": tpIpChainage.toString(),
         "tp_ip_nos": tpIpNOS.toString(),
-        "tp_remarks": tpIpRemark.toString(),
+        "tp_remarks": detail.toString(),
+        "detail_structure": detailStructure.toString(),
+        "chainage": chainage.toString(),
         "bearing_angle": bearing.toString(),
         "terrain": terrain.toString(),
         "activity_remarks": activityRemark,
@@ -133,8 +137,8 @@ class AddRouteSurveyHelper {
        // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "ground_type_id":
-            groundTypeData.id != null ? groundTypeData.id.toString() : "",
+        "ground_type_id": groundTypeData.id != null ? groundTypeData.id.toString() : "",
+
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,

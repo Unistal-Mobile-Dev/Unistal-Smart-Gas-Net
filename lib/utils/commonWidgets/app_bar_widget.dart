@@ -90,12 +90,23 @@ class AppBarWidget extends StatelessWidget
                 ),
 
                 SizedBox(height: size.height * 0.002),
+                Text("${UserInfo.instance!.userData!.piplineName}",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: subTitleFont,
+                    fontWeight: FontWeight.w500,
+                    color: AppColor.white,
+                  ),
+                ),
+                SizedBox(height: size.height * 0.002),
 
                 /// SECTION INFO
                 Text(
-                  "${UserInfo.instance!.userData!.sectionName}"
+                  "(${UserInfo.instance!.userData!.sectionName}"
                       " | Dia - ${UserInfo.instance!.userData!.diameter}"
-                      "${UserInfo.instance!.userData!.diauom}",
+                      "(${UserInfo.instance!.userData!.diauom}))",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

@@ -411,8 +411,7 @@ class AddWeldingHelper {
     }
   }
 
-  static Future<dynamic> fetchMarkerType(
-      {required BuildContext context, required LoginDataModel userData}) async {
+  static Future<List<MarkerTypeModel>?> fetchMarkerType({required BuildContext context, required LoginDataModel userData}) async {
     try {
       String url = APIs.getMarkerTypeApi;
       var param = {

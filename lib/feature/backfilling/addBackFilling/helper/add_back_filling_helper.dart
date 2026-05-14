@@ -75,6 +75,10 @@ class AddBackFillingHelper {
     required String slopeBreaker,
     required String postPadding,
     required String antiBuoyancy,
+    required String locationString,
+    required String cover,
+    required String hdpeDuct,
+    required String plastiGrating,
     required File file,
     required PipeDiaModel pipeDiaData,
     required ThicknessModel thicknessData,
@@ -108,21 +112,20 @@ class AddBackFillingHelper {
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "plastic_grating":
-            plasticGrating.id != null ? plasticGrating.id.toString() : "0",
-        "joint_id":
-            jointTypeData.id != null ? jointTypeData.id.toString() : "0",
-        "from_joint_id":
-            fromJointData.id != null ? fromJointData.id.toString() : "",
+        "plastic_grating": plasticGrating.id != null ? plasticGrating.id.toString() : plastiGrating.isNotEmpty?plastiGrating : "0",
+        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "0",
+        "from_joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "post_padding": postPadding,
         "slope_breaker": slopeBreaker,
         "warning_mat": warningMat,
         "anti_buoyancy": antiBuoyancy,
+        "location": locationString,
+        "cover": cover,
+        "hdpe_duct": hdpeDuct,
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "0",
-        "pipe_thickness_id":
-            thicknessData.id != null ? thicknessData.id.toString() : "0",
+        "pipe_thickness_id": thicknessData.id != null ? thicknessData.id.toString() : "0",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,

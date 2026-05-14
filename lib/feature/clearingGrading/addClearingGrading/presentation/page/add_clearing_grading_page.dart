@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/domain/add_clearing_grading_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
@@ -16,14 +17,27 @@ class AddClearingGradingPage extends StatefulWidget {
 }
 
 class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl= false;
+  late bool isUrjagati= false;
+  late bool isMgl= false;
+
+  static const SizedBox verticalSpace = SizedBox(height: 16);
+
   @override
   void initState() {
+    super.initState();
+
+    isVppl = client == Client.vppl;
+    isUrjagati =  client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    isMgl = client == Client.mgl;
+
     BlocProvider.of<AddClearingGradingBloc>(context)
         .add(AddClearingGradingPageLoadEvent(context: context));
-    super.initState();
   }
-
-  final client = AppConfig.instanceInit()!.client;
 
   @override
   Widget build(BuildContext context) {
@@ -33,139 +47,161 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         builder: (context, state) {
           if (state is FetchAddClearingGradingDataState) {
             return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
           }
+
+          return const Center(
+            child: CenterLoaderWidget(),
+          );
         },
       ),
     );
   }
 
-  Widget _itemBuilder({required FetchAddClearingGradingDataState dataState}) {
-    return Container(
-      margin: const EdgeInsets.all(10),
+  Widget _itemBuilder({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _verticalSpace(),
-            _dateController(dataState: dataState),
-            _verticalSpace(),
-            _reportNumberController(dataState: dataState),
-            _verticalSpace(),
-            _alignmentDropdown(dataState: dataState),
-            _verticalSpace(),
-            _weatherDropDown(dataState: dataState),
-            _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
-            _lengthController(dataState: dataState),
-            _verticalSpace(),
-            _terrainDropDown(dataState: dataState),
-            _verticalSpace(),
-            client != Client.vppl || client != Client.urjagati
-                ? DottedBorder(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _verticalSpace(),
-                      TextWidget(
-                        AppString.detailOfGap,
-                      ),
-                      _verticalSpace(),
-                      _gapLengthController(dataState: dataState),
-                      _verticalSpace(),
-                      _gapDescriptionController(dataState: dataState),
-                      _verticalSpace(),
-                    ],
-                  ),
-                ))
-                : SizedBox.shrink(),
-            _verticalSpace(),
-            client != Client.mgl
-                ? Column(
-              children: [
-                client == Client.vppl || client == Client.urjagati
-                    ? DottedBorder(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        _verticalSpace(),
-                        TextWidget(
-                          "MARKERS FOR",
-                        ),
-                        _verticalSpace(),
-                        _tpIpChainageController(dataState: dataState),
-                        _verticalSpace(),
-                        _tpIpNOSController(dataState: dataState),
-                        _verticalSpace(),
-                      ],
-                    ),
-                  ),
-                )
-                    : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _tpIpChainageController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _tpIpNOSController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
-                _verticalSpace(),
-                client == Client.vppl || client == Client.urjagati
-                    ? DottedBorder(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        _verticalSpace(),
-                        TextWidget(
-                          "Details of Structure In/Across ROU such as Pipeline, HT etc.",
-                        ),
-                        _verticalSpace(),
-                        _structureNameController(dataState: dataState),
-                        _verticalSpace(),
-                        _ipNumberController(dataState: dataState),
-                        _verticalSpace(),
-                        _ipNumberFrom(dataState: dataState),
-                        _verticalSpace(),
-                      ],
-                    ),
-                  ),
-                )
-                    : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _ipNumberController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _ipNumberFrom(dataState: dataState) : SizedBox.shrink(),
-                 _verticalSpace(),
-                client != Client.vppl || client != Client.urjagati ? _groundTypeController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _structureNameController(dataState: dataState) : SizedBox.shrink(),
-                _verticalSpace(),
-                client != Client.vppl || client != Client.urjagati ? _chainageController(dataState: dataState) : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _verticalSpace() : SizedBox.shrink(),
-                client != Client.vppl || client != Client.urjagati ? _boundaryLocationController(dataState: dataState) : SizedBox.shrink(),
-                _verticalSpace(),
-              ],
-            )
-                : const SizedBox.shrink(),
+            _buildBasicInfoSection(dataState),
+            if (!isVppl) _buildGapSection(dataState),
+            if (!isMgl) _buildClientSpecificSection(dataState),
+            verticalSpace,
             _activityRemark(dataState: dataState),
-            _verticalSpace(),
+            verticalSpace,
             _photo(dataState: dataState),
-            _verticalSpace(),
-            _verticalSpace(),
+            const SizedBox(height: 24),
             _button(dataState: dataState),
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
-  Widget _dateController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  //================================================================
+  // BASIC SECTION
+  //================================================================
+
+  Widget _buildBasicInfoSection(FetchAddClearingGradingDataState dataState) {
+    return Column(
+      children: [
+        _dateController(dataState: dataState),
+        verticalSpace,
+        _reportNumberController(dataState: dataState),
+        verticalSpace,
+        _alignmentDropdown(dataState: dataState),
+        verticalSpace,
+        _weatherDropDown(dataState: dataState),
+        verticalSpace,
+        _chainageFromController(dataState: dataState),
+        verticalSpace,
+        _chainageToController(dataState: dataState),
+        verticalSpace,
+        _lengthController(dataState: dataState),
+        verticalSpace,
+        _terrainDropDown(dataState: dataState),
+      ],
+    );
+  }
+
+  //================================================================
+  // GAP SECTION
+  //================================================================
+
+  Widget _buildGapSection(FetchAddClearingGradingDataState dataState) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: DottedBorderWidget(
+        title: AppString.detailOfGap,
+        children: [
+          _gapLengthController(dataState: dataState),
+          verticalSpace,
+          _gapDescriptionController(dataState: dataState),
+        ],
+      ),
+    );
+  }
+
+  //================================================================
+  // CLIENT SECTION
+  //================================================================
+
+  Widget _buildClientSpecificSection(FetchAddClearingGradingDataState dataState) {
+    if (isVpplOrUrjagati) {
+      return Column(
+        children: [
+          verticalSpace,
+          isUrjagati ? SizedBox.shrink(): _buildMarkerSection(dataState),
+          verticalSpace,
+          isUrjagati?  _structureNameController(dataState: dataState):_buildStructureSection(dataState),
+        ],
+      );
+    }
+    return Column(
+      children: [
+        verticalSpace,
+        _tpIpChainageController(dataState: dataState),
+        verticalSpace,
+        _tpIpNOSController(dataState: dataState),
+        verticalSpace,
+        _ipNumberController(dataState: dataState),
+        verticalSpace,
+        _ipNumberFrom(dataState: dataState),
+        verticalSpace,
+        _groundTypeController(dataState: dataState),
+        verticalSpace,
+        _structureNameController(dataState: dataState),
+        verticalSpace,
+        _chainageController(dataState: dataState),
+        verticalSpace,
+        _boundaryLocationController(dataState: dataState),
+      ],
+    );
+  }
+
+  //================================================================
+  // MARKER SECTION
+  //================================================================
+
+  Widget _buildMarkerSection(FetchAddClearingGradingDataState dataState) {
+    return DottedBorderWidget(
+      title: "MARKERS FOR",
+      children: [
+        _tpIpChainageController(dataState: dataState),
+        verticalSpace,
+        _tpIpNOSController(dataState: dataState),
+      ],
+    );
+  }
+
+  //================================================================
+  // STRUCTURE SECTION
+  //================================================================
+
+  Widget _buildStructureSection(FetchAddClearingGradingDataState dataState) {
+    return  DottedBorderWidget(
+      title: "Details of Structure In/Across ROU such as Pipeline, HT etc.",
+      children: [
+        _structureNameController(dataState: dataState),
+        verticalSpace,
+        _ipNumberController(dataState: dataState),
+        verticalSpace,
+        _ipNumberFrom(dataState: dataState),
+      ],
+    );
+  }
+
+
+  //================================================================
+  // FORM FIELDS
+  //================================================================
+
+  Widget _dateController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       isRequired: true,
       enabled: true,
@@ -173,16 +209,18 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(AddClearingGradingSelectDateEvent(
-          context: context,
-        ));
+        context.read<AddClearingGradingBloc>().add(
+              AddClearingGradingSelectDateEvent(
+                context: context,
+              ),
+            );
       },
     );
   }
 
-  Widget _reportNumberController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _reportNumberController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -190,38 +228,49 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _chainageFromController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
       onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context).add(
-            CalculateLengthEvent(
-                isChainageTo: false, value: value, context: context));
+        context.read<AddClearingGradingBloc>().add(
+              CalculateLengthEvent(
+                isChainageTo: false,
+                value: value,
+                context: context,
+              ),
+            );
       },
     );
   }
 
-  Widget _chainageToController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _chainageToController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
       onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context).add(
-            CalculateLengthEvent(
-                isChainageTo: true, value: value, context: context));
+        context.read<AddClearingGradingBloc>().add(
+              CalculateLengthEvent(
+                isChainageTo: true,
+                value: value,
+                context: context,
+              ),
+            );
       },
     );
   }
 
-  Widget _lengthController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _lengthController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       enabled: false,
       isRequired: true,
@@ -231,7 +280,9 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _tpIpChainageController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _tpIpChainageController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: "TP No. From",
@@ -239,7 +290,9 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _tpIpNOSController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _tpIpNOSController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: "TP No. To",
@@ -247,18 +300,22 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _ipNumberController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _ipNumberController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
-      textInputType:TextInputType.number,
-      labelText: client == Client.vppl || client == Client.urjagati ? "Chainage From":"IP No. From" ,
+      textInputType: TextInputType.number,
+      labelText: isVpplOrUrjagati ? "Chainage From" : "IP No. From",
       controller: dataState.ipNumberController,
     );
   }
 
-  Widget _ipNumberFrom({required FetchAddClearingGradingDataState dataState}) {
+  Widget _ipNumberFrom({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText:  client == Client.vppl || client == Client.urjagati ? "Chainage To": AppString.ipNoTo,
+      labelText: isVpplOrUrjagati ? "Chainage To" : AppString.ipNoTo,
       controller: dataState.ipNumberFromController,
     );
   }
@@ -266,19 +323,21 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   Widget _groundTypeController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       maxLine: 2,
-      labelText: AppString.groundType,
+      labelText: isUrjagati ? AppString.terrain : AppString.groundType,
       controller: dataState.groundTypeController,
     );
   }
 
-  Widget _structureNameController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _structureNameController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       labelText: AppString.structureName,
       controller: dataState.structureNameController,
     );
   }
 
-  Widget _chainageController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _chainageController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: AppString.chainage,
@@ -286,14 +345,18 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _boundaryLocationController({required FetchAddClearingGradingDataState dataState}) {
+  Widget _boundaryLocationController({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       labelText: AppString.boundaryLocation,
       controller: dataState.boundaryLocationController,
     );
   }
 
-  Widget _activityRemark({required FetchAddClearingGradingDataState dataState}) {
+  Widget _activityRemark({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return TextFieldWidget(
       maxLine: 3,
       labelText: AppString.activityRemark,
@@ -301,22 +364,26 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _alignmentDropdown({required FetchAddClearingGradingDataState dataState}) {
+  Widget _alignmentDropdown({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
     return DropDownSearchMultiSelectWidget(
       selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
       items: dataState.alignmentList,
-      itemAsString: (alignmentData) =>
-          alignmentData.alignmentName.toString(),
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         List<AlignmentModel> selectedAlignmentDataList = [];
+
         for (var data in value) {
           selectedAlignmentDataList.add(data);
         }
-        BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(AddClearingGradingMultipleSelectAlignmentEvent(
-          alignmentData: selectedAlignmentDataList,
-        ));
+
+        context.read<AddClearingGradingBloc>().add(
+              AddClearingGradingMultipleSelectAlignmentEvent(
+                alignmentData: selectedAlignmentDataList,
+              ),
+            );
       },
     );
   }
@@ -326,37 +393,30 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
-      dataState.weatherData.id != null ? dataState.weatherData : null,
+          dataState.weatherData.id != null ? dataState.weatherData : null,
       onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value!));
+        context.read<AddClearingGradingBloc>().add(
+              SelectWeatherEvent(weatherData: value!),
+            );
       },
       items: dataState.weatherList,
     );
   }
 
-  Widget _groundTypeDropDown({required FetchAddClearingGradingDataState dataState}) {
-    return DropdownWidget<GroundTypeModel>(
-      hint: AppString.selectGroundType,
-      dropdownValue:
-      dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context).add(
-            AddClearingGradingSelectGroundTypeEvent(groundTypeData: value!));
-      },
-      items: dataState.groundTypeList,
-    );
-  }
-
   Widget _terrainDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-      hint: client == Client.vppl || client == Client.urjagati ? AppString.selectGroundType: AppString.selectTerrain,
+      hint: isVppl
+          ? AppString.selectGroundType
+          : AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
           : null,
       onChanged: (value) {
-        BlocProvider.of<AddClearingGradingBloc>(context)
-            .add(AddClearingGradingSelectTerrainEvent(terrainTypeData: value!));
+        context.read<AddClearingGradingBloc>().add(
+              AddClearingGradingSelectTerrainEvent(
+                terrainTypeData: value!,
+              ),
+            );
       },
       items: dataState.terrainTypeList,
     );
@@ -370,14 +430,17 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _gapDescriptionController(
-      {required FetchAddClearingGradingDataState dataState}) {
+  Widget _gapDescriptionController({required FetchAddClearingGradingDataState dataState}) {
     return TextFieldWidget(
       maxLine: 3,
       labelText: AppString.description,
       controller: dataState.gapDescriptionController,
     );
   }
+
+  //================================================================
+  // PHOTO
+  //================================================================
 
   Widget _photo({required FetchAddClearingGradingDataState dataState}) {
     return SizedBox(
@@ -532,30 +595,29 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _button({required FetchAddClearingGradingDataState dataState}) {
-    return dataState.isLoader == false
-        ? ButtonWidget(
-        text: AppString.submit,
-        height:
-        AppConfig.getDeviceType(context: context) == DeviceType.tablet
-            ? MediaQuery
-            .of(context)
-            .size
-            .height * 0.13
-            : null,
-        onPressed: () {
-          BlocProvider.of<AddClearingGradingBloc>(context)
-              .add(AddClearingGradingSubmitDataEvent(context: context));
-        })
-        : const DottedLoaderWidget();
-  }
+  //================================================================
+  // BUTTON
+  //================================================================
 
-  Widget _verticalSpace() {
-    return SizedBox(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height * 0.02,
+  Widget _button({
+    required FetchAddClearingGradingDataState dataState,
+  }) {
+    if (dataState.isLoader) {
+      return const DottedLoaderWidget();
+    }
+
+    return ButtonWidget(
+      text: AppString.submit,
+      height: AppConfig.getDeviceType(context: context) == DeviceType.tablet
+          ? MediaQuery.of(context).size.height * 0.13
+          : null,
+      onPressed: () {
+        context.read<AddClearingGradingBloc>().add(
+              AddClearingGradingSubmitDataEvent(
+                context: context,
+              ),
+            );
+      },
     );
   }
 }

@@ -185,8 +185,14 @@ class AddRadiographyBloc
       sensivityController.clear();
     }
 
-    var resInspectionTechnique =
-        await AddRadiographyHelper.fetchInspectionTechnique();
+    var resPenetrameter = await AddRadiographyHelper.fetchPenetrameterData();
+    if (resPenetrameter != null) {
+      equipmentController.text = resPenetrameter.name ?? "";
+    } else {
+      equipmentController.clear();
+    }
+
+    var resInspectionTechnique = await AddRadiographyHelper.fetchInspectionTechnique();
     if (resInspectionTechnique != null) {
       inspectionTechniqueList = resInspectionTechnique;
     }

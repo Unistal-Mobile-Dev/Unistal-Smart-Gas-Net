@@ -107,6 +107,15 @@ class AddTrenChingSubmitDataEvent extends AddTrenChingEvent {
   List<Object?> get props => [context];
 }
 
+class AddClearingGradingSelectTerrainEvent extends AddTrenChingEvent {
+  final TerrainTypeModel terrainTypeData;
+
+  const AddClearingGradingSelectTerrainEvent({required this.terrainTypeData});
+
+  @override
+  List<Object?> get props => [terrainTypeData];
+}
+
 class CalculateLengthEvent extends AddTrenChingEvent {
   final bool isChainageTo;
   final String value;

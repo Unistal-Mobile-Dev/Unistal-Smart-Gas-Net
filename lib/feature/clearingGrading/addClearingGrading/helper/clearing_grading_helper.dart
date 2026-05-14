@@ -89,6 +89,29 @@ class AddClearingGradingHelper {
     }
   }
 
+  static Future<List<TerrainTypeModel>> fetchManufactureData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=manufacture";
+
+      var res = await ServerRequest.getData(urlEndPoint: url);
+
+      if (res != null && res is Map<String, dynamic>) {
+
+        return res.entries.map((entry) {
+          return TerrainTypeModel(
+            id: entry.key,
+            name: entry.value.toString(),
+          );
+        }).toList();
+
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
   static Future<dynamic> submitData({
     required BuildContext context,
     required AlignmentModel alignmentData,

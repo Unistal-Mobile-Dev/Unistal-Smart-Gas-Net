@@ -25,10 +25,15 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController postPaddingController;
-  final TextEditingController slopeBreakerController;
   final TextEditingController warningMatController;
   final TextEditingController antiBuoyancyController;
   final TextEditingController lengthController;
+  final TextEditingController recordingPipelineCtrl;
+  final TextEditingController gratingsCtrl;
+  final TextEditingController slopeBreakerCtrl;
+  final TextEditingController locationCtrl;
+  final TextEditingController minimumCoverCtrl;
+  final TextEditingController hdpeDuctCtrl;
   final VisualChecksModel plasticGratingData;
   final List<VisualChecksModel> plasticGratingList;
   final JointNumberModel fromJointData;
@@ -54,6 +59,12 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
       required this.reportNumberController,
       required this.chainageFromController,
       required this.chainageToController,
+      required this.recordingPipelineCtrl,
+      required this.gratingsCtrl,
+      required this.slopeBreakerCtrl,
+      required this.locationCtrl,
+      required this.minimumCoverCtrl,
+      required this.hdpeDuctCtrl,
       required this.alignmentData,
       required this.multipleAlignmentData,
       required this.file,
@@ -68,7 +79,6 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
       required this.plasticGratingData,
       required this.plasticGratingList,
       required this.postPaddingController,
-      required this.slopeBreakerController,
       required this.toJointData,
       required this.warningMatController,
       required this.antiBuoyancyController,
@@ -88,7 +98,7 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
         chainageFromController,
         chainageToController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -102,7 +112,6 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
         plasticGratingData,
         plasticGratingList,
         postPaddingController,
-        slopeBreakerController,
         warningMatController,
         antiBuoyancyController,
         thicknessData,
@@ -110,5 +119,11 @@ class FetchAddBackFillingDataState extends AddBackFillingInitial {
         pipeDiaData,
         pipeDialList,
         lengthController,
+        recordingPipelineCtrl,
+        gratingsCtrl,
+        slopeBreakerCtrl,
+        locationCtrl,
+        minimumCoverCtrl,
+        hdpeDuctCtrl,
       ];
 }

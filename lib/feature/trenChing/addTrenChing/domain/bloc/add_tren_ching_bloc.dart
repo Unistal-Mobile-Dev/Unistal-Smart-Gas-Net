@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -24,16 +26,28 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   AlignmentModel alignmentData = AlignmentModel();
   List<AlignmentModel> multipleAlignmentData =  [];
 
+  List<TerrainTypeModel> terrainTypeList = [];
+  TerrainTypeModel terrainTypeData = TerrainTypeModel();
+
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController toJointIdController = TextEditingController();
   TextEditingController trenchingDepthController = TextEditingController();
   TextEditingController tpRemarkNumberController = TextEditingController();
   TextEditingController fromJointIdController = TextEditingController();
-  TextEditingController terrainController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController toWidthController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
+  TextEditingController detailsStructureCtrl= TextEditingController();
+  TextEditingController mimimumCoverCtrl= TextEditingController();
+  TextEditingController arableSoilCtrl= TextEditingController();
+  TextEditingController trenchProfileCtrl= TextEditingController();
+  TextEditingController fromCtrl= TextEditingController();
+  TextEditingController toCtrl= TextEditingController();
+  TextEditingController ipFromCtrl= TextEditingController();
+  TextEditingController ipToCtrl= TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -66,8 +80,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
 
-  TextEditingController chainageFromController = TextEditingController();
-  TextEditingController chainageToController = TextEditingController();
+
 
   AddTrenChingBloc() : super(AddTrenChingInitial()) {
     on<AddTrenChingPageLoadEvent>(_pageLoadEvent);
@@ -80,21 +93,31 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     on<AddTrenChingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddTrenChingSelectToJointDataEvent>(_selectJointTo);
     on<AddTrenChingSelectJointTypeDataEvent>(_selectJointType);
+    on<AddClearingGradingSelectTerrainEvent>(_selectTerrain);
     on<AddTrenChingSubmitDataEvent>(_submitData);
   }
 
   _pageLoadEvent(AddTrenChingPageLoadEvent event, emit) async {
     emit(AddTrenChingPageLoadState());
-    dateController.text = "";
-    reportNumberController.text = "";
-    fromJointIdController.text = "";
-    toJointIdController.text = "";
-    tpRemarkNumberController.text = "";
-    trenchingDepthController.text = "";
-    terrainController.text = "";
-    activityRemarkController.text = "";
-    toWidthController.text = "";
-    lengthController.text = "";
+    dateController = TextEditingController();
+    reportNumberController = TextEditingController();
+    toJointIdController = TextEditingController();
+    trenchingDepthController = TextEditingController();
+    tpRemarkNumberController = TextEditingController();
+    fromJointIdController = TextEditingController();
+    activityRemarkController = TextEditingController();
+    toWidthController = TextEditingController();
+    lengthController = TextEditingController();
+    detailsStructureCtrl= TextEditingController();
+    mimimumCoverCtrl= TextEditingController();
+    arableSoilCtrl= TextEditingController();
+    trenchProfileCtrl= TextEditingController();
+    fromCtrl= TextEditingController();
+    toCtrl= TextEditingController();
+    ipFromCtrl= TextEditingController();
+    ipToCtrl= TextEditingController();
+    chainageFromController = TextEditingController();
+    chainageToController = TextEditingController();
     _isLoader = false;
     alignmentList = [];
     file = File("");
@@ -109,16 +132,22 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
+   terrainTypeList = [];
+   terrainTypeData = TerrainTypeModel();
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    chainageFromController.text = "";
-    chainageToController.text = "";
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
+    }
+    var resTerrain = await AddClearingGradingHelper.fetchTerrainData(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
+    if (resTerrain != null) {
+      terrainTypeList = resTerrain;
     }
 
 /*    var resJointType = await AddWeldingHelper.fetchJointType(
@@ -231,6 +260,12 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _eventComplete(emit);
   }
 
+  _selectTerrain(AddClearingGradingSelectTerrainEvent event, emit) {
+    terrainTypeData = event.terrainTypeData;
+    _eventComplete(emit);
+  }
+
+
   _selectFile(AddTrenChingAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
@@ -272,7 +307,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       jointNumberFromModel: fromJointData,
       jointNumberToModel: toJointData,
       trenchingDepth: trenchingDepthController.text.toString(),
-      terrainType: terrainController.text.toString(),
+      terrainType: terrainTypeData.id == null ? "" : terrainTypeData.id.toString(),
       activityRemark: activityRemarkController.text.toString(),
       userData: userData,
       file: file,
@@ -280,30 +315,46 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
       toWidth: toWidthController.text.toString(),
+      availabilityOfMimimumCover: mimimumCoverCtrl.text.toString(),
+      chainageFromSingle: chainageFromController.text.toString(),
+      chainageToSingle: chainageToController.text.toString(),
+      detailsOfStructure: detailsStructureCtrl.text.toString(),
+      ipFrom: ipFromCtrl.text.toString(),
+      ipTo: ipToCtrl.text.toString(),
+      separationOfArableSoil: arableSoilCtrl.text.toString(),
+      suitabilityOfTrenchProfileForBends: trenchProfileCtrl.text.toString(),
     );
     _isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      dateController.text = "";
-      reportNumberController.text = "";
-      fromJointIdController.text = "";
-      toJointIdController.text = "";
-      tpRemarkNumberController.text = "";
-      terrainController.text = "";
-      trenchingDepthController.text = "";
-      activityRemarkController.text = "";
-      toWidthController.text = "";
+      dateController = TextEditingController();
+      reportNumberController = TextEditingController();
+      toJointIdController = TextEditingController();
+      trenchingDepthController = TextEditingController();
+      tpRemarkNumberController = TextEditingController();
+      fromJointIdController = TextEditingController();
+      activityRemarkController = TextEditingController();
+      toWidthController = TextEditingController();
+      lengthController = TextEditingController();
+      detailsStructureCtrl= TextEditingController();
+      mimimumCoverCtrl= TextEditingController();
+      arableSoilCtrl= TextEditingController();
+      trenchProfileCtrl= TextEditingController();
+      fromCtrl= TextEditingController();
+      toCtrl= TextEditingController();
+      ipFromCtrl= TextEditingController();
+      ipToCtrl= TextEditingController();
+      chainageFromController = TextEditingController();
+      chainageToController = TextEditingController();
       _isLoader = false;
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       file = File("");
-      chainageFromController.text = "";
-      chainageToController.text = "";
-      lengthController.text = "";
       _weatherData = WeatherModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();
+      terrainTypeData = TerrainTypeModel();
       _eventComplete(emit);
     }
   }
@@ -316,9 +367,18 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       activityRemarkController: activityRemarkController,
       fromJointIdController: fromJointIdController,
       reportNumberController: reportNumberController,
-      terrainController: terrainController,
+      terrainTypeData: terrainTypeData,
+      terrainTypeList: terrainTypeList,
       toJointIdController: toJointIdController,
       trenchingDepthController: trenchingDepthController,
+      arableSoilCtrl: arableSoilCtrl,
+      detailsStructureCtrl: detailsStructureCtrl,
+      fromCtrl: fromCtrl,
+      ipFromCtrl: ipFromCtrl,
+      ipToCtrl: ipToCtrl,
+      mimimumCoverCtrl: mimimumCoverCtrl,
+      toCtrl: toCtrl,
+      trenchProfileCtrl: trenchProfileCtrl,
       alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       file: file,

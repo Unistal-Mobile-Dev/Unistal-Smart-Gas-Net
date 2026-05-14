@@ -18,8 +18,20 @@ class AddLoweringPage extends StatefulWidget {
 }
 
 class _AddLoweringPageState extends State<AddLoweringPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl= false;
+  late bool isUrjagati= false;
+  late bool isMgl= false;
+
   @override
   void initState() {
+
+    isVppl = client == Client.vppl;
+    isUrjagati =  client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    isMgl = client == Client.mgl;
     BlocProvider.of<AddLoweringBloc>(context)
         .add(AddLoweringPageLoadEvent(context: context));
     super.initState();
@@ -58,46 +70,36 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _locatinController(dataState: dataState),
+            _verticalSpace(),
+            _holidayDetectorDetailsController(dataState: dataState),
+            _verticalSpace(),
+            _testVoltageController(dataState: dataState),
+            _verticalSpace(),
+            _repairCoatingController(dataState: dataState),
+            _verticalSpace(),
+            _modelController(dataState: dataState),
+            _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-/*            _pipeDiaDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-/*            _thicknessDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? Column(
-                    children: [
-                      _locatinController(dataState: dataState),
-                      _verticalSpace(),
-                      _holidayDetectorDetailsController(dataState: dataState),
-                      _verticalSpace(),
-                      _modelController(dataState: dataState),
-                      _verticalSpace(),
-                      _testVoltageController(dataState: dataState),
-                      _verticalSpace(),
-                      _calibarationDateController(dataState: dataState),
-                      _verticalSpace(),
-                      _repairCoatingController(dataState: dataState),
-                      _verticalSpace(),
-                    ],
-                  )
-                : const SizedBox.shrink(),
+            if(isMgl)...[
+              _calibarationDateController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? _holidayChecksDropDown(dataState: dataState)
-                : const SizedBox.shrink(),
-            AppConfig.instanceInit()!.client != Client.mgl
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+            if(!isMgl)...[
+              _holidayChecksDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -211,7 +213,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _modelController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.makeModel,
+      labelText: isUrjagati ? "Repair Of Coating Damage": AppString.makeModel,
       controller: dataState.modelController,
     );
   }
@@ -251,7 +253,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _repairCoatingController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.repairCoatingDamage,
+      labelText: isUrjagati ? "Calibaration Done On" : AppString.repairCoatingDamage,
       controller: dataState.repairCoatingController,
     );
   }
@@ -329,18 +331,17 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _postPaddingController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _postPaddingController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.postPadding,
+      labelText: isUrjagati ? "Padding" : AppString.postPadding,
       controller: dataState.postPaddingController,
     );
   }
 
-  Widget _holidayChecksDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _holidayChecksDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<HolidayChecksModel>(
-      hint: AppString.selectHolidayChecks,
+      isRequired: true,
+      hint: isUrjagati ? "Holiday Test" :  AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,

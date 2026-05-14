@@ -231,7 +231,7 @@ class AppString {
 
   static get batchNo => "Batch No";
 
-  static get length => "Length";
+  static get length => "Length(Meters)";
 
   static get surface => "Surface";
 
@@ -351,7 +351,7 @@ class AppString {
 
   static get cableReadingMinusDirection => "Cable Reading (-ve Direction)";
 
-  static get testVoltage => "Test Voltage";
+  static get testVoltage => "Test Voltage (KV)";
 
   static get add => "Add";
 
@@ -423,7 +423,7 @@ class AppString {
 
   static get selectMECONPBGPL => "Select MECON/PBGPL";
 
-  static get selectTerrain => "Select Terrain";
+  static get selectTerrain => "Terrain";
 
   static get selectCoatingType => "Select Coating Type";
 
@@ -441,7 +441,7 @@ class AppString {
 
   static get selectPipeThickness => "Select Pipe Thickness";
 
-  static get selectGroundType => "Select Ground Type";
+  static get selectGroundType => "Ground Type";
 
   static get selectBendingType => "Select Bending Type";
 
@@ -587,9 +587,9 @@ class AppString {
 
   static get cappingWelder2 => "Capping Welder 2";
 
-  static get electrodeDiaE6010 => "Electrode Dia E6010";
+  static get electrodeDiaE6010 => "E6010 Dia";
 
-  static get electrodeDiaE6010Batch => "Electrode E6010 Batch";
+  static get electrodeDiaE6010Batch => "Batch No.";
 
   static get electrodeDiaE8010p1 => "Electrode Dia E8010P1";
 

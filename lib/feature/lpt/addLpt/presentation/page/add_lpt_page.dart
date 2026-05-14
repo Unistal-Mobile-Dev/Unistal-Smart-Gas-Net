@@ -204,6 +204,7 @@ class _AddLptPageState extends State<AddLptPage> {
 
   Widget _activityRemark({required FetchAddLptDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       maxLine: 3,
       labelText: AppString.activityRemark,
       controller: dataState.activityRemarkController,

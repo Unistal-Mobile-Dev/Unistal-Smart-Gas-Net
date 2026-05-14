@@ -21,6 +21,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
+  final TextEditingController chainageCtrl;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController primaryAbatchController;
@@ -60,6 +61,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final TextEditingController humidityMeterDetailsController;
   final TextEditingController digitalPyrometerDetailsController;
   final TextEditingController profileGaugeDetailsController;
+  final List<PaddingModel> surfacePreprationList;
+  final PaddingModel surfacePreprationData;
 
   FetchAddJointCoatingDataState({
     required this.isLoader,
@@ -67,6 +70,7 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.dateController,
     required this.activityRemarkController,
     required this.onWeldController,
+    required this.chainageCtrl,
     required this.chainageFromController,
     required this.chainageToController,
     required this.batchNoController,
@@ -107,6 +111,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.humidityMeterDetailsController,
     required this.digitalPyrometerDetailsController,
     required this.profileGaugeDetailsController,
+    required this.surfacePreprationList,
+    required this.surfacePreprationData,
   });
 
   @override
@@ -116,11 +122,12 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         dateController,
         activityRemarkController,
         onWeldController,
+        chainageCtrl,
         chainageFromController,
         chainageToController,
         batchNoController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -153,8 +160,10 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         visualChecksData,
         visualsChecksList,
         reportNumberController,
-   humidityMeterDetailsController,
-   digitalPyrometerDetailsController,
-   profileGaugeDetailsController,
+        humidityMeterDetailsController,
+        digitalPyrometerDetailsController,
+        profileGaugeDetailsController,
+        surfacePreprationList,
+        surfacePreprationData,
       ];
 }

@@ -2,6 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -48,15 +52,25 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
   double totalChainage = 0.0;
   List<String> formattedPipeChainageList = [];
+
+  List<PaddingModel> weightCoatingList = [];
+  PaddingModel weightCoatingData = PaddingModel();
+
+  List<TerrainTypeModel> manufactureList = [];
+  TerrainTypeModel manufactureData = TerrainTypeModel();
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController pipeLengthController = TextEditingController();
+  TextEditingController corrosionCoatingCtrl = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
+  TextEditingController searchPipeController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -71,10 +85,6 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   WeatherModel _weatherData = WeatherModel();
 
   WeatherModel get weatherData => _weatherData;
-
-  TextEditingController chainageFromController = TextEditingController();
-  TextEditingController chainageToController = TextEditingController();
-  TextEditingController searchPipeController = TextEditingController();
 
   List<PipeModel> pipeLengthList = [];
   List<TextEditingController> chainageFromControllers = [];
@@ -93,15 +103,22 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     on<AddStringingDeletePipeLengthEvent>(_deletePipeLength);
     on<AddStringingSearchPipeDataEvent>(_searchPipeData);
     on<AddStringingSelectConcreteCoatingEvent>(_selectConcreteCoating);
+    on<SelectWeightCoatingEvent>(_selectWeightCoating);
+    on<SelectNameManufactureEvent>(_selectNameManufacture);
     on<AddStringingAddImageEvent>(_selectFile);
   }
 
   _pageLoadEvent(AddStringingPageLoadEvent event, emit) async {
     emit(AddStringingPageLoadState());
-    dateController.text = "";
-    reportNumberController.text = "";
-    activityRemarkController.text = "";
-    pipeLengthController.text = "";
+    dateController = TextEditingController();
+    reportNumberController = TextEditingController();
+    activityRemarkController = TextEditingController();
+    pipeLengthController = TextEditingController();
+    corrosionCoatingCtrl = TextEditingController();
+    chainageFromController = TextEditingController();
+    chainageToController = TextEditingController();
+    searchPipeController = TextEditingController();
+
     _pipeData = PipeModel();
     _pipeList = [];
     _concreteCoatingList = [];
@@ -112,15 +129,16 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _isLoader = false;
     alignmentList = [];
     file = File("");
-    alignmentData =  AlignmentModel();
+    alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     _weatherData = WeatherModel();
-    chainageFromController.text = "";
-    chainageToController.text = "";
-    searchPipeController.text = "";
     _searchPipeLoader = false;
     totalChainage = 0.0;
     formattedPipeChainageList = [];
+    weightCoatingList = [];
+    weightCoatingData = PaddingModel();
+    manufactureList = [];
+    manufactureData = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
@@ -135,6 +153,17 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         context: !event.context.mounted ? event.context : event.context);
     if (resConcreteCoating != null) {
       _concreteCoatingList = resConcreteCoating;
+    }
+
+    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData(
+        context: !event.context.mounted ? event.context : event.context);
+    if (peelTestRes != null) {
+      weightCoatingList = peelTestRes;
+    }
+
+    var manufactureRes = await AddClearingGradingHelper.fetchManufactureData();
+    if (manufactureRes.isNotEmpty) {
+      manufactureList = manufactureRes;
     }
 
     _eventComplete(emit);
@@ -168,14 +197,24 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _eventComplete(emit);
   }
 
-  _selectMultipleAlignment(AddStringingMultipleSelectAlignmentEvent event, emit) {
+  _selectMultipleAlignment(
+      AddStringingMultipleSelectAlignmentEvent event, emit) {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-
   _selectConcreteCoating(AddStringingSelectConcreteCoatingEvent event, emit) {
     _concreteCoatingData = event.concreteCoatingData;
+    _eventComplete(emit);
+  }
+
+  _selectWeightCoating(SelectWeightCoatingEvent event, emit) {
+    weightCoatingData = event.weightCoatingData;
+    _eventComplete(emit);
+  }
+
+  _selectNameManufacture(SelectNameManufactureEvent event, emit) {
+    manufactureData = event.nameManufactureData;
     _eventComplete(emit);
   }
 
@@ -202,13 +241,15 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
         .toList();
 
     if (matchingPipes.isEmpty) {
-      SnackBarErrorWidget(event.context).show(message: "Pipe number not found, Please check");
+      SnackBarErrorWidget(event.context)
+          .show(message: "Pipe number not found, Please check");
       return;
     }
     _isLoader = true;
     _eventComplete(emit);
 
-    double chainageFrom = double.tryParse(chainageFromController.text.toString()) ?? 0.0;
+    double chainageFrom =
+        double.tryParse(chainageFromController.text.toString()) ?? 0.0;
     print("chainageFrom--->${chainageFrom}");
 
     if (chainageToControllers.isNotEmpty) {
@@ -218,13 +259,16 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     double pipeLength = double.tryParse(pipeData.pipeLength.toString()) ?? 0.0;
     double chainageTo = chainageFrom + pipeLength;
 
-    chainageFromController = TextEditingController(text: chainageFrom.toStringAsFixed(2));
-    chainageToController = TextEditingController(text: chainageTo.toStringAsFixed(2));
+    chainageFromController =
+        TextEditingController(text: chainageFrom.toStringAsFixed(2));
+    chainageToController =
+        TextEditingController(text: chainageTo.toStringAsFixed(2));
 
     chainageFromControllers.add(chainageFromController);
     chainageToControllers.add(chainageToController);
 
-    formattedPipeChainageList.add("${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
+    formattedPipeChainageList.add(
+        "${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
 
     pipeLengthList.add(pipeData);
 
@@ -237,7 +281,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   _chainageFromAdd(AddStringingChainageFromAddEvent event, emit) {
     final index = event.index;
     double? fromValue = double.tryParse(chainageFromControllers[index].text);
-    double pipeLength = double.tryParse(pipeLengthList[index].pipeLength.toString()) ?? 0;
+    double pipeLength =
+        double.tryParse(pipeLengthList[index].pipeLength.toString()) ?? 0;
 
     if (fromValue != null) {
       double toValue = fromValue + pipeLength;
@@ -245,15 +290,19 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       String formattedFrom = fromValue.toStringAsFixed(2);
       String formattedTo = toValue.toStringAsFixed(2);
       if (formattedPipeChainageList.length > index) {
-        formattedPipeChainageList[index] = "${pipeLengthList[index].id} : $formattedFrom : $formattedTo";
+        formattedPipeChainageList[index] =
+            "${pipeLengthList[index].id} : $formattedFrom : $formattedTo";
       } else {
-        formattedPipeChainageList.add("${pipeLengthList[index].id} : $formattedFrom : $formattedTo");
+        formattedPipeChainageList
+            .add("${pipeLengthList[index].id} : $formattedFrom : $formattedTo");
       }
       for (int i = index + 1; i < pipeLengthList.length; i++) {
         double prevTo = double.tryParse(chainageToControllers[i - 1].text) ?? 0;
-        double nextPipeLength = double.tryParse(pipeLengthList[i].pipeLength.toString()) ?? 0;
+        double nextPipeLength =
+            double.tryParse(pipeLengthList[i].pipeLength.toString()) ?? 0;
         chainageFromControllers[i].text = prevTo.toStringAsFixed(2);
-        chainageToControllers[i].text = (prevTo + nextPipeLength).toStringAsFixed(2);
+        chainageToControllers[i].text =
+            (prevTo + nextPipeLength).toStringAsFixed(2);
         String formattedFromNext = prevTo.toStringAsFixed(2);
         String formattedToNext = (prevTo + nextPipeLength).toStringAsFixed(2);
         if (formattedPipeChainageList.length > i) {
@@ -344,24 +393,28 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       chainageFrom: "0",
       chainageTo: "0",
       weatherData: weatherData,
+      concreteCoating: weightCoatingData.id == null ? "" : weightCoatingData.id.toString(),
+      nameOfManufacture: manufactureData.id == null ? "" : manufactureData.id.toString(),
+      typeOfCorrosionCoating: corrosionCoatingCtrl.text.toString(),
       //  pipeLength: pipeLengthList,
       pipeLength: formattedPipeChainageList,
     );
     _isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      dateController.text = "";
-      reportNumberController.text = "";
+      dateController = TextEditingController();
+      reportNumberController = TextEditingController();
+      activityRemarkController = TextEditingController();
+      pipeLengthController = TextEditingController();
+      corrosionCoatingCtrl = TextEditingController();
+      chainageFromController = TextEditingController();
+      chainageToController = TextEditingController();
+      searchPipeController = TextEditingController();
       _pipeData = PipeModel();
       _concreteCoatingData = ConcreteCoatingModel();
-      activityRemarkController.text = "";
       _isLoader = false;
       file = File("");
-      chainageFromController.text = "";
-      chainageToController.text = "";
-      searchPipeController.text = "";
-      pipeLengthController.text = "";
-      alignmentData =  AlignmentModel();
+      alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       _weatherData = WeatherModel();
       pipeLengthList = [];
@@ -377,6 +430,7 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       dateController: dateController,
       activityRemarkController: activityRemarkController,
       reportNumberController: reportNumberController,
+      corrosionCoatingCtrl: corrosionCoatingCtrl,
       alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       file: file,
@@ -393,6 +447,10 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       pipeLengthController: pipeLengthController,
       searchPipeLoader: searchPipeLoader,
       pipeLengthList: pipeLengthList,
+      manufactureData: manufactureData,
+      manufactureList: manufactureList,
+      weightCoatingData: weightCoatingData,
+      weightCoatingList: weightCoatingList,
     ));
   }
 }

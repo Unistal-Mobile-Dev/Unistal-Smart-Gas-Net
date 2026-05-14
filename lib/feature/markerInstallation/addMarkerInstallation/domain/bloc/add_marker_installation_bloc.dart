@@ -98,7 +98,7 @@ class AddMarkerInstallationBloc extends Bloc<AddMarkerInstallationEvent, AddMark
 
     var resMarkerType = await AddWeldingHelper.fetchMarkerType(context: event.context, userData: userData,);
     if (resJointNumber != null) {
-      listOfMarkerType = resMarkerType;
+      listOfMarkerType = resMarkerType ?? [];
     }
 
     var resJointType = await AddWeldingHelper.fetchJointType(

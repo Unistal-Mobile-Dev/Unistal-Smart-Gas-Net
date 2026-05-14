@@ -55,6 +55,9 @@ class AddStringingHelper {
     required PipeModel pipeData,
     required ConcreteCoatingModel concreteCoatingData,
     required String reportNumber,
+    required String nameOfManufacture,
+    required String concreteCoating,
+    required String typeOfCorrosionCoating,
     required String date,
     required String activityRemark,
     required String chainageFrom,
@@ -91,6 +94,9 @@ class AddStringingHelper {
         "chainage_from": chainageFrom,
         "chainage_to": chainageTo.isEmpty ? "0" : chainageTo,
         "report_no": reportNumber.toString(),
+        "type_of_corrosion_coating": typeOfCorrosionCoating,
+        "concrete_coating": concreteCoating,
+        "name_of_manufacture": nameOfManufacture,
         "activity_date": date.toString(),
         "pipe_id": pipeId.isNotEmpty
             ? pipeId
@@ -99,9 +105,9 @@ class AddStringingHelper {
                 .toString()
                 .replaceAll("]", "")
             : "",
-        "concrete_coating": concreteCoatingData.id != null
-            ? concreteCoatingData.id.toString()
-            : "0",
+        // "concrete_coating": concreteCoatingData.id != null
+        //     ? concreteCoatingData.id.toString()
+        //     : "0",
         "activity_remarks": activityRemark,
         "total_length ": "0",
         "latitude": locationData.lat.toString(),

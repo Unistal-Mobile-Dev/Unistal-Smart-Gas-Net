@@ -23,13 +23,14 @@ class AddStringingSelectDateEvent extends AddStringingEvent {
 }
 
 class AddStringingSelectAlignmentEvent extends AddStringingEvent {
- final AlignmentModel alignmentData;
+  final AlignmentModel alignmentData;
 
   const AddStringingSelectAlignmentEvent({required this.alignmentData});
 
   @override
   List<Object?> get props => [alignmentData];
 }
+
 class AddStringingMultipleSelectAlignmentEvent extends AddStringingEvent {
   final List<AlignmentModel> alignmentData;
 
@@ -52,7 +53,8 @@ class AddStringingChainageFromAddEvent extends AddStringingEvent {
   final BuildContext context;
   final int index;
 
-  const AddStringingChainageFromAddEvent({required this.context, required this.index});
+  const AddStringingChainageFromAddEvent(
+      {required this.context, required this.index});
 
   @override
   List<Object?> get props => [context, index];
@@ -117,6 +119,23 @@ class SelectWeatherEvent extends AddStringingEvent {
 
   @override
   List<Object?> get props => [weatherData];
+}
+
+class SelectWeightCoatingEvent extends AddStringingEvent {
+  final PaddingModel weightCoatingData;
+  const SelectWeightCoatingEvent({required this.weightCoatingData});
+
+  @override
+  List<Object?> get props => [weightCoatingData];
+}
+
+class SelectNameManufactureEvent extends AddStringingEvent {
+  final TerrainTypeModel nameManufactureData;
+
+  const SelectNameManufactureEvent({required this.nameManufactureData});
+
+  @override
+  List<Object?> get props => [nameManufactureData];
 }
 
 class AddStringingSubmitDataEvent extends AddStringingEvent {

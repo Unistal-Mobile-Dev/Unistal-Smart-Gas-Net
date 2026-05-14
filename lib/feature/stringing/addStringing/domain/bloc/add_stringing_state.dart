@@ -19,6 +19,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
+  final TextEditingController corrosionCoatingCtrl;
   final TextEditingController activityRemarkController;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
@@ -32,10 +33,14 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final PipeModel pipeData;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
-  List<TextEditingController> chainageFromController;
-  List<TextEditingController> chainageToController;
+  final List<TextEditingController> chainageFromController;
+  final List<TextEditingController> chainageToController;
   final TextEditingController pipeLengthController;
   final List<PipeModel> pipeLengthList;
+  final List<PaddingModel> weightCoatingList;
+  final PaddingModel weightCoatingData;
+  final List<TerrainTypeModel> manufactureList;
+  final TerrainTypeModel manufactureData;
 
   FetchAddStringingDataState({
     required this.isLoader,
@@ -59,6 +64,11 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.searchPipeLoader,
     required this.pipeLengthController,
     required this.pipeLengthList,
+    required this.weightCoatingData,
+    required this.weightCoatingList,
+    required this.manufactureList,
+    required this.manufactureData,
+    required this.corrosionCoatingCtrl,
   });
 
   @override
@@ -72,7 +82,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
         searchPipeLoader,
         searchPipeList,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         pipeList,
         pipeData,
@@ -84,5 +94,10 @@ class FetchAddStringingDataState extends AddStringingInitial {
         chainageToController,
         pipeLengthController,
         pipeLengthList,
+        weightCoatingData,
+        weightCoatingList,
+        manufactureList,
+        manufactureData,
+    corrosionCoatingCtrl,
       ];
 }

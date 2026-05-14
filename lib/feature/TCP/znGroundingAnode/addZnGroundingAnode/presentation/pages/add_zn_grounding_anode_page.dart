@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/domain/bloc/add_zn_grounding_anode_bloc.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
@@ -307,47 +308,34 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
   }
 
   Widget _length({required FetchAddZnGroundingAnodeState dataState}){
-    return DottedBorder(
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Column(
-          children: [
-            const Text("Length and size of the Cable laying"),
-            _verticalSpace(),
-            _a1LengthController(dataState: dataState),
-            _verticalSpace(),
-            _a2LengthController(dataState: dataState),
-            _verticalSpace(),
-            _a3LengthController(dataState: dataState),
-          ],
-        ),
-      ),
+    return DottedBorderWidget(
+      title: "Length and size of the Cable laying",
+      children: [
+        _a1LengthController(dataState: dataState),
+        _verticalSpace(),
+        _a2LengthController(dataState: dataState),
+        _verticalSpace(),
+        _a3LengthController(dataState: dataState),
+      ],
     );
   }
 
   Widget _anodeOpen({required FetchAddZnGroundingAnodeState dataState}){
-    return DottedBorder(
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Column(
-          children: [
-            const Text("Anode Open Circuit Potential w.r.t Cu-CuSO4 Ref. Cell (-V)"),
-            _verticalSpace(),
-            _a1AnodeController(dataState: dataState),
-            _verticalSpace(),
-            _a2AnodeController(dataState: dataState),
-            _verticalSpace(),
-            _a3AnodeController(dataState: dataState),
-            _verticalSpace(),
-            _a4AnodeController(dataState: dataState),
-          ],
-        ),
-      ),
+    return DottedBorderWidget(
+      title: "Anode Open Circuit Potential w.r.t Cu-CuSO4 Ref. Cell (-V)",
+      children: [
+        _a1AnodeController(dataState: dataState),
+        _verticalSpace(),
+        _a2AnodeController(dataState: dataState),
+        _verticalSpace(),
+        _a3AnodeController(dataState: dataState),
+        _verticalSpace(),
+        _a4AnodeController(dataState: dataState),
+      ],
     );
   }
 
-  Widget _a1LengthController(
-      {required FetchAddZnGroundingAnodeState dataState}) {
+  Widget _a1LengthController({required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -356,8 +344,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
     );
   }
 
-  Widget _a2LengthController(
-      {required FetchAddZnGroundingAnodeState dataState}) {
+  Widget _a2LengthController({required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -366,8 +353,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
     );
   }
 
-  Widget _a3LengthController(
-      {required FetchAddZnGroundingAnodeState dataState}) {
+  Widget _a3LengthController({required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -376,8 +362,7 @@ class _AddZnGroundingAnodePageState extends State<AddZnGroundingAnodePage> {
     );
   }
 
-  Widget _earthingController(
-      {required FetchAddZnGroundingAnodeState dataState}) {
+  Widget _earthingController({required FetchAddZnGroundingAnodeState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.selectEarthingResistance,

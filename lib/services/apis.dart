@@ -8,6 +8,7 @@ class APIs {
   static final String baseUrl = EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
 
   static get login => "api/auth";
+  static get login_url => "api/login";
 
   static get getAlignmentSheetApi => "api/steel/get-alignment-sheet";
 

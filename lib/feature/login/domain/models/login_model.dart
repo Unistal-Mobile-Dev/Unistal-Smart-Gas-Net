@@ -25,6 +25,7 @@ class LoginDataModel {
   String? token;
   String? smartLogo;
   String? projectLogo;
+  String? piplineName;
   RoleType? roleType;
 
   LoginDataModel({
@@ -44,6 +45,7 @@ class LoginDataModel {
     this.token,
     this.roleType,
     this.smartLogo,
+    this.piplineName,
     this.projectLogo,
   });
 
@@ -63,6 +65,7 @@ class LoginDataModel {
     sectionName = json['section_name'] ?? "";
     diameter = json['diameter'] ?? "";
     diauom = json['diauom'] ?? "";
+    piplineName = json['pipline_name'] ?? "";
     roleType = getRole(json['role'] ?? "");
   }
 

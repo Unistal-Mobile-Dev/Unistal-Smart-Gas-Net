@@ -50,6 +50,8 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
             _verticalSpace(),
             _dateController(dataState: dataState),
             _verticalSpace(),
+            _reportNumberController(dataState: dataState),
+            _verticalSpace(),
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
@@ -130,6 +132,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
 
   Widget _weatherDropDown({required FetchAddOfcSplicingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
+        isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
           dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -159,6 +162,7 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
       {required FetchAddOfcSplicingDataState dataState}) {
     return dataState.isJointNumberLoader == false
         ? DropdownWidget<JointNumberModel>(
+      isRequired: true,
             hint: AppString.selectJointNumber,
             dropdownValue: dataState.jointNumberData.id != null
                 ? dataState.jointNumberData
@@ -250,7 +254,6 @@ class _AddOfcSplicingPageState extends State<AddOfcSplicingPage> {
   Widget _jointPitController(
       {required FetchAddOfcSplicingDataState dataState}) {
     return TextFieldWidget(
-      isRequired: true,
       labelText: AppString.pitNumber,
       controller: dataState.jointPitController,
     );

@@ -18,13 +18,27 @@ class AddWeldingPage extends StatefulWidget {
 }
 
 class _AddWeldingPageState extends State<AddWeldingPage> {
+  final client = AppConfig.instanceInit()!.client;
+
+  late bool isVpplOrUrjagati = false;
+  late bool isVppl = false;
+  late bool isUrjagati = false;
+  late bool isMgl = false;
+  late final bool hideExtraWelders;
+
   @override
   void initState() {
+    isVppl = client == Client.vppl;
+    isUrjagati = client == Client.urjagati;
+    isVpplOrUrjagati = isVppl || isUrjagati;
+    hideExtraWelders = isVppl || isUrjagati || client == Client.vrpl;
+    isMgl = client == Client.mgl;
+
     BlocProvider.of<AddWeldingBloc>(context)
         .add(AddWeldingPageLoadEvent(context: context));
     super.initState();
   }
-  final client  =  AppConfig.instanceInit()!.client;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +58,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   }
 
   Widget _itemBuilder({required FetchAddWeldingDataState dataState}) {
-    final hideExtraWelders = client == Client.vppl|| client == Client.urjagati  || client == Client.vrpl;
     return Container(
         margin: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -70,11 +83,11 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _electrodeDiaE6010Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeDiaE6010BatchController(dataState: dataState),
-           _verticalSpace(),
-            _electrodeDiaE9045Controller(dataState: dataState),
             _verticalSpace(),
-            _electrodeDiaE9045BatchController(dataState: dataState),
-            _verticalSpace(),
+            // _electrodeDiaE9045Controller(dataState: dataState),
+            // _verticalSpace(),
+            // _electrodeDiaE9045BatchController(dataState: dataState),
+            // _verticalSpace(),
             _electrodeEiaE8010p1Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeEiaE8010p1BatchController(dataState: dataState),
@@ -87,8 +100,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _fitupDropDown(dataState: dataState),
-            _verticalSpace(),
+            // _fitupDropDown(dataState: dataState),
+            // _verticalSpace(),
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
             _rootWelders2Dropdown(dataState: dataState),
@@ -101,63 +114,66 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-            client != Client.mgl ? Column(
-              children: [
-                _filler2Welders1Controller(dataState: dataState),
-                _verticalSpace(),
-                _filler2Welders2Controller(dataState: dataState),
-                _verticalSpace(),
-                _filler3Welders1Controller(dataState: dataState),
-                _verticalSpace(),
-                _filler3Welders2Controller(dataState: dataState),
-                _verticalSpace(),
-                _filler4Welders1Controller(dataState: dataState),
-                _verticalSpace(),
-                _filler4Welders2Controller(dataState: dataState),
-                _verticalSpace(),
-                if (!hideExtraWelders) ...[
-                  _filler5Welders1Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler5Welders2Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler6Welders1Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler6Welders2Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler7Welders1Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler7Welders2Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler8Welders1Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _filler8Welders2Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _stripWelder1Controller(dataState: dataState),
-                  _verticalSpace(),
-                  _stripWelder2Controller(dataState: dataState),
-                  _verticalSpace(),
-                ],
-              ],
-            )
+            client != Client.mgl
+                ? Column(
+                    children: [
+                      _filler2Welders1Controller(dataState: dataState),
+                      _verticalSpace(),
+                      _filler2Welders2Controller(dataState: dataState),
+                      _verticalSpace(),
+                      _filler3Welders1Controller(dataState: dataState),
+                      _verticalSpace(),
+                      _filler3Welders2Controller(dataState: dataState),
+                      _verticalSpace(),
+                      _filler4Welders1Controller(dataState: dataState),
+                      _verticalSpace(),
+                      _filler4Welders2Controller(dataState: dataState),
+                      _verticalSpace(),
+                      if (!hideExtraWelders) ...[
+                        _filler5Welders1Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler5Welders2Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler6Welders1Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler6Welders2Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler7Welders1Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler7Welders2Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler8Welders1Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _filler8Welders2Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _stripWelder1Controller(dataState: dataState),
+                        _verticalSpace(),
+                        _stripWelder2Controller(dataState: dataState),
+                        _verticalSpace(),
+                      ],
+                    ],
+                  )
                 : const SizedBox.shrink(),
             _cappingWelder1Controller(dataState: dataState),
             _verticalSpace(),
             _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
-            if (!hideExtraWelders) ... [
-                      _electrodeDiaE9045p2Controller(dataState: dataState),
-                      _verticalSpace(),
-                      _electrodeDiaE9045p2BatchController(dataState: dataState),
-                      _verticalSpace(),
-                      _electrodeDiaE81t8gController(dataState: dataState),
-                      _verticalSpace(),
-                      _electrodeDiaE81t8gBatchController(dataState: dataState),
-                      _verticalSpace(),
-                    ],
+            if (!hideExtraWelders) ...[
+              _electrodeDiaE9045p2Controller(dataState: dataState),
+              _verticalSpace(),
+              _electrodeDiaE9045p2BatchController(dataState: dataState),
+              _verticalSpace(),
+              _electrodeDiaE81t8gController(dataState: dataState),
+              _verticalSpace(),
+              _electrodeDiaE81t8gBatchController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
-            _bendDetailController(dataState: dataState),
-            _verticalSpace(),
+            if (!isUrjagati) ...[
+              _bendDetailController(dataState: dataState),
+              _verticalSpace()
+            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -200,8 +216,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController,
       onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingCalculateLengthEvent(value: value, isChainageTo: false));
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingCalculateLengthEvent(value: value, isChainageTo: false));
       },
     );
   }
@@ -213,8 +229,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       labelText: AppString.chainageTo,
       controller: dataState.chainageToController,
       onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingCalculateLengthEvent(value: value, isChainageTo: true));
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingCalculateLengthEvent(value: value, isChainageTo: true));
       },
     );
   }
@@ -271,461 +287,458 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _rootWelders1Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.rootWelders1,
-      dropdownValue: dataState.rootWelders1Data.id != null ? dataState.rootWelders1Data : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.rootWelders1));
-      },
-      // onPressed: (){
-      //   BlocProvider.of<AddWeldingBloc>(context).add(
-      //       AddWeldingSelectMultiWelderClearEvent( name: AppString.rootWelders1));
-      // },
-      items: dataState.rootWelders1List
-    );
+        hint: AppString.rootWelders1,
+        dropdownValue: dataState.rootWelders1Data.id != null
+            ? dataState.rootWelders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.rootWelders1));
+        },
+        // onPressed: (){
+        //   BlocProvider.of<AddWeldingBloc>(context).add(
+        //       AddWeldingSelectMultiWelderClearEvent( name: AppString.rootWelders1));
+        // },
+        items: dataState.rootWelders1List);
   }
 
   Widget _rootWelders2Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.rootWelders2,
-      dropdownValue: dataState.rootWelders2Data.id != null
-          ? dataState.rootWelders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.rootWelders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.rootWelders2));
-      },
-      items: dataState.rootWelders2List
-    );
+        hint: AppString.rootWelders2,
+        dropdownValue: dataState.rootWelders2Data.id != null
+            ? dataState.rootWelders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.rootWelders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.rootWelders2));
+        },
+        items: dataState.rootWelders2List);
   }
 
   Widget _hotWelders1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.hotWelders1,
-      dropdownValue: dataState.hotWelders1Data.id != null
-          ? dataState.hotWelders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.hotWelders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.hotWelders1));
-      },
-      items: dataState.hotWelders1List
-    );
+        hint: AppString.hotWelders1,
+        dropdownValue: dataState.hotWelders1Data.id != null
+            ? dataState.hotWelders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.hotWelders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.hotWelders1));
+        },
+        items: dataState.hotWelders1List);
   }
 
   Widget _hotWelders2Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.hotWelders2,
-      dropdownValue: dataState.hotWelders2Data.id != null
-          ? dataState.hotWelders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.hotWelders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.hotWelders2));
-      },
-      items: dataState.hotWelders2List
-    );
+        hint: AppString.hotWelders2,
+        dropdownValue: dataState.hotWelders2Data.id != null
+            ? dataState.hotWelders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.hotWelders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.hotWelders2));
+        },
+        items: dataState.hotWelders2List);
   }
 
-  Widget _filler1Welders1Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _filler1Welders1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.fillerWelders1,
-      dropdownValue: dataState.filler1Welders1Data.id != null
-          ? dataState.filler1Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler1Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler1Welders1));
-      },
-      items: dataState.filler1Welders1List
-    );
+        hint: AppString.fillerWelders1,
+        dropdownValue: dataState.filler1Welders1Data.id != null
+            ? dataState.filler1Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler1Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler1Welders1));
+        },
+        items: dataState.filler1Welders1List);
   }
 
-  Widget _filler1Welders2Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _filler1Welders2Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.fillerWelders2,
-      dropdownValue: dataState.filler1Welders2Data.id != null
-          ? dataState.filler1Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler1Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler1Welders2));
-      },
-      items: dataState.filler1Welders2List
-    );
+        hint: AppString.fillerWelders2,
+        dropdownValue: dataState.filler1Welders2Data.id != null
+            ? dataState.filler1Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler1Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler1Welders2));
+        },
+        items: dataState.filler1Welders2List);
   }
 
-  Widget _filler2Welders1Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _filler2Welders1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler2Welders1,
-      dropdownValue: dataState.filler2Welders1Data.id != null
-          ? dataState.filler2Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler2Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler2Welders1));
-      },
-      items: dataState.filler2Welders1List
-    );
+        hint: AppString.filler2Welders1,
+        dropdownValue: dataState.filler2Welders1Data.id != null
+            ? dataState.filler2Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler2Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler2Welders1));
+        },
+        items: dataState.filler2Welders1List);
   }
 
-  Widget _filler2Welders2Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _filler2Welders2Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler2Welders2,
-      dropdownValue: dataState.filler2Welders2Data.id != null
-          ? dataState.filler2Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler2Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler2Welders2));
-      },
-      items: dataState.filler2Welders2List
-    );
+        hint: AppString.filler2Welders2,
+        dropdownValue: dataState.filler2Welders2Data.id != null
+            ? dataState.filler2Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler2Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler2Welders2));
+        },
+        items: dataState.filler2Welders2List);
   }
 
-  Widget _filler3Welders1Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _filler3Welders1Controller({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler3Welders1,
-      dropdownValue: dataState.filler3Welders1Data.id != null
-          ? dataState.filler3Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler3Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler3Welders1));
-      },
-      items: dataState.filler3Welders1List
-    );
+        hint: isUrjagati ? "Capping Welders 1" : AppString.filler3Welders1,
+        dropdownValue: dataState.filler3Welders1Data.id != null
+            ? dataState.filler3Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler3Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler3Welders1));
+        },
+        items: dataState.filler3Welders1List);
   }
 
   Widget _filler3Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler3Welders2,
-      dropdownValue: dataState.filler3Welders2Data.id != null
-          ? dataState.filler3Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler3Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler3Welders2));
-      },
-      items: dataState.filler3Welders2List
-    );
+        hint: isUrjagati ? "Capping Welders 1" : AppString.filler3Welders2,
+        dropdownValue: dataState.filler3Welders2Data.id != null
+            ? dataState.filler3Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler3Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler3Welders2));
+        },
+        items: dataState.filler3Welders2List);
   }
 
   Widget _filler4Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler4Welders1,
-      dropdownValue: dataState.filler4Welders1Data.id != null
-          ? dataState.filler4Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler4Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler4Welders1));
-      },
-      items: dataState.filler4Welders1List
-    );
+        hint: AppString.filler4Welders1,
+        dropdownValue: dataState.filler4Welders1Data.id != null
+            ? dataState.filler4Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler4Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler4Welders1));
+        },
+        items: dataState.filler4Welders1List);
   }
 
   Widget _filler4Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler4Welders2,
-      dropdownValue: dataState.filler4Welders2Data.id != null
-          ? dataState.filler4Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler4Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler4Welders2));
-      },
-      items: dataState.filler4Welders2List
-    );
+        hint: AppString.filler4Welders2,
+        dropdownValue: dataState.filler4Welders2Data.id != null
+            ? dataState.filler4Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler4Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler4Welders2));
+        },
+        items: dataState.filler4Welders2List);
   }
 
   Widget _filler5Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler5Welders1,
-      dropdownValue: dataState.filler5Welders1Data.id != null
-          ? dataState.filler5Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler5Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler5Welders1));
-      },
-      items: dataState.filler5Welders1List
-    );
+        hint: AppString.filler5Welders1,
+        dropdownValue: dataState.filler5Welders1Data.id != null
+            ? dataState.filler5Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler5Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler5Welders1));
+        },
+        items: dataState.filler5Welders1List);
   }
 
   Widget _filler5Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler5Welders2,
-      dropdownValue: dataState.filler5Welders2Data.id != null
-          ? dataState.filler5Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler5Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler5Welders2));
-      },
-      items: dataState.filler5Welders2List
-    );
+        hint: AppString.filler5Welders2,
+        dropdownValue: dataState.filler5Welders2Data.id != null
+            ? dataState.filler5Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler5Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler5Welders2));
+        },
+        items: dataState.filler5Welders2List);
   }
 
   Widget _filler6Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler6Welders1,
-      dropdownValue: dataState.filler6Welders1Data.id != null
-          ? dataState.filler6Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler6Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler6Welders1));
-      },
-      items: dataState.filler6Welders1List
-    );
+        hint: AppString.filler6Welders1,
+        dropdownValue: dataState.filler6Welders1Data.id != null
+            ? dataState.filler6Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler6Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler6Welders1));
+        },
+        items: dataState.filler6Welders1List);
   }
 
   Widget _filler6Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler6Welders2,
-      dropdownValue: dataState.filler6Welders2Data.id != null
-          ? dataState.filler6Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler6Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler6Welders2));
-      },
-      items: dataState.filler6Welders2List
-    );
+        hint: AppString.filler6Welders2,
+        dropdownValue: dataState.filler6Welders2Data.id != null
+            ? dataState.filler6Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler6Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler6Welders2));
+        },
+        items: dataState.filler6Welders2List);
   }
 
   Widget _filler7Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler7Welders1,
-      dropdownValue: dataState.filler7Welders1Data.id != null
-          ? dataState.filler7Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler7Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler7Welders1));
-      },
-      items: dataState.filler7Welders1List
-    );
+        hint: AppString.filler7Welders1,
+        dropdownValue: dataState.filler7Welders1Data.id != null
+            ? dataState.filler7Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler7Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler7Welders1));
+        },
+        items: dataState.filler7Welders1List);
   }
 
   Widget _filler7Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler7Welders2,
-      dropdownValue: dataState.filler7Welders2Data.id != null
-          ? dataState.filler7Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler7Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler7Welders2));
-      },
-      items: dataState.filler7Welders2List
-    );
+        hint: AppString.filler7Welders2,
+        dropdownValue: dataState.filler7Welders2Data.id != null
+            ? dataState.filler7Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler7Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler7Welders2));
+        },
+        items: dataState.filler7Welders2List);
   }
 
   Widget _filler8Welders1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler8Welders1,
-      dropdownValue: dataState.filler8Welders1Data.id != null
-          ? dataState.filler8Welders1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler8Welders1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler8Welders1));
-      },
-      items: dataState.filler8Welders1List
-    );
+        hint: AppString.filler8Welders1,
+        dropdownValue: dataState.filler8Welders1Data.id != null
+            ? dataState.filler8Welders1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler8Welders1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler8Welders1));
+        },
+        items: dataState.filler8Welders1List);
   }
 
   Widget _filler8Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.filler8Welders2,
-      dropdownValue: dataState.filler8Welders2Data.id != null
-          ? dataState.filler8Welders2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.filler8Welders2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.filler8Welders2));
-      },
-      items: dataState.filler8Welders2List
-    );
+        hint: AppString.filler8Welders2,
+        dropdownValue: dataState.filler8Welders2Data.id != null
+            ? dataState.filler8Welders2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.filler8Welders2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.filler8Welders2));
+        },
+        items: dataState.filler8Welders2List);
   }
 
   Widget _stripWelder1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.stripWelder1,
-      dropdownValue: dataState.stripWelder1Data.id != null
-          ? dataState.stripWelder1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.stripWelder1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.stripWelder1));
-      },
-      items: dataState.stripWelder1List
-    );
+        hint: AppString.stripWelder1,
+        dropdownValue: dataState.stripWelder1Data.id != null
+            ? dataState.stripWelder1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.stripWelder1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.stripWelder1));
+        },
+        items: dataState.stripWelder1List);
   }
 
   Widget _stripWelder2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.stripWelder2,
-      dropdownValue: dataState.stripWelder2Data.id != null
-          ? dataState.stripWelder2Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.stripWelder2));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.stripWelder2));
-      },
-      items: dataState.stripWelder2List
-    );
+        hint: AppString.stripWelder2,
+        dropdownValue: dataState.stripWelder2Data.id != null
+            ? dataState.stripWelder2Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.stripWelder2));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.stripWelder2));
+        },
+        items: dataState.stripWelder2List);
   }
 
   Widget _cappingWelder1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.cappingWelder1,
-      dropdownValue: dataState.cappingWelder1Data.id != null
-          ? dataState.cappingWelder1Data
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderEvent(
-                welderData: value!, name: AppString.cappingWelder1));
-      },
-      onPressed: (){
-        BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.cappingWelder1));
-      },
-      items: dataState.cappingWelder1List
-    );
+        hint: isUrjagati ? "Capping 2 Welders 1" : AppString.cappingWelder1,
+        dropdownValue: dataState.cappingWelder1Data.id != null
+            ? dataState.cappingWelder1Data
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderEvent(
+                  welderData: value!, name: AppString.cappingWelder1));
+        },
+        onPressed: () {
+          BlocProvider.of<AddWeldingBloc>(context).add(
+              AddWeldingSelectMultiWelderClearEvent(
+                  name: AppString.cappingWelder1));
+        },
+        items: dataState.cappingWelder1List);
   }
 
-  Widget _cappingWelder2Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _cappingWelder2Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: AppString.cappingWelder2,
+      hint: isUrjagati ? "Capping 2 Welders 1" : AppString.cappingWelder2,
       dropdownValue: dataState.cappingWelder2Data.id != null
           ? dataState.cappingWelder2Data
           : null,
@@ -734,107 +747,132 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             AddWeldingSelectMultiWelderEvent(
                 welderData: value!, name: AppString.cappingWelder2));
       },
-      onPressed: (){
+      onPressed: () {
         BlocProvider.of<AddWeldingBloc>(context).add(
-            AddWeldingSelectMultiWelderClearEvent( name: AppString.cappingWelder2));
+            AddWeldingSelectMultiWelderClearEvent(
+                name: AppString.cappingWelder2));
       },
       items: dataState.cappingWelder2List,
     );
   }
 
-  Widget _electrodeDiaE6010Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE6010Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
       hint: AppString.electrodeDiaE6010,
       items: dataState.electrodeDiaE6010DiaList,
-      dropdownValue:dataState.electrodeDiaE6010Value.diaValue != null ? dataState.electrodeDiaE6010Value : null,
+      dropdownValue: dataState.electrodeDiaE6010Value.diaValue != null
+          ? dataState.electrodeDiaE6010Value
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectElectrodeDiaE6010Event(
-            electrodeDiaE6010Value: value!,
-            context: context
-        ));
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            SelectElectrodeDiaE6010Event(
+                electrodeDiaE6010Value: value!, context: context));
       },
     );
   }
 
-  Widget _electrodeDiaE6010BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderDiaE6010BatchBatch == false ? DropdownWidget(
-      hint: client == Client.vppl || client == Client.urjagati || client == Client.vrpl ? "Batch No." : AppString.electrodeDiaE6010Batch,
-      items: dataState.electrodeDiaE6010BatchList,
-      dropdownValue:dataState.electrodeDiaE6010BatchValue.batchNo != null ? dataState.electrodeDiaE6010BatchValue : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectElectrodeDiaE6010BatchEvent(
-            electrodeDiaE6010BatchValue: value!,
-            context: context
-        ));
-      },
-    ) : DottedLoaderWidget();
+  Widget _electrodeDiaE6010BatchController(
+      {required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderDiaE6010BatchBatch == false
+        ? DropdownWidget(
+            hint: client == Client.vppl ||
+                    client == Client.urjagati ||
+                    client == Client.vrpl
+                ? "Batch No."
+                : AppString.electrodeDiaE6010Batch,
+            items: dataState.electrodeDiaE6010BatchList,
+            dropdownValue: dataState.electrodeDiaE6010BatchValue.batchNo != null
+                ? dataState.electrodeDiaE6010BatchValue
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddWeldingBloc>(context).add(
+                  SelectElectrodeDiaE6010BatchEvent(
+                      electrodeDiaE6010BatchValue: value!, context: context));
+            },
+          )
+        : DottedLoaderWidget();
   }
 
-  Widget _electrodeEiaE8010p1Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE8010p1Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: client == Client.vppl || client == Client.urjagati ? "E8010 Dia" : client == Client.vrpl ? "E8010-P-1 Dia" : AppString.electrodeDiaE7010P1,
+      hint: client == Client.vppl || client == Client.urjagati
+          ? "E8010 Dia"
+          : client == Client.vrpl
+              ? "E8010-P-1 Dia"
+              : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,
-      dropdownValue:dataState.electrodeEiaE8010p1Value.diaValue != null ? dataState.electrodeEiaE8010p1Value : null,
+      dropdownValue: dataState.electrodeEiaE8010p1Value.diaValue != null
+          ? dataState.electrodeEiaE8010p1Value
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectElectrodeEiaE8010p1Event(
-            electrodeEiaE8010p1Value: value!,
-            context: context
-        ));
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            SelectElectrodeEiaE8010p1Event(
+                electrodeEiaE8010p1Value: value!, context: context));
       },
     );
   }
 
-  Widget _electrodeEiaE8010p1BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderEiaE8010p1BatchBatch  == false ? DropdownWidget(
-      hint: client == Client.vppl || client == Client.urjagati || client == Client.vrpl ? "Batch No.": AppString.electrodeDiaE7010P1Batch,
-      items: dataState.electrodeEiaE8010p1BatchList,
-      dropdownValue:dataState.electrodeEiaE8010p1BatchValue.batchNo != null ? dataState.electrodeEiaE8010p1BatchValue : null,
-        onChanged: (value) {
-          BlocProvider.of<AddWeldingBloc>(context)
-              .add(SelectElectrodeEiaE8010p1BatchEvent(
-              electrodeEiaE8010p1BatchValue: value!,
-            context: context
-          ));
-        },
-    ) : DottedLoaderWidget();
+  Widget _electrodeEiaE8010p1BatchController(
+      {required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderEiaE8010p1BatchBatch == false
+        ? DropdownWidget(
+            hint: client == Client.vppl ||
+                    client == Client.urjagati ||
+                    client == Client.vrpl
+                ? "Batch No."
+                : AppString.electrodeDiaE7010P1Batch,
+            items: dataState.electrodeEiaE8010p1BatchList,
+            dropdownValue:
+                dataState.electrodeEiaE8010p1BatchValue.batchNo != null
+                    ? dataState.electrodeEiaE8010p1BatchValue
+                    : null,
+            onChanged: (value) {
+              BlocProvider.of<AddWeldingBloc>(context).add(
+                  SelectElectrodeEiaE8010p1BatchEvent(
+                      electrodeEiaE8010p1BatchValue: value!, context: context));
+            },
+          )
+        : DottedLoaderWidget();
   }
 
-
-  Widget _electrodeDiaE9045Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
       hint: "E9045  Dia",
       items: dataState.electrodeDiaE9045DiaList,
-      dropdownValue:dataState.electrodeDiaE9045Value.diaValue != null ? dataState.electrodeDiaE9045Value : null,
+      dropdownValue: dataState.electrodeDiaE9045Value.diaValue != null
+          ? dataState.electrodeDiaE9045Value
+          : null,
       onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectElectrodeDiaE9045Event(
-            electrodeDiaE9045Value: value!,
-            context: context
-        ));
+        BlocProvider.of<AddWeldingBloc>(context).add(
+            SelectElectrodeDiaE9045Event(
+                electrodeDiaE9045Value: value!, context: context));
       },
     );
   }
 
-  Widget _electrodeDiaE9045BatchController({required FetchAddWeldingDataState dataState}) {
-    return dataState.isLoaderDiaE9045BatchBatch  == false ? DropdownWidget(
-       hint:"Batch No.",
-      items: dataState.electrodeDiaE9045BatchList,
-      dropdownValue:dataState.electrodeDiaE9045BatchValue.batchNo != null ? dataState.electrodeDiaE9045BatchValue : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectElectrodeDiaE9045BatchEvent(
-            electrodeDiaE9045BatchValue: value!,
-            context: context
-        ));
-      },
-    ) : DottedLoaderWidget();
+  Widget _electrodeDiaE9045BatchController(
+      {required FetchAddWeldingDataState dataState}) {
+    return dataState.isLoaderDiaE9045BatchBatch == false
+        ? DropdownWidget(
+            hint: "Batch No.",
+            items: dataState.electrodeDiaE9045BatchList,
+            dropdownValue: dataState.electrodeDiaE9045BatchValue.batchNo != null
+                ? dataState.electrodeDiaE9045BatchValue
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AddWeldingBloc>(context).add(
+                  SelectElectrodeDiaE9045BatchEvent(
+                      electrodeDiaE9045BatchValue: value!, context: context));
+            },
+          )
+        : DottedLoaderWidget();
   }
 
-
-  Widget _electrodeDiaE9045p2Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045p2Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -843,7 +881,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE9045p2BatchController({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045p2BatchController(
+      {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE9045p2Batch,
@@ -851,7 +890,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gController({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gController(
+      {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -860,7 +900,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gBatchController({required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gBatchController(
+      {required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE81t8gBatch,
@@ -874,7 +915,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       controller: dataState.bendDetailController,
     );
   }
-
 
   Widget _activityRemark({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
@@ -906,28 +946,27 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _weatherDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
-      isRequired: true,
-      hint: AppString.selectWeather,
-      dropdownValue: dataState.weatherData.id != null ? dataState.weatherData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value!));
-      },
-      items: dataState.weatherList
-    );
+        isRequired: true,
+        hint: AppString.selectWeather,
+        dropdownValue:
+            dataState.weatherData.id != null ? dataState.weatherData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context)
+              .add(SelectWeatherEvent(weatherData: value!));
+        },
+        items: dataState.weatherList);
   }
 
   Widget _wpsDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WPSModel>(
-      isRequired: true,
-      hint: AppString.selectWPS,
-      dropdownValue: dataState.wpsData.id != null ? dataState.wpsData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingSelectWPSEvent(wpsData: value!, context: context));
-      },
-      items: dataState.wpsList
-    );
+        isRequired: true,
+        hint: AppString.selectWPS,
+        dropdownValue: dataState.wpsData.id != null ? dataState.wpsData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context)
+              .add(AddWeldingSelectWPSEvent(wpsData: value!, context: context));
+        },
+        items: dataState.wpsList);
   }
 
 /*  Widget _jointTypeDropDown({required FetchAddWeldingDataState dataState}) {
@@ -968,27 +1007,27 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _fitupDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
-      hint: AppString.selectFitup,
-      dropdownValue: dataState.fitupData.id != null ? dataState.fitupData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingSelectFitupDataEvent(fitupData: value!));
-      },
-      items: dataState.fitupList
-    );
+        hint: AppString.selectFitup,
+        dropdownValue:
+            dataState.fitupData.id != null ? dataState.fitupData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context)
+              .add(AddWeldingSelectFitupDataEvent(fitupData: value!));
+        },
+        items: dataState.fitupList);
   }
 
   Widget _weldVisualDropDown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
-      hint: AppString.selectWeldVisual,
-      dropdownValue:
-          dataState.weldVisualData.id != null ? dataState.weldVisualData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddWeldingBloc>(context)
-            .add(AddWeldingSelectWeldVisualEvent(weldVisualData: value!));
-      },
-      items: dataState.weldVisualList
-    );
+        hint: AppString.selectWeldVisual,
+        dropdownValue: dataState.weldVisualData.id != null
+            ? dataState.weldVisualData
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWeldingBloc>(context)
+              .add(AddWeldingSelectWeldVisualEvent(weldVisualData: value!));
+        },
+        items: dataState.weldVisualList);
   }
 
   Widget _photo({required FetchAddWeldingDataState dataState}) {
@@ -1057,7 +1096,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                                 .contains(".pdf")
                             ? TextWidget(
                                 dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
+                                color:
+                                    EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),

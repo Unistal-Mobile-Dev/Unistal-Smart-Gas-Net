@@ -25,6 +25,7 @@ import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
 part 'add_joint_coating_event.dart';
+
 part 'add_joint_coating_state.dart';
 
 class AddJointCoatingBloc
@@ -43,9 +44,12 @@ class AddJointCoatingBloc
   TextEditingController batchNoController = TextEditingController();
   TextEditingController surfaceController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
-  TextEditingController humidityMeterDetailsController = TextEditingController();
-  TextEditingController digitalPyrometerDetailsController = TextEditingController();
+  TextEditingController humidityMeterDetailsController =
+      TextEditingController();
+  TextEditingController digitalPyrometerDetailsController =
+      TextEditingController();
   TextEditingController profileGaugeDetailsController = TextEditingController();
+  TextEditingController chainageCtrl = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -55,7 +59,7 @@ class AddJointCoatingBloc
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
   bool isLoader = false;
   HolidayChecksModel holidayChecksData = HolidayChecksModel();
@@ -82,6 +86,9 @@ class AddJointCoatingBloc
   List<PaddingModel> peelTestList = [];
   PaddingModel peelTestData = PaddingModel();
 
+  List<PaddingModel> surfacePreprationList = [];
+  PaddingModel surfacePreprationData = PaddingModel();
+
   List<PipeMaterialModel> pipeMaterialList = [];
   PipeMaterialModel pipeMaterialData = PipeMaterialModel();
 
@@ -97,6 +104,7 @@ class AddJointCoatingBloc
     on<AddJointCoatingSelectPipeMaterialDataEvent>(_selectPipeMaterial);
     on<AddJointCoatingSelectVisualChecksDataEvent>(_selectVisualCheck);
     on<AddJointCoatingSelectPeelTestDataEvent>(_selectPeelTest);
+    on<SelectSurfacePreparationEvent>(_selectSurfacePreparation);
     on<AddJointCoatingSelectHolidayDataEvent>(_selectHolidayData);
     on<AddJointCoatingSelectFromJointDataEvent>(_selectJointFrom);
     on<AddJointCoatingSelectToJointDataEvent>(_selectJointTo);
@@ -128,14 +136,15 @@ class AddJointCoatingBloc
     profileGaugeDetailsController.text = "";
     digitalPyrometerDetailsController.text = "";
     humidityMeterDetailsController.text = "";
+    chainageCtrl.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData  = AlignmentModel();
-    multipleAlignmentData  = [];
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
     isLoader = false;
     holidayChecksData = HolidayChecksModel();
     fromJointData = JointNumberModel();
@@ -149,6 +158,8 @@ class AddJointCoatingBloc
     pipeDiaList = [];
     peelTestData = PaddingModel();
     peelTestList = [];
+    surfacePreprationList = [];
+    surfacePreprationData = PaddingModel();
     coatingTypeList = [];
     coatingTypeData = CoatingTypeModel();
     weatherData = WeatherModel();
@@ -174,10 +185,7 @@ class AddJointCoatingBloc
     }*/
 
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-      type: "welding"
-    );
+        context: event.context, userData: userData, type: "welding");
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -214,6 +222,7 @@ class AddJointCoatingBloc
         context: !event.context.mounted ? event.context : event.context);
     if (peelTestRes != null) {
       peelTestList = peelTestRes;
+      surfacePreprationList = peelTestRes;
     }
 
     var pipeMaterialRes = await AddJointCoatingHelper.fetchPipeMaterialData(
@@ -242,7 +251,8 @@ class AddJointCoatingBloc
     _eventComplete(emit);
   }
 
-  _selectMultipleAlignment(AddJointCoatingMultipleSelectAlignmentEvent event, emit) {
+  _selectMultipleAlignment(
+      AddJointCoatingMultipleSelectAlignmentEvent event, emit) {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
@@ -264,6 +274,11 @@ class AddJointCoatingBloc
 
   _selectPeelTest(AddJointCoatingSelectPeelTestDataEvent event, emit) {
     peelTestData = event.peelTestData;
+    _eventComplete(emit);
+  }
+
+  _selectSurfacePreparation(SelectSurfacePreparationEvent event, emit) {
+    surfacePreprationData = event.surfacePreparationData;
     _eventComplete(emit);
   }
 
@@ -369,40 +384,39 @@ class AddJointCoatingBloc
     isLoader = true;
     _eventComplete(emit);
     var res = await AddJointCoatingHelper.submitData(
-      context: event.context,
-      alignmentData: alignmentData,
-      multipleAlignmentData: multipleAlignmentData,
-      onWeld: onWeldController.text.toString(),
-      date: dateController.text.toString(),
-      holidayChecksData: holidayChecksData,
-      activityRemark: activityRemarkController.text.toString(),
-      weatherData: weatherData,
-      userData: userData,
-      fromJointData: fromJointData,
-      toJointData: toJointData,
-      jointTypeData: jointTypeData,
-      chainageFrom: chainageFromController.text.toString(),
-      chainageTo: chainageToController.text.toString(),
-      batchNo: batchNoController.text.toString(),
-      file: file,
-      onBody: onBodyController.text.toString(),
-      holidayTestNo: holidayTestNoController.text.toString(),
-      locationName: locationController.text.toString(),
-      primaryAbatch: primaryAbatchController.text.toString(),
-      electrometerNo: electrometerNoController.text.toString(),
-      surface: surfaceController.text.toString(),
-      primaryBbatch: primaryBbatchController.text.toString(),
-      pipeDiaData: pipeDiaData,
-      thicknessData: thicknessData,
-      visualChecksData: visualChecksData,
-      coatingTypeData: coatingTypeData,
-      pipeMaterialData: pipeMaterialData,
-      peelTestData: peelTestData,
-      reportNumber: reportNumberController.text.toString(),
-      digitalPyrometer: digitalPyrometerDetailsController.text.toString(),
-      humidityMeter: humidityMeterDetailsController.text.toString(),
-      profileGauge: profileGaugeDetailsController.text.toString()
-    );
+        context: event.context,
+        alignmentData: alignmentData,
+        multipleAlignmentData: multipleAlignmentData,
+        onWeld: onWeldController.text.toString(),
+        date: dateController.text.toString(),
+        holidayChecksData: holidayChecksData,
+        activityRemark: activityRemarkController.text.toString(),
+        weatherData: weatherData,
+        userData: userData,
+        fromJointData: fromJointData,
+        toJointData: toJointData,
+        jointTypeData: jointTypeData,
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
+        batchNo: batchNoController.text.toString(),
+        file: file,
+        onBody: onBodyController.text.toString(),
+        holidayTestNo: holidayTestNoController.text.toString(),
+        locationName: locationController.text.toString(),
+        primaryAbatch: primaryAbatchController.text.toString(),
+        electrometerNo: electrometerNoController.text.toString(),
+        surface: surfaceController.text.toString(),
+        primaryBbatch: primaryBbatchController.text.toString(),
+        pipeDiaData: pipeDiaData,
+        thicknessData: thicknessData,
+        visualChecksData: visualChecksData,
+        coatingTypeData: coatingTypeData,
+        pipeMaterialData: pipeMaterialData,
+        peelTestData: peelTestData,
+        reportNumber: reportNumberController.text.toString(),
+        digitalPyrometer: digitalPyrometerDetailsController.text.toString(),
+        humidityMeter: humidityMeterDetailsController.text.toString(),
+        profileGauge: profileGaugeDetailsController.text.toString());
     isLoader = false;
     _eventComplete(emit);
     if (res != null) {
@@ -412,8 +426,8 @@ class AddJointCoatingBloc
       chainageFromController.text = "";
       chainageToController.text = "";
       batchNoController.text = "";
-      alignmentData  = AlignmentModel();
-      multipleAlignmentData  = [];
+      alignmentData = AlignmentModel();
+      multipleAlignmentData = [];
       isLoader = false;
       holidayChecksData = HolidayChecksModel();
       primaryBbatchController.text = "";
@@ -487,9 +501,12 @@ class AddJointCoatingBloc
       visualChecksData: visualChecksData,
       visualsChecksList: visualsChecksList,
       reportNumberController: reportNumberController,
-        profileGaugeDetailsController : profileGaugeDetailsController,
-        digitalPyrometerDetailsController : digitalPyrometerDetailsController,
-        humidityMeterDetailsController : humidityMeterDetailsController,
+      profileGaugeDetailsController: profileGaugeDetailsController,
+      digitalPyrometerDetailsController: digitalPyrometerDetailsController,
+      humidityMeterDetailsController: humidityMeterDetailsController,
+      chainageCtrl: chainageCtrl,
+      surfacePreprationData: surfacePreprationData,
+      surfacePreprationList: surfacePreprationList,
     ));
   }
 }

@@ -106,9 +106,10 @@ class AddConcreteCoatingHelper {
       String url = APIs.addConcreteCoatingApi;
       var json = {
         "activityDate": date,
+        "schema": userData.schema.toString(),
         "weather": weatherData.name.toString(),
         // "alignmentSheet": alignmentData.id.toString(),
-        "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "spreadId": userData.spreadId.toString(),
         "sectionId": userData.sectionId.toString(),
         "pipeId": pipeData.id.toString(),
