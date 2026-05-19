@@ -73,13 +73,12 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "vrpl_logo"
+  android: "pjpl_logo"
   ios: true
-  image_path: "assets/logo/vrpl_logo.png"
+  image_path: "assets/logo/pjpl_logo.png"
   min_sdk_android: 21
 
 
 module:
   androidX: true
-
 
