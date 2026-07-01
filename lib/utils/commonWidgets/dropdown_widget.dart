@@ -27,6 +27,10 @@ class DropdownWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor = theme.colorScheme.onSurface;       // ✅
+    final dropdownBg = theme.colorScheme.surfaceContainerHighest; // ✅
+
     return DropdownButtonFormField<T>(
       initialValue: items.contains(dropdownValue) ? dropdownValue : null,
       onChanged: onChanged,
@@ -42,16 +46,19 @@ class DropdownWidget<T> extends StatelessWidget {
         )
             : null,
       ),
-      dropdownColor: Colors.white,
+      dropdownColor: dropdownBg, // ✅ was Colors.white
       isExpanded: true,
       items: items.map((T value) {
         return DropdownMenuItem<T>(
           value: value,
-          child: Text(value.toString(), style: TextStyle(
-            color: AppColor.black,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w500,
-          ),),
+          child: Text(
+            value.toString(),
+            style: TextStyle(
+              color: textColor,        // ✅ was AppColor.black
+              fontSize: AppFont.font_14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         );
       }).toList(),
     );

@@ -17,7 +17,6 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         drawer: HomeDrawerWidget(),
         appBar: AppBarWidget(title: "Dashboard",),
         body: SafeArea(

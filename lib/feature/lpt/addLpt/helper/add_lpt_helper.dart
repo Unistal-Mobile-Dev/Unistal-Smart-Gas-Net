@@ -87,9 +87,8 @@ class AddLptHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

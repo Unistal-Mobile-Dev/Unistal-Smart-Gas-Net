@@ -48,6 +48,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController ipToCtrl= TextEditingController();
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController provisionOfWarningSignsSafetySignsCtrl = TextEditingController();
+  TextEditingController seismicZoneAndCoverCtrl = TextEditingController();
+  TextEditingController verificationOfMinimumDepthCtrl = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -118,6 +121,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     ipToCtrl= TextEditingController();
     chainageFromController = TextEditingController();
     chainageToController = TextEditingController();
+    provisionOfWarningSignsSafetySignsCtrl = TextEditingController();
+    seismicZoneAndCoverCtrl = TextEditingController();
+    verificationOfMinimumDepthCtrl = TextEditingController();
     _isLoader = false;
     alignmentList = [];
     file = File("");
@@ -149,27 +155,13 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     if (resTerrain != null) {
       terrainTypeList = resTerrain;
     }
-
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
-  /*  var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        type: "welding",
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-        type: "welding",
-       // jointTypeData: jointTypeData
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterndtrt"
+
     );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
@@ -247,15 +239,6 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "welding",
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -323,6 +306,11 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       ipTo: ipToCtrl.text.toString(),
       separationOfArableSoil: arableSoilCtrl.text.toString(),
       suitabilityOfTrenchProfileForBends: trenchProfileCtrl.text.toString(),
+      provisionOfWarningSignsSafetySigns: provisionOfWarningSignsSafetySignsCtrl.text.toString(),
+      seismicZoneAndCover: seismicZoneAndCoverCtrl.text.toString(),
+      verificationOfMinimumDepth: verificationOfMinimumDepthCtrl.text.toString(),
+
+
     );
     _isLoader = false;
     _eventComplete(emit);
@@ -346,6 +334,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       ipToCtrl= TextEditingController();
       chainageFromController = TextEditingController();
       chainageToController = TextEditingController();
+      provisionOfWarningSignsSafetySignsCtrl = TextEditingController();
+      seismicZoneAndCoverCtrl = TextEditingController();
+      verificationOfMinimumDepthCtrl = TextEditingController();
       _isLoader = false;
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
@@ -397,6 +388,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageToController: chainageToController,
       toWidthController: toWidthController,
       lengthController: lengthController,
+      provisionOfWarningSignsSafetySignsCtrt: provisionOfWarningSignsSafetySignsCtrl,
+      seismicZoneAndCoverCtrl: seismicZoneAndCoverCtrl,
+      verificationOfMinimumDepthCtrl: verificationOfMinimumDepthCtrl,
     ));
   }
 }

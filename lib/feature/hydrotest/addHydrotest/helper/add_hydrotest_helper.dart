@@ -92,7 +92,7 @@ class AddHydroTestHelper {
       required JointTypeModel jointTypeData,
       required String length,
       required String reportNumber,
-      required List<FileModel> fileList}) async {
+      required List<ImageRequestObject> fileList}) async {
     try {
     var location = await LocationHelper.getLocation(context: context);
     LocationModel locationData = LocationModel();
@@ -131,8 +131,9 @@ class AddHydroTestHelper {
     var res = await ServerRequest.postDataWithFile(
         urlEndPoint: url,
         body: json,
-        context: !context.mounted ? context : context,
-        fileList: fileList);
+      imageRequestObject: fileList,
+    );
+
     if (res != null && res['success'] == 200 && res['error'] == false && res['data'] != null) {
       SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['data']);
       return res;

@@ -3,15 +3,21 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AppConfig {
   static AppConfig? instance;
+  static String? baseUrl;
   RoleType? roleType;
   Client? client;
 
   static AppConfig? instanceInit() {
     instance ??= AppConfig();
     return instance;
+  }
+  static void init(BuildContext context) {
+    baseUrl = EnvironmentConfig.of(context)!.generalUrlBaseOnFlavour;
+    log("baseUrl --> $baseUrl");
   }
 
   String dashboardLink = "";
@@ -22,6 +28,7 @@ class AppConfig {
 
 
   String sectionId = "";
+  ActivitySectionData activitySectionData = ActivitySectionData();
   List<ActivitySectionData> listOfActivitySection = [];
 
   HindranceListData hindranceListData = HindranceListData();
@@ -73,6 +80,9 @@ class AppConfig {
     listOfActivitySection = newListOfActivitySection;
   }
 
+  void setActivitySection({required ActivitySectionData newActivitySection}) {
+    activitySectionData = newActivitySection;
+  }
   void setHindranceListData({required HindranceListData newValue}) {
     hindranceListData = newValue;
   }

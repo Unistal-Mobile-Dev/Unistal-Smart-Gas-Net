@@ -26,35 +26,75 @@ class DropDownSearchWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
+    final textColor = theme.colorScheme.onSurface;
+
+    // ✅ Theme-aware fill colors
+    final enabledFill = isDark
+        ? theme.colorScheme.surfaceContainerHighest
+        : Colors.white;
+    final disabledFill = isDark
+        ? theme.colorScheme.surfaceContainerHighest.withOpacity(0.4)
+        : Colors.grey.shade100;
+
     return DropdownSearch<T>(
       items: items,
       selectedItem: selectedItem,
       enabled: enabled,
       itemAsString: itemAsString,
       onChanged: onChanged,
-
-      /// ✅ FIXED: REMOVE unsafe compareFn
       compareFn: (item, selected) => item == selected,
 
-      /// ✅ USE COMMON DECORATION
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecorationStyle.inputDecoration(
           context,
           labelText: hint,
           isRequired: isRequired,
         ).copyWith(
-          fillColor: enabled ? Colors.white : Colors.grey.shade100,
+          fillColor: enabled ? enabledFill : disabledFill, // ✅
         ),
       ),
 
-      /// ✅ CLEAN POPUP
       popupProps: PopupProps.dialog(
         showSearchBox: true,
+
+        // ✅ Theme-aware dialog background
+        dialogProps: DialogProps(
+          backgroundColor: theme.colorScheme.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+
+        // ✅ Theme-aware list items
+        itemBuilder: (context, item, isSelected) {
+          return ListTile(
+            title: Text(
+              itemAsString?.call(item) ?? item.toString(),
+              style: TextStyle(
+                color: textColor, // ✅
+                fontSize: 14,
+              ),
+            ),
+            tileColor: isSelected
+                ? primaryColor.withOpacity(isDark ? 0.2 : 0.08) // ✅
+                : Colors.transparent,
+            trailing: isSelected
+                ? Icon(Icons.check, color: primaryColor, size: 18)
+                : null,
+          );
+        },
 
         searchFieldProps: TextFieldProps(
           decoration: InputDecorationStyle.inputDecoration(
             context,
             labelText: "Search",
+          ),
+          style: TextStyle(
+            color: textColor, // ✅ search text color
+            fontSize: 14,
           ),
         ),
 
@@ -62,8 +102,6 @@ class DropDownSearchWidget<T> extends StatelessWidget {
           return Column(
             children: [
               Expanded(child: popupWidget),
-
-              /// Footer button
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(

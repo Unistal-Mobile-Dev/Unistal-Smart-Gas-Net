@@ -23,7 +23,7 @@ class TabletDrawerWidget extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.009,
               ),
               _logo(context: context),
               SizedBox(
@@ -118,7 +118,7 @@ class TabletDrawerWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
+                  width: MediaQuery.of(context).size.width * 0.009,
                 ),
                 Icon(
                   drawerData.isSelected == true && drawerData.sublist.isNotEmpty

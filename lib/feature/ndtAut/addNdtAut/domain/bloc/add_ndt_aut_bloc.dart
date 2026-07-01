@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/aut_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/defect_layer_model.dart';
@@ -32,9 +34,19 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
   AlignmentModel alignmentData = AlignmentModel();
   List<AlignmentModel> multipleAlignmentData =  [];
 
+  List<TerrainTypeModel> ndtAgencyList = [];
+  TerrainTypeModel ndtAgencyData = TerrainTypeModel();
+
+  List<TerrainTypeModel> contractorList = [];
+  TerrainTypeModel contractorData = TerrainTypeModel();
+
+  List<TerrainTypeModel> pmcList = [];
+  TerrainTypeModel pmcData = TerrainTypeModel();
+
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController defectLocationController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
   File file = File("");
   bool isLoader = false;
   List<WeatherModel> weatherList = [];
@@ -73,6 +85,9 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     on<AddNdtAutSelectWPSTypeEvent>(_selectWpsType);
     on<AddNdtAutSelectWelderEvent>(_selectWelder);
     on<AddNdtAutAddImageEvent>(_selectFile);
+    on<SelectNDTAgencyEvent>(_selectNDTAgency);
+    on<SelectContractorEvent>(_selectContractor);
+    on<SelectPMCEvent>(_selectPMC);
     on<AddNdtAutSubmitDataEvent>(_submit);
   }
 
@@ -88,6 +103,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     dateController.text = "";
     activityRemarkController.text = "";
     defectLocationController.text = "";
+    reportNumberController.text = "";
     file = File("");
     isLoader = false;
     weatherList = [];
@@ -104,26 +120,33 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     selectedDefectLayerList = [];
     defectTypeList = [];
     selectedDefectTypeList = [];
-
     selectedAlignmentList = [];
-
+   ndtAgencyList = [];
+   ndtAgencyData = TerrainTypeModel();
+   contractorList = [];
+   contractorData = TerrainTypeModel();
+   pmcList = [];
+   pmcData = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData(
+        context: event.context, userData: userData);
+    _userData = UserInfo.instanceInit()!.userData!;
     var res = await AddRouteSurveyHelper.fetchAlignmentData(context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (res != null) {
       alignmentList = res;
     }
-    /* var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
+    var segmentStatusRes = await AddClearingGradingHelper.fetchSegmentStatusData();
+    if (segmentStatusRes.isNotEmpty) {
+      ndtAgencyList = segmentStatusRes;
+      contractorList = segmentStatusRes;
+      pmcList = segmentStatusRes;
+    }
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
       context: event.context,
       userData: userData,
-      type: "afterwelding",
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          : "afterwelding",
     );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
@@ -238,6 +261,21 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     _eventComplete(emit);
   }
 
+  _selectNDTAgency(SelectNDTAgencyEvent event,  emit) {
+    ndtAgencyData = event.ndtAgencyData;
+    _eventComplete(emit);
+  }
+
+  _selectContractor(SelectContractorEvent event,  emit) {
+    contractorData = event.contractorData;
+    _eventComplete(emit);
+  }
+
+  _selectPMC(SelectPMCEvent event,  emit) {
+    pmcData = event.pmcData;
+    _eventComplete(emit);
+  }
+
   _selectFile(AddNdtAutAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
@@ -273,6 +311,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
         selectedDefectTypeList: selectedDefectTypeList,
         selectedDefectLayer: selectedDefectLayerList,
         defectLocation: defectLocationController.text.toString(),
+        reportNumber: reportNumberController.text.toString(),
         autStatusData: autStatusData,
         file: file);
 
@@ -284,6 +323,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       dateController.text = "";
       activityRemarkController.text = "";
       defectLocationController.text = "";
+      reportNumberController.text = "";
       file = File("");
       isLoader = false;
       weatherData = WeatherModel();
@@ -326,6 +366,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       isJointNumberLoader: isJointNumberLoader,
       isWelderLoader: isWelderLoader,
       defectLocationController: defectLocationController,
+      reportNumberController: reportNumberController,
       autStatusData: autStatusData,
       autStatusList: autStatusList,
       defectLayerList: defectLayerList,
@@ -333,6 +374,12 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       selectedDefectLayerList: selectedDefectLayerList,
       selectedDefectTypeList: selectedDefectTypeList,
       selectedAlignmentList:selectedAlignmentList,
+      contractorData: contractorData,
+      contractorList: contractorList,
+      ndtAgencyData: ndtAgencyData,
+      ndtAgencyList: ndtAgencyList,
+      pmcData: pmcData,
+      pmcList: pmcList,
     ));
   }
 }

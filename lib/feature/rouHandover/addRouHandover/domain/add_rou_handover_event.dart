@@ -60,6 +60,15 @@ class SelectWeatherEvent extends AddRouHandoverEvent {
   List<Object?> get props => [weatherData];
 }
 
+class CalculateLengthEvent extends AddRouHandoverEvent {
+  final bool isChainageTo;
+  final String value;
+  final BuildContext context;
+  const CalculateLengthEvent({required this.isChainageTo, required this.value, required this.context});
+  @override
+  List<Object?> get props => [isChainageTo, value, context];
+}
+
 class AddRouHandoverSubmitDataEvent extends AddRouHandoverEvent {
   final BuildContext context;
 

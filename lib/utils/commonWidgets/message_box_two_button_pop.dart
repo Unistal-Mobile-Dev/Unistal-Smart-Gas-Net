@@ -17,6 +17,13 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
+
+    // ✅ Theme-aware divider color
+    final dividerColor = isDark ? Colors.grey.shade700 : Colors.grey.shade400;
+
     return Center(
       child: Wrap(
         children: [
@@ -32,63 +39,64 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _closeButton(context: context),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Padding(
                     padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.05,
-                        right: MediaQuery.of(context).size.width * 0.05),
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.05,
+                    ),
                     child: TextWidget(
                       message,
-                      color: AppColor.black,
+                      color: theme.colorScheme.onSurface, // ✅ was AppColor.black
                       textAlign: TextAlign.center,
                       fontSize: AppFont.font_13,
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+                  // ✅ was Colors.grey[350]
                   Container(
                     height: 1.0,
                     width: MediaQuery.of(context).size.width,
-                    color: Colors.grey[350],
+                    color: dividerColor,
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
                         Expanded(
                           child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                            onPressed: () => Navigator.pop(context),
                             child: TextWidget(
                               "Cancel",
-                              color:EnvironmentConfig.of(context)!.primaryTheme,
+                              color: primaryColor,
                               fontSize: AppFont.font_16,
                             ),
                           ),
                         ),
+
+                        // ✅ was Colors.grey[350]
                         Container(
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: 1.0,
-                          color: Colors.grey[350],
+                          color: dividerColor,
                         ),
+
                         Expanded(
                           child: TextButton(
                             onPressed: onPressed,
                             child: TextWidget(
                               okButtonText ?? "OK",
                               fontWeight: FontWeight.w700,
-                              color: EnvironmentConfig.of(context)!.primaryTheme,
+                              color: primaryColor,
                               fontSize: AppFont.font_16,
                             ),
                           ),
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -99,10 +107,11 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   }
 
   Widget _closeButton({required BuildContext context}) {
+    final textColor = Theme.of(context).colorScheme.onSurface;
+
     return Row(
       children: [
         Expanded(
-          flex: 1,
           child: Padding(
             padding: EdgeInsets.only(
               left: MediaQuery.of(context).size.width * 0.05,
@@ -114,7 +123,7 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
               fontSize: AppFont.font_18,
               fontWeight: FontWeight.w700,
               textAlign: TextAlign.center,
-              color: AppColor.black,
+              color: textColor, // ✅ was AppColor.black
             ),
           ),
         ),

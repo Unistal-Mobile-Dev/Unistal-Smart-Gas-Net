@@ -20,8 +20,21 @@ class _ViewHindrancePageState extends State<ViewHindrancePage> {
   final ScrollController _verticalScrollController = ScrollController();
 
 
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<ViewHindranceBloc>(context)
         .add(ViewHindrancePageLoadEvent(context: context));
     super.initState();
@@ -30,7 +43,6 @@ class _ViewHindrancePageState extends State<ViewHindrancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<ViewHindranceBloc, ViewHindranceState>(
         builder: (context, state) {
           if (state is FetchViewHindranceDataState) {
@@ -58,7 +70,7 @@ class _ViewHindrancePageState extends State<ViewHindrancePage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
   Widget _searchTextField({required FetchViewHindranceDataState dataState}) {

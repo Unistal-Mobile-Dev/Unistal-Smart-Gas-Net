@@ -37,6 +37,7 @@ class AddLoweringHelper {
     }
   }
 
+
   static Future<dynamic> submitData(
       {required BuildContext context,
         required AlignmentModel alignmentData,
@@ -58,6 +59,13 @@ class AddLoweringHelper {
       required String makeModel,
       required String testVoltage,
       required String calibarationDate,
+      required String dewatering,
+      required String lowerPadding,
+      required String paddingMaterial,
+      required String lowerClearance,
+      required String lowerPipebook,
+      required String nightCapTest,
+      required String padding,
       required String repairOfCoatingDamage,
       required String length,
       required ThicknessModel thicknessData,
@@ -91,13 +99,6 @@ class AddLoweringHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "holiday_test":
-            holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
-        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "from_joint_id":
-            fromJointData.id != null ? fromJointData.id.toString() : "",
-        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "post_padding": postPadding,
         "location": locationName,
         "make_model": makeModel,
@@ -106,17 +107,27 @@ class AddLoweringHelper {
         "holiday_detector": holidayDetectorDetail,
         "coating_damage_repair": repairOfCoatingDamage,
         "calibaration_done_date": calibarationDate,
+        "dewatering": dewatering,
+        "lower_padding": lowerPadding,
+        "padding_material": paddingMaterial,
+        "lower_clearance": lowerClearance,
+        "lower_pipebook": lowerPipebook,
+        "nightcap_test": nightCapTest,
+        "padding": padding,
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "holiday_test": holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
+        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "from_joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "pipe_thickness_id":
-            thicknessData.id != null ? thicknessData.id.toString() : "",
+        "pipe_thickness_id": thicknessData.id != null ? thicknessData.id.toString() : "",
         "pipe_dia_id": pipeDiaData.id != null ? pipeDiaData.id.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

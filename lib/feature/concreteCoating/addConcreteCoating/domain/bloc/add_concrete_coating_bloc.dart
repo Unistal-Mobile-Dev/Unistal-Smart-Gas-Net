@@ -29,6 +29,7 @@ class AddConcreteCoatingBloc
   bool get isLoader => _isLoader;
 
   TextEditingController dateController = TextEditingController();
+  TextEditingController reportNumberController = TextEditingController();
   TextEditingController concreteCoatingLengthController =
       TextEditingController();
   TextEditingController chainageController = TextEditingController();
@@ -95,6 +96,7 @@ class AddConcreteCoatingBloc
 
     _isLoader = false;
     dateController.text = "";
+    reportNumberController.text = "";
     concreteCoatingLengthController.text = "";
     activityRemarkController.text = "";
     chainageController.text = "";
@@ -212,6 +214,7 @@ class AddConcreteCoatingBloc
         multipleAlignmentData: multipleAlignmentData,
         concreteCoatingLength: concreteCoatingLengthController.text.toString(),
         date: dateController.text.toString(),
+        reportNumber: reportNumberController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         chainage: chainageController.text.toString(),
         pipeData: pipeData,
@@ -227,6 +230,7 @@ class AddConcreteCoatingBloc
       multipleAlignmentData = [];
       _isLoader = false;
       dateController.text = "";
+      reportNumberController.text = "";
       activityRemarkController.text = "";
       concreteCoatingLengthController.text = "";
       chainageController.text = "";
@@ -245,6 +249,7 @@ class AddConcreteCoatingBloc
       isLoader: isLoader,
       alignmentList: alignmentList,
       dateController: dateController,
+      reportNumberController: reportNumberController,
       activityRemarkController: activityRemarkController,
       concreteCoatingLengthController: concreteCoatingLengthController,
       chainageController: chainageController,

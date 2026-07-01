@@ -7,6 +7,7 @@ class LogoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).colorScheme.onSurface;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
@@ -20,6 +21,7 @@ class LogoutWidget extends StatelessWidget {
             AppString.logout + "?",
             fontWeight: FontWeight.w600,
             fontSize: AppFont.font_22,
+            color: textColor,
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
@@ -27,7 +29,7 @@ class LogoutWidget extends StatelessWidget {
           TextWidget(
             AppString.logoutMessage,
             textAlign: TextAlign.center,
-            color: AppColor.black,
+            color: textColor,
             fontSize: AppFont.font_14,
           ),
           SizedBox(
@@ -48,7 +50,7 @@ class LogoutWidget extends StatelessWidget {
           ),
           ButtonWidget(
               text: AppString.cancel,
-              backgroundColor: AppColor.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               isSideBoard: true,
               onPressed: () {
                 Navigator.of(context).pop();

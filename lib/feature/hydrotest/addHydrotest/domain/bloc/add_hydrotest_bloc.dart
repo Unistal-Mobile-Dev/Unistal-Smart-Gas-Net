@@ -37,7 +37,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
   JointNumberModel toJointData = JointNumberModel();
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
-  List<FileModel> fileList = [];
+  List<ImageRequestObject> fileList = [];
   WeatherModel weatherData = WeatherModel();
 
   LoginDataModel _userData = LoginDataModel();
@@ -92,16 +92,12 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
       alignmentList = res;
     }
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-      type: "afterndtrt",
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          :"afterwelding",
     );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
@@ -147,14 +143,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -182,12 +171,12 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     if (event.mediaType == 1) {
       var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
       if (photo != null) {
-        fileList[event.index].file = photo;
+        fileList[event.index].path = photo;
       }
     } else {
       var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
       if (photo != null) {
-        fileList[event.index].file = photo;
+        fileList[event.index].path = photo;
       }
     }
     Navigator.pop(!event.context.mounted ? event.context : event.context);
@@ -201,7 +190,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     var photo = await DashboardHelper.cameraCapture();
 
     if (photo != null) {
-      fileList[event.index].file = photo;
+      fileList[event.index].path = photo.path.toString();
     }
     isLoader = false;
     _eventComplete(emit);
@@ -213,7 +202,7 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     var photo = await DashboardHelper.galleryCapture();
 
     if (photo != null) {
-      fileList[event.index].file = photo;
+      fileList[event.index].path = photo.path.toString();
       _eventComplete(emit);
     }
     isLoader = false;

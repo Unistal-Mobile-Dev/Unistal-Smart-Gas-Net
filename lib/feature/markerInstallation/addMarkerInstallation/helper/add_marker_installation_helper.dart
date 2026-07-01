@@ -50,8 +50,8 @@ class AddMarkerInstallationHelper {
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "description": description,
-        "chainage": chainage,
+        "description": description.isNotEmpty ?  description :"",
+        "chainage": chainage.isNotEmpty ?  chainage :"0",
         "marker_type": markerTypeDataValue.id.toString(),
         "activity_remarks": activityRemark,
         "section_id": userData.sectionId.toString(),
@@ -61,9 +61,8 @@ class AddMarkerInstallationHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

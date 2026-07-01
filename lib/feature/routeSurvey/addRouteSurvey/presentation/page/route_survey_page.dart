@@ -6,7 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 
 class AddRouteSurveyPage extends StatefulWidget {
   const AddRouteSurveyPage({super.key});
@@ -19,26 +19,27 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   late final AddRouteSurveyBloc _bloc;
   late final Client _client;
 
-  bool get _isVppl => _client == Client.vppl;
-  bool get _isUrjagati => _client == Client.urjagati;
-  bool get _isVpplOrUrjagati => _isVppl || _isUrjagati;
-  bool get _showTpFromField => !_isVpplOrUrjagati;
-  bool get _showMglFields => _client != Client.mgl;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
 
   @override
   void initState() {
     super.initState();
-
-    _bloc = context.read<AddRouteSurveyBloc>();
     _client = AppConfig.instanceInit()!.client!;
 
+    _bloc = context.read<AddRouteSurveyBloc>();
     _bloc.add(AddRouteSurveyPageLoadEvent(context: context));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddRouteSurveyBloc, AddRouteSurveyState>(
         builder: (_, state) {
           if (state is! FetchAddRouteSurveyDataState) {
@@ -47,80 +48,76 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
             );
           }
 
-          return _buildBody(state);
+          return _itemBuilder(dataState: state);
         },
       ),
     );
   }
 
-  Widget _buildBody(FetchAddRouteSurveyDataState state) {
+  Widget _itemBuilder({required FetchAddRouteSurveyDataState dataState}) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(12),
       child: Column(
         children: [
-          _space,
-          _dateField(state),
-          _space,
-          _reportNumberField(state),
-          _space,
-          _alignmentDropdown(state),
-          _space,
-          _weatherDropdown(state),
-          _space,
-          _chainageFromField(state),
-          _space,
-          _chainageToField(state),
-          _space,
-          _lengthField(state),
-          _space,
-          _groundTypeDropdown(state),
-          _space,
-          if (_showTpFromField || _isUrjagati) ...[
-            _tpFromField(state),
-            _space,
+          _verticalSpace(),
+          if(_isVPPL || _isVRPL || _isBJPL)...[
+            _formatNoField(),
+            _verticalSpace(),
           ],
-          _tpNosField(state),
+          _dateField(dataState:dataState),
+          _verticalSpace(),
+          _reportNumberField(dataState:dataState),
+          _verticalSpace(),
+          _alignmentDropdown(dataState:dataState),
+          _verticalSpace(),
+          _weatherDropdown(dataState:dataState),
+          _verticalSpace(),
+          _chainageFromField(dataState:dataState),
+          _verticalSpace(),
+          _chainageToField(dataState:dataState),
+          _verticalSpace(),
+          _lengthField(dataState:dataState),
+          _verticalSpace(),
+          _groundTypeDropdown(dataState:dataState),
+          _verticalSpace(),
+          if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL) ) ...[
+            _tpFromField(dataState:dataState),
+            _verticalSpace(),
+          ],
+          _tpNosField(dataState:dataState),
 
-          _space,
+          _verticalSpace(),
 
-          if (_showMglFields) ...[
-            _bearingField(state),
-            _space,
-
-            if (!_isVpplOrUrjagati ) ...[
-              _terrainField(state),
-              _space,
+          if (!(_isMGL)) ...[
+            _bearingField(dataState:dataState),
+            _verticalSpace(),
+            if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL) ) ...[
+              _terrainField(dataState:dataState),
+              _verticalSpace(),
             ],
           ],
-          _buildStructureSection(state),
-          _space,
-          _activityRemarkField(state),
-          _space,
-
-          _photo(dataState: state),
-          _space,
-          _space,
-          _button(dataState: state),
+          if (!(_isVPPL || _isHPCL || _isHPOIL)) ...[
+            _buildStructureSection(dataState:dataState),
+            _verticalSpace(),
+          ],
+          _activityRemarkField(dataState:dataState),
+          _verticalSpace(),
+          _photo(dataState: dataState),
+          _verticalSpace(),
+          _verticalSpace(),
+          _button(dataState: dataState),
         ],
       ),
     );
   }
 
-  Widget get _space => SizedBox(
-    height: MediaQuery.of(context).size.height * 0.02,
-  );
-
-  // ---------------------------------------------------------------------------
-  // TEXTFIELDS
-  // ---------------------------------------------------------------------------
-
-  Widget _dateField(FetchAddRouteSurveyDataState state) {
+  Widget _dateField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: true,
       readOnly: true,
       labelText: AppString.date,
-      controller: state.dateController,
+      controller: dataState.dateController,
       onTap: () {
         _bloc.add(
           AddRouteSurveySelectDateEvent(context: context),
@@ -129,56 +126,65 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _reportNumberField(FetchAddRouteSurveyDataState state) {
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
+
+  Widget _reportNumberField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
-      controller: state.reportNumberController,
+      controller: dataState.reportNumberController,
     );
   }
 
-  Widget _tpFromField(FetchAddRouteSurveyDataState state) {
+  Widget _tpFromField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isUrjagati ? TextInputType.number: TextInputType.text,
-      labelText: _isUrjagati ? "IP/TP No." : AppString.tpFrom,
-      controller: state.tpChainageController,
+      textInputType: _isURJAGATI || _isGJPL ? TextInputType.number: TextInputType.text,
+      labelText: _isURJAGATI || _isGJPL ? "IP/TP No." : AppString.tpFrom,
+      controller: dataState.tpChainageController,
     );
   }
 
-  Widget _tpNosField(FetchAddRouteSurveyDataState state) {
+  Widget _tpNosField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isVppl ? TextInputType.text : TextInputType.number,
-      labelText: _isVppl
+      textInputType: _isVPPL || _isHPCL || _isHPOIL ? TextInputType.text : TextInputType.number,
+      labelText: _isVPPL || _isHPCL || _isHPOIL
           ? "Markers for IP Nos./TP Nos."
-          : _isUrjagati ? "IP/TP Chainage" : AppString.tpTo,
-      controller: state.tpChainageNumberController,
+          : _isURJAGATI || _isGJPL ? "IP/TP Chainage" : AppString.tpTo,
+      controller: dataState.tpChainageNumberController,
     );
   }
 
 
-  Widget _bearingField(FetchAddRouteSurveyDataState state) {
+  Widget _bearingField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isVppl ? TextInputType.text : TextInputType.number,
-      labelText: _isVppl
+      textInputType: _isVPPL || _isHPCL || _isHPOIL ? TextInputType.text : TextInputType.number,
+      labelText: _isVPPL || _isHPCL || _isHPOIL
           ? "Details of Structure In/Across ROU Such as P/L, HT Crossings"
           : AppString.bearingAngle,
-      controller: state.bearingAngleController,
+      controller: dataState.bearingAngleController,
     );
   }
 
-  Widget _terrainField(FetchAddRouteSurveyDataState state) {
+  Widget _terrainField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.terrain,
-      controller: state.terrainController,
+      controller: dataState.terrainController,
     );
   }
 
-  Widget _chainageFromField(FetchAddRouteSurveyDataState state) {
+  Widget _chainageFromField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
-      controller: state.chainageFromController,
+      controller: dataState.chainageFromController,
       onChanged: (value) {
         _bloc.add(
           CalculateLengthEvent(
@@ -191,12 +197,12 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _chainageToField(FetchAddRouteSurveyDataState state) {
+  Widget _chainageToField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.chainageTo,
-      controller: state.chainageToController,
+      controller: dataState.chainageToController,
       onChanged: (value) {
         _bloc.add(
           CalculateLengthEvent(
@@ -209,21 +215,21 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _lengthField(FetchAddRouteSurveyDataState state) {
+  Widget _lengthField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
       isRequired: true,
       textInputType: TextInputType.number,
       labelText: AppString.length,
-      controller: state.lengthController,
+      controller: dataState.lengthController,
     );
   }
 
-  Widget _activityRemarkField(FetchAddRouteSurveyDataState state) {
+  Widget _activityRemarkField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       maxLine: 3,
       labelText: AppString.activityRemark,
-      controller: state.activityRemarkController,
+      controller: dataState.activityRemarkController,
     );
   }
 
@@ -231,12 +237,12 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   // DROPDOWNS
   // ---------------------------------------------------------------------------
 
-  Widget _alignmentDropdown(FetchAddRouteSurveyDataState state) {
+  Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
     return DropDownSearchMultiSelectWidget(
       isRequired: true,
-      selectedItem: state.multipleAlignmentData,
+      selectedItem: dataState.multipleAlignmentData,
       hint: AppString.selectAlignment,
-      items: state.alignmentList,
+      items: dataState.alignmentList,
       itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
       onChanged: (value) {
         _bloc.add(
@@ -248,13 +254,13 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _weatherDropdown(FetchAddRouteSurveyDataState state) {
+  Widget _weatherDropdown({required FetchAddRouteSurveyDataState dataState}) {
     return DropdownWidget<WeatherModel>(
       isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
-      state.weatherData.id != null ? state.weatherData : null,
-      items: state.weatherList,
+      dataState.weatherData.id != null ? dataState.weatherData : null,
+      items: dataState.weatherList,
       onChanged: (value) {
         if (value == null) return;
 
@@ -265,12 +271,12 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _groundTypeDropdown(FetchAddRouteSurveyDataState state) {
+  Widget _groundTypeDropdown({required FetchAddRouteSurveyDataState dataState}) {
     return DropdownWidget<GroundTypeModel>(
-      hint: _isUrjagati ? AppString.terrain : AppString.selectGroundType,
+      hint: _isURJAGATI || _isGJPL ? AppString.terrain : AppString.selectGroundType,
       dropdownValue:
-      state.groundTypeData.id != null ? state.groundTypeData : null,
-      items: state.groundTypeList,
+      dataState.groundTypeData.id != null ? dataState.groundTypeData : null,
+      items: dataState.groundTypeList,
       onChanged: (value) {
         if (value == null) return;
 
@@ -283,132 +289,18 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
     );
   }
 
-  Widget _photo({required FetchAddRouteSurveyDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withValues(alpha: 0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+  Widget _photo({required FetchAddRouteSurveyDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () => _bloc.add(AddRouteSurveyAddImageEvent(context: context, mediaType: 1)),
+        onGallery: () => _bloc.add(AddRouteSurveyAddImageEvent(context: context, mediaType: 2)),
       ),
     );
   }
 
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddRouteSurveyBloc>(context).add(
-                        AddRouteSurveyAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddRouteSurveyBloc>(context).add(
-                        AddRouteSurveyAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _button({required FetchAddRouteSurveyDataState dataState}) {
+  Widget _button( {required FetchAddRouteSurveyDataState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
             text: AppString.submit,
@@ -423,41 +315,45 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
         : const DottedLoaderWidget();
   }
 
-  Widget _buildStructureSection(FetchAddRouteSurveyDataState state) {
+  Widget _buildStructureSection({required FetchAddRouteSurveyDataState dataState}) {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: DottedBorderWidget(
         title: "Details of Structure",
         children: [
-          _nameStructureField(state: state),
-          _space,
-          _chainageField(state: state),
-          _space,
-          _detailField(state: state),
+          _nameStructureField(dataState: dataState),
+          _verticalSpace(),
+          _chainageField(dataState: dataState),
+          _verticalSpace(),
+          _detailField(dataState: dataState),
         ],
       ),
     );
   }
 
-  Widget _nameStructureField({required FetchAddRouteSurveyDataState state}) {
+  Widget _nameStructureField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       labelText: "Name of Structure",
-      controller: state.structureController,
+      controller: dataState.structureController,
     );
   }
-  Widget _chainageField({required FetchAddRouteSurveyDataState state}) {
+  Widget _chainageField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       labelText: "Chainage",
       textInputType: TextInputType.number,
-      controller: state.chainageController,
+      controller: dataState.chainageController,
     );
   }
-  Widget _detailField({required FetchAddRouteSurveyDataState state}) {
+  Widget _detailField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
       labelText: "Detail",
-      controller: state.detailController,
+      controller: dataState.detailController,
     );
   }
 
-
+  Widget _verticalSpace() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.009,
+    );
+  }
 }

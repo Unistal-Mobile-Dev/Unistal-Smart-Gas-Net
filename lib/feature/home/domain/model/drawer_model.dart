@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'ActivitySectionModel.dart';
+
 class DrawerModel {
   Widget widget;
   String label;
@@ -27,9 +29,10 @@ class DrawerSubModel {
   bool? isSelected;
   Widget widget;
   Widget? actionButtonWidget;
+  ActivitySectionData activityData;
 
   DrawerSubModel(
-      {this.label, this.isSelected, required this.widget, this.actionButtonWidget});
+      {this.label, this.isSelected, required this.widget, this.actionButtonWidget, required  this.activityData,});
 }
 
 

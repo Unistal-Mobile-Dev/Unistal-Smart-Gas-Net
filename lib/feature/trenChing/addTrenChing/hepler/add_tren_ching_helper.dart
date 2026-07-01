@@ -79,6 +79,9 @@ class AddTrenChingHelper {
     required String availabilityOfMimimumCover,
     required String separationOfArableSoil,
     required String suitabilityOfTrenchProfileForBends,
+    required String provisionOfWarningSignsSafetySigns,
+    required String verificationOfMinimumDepth,
+    required String seismicZoneAndCover,
     required String chainageFromSingle,
     required String chainageToSingle,
   }) async {
@@ -105,12 +108,15 @@ class AddTrenChingHelper {
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
         "top_width": toWidth,
-        "ip_from": ipFrom,
-        "ip_to": ipTo,
+        "ip_from": ipFrom.isNotEmpty ? ipFrom : "0",
+        "ip_to": ipTo.isNotEmpty ? ipTo : "0",
         "details_of_structure": detailsOfStructure,
         "availability_of_mimimum_cover": availabilityOfMimimumCover,
         "separation_of_arable_soil": separationOfArableSoil,
         "suitability_of_trench_profile_for_bends": suitabilityOfTrenchProfileForBends,
+        "provision_of_warning_signs_safety_signs": provisionOfWarningSignsSafetySigns,
+        "verification_of_minimum_depth": verificationOfMinimumDepth,
+        "seismic_zone_and_cover_requirements": seismicZoneAndCover,
         "chainage_from_single": chainageFromSingle,
         "chainage_to_single": chainageToSingle,
         "from_joint_id": jointNumberFromModel.id != null ? jointNumberFromModel.id.toString() : "",
@@ -120,16 +126,14 @@ class AddTrenChingHelper {
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
-        // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

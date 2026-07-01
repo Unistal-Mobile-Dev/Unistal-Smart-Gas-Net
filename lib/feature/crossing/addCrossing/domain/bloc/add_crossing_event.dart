@@ -143,18 +143,6 @@ class AddCrossingSelectToJointDataEvent extends AddCrossingEvent {
   @override
   List<Object?> get props => [jointNumberData];
 }
-
-class AddCrossingAddImageEvent extends AddCrossingEvent {
-  final BuildContext context;
-  final int mediaType;
-
-  const AddCrossingAddImageEvent(
-      {required this.context, required this.mediaType});
-
-  @override
-  List<Object?> get props => [context, mediaType];
-}
-
 class SelectWeatherEvent extends AddCrossingEvent {
   final WeatherModel weatherData;
 
@@ -190,3 +178,84 @@ class AddCrossingSubmitDataEvent extends AddCrossingEvent {
   @override
   List<Object?> get props => [context];
 }
+
+class AddCrossingAddImageEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingAddImageEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingStageInspectionEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingStageInspectionEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingPreHydrotestEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingPreHydrotestEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingRestorationEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingRestorationEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingPhotoBeforeEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingPhotoBeforeEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingPhotoAfterEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingPhotoAfterEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingVideoBeforeEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingVideoBeforeEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddCrossingVideoAfterEvent extends AddCrossingEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const AddCrossingVideoAfterEvent({required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+

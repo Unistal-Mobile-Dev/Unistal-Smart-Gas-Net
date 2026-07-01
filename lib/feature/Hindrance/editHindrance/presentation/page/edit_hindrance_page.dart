@@ -18,8 +18,21 @@ class EditHindrancePage extends StatefulWidget {
 class _EditHindrancePageState extends State<EditHindrancePage> {
 
   bool hindranceStatus = AppConfig.instanceInit()?.hindranceListData.status == "Close";
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<EditHindranceBloc>(context)
         .add(EditHindrancePageLoadEvent(context: context));
     super.initState();
@@ -28,7 +41,6 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
         foregroundColor: AppColor.white,
@@ -90,6 +102,10 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
                 child: Column(
                   children: [
                     _verticalSpace(),
+                    if(_isVPPL  ||_isVRPL || _isBJPL)...[
+                      _formatNoField(),
+                      _verticalSpace(),
+                    ],
                     _dateController(dataState: dataState),
                     _verticalSpace(),
                     _reportNumberController(dataState: dataState),
@@ -129,6 +145,14 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
     );
   }
 
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
   Widget _dateController({required FetchEditHindranceDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -306,7 +330,7 @@ class _EditHindrancePageState extends State<EditHindrancePage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
   Widget _logoContainer(String? url) {

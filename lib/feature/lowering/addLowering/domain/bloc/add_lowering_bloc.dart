@@ -2,10 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
@@ -30,11 +34,11 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   TextEditingController chainageToController = TextEditingController();
   TextEditingController modelController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  TextEditingController holidayDetectorDetailsController =
-      TextEditingController();
+  TextEditingController holidayDetectorDetailsController = TextEditingController();
   TextEditingController testVoltageController = TextEditingController();
   TextEditingController repairCoatingController = TextEditingController();
   TextEditingController postPaddingController = TextEditingController();
+  TextEditingController postPaddingCtrl = TextEditingController();
   TextEditingController lengthController = TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
@@ -66,6 +70,20 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   List<PipeDiaModel> pipeDiaList = [];
   PipeDiaModel pipeDiaData = PipeDiaModel();
 
+  TerrainTypeModel dewateringValue = TerrainTypeModel();
+  TerrainTypeModel paddingValue = TerrainTypeModel();
+  TerrainTypeModel paddingMaterialValue = TerrainTypeModel();
+  TerrainTypeModel loweringClearanceValue = TerrainTypeModel();
+  TerrainTypeModel approvedPipeValue = TerrainTypeModel();
+  TerrainTypeModel nightCapValue = TerrainTypeModel();
+
+  List<TerrainTypeModel> listOfDewatering = [];
+  List<TerrainTypeModel> listOfPadding = [];
+  List<TerrainTypeModel> listOfPaddingMaterial = [];
+  List<TerrainTypeModel> listOfLoweringClearance = [];
+  List<TerrainTypeModel> listOfApprovedPipe = [];
+  List<TerrainTypeModel> listOfNightCap = [];
+
   AddLoweringBloc() : super(AddLoweringInitial()) {
     on<AddLoweringPageLoadEvent>(_pageLoader);
     on<SelectWeatherEvent>(_selectWeather);
@@ -80,6 +98,12 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     on<AddLoweringSelectPipeDiaDataEvent>(_selectPipeDia);
     on<AddLoweringSelectThicknessDataEvent>(_selectThickness);
     on<AddLoweringCalibarationDataEvent>(_selectCabilabrationData);
+    on<AddLoweringSelectDewateringEvent>(_selectDewatering);
+    on<AddLoweringSelectPaddingEvent>(_selectPadding);
+    on<AddLoweringSelectPaddingMaterialEvent>(_selectPaddingMaterial);
+    on<AddLoweringSelectLoweringClearanceEvent>(_selectLoweringClearance);
+    on<AddLoweringSelectApprovedPipeEvent>(_selectApprovedPipe);
+    on<AddLoweringSelectNightCapEvent>(_selectNightCap);
     on<AddLoweringAddImageEvent>(_selectFile);
     on<AddLoweringSubmitDataEvent>(_submitData);
   }
@@ -98,6 +122,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     testVoltageController.text = "";
     repairCoatingController.text = "";
     postPaddingController.text = "";
+    postPaddingCtrl.text = "";
     lengthController.text = "";
     holidayCheckList = [];
     jointFromList = [];
@@ -119,6 +144,19 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     pipeDiaData = PipeDiaModel();
     pipeDiaList = [];
     weatherData = WeatherModel();
+    dewateringValue = TerrainTypeModel();
+    paddingValue = TerrainTypeModel();
+    paddingMaterialValue = TerrainTypeModel();
+    loweringClearanceValue = TerrainTypeModel();
+    approvedPipeValue = TerrainTypeModel();
+    nightCapValue = TerrainTypeModel();
+    listOfDewatering=  [];
+    listOfPadding = [];
+    listOfPaddingMaterial = [];
+     listOfLoweringClearance = [];
+    listOfApprovedPipe = [];
+    listOfNightCap = [];
+
     _userData = UserInfo.instanceInit()!.userData!;
     weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
@@ -129,29 +167,22 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     if (res != null) {
       alignmentList = res;
     }
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
 
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        jointTypeData: jointTypeData,
-      type: "afterndtrt",
-    );
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
+    listOfDewatering        = await AddClearingGradingHelper.fetchConstantData("DEWATERING");
+    listOfPadding           = await AddClearingGradingHelper.fetchConstantData("LOWER_PADDING");
+    listOfPaddingMaterial   = await AddClearingGradingHelper.fetchConstantData("PADDING_MATERIAL");
+    listOfLoweringClearance = await AddClearingGradingHelper.fetchConstantData("LOWERING_CLEARANCE");
+    listOfApprovedPipe      = await AddClearingGradingHelper.fetchConstantData("LOWER_PIPEBOOK");
+    listOfNightCap          = await AddClearingGradingHelper.fetchConstantData("NIGHTCAP_TEST");
 
 
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-      type: "welding",);
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          :"afterndtrt",);
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
@@ -239,14 +270,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -276,6 +300,37 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
 
   _selectThickness(AddLoweringSelectThicknessDataEvent event, emit) {
     thicknessData = event.thicknessData;
+    _eventComplete(emit);
+  }
+
+   _selectDewatering(AddLoweringSelectDewateringEvent event, emit) {
+     dewateringValue = event.dewateringValue;
+     _eventComplete(emit);
+  }
+
+ _selectPadding(AddLoweringSelectPaddingEvent event, emit) {
+   paddingValue = event.paddingValue;
+   _eventComplete(emit);
+  }
+
+  _selectPaddingMaterial(AddLoweringSelectPaddingMaterialEvent event, emit) {
+    paddingMaterialValue = event.paddingMaterialValue;
+    _eventComplete(emit);
+  }
+
+ _selectLoweringClearance(AddLoweringSelectLoweringClearanceEvent event, emit) {
+   loweringClearanceValue = event.loweringClearanceValue;
+   _eventComplete(emit);
+  }
+
+  _selectApprovedPipe(AddLoweringSelectApprovedPipeEvent event, emit) {
+    approvedPipeValue = event.approvedPipeValue;
+    _eventComplete(emit);
+  }
+
+
+  _selectNightCap(AddLoweringSelectNightCapEvent event,emit) {
+    nightCapValue = event.nightCapValue;
     _eventComplete(emit);
   }
 
@@ -342,6 +397,13 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       testVoltage: testVoltageController.text.toString(),
       pipeDiaData: pipeDiaData,
       thicknessData: thicknessData,
+      dewatering: dewateringValue.id.toString().isNotEmpty? dewateringValue.id.toString() : "",
+      lowerClearance: loweringClearanceValue.id.toString().isNotEmpty? loweringClearanceValue.id.toString() : "",
+      lowerPadding: postPaddingCtrl.text.toString(),
+      lowerPipebook: approvedPipeValue.id.toString().isNotEmpty? approvedPipeValue.id.toString() : "",
+      nightCapTest: nightCapValue.id.toString().isNotEmpty? nightCapValue.id.toString() : "",
+      padding: paddingValue.id.toString().isNotEmpty? paddingValue.id.toString() : "",
+      paddingMaterial: paddingMaterialValue.id.toString().isNotEmpty? paddingMaterialValue.id.toString() : "",
     );
     isLoader = false;
     _eventComplete(emit);
@@ -352,6 +414,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       chainageFromController.text = "";
       chainageToController.text = "";
       postPaddingController.text = "";
+      postPaddingCtrl.text = "";
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       isLoader = false;
@@ -405,11 +468,25 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       repairCoatingController: repairCoatingController,
       testVoltageController: testVoltageController,
       postPaddingController: postPaddingController,
+      postPaddingCtrl: postPaddingCtrl,
       lengthController: lengthController,
       pipeDiaData: pipeDiaData,
       pipeDialList: pipeDiaList,
       thicknessData: thicknessData,
       thicknessList: thicknessList,
+      approvedPipeValue: approvedPipeValue,
+      listOfDewatering: listOfDewatering,
+      listOfApprovedPipe: listOfApprovedPipe,
+      listOfLoweringClearance: listOfLoweringClearance,
+      listOfPaddingMaterial: listOfPaddingMaterial,
+      listOfPadding: listOfPadding,
+      loweringClearanceValue: loweringClearanceValue,
+      paddingMaterialValue: paddingMaterialValue,
+      paddingValue: paddingValue,
+      dewateringValue: dewateringValue,
+      listOfNightCap: listOfNightCap,
+      nightCapValue: nightCapValue,
     ));
   }
+
 }

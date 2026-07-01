@@ -13,7 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 
 class AddCrossingPage extends StatefulWidget {
   const AddCrossingPage({super.key});
@@ -23,8 +23,21 @@ class AddCrossingPage extends StatefulWidget {
 }
 
 class _AddCrossingPageState extends State<AddCrossingPage> {
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddCrossingBloc>(context)
         .add(AddCrossingPageLoadEvent(context: context));
     super.initState();
@@ -33,7 +46,6 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddCrossingBloc, AddCrossingState>(
         builder: (context, state) {
           if (state is FetchAddCrossingDataState) {
@@ -55,6 +67,10 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -85,13 +101,40 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
+            if(_isVPPL)...[
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoStageInspection(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoPreHydrotest(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoRestoration(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoPhotoBefore(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoPhotoAfter(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoVideoBefore(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photoVideoAfter(dataState: dataState)),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.44, child: _photo(dataState: dataState)),
+                ],
+              ),
+            ],
+            if(!_isVPPL)...[
+              _photo(dataState: dataState)
+            ],
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -417,129 +460,107 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
       controller: dataState.activityRemarkController,
     );
   }
-
-  Widget _photo({required FetchAddCrossingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+  Widget _photoStageInspection({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Stage Inspection Report",
+      file: dataState.fileStageInspection,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingStageInspectionEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingStageInspectionEvent(context: context, mediaType: 2)),
       ),
     );
   }
 
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddCrossingBloc>(context).add(
-                        AddCrossingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddCrossingBloc>(context).add(
-                        AddCrossingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
+  Widget _photoPreHydrotest({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Pre-Hydrotest",
+      file: dataState.filePreHydrotest,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPreHydrotestEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPreHydrotestEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photoRestoration({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Restoration",
+      file: dataState.fileRestoration,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingRestorationEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingRestorationEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photoPhotoBefore({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Photo-Before",
+      file: dataState.filePhotoBefore,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPhotoBeforeEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPhotoBeforeEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photoPhotoAfter({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Photo-After",
+      file: dataState.filePhotoAfter,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPhotoAfterEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingPhotoAfterEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photoVideoBefore({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Video Before",
+      file: dataState.fileVideoBefore,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingVideoBeforeEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingVideoBeforeEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photoVideoAfter({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Video After",
+      file: dataState.fileVideoAfter,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingVideoAfterEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingVideoAfterEvent(context: context, mediaType: 2)),
+      ),
+    );
+  }
+
+  Widget _photo({required FetchAddCrossingDataState dataState}){
+    return PhotoUploadWidget(
+      title: "Attachment File",
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(context: context,
+        onCamera: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingAddImageEvent(context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddCrossingBloc>(context).add(
+            AddCrossingAddImageEvent(context: context, mediaType: 2)),
+      ),
     );
   }
 
@@ -560,7 +581,12 @@ class _AddCrossingPageState extends State<AddCrossingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
+    );
+  }
+  Widget _width() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.01,
     );
   }
 }

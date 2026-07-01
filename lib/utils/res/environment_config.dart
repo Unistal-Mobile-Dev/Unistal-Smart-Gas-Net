@@ -49,6 +49,10 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://pjpl.plcms.net/";
       case EnvironmentFlavours.prodUrjagati:
         return "https://urjagati.smartgasnet.com/";
+      case EnvironmentFlavours.prodHPCL:
+        return "https://hpcl.smartgasnet.com/";
+      case EnvironmentFlavours.prodBJPL:
+        return "https://bjpl.plcms.net/";
     }
   }
 
@@ -82,6 +86,10 @@ class EnvironmentConfig extends InheritedWidget {
         return Color(0xFFE04A1F);
       case EnvironmentFlavours.prodUrjagati:
         return Colors.blue.shade800;
+      case EnvironmentFlavours.prodHPCL:
+        return Color(0xFF1A237E);
+      case EnvironmentFlavours.prodBJPL:
+        return Color(0xFFF5C400);
     }
   }
 
@@ -115,6 +123,10 @@ class EnvironmentConfig extends InheritedWidget {
         return Color(0xFFE04A1F);
       case EnvironmentFlavours.prodUrjagati:
         return Colors.orange.shade800;
+      case EnvironmentFlavours.prodHPCL:
+        return Color(0xFFC62828);
+      case EnvironmentFlavours.prodBJPL:
+        return Color(0xFFF5C400);
     }
   }
 }
@@ -130,8 +142,10 @@ enum EnvironmentFlavours {
   prodGJPL,
   prodJDPL,
   prodBCPL,
+  prodBJPL,
   prodAGCL,
   prodDBPL,
   prodPJPL,
   prodUrjagati,
+  prodHPCL,
 }

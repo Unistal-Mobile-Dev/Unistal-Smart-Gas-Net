@@ -142,15 +142,12 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       alignmentList = res;
     }
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-      type: "afterwelding",
+      type: AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          :"afterwelding",
     );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
@@ -197,13 +194,7 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointNumberList = resJointNumber;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

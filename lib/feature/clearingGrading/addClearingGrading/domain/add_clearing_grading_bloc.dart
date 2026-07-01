@@ -239,6 +239,7 @@ class AddClearingGradingBloc
       groundType: AppConfig.instanceInit()!.client == Client.vppl
           || AppConfig.instanceInit()!.client == Client.urjagati
           || AppConfig.instanceInit()!.client == Client.vrpl
+          || AppConfig.instanceInit()!.client == Client.bjpl
           || AppConfig.instanceInit()!.client == Client.jdpl
           || AppConfig.instanceInit()!.client == Client.gjpl
           || AppConfig.instanceInit()!.client == Client.bcpl

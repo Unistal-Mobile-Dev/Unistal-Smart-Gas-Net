@@ -26,7 +26,7 @@ class TextWidget extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.start,
       maxLines: maxLines,
       style: TextStyle(
-        color: color ?? Colors.black,
+        color: color ?? Theme.of(context).colorScheme.onSurface,
         fontSize: fontSize ?? AppFont.font_14,
         fontWeight: fontWeight ?? FontWeight.w400,
         decoration: textDecoration ?? TextDecoration.none,

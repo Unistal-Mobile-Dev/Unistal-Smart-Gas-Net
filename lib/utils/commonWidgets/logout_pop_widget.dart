@@ -22,7 +22,7 @@ class LogOutPopWidget extends StatelessWidget {
               _closeButton(context: context),
               _centerImage(context: context),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.009,
               ),
               _text(context: context),
               SizedBox(
@@ -30,7 +30,7 @@ class LogOutPopWidget extends StatelessWidget {
               ),
               _logOutButton(context: context),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.009,
               ),
               _cancelButton(context: context)
             ],
@@ -55,7 +55,7 @@ class LogOutPopWidget extends StatelessWidget {
     return TextWidget(
       logOutMessage == null ? "Do you want logout?" : logOutMessage.toString(),
       textAlign: TextAlign.center,
-      color: AppColor.black,
+      color: Theme.of(context).colorScheme.onSurface,
       fontWeight: FontWeight.w500,
       fontSize: AppFont.font_16,
     );
@@ -101,7 +101,7 @@ class LogOutPopWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             fontSize: AppFont.font_16,
             fontWeight: FontWeight.w400,
-            color: AppColor.grey,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
         onPressed: () => Navigator.pop(context));
@@ -113,7 +113,7 @@ class LogOutPopWidget extends StatelessWidget {
       child: IconButton(
         icon: Icon(
           Icons.close,
-          color: AppColor.grey,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
         onPressed: () {
           Navigator.pop(context);

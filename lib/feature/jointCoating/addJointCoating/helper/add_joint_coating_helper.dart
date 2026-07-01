@@ -147,7 +147,7 @@ class AddJointCoatingHelper {
             holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
         "visuals":
         visualChecksData.id != null ? visualChecksData.id.toString() : "",
-        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "0",
         "location": locationName.toString(),
         "primer_a_batch": primaryAbatch.toString(),
         "primer_b_batch": primaryBbatch.toString(),
@@ -169,9 +169,8 @@ class AddJointCoatingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

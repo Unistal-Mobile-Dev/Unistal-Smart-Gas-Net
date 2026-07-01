@@ -81,6 +81,7 @@ class AddNdtAutHelper {
         required AlignmentModel alignmentData,
         required List<AlignmentModel> multipleAlignmentData,
       required String date,
+      required String reportNumber,
       required String activityRemark,
       required WeatherModel weatherData,
       required LoginDataModel userData,
@@ -121,6 +122,7 @@ class AddNdtAutHelper {
 
       String url = APIs.addNdtAutApi;
       dynamic json = {
+        "report_no": reportNumber.toString(),
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
@@ -159,9 +161,8 @@ class AddNdtAutHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

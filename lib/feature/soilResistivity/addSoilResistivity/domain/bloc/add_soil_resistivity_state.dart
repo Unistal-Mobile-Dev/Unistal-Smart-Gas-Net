@@ -19,6 +19,10 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
+  final TextEditingController depthController;
+  final TextEditingController readingController;
+  final TextEditingController multiplierController;
+  final TextEditingController resisitivityController;
   final TextEditingController tpChainageController;
   final TextEditingController tpChainageNumberController;
   final TextEditingController tpRemarkNumberController;
@@ -51,6 +55,10 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.depthController,
+    required this.readingController,
+    required this.multiplierController,
+    required this.resisitivityController,
   });
 
   @override
@@ -66,11 +74,15 @@ class FetchAddSoilResistivityDataState extends AddSoilResistivityInitial {
         tpChainageNumberController,
         tpRemarkNumberController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
         chainageFromController,
         chainageToController,
+        depthController,
+        readingController,
+        multiplierController,
+        resisitivityController,
       ];
 }

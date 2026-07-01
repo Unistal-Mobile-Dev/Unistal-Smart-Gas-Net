@@ -14,7 +14,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 
 class AddJointCoatingPage extends StatefulWidget {
   const AddJointCoatingPage({super.key});
@@ -24,21 +24,22 @@ class AddJointCoatingPage extends StatefulWidget {
 }
 
 class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
+  late final Client _client;
 
-  final client = AppConfig.instanceInit()!.client;
-
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl= false;
-  late bool isUrjagati= false;
-  late bool isMgl= false;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL;
 
   @override
   void initState() {
-
-    isVppl = client == Client.vppl;
-    isUrjagati =  client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    isMgl = client == Client.mgl;
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddJointCoatingBloc>(context)
         .add(AddJointCoatingPageLoadEvent(context: context));
     super.initState();
@@ -49,7 +50,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddJointCoatingBloc, AddJointCoatingState>(
         builder: (context, state) {
           if (state is FetchAddJointCoatingDataState) {
@@ -71,6 +71,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -78,10 +82,12 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            // _verticalSpace(),
-            // _sleeveTypeDropDown(dataState: dataState),
+            if(_isHPCL || _isHPOIL || _isVPPL || _isVRPL) ...[
+              _verticalSpace(),
+              _sleeveTypeDropDown(dataState: dataState),
+            ],
             _verticalSpace(),
-            if(isUrjagati)...[
+            if(_isURJAGATI || _isGJPL)...[
               _chainageFromController(dataState: dataState),
               _verticalSpace(),
             ]else...[
@@ -97,7 +103,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _batchNoController(dataState: dataState),
             _verticalSpace(),
             _locatinController(dataState: dataState),
-            if(!isVppl)...[
+            if(!_isVPPL)...[
               _verticalSpace(),
               _thicknessDropDown(dataState: dataState),
 
@@ -105,7 +111,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-           isUrjagati? _surfaceDropDown(dataState: dataState) : _surfaceController(dataState: dataState) ,
+           _isURJAGATI || _isGJPL ? _surfaceDropDown(dataState: dataState) : _surfaceController(dataState: dataState) ,
             _verticalSpace(),
             _holidayTestNoController(dataState: dataState),
             _verticalSpace(),
@@ -113,7 +119,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _visualChecksDropDown(dataState: dataState),
             _verticalSpace(),
-            if(!isVpplOrUrjagati)...[
+            if (!_isAllClient || _isVPPL || _isVRPL) ...[
               _digitalPyrometerDetailsController(dataState: dataState),
               _verticalSpace(),
               _profileGaugeDetailsController(dataState: dataState),
@@ -134,6 +140,15 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -164,7 +179,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _onWeldController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati? "On Weld Bead":AppString.onWeld,
+      labelText: _isURJAGATI || _isGJPL ? "On Weld Bead":AppString.onWeld,
       controller: dataState.onWeldController,
     );
   }
@@ -265,9 +280,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _peelTestDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget<PaddingModel>(
-      hint: isUrjagati ? "Peel Test": AppString.selectPeelTest,
-      dropdownValue:
-          dataState.peelTestData.id != null ? dataState.peelTestData : null,
+      hint: _isURJAGATI || _isGJPL ? "Peel Test": AppString.selectPeelTest,
+      dropdownValue: dataState.peelTestData.id != null ? dataState.peelTestData : null,
       onChanged: (value) {
         BlocProvider.of<AddJointCoatingBloc>(context)
             .add(AddJointCoatingSelectPeelTestDataEvent(peelTestData: value!));
@@ -279,14 +293,14 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   Widget _locatinController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: isVppl ? "Relative Humidity" : AppString.location,
+      labelText: _isVPPL ? "Relative Humidity" : AppString.location,
       controller: dataState.locationController,
     );
   }
 
   Widget _holidayTestNoController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati ? "Pre-Heating" : AppString.holidayTestNo,
+      labelText: _isURJAGATI || _isGJPL ? "Pre-Heating" : AppString.holidayTestNo,
       controller: dataState.holidayTestNoController,
     );
   }
@@ -309,22 +323,21 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _humidityMeterDetailsController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati? "WFT" : "Humidity Meter Details",
+      labelText: _isURJAGATI || _isGJPL ? "WFT" : "Humidity Meter Details",
       controller: dataState.humidityMeterDetailsController,
     );
   }
 
-  Widget _digitalPyrometerDetailsController(
-      {required FetchAddJointCoatingDataState dataState}) {
+  Widget _digitalPyrometerDetailsController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Digital Pyrometer Details",
       controller: dataState.digitalPyrometerDetailsController,
     );
   }
 
-  Widget _profileGaugeDetailsController(
-      {required FetchAddJointCoatingDataState dataState}) {
+  Widget _profileGaugeDetailsController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
+      isRequired: _isHPCL || _isHPOIL ? true : false,
       labelText: "Profile Gauge Details",
       controller: dataState.profileGaugeDetailsController,
     );
@@ -332,7 +345,6 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _surfaceDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget<PaddingModel>(
-        isRequired: true,
         hint: "Surface Preparation Check",
         dropdownValue:
         dataState.surfacePreprationData.id != null ? dataState.surfacePreprationData : null,
@@ -353,7 +365,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _visualChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(
-      hint: isUrjagati ? "Visuals": AppString.selectVisualChecks,
+      hint: _isURJAGATI || _isGJPL ? "Visuals": AppString.selectVisualChecks,
       dropdownValue: dataState.visualChecksData.id != null
           ? dataState.visualChecksData
           : null,
@@ -368,7 +380,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _onBodyController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati? "On Base Metal": AppString.onBody,
+      labelText: _isURJAGATI|| _isGJPL ? "On Base Metal": AppString.onBody,
       controller: dataState.onBodyController,
     );
   }
@@ -397,11 +409,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddJointCoatingDataState dataState}) {
+  Widget _fromJointNumberDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-          dataState.fromJointData.id != null ? dataState.fromJointData : null,
+      isRequired: true,
+      selectedItem: dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectJointNumber,
       items: dataState.jointFromList,
       itemAsString: (jointNumberData) => jointNumberData.jointNumber.toString(),
@@ -434,7 +445,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: isUrjagati?AppString.chainage :AppString.chainageFrom,
+      labelText: _isURJAGATI || _isGJPL ? AppString.chainage :AppString.chainageFrom,
       controller: dataState.chainageFromController,
     );
   }
@@ -449,18 +460,17 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     );
   }
 
-  Widget _batchNoController(
-      {required FetchAddJointCoatingDataState dataState}) {
+  Widget _batchNoController({required FetchAddJointCoatingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: isUrjagati ? "Sleeve Batch No." : AppString.batchNo,
+      labelText: _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL || _isVPPL || _isVRPL ? "Sleeve Batch No." : AppString.batchNo,
       controller: dataState.batchNoController,
     );
   }
 
   Widget _holidayChecksDropDown({required FetchAddJointCoatingDataState dataState}) {
     return DropdownWidget<HolidayChecksModel>(
-      hint: isUrjagati ? "Holiday test at 25 KV": AppString.selectHolidayChecks,
+      hint: _isURJAGATI || _isGJPL ? "Holiday test at 25 KV": AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,
@@ -490,130 +500,18 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
       controller: dataState.activityRemarkController,
     );
   }
-
-  Widget _photo({required FetchAddJointCoatingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color:
-                                    EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+  Widget _photo({required FetchAddJointCoatingDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () =>  BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingAddImageEvent(
+                context: context, mediaType: 1)),
+        onGallery: () =>  BlocProvider.of<AddJointCoatingBloc>(context).add(
+            AddJointCoatingAddImageEvent(
+                context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddJointCoatingBloc>(context).add(
-                        AddJointCoatingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddJointCoatingBloc>(context).add(
-                        AddJointCoatingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -634,7 +532,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

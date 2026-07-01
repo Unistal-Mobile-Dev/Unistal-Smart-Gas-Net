@@ -166,7 +166,9 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-        type: "welding");
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterwelding");
     if (resJointNumber != null) {
       listOfFromJoint = resJointNumber;
       listOfToJoint = listOfFromJoint;

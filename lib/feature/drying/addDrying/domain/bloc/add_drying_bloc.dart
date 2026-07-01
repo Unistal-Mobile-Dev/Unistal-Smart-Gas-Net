@@ -102,7 +102,9 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-        type: "welding"
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterwelding"
        );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
@@ -145,14 +147,7 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

@@ -132,12 +132,11 @@ class AddOFCBlowingHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
-        "chainage_from": chainageFrom,
-        "chainage_to": chainageTo,
+        "chainage_from": chainageFrom.isNotEmpty ? chainageFrom : "0",
+        "chainage_to": chainageTo.isNotEmpty ? chainageTo: "0",
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
-
-        "joint_id": date.toString(),
+        "joint_id": "0",
         "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
@@ -157,9 +156,8 @@ class AddOFCBlowingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/bloc/add_hydrotest_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_pop_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHydroTestPage extends StatefulWidget {
   const AddHydroTestPage({super.key});
@@ -17,17 +15,29 @@ class AddHydroTestPage extends StatefulWidget {
 }
 
 class _AddHydroTestPageState extends State<AddHydroTestPage> {
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddHydrotestBloc>(context)
         .add(AddHydrotestPageLoadEvent(context: context));
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddHydrotestBloc, AddHydrotestState>(
         builder: (context, state) {
           if (state is FetchAddHydrotestDataState) {
@@ -49,6 +59,10 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -76,6 +90,16 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
       ),
     );
   }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
+
 
   Widget _dateController({required FetchAddHydrotestDataState dataState}) {
     return TextFieldWidget(
@@ -139,6 +163,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
   Widget _fromJointNumberDropDown(
       {required FetchAddHydrotestDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem:
           dataState.fromJointData.id != null ? dataState.fromJointData : null,
       hint: AppString.selectFromJointNumber,
@@ -153,6 +178,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
 
   Widget _toJointNumberDropDown({required FetchAddHydrotestDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.toJointData.id != null ? dataState.toJointData : null,
       hint: AppString.selectToJointNumber,
       items: dataState.jointToList,
@@ -196,8 +222,8 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
             (index) {
           final fileModel = dataState.fileList[index];
           return ImageWidget(
-            title: fileModel.name.toString(),
-            imagePath: fileModel.file.path,
+            title: fileModel.key.toString(),
+            imagePath: fileModel.path.toString(),
             onPressed: () {
               showModalBottomSheet(
                 context: context,
@@ -279,7 +305,7 @@ class _AddHydroTestPageState extends State<AddHydroTestPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

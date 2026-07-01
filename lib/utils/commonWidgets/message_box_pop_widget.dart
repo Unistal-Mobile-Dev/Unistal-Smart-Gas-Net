@@ -26,7 +26,7 @@ class MessageBoxPopWidget extends StatelessWidget {
               children: [
                 _closeButton(context: context),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.009,
                 ),
                 Expanded(
                     child: SingleChildScrollView(
@@ -38,7 +38,7 @@ class MessageBoxPopWidget extends StatelessWidget {
                   ),
                 )),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+                  height: MediaQuery.of(context).size.height * 0.009,
                 ),
                 Padding(
                   padding:

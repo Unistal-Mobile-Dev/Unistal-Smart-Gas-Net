@@ -85,17 +85,13 @@ class AddSwabbingBloc extends Bloc<AddSwabbingEvent, AddSwabbingState> {
       alignmentList = res;
     }
 
-   /* var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-      type: "welding"
-     //   jointTypeData: jointTypeData
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            :"afterwelding"
+
     );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;

@@ -112,6 +112,48 @@ class AddClearingGradingHelper {
     }
   }
 
+  static Future<List<TerrainTypeModel>> fetchConstantData(String key) async {
+    try {
+      String url = APIs.getConstantApi + "?key=$key";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res is Map<String, dynamic>) {
+        return res.entries.map((entry) {
+          return TerrainTypeModel(
+            id: entry.key,
+            name: entry.value.toString(),
+          );
+        }).toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<TerrainTypeModel>> fetchSegmentStatusData() async {
+    try {
+      String url = APIs.getConstantApi + "?key=SegmentStatus";
+
+      var res = await ServerRequest.getData(urlEndPoint: url);
+
+      if (res != null && res is Map<String, dynamic>) {
+
+        return res.entries.map((entry) {
+          return TerrainTypeModel(
+            id: entry.key,
+            name: entry.value.toString(),
+          );
+        }).toList();
+
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
   static Future<dynamic> submitData({
     required BuildContext context,
     required AlignmentModel alignmentData,
@@ -183,9 +225,8 @@ class AddClearingGradingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

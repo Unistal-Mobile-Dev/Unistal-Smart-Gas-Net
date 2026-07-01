@@ -22,8 +22,10 @@ enum Client {
   gjpl,
   jdpl,
   bcpl,
+  bjpl,
   agcl,
   dbpl,
   pjpl,
   urjagati,
+  hpcl,
 }

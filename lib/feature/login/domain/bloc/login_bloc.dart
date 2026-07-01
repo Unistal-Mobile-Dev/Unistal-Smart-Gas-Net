@@ -47,9 +47,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   TextEditingController userNameTextFiledController = TextEditingController();
   TextEditingController passwordTextFieldController = TextEditingController();
 
-  String _appVersion = "";
-
-  String get appVersion => _appVersion;
 
   _setEmailId(LoginSetEmailEvent event, emit) {
     email = event.emailId.replaceAll("", "");
@@ -74,13 +71,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         "https://unistal.hrmmitra.in/uploads/logo/signin/signin_logo_1569825597.png";
     userNameTextFiledController.text = "";
     passwordTextFieldController.text = "";
-    try {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      _appVersion = packageInfo.version;
-    } catch (_) {}
-
-    _eventCompleted(emit);
-    _appLogoLoader = false;
 
     _eventCompleted(emit);
   }
@@ -94,6 +84,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   _submitLoginData(LoginSubmitDataEvent event, emit) async {
+    bool isUrjaGati = await  AppConfig.instanceInit()!.client == Client.urjagati;
     if (await ConnectivityHelper.allConnectivityCheck(context: event.context) ==
         false) {
       return;
@@ -114,7 +105,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       _isLoader = false;
       _eventCompleted(emit);
      // if (res != null && (res['roleId'] == null || res['roleId'] == "43"|| res['roleId'] == "44")) {
-      if (res != null && (res['user']['roleId'] == null)) {
+      if (res != null && isUrjaGati == true && res['user']['roleId'] == null) {
         _loginData = loginResponse(res['user']);
 
         String token = res['token'] ?? "";
@@ -130,28 +121,32 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         String version = packageInfo.version;
         String buildNumber = packageInfo.buildNumber;
-
         AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
         var dashboardLink = await LoginHelper.loginURL(
           context: event.context,
           token: res['token'],
         );
 
-        if (dashboardLink != null) {
-          Navigator.pushAndRemoveUntil(
-            event.context,
-            MaterialPageRoute(
-              builder: (_) => WebDashboardPage(
-                url: dashboardLink["redirect_url"],
-                token: dashboardLink["token"],
-                name: "Dashboard",
-              ),
-            ),
-                (route) => false,
-          );
-        }
 
-      } else if (res != null) {
+      if (dashboardLink != null) {
+        String cookie = ServerRequest.header['cookie'] ?? '';
+        Navigator.pushAndRemoveUntil(
+          event.context,
+          MaterialPageRoute(
+            builder: (_) => WebDashboardPage(
+              url: dashboardLink["redirect_url"],
+              token: dashboardLink["token"],
+              cookie: cookie,
+            ),
+          ),
+              (route) => false,
+        );
+        print("Token: ${dashboardLink["token"]}");
+        print("Cookie: $cookie");
+        print("URL: ${dashboardLink["redirect_url"]}");
+      }
+
+    } else if (res != null) {
 
         _loginData = loginResponse(res['user']);
 
@@ -205,7 +200,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       appLogo: appLogo,
       userNameTextFiledController: userNameTextFiledController,
       passwordTextFieldController: passwordTextFieldController,
-      appVersion: appVersion,
     ));
   }
-}
+  }
+

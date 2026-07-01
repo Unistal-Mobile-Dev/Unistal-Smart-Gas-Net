@@ -136,29 +136,14 @@ class AddPreHydrotestBloc
       alignmentList = res;
     }
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
-    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        jointTypeData: jointTypeData,
-      type: "afterndtrt",
-    );
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
 
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-     type: "afterndtrt"
-     //   jointTypeData: jointTypeData
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterwelding"
+
     );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
@@ -208,14 +193,7 @@ class AddPreHydrotestBloc
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }

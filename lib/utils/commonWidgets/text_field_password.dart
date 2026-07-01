@@ -18,62 +18,112 @@ class TextFieldPasswordWidget extends StatelessWidget {
 
   const TextFieldPasswordWidget(
       {super.key,
-      required this.labelText,
-      this.hintText,
-      this.textEditingController,
-      this.obscureText,
-      this.onChanged,
-      this.inputType,
-      this.isPasswordIcon,
-      this.maxLength,
-      this.passwordOnPressed,
-      this.onTap,
-      this.enabled,
-      this.isRequired});
+        required this.labelText,
+        this.hintText,
+        this.textEditingController,
+        this.obscureText,
+        this.onChanged,
+        this.inputType,
+        this.isPasswordIcon,
+        this.maxLength,
+        this.passwordOnPressed,
+        this.onTap,
+        this.enabled,
+        this.isRequired});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
+
+// ✅ Theme-aware colors
+    final fillColor = isDark
+        ? theme.colorScheme.surfaceContainerHighest
+        : Colors.white;
+    final textColor = theme.colorScheme.onSurface;
+    final iconColor = theme.colorScheme.onSurfaceVariant; // ✅ was AppColor.grey
+
     return Padding(
-        padding: const EdgeInsets.all(0),
-        child: TextFormField(
-          onTap: onTap,
-          enabled: enabled ?? true,
-          maxLength: maxLength,
-          onChanged: onChanged,
-          keyboardType: inputType ?? TextInputType.text,
-          controller: textEditingController,
-          obscureText: obscureText ?? false,
-          decoration: InputDecoration(
-              // labelText: labelText,
-              label: Text.rich(TextSpan(children: [
-                TextSpan(text: labelText),
+      padding: const EdgeInsets.all(0),
+      child: TextFormField(
+        onTap: onTap,
+        enabled: enabled ?? true,
+        maxLength: maxLength,
+        onChanged: onChanged,
+        keyboardType: inputType ?? TextInputType.text,
+        controller: textEditingController,
+        obscureText: obscureText ?? false,
+        style: TextStyle(
+          fontSize: AppFont.font_14,
+          color: textColor, // ✅ typed text color
+        ),
+        decoration: InputDecoration(
+          label: Text.rich(
+            TextSpan(
+              children: [
                 TextSpan(
-                    text: isRequired != null && isRequired == true ? ' *' : "",
-                    style: const TextStyle(color: Colors.red)),
-              ])),
-              labelStyle: TextStyle(
-                  fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(
-                  width: 1,
-                  style: BorderStyle.none,
+                  text: labelText,
+                  style: TextStyle(
+                    fontSize: AppFont.font_14,
+                    color: textColor, // ✅ label color
+                  ),
                 ),
-              ),
-              filled: true,
-              contentPadding: const EdgeInsets.all(15),
-              suffixIcon: isPasswordIcon != null
-                  ? IconButton(
-                      onPressed: passwordOnPressed,
-                      icon: Icon(
-                        obscureText == true
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: AppColor.grey,
-                      ),
-                    )
-                  : null),
-        ));
+                TextSpan(
+                  text: isRequired == true ? ' *' : "",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
+          ),
+          labelStyle: TextStyle(
+            fontSize: AppFont.font_14,
+            color: primaryColor,
+          ),
+          floatingLabelStyle: TextStyle(
+            fontSize: AppFont.font_12,
+            color: primaryColor, // ✅ when focused/floating
+          ),
+          fillColor: fillColor, // ✅ was Colors.white
+          filled: true,
+          contentPadding: const EdgeInsets.all(15),
+
+// ✅ Consistent borders matching InputDecorationStyle
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: primaryColor, width: 1.2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: isDark ? primaryColor.withOpacity(0.6) : primaryColor,
+              width: 1.2,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: primaryColor, width: 1.5),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: isDark ? Colors.grey.shade700 : Colors.grey.shade400,
+            ),
+          ),
+
+          suffixIcon: isPasswordIcon != null
+              ? IconButton(
+            onPressed: passwordOnPressed,
+            icon: Icon(
+              obscureText == true
+                  ? Icons.visibility_off
+                  : Icons.visibility,
+              color: iconColor, // ✅ was AppColor.grey
+            ),
+          )
+              : null,
+        ),
+      ),
+    );
   }
 }

@@ -15,6 +15,14 @@ class AddCrossingPageLoadState extends AddCrossingInitial {
 }
 
 class FetchAddCrossingDataState extends AddCrossingInitial {
+  final File file;
+  final File fileStageInspection;
+  final File filePreHydrotest;
+  final File fileRestoration;
+  final File filePhotoBefore;
+  final File filePhotoAfter;
+  final File fileVideoBefore;
+  final File fileVideoAfter;
   final List<AlignmentModel> alignmentList;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
@@ -41,7 +49,6 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
   final bool isJointNumberLoader;
-  final File file;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
   final List<ThicknessModel> thicknessList;
@@ -63,6 +70,14 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
   final TextEditingController reportNumberController;
 
   FetchAddCrossingDataState({
+    required this.file,
+    required this.fileStageInspection,
+    required this.filePreHydrotest,
+    required this.fileRestoration,
+    required this.filePhotoBefore,
+    required this.filePhotoAfter,
+    required this.fileVideoBefore,
+    required this.fileVideoAfter,
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
@@ -73,7 +88,6 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
     required this.batchNoController,
     required this.alignmentData,
     required this.multipleAlignmentData,
-    required this.file,
     required this.weatherList,
     required this.weatherData,
     required this.jointTypeData,
@@ -113,6 +127,14 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
 
   @override
   List<Object> get props => [
+        file,
+        fileStageInspection,
+        filePreHydrotest,
+        fileRestoration,
+        filePhotoBefore,
+        filePhotoAfter,
+        fileVideoBefore,
+        fileVideoAfter,
         isLoader,
         alignmentList,
         dateController,
@@ -122,8 +144,7 @@ class FetchAddCrossingDataState extends AddCrossingInitial {
         casingPipeLengthController,
         batchNoController,
         alignmentData,
-    multipleAlignmentData,
-        file,
+        multipleAlignmentData,
         weatherList,
         weatherData,
         jointTypeData,

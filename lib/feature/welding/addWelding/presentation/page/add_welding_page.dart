@@ -7,8 +7,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddWeldingPage extends StatefulWidget {
   const AddWeldingPage({super.key});
@@ -18,31 +18,30 @@ class AddWeldingPage extends StatefulWidget {
 }
 
 class _AddWeldingPageState extends State<AddWeldingPage> {
-  final client = AppConfig.instanceInit()!.client;
+  late final Client _client;
 
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl = false;
-  late bool isUrjagati = false;
-  late bool isMgl = false;
-  late final bool hideExtraWelders;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL;
 
   @override
   void initState() {
-    isVppl = client == Client.vppl;
-    isUrjagati = client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    hideExtraWelders = isVppl || isUrjagati || client == Client.vrpl;
-    isMgl = client == Client.mgl;
-
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddWeldingBloc>(context)
         .add(AddWeldingPageLoadEvent(context: context));
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddWeldingBloc, AddWeldingState>(
         builder: (context, state) {
           if (state is FetchAddWeldingDataState) {
@@ -64,6 +63,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -80,17 +83,13 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _electrodeDiaE6010Controller(dataState: dataState),
+            _electrodeDiaE6010Dropdown(dataState: dataState),
             _verticalSpace(),
-            _electrodeDiaE6010BatchController(dataState: dataState),
+            _electrodeDiaE6010BatchDropdown(dataState: dataState),
             _verticalSpace(),
-            // _electrodeDiaE9045Controller(dataState: dataState),
-            // _verticalSpace(),
-            // _electrodeDiaE9045BatchController(dataState: dataState),
-            // _verticalSpace(),
-            _electrodeEiaE8010p1Controller(dataState: dataState),
+            _electrodeEiaE8010p1Dropdown(dataState: dataState),
             _verticalSpace(),
-            _electrodeEiaE8010p1BatchController(dataState: dataState),
+            _electrodeEiaE8010p1BatchDropdown(dataState: dataState),
             _verticalSpace(),
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -100,8 +99,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            // _fitupDropDown(dataState: dataState),
-            // _verticalSpace(),
+            if (_isVPPL || _isHPCL || _isHPOIL) ...[
+              _fitupDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
             _rootWelders2Dropdown(dataState: dataState),
@@ -114,7 +115,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-            client != Client.mgl
+            _isMGL || _isVPPL || _isHPCL || _isHPOIL
                 ? Column(
                     children: [
                       _filler2Welders1Controller(dataState: dataState),
@@ -129,7 +130,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
                       _verticalSpace(),
                       _filler4Welders2Controller(dataState: dataState),
                       _verticalSpace(),
-                      if (!hideExtraWelders) ...[
+                      if (!(_isAllClient || _isHPCL || _isHPOIL)) ...[
                         _filler5Welders1Controller(dataState: dataState),
                         _verticalSpace(),
                         _filler5Welders2Controller(dataState: dataState),
@@ -158,7 +159,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _cappingWelder2Controller(dataState: dataState),
             _verticalSpace(),
-            if (!hideExtraWelders) ...[
+            if (!(_isAllClient || _isHPCL || _isHPOIL)) ...[
               _electrodeDiaE9045p2Controller(dataState: dataState),
               _verticalSpace(),
               _electrodeDiaE9045p2BatchController(dataState: dataState),
@@ -170,7 +171,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             ],
             _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!isUrjagati) ...[
+            if (!( _isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL)) ...[
               _bendDetailController(dataState: dataState),
               _verticalSpace()
             ],
@@ -182,6 +183,15 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _button(dataState: dataState),
           ],
         )));
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
   }
 
   Widget _dateController({required FetchAddWeldingDataState dataState}) {
@@ -360,7 +370,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         items: dataState.hotWelders2List);
   }
 
-  Widget _filler1Welders1Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _filler1Welders1Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
         hint: AppString.fillerWelders1,
         dropdownValue: dataState.filler1Welders1Data.id != null
@@ -379,7 +390,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         items: dataState.filler1Welders1List);
   }
 
-  Widget _filler1Welders2Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _filler1Welders2Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
         hint: AppString.fillerWelders2,
         dropdownValue: dataState.filler1Welders2Data.id != null
@@ -398,7 +410,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         items: dataState.filler1Welders2List);
   }
 
-  Widget _filler2Welders1Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _filler2Welders1Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
         hint: AppString.filler2Welders1,
         dropdownValue: dataState.filler2Welders1Data.id != null
@@ -417,7 +430,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         items: dataState.filler2Welders1List);
   }
 
-  Widget _filler2Welders2Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _filler2Welders2Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
         hint: AppString.filler2Welders2,
         dropdownValue: dataState.filler2Welders2Data.id != null
@@ -436,9 +450,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         items: dataState.filler2Welders2List);
   }
 
-  Widget _filler3Welders1Controller({required FetchAddWeldingDataState dataState}) {
+  Widget _filler3Welders1Controller(
+      {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-        hint: isUrjagati ? "Capping Welders 1" : AppString.filler3Welders1,
+        hint: _isURJAGATI || _isGJPL ? "Capping Welders 1" : AppString.filler3Welders1,
         dropdownValue: dataState.filler3Welders1Data.id != null
             ? dataState.filler3Welders1Data
             : null,
@@ -458,7 +473,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _filler3Welders2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-        hint: isUrjagati ? "Capping Welders 1" : AppString.filler3Welders2,
+        hint: _isURJAGATI || _isGJPL ? "Capping Welders 1" : AppString.filler3Welders2,
         dropdownValue: dataState.filler3Welders2Data.id != null
             ? dataState.filler3Welders2Data
             : null,
@@ -718,7 +733,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _cappingWelder1Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-        hint: isUrjagati ? "Capping 2 Welders 1" : AppString.cappingWelder1,
+        hint:  _isURJAGATI || _isGJPL ? "Capping 2 Welders 1" : AppString.cappingWelder1,
         dropdownValue: dataState.cappingWelder1Data.id != null
             ? dataState.cappingWelder1Data
             : null,
@@ -738,7 +753,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   Widget _cappingWelder2Controller(
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget<WelderModel>(
-      hint: isUrjagati ? "Capping 2 Welders 1" : AppString.cappingWelder2,
+      hint:  _isURJAGATI || _isGJPL ? "Capping 2 Welders 1" : AppString.cappingWelder2,
       dropdownValue: dataState.cappingWelder2Data.id != null
           ? dataState.cappingWelder2Data
           : null,
@@ -756,9 +771,9 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE6010Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE6010Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.electrodeDiaE6010,
       items: dataState.electrodeDiaE6010DiaList,
       dropdownValue: dataState.electrodeDiaE6010Value.diaValue != null
@@ -772,15 +787,11 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE6010BatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE6010BatchDropdown({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderDiaE6010BatchBatch == false
         ? DropdownWidget(
-            hint: client == Client.vppl ||
-                    client == Client.urjagati ||
-                    client == Client.vrpl
-                ? "Batch No."
-                : AppString.electrodeDiaE6010Batch,
+      isRequired: true,
+            hint: _isAllClient ? "Batch No." : AppString.electrodeDiaE6010Batch,
             items: dataState.electrodeDiaE6010BatchList,
             dropdownValue: dataState.electrodeDiaE6010BatchValue.batchNo != null
                 ? dataState.electrodeDiaE6010BatchValue
@@ -794,14 +805,10 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         : DottedLoaderWidget();
   }
 
-  Widget _electrodeEiaE8010p1Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE8010p1Dropdown({required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
-      hint: client == Client.vppl || client == Client.urjagati
-          ? "E8010 Dia"
-          : client == Client.vrpl
-              ? "E8010-P-1 Dia"
-              : AppString.electrodeDiaE7010P1,
+      isRequired: true,
+      hint: _isAllClient ? "E8010-P-1 Dia" : _isHPCL || _isHPOIL? "E7010 Dia" : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,
       dropdownValue: dataState.electrodeEiaE8010p1Value.diaValue != null
           ? dataState.electrodeEiaE8010p1Value
@@ -814,15 +821,11 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeEiaE8010p1BatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeEiaE8010p1BatchDropdown({required FetchAddWeldingDataState dataState}) {
     return dataState.isLoaderEiaE8010p1BatchBatch == false
         ? DropdownWidget(
-            hint: client == Client.vppl ||
-                    client == Client.urjagati ||
-                    client == Client.vrpl
-                ? "Batch No."
-                : AppString.electrodeDiaE7010P1Batch,
+      isRequired: true,
+            hint: _isAllClient ? "Batch No." : _isHPCL || _isHPOIL ? "Batch No" : AppString.electrodeDiaE7010P1Batch,
             items: dataState.electrodeEiaE8010p1BatchList,
             dropdownValue:
                 dataState.electrodeEiaE8010p1BatchValue.batchNo != null
@@ -1029,130 +1032,18 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         },
         items: dataState.weldVisualList);
   }
-
-  Widget _photo({required FetchAddWeldingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color:
-                                    EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+  Widget _photo({required FetchAddWeldingDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () =>  BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingAddImageEvent(
+                context: context, mediaType: 1)),
+        onGallery: () =>   BlocProvider.of<AddWeldingBloc>(context).add(
+            AddWeldingAddImageEvent(
+                context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddWeldingBloc>(context).add(
-                        AddWeldingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddWeldingBloc>(context).add(
-                        AddWeldingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -1173,7 +1064,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

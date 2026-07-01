@@ -397,33 +397,13 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       _electrodeEiaE8010p1DiaList = resElectrodeDia;
       _electrodeDiaE9045DiaList = resElectrodeDia;
     }
-    /*var resElectrodeEiaE8010p1Dia = await AddWeldingHelper.fetchElectrodeDia(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
-    if (resElectrodeEiaE8010p1Dia != null) {
-      _electrodeEiaE8010p1DiaList = resElectrodeEiaE8010p1Dia;
-    }*/
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      _jointTypeList = resJointType;
-    }*/
-
-/*    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        type: "welding",
-      //  jointTypeData: jointTypeData
-    );
-    if (resJointNumber != null) {
-      _jointNumberList = resJointNumber;
-    }*/
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
       context: event.context,
       userData: userData,
-      type: "welding",
-      //  jointTypeData: jointTypeData
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          : "welding",
     );
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
@@ -724,14 +704,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _jointNumberData = JointNumberModel();
     _isJointNumberLoader = true;
     _eventComplete(emit);
-    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "welding",
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      _jointNumberList = resJointNumber;
-    }*/
+
     _isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -878,10 +851,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       electrodeDiaE81t8g: electrodeDiaE81t8gController.text.toString(),
       electrodeDiaE6010Batch: electrodeDiaE6010BatchValue.batchNo != null ? electrodeDiaE6010BatchValue.toString() : "",
       electrodeDiaE6010: electrodeDiaE6010Value.batchNumbers != null ? electrodeDiaE6010Value.toString() : "",
-      electrodeDiaE9045p2Batch: AppConfig.instanceInit()!.client == Client.vrpl
+      electrodeDiaE9045p2Batch: AppConfig.instanceInit()!.client == Client.vrpl || AppConfig.instanceInit()!.client == Client.bjpl
           ? electrodeDiaE9045BatchValue.diaValue.toString()
           : electrodeDiaE9045p2BatchController.text.toString(),
-      electrodeDiaE9045p2: AppConfig.instanceInit()!.client == Client.vrpl
+      electrodeDiaE9045p2: AppConfig.instanceInit()!.client == Client.vrpl || AppConfig.instanceInit()!.client == Client.bjpl
           ? electrodeDiaE9045Value.diaValue.toString()
           : electrodeDiaE9045p2Controller.text.toString(),
       electrodeEiaE8010p1Batch:electrodeEiaE8010p1BatchValue.batchNo != null? electrodeEiaE8010p1BatchValue.toString() : "",

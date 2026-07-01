@@ -60,7 +60,7 @@ class AddRestorationHelper {
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint_id": jointTypeData.id != null ? jointTypeData.id.toString() : "0",
         "from_joint_id":
             fromJointData.id != null ? fromJointData.id.toString() : "",
         "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
@@ -80,9 +80,8 @@ class AddRestorationHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

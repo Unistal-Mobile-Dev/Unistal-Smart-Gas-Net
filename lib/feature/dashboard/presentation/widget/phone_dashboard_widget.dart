@@ -48,74 +48,75 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               }
 
               // ================= WITH SUBLIST =================
-              return _expandableDrawerItem(
-                  dataState: dataState, item: drawerItem);
+              return _expandableDrawerItem(dataState: dataState, item: drawerItem);
             },
           );
   }
 
   Widget _singleDrawerItem(DrawerModel item, int index) {
+    final theme = Theme.of(context);
+    final textColor = theme.colorScheme.onSurface;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
+          backgroundColor: theme.colorScheme.surface,
+          foregroundColor: theme.colorScheme.onSurface,
           minimumSize: const Size.fromHeight(50),
         ),
         onPressed: () {
-
           Navigator.push(
             context,
             MaterialPageRoute(
-              // builder: (_) => item.widget,
               builder: (_) => Scaffold(
                 appBar: AppBarWidget(
                   boolLeading: false,
-                  title: item.label ?? "",
+                  title: item.label.toString(),
                 ),
-                // appBar: AppBar(
-                //   title: Text(item.label ?? ""),
-                // ),
-
                 body: BackgroundWidget(child: item.widget),
               ),
             ),
           );
-
-          // BlocProvider.of<HomeBloc>(context).add(
-          //   HomeDrawerItemSelectedEvent(
-          //     isSelected: true,
-          //     index: index,
-          //     context: context,
-          //   ),
-          // );
         },
-        icon: Icon(
-          item.icon,
-          color: EnvironmentConfig.of(context)!.primaryTheme,
-        ),
+        icon: Icon(item.icon, color: EnvironmentConfig.of(context)!.primaryTheme),
         label: Align(
           alignment: Alignment.centerLeft,
-          child: TextWidget(item.label),
+          child: TextWidget(item.label,color: textColor, ),
         ),
       ),
     );
   }
 
   Widget _expandableDrawerItem({required DrawerModel item, required FetchHomeDataState dataState}) {
+    final theme = Theme.of(context);
+    final textColor = theme.colorScheme.onSurface;
+    final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: ExpansionTile(
         leading: Icon(
           item.icon,
-          color: EnvironmentConfig.of(context)!.primaryTheme,
+          color: primaryColor
         ),
-        title: TextWidget(item.label),
-        children: item.sublist.map((subItem) {
+        title: TextWidget(item.label,  color: textColor, ),
+        children: item.sublist.map((subItem, ) {
           return ListTile(
             contentPadding: const EdgeInsets.only(left: 60),
-            title: TextWidget(subItem.label ?? ""),
+            leading: Container(
+              height: 8,
+              width: 8,
+              decoration: BoxDecoration(
+                color: primaryColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+            title: TextWidget(subItem.label ?? "",  color: textColor, ),
             onTap: () {
+              AppConfig.instanceInit()?.setActivitySection(
+                newActivitySection: subItem.activityData,
+              );
+              print("activityData ==> ${subItem.activityData.appJoint}");
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -128,13 +129,6 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                   ),
                 ),
               );
-              // BlocProvider.of<HomeBloc>(context).add(
-              //   HomeDrawerItemSubListSelectedEvent(
-              //     isSelected: true,
-              //     index: item.sublist.indexOf(subItem),
-              //     listIndex: dataState.drawerList.indexOf(item),
-              //   ),
-              // );
             },
           );
         }).toList(),

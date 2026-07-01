@@ -13,7 +13,6 @@ export 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart'
 export 'package:flutter_unistal_smart_gas_net/utils/commonClass/singleton.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/button_widget.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/center_loader_widget.dart';
-export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/custom_styles.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dotted_loader_widget.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_search_widget.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_widget.dart';
@@ -30,3 +29,4 @@ export 'package:flutter_unistal_smart_gas_net/utils/res/enums.dart';
 export 'package:flutter_unistal_smart_gas_net/utils/res/otp_field_style.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:shared_preferences/shared_preferences.dart';
+

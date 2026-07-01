@@ -153,6 +153,9 @@ class AppString {
 
   static get chainageFrom => "Chainage From";
 
+  static get ductReadingFrom => "DUCT(LENGTH) READING From(Meter)";
+  static get ductReadingTo => "DUCT(LENGTH) READING To(Meter)";
+
   static get sectionLengthMeter => "Section Length(Meter)";
 
   static get casingPipeLengthMeter => "Casing Pipe Length(Meter)";
@@ -417,7 +420,7 @@ class AppString {
 
   static get selectWeather => "Select Weather";
 
-  static get selectNdtAgency => "Select NDT Agency";
+  static get selectNdtAgency => "NDT Agency";
 
   static get selectDSPPL => "Select DSPPL";
 
@@ -439,7 +442,7 @@ class AppString {
 
   static get selectPipeMaterial => "Select Pipe Material";
 
-  static get selectPipeThickness => "Select Pipe Thickness";
+  static get selectPipeThickness => "Pipe Thickness";
 
   static get selectGroundType => "Ground Type";
 

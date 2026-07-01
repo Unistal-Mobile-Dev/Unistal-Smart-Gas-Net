@@ -8,6 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
@@ -19,28 +20,30 @@ class AddStringingPage extends StatefulWidget {
 }
 
 class _AddStringingPageState extends State<AddStringingPage> {
+  late final Client _client;
 
-  final client = AppConfig.instanceInit()!.client;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+  bool get _isAllClient => _isVPPL || _isVRPL  || _isBJPL || _isURJAGATI || _isGJPL || _isMGL;
 
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl= false;
-  late bool isUrjagati= false;
-  late bool isMgl= false;
   @override
   void initState() {
-    isVppl = client == Client.vppl;
-    isUrjagati =  client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    isMgl = client == Client.mgl;
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddStringingBloc>(context)
         .add(AddStringingPageLoadEvent(context: context));
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddStringingBloc, AddStringingState>(
         builder: (context, state) {
           if (state is FetchAddStringingDataState) {
@@ -62,6 +65,10 @@ class _AddStringingPageState extends State<AddStringingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -69,23 +76,21 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            _verticalSpace(),
-            _corrosionCoatingController(dataState: dataState),
-            _verticalSpace(),
-            _nameManufactureDropDown(dataState: dataState),
-            _verticalSpace(),
-            _weightCoatingDropDown(dataState: dataState),
-            _verticalSpace(),
-            /*  _chainageFromController(dataState: dataState),
-            _verticalSpace(),*/
+            if (_isAllClient) ...[
+              _verticalSpace(),
+              _corrosionCoatingController(dataState: dataState),
+              _verticalSpace(),
+              _nameManufactureDropDown(dataState: dataState),
+              _verticalSpace(),
+              _weightCoatingDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _pipeLengthController(dataState: dataState),
-            _verticalSpace(),
             _pipeLengthListWidget(dataState: dataState),
-           if( !isMgl && !isVpplOrUrjagati)...[
-             //  _chainageToController(dataState: dataState,index: in),
-             _concreteCoatingDropDown(dataState: dataState),
-             _verticalSpace(),
-           ],
+            if (_isAllClient) ...[
+              _concreteCoatingDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -97,6 +102,17 @@ class _AddStringingPageState extends State<AddStringingPage> {
       ),
     );
   }
+
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
+
 
   Widget _dateController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
@@ -129,7 +145,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.chainageFrom,
       controller: dataState.chainageFromController[index],
-
     );
   }
 
@@ -164,104 +179,135 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _pipeLengthListWidget({required FetchAddStringingDataState dataState}) {
-    return dataState.pipeLengthList.isNotEmpty
-        ? Column(
-          children: [
-            ListView.builder(
-                itemCount: dataState.pipeLengthList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  PipeModel pipeData = dataState.pipeLengthList[index];
-                  return Container(
-                    color: AppColor.lightGrey,
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                child: TextWidget(
-                                    "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}")),
-                            IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<AddStringingBloc>(context).add(
-                                      AddStringingDeletePipeLengthEvent(
-                                          context: context, index: index));
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  color: AppColor.red,
-                                ))
-                          ],
+  Widget _pipeLengthListWidget({
+    required FetchAddStringingDataState dataState,
+  }) {
+    if (dataState.pipeLengthList.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        ListView.separated(
+          itemCount: dataState.pipeLengthList.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (_, __) => _verticalSpace(),
+          itemBuilder: (context, index) {
+            PipeModel pipeData = dataState.pipeLengthList[index];
+            return Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: EnvironmentConfig.of(context)!.primaryTheme.withValues(alpha: 0.50),
+                ),
+
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}",
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 4),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-
-                                      Flexible(
-                                          child: TextFieldWidget(
-                                            isRequired: true,
-                                            textInputType: TextInputType.number,
-                                            labelText: AppString.chainageFrom,
-                                            controller: dataState.chainageFromController[index],
-                                            onChanged: (value){
-                                              if (value.toString().isNotEmpty) {
-                                                BlocProvider.of<AddStringingBloc>(context).add(
-                                                    AddStringingChainageFromAddEvent(
-                                                      context: context,
-                                                        index: index
-                                                    ));
-
-                                              }
-                                            },
-                                          )),
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.01,
-                                      ),
-                                      Flexible(
-                                          child: _chainageToController(dataState: dataState, index: index)),
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.01,
-                                      ),
-                                      Flexible(
-                                          child: TextFieldWidget(
-                                            enabled: false,
-                                            textInputType: TextInputType.number,
-                                            labelText: AppString.lengthMeter,
-                                            controller: TextEditingController(text: pipeData.pipeLength.toString()),
-                                          )
-                                          ),
-                                    ],
-                                  ),
-
-                                ],
-                              ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          BlocProvider.of<AddStringingBloc>(context).add(
+                            AddStringingDeletePipeLengthEvent(
+                              context: context,
+                              index: index,
                             ),
-                          ],
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
+                            size: 20,
+                          ),
                         ),
-                        Divider(),
-                      ],
-                    ),
-                  );
-                }),
-            _verticalSpace(),
-          ],
-        )
-        : const SizedBox.shrink();
+                      )
+                    ],
+                  ),
+
+                  _verticalSpace(),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: TextFieldWidget(
+                          isRequired: true,
+                          textInputType: TextInputType.number,
+                          labelText: "Ch From",
+                          fontSize: 8,
+                          fontWeight: FontWeight.w100,
+                          controller:
+                          dataState.chainageFromController[index],
+                          onChanged: (value) {
+                            if (value.toString().isNotEmpty) {
+                              BlocProvider.of<AddStringingBloc>(context).add(
+                                AddStringingChainageFromAddEvent(
+                                  context: context,
+                                  index: index,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(width: 2),
+
+                      Flexible(
+                        child: TextFieldWidget(
+                          enabled: false,
+                          textInputType: TextInputType.number,
+                          labelText:"Ch To",
+                          controller:
+                          dataState.chainageToController[index],
+                        ),
+                      ),
+
+                      const SizedBox(width: 2),
+
+                      Flexible(
+                        child: TextFieldWidget(
+                          enabled: false,
+                          textInputType: TextInputType.number,
+                          labelText: "Length(m)",
+                          controller: TextEditingController(
+                            text: pipeData.pipeLength.toString(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        _verticalSpace(),
+
+      ],
+    );
   }
 
-  Widget _chainageToController({required FetchAddStringingDataState dataState,required int index}) {
+  Widget _chainageToController(
+      {required FetchAddStringingDataState dataState, required int index}) {
     return TextFieldWidget(
       enabled: false,
       textInputType: TextInputType.number,
@@ -269,7 +315,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
       controller: dataState.chainageToController[index],
     );
   }
-
 
 /*  Widget _pipeDropDown({required FetchAddStringingDataState dataState}) {
     LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
@@ -285,18 +330,19 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }*/
 
-  Widget _concreteCoatingDropDown({required FetchAddStringingDataState dataState}) {
+  Widget _concreteCoatingDropDown(
+      {required FetchAddStringingDataState dataState}) {
     return DropdownWidget<ConcreteCoatingModel>(
-      hint: AppString.selectConcreteCoating,
-      dropdownValue: dataState.concreteCoatingData.id != null
-          ? dataState.concreteCoatingData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddStringingBloc>(context).add(
-            AddStringingSelectConcreteCoatingEvent(concreteCoatingData: value!));
-      },
-      items: dataState.concreteCoatingList
-    );
+        hint: AppString.selectConcreteCoating,
+        dropdownValue: dataState.concreteCoatingData.id != null
+            ? dataState.concreteCoatingData
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddStringingBloc>(context).add(
+              AddStringingSelectConcreteCoatingEvent(
+                  concreteCoatingData: value!));
+        },
+        items: dataState.concreteCoatingList);
   }
 
   Widget _activityRemark({required FetchAddStringingDataState dataState}) {
@@ -330,38 +376,41 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   Widget _weatherDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
-      isRequired: true,
-      hint: AppString.selectWeather,
-      dropdownValue:
-          dataState.weatherData.id != null ? dataState.weatherData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddStringingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value!));
-      },
-      items: dataState.weatherList
-    );
+        isRequired: true,
+        hint: AppString.selectWeather,
+        dropdownValue:
+            dataState.weatherData.id != null ? dataState.weatherData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddStringingBloc>(context)
+              .add(SelectWeatherEvent(weatherData: value!));
+        },
+        items: dataState.weatherList);
   }
 
-  Widget _corrosionCoatingController({required FetchAddStringingDataState dataState}) {
+  Widget _corrosionCoatingController(
+      {required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Type of corrosion coating",
       controller: dataState.corrosionCoatingCtrl,
     );
   }
 
-  Widget _nameManufactureDropDown({required FetchAddStringingDataState dataState}) {
+  Widget _nameManufactureDropDown(
+      {required FetchAddStringingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
         hint: "Name of the Manufacture",
-        dropdownValue:
-        dataState.manufactureData.id != null ? dataState.manufactureData : null,
+        dropdownValue: dataState.manufactureData.id != null
+            ? dataState.manufactureData
+            : null,
         onChanged: (value) {
           BlocProvider.of<AddStringingBloc>(context)
               .add(SelectNameManufactureEvent(nameManufactureData: value!));
         },
-        items: dataState.manufactureList
-    );
+        items: dataState.manufactureList);
   }
-  Widget _weightCoatingDropDown({required FetchAddStringingDataState dataState}) {
+
+  Widget _weightCoatingDropDown(
+      {required FetchAddStringingDataState dataState}) {
     return DropdownWidget<PaddingModel>(
       hint: "Concrete weight coating",
       dropdownValue: dataState.weightCoatingData.id != null
@@ -369,138 +418,26 @@ class _AddStringingPageState extends State<AddStringingPage> {
           : null,
       onChanged: (value) {
         context.read<AddStringingBloc>().add(
-          SelectWeightCoatingEvent(
-            weightCoatingData: value!,
-          ),
-        );
+              SelectWeightCoatingEvent(
+                weightCoatingData: value!,
+              ),
+            );
       },
       items: dataState.weightCoatingList,
     );
   }
-
-
-  Widget _photo({required FetchAddStringingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+  Widget _photo({required FetchAddStringingDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () => BlocProvider.of<AddStringingBloc>(context).add(
+            AddStringingAddImageEvent(
+                context: context, mediaType: 1)),
+        onGallery: () => BlocProvider.of<AddStringingBloc>(context).add(
+            AddStringingAddImageEvent(
+                context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddStringingBloc>(context).add(
-                        AddStringingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddStringingBloc>(context).add(
-                        AddStringingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -521,7 +458,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

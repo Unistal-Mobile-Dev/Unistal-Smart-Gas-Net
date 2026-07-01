@@ -5,6 +5,7 @@ import 'input_decoration_style.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
+  final String? initialValue;
   final GestureTapCallback? onTap;
   final String labelText;
   final bool enabled;
@@ -15,6 +16,8 @@ class TextFieldWidget extends StatelessWidget {
   final int maxLine;
   final Widget? suffixIcon;
   final bool isRequired;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const TextFieldWidget({
     super.key,
@@ -22,6 +25,7 @@ class TextFieldWidget extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.controller,
+    this.initialValue,
     this.onTap,
     this.onChanged,
     this.textInputType,
@@ -29,12 +33,38 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.maxLine = 1,
     this.isRequired = false,
+    this.fontSize,
+    this.fontWeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    final textColor = Theme
+        .of(context)
+        .colorScheme
+        .onSurface; // ✅ auto light/dark
+
+    // ✅ Dynamic fill colors based on theme
+    final enabledFill = isDark
+        ? Theme
+        .of(context)
+        .colorScheme
+        .surfaceContainerHighest
+        : Colors.white;
+    final disabledFill = isDark
+        ? Theme
+        .of(context)
+        .colorScheme
+        .surfaceContainerHighest
+        .withOpacity(0.4)
+        : Colors.grey.shade100;
+
     return TextFormField(
       controller: controller,
+      initialValue: controller == null ? initialValue : null,
       onTap: onTap,
       enabled: enabled,
       readOnly: readOnly,
@@ -42,35 +72,26 @@ class TextFieldWidget extends StatelessWidget {
       maxLength: maxLength,
       maxLines: maxLine,
 
+      // ✅ Theme-aware text color
       style: TextStyle(
         fontSize: AppFont.font_14,
-        color: AppColor.black,
+        color: textColor,
       ),
 
-      /// ✅ INPUT FORMATTER (optimized)
       inputFormatters: _getInputFormatter(),
-
-      /// ✅ KEYBOARD TYPE FIX (cleaned logic)
       keyboardType: _getKeyboardType(),
 
-      /// ✅ USE COMMON DECORATION
-      decoration:  InputDecorationStyle.inputDecoration(
+      decoration: InputDecorationStyle.inputDecoration(
         context,
         labelText: labelText,
         isRequired: isRequired,
       ).copyWith(
-        /// only override what is specific
-        fillColor: enabled ? Colors.white : Colors.grey.shade100,
-        // contentPadding: EdgeInsets.symmetric(
-        //   horizontal: 10,
-        //   vertical: maxLine > 1 ? 12 : 8,
-        // ),
-        counterText: "", // removes maxLength counter if needed
+        fillColor: enabled ? enabledFill : disabledFill,
+        counterText: "",
       ),
     );
   }
 
-  /// 🔹 Extracted formatter logic (clean)
   List<TextInputFormatter>? _getInputFormatter() {
     if (textInputType == TextInputType.number) {
       return [
@@ -80,7 +101,6 @@ class TextFieldWidget extends StatelessWidget {
     return null;
   }
 
-  /// 🔹 Clean keyboard handling
   TextInputType _getKeyboardType() {
     if (textInputType == null) return TextInputType.text;
 

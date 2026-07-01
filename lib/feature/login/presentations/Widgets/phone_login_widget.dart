@@ -31,7 +31,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           child: Card(
             elevation: 2,
             shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
-            color: AppColor.white,
+            color: Theme.of(context).cardColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
@@ -68,35 +68,31 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
   }
 
   Widget _logo() {
-    final size = MediaQuery.sizeOf(context); // more efficient
+    final size = MediaQuery.sizeOf(context);
 
     return Hero(
       tag: 'logo',
       child: SizedBox(
-        height: size.height * 0.2,
+        height: size.height * 0.22,
         width: double.infinity,
         child: Stack(
-          fit: StackFit.expand,
           children: [
-            // Logo (centered upper portion)
-            Align(
-              alignment: Alignment.topCenter,
-              child: FractionallySizedBox(
-                heightFactor: 0.7, // replaces manual bottom calculation
+            Center(
+              child: SizedBox(
+                height: size.height * 0.12,
+                width: size.width * 0.70,
                 child: Image.asset(
                   AppIcon.appLogo(),
-                  width: size.width * 0.6,
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
 
-            // Bottom strip
             Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 AppIcon.colourStrip,
-                width: size.width,
+                width: double.infinity,
                 fit: BoxFit.cover,
                 color: EnvironmentConfig.of(context)!.primaryTheme,
               ),

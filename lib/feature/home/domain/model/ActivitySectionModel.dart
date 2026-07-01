@@ -22,9 +22,9 @@ class ActivitySectionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['error'] = this.error;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['error'] = error;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -52,6 +52,7 @@ class ActivitySectionData {
   String? scope;
   String? startDate;
   String? endDate;
+  String? appJoint;
 
   ActivitySectionData(
       {
@@ -73,7 +74,9 @@ class ActivitySectionData {
         this.updatedAt,
         this.scope,
         this.startDate,
-        this.endDate});
+        this.endDate,
+        this.appJoint,
+      });
 
   ActivitySectionData.fromJson(Map<String, dynamic> json) {
     activityType = json['activity_type'] ?? "";
@@ -95,29 +98,31 @@ class ActivitySectionData {
     scope = json['scope'] ?? "";
     startDate = json['start_date'] ?? "";
     endDate = json['end_date'] ?? "";
+    appJoint = json['app_joint'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['activity_type'] = this.activityType;
-    data['sort_order'] = this.sortOrder;
-    data['weightage'] = this.weightage;
-    data['formate_no'] = this.formateNo;
-    data['id'] = this.id;
-    data['created_at'] = this.createdAt;
-    data['status'] = this.status;
-    data['spread_id'] = this.spreadId;
-    data['activity_name'] = this.activityName;
-    data['activity_code'] = this.activityCode;
-    data['spread_name'] = this.spreadName;
-    data['section_name'] = this.sectionName;
-    data['section_id'] = this.sectionId;
-    data['activity_id'] = this.activityId;
-    data['modelName'] = this.modelName;
-    data['updated_at'] = this.updatedAt;
-    data['scope'] = this.scope;
-    data['start_date'] = this.startDate;
-    data['end_date'] = this.endDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['activity_type'] = activityType;
+    data['sort_order'] = sortOrder;
+    data['weightage'] = weightage;
+    data['formate_no'] = formateNo;
+    data['id'] = id;
+    data['created_at'] = createdAt;
+    data['status'] = status;
+    data['spread_id'] = spreadId;
+    data['activity_name'] = activityName;
+    data['activity_code'] = activityCode;
+    data['spread_name'] = spreadName;
+    data['section_name'] = sectionName;
+    data['section_id'] = sectionId;
+    data['activity_id'] = activityId;
+    data['modelName'] = modelName;
+    data['updated_at'] = updatedAt;
+    data['scope'] = scope;
+    data['start_date'] = startDate;
+    data['end_date'] = endDate;
+    data['app_joint'] = appJoint;
     return data;
   }
   @override

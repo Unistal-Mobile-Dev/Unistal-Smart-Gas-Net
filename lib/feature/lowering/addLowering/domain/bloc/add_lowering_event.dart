@@ -142,3 +142,54 @@ class AddLoweringSubmitDataEvent extends AddLoweringEvent {
   @override
   List<Object?> get props => [context];
 }
+class AddLoweringSelectDewateringEvent extends AddLoweringEvent {
+  final TerrainTypeModel dewateringValue;
+
+  const AddLoweringSelectDewateringEvent({required this.dewateringValue});
+
+  @override
+  List<Object?> get props => [dewateringValue];
+}
+
+class AddLoweringSelectPaddingEvent extends AddLoweringEvent {
+  final TerrainTypeModel paddingValue;
+
+  const AddLoweringSelectPaddingEvent({required this.paddingValue});
+
+  @override
+  List<Object?> get props => [paddingValue];
+}
+class AddLoweringSelectPaddingMaterialEvent extends AddLoweringEvent {
+  final TerrainTypeModel paddingMaterialValue;
+
+  const AddLoweringSelectPaddingMaterialEvent({required this.paddingMaterialValue});
+
+  @override
+  List<Object?> get props => [paddingMaterialValue];
+}
+
+class AddLoweringSelectLoweringClearanceEvent extends AddLoweringEvent {
+  final TerrainTypeModel loweringClearanceValue;
+
+  const AddLoweringSelectLoweringClearanceEvent({required this.loweringClearanceValue});
+
+  @override
+  List<Object?> get props => [loweringClearanceValue];
+}
+
+class AddLoweringSelectApprovedPipeEvent extends AddLoweringEvent {
+  final TerrainTypeModel approvedPipeValue;
+
+  const AddLoweringSelectApprovedPipeEvent({required this.approvedPipeValue});
+
+  @override
+  List<Object?> get props => [approvedPipeValue];
+}
+class AddLoweringSelectNightCapEvent extends AddLoweringEvent {
+  final TerrainTypeModel nightCapValue;
+
+  const AddLoweringSelectNightCapEvent({required this.nightCapValue});
+
+  @override
+  List<Object?> get props => [nightCapValue];
+}

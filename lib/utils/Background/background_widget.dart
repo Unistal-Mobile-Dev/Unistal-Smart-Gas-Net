@@ -15,7 +15,6 @@ class BackgroundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: SafeArea(
         child: Column(
           children: [

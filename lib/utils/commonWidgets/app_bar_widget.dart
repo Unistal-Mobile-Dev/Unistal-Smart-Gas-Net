@@ -140,11 +140,14 @@ class AppBarWidget extends StatelessWidget
       String? url,
       double size,
       ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark
+            ? Colors.white.withOpacity(0.15)
+            : Colors.white,
         borderRadius: BorderRadius.circular(size * 0.2),
       ),
       padding: const EdgeInsets.all(3),

@@ -14,9 +14,9 @@ class ImagePopWidget extends StatelessWidget {
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -32,6 +32,9 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController toCtrl;
   final TextEditingController ipFromCtrl;
   final TextEditingController ipToCtrl;
+  final TextEditingController provisionOfWarningSignsSafetySignsCtrt;
+  final TextEditingController seismicZoneAndCoverCtrl;
+  final TextEditingController verificationOfMinimumDepthCtrl;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
   final File file;
@@ -51,6 +54,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController toWidthController;
   final List<TerrainTypeModel> terrainTypeList;
   final TerrainTypeModel terrainTypeData;
+
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -89,6 +93,9 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.toCtrl,
     required this.ipFromCtrl,
     required this.ipToCtrl,
+    required this.provisionOfWarningSignsSafetySignsCtrt,
+    required this.seismicZoneAndCoverCtrl,
+    required this.verificationOfMinimumDepthCtrl,
   });
 
   @override
@@ -129,5 +136,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         toCtrl,
         ipFromCtrl,
         ipToCtrl,
+    provisionOfWarningSignsSafetySignsCtrt,
+   seismicZoneAndCoverCtrl,
+    verificationOfMinimumDepthCtrl,
       ];
 }

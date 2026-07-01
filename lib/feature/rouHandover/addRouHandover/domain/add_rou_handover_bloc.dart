@@ -32,6 +32,7 @@ class AddRouHandoverBloc
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -54,6 +55,7 @@ class AddRouHandoverBloc
     on<AddRouHandoverSelectAlignmentEvent>(_selectAlignment);
     on<AddRouHandoverMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<AddRouHandoverSelectDateEvent>(_selectDate);
+    on<CalculateLengthEvent>(_calculateChainage);
     on<AddRouHandoverAddImageEvent>(_selectFile);
   }
 
@@ -72,6 +74,7 @@ class AddRouHandoverBloc
     _weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
+    lengthController.text = "";
     alignmentList = [];
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
@@ -115,6 +118,35 @@ class AddRouHandoverBloc
       // print("Date is not selected");
     }
   }
+
+  _calculateChainage(CalculateLengthEvent event, emit) {
+    bool isChainageTo =  event.isChainageTo;
+    String value =  event.value;
+
+    if(value.isEmpty) {
+      lengthController.text = "";
+    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(value.toString());
+      double chainageFrom =  double.parse(chainageFromController.text.toString());
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text = "${chainageTo - chainageFrom}";
+      }
+    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
+      double chainageTo =  double.parse(chainageToController.text.toString());
+      double chainageFrom =  double.parse(value);
+      if(chainageTo < chainageFrom){
+        lengthController.text = "";
+        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
+      }else {
+        lengthController.text =  "${chainageTo - chainageFrom}";
+      }
+    }
+    _eventComplete(emit);
+  }
+
 
   _selectFile(AddRouHandoverAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
@@ -164,6 +196,7 @@ class AddRouHandoverBloc
         file: file,
         chainageFrom: chainageFromController.text.toString(),
         chainageTo: chainageToController.text.toString(),
+        totalLength: lengthController.text.toString(),
         weatherData: weatherData);
     _isLoader = false;
     _eventComplete(emit);
@@ -182,6 +215,7 @@ class AddRouHandoverBloc
       multipleAlignmentData = [];
       chainageFromController.text = "";
       chainageToController.text = "";
+      lengthController.text = "";
       file = File("");
       _weatherData = WeatherModel();
       _eventComplete(emit);
@@ -207,6 +241,7 @@ class AddRouHandoverBloc
       weatherList: weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      lengthController: lengthController,
     ));
   }
 }

@@ -132,7 +132,9 @@ class AddWelderRepairBloc
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
       context: event.context,
       userData: userData,
-      type: "afterndtrt",
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          :"afterndtrtreject",
     );
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
@@ -205,15 +207,7 @@ class AddWelderRepairBloc
     jointNumberData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData,
-      type: "afterndtrt",
-    );
-    if (resJointNumber != null) {
-      jointNumberList = resJointNumber;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
     _eventComplete(emit);

@@ -18,13 +18,18 @@ part 'add_hdpe_duct_event.dart';
 part 'add_hdpe_duct_state.dart';
 
 class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
-  TextEditingController dateController = TextEditingController();
-  TextEditingController reportNumberController = TextEditingController();
-  TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController chainageFromController = TextEditingController();
-  TextEditingController chainageToController = TextEditingController();
-  TextEditingController jointPitController = TextEditingController();
-  TextEditingController lengthController = TextEditingController();
+  // Controllers are created ONCE here and reused for the bloc's lifetime.
+  // They are cleared (not recreated) on load/submit and disposed in close().
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController reportNumberController = TextEditingController();
+  final TextEditingController activityRemarkController = TextEditingController();
+  final TextEditingController chainageFromController = TextEditingController();
+  final TextEditingController chainageToController = TextEditingController();
+  final TextEditingController jointPitController = TextEditingController();
+  final TextEditingController lengthController = TextEditingController();
+  final TextEditingController coilNumberController = TextEditingController();
+  final TextEditingController ductLengthFromController = TextEditingController();
+  final TextEditingController ductLengthToController = TextEditingController();
 
   List<PaddingModel> warningMeterList = [];
   List<JointNumberModel> jointFromList = [];
@@ -35,7 +40,7 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
   bool isLoader = false;
   PaddingModel warningMeterData = PaddingModel();
@@ -66,108 +71,132 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     on<AddHdpeDuctSubmitDataEvent>(_submitData);
   }
 
-  _pageLoad(AddHdpeDuctPageLoadEvent event, emit) async {
+  /// Resets all form fields and selections back to their default state
+  /// WITHOUT recreating controllers (clearing avoids leaks and focus bugs).
+  void _resetForm() {
+    dateController.clear();
+    reportNumberController.clear();
+    activityRemarkController.clear();
+    chainageFromController.clear();
+    chainageToController.clear();
+    jointPitController.clear();
+    lengthController.clear();
+    coilNumberController.clear();
+    ductLengthFromController.clear();
+    ductLengthToController.clear();
+
+    alignmentData = AlignmentModel();
+    multipleAlignmentData = [];
+    warningMeterData = PaddingModel();
+    fromJointData = JointNumberModel();
+    toJointData = JointNumberModel();
+    jointTypeData = JointTypeModel();
+    weatherData = WeatherModel();
+    paddingData = PaddingModel();
+    file = File("");
+    isJointNumberLoader = false;
+    isLoader = false;
+  }
+
+  Future<void> _pageLoad(AddHdpeDuctPageLoadEvent event, emit) async {
     emit(AddHdpeDuctPageLoadState());
-    dateController.text = "";
-    reportNumberController.text = "";
-    activityRemarkController.text = "";
-    chainageFromController.text = "";
-    chainageToController.text = "";
-    jointPitController.text = "";
-    lengthController.text = "";
+
+    // Reset everything to a clean state.
+    _resetForm();
     warningMeterList = [];
     jointFromList = [];
     jointToList = [];
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
-    alignmentData  = AlignmentModel();
-    multipleAlignmentData  = [];
-    isLoader = false;
-    warningMeterData = PaddingModel();
-    fromJointData = JointNumberModel();
-    toJointData = JointNumberModel();
-    jointTypeData = JointTypeModel();
-    isJointNumberLoader = false;
-    file = File("");
-    weatherData = WeatherModel();
     paddingList = [];
-    paddingData = PaddingModel();
-    _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (res != null) {
-      alignmentList = res;
+    _userData = UserInfo.instanceInit()!.userData!;
+
+    final jointType = AppConfig.instanceInit()!
+        .activitySectionData
+        .appJoint
+        ?.trim()
+        .isNotEmpty ==
+        true
+        ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+        : "afterwelding";
+
+    // Run all independent network calls in parallel instead of sequentially.
+    // Load time drops from (sum of all calls) to (slowest single call).
+    final results = await Future.wait([
+      DashboardHelper.fetchWeatherData(
+          context: event.context, userData: userData),
+      AddRouteSurveyHelper.fetchAlignmentData(
+          context: event.context, userData: userData),
+      AddWeldingHelper.fetchJointNumberData(
+          context: event.context, userData: userData, type: jointType),
+      AddHDPEDuctHelper.fetchPaddingData(context: event.context),
+    ]);
+
+    // Guard against the page being closed while the requests were in flight.
+    if (isClosed) return;
+
+    weatherList = (results[0] as List<WeatherModel>?) ?? [];
+
+    final resAlignment = results[1] as List<AlignmentModel>?;
+    if (resAlignment != null) {
+      alignmentList = resAlignment;
     }
 
-    /*var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "welding"
-        );
+    final resJointNumber = results[2] as List<JointNumberModel>?;
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
     }
 
-    var resPadding = await AddHDPEDuctHelper.fetchPaddingData(
-        context: !event.context.mounted ? event.context : event.context);
+    final resPadding = results[3] as List<PaddingModel>?;
     if (resPadding != null) {
       paddingList = resPadding;
       warningMeterList = paddingList;
     }
+
     _eventComplete(emit);
   }
 
-  _selectWeather(SelectWeatherEvent event, emit) {
+  void _selectWeather(SelectWeatherEvent event, emit) {
     weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
-  _selectAlignment(AddHdpeDuctSelectAlignmentEvent event, emit) {
+  void _selectAlignment(AddHdpeDuctSelectAlignmentEvent event, emit) {
     alignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-  _selectMultipleAlignment(AddHdpeDuctMultipleSelectAlignmentEvent event, emit) {
+  void _selectMultipleAlignment(
+      AddHdpeDuctMultipleSelectAlignmentEvent event, emit) {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
 
-
-
-  _selectPaddingData(AddHdpeDuctSelectPaddingDataEvent event, emit) {
+  void _selectPaddingData(AddHdpeDuctSelectPaddingDataEvent event, emit) {
     paddingData = event.paddingData;
     _eventComplete(emit);
   }
 
-  _selectJointFrom(AddHdpeDuctSelectFromJointDataEvent event, emit) {
+  void _selectJointFrom(AddHdpeDuctSelectFromJointDataEvent event, emit) {
     fromJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectJointTo(AddHdpeDuctSelectToJointDataEvent event, emit) {
+  void _selectJointTo(AddHdpeDuctSelectToJointDataEvent event, emit) {
     toJointData = event.jointNumberData;
     _eventComplete(emit);
   }
 
-  _selectWarningData(AddHdpeDuctSelectWarningMeterDataEvent event, emit) {
+  void _selectWarningData(AddHdpeDuctSelectWarningMeterDataEvent event, emit) {
     warningMeterData = event.warningMeterData;
     _eventComplete(emit);
   }
 
-  _selectJointType(AddHdpeDuctSelectJointTypeDataEvent event, emit) async {
+  Future<void> _selectJointType(
+      AddHdpeDuctSelectJointTypeDataEvent event, emit) async {
     jointTypeData = event.jointTypeData;
     jointFromList = [];
     jointToList = [];
@@ -175,99 +204,86 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
-  _selectDate(AddHdpeDuctSelectDateEvent event, emit) async {
-    DateTime? pickedDate = await showDatePicker(
-        context: event.context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2023),
-        lastDate: DateTime.now());
+  Future<void> _selectDate(AddHdpeDuctSelectDateEvent event, emit) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: event.context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime.now(),
+    );
     if (pickedDate != null) {
-      String formattedDateChange = DateFormat('yyyy-MM-dd').format(pickedDate);
-      dateController.text = formattedDateChange.toString();
+      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
       _eventComplete(emit);
-    } else {
-      if (kDebugMode) {
-        print("Date is not selected");
-      }
+    } else if (kDebugMode) {
+      print("Date is not selected");
     }
   }
 
-  _selectFile(AddHdpeDuctAddImageEvent event, emit) async {
+  Future<void> _selectFile(AddHdpeDuctAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
-      if (photo != null) {
-        file = photo;
-      }
+      final photo =
+      await AddRouteSurveyHelper.imagePiker(context: event.context);
+      if (photo != null) file = photo;
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
-      if (photo != null) {
-        file = photo;
-      }
+      final photo =
+      await AddRouteSurveyHelper.filePiker(context: event.context);
+      if (photo != null) file = photo;
     }
-    Navigator.pop(!event.context.mounted ? event.context : event.context);
+
+    // Real mounted check: bail out if the context is gone after the await.
+    if (!event.context.mounted) return;
+    Navigator.pop(event.context);
+    if (isClosed) return;
     _eventComplete(emit);
   }
 
-  _submitData(AddHdpeDuctSubmitDataEvent event, emit) async {
+  Future<void> _submitData(AddHdpeDuctSubmitDataEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
-    var res = await AddHDPEDuctHelper.submitData(
-        context: event.context,
-        alignmentData: alignmentData,
-        multipleAlignmentData: multipleAlignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        warningMeterData: warningMeterData,
-        activityRemark: activityRemarkController.text.toString(),
-        weatherData: weatherData,
-        userData: userData,
-        fromJointData: fromJointData,
-        toJointData: toJointData,
-        jointTypeData: jointTypeData,
-        chainageFrom: chainageFromController.text.toString(),
-        chainageTo: chainageToController.text.toString(),
-        jointPit: jointPitController.text.toString(),
-        paddingData: paddingData,
-        length: lengthController.text.toString(),
-        file: file);
+
+    final res = await AddHDPEDuctHelper.submitData(
+      context: event.context,
+      alignmentData: alignmentData,
+      multipleAlignmentData: multipleAlignmentData,
+      reportNumber: reportNumberController.text.toString(),
+      date: dateController.text.toString(),
+      warningMeterData: warningMeterData,
+      activityRemark: activityRemarkController.text.toString(),
+      weatherData: weatherData,
+      userData: userData,
+      fromJointData: fromJointData,
+      toJointData: toJointData,
+      jointTypeData: jointTypeData,
+      chainageFrom: chainageFromController.text.toString(),
+      chainageTo: chainageToController.text.toString(),
+      jointPit: jointPitController.text.toString(),
+      paddingData: paddingData,
+      length: lengthController.text.toString(),
+      coilNumber: coilNumberController.text.toString(),
+      ductLengthFrom: ductLengthFromController.text.toString(),
+      ductLengthTo: ductLengthToController.text.toString(),
+      file: file,
+    );
+
+    if (isClosed) return;
+
     isLoader = false;
     _eventComplete(emit);
+
     if (res != null) {
-      dateController.text = "";
-      reportNumberController.text = "";
-      activityRemarkController.text = "";
-      chainageFromController.text = "";
-      chainageToController.text = "";
-      jointPitController.text = "";
-      lengthController.text = "";
-      alignmentData = AlignmentModel();
-      multipleAlignmentData = [];
-      isLoader = false;
-      warningMeterData = PaddingModel();
-      fromJointData = JointNumberModel();
-      toJointData = JointNumberModel();
-      jointTypeData = JointTypeModel();
-      isJointNumberLoader = false;
-      file = File("");
-      weatherData = WeatherModel();
-      paddingData = PaddingModel();
+      // Clear the form on success (controllers are reused, not recreated).
+      _resetForm();
       _eventComplete(emit);
     }
   }
 
-  _eventComplete(Emitter<AddHdpeDuctState> emit) {
+  void _eventComplete(Emitter<AddHdpeDuctState> emit) {
+    if (isClosed) return;
     emit(FetchAddHdpeDuctDataState(
       isLoader: isLoader,
       alignmentList: alignmentList,
@@ -276,6 +292,9 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       reportNumberController: reportNumberController,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      coilNumberController: coilNumberController,
+      ductLengthFromController: ductLengthFromController,
+      ductLengthToController: ductLengthToController,
       alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       file: file,
@@ -295,5 +314,20 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
       paddingList: paddingList,
       paddingData: paddingData,
     ));
+  }
+
+  @override
+  Future<void> close() {
+    dateController.dispose();
+    reportNumberController.dispose();
+    activityRemarkController.dispose();
+    chainageFromController.dispose();
+    chainageToController.dispose();
+    jointPitController.dispose();
+    lengthController.dispose();
+    coilNumberController.dispose();
+    ductLengthFromController.dispose();
+    ductLengthToController.dispose();
+    return super.close();
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHddPullingPage extends StatefulWidget {
@@ -17,8 +18,21 @@ class AddHddPullingPage extends StatefulWidget {
 }
 
 class _AddHddPullingPageState extends State<AddHddPullingPage> {
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddHddPullingBloc>(context)
         .add(AddHddPullingPageLoadEvent(context: context));
     super.initState();
@@ -27,7 +41,6 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddHddPullingBloc, AddHddPullingState>(
         builder: (context, state) {
           if (state is FetchAddHddPullingDataState) {
@@ -49,6 +62,10 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL  ||_isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -92,6 +109,15 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -142,6 +168,7 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
 
   Widget _weatherDropDown({required FetchAddHddPullingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
+        isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -326,129 +353,18 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
     );
   }
 
-
-  Widget _photo({required FetchAddHddPullingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
-                child: Icon(Icons.photo_camera_back_outlined),
-              ),
-              Padding(
-                padding: EdgeInsets.all(
-                    MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget(
-                  "Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,
-                ),
-              ),
-            ],
-          )
-              : Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".jpg") ||
-                      dataState.file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".png") ||
-                      dataState.file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".jpeg")
-                      ? Image.file(
-                    dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.width / 4.5,
-                  )
-                      : dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      : const Icon(Icons.document_scanner_outlined),
-                  dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? TextWidget(
-                    dataState.file.path.split('/').last.toString(),
-                    color:  EnvironmentConfig.of(context)!.primaryTheme,
-                    fontSize: AppFont.font_12,
-                  )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.width / 3,
-                  color: Colors.white.withOpacity(0.6),
-                  child: Center(
-                      child: Icon(
-                        Icons.refresh,
-                        color:  EnvironmentConfig.of(context)!.primaryTheme,
-                      ))),
-            ],
-          ),
-        ),
+  Widget _photo({required FetchAddHddPullingDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () =>  BlocProvider.of<AddHddPullingBloc>(context).add(
+            AddHddPullingAddImageEvent(
+                context: context, mediaType: 1)),
+        onGallery: () =>  BlocProvider.of<AddHddPullingBloc>(context).add(
+            AddHddPullingAddImageEvent(
+                context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddHddPullingBloc>(context).add(
-                        AddHddPullingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddHddPullingBloc>(context).add(
-                        AddHddPullingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -469,7 +385,7 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

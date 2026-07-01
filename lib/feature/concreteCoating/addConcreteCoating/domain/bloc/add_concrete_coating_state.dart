@@ -20,6 +20,7 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
   final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
   final TextEditingController dateController;
+  final TextEditingController reportNumberController;
   final TextEditingController concreteCoatingLengthController;
   final TextEditingController activityRemarkController;
   final TextEditingController chainageController;
@@ -38,6 +39,7 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
     required this.isLoader,
     required this.alignmentList,
     required this.dateController,
+    required this.reportNumberController,
     required this.activityRemarkController,
     required this.concreteCoatingLengthController,
     required this.chainageController,
@@ -60,11 +62,12 @@ class FetchAddConcreteCoatingDataState extends AddConcreteCoatingInitial {
         isLoader,
         alignmentList,
         dateController,
+        reportNumberController,
         activityRemarkController,
         concreteCoatingLengthController,
         chainageController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         pipeData,
         pipeList,

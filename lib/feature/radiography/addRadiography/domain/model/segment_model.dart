@@ -107,38 +107,18 @@ class SegmentModel {
         "weld_details": AppConfig.instanceInit()!.client == Client.vppl
             || AppConfig.instanceInit()!.client == Client.urjagati
             || AppConfig.instanceInit()!.client == Client.vrpl
+            || AppConfig.instanceInit()!.client == Client.bjpl
             || AppConfig.instanceInit()!.client == Client.gjpl
             || AppConfig.instanceInit()!.client == Client.jdpl
             || AppConfig.instanceInit()!.client == Client.bcpl
           ? segmentWelderList!
             .map((v) => v.toJsonList())
             .toList()
-        //     ? segmentWelderList!
-        //     .where((e) =>
-        // e.multipleWelderData != null &&
-        //     e.multipleWelderData!.isNotEmpty)
-        //     .expand((e) => e.multipleWelderData!)
-        //     .map((v) => v.toJson())
-        //     .toList()
             : segmentWelderList!
             .map((v) => v.toJsonList())
             .toList(),
-
-        // "weld_details": AppConfig.instanceInit()!.client == Client.vppl || AppConfig.instanceInit()!.client == Client.vrpl|| AppConfig.instanceInit()!.client == Client.gjpl
-        //     ? segmentWelderList!
-        //     .where((e) => e.multipleWelderData != null && e.multipleWelderData!.isNotEmpty)
-        //     .expand((e) => e.multipleWelderData!)
-        //     .map((v) => v.toJson())
-        //     .toList()
-        //     : segmentWelderList!.map((v) => v.toJson()).toList(),
       };
       return json;
-
-/*      data['segment_id'] = id;
-      data['observation'] = observationController!.text.toString();
-      data['status'] = segmentStatusDataList.isNotEmpty ? segmentStatusDataList.toString().replaceAll("[", "").toString().replaceAll("]", "") : "0";
-      data['remarks'] = remarkController!.text.toString();
-      data['weld_details'] = segmentWelderList!.map((v) => v.toJson()).toList();*/
     }
     return "";
   }

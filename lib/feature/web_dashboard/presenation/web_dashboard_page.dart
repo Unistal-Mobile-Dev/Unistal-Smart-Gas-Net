@@ -1,38 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_bar_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dashed_line_painter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebDashboardPage extends StatefulWidget {
   final String url;
-  final String name;
   final String token;
+  final String cookie;
 
-  const WebDashboardPage(
-      {super.key, required this.url, required this.name, required this.token});
+  const WebDashboardPage({
+    super.key,
+    required this.url,
+    required this.token,
+    required this.cookie,
+  });
 
   @override
   State<WebDashboardPage> createState() => _WebDashboardPageState();
 }
 
 class _WebDashboardPageState extends State<WebDashboardPage> {
-  late final WebViewController controller;
+  WebViewController? controller;
+  final WebViewCookieManager cookieManager = WebViewCookieManager();
+
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    initWebView();
+  }
 
-    print("widget.url---  ${widget.url}");
+  Future<void> initWebView() async {
+    try {
+      /// Clear old cookies
+      await cookieManager.clearCookies();
 
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(
-        Uri.parse(widget.url),
-        headers: {
-          'Authorization': 'Bearer ${widget.token}',
-          'Content-Type': 'application/json',
-        },
-      );
+      /// Set ci_session cookie
+      if (widget.cookie.isNotEmpty) {
+        final cookieParts = widget.cookie.split('=');
+
+        if (cookieParts.length >= 2) {
+          await cookieManager.setCookie(
+            WebViewCookie(
+              name: cookieParts[0],
+              value: cookieParts.sublist(1).join('='),
+              domain: Uri.parse(widget.url).host,
+              path: '/',
+            ),
+          );
+        }
+      }
+
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onPageStarted: (url) {
+              setState(() {
+                isLoading = true;
+              });
+            },
+            onPageFinished: (url) {
+              setState(() {
+                isLoading = false;
+              });
+            },
+            onWebResourceError: (error) {
+              debugPrint(error.description);
+            },
+          ),
+        )
+        ..loadRequest(
+          Uri.parse(widget.url),
+          headers: {
+            'Authorization': 'Bearer ${widget.token}',
+          },
+        );
+    } catch (e) {
+      debugPrint("WebView Error: $e");
+    }
   }
 
   @override
@@ -45,17 +93,25 @@ class _WebDashboardPageState extends State<WebDashboardPage> {
             onPressed: () {
               showModalBottomSheet(
                 context: context,
-                builder: (context) => const LogoutWidget(),
+                builder: (_) => const LogoutWidget(),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.logout_rounded,
               color: Colors.white,
             ),
-          )
+          ),
         ],
       ),
-      body: SafeArea(child: WebViewWidget(controller: controller)),
+      body: controller == null || isLoading
+          ? WaveLoaderWidget()
+          : SafeArea(
+              child: Stack(
+                children: [
+                  WebViewWidget(controller: controller!),
+                ],
+              ),
+            ),
     );
   }
 }

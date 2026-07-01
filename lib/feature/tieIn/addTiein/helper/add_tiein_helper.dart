@@ -83,22 +83,20 @@ class AddTieinHelper {
         "joint_type_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "fitup": fitupData.id != null ? fitupData.id.toString() : "",
-        "weld_visual":
-            weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
         "welder": welderData.id != null ? welderData.id.toString() : "",
-        "electrode_dia_e6010": electrodeDiaE6010,
-        "electrode_dia_e6010_batch": electrodeDiaE6010Batch,
-        "electrode_dia_e8010p1": electrodeEiaE7010p1,
-        "electrode_dia_e8010p1_batch": electrodeEiaE7010p1Batch,
+        "electrode_dia_e6010": electrodeDiaE6010.isNotEmpty ? electrodeDiaE6010 : "",
+        "electrode_dia_e6010_batch": electrodeDiaE6010Batch.isNotEmpty ? electrodeDiaE6010Batch : "",
+        "electrode_dia_e8010p1": electrodeEiaE7010p1.isNotEmpty ? electrodeEiaE7010p1 : "",
+        "electrode_dia_e8010p1_batch": electrodeEiaE7010p1Batch.isNotEmpty ? electrodeEiaE7010p1Batch : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "preheat_temp": preHeatTempreture.toString(),
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

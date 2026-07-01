@@ -31,7 +31,7 @@ class FetchAddHydrotestDataState extends AddHydrotestInitial {
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
   final bool isJointNumberLoader;
-  final List<FileModel> fileList;
+  final List<ImageRequestObject> fileList;
   final WeatherModel weatherData;
 
   FetchAddHydrotestDataState({

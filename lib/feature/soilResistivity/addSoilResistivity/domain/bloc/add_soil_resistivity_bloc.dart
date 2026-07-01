@@ -33,6 +33,10 @@ class AddSoilResistivityBloc
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController depthController= TextEditingController();
+  TextEditingController readingController= TextEditingController();
+  TextEditingController multiplierController= TextEditingController();
+  TextEditingController resisitivityController= TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -60,16 +64,20 @@ class AddSoilResistivityBloc
 
   _pageLoadEvent(AddSoilResistivityPageLoadEvent event, emit) async {
     emit(AddSoilResistivityPageLoadState());
-    dateController.text = "";
-    reportNumberController.text = "";
-    tpChainageController.text = "";
-    tpChainageNumberController.text = "";
-    tpRemarkNumberController.text = "";
-    bearingAngleController.text = "";
-    terrainController.text = "";
-    activityRemarkController.text = "";
-    chainageFromController.text = "";
-    chainageToController.text = "";
+    dateController = TextEditingController();
+    reportNumberController = TextEditingController();
+    tpChainageController = TextEditingController();
+    tpChainageNumberController = TextEditingController();
+    tpRemarkNumberController = TextEditingController();
+    bearingAngleController = TextEditingController();
+    terrainController = TextEditingController();
+    activityRemarkController = TextEditingController();
+    chainageFromController = TextEditingController();
+    chainageToController = TextEditingController();
+    depthController= TextEditingController();
+    readingController= TextEditingController();
+    multiplierController= TextEditingController();
+    resisitivityController= TextEditingController();
     _isLoader = false;
     alignmentList = [];
     file = File("");
@@ -174,20 +182,24 @@ class AddSoilResistivityBloc
     _isLoader = false;
     _eventComplete(emit);
     if (res != null) {
-      dateController.text = "";
-      reportNumberController.text = "";
-      tpChainageController.text = "";
-      tpChainageNumberController.text = "";
-      tpRemarkNumberController.text = "";
-      bearingAngleController.text = "";
-      terrainController.text = "";
-      activityRemarkController.text = "";
+      dateController = TextEditingController();
+      reportNumberController = TextEditingController();
+      tpChainageController = TextEditingController();
+      tpChainageNumberController = TextEditingController();
+      tpRemarkNumberController = TextEditingController();
+      bearingAngleController = TextEditingController();
+      terrainController = TextEditingController();
+      activityRemarkController = TextEditingController();
+      chainageFromController = TextEditingController();
+      chainageToController = TextEditingController();
+      depthController= TextEditingController();
+      readingController= TextEditingController();
+      multiplierController= TextEditingController();
+      resisitivityController= TextEditingController();
       _isLoader = false;
       alignmentData =  AlignmentModel();
       multipleAlignmentData = [];
       file = File("");
-      chainageFromController.text = "";
-      chainageToController.text = "";
       _eventComplete(emit);
     }
   }
@@ -211,6 +223,10 @@ class AddSoilResistivityBloc
       weatherList: weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      depthController: depthController,
+      multiplierController: multiplierController,
+      readingController: readingController,
+      resisitivityController: resisitivityController,
     ));
   }
 }

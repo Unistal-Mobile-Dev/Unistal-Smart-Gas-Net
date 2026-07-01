@@ -22,7 +22,7 @@ class CameraPermissionPopWidget extends StatelessWidget {
               _closeButton(context: context),
               _centerImage(context: context),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.009,
               ),
               _text(context: context),
               SizedBox(
@@ -53,7 +53,7 @@ class CameraPermissionPopWidget extends StatelessWidget {
       child: TextWidget(
         "Your Camera Permission Status is Denied.\n Please Allow the app Permission.",
         textAlign: TextAlign.center,
-        color: AppColor.black,
+        color: Theme.of(context).colorScheme.onSurface,
         fontWeight: FontWeight.w500,
         fontSize: AppFont.font_12,
       ),
@@ -95,7 +95,7 @@ class CameraPermissionPopWidget extends StatelessWidget {
       child: IconButton(
         icon: Icon(
           Icons.close,
-          color: AppColor.grey,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
         onPressed: () {
           Navigator.pop(context);

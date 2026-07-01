@@ -229,6 +229,7 @@ class AddRouteSurveyBloc
       weatherData: weatherData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
+      totalLength: lengthController.text.toString(),
       groundTypeData: groundTypeData,
     );
     _isLoader = false;

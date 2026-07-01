@@ -56,12 +56,6 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final List<WelderModel> stripWelder1List;
   final List<WelderModel> stripWelder2List;
 
-  final TextEditingController electrodeDiaE6010Controller;
-  final TextEditingController electrodeDiaE6010BatchController;
-  final TextEditingController electrodeEiaE8010p1BatchController;
-  final TextEditingController electrodeEiaE8010p1Controller;
-  final TextEditingController electrodeDiaE9045p2Controller;
-  final TextEditingController electrodeDiaE9045p2BatchController;
   final TextEditingController electrodeDiaE81t8gBatchController;
   final TextEditingController electrodeDiaE81t8gController;
 
@@ -124,6 +118,21 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final bool searchRightPipeLoader;
   final TextEditingController searchPipeRightController;
   final TextEditingController reportNumberController;
+  final bool isLoaderDiaE6010BatchBatch;
+  final bool isLoaderEiaE8010p1BatchBatch;
+  final bool isLoaderDiaE9045p2Batch;
+  final ElectrodeDiaData electrodeDiaE6010Value;
+  final ElectrodeBatchData electrodeDiaE6010BatchValue;
+  final ElectrodeDiaData electrodeEiaE8010p1Value;
+  final ElectrodeBatchData electrodeEiaE8010p1BatchValue;
+  final List<ElectrodeDiaData> electrodeDiaE6010DiaList;
+  final List<ElectrodeDiaData> electrodeEiaE8010p1DiaList;
+  final List<ElectrodeBatchData> electrodeDiaE6010BatchList;
+  final List<ElectrodeBatchData> electrodeEiaE8010p1BatchList;
+  final ElectrodeDiaData electrodeDiaE9045p2Value;
+  final ElectrodeBatchData electrodeDiaE9045p2BatchValue;
+  final List<ElectrodeDiaData> electrodeDiaE9045p2List;
+  final List<ElectrodeBatchData> electrodeDiaE9045p2BatchList;
 
   FetchAddTieinDataState({
     required this.isLoader,
@@ -170,12 +179,6 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.weldVisualList,
     required this.electrodeDiaE81t8gBatchController,
     required this.electrodeDiaE81t8gController,
-    required this.electrodeDiaE6010BatchController,
-    required this.electrodeDiaE6010Controller,
-    required this.electrodeDiaE9045p2BatchController,
-    required this.electrodeDiaE9045p2Controller,
-    required this.electrodeEiaE8010p1BatchController,
-    required this.electrodeEiaE8010p1Controller,
     required this.isWelderLoader,
     required this.jointTypeData,
     required this.jointTypeList,
@@ -221,6 +224,21 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.searchRightPipeList,
     required this.searchRightPipeLoader,
     required this.reportNumberController,
+    required this.isLoaderDiaE6010BatchBatch,
+    required this.isLoaderEiaE8010p1BatchBatch,
+    required this.isLoaderDiaE9045p2Batch,
+    required this.electrodeDiaE6010Value,
+    required this.electrodeDiaE6010BatchValue,
+    required this.electrodeEiaE8010p1Value,
+    required this.electrodeEiaE8010p1BatchValue,
+    required this.electrodeDiaE6010DiaList,
+    required this.electrodeEiaE8010p1DiaList,
+    required this.electrodeDiaE6010BatchList,
+    required this.electrodeEiaE8010p1BatchList,
+    required this.electrodeDiaE9045p2Value,
+    required this.electrodeDiaE9045p2BatchValue,
+    required this.electrodeDiaE9045p2List,
+    required this.electrodeDiaE9045p2BatchList,
   });
 
   @override
@@ -231,7 +249,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
         preheatTempController,
         activityRemarkController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         welderData,
         welderList,
@@ -269,12 +287,6 @@ class FetchAddTieinDataState extends AddTieinInitial {
         weldVisualList,
         electrodeDiaE81t8gBatchController,
         electrodeDiaE81t8gController,
-        electrodeDiaE6010BatchController,
-        electrodeDiaE6010Controller,
-        electrodeDiaE9045p2BatchController,
-        electrodeDiaE9045p2Controller,
-        electrodeEiaE8010p1BatchController,
-        electrodeEiaE8010p1Controller,
         isWelderLoader,
         jointTypeData,
         jointTypeList,
@@ -320,5 +332,20 @@ class FetchAddTieinDataState extends AddTieinInitial {
         searchRightPipeList,
         searchRightPipeLoader,
         reportNumberController,
+        isLoaderDiaE6010BatchBatch,
+        isLoaderEiaE8010p1BatchBatch,
+        isLoaderDiaE9045p2Batch,
+        electrodeDiaE6010Value,
+        electrodeDiaE6010BatchValue,
+        electrodeEiaE8010p1Value,
+        electrodeEiaE8010p1BatchValue,
+        electrodeDiaE6010DiaList,
+        electrodeEiaE8010p1DiaList,
+        electrodeDiaE6010BatchList,
+        electrodeEiaE8010p1BatchList,
+        electrodeDiaE9045p2Value,
+        electrodeDiaE9045p2BatchValue,
+        electrodeDiaE9045p2List,
+        electrodeDiaE9045p2BatchList,
       ];
 }

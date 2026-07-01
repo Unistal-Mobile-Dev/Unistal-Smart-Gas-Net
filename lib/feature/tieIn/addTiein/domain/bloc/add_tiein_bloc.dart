@@ -12,6 +12,8 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/helper/add_tiein_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_batch_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -81,15 +83,6 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   WelderModel stripWelder1Data = WelderModel();
   WelderModel stripWelder2Data = WelderModel();
 
-  TextEditingController electrodeDiaE6010Controller = TextEditingController();
-  TextEditingController electrodeDiaE6010BatchController =
-      TextEditingController();
-  TextEditingController electrodeEiaE8010p1BatchController =
-      TextEditingController();
-  TextEditingController electrodeEiaE8010p1Controller = TextEditingController();
-  TextEditingController electrodeDiaE9045p2Controller = TextEditingController();
-  TextEditingController electrodeDiaE9045p2BatchController =
-      TextEditingController();
   TextEditingController electrodeDiaE81t8gBatchController =
       TextEditingController();
   TextEditingController electrodeDiaE81t8gController = TextEditingController();
@@ -97,75 +90,42 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   TextEditingController leftPipeNumberController = TextEditingController();
   TextEditingController rightPipeNumberController = TextEditingController();
 
-  List<VisualChecksModel> _fitupList = [];
+  List<VisualChecksModel> fitupList = [];
+  VisualChecksModel fitupData = VisualChecksModel();
 
-  List<VisualChecksModel> get fitupList => _fitupList;
-
-  VisualChecksModel _fitupData = VisualChecksModel();
-
-  VisualChecksModel get fitupData => _fitupData;
-
-  List<VisualChecksModel> _weldVisualList = [];
-
-  List<VisualChecksModel> get weldVisualList => _weldVisualList;
-
-  VisualChecksModel _weldVisualData = VisualChecksModel();
-
-  VisualChecksModel get weldVisualData => _weldVisualData;
+  List<VisualChecksModel> weldVisualList = [];
+  VisualChecksModel weldVisualData = VisualChecksModel();
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
-  List<WPSModel> _wpsList = [];
+  List<WPSModel> wpsList = [];
+  WPSModel wpsData = WPSModel();
 
-  List<WPSModel> get wpsList => _wpsList;
+  List<WelderModel> welderList = [];
+  WelderModel welderData = WelderModel();
 
-  WPSModel _wpsData = WPSModel();
+  List<JointNumberModel> jointNumberList = [];
+  JointNumberModel jointNumberData = JointNumberModel();
 
-  WPSModel get wpsData => _wpsData;
-
-  List<WelderModel> _welderList = [];
-
-  List<WelderModel> get welderList => _welderList;
-
-  WelderModel _welderData = WelderModel();
-
-  WelderModel get welderData => _welderData;
-
-  List<JointNumberModel> _jointNumberList = [];
-
-  List<JointNumberModel> get jointNumberList => _jointNumberList;
-
-  JointNumberModel _jointNumberData = JointNumberModel();
-
-  JointNumberModel get jointNumberData => _jointNumberData;
-
-  bool _isLoader = false;
-
-  bool get isLoader => _isLoader;
+  bool isLoader = false;
+  bool isWelderLoader = false;
 
   File file = File("");
 
-  LoginDataModel _userData = LoginDataModel();
+  LoginDataModel userData = LoginDataModel();
 
-  LoginDataModel get userData => _userData;
-
-  bool _isWelderLoader = false;
-
-  bool get isWelderLoader => _isWelderLoader;
-
-  List<JointTypeModel> _jointTypeList = [];
-
-  List<JointTypeModel> get jointTypeList => _jointTypeList;
-
-  JointTypeModel _jointTypeData = JointTypeModel();
-
-  JointTypeModel get jointTypeData => _jointTypeData;
+  List<JointTypeModel> jointTypeList = [];
+  JointTypeModel jointTypeData = JointTypeModel();
 
   bool _isJointNumberLoader = false;
 
   bool get isJointNumberLoader => _isJointNumberLoader;
+
+  bool isLoaderDiaE6010BatchBatch = false;
+  bool isLoaderEiaE8010p1BatchBatch = false;
+  bool isLoaderDiaE9045p2Batch = false;
 
   List<WeatherModel> _weatherList = [];
 
@@ -184,25 +144,28 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   PipeModel leftPipeData = PipeModel();
   PipeModel rightPipeData = PipeModel();
 
-  List<dynamic> _searchLeftPipeList = [];
-
-  List<dynamic> get searchLeftPipeList => _searchLeftPipeList;
+  ElectrodeDiaData electrodeDiaE6010Value = ElectrodeDiaData();
+  ElectrodeBatchData electrodeDiaE6010BatchValue = ElectrodeBatchData();
+  ElectrodeDiaData electrodeEiaE8010p1Value = ElectrodeDiaData();
+  ElectrodeBatchData electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+  ElectrodeDiaData electrodeDiaE9045p2Value = ElectrodeDiaData();
+  ElectrodeBatchData electrodeDiaE9045p2BatchValue = ElectrodeBatchData();
 
   TextEditingController searchLeftPipeController = TextEditingController();
-
-  bool _searchLeftPipeLoader = false;
-
-  bool get searchLeftPipeLoader => _searchLeftPipeLoader;
-
-  List<dynamic> _searchRightPipeList = [];
-
-  List<dynamic> get searchRightPipeList => _searchRightPipeList;
-
   TextEditingController searchRightPipeController = TextEditingController();
 
-  bool _searchRightPipeLoader = false;
+  bool searchLeftPipeLoader = false;
+  bool searchRightPipeLoader = false;
 
-  bool get searchRightPipeLoader => _searchRightPipeLoader;
+  List<dynamic> searchRightPipeList = [];
+  List<dynamic> searchLeftPipeList = [];
+
+  List<ElectrodeDiaData> electrodeDiaE6010DiaList = [];
+  List<ElectrodeBatchData> electrodeDiaE6010BatchList = [];
+  List<ElectrodeDiaData> electrodeEiaE8010p1DiaList = [];
+  List<ElectrodeBatchData> electrodeEiaE8010p1BatchList = [];
+  List<ElectrodeDiaData> electrodeDiaE9045p2List = [];
+  List<ElectrodeBatchData> electrodeDiaE9045p2BatchList = [];
 
   AddTieinBloc() : super(AddTieinInitial()) {
     on<AddTieinPageLoadEvent>(_pageLoadEvent);
@@ -221,6 +184,12 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     on<AddTieinSelectFitupDataEvent>(_selectFitUp);
     on<AddTieinSelectWeldVisualEvent>(_selectWeldVisual);
     on<AddTieinAddImageEvent>(_selectFile);
+    on<SelectElectrodeDiaE6010Event>(_selectElectrodeDiaE6010);
+    on<SelectElectrodeEiaE7010p1Event>(_selectElectrodeEiaE8010p1);
+    on<SelectElectrodeDiaE6010BatchEvent>(_selectElectrodeDiaE6010Batch);
+    on<SelectElectrodeEiaE7010p1BatchEvent>(_selectElectrodeEiaE8010p1Batch);
+    on<SelectElectrodeDiaE9045p2Event>(_selectElectrodeDiaE9045p2);
+    on<SelectElectrodeDiaE9045p2BatchEvent>(_selectElectrodeDiaE9045p2Batch);
     on<AddTieinSubmitDataEvent>(_submit);
   }
 
@@ -280,41 +249,52 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     stripWelder2Data = WelderModel();
     electrodeDiaE81t8gBatchController.text = "";
     electrodeDiaE81t8gController.text = "";
-    electrodeDiaE6010BatchController.text = "";
-    electrodeDiaE6010Controller.text = "";
-    electrodeDiaE9045p2BatchController.text = "";
-    electrodeDiaE9045p2Controller.text = "";
-    electrodeEiaE8010p1BatchController.text = "";
-    electrodeEiaE8010p1Controller.text = "";
+
     leftPipeNumberController.text = "";
     rightPipeNumberController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
     searchLeftPipeController.text = "";
     searchRightPipeController.text = "";
-    _searchRightPipeLoader = false;
-    _searchLeftPipeLoader = false;
+    searchRightPipeLoader = false;
+    searchLeftPipeLoader = false;
 
-    _welderData = WelderModel();
-    _welderList = [];
-    _jointNumberData = JointNumberModel();
-    _jointNumberList = [];
+    welderData = WelderModel();
+    welderList = [];
+    jointNumberData = JointNumberModel();
+    jointNumberList = [];
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     alignmentList = [];
-    _wpsData = WPSModel();
-    _wpsList = [];
-    _weldVisualData = VisualChecksModel();
-    _weldVisualList = [];
-    _fitupData = VisualChecksModel();
-    _fitupList = [];
-    _isLoader = false;
-    _isWelderLoader = false;
+    wpsData = WPSModel();
+    wpsList = [];
+    weldVisualData = VisualChecksModel();
+    weldVisualList = [];
+    fitupData = VisualChecksModel();
+    fitupList = [];
+    isLoader = false;
+    isWelderLoader = false;
     file = File("");
-    _jointTypeData = JointTypeModel();
-    _jointTypeList = [];
+    jointTypeData = JointTypeModel();
+    jointTypeList = [];
     _weatherData = WeatherModel();
-    _userData = UserInfo.instanceInit()!.userData!;
+    isLoaderDiaE6010BatchBatch = false;
+    isLoaderEiaE8010p1BatchBatch = false;
+    electrodeDiaE6010Value = ElectrodeDiaData();
+    electrodeDiaE6010BatchValue = ElectrodeBatchData();
+    electrodeEiaE8010p1Value = ElectrodeDiaData();
+    electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+    electrodeDiaE9045p2Value = ElectrodeDiaData();
+    electrodeDiaE9045p2BatchValue = ElectrodeBatchData();
+
+    electrodeDiaE6010DiaList = [];
+    electrodeDiaE6010BatchList = [];
+    electrodeEiaE8010p1DiaList = [];
+    electrodeEiaE8010p1BatchList = [];
+    electrodeDiaE9045p2List = [];
+    electrodeDiaE9045p2BatchList = [];
+
+    userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
         context: event.context, userData: userData);
     _isJointNumberLoader = false;
@@ -323,7 +303,13 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
 
     leftPipeData = PipeModel();
     rightPipeData = PipeModel();
-
+    var resElectrodeDia = await AddWeldingHelper.fetchElectrodeDia(
+        context: !event.context.mounted ? event.context : event.context,
+        userData: userData);
+    if (resElectrodeDia != null) {
+      electrodeDiaE6010DiaList = resElectrodeDia;
+      electrodeEiaE8010p1DiaList = resElectrodeDia;
+    }
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
@@ -335,47 +321,37 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resWPS != null) {
-      _wpsList = resWPS;
+      wpsList = resWPS;
     }
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
-    if (resJointType != null) {
-      _jointTypeList = resJointType;
-    }*/
-
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        type: "welding",
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      _jointNumberList = resJointNumber;
-    }*/
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "welding",
-      //  jointTypeData: jointTypeData
+      context: event.context,
+      userData: userData,
+      type: AppConfig.instanceInit()!
+                  .activitySectionData
+                  .appJoint
+                  ?.trim()
+                  .isNotEmpty ==
+              true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          : "welding",
     );
     if (resJointNumber != null) {
-      _jointNumberList = resJointNumber;
+      jointNumberList = resJointNumber;
     }
     var resVisual = await AddBendingHelper.fetchVisualChecks(
         context: !event.context.mounted ? event.context : event.context);
     if (resVisual != null) {
-      _fitupList = resVisual;
+      fitupList = resVisual;
     }
-
-    _weldVisualList = fitupList;
-
+    weldVisualList = fitupList;
     _eventComplete(emit);
   }
 
   _searchPipeData(AddTieinSearchPipeDataEvent event, emit) async {
     if (event.isLeftPipe == true) {
       leftPipeList = [];
-      _searchLeftPipeLoader = true;
+      searchLeftPipeLoader = true;
       _eventComplete(emit);
       var resPipe = await AddStringingHelper.fetchPipeData(
           context: event.context,
@@ -384,13 +360,13 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
           type: "welding");
       if (resPipe != null) {
         leftPipeList = resPipe;
-        _searchLeftPipeList = leftPipeList;
+        searchLeftPipeList = leftPipeList;
       }
-      _searchLeftPipeLoader = false;
+      searchLeftPipeLoader = false;
       _eventComplete(emit);
     } else if (event.isRightPipe == true) {
       rightPipeList = [];
-      _searchRightPipeLoader = true;
+      searchRightPipeLoader = true;
       _eventComplete(emit);
       var resPipe = await AddStringingHelper.fetchPipeData(
           context: event.context,
@@ -399,9 +375,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
           type: "welding");
       if (resPipe != null) {
         rightPipeList = resPipe;
-        _searchRightPipeList = rightPipeList;
+        searchRightPipeList = rightPipeList;
       }
-      _searchRightPipeLoader = false;
+      searchRightPipeLoader = false;
       _eventComplete(emit);
     }
   }
@@ -413,28 +389,28 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
 
   _selectLeftPipe(AddTieinSelectLeftPipeDataEvent event, emit) {
     leftPipeData = event.leftPipeData;
-    _searchLeftPipeList = [];
+    searchLeftPipeList = [];
     searchLeftPipeController.text = leftPipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
   _selectRigthPipe(AddTieinSelectRightPipeDataEvent event, emit) {
     rightPipeData = event.rightPipeData;
-    _searchRightPipeList = [];
+    searchRightPipeList = [];
     searchRightPipeController.text = rightPipeData.pipeNumber.toString();
     _eventComplete(emit);
   }
 
   _selectWPS(AddTieinSelectWPSEvent event, emit) async {
-    _wpsData = event.wpsData;
-    _welderList = [];
-    _welderData = WelderModel();
-    _isWelderLoader = true;
+    wpsData = event.wpsData;
+    welderList = [];
+    welderData = WelderModel();
+    isWelderLoader = true;
     _eventComplete(emit);
     var resWelder = await AddWeldingHelper.fetchWelderData(
         context: event.context, userData: userData, wpsData: wpsData);
     if (resWelder != null) {
-      _welderList = resWelder;
+      welderList = resWelder;
     }
     rootWelders1List = welderList;
     rootWelders2List = welderList;
@@ -461,7 +437,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     stripWelder1List = welderList;
     stripWelder2List = welderList;
 
-    _isWelderLoader = false;
+    isWelderLoader = false;
     _eventComplete(emit);
   }
 
@@ -520,7 +496,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   }
 
   _selectWelder(AddTieinSelectWelderEvent event, emit) {
-    _welderData = event.welderData;
+    welderData = event.welderData;
     _eventComplete(emit);
   }
 
@@ -533,7 +509,6 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
-
 
   _selectDate(AddTieinSelectDateEvent event, emit) async {
     DateTime? pickedDate = await showDatePicker(
@@ -554,35 +529,28 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   }
 
   _selectJointType(AddTieinSelectJointTypeEvent event, emit) async {
-    _jointTypeData = event.jointTypeData;
-    _jointNumberList = [];
-    _jointNumberData = JointNumberModel();
+    jointTypeData = event.jointTypeData;
+    jointNumberList = [];
+    jointNumberData = JointNumberModel();
     _isJointNumberLoader = true;
     _eventComplete(emit);
-   /* var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        type: "welding",
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      _jointNumberList = resJointNumber;
-    }*/
+
     _isJointNumberLoader = false;
     _eventComplete(emit);
   }
 
   _selectJointNumber(AddTieinSelectJointNumberEvent event, emit) async {
-    _jointNumberData = event.jointNumberData;
+    jointNumberData = event.jointNumberData;
     _eventComplete(emit);
   }
 
   _selectFitUp(AddTieinSelectFitupDataEvent event, emit) {
-    _fitupData = event.fitupData;
+    fitupData = event.fitupData;
     _eventComplete(emit);
   }
 
   _selectWeldVisual(AddTieinSelectWeldVisualEvent event, emit) {
-    _weldVisualData = event.weldVisualData;
+    weldVisualData = event.weldVisualData;
     _eventComplete(emit);
   }
 
@@ -602,8 +570,82 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     _eventComplete(emit);
   }
 
+  _selectElectrodeDiaE6010(SelectElectrodeDiaE6010Event event, emit) async {
+    electrodeDiaE6010BatchList = [];
+    electrodeDiaE6010BatchValue = ElectrodeBatchData();
+    electrodeDiaE6010Value = event.electrodeDiaE6010Value;
+    if (electrodeDiaE6010Value.diaValue != null) {
+      isLoaderDiaE6010BatchBatch = true;
+      _eventComplete(emit);
+      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
+          context: !event.context.mounted ? event.context : event.context,
+          userData: userData,
+          diaValue: electrodeDiaE6010Value.diaValue.toString());
+      if (resElectrodeDia != null) {
+        electrodeDiaE6010BatchList = resElectrodeDia;
+      }
+    }
+    isLoaderDiaE6010BatchBatch = false;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeEiaE8010p1(SelectElectrodeEiaE7010p1Event event, emit) async {
+    electrodeEiaE8010p1BatchList = [];
+    electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+    electrodeEiaE8010p1Value = event.electrodeEiaE8010p1Value;
+    if (electrodeDiaE6010Value.diaValue != null) {
+      isLoaderEiaE8010p1BatchBatch = true;
+      _eventComplete(emit);
+      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
+          context: !event.context.mounted ? event.context : event.context,
+          userData: userData,
+          diaValue: electrodeEiaE8010p1Value.diaValue.toString());
+      if (resElectrodeDia != null) {
+        electrodeEiaE8010p1BatchList = resElectrodeDia;
+      }
+    }
+    isLoaderEiaE8010p1BatchBatch = false;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeDiaE9045p2(SelectElectrodeDiaE9045p2Event event, emit) async {
+    electrodeDiaE9045p2BatchList = [];
+    electrodeDiaE9045p2BatchValue = ElectrodeBatchData();
+    electrodeDiaE9045p2Value = event.electrodeDiaE9045p2Value;
+    if (electrodeDiaE9045p2Value.diaValue != null) {
+      isLoaderDiaE9045p2Batch = true;
+      _eventComplete(emit);
+      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
+          context: !event.context.mounted ? event.context : event.context,
+          userData: userData,
+          diaValue: electrodeDiaE9045p2Value.diaValue.toString());
+      if (resElectrodeDia != null) {
+        electrodeDiaE9045p2BatchList = resElectrodeDia;
+      }
+    }
+    isLoaderDiaE9045p2Batch = false;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeDiaE6010Batch(SelectElectrodeDiaE6010BatchEvent event, emit) {
+    electrodeDiaE6010BatchValue = event.electrodeDiaE6010BatchValue;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeEiaE8010p1Batch(
+      SelectElectrodeEiaE7010p1BatchEvent event, emit) {
+    electrodeEiaE8010p1BatchValue = event.electrodeEiaE8010p1BatchValue;
+    _eventComplete(emit);
+  }
+
+  _selectElectrodeDiaE9045p2Batch(
+      SelectElectrodeDiaE9045p2BatchEvent event, emit) {
+    electrodeDiaE9045p2BatchValue = event.electrodeDiaE9045p2BatchValue;
+    _eventComplete(emit);
+  }
+
   _submit(AddTieinSubmitDataEvent event, emit) async {
-    _isLoader = true;
+    isLoader = true;
     _eventComplete(emit);
     var res = await AddTieinHelper.submitData(
       context: event.context,
@@ -616,14 +658,24 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       electrodeDiaE81t8gBatch:
           electrodeDiaE81t8gBatchController.text.toString(),
       electrodeDiaE81t8g: electrodeDiaE81t8gController.text.toString(),
-      electrodeDiaE6010Batch: electrodeDiaE6010BatchController.text.toString(),
-      electrodeDiaE6010: electrodeDiaE6010Controller.text.toString(),
-      electrodeDiaE9045p2Batch:
-          electrodeDiaE9045p2BatchController.text.toString(),
-      electrodeDiaE9045p2: electrodeDiaE9045p2Controller.text.toString(),
-      electrodeEiaE7010p1Batch:
-          electrodeEiaE8010p1BatchController.text.toString(),
-      electrodeEiaE7010p1: electrodeEiaE8010p1Controller.text.toString(),
+      electrodeDiaE6010Batch: electrodeDiaE6010BatchValue.batchNo == null
+          ? ""
+          : electrodeDiaE6010BatchValue.batchNo.toString(),
+      electrodeDiaE6010: electrodeDiaE6010Value.diaValue == null
+          ? ""
+          : electrodeDiaE6010Value.diaValue.toString(),
+      electrodeDiaE9045p2Batch: electrodeDiaE9045p2BatchValue.batchNo == null
+          ? ""
+          : electrodeDiaE9045p2BatchValue.batchNo.toString(),
+      electrodeDiaE9045p2: electrodeDiaE9045p2Value.diaValue == null
+          ? ""
+          : electrodeDiaE9045p2Value.diaValue.toString(),
+      electrodeEiaE7010p1Batch: electrodeEiaE8010p1BatchValue.batchNo == null
+          ? ""
+          : electrodeEiaE8010p1BatchValue.batchNo.toString(),
+      electrodeEiaE7010p1: electrodeEiaE8010p1Value.diaValue == null
+          ? ""
+          : electrodeEiaE8010p1Value.diaValue.toString(),
       leftPipeData: leftPipeData,
       rightPipeData: rightPipeData,
       wpsData: wpsData,
@@ -638,7 +690,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       chainageTo: chainageToController.text.toString(),
       reportNumber: reportNumberController.text.toString(),
     );
-    _isLoader = false;
+    isLoader = false;
     _eventComplete(emit);
     if (res != null) {
       dateController.text = "";
@@ -646,25 +698,20 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       activityRemarkController.text = "";
       electrodeDiaE81t8gBatchController.text = "";
       electrodeDiaE81t8gController.text = "";
-      electrodeDiaE6010BatchController.text = "";
-      electrodeDiaE6010Controller.text = "";
-      electrodeDiaE9045p2BatchController.text = "";
-      electrodeDiaE9045p2Controller.text = "";
-      electrodeEiaE8010p1BatchController.text = "";
-      electrodeEiaE8010p1Controller.text = "";
+
       leftPipeNumberController.text = "";
       rightPipeNumberController.text = "";
-      _welderData = WelderModel();
-      _jointNumberData = JointNumberModel();
+      welderData = WelderModel();
+      jointNumberData = JointNumberModel();
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
-      _wpsData = WPSModel();
-      _weldVisualData = VisualChecksModel();
-      _fitupData = VisualChecksModel();
-      _isLoader = false;
-      _isWelderLoader = false;
+      wpsData = WPSModel();
+      weldVisualData = VisualChecksModel();
+      fitupData = VisualChecksModel();
+      isLoader = false;
+      isWelderLoader = false;
       file = File("");
-      _jointTypeData = JointTypeModel();
+      jointTypeData = JointTypeModel();
       rootWelders1Data = WelderModel();
       rootWelders2Data = WelderModel();
       hotWelders1Data = WelderModel();
@@ -697,6 +744,12 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       searchLeftPipeController.text = "";
       searchRightPipeController.text = "";
       reportNumberController.text = "";
+      electrodeDiaE6010Value = ElectrodeDiaData();
+      electrodeDiaE6010BatchValue = ElectrodeBatchData();
+      electrodeEiaE8010p1Value = ElectrodeDiaData();
+      electrodeEiaE8010p1BatchValue = ElectrodeBatchData();
+      electrodeDiaE9045p2Value = ElectrodeDiaData();
+      electrodeDiaE9045p2BatchValue = ElectrodeBatchData();
     }
     _eventComplete(emit);
   }
@@ -747,12 +800,6 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       weldVisualList: weldVisualList,
       electrodeDiaE81t8gBatchController: electrodeDiaE81t8gBatchController,
       electrodeDiaE81t8gController: electrodeDiaE81t8gController,
-      electrodeDiaE6010BatchController: electrodeDiaE6010BatchController,
-      electrodeDiaE6010Controller: electrodeDiaE6010Controller,
-      electrodeDiaE9045p2BatchController: electrodeDiaE9045p2BatchController,
-      electrodeDiaE9045p2Controller: electrodeDiaE9045p2Controller,
-      electrodeEiaE8010p1BatchController: electrodeEiaE8010p1BatchController,
-      electrodeEiaE8010p1Controller: electrodeEiaE8010p1Controller,
       isWelderLoader: isWelderLoader,
       jointTypeData: jointTypeData,
       jointTypeList: jointTypeList,
@@ -798,6 +845,21 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       searchRightPipeList: searchRightPipeList,
       searchRightPipeLoader: searchRightPipeLoader,
       reportNumberController: reportNumberController,
+      electrodeDiaE6010BatchList: electrodeDiaE6010BatchList,
+      electrodeDiaE6010BatchValue: electrodeDiaE6010BatchValue,
+      electrodeDiaE6010DiaList: electrodeDiaE6010DiaList,
+      electrodeDiaE6010Value: electrodeDiaE6010Value,
+      electrodeEiaE8010p1BatchList: electrodeEiaE8010p1BatchList,
+      electrodeEiaE8010p1BatchValue: electrodeEiaE8010p1BatchValue,
+      electrodeEiaE8010p1DiaList: electrodeEiaE8010p1DiaList,
+      electrodeEiaE8010p1Value: electrodeEiaE8010p1Value,
+      isLoaderDiaE6010BatchBatch: isLoaderDiaE6010BatchBatch,
+      isLoaderEiaE8010p1BatchBatch: isLoaderEiaE8010p1BatchBatch,
+      isLoaderDiaE9045p2Batch: isLoaderDiaE9045p2Batch,
+      electrodeDiaE9045p2BatchList: electrodeDiaE9045p2BatchList,
+      electrodeDiaE9045p2BatchValue: electrodeDiaE9045p2BatchValue,
+      electrodeDiaE9045p2List: electrodeDiaE9045p2List,
+      electrodeDiaE9045p2Value: electrodeDiaE9045p2Value,
     ));
   }
 }

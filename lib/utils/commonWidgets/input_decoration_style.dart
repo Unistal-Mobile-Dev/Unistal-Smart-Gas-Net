@@ -1,6 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_font.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
@@ -11,32 +9,44 @@ class InputDecorationStyle {
         bool isRequired = false,
         Widget? suffixIcon,
         IconData? prefixIcon,
+        double? fontSize,
+        FontWeight? fontWeight,
       }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
+
+    final fillColor = isDark
+        ? theme.colorScheme.surfaceContainerHighest
+        : Colors.white;
+
+    final textColor = theme.colorScheme.onSurface;         // ✅ auto light/dark
+    final hintColor = theme.colorScheme.onSurfaceVariant;  // ✅ softer hint
+
     return InputDecoration(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: fillColor,
       isDense: true,
-      floatingLabelBehavior: FloatingLabelBehavior.auto, // 👈 add this
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+      floatingLabelBehavior: FloatingLabelBehavior.auto,
+      contentPadding:
+      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
 
       prefixIcon: prefixIcon != null
-          ? Icon(
-        prefixIcon,
-        color: EnvironmentConfig.of(context)!.primaryTheme,
-      )
+          ? Icon(prefixIcon, color: primaryColor)
           : null,
 
       suffixIcon: suffixIcon,
 
+      // ✅ Theme-aware label text
       label: Text.rich(
         TextSpan(
           children: [
             TextSpan(
               text: labelText ?? '',
-              style:TextStyle(
-                color: AppColor.black,
-                fontSize: AppFont.font_14,
-                fontWeight: FontWeight.w500,
+              style: TextStyle(
+                color: textColor,
+                fontSize: fontSize ?? AppFont.font_14,
+                fontWeight:  fontWeight ?? FontWeight.w500,
               ),
             ),
             if (isRequired)
@@ -48,38 +58,72 @@ class InputDecorationStyle {
         ),
       ),
 
-      hintText: labelText,
+      // ✅ hint widget only — hintText removed to avoid assertion error
+      hint: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: labelText ?? '',
+              style: TextStyle(
+                color: textColor,
+                fontSize: fontSize ?? AppFont.font_14,
+                fontWeight:  fontWeight ?? FontWeight.w500,
+              ),
+            ),
+            if (isRequired)
+              const TextSpan(
+                text: ' *',
+                style: TextStyle(color: Colors.red),
+              ),
+          ],
+        ),
+      ),
+
       hintStyle: TextStyle(
-        color: AppColor.black,
-        fontSize: AppFont.font_14,
-        fontWeight: FontWeight.w500,
+        color: hintColor,
+        fontSize: fontSize ?? AppFont.font_14,
+        fontWeight:  fontWeight ?? FontWeight.w500,
       ),
+
+      // ✅ Theme-aware label style (when floating)
       labelStyle: TextStyle(
-        color: AppColor.black,
-        fontSize: AppFont.font_14,
+        color: textColor,
+        fontSize: fontSize ?? AppFont.font_14,
+        fontWeight:  fontWeight ?? FontWeight.w500,
+      ),
+
+      // ✅ Floating label color when focused
+      floatingLabelStyle: TextStyle(
+        color: primaryColor,
+        fontSize: AppFont.font_12,
         fontWeight: FontWeight.w500,
       ),
+
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: EnvironmentConfig.of(context)!.primaryTheme,
-          width: 1.2,
-        ),
+        borderSide: BorderSide(color: primaryColor, width: 1.2),
       ),
 
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: EnvironmentConfig.of(context)!.primaryTheme,
+          color: isDark
+              ? primaryColor.withOpacity(0.6)
+              : primaryColor,
           width: 1.2,
         ),
       ),
 
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: primaryColor, width: 1.5),
+      ),
+
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: EnvironmentConfig.of(context)!.primaryTheme,
-          width: 1.5,
+          color: isDark ? Colors.grey.shade700 : Colors.grey.shade400,
+          width: 1.0,
         ),
       ),
 
@@ -90,10 +134,8 @@ class InputDecorationStyle {
 
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
       ),
     );
   }
-
-
 }

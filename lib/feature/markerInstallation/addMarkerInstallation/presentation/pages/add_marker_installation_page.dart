@@ -1,4 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/domain/bloc/add_marker_installation_bloc.dart';
@@ -6,21 +5,16 @@ import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMark
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/button_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/center_loader_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dotted_loader_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_search_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/text_field_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/text_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_font.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_string.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/enums.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddMarkerInstallationPage extends StatefulWidget {
   const AddMarkerInstallationPage({super.key});
@@ -30,17 +24,29 @@ class AddMarkerInstallationPage extends StatefulWidget {
 }
 
 class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddMarkerInstallationBloc>(context)
         .add(AddMarkerInstallationPageLoadEvent(context: context));
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddMarkerInstallationBloc, AddMarkerInstallationState>(
         builder: (context, state) {
           if (state is FetchAddMarkerInstallationDataState) {
@@ -62,6 +68,10 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -74,10 +84,12 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
             _verticalSpace(),
             _markerTypeDropDown(dataState: dataState),
             _verticalSpace(),
-            _chainageController(dataState: dataState),
-            _verticalSpace(),
-            _descriptionController(dataState: dataState),
-            _verticalSpace(),
+           if(!(_isHPCL || _isHPOIL))...[
+             _chainageController(dataState: dataState),
+             _verticalSpace(),
+             _descriptionController(dataState: dataState),
+             _verticalSpace(),
+           ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -87,6 +99,15 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -137,6 +158,7 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
 
   Widget _weatherDropDown({required FetchAddMarkerInstallationDataState dataState}) {
     return DropdownWidget<WeatherModel>(
+        isRequired: true,
       hint: AppString.selectWeather,
       dropdownValue:
       dataState.weatherData.id != null ? dataState.weatherData : null,
@@ -209,130 +231,18 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
       controller: dataState.activityRemarkController,
     );
   }
-
-
-  Widget _photo({required FetchAddMarkerInstallationDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
-                child: Icon(Icons.photo_camera_back_outlined),
-              ),
-              Padding(
-                padding: EdgeInsets.all(
-                    MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget(
-                  "Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,
-                ),
-              ),
-            ],
-          )
-              : Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".jpg") ||
-                      dataState.file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".png") ||
-                      dataState.file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".jpeg")
-                      ? Image.file(
-                    dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.width / 4.5,
-                  )
-                      : dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      : const Icon(Icons.document_scanner_outlined),
-                  dataState.file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? TextWidget(
-                    dataState.file.path.split('/').last.toString(),
-                    color:  EnvironmentConfig.of(context)!.primaryTheme,
-                    fontSize: AppFont.font_12,
-                  )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.width / 3,
-                  color: Colors.white.withOpacity(0.6),
-                  child: Center(
-                      child: Icon(
-                        Icons.refresh,
-                        color:  EnvironmentConfig.of(context)!.primaryTheme,
-                      ))),
-            ],
-          ),
-        ),
+  Widget _photo({required FetchAddMarkerInstallationDataState dataState}){
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () =>BlocProvider.of<AddMarkerInstallationBloc>(context).add(
+            AddMarkerInstallationAddImageEvent(
+                context: context, mediaType: 1)),
+        onGallery: () =>BlocProvider.of<AddMarkerInstallationBloc>(context).add(
+            AddMarkerInstallationAddImageEvent(
+                context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddMarkerInstallationBloc>(context).add(
-                        AddMarkerInstallationAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddMarkerInstallationBloc>(context).add(
-                        AddMarkerInstallationAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -353,7 +263,7 @@ class _AddMarkerInstallationPageState extends State<AddMarkerInstallationPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

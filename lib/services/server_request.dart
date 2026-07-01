@@ -1,375 +1,333 @@
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
+import 'package:flutter_unistal_smart_gas_net/localDataBase/preferences_name.dart';
+import 'package:flutter_unistal_smart_gas_net/localDataBase/shared_preferences_utils.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:http/http.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/res/app_navigator.dart';
+import 'package:mime/mime.dart';
 
 class ServerRequest {
-  static BuildContext? context = Singleton.instanceInit()?.context;
-  static var header = {"Content-Type": "application/x-www-form-urlencoded"};
+  static final Dio _dio = Dio();
 
-  static Future<dynamic> getData({required var urlEndPoint}) async {
-    try {
-      if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
-          false) {
-        return null;
-      }
-      addToken();
-      String url = APIs.baseUrl + urlEndPoint;
-      log(Uri.parse(url.toString()).toString());
-      final response = await get(Uri.parse(url.toString()), headers: header)
-          .timeout(const Duration(minutes: 1));
-      log(response.body);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 500) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-        return e.toString();
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-        return e.toString();
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-        return e.toString();
-      }
-    }
-    return null;
-  }
 
-  static Future<dynamic> putData({required var urlEndPoint, required var body}) async {
-    try {
-      if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
-          false) {
-        return null;
-      }
-      addToken();
-      String url = APIs.baseUrl + urlEndPoint;
-      log(url);
-      final response =
-          await put(Uri.parse(url), headers: header, body: jsonEncode(body))
-              .timeout(const Duration(minutes: 1));
-      log(response.body);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 500) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-        return e.toString();
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-        return e.toString();
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-        return e.toString();
-      }
-    }
-    return null;
-  }
+  static final Map<String, dynamic> header = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
 
-  static Future<dynamic> backgroundServicePost(
-      {required var urlEndPoint, required var body}) async {
-    try {
-      String baseUrl =
-          await SharedPreferencesUtils.getString(key: PreferencesName.baseUrl);
-      if (kDebugMode) {
-        print("Base Url ====================  $baseUrl");
-      }
-      String url = baseUrl + urlEndPoint;
-      log(url);
-      log(jsonEncode(body).toString());
-      log(header.toString());
-      final response =
-          await post(Uri.parse(url), headers: header, body: jsonEncode(body))
-              .timeout(const Duration(minutes: 1));
-      log(response.body);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 500) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("${e}Post Data ");
-      }
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-        return e.toString();
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-        return e.toString();
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-        return e.toString();
-      }
-    }
-    return null;
-  }
+  // ================= INIT — call once at app start =================
+  static void init() {
+    _dio.options = BaseOptions(
+      baseUrl: AppConfig.baseUrl ?? "",
+      connectTimeout: const Duration(minutes: 1),
+      receiveTimeout: const Duration(minutes: 1),
+      headers: header,
+    );
+    // Prevent duplicate interceptors
+    _dio.interceptors.clear();
+    // Interceptor — token + static header auto add on every request
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = AppConfig.instanceInit()?.loginData.token ?? "";
+          options.headers["Authorization"] = token;
+          header.forEach((key, value) {
+            options.headers.putIfAbsent(key, () => value);
+          });
 
-  static Future<dynamic> postData(
-      {required var urlEndPoint, required var body}) async {
-    try {
-      String url = APIs.baseUrl + urlEndPoint;
-      log(url);
-      addToken();
-      log(jsonEncode(body).toString());
-      log(header.toString());
-      final response = await post(Uri.parse(url), headers: header, body: body)
-          .timeout(const Duration(minutes: 1));
-      log(response.body);
-      if (response.statusCode == 200) {
-        updateCookie(response);
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 500) {
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 401) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("${e}Post Data ");
-      }
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-        return e.toString();
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-        return e.toString();
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-        return e.toString();
-      }
-    }
-    return null;
-  }
+          log("══════════════════════════════════════════════");
+          log("REQUEST");
+          log("METHOD : ${options.method}");
+          log("URL    : ${options.uri}");
 
-  static Future<dynamic> getGoogleData({required var url}) async {
-    try {
-      if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
-          false) {
-        return null;
-      }
-      log(url.toString());
-      final response =
-          await get(url, headers: header).timeout(const Duration(minutes: 1));
-      log(response.body);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else if (response.statusCode == 500) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-        return e.toString();
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-        return e.toString();
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-        return e.toString();
-      }
-    }
-    return null;
-  }
-
-  static Future<dynamic> firebasePushNotification({var url, var body}) async {
-    try {
-      var headerData = {
-        HttpHeaders.authorizationHeader:
-            "key=AAAA_2ZBpcw:APA91bHTro4TrfIIaFMqK0tULAKYBnStmCrdWysOMlPyDWGAQYJnPkyX35PIFA0XyNczynTLnO7G03_kArEhq1-49Yv57tyyftQXJcnw85JtGdkMGUR9P2Bi000DlZOLlf7YNU2Zj2En",
-        "Content-Type": "application/json; charset=UTF-8"
-      };
-      log(url);
-      log(jsonEncode(body));
-      final response = await post(Uri.parse(url),
-          headers: headerData, body: jsonEncode(body));
-      log(response.body);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      }
-    } catch (e) {
-      if (e is SocketException) {
-        log("SocketException : ${e.toString()}");
-      } else if (e is TimeoutException) {
-        log("TimeoutException : ${e.toString()}");
-      } else {
-        log("Unhandled exception : ${e.toString()}");
-      }
-    }
-    return null;
-  }
-
-  static Future<dynamic> postDataWithFile(
-      {required String urlEndPoint,
-      required Map<String, String?> body,
-      required BuildContext context,
-      String? filePath,
-      String? keyWord,
-      List<FileModel>? fileList}) async {
-    try {
-      addToken();
-      String url = APIs.baseUrl + urlEndPoint;
-      Uri uri = Uri.parse(url);
-      log(url);
-      log(body.toString());
-      log(header.toString());
-
-      var request = MultipartRequest("POST", uri);
-
-      /// ================= FILE LIST =================
-      if (fileList != null && fileList.isNotEmpty) {
-        for (var fileData in fileList) {
-          if (fileData.file.path.isEmpty) continue;
-
-          String ext = getFileExtension(fileData.file.path);
-
-          String finalPath = ext != "pdf"
-              ? await safeCompress(fileData.file)
-              : fileData.file.path;
-
-          if (finalPath.isEmpty) {
-            log("❌ Skipping invalid file");
-            continue;
+          if (options.queryParameters.isNotEmpty) {
+            log("QUERY  : ${options.queryParameters}");
           }
 
-          log("Uploading File: $finalPath");
+          log("HEADERS:\n${options.headers}");
 
-          var multipartFile = await MultipartFile.fromPath(
-            fileData.keyName,
-            finalPath,
-            contentType: getMediaType(ext),
-          );
+          if (options.method != "GET") {
+            log("BODY TYPE : ${options.data.runtimeType}");
+            log("BODY :\n${_formatBody(options.data)}");
+          }
 
-          request.files.add(multipartFile);
+          log("══════════════════════════════════════════════");
+
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          updateCookie(response);
+          log("══════════════════════════════════════════════");
+          log("RESPONSE");
+          log("STATUS : ${response.statusCode}");
+          log("URL    : ${response.requestOptions.uri}");
+          log("BODY :");
+          log(response.data.toString());
+          log("══════════════════════════════════════════════");
+          return handler.next(response);
+        },
+        onError: (DioException e, handler) {
+          log("══════════════════════════════════════════════");
+          log("ERROR");
+
+          log("URL : ${e.requestOptions.uri}");
+
+          if (e.response != null) {
+            log("STATUS : ${e.response?.statusCode}");
+            log("BODY : ${e.response?.data}");
+          } else {
+            log("MESSAGE : ${e.message}");
+          }
+
+          log("══════════════════════════════════════════════");
+          return handler.next(e);
+        },
+      ),
+    );
+  }
+
+  // ================= BODY LOG FORMATTER =================
+  static String _formatBody(dynamic data) {
+    if (data == null) {
+      return "<EMPTY>";
+    }
+
+    if (data is FormData) {
+      final buffer = StringBuffer();
+
+      if (data.fields.isNotEmpty) {
+        buffer.writeln("Fields:");
+        for (final field in data.fields) {
+          buffer.writeln("${field.key}: ${field.value}");
         }
       }
 
-      /// ================= SINGLE FILE =================
-      else if (filePath != null && filePath.isNotEmpty && keyWord != null) {
-        String ext = getFileExtension(filePath);
+      if (data.files.isNotEmpty) {
+        buffer.writeln();
+        buffer.writeln("Files:");
 
-        String finalPath =
-            ext != "pdf" ? await safeCompress(File(filePath)) : filePath;
-
-        if (finalPath.isNotEmpty) {
-          log("Uploading Single File: $finalPath");
-
-          var multipartFile = await MultipartFile.fromPath(
-            keyWord,
-            finalPath,
-            contentType: getMediaType(ext),
+        for (final file in data.files) {
+          buffer.writeln(
+            "${file.key}: ${file.value.filename} (${file.value.length} bytes)",
           );
-
-          request.files.add(multipartFile);
         }
       }
 
-      request.fields
-          .addAll(body.map((key, value) => MapEntry(key, value ?? "")));
-      // request.fields.addAll(body);
-      request.headers.addAll(header);
-      var response = await request.send();
-      var responseData = await response.stream.toBytes();
-      var result = json.decode(String.fromCharCodes(responseData));
-      log(result.toString());
-      if (response.statusCode == 200) {
-        var result = json.decode(String.fromCharCodes(responseData));
-        log(result.toString());
-        return result;
-      } else if (response.statusCode == 415) {
-        var result = json.decode(String.fromCharCodes(responseData));
-        log(result.toString());
-        return result;
-      } else if (response.statusCode == 400) {
-        var result = json.decode(String.fromCharCodes(responseData));
-        log(result.toString());
-        return result;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      log("postDataWithFile--> ${e.toString()}");
-      return null;
+      return buffer.toString();
     }
+
+    if (data is Map) {
+      final buffer = StringBuffer();
+
+      data.forEach((key, value) {
+        buffer.writeln("$key : $value");
+      });
+
+      return buffer.toString();
+    }
+
+    if (data is List) {
+      return data.toString();
+    }
+
+    if (data is String) {
+      return data;
+    }
+
+    return data.toString();
   }
 
-  /// ================= HELPER: FILE EXTENSION =================
-  static String getFileExtension(String path) {
+  static Options _buildOptions(Map<String, dynamic>? headers) {
+    final merged = <String, dynamic>{...header};
+    if (headers != null) merged.addAll(headers);
+    return Options(headers: merged);
+  }
+
+  // ================= GET =================
+  static Future<dynamic> getData({
+    required String urlEndPoint,
+    Map<String, dynamic>? headers,
+  }) async {
     try {
-      if (path.isEmpty || !path.contains(".")) {
-        return "jpg"; // fallback
+      final context = AppNavigator.navigatorKey.currentContext;
+      if (context != null) {
+        if (await ConnectivityHelper.allConnectivityCheck(context: context) ==
+            false) {
+          return null;
+        }
       }
-      return path.split(".").last.toLowerCase();
-    } catch (e) {
-      return "jpg";
+      final response = await _dio.get(
+        urlEndPoint,
+        options: _buildOptions(headers),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return _handleException(e);
     }
   }
 
-  /// ================= HELPER: MIME TYPE =================
-  static MediaType getMediaType(String ext) {
-    switch (ext) {
-      case "jpg":
-      case "jpeg":
-        return MediaType("image", "jpeg");
-      case "png":
-        return MediaType("image", "png");
-      case "pdf":
-        return MediaType("application", "pdf");
-      default:
-        return MediaType("application", "octet-stream");
-    }
-  }
-
-  /// ================= HELPER: SAFE COMPRESS =================
-  static Future<String> safeCompress(File file) async {
+  // ================= POST =================
+  static Future<dynamic> postData({
+    required String urlEndPoint,
+    required dynamic body,
+    Map<String, dynamic>? headers,
+  }) async {
     try {
-      // 👉 Replace this with your actual compression logic
-      // Example: return await fileCompress(file: file);
-
-      return file.path; // fallback (NO compression)
-    } catch (e) {
-      log("Compression failed, using original file");
-      return file.path;
+      final response = await _dio.post(
+        urlEndPoint,
+        data: body,
+        options: _buildOptions(headers),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return _handleException(e);
     }
   }
 
-  static updateCookie(Response response) {
-    String? rawCookie = response.headers['set-cookie'];
+  // ================= PUT =================
+  static Future<dynamic> putData({
+    required String urlEndPoint,
+    required dynamic body,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final response = await _dio.put(
+        urlEndPoint,
+        data: body,
+        options: _buildOptions(headers),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return _handleException(e);
+    }
+  }
+
+  // ================= BACKGROUND POST =================
+  static Future<dynamic> backgroundServicePost({
+    required String urlEndPoint,
+    required dynamic body,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      // Background service mein AppConfig available nahi hota
+      // SharedPreferences se baseUrl lo
+      final baseUrl = await SharedPreferencesUtils.getString(
+        key: PreferencesName.baseUrl,
+      );
+
+      // merge static header + custom header for the temp client
+      final mergedHeaders = <String, dynamic>{...header};
+      if (headers != null) mergedHeaders.addAll(headers);
+
+      final tempDio = Dio(
+        BaseOptions(
+          baseUrl: baseUrl,
+          connectTimeout: const Duration(minutes: 1),
+          receiveTimeout: const Duration(minutes: 1),
+          headers: mergedHeaders,
+        ),
+      );
+      final response = await tempDio.post(urlEndPoint, data: body);
+      return response.data;
+    } on DioException catch (e) {
+      return _handleException(e);
+    }
+  }
+
+  // ================= POST WITH FILE =================
+  static Future<dynamic> postDataWithFile({
+    required String urlEndPoint,
+    required Map<String, dynamic> body,
+    required List<ImageRequestObject> imageRequestObject,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final formData = FormData.fromMap(body);
+      for (var element in imageRequestObject) {
+        if (element.path!.isNotEmpty && !element.path!.startsWith("http")) {
+          final mimeTypeData =
+          lookupMimeType(element.path!, headerBytes: [0xFF, 0xD8])
+              ?.split('/');
+          if (mimeTypeData != null && mimeTypeData.length == 2) {
+            formData.files.add(
+              MapEntry(
+                element.key!,
+                await MultipartFile.fromFile(
+                  element.path!,
+                  contentType: DioMediaType(mimeTypeData[0], mimeTypeData[1]),
+                ),
+              ),
+            );
+          }
+        } else {
+          body[element.key!] = element.path;
+        }
+      }
+
+      // start with multipart content type, then layer custom headers on top
+      final fileHeaders = <String, dynamic>{
+        "Content-Type": "multipart/form-data",
+      };
+      if (headers != null) fileHeaders.addAll(headers);
+
+      final response = await _dio.post(
+        urlEndPoint,
+        data: formData,
+        options: Options(headers: fileHeaders),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return _handleException(e);
+    }
+  }
+
+  // ================= COOKIE (like old updateCookie) =================
+  static void updateCookie(Response response) {
+    final rawCookie = response.headers.value('set-cookie');
     if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
+      final index = rawCookie.indexOf(';');
       header['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
-  static addToken() {
-    String token = UserInfo.instanceInit()!.userData != null
-        ? UserInfo.instanceInit()!.userData!.token.toString()
-        : "";
-    header["Authorization"] = token;
+  // ================= EXCEPTION HANDLER =================
+  static dynamic _handleException(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+        log("TimeoutException: ${e.message}");
+        break;
+      case DioExceptionType.connectionError:
+        log("SocketException: ${e.message}");
+        break;
+      default:
+        log("Unhandled DioException: ${e.message}");
+    }
+    // Server ka error response bhi return hoga
+    return e.response?.data ?? e.message;
   }
 
+  // ================= FILE COMPRESS =================
   static Future<String> fileCompress({required File file}) async {
     final filePath = file.path;
     final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
-    final splitted = filePath.substring(0, (lastIndex));
+    final splitted = filePath.substring(0, lastIndex);
     final outPath = '${splitted}_out${filePath.substring(lastIndex)}';
-    var result = await FlutterImageCompress.compressAndGetFile(
+    final result = await FlutterImageCompress.compressAndGetFile(
       file.path,
       outPath,
       quality: 70,
     );
-    return result!.path.toString();
+    return result!.path;
   }
+}
+
+class ImageRequestObject {
+  String? key;
+  String? path;
+
+  ImageRequestObject(this.key, this.path);
 }

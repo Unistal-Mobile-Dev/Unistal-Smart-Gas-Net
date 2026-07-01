@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/bloc/add_lowering_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
@@ -8,7 +10,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 
 class AddLoweringPage extends StatefulWidget {
   const AddLoweringPage({super.key});
@@ -18,29 +20,37 @@ class AddLoweringPage extends StatefulWidget {
 }
 
 class _AddLoweringPageState extends State<AddLoweringPage> {
-  final client = AppConfig.instanceInit()!.client;
+  late final Client _client;
 
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl= false;
-  late bool isUrjagati= false;
-  late bool isMgl= false;
+  bool get _isVPPL => _client == Client.vppl;
+
+  bool get _isVRPL => _client == Client.vrpl;
+
+  bool get _isBJPL => _client == Client.bjpl;
+
+  bool get _isHPCL => _client == Client.hpcl;
+
+  bool get _isHPOIL => _client == Client.hpoil;
+
+  bool get _isGJPL => _client == Client.gjpl;
+
+  bool get _isURJAGATI => _client == Client.urjagati;
+
+  bool get _isMGL => _client == Client.mgl;
+
+  // bool get _isAllClient => _isVppl || _isURJAGATI || _isGJPL;
 
   @override
   void initState() {
-
-    isVppl = client == Client.vppl;
-    isUrjagati =  client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    isMgl = client == Client.mgl;
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddLoweringBloc>(context)
         .add(AddLoweringPageLoadEvent(context: context));
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddLoweringBloc, AddLoweringState>(
         builder: (context, state) {
           if (state is FetchAddLoweringDataState) {
@@ -62,6 +72,10 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if (_isVPPL || _isVRPL || _isBJPL) ...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -70,16 +84,18 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _locatinController(dataState: dataState),
-            _verticalSpace(),
-            _holidayDetectorDetailsController(dataState: dataState),
-            _verticalSpace(),
-            _testVoltageController(dataState: dataState),
-            _verticalSpace(),
-            _repairCoatingController(dataState: dataState),
-            _verticalSpace(),
-            _modelController(dataState: dataState),
-            _verticalSpace(),
+            if (_isVPPL) ...[
+              _dewateringDropDown(dataState: dataState),
+              _verticalSpace(),
+              _paddingDropDown(dataState: dataState),
+              _verticalSpace(),
+              _paddingMaterialDropDown(dataState: dataState),
+              _verticalSpace(),
+              _loweringClearanceDropDown(dataState: dataState),
+              _verticalSpace(),
+              _approvedPipeDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -90,16 +106,35 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            if(isMgl)...[
-              _calibarationDateController(dataState: dataState),
+            if(!_isVPPL)...[
+              _holidayDetectorDetailsController(dataState: dataState),
               _verticalSpace(),
+              _modelController(dataState: dataState),
+              _verticalSpace(),
+              _testVoltageController(dataState: dataState),
+              _verticalSpace(),
+              if (_isMGL || _isVPPL || _isVRPL) ...[
+                _calibarationDateController(dataState: dataState),
+                _verticalSpace(),
+              ],
+              _repairCoatingController(dataState: dataState),
+              _verticalSpace(),
+              _locatinController(dataState: dataState),
+              _verticalSpace(),
+
             ],
             _postPaddingController(dataState: dataState),
             _verticalSpace(),
-            if(!isMgl)...[
+            if (_isMGL || _isVPPL || _isVRPL) ...[
               _holidayChecksDropDown(dataState: dataState),
               _verticalSpace(),
             ],
+            _nightCapDropDown(dataState: dataState),
+            _verticalSpace(),
+            _postPaddingCtrl(dataState: dataState),
+            _verticalSpace(),
+            _postPaddingController(dataState: dataState),
+            _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -109,6 +144,16 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue:
+          AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -159,42 +204,39 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _weatherDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<WeatherModel>(
-      isRequired: true,
-      hint: AppString.selectWeather,
-      dropdownValue:
-          dataState.weatherData.id != null ? dataState.weatherData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value!));
-      },
-      items: dataState.weatherList
-    );
+        isRequired: true,
+        hint: AppString.selectWeather,
+        dropdownValue:
+            dataState.weatherData.id != null ? dataState.weatherData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(SelectWeatherEvent(weatherData: value!));
+        },
+        items: dataState.weatherList);
   }
 
   Widget _pipeDiaDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<PipeDiaModel>(
-      hint: AppString.selectPipeDia,
-      dropdownValue:
-          dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context)
-            .add(AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value!));
-      },
-      items: dataState.pipeDialList
-    );
+        hint: AppString.selectPipeDia,
+        dropdownValue:
+            dataState.pipeDiaData.id != null ? dataState.pipeDiaData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(AddLoweringSelectPipeDiaDataEvent(pipeDiaData: value!));
+        },
+        items: dataState.pipeDialList);
   }
 
   Widget _thicknessDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<ThicknessModel>(
-      hint: AppString.selectPipeThickness,
-      dropdownValue:
-          dataState.thicknessData.id != null ? dataState.thicknessData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context)
-            .add(AddLoweringSelectThicknessDataEvent(thicknessData: value!));
-      },
-      items: dataState.thicknessList
-    );
+        hint: AppString.selectPipeThickness,
+        dropdownValue:
+            dataState.thicknessData.id != null ? dataState.thicknessData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(AddLoweringSelectThicknessDataEvent(thicknessData: value!));
+        },
+        items: dataState.thicknessList);
   }
 
   Widget _locatinController({required FetchAddLoweringDataState dataState}) {
@@ -204,7 +246,17 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _holidayDetectorDetailsController({required FetchAddLoweringDataState dataState}) {
+
+  Widget _postPaddingCtrl({required FetchAddLoweringDataState dataState}) {
+    return TextFieldWidget(
+      labelText:  "Post Padding",
+      controller: dataState.postPaddingCtrl,
+    );
+  }
+
+
+  Widget _holidayDetectorDetailsController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.holidayDetectorDetails,
       controller: dataState.holidayDetectorDetailsController,
@@ -213,12 +265,15 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _modelController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati ? "Repair Of Coating Damage": AppString.makeModel,
+      labelText: _isURJAGATI || _isGJPL
+          ? "Repair Of Coating Damage"
+          : AppString.makeModel,
       controller: dataState.modelController,
     );
   }
 
-  Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
+  Widget _testVoltageController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: AppString.testVoltage,
@@ -236,7 +291,8 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _calibarationDateController({required FetchAddLoweringDataState dataState}) {
+  Widget _calibarationDateController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       enabled: true,
       readOnly: true,
@@ -253,23 +309,24 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _repairCoatingController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati ? "Calibaration Done On" : AppString.repairCoatingDamage,
+      labelText: _isURJAGATI || _isGJPL
+          ? "Calibaration Done On"
+          : AppString.repairCoatingDamage,
       controller: dataState.repairCoatingController,
     );
   }
 
   Widget _jointTypeDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<JointTypeModel>(
-      hint: AppString.selectJointType,
-      dropdownValue:
-          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddLoweringBloc>(context).add(
-            AddLoweringSelectJointTypeDataEvent(
-                jointTypeData: value!, context: context));
-      },
-      items: dataState.jointTypeList
-    );
+        hint: AppString.selectJointType,
+        dropdownValue:
+            dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context).add(
+              AddLoweringSelectJointTypeDataEvent(
+                  jointTypeData: value!, context: context));
+        },
+        items: dataState.jointTypeList);
   }
 
   Widget _fromJointNumberDropDown(
@@ -331,17 +388,107 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _postPaddingController({required FetchAddLoweringDataState dataState}) {
+  Widget _postPaddingController(
+      {required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati ? "Padding" : AppString.postPadding,
+      labelText: _isURJAGATI || _isGJPL
+          ? "Padding"
+          : _isVPPL || _isVRPL
+              ? "Padding Over OFC / Trench Cleaning"
+              : AppString.postPadding,
       controller: dataState.postPaddingController,
     );
   }
 
-  Widget _holidayChecksDropDown({required FetchAddLoweringDataState dataState}) {
+  Widget _dewateringDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Dewatering",
+        dropdownValue: dataState.dewateringValue.id != null
+            ? dataState.dewateringValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(AddLoweringSelectDewateringEvent(dewateringValue: value!));
+        },
+        items: dataState.listOfDewatering);
+  }
+
+  Widget _paddingDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Padding",
+        dropdownValue:
+            dataState.paddingValue.id != null ? dataState.paddingValue : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(AddLoweringSelectPaddingEvent(paddingValue: value!));
+        },
+        items: dataState.listOfPadding);
+  }
+
+  Widget _paddingMaterialDropDown(
+      {required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Padding Material for Seismic Zone",
+        dropdownValue: dataState.paddingMaterialValue.id != null
+            ? dataState.paddingMaterialValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context).add(
+              AddLoweringSelectPaddingMaterialEvent(
+                  paddingMaterialValue: value!));
+        },
+        items: dataState.listOfPaddingMaterial);
+  }
+
+  Widget _loweringClearanceDropDown(
+      {required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Lowering Clearance",
+        dropdownValue: dataState.loweringClearanceValue.id != null
+            ? dataState.loweringClearanceValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context).add(
+              AddLoweringSelectLoweringClearanceEvent(
+                  loweringClearanceValue: value!));
+        },
+        items: dataState.listOfLoweringClearance);
+  }
+
+  Widget _approvedPipeDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint:
+            "Approved pipe book part A for pipeline lowering section is available",
+        dropdownValue: dataState.approvedPipeValue.id != null
+            ? dataState.approvedPipeValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context).add(
+              AddLoweringSelectApprovedPipeEvent(approvedPipeValue: value!));
+        },
+        items: dataState.listOfApprovedPipe);
+  }
+
+  Widget _nightCapDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Night Cap Providing",
+        dropdownValue: dataState.nightCapValue.id != null
+            ? dataState.nightCapValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context).add(
+              AddLoweringSelectNightCapEvent(nightCapValue: value!));
+        },
+        items: dataState.listOfNightCap);
+  }
+
+  Widget _holidayChecksDropDown(
+      {required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<HolidayChecksModel>(
       isRequired: true,
-      hint: isUrjagati ? "Holiday Test" :  AppString.selectHolidayChecks,
+      hint: _isURJAGATI || _isGJPL
+          ? "Holiday Test"
+          : AppString.selectHolidayChecks,
       dropdownValue: dataState.holidayChecksData.id != null
           ? dataState.holidayChecksData
           : null,
@@ -362,127 +509,15 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
   Widget _photo({required FetchAddLoweringDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () => BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringAddImageEvent(context: context, mediaType: 1)),
+        onGallery: () => BlocProvider.of<AddLoweringBloc>(context)
+            .add(AddLoweringAddImageEvent(context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddLoweringBloc>(context).add(
-                        AddLoweringAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddLoweringBloc>(context).add(
-                        AddLoweringAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -503,7 +538,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

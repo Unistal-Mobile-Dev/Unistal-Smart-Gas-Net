@@ -25,6 +25,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
   final TextEditingController dateController;
   final TextEditingController activityRemarkController;
   final TextEditingController defectLocationController;
+  final TextEditingController reportNumberController;
   final File file;
   final bool isLoader;
   final List<WeatherModel> weatherList;
@@ -42,6 +43,12 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
   final List<DefectTypeModel> defectTypeList;
   final List<DefectTypeModel> selectedDefectTypeList;
   final List<AlignmentModel> selectedAlignmentList;
+  final List<TerrainTypeModel> ndtAgencyList;
+  final TerrainTypeModel ndtAgencyData;
+  final List<TerrainTypeModel> contractorList;
+  final TerrainTypeModel contractorData;
+  final List<TerrainTypeModel> pmcList;
+  final TerrainTypeModel pmcData;
 
   FetchAddNdtAutDataState({
     required this.selectedWelderList,
@@ -71,10 +78,18 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
     required this.selectedDefectLayerList,
     required this.selectedDefectTypeList,
     required this.selectedAlignmentList,
+    required this.reportNumberController,
+    required this.ndtAgencyList,
+    required this.ndtAgencyData,
+    required this.contractorList,
+    required this.contractorData,
+    required this.pmcList,
+    required this.pmcData,
   });
 
   @override
   List<Object> get props => [
+        reportNumberController,
         selectedWelderList,
         welderList,
         wpsTypeData,
@@ -83,7 +98,7 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
         file,
         activityRemarkController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         alignmentList,
         isLoader,
         weatherData,
@@ -102,5 +117,12 @@ class FetchAddNdtAutDataState extends AddNdtAutInitial {
         selectedDefectLayerList,
         selectedDefectTypeList,
         selectedAlignmentList,
+        reportNumberController,
+        ndtAgencyList,
+        ndtAgencyData,
+        contractorList,
+        contractorData,
+        pmcList,
+        pmcData,
       ];
 }

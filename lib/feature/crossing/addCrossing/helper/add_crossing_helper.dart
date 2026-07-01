@@ -68,7 +68,16 @@ class AddCrossingHelper {
       required PaddingModel postPaddingData,
       required CrossingTypeModel crossingTypeData,
       required String reportNumber,
-      required File file}) async {
+      required File file,
+      required File fileStageInspection,
+      required File filePreHydrotest,
+      required File fileRestoration,
+      required File filePhotoBefore,
+      required File filePhotoAfter,
+      required File fileVideoBefore,
+      required File fileVideoAfter,
+
+      }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
@@ -94,31 +103,34 @@ class AddCrossingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "from_joint_id":
-            fromJointData.id != null ? fromJointData.id.toString() : "",
-        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
-        "crossing_type_id":
-            crossingTypeData.id != null ? crossingTypeData.id.toString() : "",
         "total_length": sectionLength,
         "casing_pipe_length": casingPipeLength,
         "concrete_coating_length": concreteCoatingLength,
-        "holiday_checking":
-            holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
-        "pre_padding_checking":
-            prePaddingData.id != null ? prePaddingData.id.toString() : "",
-        "post_padding_checking":
-            postPaddingData.id != null ? postPaddingData.id.toString() : "",
+        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "from_joint_id": fromJointData.id != null ? fromJointData.id.toString() : "",
+        "to_joint_id": toJointData.id != null ? toJointData.id.toString() : "",
+        "crossing_type_id": crossingTypeData.id != null ? crossingTypeData.id.toString() : "",
+        "weather": weatherData.id != null ? weatherData.id.toString() : "",
+        "holiday_checking": holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
+        "pre_padding_checking": prePaddingData.id != null ? prePaddingData.id.toString() : "",
+        "post_padding_checking": postPaddingData.id != null ? postPaddingData.id.toString() : "",
         "activity_remarks": activityRemark,
         "crossing_name": crossingName,
-        "weather": weatherData.id != null ? weatherData.id.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [
+          ImageRequestObject("attach_file", file.path.toString()),
+          ImageRequestObject("stage_inspection", fileStageInspection.path.toString()),
+          ImageRequestObject("pre_hydrotest", filePreHydrotest.path.toString()),
+          ImageRequestObject("restoration", fileRestoration.path.toString()),
+          ImageRequestObject("photo_before", filePhotoBefore.path.toString()),
+          ImageRequestObject("photo_after", filePhotoAfter.path.toString()),
+          ImageRequestObject("video_before", fileVideoBefore.path.toString()),
+          ImageRequestObject("video_after", fileVideoAfter.path.toString()),
+        ],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

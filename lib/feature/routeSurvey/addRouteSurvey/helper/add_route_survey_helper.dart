@@ -97,6 +97,7 @@ class AddRouteSurveyHelper {
     required File file,
     required String chainageFrom,
     required String chainageTo,
+    required String totalLength,
     required WeatherModel weatherData,
     required GroundTypeModel groundTypeData,
   }) async {
@@ -119,15 +120,17 @@ class AddRouteSurveyHelper {
         "schema": userData.schema.toString(),
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
+        "chainage": chainage.toString().isNotEmpty ?  chainage.toString() : "0",
         "chainage_from": chainageFrom,
         "chainage_to": chainageTo,
+        "total_length": totalLength,
         "report_no": reportNumber.toString(),
         "activity_date": date.toString(),
         "tp_ip_chainage": tpIpChainage.toString(),
-        "tp_ip_nos": tpIpNOS.toString(),
+       // "tp_ip_nos": tpIpNOS.toString(),
+        "tp_ip_nos": detailStructure.toString(),
         "tp_remarks": detail.toString(),
-        "detail_structure": detailStructure.toString(),
-        "chainage": chainage.toString(),
+        "detail_structure": tpIpNOS.toString(),
         "bearing_angle": bearing.toString(),
         "terrain": terrain.toString(),
         "activity_remarks": activityRemark,
@@ -143,9 +146,8 @@ class AddRouteSurveyHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attach_file",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['success'] != null &&
           res['success'] == 200 &&

@@ -71,9 +71,7 @@ class AddOfcSplicingHelper {
       final res = await ServerRequest.postDataWithFile(
         urlEndPoint: APIs.addOfcSpliceApi,
         body: body,
-        context: context,
-        keyWord: "attach_file",
-        filePath: file.path,
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
       );
 
       if (res == null) {

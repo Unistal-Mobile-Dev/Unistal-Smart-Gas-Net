@@ -73,11 +73,8 @@ class EditHindranceHelper {
       final res = await ServerRequest.postDataWithFile(
         urlEndPoint: url,
         body: body,
-        context: context,
-        keyWord: "attachmentFile",
-        filePath: file.path,
-      );
-
+        imageRequestObject: [ImageRequestObject("attachmentFile", file.path.toString())],
+    );
       if (res != null && res['status'] == 1) {
         SnackBarSuccessWidget(context).show(message: res['message']);
         return res;

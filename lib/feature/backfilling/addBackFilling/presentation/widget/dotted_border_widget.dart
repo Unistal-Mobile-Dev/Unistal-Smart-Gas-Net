@@ -10,6 +10,7 @@ class DottedBorderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DottedBorder(
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -17,7 +18,7 @@ class DottedBorderWidget extends StatelessWidget {
           children: [
             TextWidget(title),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.009,
             ),
             ...children,
           ],

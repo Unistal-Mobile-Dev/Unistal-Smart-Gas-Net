@@ -27,6 +27,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
   final TextEditingController chainageToController;
   final TextEditingController modelController;
   final TextEditingController locationController;
+  final TextEditingController postPaddingCtrl;
   final TextEditingController holidayDetectorDetailsController;
   final TextEditingController testVoltageController;
   final TextEditingController repairCoatingController;
@@ -48,41 +49,67 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
   final ThicknessModel thicknessData;
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
+  final TerrainTypeModel dewateringValue;
+  final TerrainTypeModel paddingValue;
+  final TerrainTypeModel paddingMaterialValue;
+  final TerrainTypeModel loweringClearanceValue;
+  final TerrainTypeModel approvedPipeValue;
+  final TerrainTypeModel nightCapValue;
+  final List<TerrainTypeModel> listOfDewatering;
+  final List<TerrainTypeModel> listOfPadding;
+  final List<TerrainTypeModel> listOfPaddingMaterial;
+  final List<TerrainTypeModel> listOfLoweringClearance;
+  final List<TerrainTypeModel> listOfApprovedPipe;
+  final List<TerrainTypeModel> listOfNightCap;
 
-  FetchAddLoweringDataState(
-      {required this.isLoader,
-      required this.alignmentList,
-      required this.dateController,
-      required this.activityRemarkController,
-      required this.reportNumberController,
-      required this.chainageFromController,
-      required this.chainageToController,
-      required this.postPaddingController,
-      required this.alignmentData,
-      required this.multipleAlignmentData,
-      required this.file,
-      required this.weatherList,
-      required this.weatherData,
-      required this.jointTypeData,
-      required this.jointTypeList,
-      required this.isJointNumberLoader,
-      required this.fromJointData,
-      required this.jointFromList,
-      required this.jointToList,
-      required this.modelController,
-      required this.locationController,
-      required this.toJointData,
-      required this.holidayDetectorDetailsController,
-      required this.holidayChecksData,
-      required this.calibarationDateController,
-      required this.holidayCheckList,
-      required this.repairCoatingController,
-      required this.testVoltageController,
-      required this.lengthController,
-      required this.thicknessData,
-      required this.thicknessList,
-      required this.pipeDiaData,
-      required this.pipeDialList});
+  FetchAddLoweringDataState({
+    required this.isLoader,
+    required this.alignmentList,
+    required this.dateController,
+    required this.activityRemarkController,
+    required this.reportNumberController,
+    required this.chainageFromController,
+    required this.chainageToController,
+    required this.postPaddingController,
+    required this.alignmentData,
+    required this.multipleAlignmentData,
+    required this.file,
+    required this.weatherList,
+    required this.weatherData,
+    required this.jointTypeData,
+    required this.jointTypeList,
+    required this.isJointNumberLoader,
+    required this.fromJointData,
+    required this.jointFromList,
+    required this.jointToList,
+    required this.modelController,
+    required this.locationController,
+    required this.postPaddingCtrl,
+    required this.toJointData,
+    required this.holidayDetectorDetailsController,
+    required this.holidayChecksData,
+    required this.calibarationDateController,
+    required this.holidayCheckList,
+    required this.repairCoatingController,
+    required this.testVoltageController,
+    required this.lengthController,
+    required this.thicknessData,
+    required this.thicknessList,
+    required this.pipeDiaData,
+    required this.pipeDialList,
+    required this.paddingValue,
+    required this.dewateringValue,
+    required this.paddingMaterialValue,
+    required this.loweringClearanceValue,
+    required this.approvedPipeValue,
+    required this.nightCapValue,
+    required this.listOfDewatering,
+    required this.listOfPadding,
+    required this.listOfPaddingMaterial,
+    required this.listOfLoweringClearance,
+    required this.listOfApprovedPipe,
+    required this.listOfNightCap,
+  });
 
   @override
   List<Object> get props => [
@@ -107,6 +134,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
         jointToList,
         modelController,
         locationController,
+        postPaddingCtrl,
         toJointData,
         holidayDetectorDetailsController,
         holidayChecksData,
@@ -119,5 +147,17 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
         thicknessList,
         pipeDiaData,
         pipeDialList,
+        dewateringValue,
+        paddingValue,
+        paddingMaterialValue,
+        loweringClearanceValue,
+        approvedPipeValue,
+        nightCapValue,
+        listOfDewatering,
+        listOfPadding,
+        listOfPaddingMaterial,
+        listOfLoweringClearance,
+        listOfApprovedPipe,
+        listOfNightCap,
       ];
 }

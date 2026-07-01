@@ -60,10 +60,17 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
   JointTypeModel jointTypeData = JointTypeModel();
   bool isJointNumberLoader = false;
   File file = File("");
+  File fileStageInspection = File("");
+  File filePreHydrotest = File("");
+  File fileRestoration = File("");
+  File filePhotoBefore = File("");
+  File filePhotoAfter = File("");
+  File fileVideoBefore = File("");
+  File fileVideoAfter = File("");
+
   WeatherModel weatherData = WeatherModel();
 
   LoginDataModel _userData = LoginDataModel();
-
   LoginDataModel get userData => _userData;
 
   List<ThicknessModel> thicknessList = [];
@@ -110,6 +117,13 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     on<AddCrossingSelectThicknessDataEvent>(_selectThickness);
     on<AddCrossingCalibarationDataEvent>(_selectCabilabrationData);
     on<AddCrossingAddImageEvent>(_selectFile);
+    on<AddCrossingStageInspectionEvent>(_selectStageInspection);
+    on<AddCrossingPreHydrotestEvent>(_selectPreHydrotest);
+    on<AddCrossingRestorationEvent>(_selectRestoration);
+    on<AddCrossingPhotoBeforeEvent>(_selectPhotoBefore);
+    on<AddCrossingPhotoAfterEvent>(_selectPhotoAfter);
+    on<AddCrossingVideoBeforeEvent>(_selectVideoBefore);
+    on<AddCrossingVideoAfterEvent>(_selectVideoAfter);
     on<AddCrossingSubmitDataEvent>(_submitData);
   }
 
@@ -145,6 +159,13 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
     file = File("");
+    fileStageInspection = File("");
+    filePreHydrotest = File("");
+    fileRestoration = File("");
+    filePhotoBefore = File("");
+    filePhotoAfter = File("");
+    fileVideoBefore = File("");
+    fileVideoAfter = File("");
     thicknessList = [];
     thicknessData = ThicknessModel();
     pipeDiaData = PipeDiaModel();
@@ -182,7 +203,9 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData,
-      type: "afterndtrt",
+      type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+          ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+          : "afterwelding",
     );
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
@@ -287,14 +310,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     toJointData = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    /*var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
-        jointTypeData: jointTypeData);
-    if (resJointNumber != null) {
-      jointFromList = resJointNumber;
-      jointToList = jointFromList;
-    }*/
+
     isJointNumberLoader = false;
     _eventComplete(emit);
   }
@@ -361,6 +377,118 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     _eventComplete(emit);
   }
 
+ _selectStageInspection(AddCrossingStageInspectionEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       fileStageInspection = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       fileStageInspection = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectPreHydrotest(AddCrossingPreHydrotestEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       filePreHydrotest = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       filePreHydrotest = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectRestoration(AddCrossingRestorationEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       fileRestoration = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       fileRestoration = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectPhotoBefore(AddCrossingPhotoBeforeEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       filePhotoBefore = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       filePhotoBefore = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectPhotoAfter(AddCrossingPhotoAfterEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       filePhotoAfter = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       filePhotoAfter = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectVideoBefore(AddCrossingVideoBeforeEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       fileVideoBefore = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       fileVideoBefore = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
+ _selectVideoAfter(AddCrossingVideoAfterEvent event, emit) async {
+   if (event.mediaType == 1) {
+     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     if (photo != null) {
+       fileVideoAfter = photo;
+     }
+   } else {
+     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     if (photo != null) {
+       fileVideoAfter = photo;
+     }
+   }
+   Navigator.pop(!event.context.mounted ? event.context : event.context);
+   _eventComplete(emit);
+  }
+
   _submitData(AddCrossingSubmitDataEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
@@ -381,6 +509,13 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       casingPipeLength: casingPipeLengthController.text.toString(),
       batchNo: batchNoController.text.toString(),
       file: file,
+      fileVideoBefore: fileVideoBefore,
+      fileVideoAfter: fileVideoAfter,
+      fileStageInspection: fileStageInspection,
+      fileRestoration: fileRestoration,
+      filePreHydrotest: filePreHydrotest,
+      filePhotoBefore: filePhotoBefore,
+      filePhotoAfter: filePhotoAfter,
       onBody: onBodyController.text.toString(),
       holidayTestNo: holidayTestNoController.text.toString(),
       locationName: locationController.text.toString(),
@@ -424,6 +559,13 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       jointTypeData = JointTypeModel();
       isJointNumberLoader = false;
       file = File("");
+      fileStageInspection = File("");
+      filePreHydrotest = File("");
+      fileRestoration = File("");
+      filePhotoBefore = File("");
+      filePhotoAfter = File("");
+      fileVideoBefore = File("");
+      fileVideoAfter = File("");
       weatherData = WeatherModel();
       thicknessData = ThicknessModel();
       pipeDiaData = PipeDiaModel();
@@ -449,6 +591,13 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
         alignmentData: alignmentData,
         multipleAlignmentData: multipleAlignmentData,
         file: file,
+        filePhotoAfter: filePhotoAfter,
+        filePhotoBefore: filePhotoBefore,
+        filePreHydrotest: filePreHydrotest,
+        fileRestoration: fileRestoration,
+        fileStageInspection: fileStageInspection,
+        fileVideoAfter: fileVideoAfter,
+        fileVideoBefore: fileVideoBefore,
         weatherList: weatherList,
         weatherData: weatherData,
         jointTypeData: jointTypeData,

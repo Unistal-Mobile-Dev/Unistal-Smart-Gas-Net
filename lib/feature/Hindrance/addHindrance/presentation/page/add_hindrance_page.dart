@@ -16,8 +16,21 @@ class AddHindrancePage extends StatefulWidget {
 }
 
 class _AddHindrancePageState extends State<AddHindrancePage> {
+  late final Client _client;
+
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+
   @override
   void initState() {
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddHindranceBloc>(context)
         .add(AddHindrancePageLoadEvent(context: context));
     super.initState();
@@ -26,7 +39,6 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddHindranceBloc, AddHindranceState>(
         builder: (context, state) {
           if (state is FetchAddHindranceDataState) {
@@ -48,6 +60,10 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL  ||_isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -76,6 +92,15 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
 
@@ -259,7 +284,7 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

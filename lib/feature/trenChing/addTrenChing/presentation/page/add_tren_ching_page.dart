@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/bloc/add_tren_ching_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddTrenChingPage extends StatefulWidget {
@@ -16,29 +17,28 @@ class AddTrenChingPage extends StatefulWidget {
 }
 
 class _AddTrenChingPageState extends State<AddTrenChingPage> {
-  final client = AppConfig.instanceInit()!.client;
+  late final Client _client;
 
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl= false;
-  late bool isUrjagati= false;
-  late bool isMgl= false;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
 
   @override
   void initState() {
-
-    isVppl = client == Client.vppl;
-    isUrjagati =  client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    isMgl = client == Client.mgl;
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddTrenChingBloc>(context)
         .add(AddTrenChingPageLoadEvent(context: context));
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddTrenChingBloc, AddTrenChingState>(
         builder: (context, state) {
           if (state is FetchAddTrenChingDataState) {
@@ -60,6 +60,10 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -68,26 +72,41 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _detailsStructure(dataState: dataState),
-            _verticalSpace(),
-            _mimimumCover(dataState: dataState),
-            _verticalSpace(),
-            _arableSoil(dataState: dataState),
-            _verticalSpace(),
-            _trenchProfile(dataState: dataState),
-            _verticalSpace(),
-            _from(dataState: dataState),
-            _verticalSpace(),
-            _to(dataState: dataState),
-            _verticalSpace(),
+            if (!(_isHPCL || _isHPOIL)) ...[
+              _detailsStructure(dataState: dataState),
+              _verticalSpace(),
+              _mimimumCover(dataState: dataState),
+              _verticalSpace(),
+              _arableSoil(dataState: dataState),
+              _verticalSpace(),
+              _trenchProfile(dataState: dataState),
+              if (_isVPPL|| _isVRPL) ...[
+                _verticalSpace(),
+                _provisionOfWarningSignsSafetySignsCtrt(dataState: dataState),
+                _verticalSpace(),
+                if(!(_isVRPL))...[
+                  _verificationOfMinimumDepthCtrl(dataState: dataState),
+                  _verticalSpace(),
+                  _seismicZoneAndCoverCtrl(dataState: dataState),
+                  _verticalSpace(),
+                ]
+              ],
+
+              _from(dataState: dataState),
+              _verticalSpace(),
+              _to(dataState: dataState),
+              _verticalSpace(),
+            ],
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            _ipFromController(dataState: dataState),
-            _verticalSpace(),
-            _ipToController(dataState: dataState),
-            _verticalSpace(),
+            if (!(_isVPPL || _isVRPL || _isHPCL || _isHPOIL)) ...[
+              _ipFromController(dataState: dataState),
+              _verticalSpace(),
+              _ipToController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
@@ -98,8 +117,10 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            isMgl ? const SizedBox.shrink(): _terrainDropDown(dataState: dataState),
-            isMgl ? const SizedBox.shrink(): _verticalSpace(),
+            if(!(_isMGL || _isHPCL || _isHPOIL))...[
+              _terrainDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -111,6 +132,17 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       ),
     );
   }
+
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
+
 
   Widget _dateController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
@@ -137,7 +169,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageFromController({required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageFromController(
+      {required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -150,7 +183,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageToController({required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageToController(
+      {required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -194,30 +228,28 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _weatherDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropdownWidget<WeatherModel>(
-      isRequired: true,
-      hint: AppString.selectWeather,
-      dropdownValue:
-          dataState.weatherData.id != null ? dataState.weatherData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddTrenChingBloc>(context)
-            .add(SelectWeatherEvent(weatherData: value!));
-      },
-      items: dataState.weatherList
-    );
+        isRequired: true,
+        hint: AppString.selectWeather,
+        dropdownValue:
+            dataState.weatherData.id != null ? dataState.weatherData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddTrenChingBloc>(context)
+              .add(SelectWeatherEvent(weatherData: value!));
+        },
+        items: dataState.weatherList);
   }
 
   Widget _jointTypeDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropdownWidget<JointTypeModel>(
-      hint: AppString.selectJointType,
-      dropdownValue:
-          dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddTrenChingBloc>(context).add(
-            AddTrenChingSelectJointTypeDataEvent(
-                jointTypeData: value!, context: context));
-      },
-      items: dataState.jointTypeList
-    );
+        hint: AppString.selectJointType,
+        dropdownValue:
+            dataState.jointTypeData.id != null ? dataState.jointTypeData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddTrenChingBloc>(context).add(
+              AddTrenChingSelectJointTypeDataEvent(
+                  jointTypeData: value!, context: context));
+        },
+        items: dataState.jointTypeList);
   }
 
 /*  Widget _fromJointNumberDropDown(
@@ -309,22 +341,18 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-
-
   Widget _terrainDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-      hint: isVppl
-          ? AppString.selectGroundType
-          : AppString.selectTerrain,
+      hint: AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
           : null,
       onChanged: (value) {
         context.read<AddTrenChingBloc>().add(
-          AddClearingGradingSelectTerrainEvent(
-            terrainTypeData: value!,
-          ),
-        );
+              AddClearingGradingSelectTerrainEvent(
+                terrainTypeData: value!,
+              ),
+            );
       },
       items: dataState.terrainTypeList,
     );
@@ -359,6 +387,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       controller: dataState.mimimumCoverCtrl,
     );
   }
+
   Widget _arableSoil({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Separation of Arable soil",
@@ -372,6 +401,31 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
       controller: dataState.trenchProfileCtrl,
     );
   }
+
+  Widget _provisionOfWarningSignsSafetySignsCtrt(
+      {required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Provision of warning signs & safety signs",
+      controller: dataState.provisionOfWarningSignsSafetySignsCtrt,
+    );
+  }
+
+  Widget _verificationOfMinimumDepthCtrl(
+      {required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Verification of minimum depth w.r.t. padding in rocky area",
+      controller: dataState.verificationOfMinimumDepthCtrl,
+    );
+  }
+
+  Widget _seismicZoneAndCoverCtrl(
+      {required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Seismic zone and cover requirements by MEIL",
+      controller: dataState.seismicZoneAndCoverCtrl,
+    );
+  }
+
   Widget _from({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       labelText: "From",
@@ -399,135 +453,21 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText:"IP To",
+      labelText: "IP To",
       controller: dataState.ipToCtrl,
     );
   }
 
-
-
   Widget _photo({required FetchAddTrenChingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color: EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () => BlocProvider.of<AddTrenChingBloc>(context)
+            .add(AddTrenChingAddImageEvent(context: context, mediaType: 1)),
+        onGallery: () => BlocProvider.of<AddTrenChingBloc>(context)
+            .add(AddTrenChingAddImageEvent(context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddTrenChingBloc>(context).add(
-                        AddTrenChingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddTrenChingBloc>(context).add(
-                        AddTrenChingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -548,7 +488,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

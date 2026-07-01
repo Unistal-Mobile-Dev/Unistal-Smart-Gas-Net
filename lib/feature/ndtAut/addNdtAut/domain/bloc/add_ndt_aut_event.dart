@@ -118,9 +118,7 @@ class AddNdtAutAddImageEvent extends AddNdtAutEvent {
 
 class SelectWeatherEvent extends AddNdtAutEvent {
   final WeatherModel weatherData;
-
   const SelectWeatherEvent({required this.weatherData});
-
   @override
   List<Object?> get props => [weatherData];
 }
@@ -132,4 +130,25 @@ class AddNdtAutSubmitDataEvent extends AddNdtAutEvent {
 
   @override
   List<Object?> get props => [context];
+}
+
+class SelectNDTAgencyEvent extends AddNdtAutEvent {
+  final TerrainTypeModel ndtAgencyData;
+  const SelectNDTAgencyEvent({required this.ndtAgencyData});
+  @override
+  List<Object?> get props => [ndtAgencyData];
+}
+
+class SelectContractorEvent extends AddNdtAutEvent {
+  final TerrainTypeModel contractorData;
+  const SelectContractorEvent({required this.contractorData});
+  @override
+  List<Object?> get props => [contractorData];
+}
+
+class SelectPMCEvent extends AddNdtAutEvent {
+  final TerrainTypeModel pmcData;
+  const SelectPMCEvent({required this.pmcData});
+  @override
+  List<Object?> get props => [pmcData];
 }

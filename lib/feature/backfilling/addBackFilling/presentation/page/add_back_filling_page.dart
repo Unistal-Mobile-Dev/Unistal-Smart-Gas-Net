@@ -8,7 +8,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
 
 class AddBackFillingPage extends StatefulWidget {
   const AddBackFillingPage({super.key});
@@ -18,20 +18,22 @@ class AddBackFillingPage extends StatefulWidget {
 }
 
 class _AddBackFillingPageState extends State<AddBackFillingPage> {
-  final client = AppConfig.instanceInit()!.client;
+  late final Client _client;
 
-  late bool isVpplOrUrjagati = false;
-  late bool isVppl= false;
-  late bool isUrjagati= false;
-  late bool isMgl= false;
+  bool get _isVPPL => _client == Client.vppl;
+  bool get _isVRPL => _client == Client.vrpl;
+  bool get _isBJPL => _client == Client.bjpl;
+  bool get _isHPCL => _client == Client.hpcl;
+  bool get _isHPOIL => _client == Client.hpoil;
+  bool get _isGJPL => _client == Client.gjpl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isMGL => _client == Client.mgl;
+  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL || _isMGL;
 
   @override
   void initState() {
-
-    isVppl = client == Client.vppl;
-    isUrjagati =  client == Client.urjagati;
-    isVpplOrUrjagati = isVppl || isUrjagati;
-    isMgl = client == Client.mgl;
+    super.initState();
+    _client = AppConfig.instanceInit()!.client!;
 
     BlocProvider.of<AddBackFillingBloc>(context)
         .add(AddBackFillingPageLoadEvent(context: context));
@@ -41,7 +43,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
       body: BlocBuilder<AddBackFillingBloc, AddBackFillingState>(
         builder: (context, state) {
           if (state is FetchAddBackFillingDataState) {
@@ -63,6 +64,10 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
         child: Column(
           children: [
             _verticalSpace(),
+            if(_isVPPL || _isVRPL || _isBJPL)...[
+              _formatNoField(),
+              _verticalSpace(),
+            ],
             _dateController(dataState: dataState),
             _verticalSpace(),
             _reportNumberController(dataState: dataState),
@@ -70,16 +75,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            _verticalSpace(),
-            _recordingPipelineCtrl(dataState: dataState),
-            _verticalSpace(),
-            _antiBuoyancyController(dataState: dataState),
-            _verticalSpace(),
-            _gratingsCtrl(dataState: dataState),
-            _verticalSpace(),
-            _slopeBreakerCtrl(dataState: dataState),
-            _verticalSpace(),
-            _locationCtrl(dataState: dataState),
             _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
@@ -91,18 +86,32 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            _minimumCoverCtrl(dataState: dataState),
-            _verticalSpace(),
-            _hdpeDuctCtrl(dataState: dataState),
-            _verticalSpace(),
-            if(!isMgl && !isUrjagati)...[
-            _postPaddingController(dataState: dataState),
-            _verticalSpace(),
-            _plasticGratingDropDown(dataState: dataState),
-            _verticalSpace(),
-          ],
-            _warningMatController(dataState: dataState),
-            _verticalSpace(),
+            if(_isVPPL || _isVRPL)...[
+              _slopeBreakerCtrl(dataState: dataState),
+              _verticalSpace(),
+              _gratingsCtrl(dataState: dataState),
+              _verticalSpace(),
+              _antiBuoyancyController(dataState: dataState),
+              _verticalSpace(),
+            ],
+            if (!(_isHPCL || _isHPOIL || _isVPPL || _isVRPL)) ...[
+              _recordingPipelineCtrl(dataState: dataState),
+              _verticalSpace(),
+              _locationCtrl(dataState: dataState),
+              _verticalSpace(),
+              _minimumCoverCtrl(dataState: dataState),
+              _verticalSpace(),
+              _hdpeDuctCtrl(dataState: dataState),
+              _verticalSpace(),
+              _warningMatController(dataState: dataState),
+              _verticalSpace(),
+            ],
+            if (!(_isAllClient || _isHPCL || _isHPOIL)) ...[
+              _postPaddingController(dataState: dataState),
+              _verticalSpace(),
+              _plasticGratingDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -115,6 +124,17 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
+
+  Widget _formatNoField() {
+    return TextFieldWidget(
+      isRequired: true,
+      enabled: false,
+      labelText: "Format No",
+      initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
+    );
+  }
+
+
   Widget _dateController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -122,7 +142,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       readOnly: true,
       labelText: AppString.date,
       controller: dataState.dateController,
-      onTap:  (){
+      onTap: () {
         BlocProvider.of<AddBackFillingBloc>(context)
             .add(AddBackFillingSelectDateEvent(
           context: context,
@@ -131,7 +151,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _reportNumberController({required FetchAddBackFillingDataState dataState}) {
+  Widget _reportNumberController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -141,22 +162,22 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _alignmentDropdown({required FetchAddBackFillingDataState dataState}) {
     return DropDownSearchMultiSelectWidget(
-            isRequired: true,
-            selectedItem: dataState.multipleAlignmentData,
-            hint: AppString.selectAlignment,
-            items: dataState.alignmentList,
-            itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
-            onChanged: (value) {
-              List<AlignmentModel> selectedAlignmentDataList = [];
-              for (var data in value) {
-                selectedAlignmentDataList.add(data);
-              }
-              BlocProvider.of<AddBackFillingBloc>(context)
-                  .add(AddBackFillingMultipleSelectAlignmentEvent(
-                alignmentData: selectedAlignmentDataList,
-              ));
-            },
-          );
+      isRequired: true,
+      selectedItem: dataState.multipleAlignmentData,
+      hint: AppString.selectAlignment,
+      items: dataState.alignmentList,
+      itemAsString: (alignmentData) => alignmentData.alignmentName.toString(),
+      onChanged: (value) {
+        List<AlignmentModel> selectedAlignmentDataList = [];
+        for (var data in value) {
+          selectedAlignmentDataList.add(data);
+        }
+        BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingMultipleSelectAlignmentEvent(
+          alignmentData: selectedAlignmentDataList,
+        ));
+      },
+    );
   }
 
   Widget _weatherDropDown({required FetchAddBackFillingDataState dataState}) {
@@ -173,23 +194,29 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _recordingPipelineCtrl({required FetchAddBackFillingDataState dataState}) {
+  Widget _recordingPipelineCtrl(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Recording of Pipeline centre line and Level",
       controller: dataState.recordingPipelineCtrl,
     );
   }
 
-  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
+  Widget _antiBuoyancyController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      labelText: isUrjagati ? "Anti-Buoyancy Measures" : AppString.antiBuoyancy,
+      labelText: _isURJAGATI || _isGJPL
+          ? "Anti-Buoyancy Measures"
+          :  _isVPPL || _isVRPL
+          ? "Anti Buoyancy"
+          :AppString.antiBuoyancy,
       controller: dataState.antiBuoyancyController,
     );
   }
 
   Widget _gratingsCtrl({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      labelText: "Gratings / Concrete slabs at electrical / other Crossing",
+      labelText: _isVPPL || _isVRPL ? "Plastic/Grating/Concrete Slab":"Gratings / Concrete slabs at electrical / other Crossing",
       controller: dataState.gratingsCtrl,
     );
   }
@@ -224,8 +251,6 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-
-
   Widget _pipeDiaDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget<PipeDiaModel>(
       hint: AppString.selectPipeDia,
@@ -241,15 +266,14 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _thicknessDropDown({required FetchAddBackFillingDataState dataState}) {
     return DropdownWidget<ThicknessModel>(
-      hint: AppString.selectPipeThickness,
-      dropdownValue:
-          dataState.thicknessData.id != null ? dataState.thicknessData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddBackFillingBloc>(context)
-            .add(AddBackFillingSelectThicknessDataEvent(thicknessData: value!));
-      },
-      items: dataState.thicknessList
-    );
+        hint: AppString.selectPipeThickness,
+        dropdownValue:
+            dataState.thicknessData.id != null ? dataState.thicknessData : null,
+        onChanged: (value) {
+          BlocProvider.of<AddBackFillingBloc>(context).add(
+              AddBackFillingSelectThicknessDataEvent(thicknessData: value!));
+        },
+        items: dataState.thicknessList);
   }
 
   Widget _jointTypeDropDown({required FetchAddBackFillingDataState dataState}) {
@@ -336,10 +360,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _postPaddingController(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _postPaddingController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-
       labelText: AppString.postPadding,
       controller: dataState.postPaddingController,
     );
@@ -353,14 +375,15 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
           : null,
       onChanged: (value) {
         BlocProvider.of<AddBackFillingBloc>(context).add(
-            AddBackFillingSelectPlasticGratingEvent(plasticGratingData: value!));
+            AddBackFillingSelectPlasticGratingEvent(
+                plasticGratingData: value!));
       },
       items: dataState.plasticGratingList,
     );
   }
 
-
-  Widget _warningMatController({required FetchAddBackFillingDataState dataState}) {
+  Widget _warningMatController(
+      {required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.warningMat,
       controller: dataState.warningMatController,
@@ -376,128 +399,15 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
   }
 
   Widget _photo({required FetchAddBackFillingDataState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Center(
-                      child: Icon(Icons.photo_camera_back_outlined),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "Photo",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
-                      ),
-                    ),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpg") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".png") ||
-                                dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".jpeg")
-                            ? Image.file(
-                                dataState.file,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: MediaQuery.of(context).size.width / 4.5,
-                              )
-                            : dataState.file.path
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(".pdf")
-                                ? const Icon(Icons.picture_as_pdf_outlined)
-                                : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
-                                .toString()
-                                .toLowerCase()
-                                .contains(".pdf")
-                            ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
-                                color:
-                                    EnvironmentConfig.of(context)!.primaryTheme,
-                                fontSize: AppFont.font_12,
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: EnvironmentConfig.of(context)!.primaryTheme,
-                        ))),
-                  ],
-                ),
-        ),
+    return PhotoUploadWidget(
+      file: dataState.file,
+      onTap: () => MediaPickerSheet.show(
+        context: context,
+        onCamera: () => BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingAddImageEvent(context: context, mediaType: 1)),
+        onGallery: () => BlocProvider.of<AddBackFillingBloc>(context)
+            .add(AddBackFillingAddImageEvent(context: context, mediaType: 2)),
       ),
-    );
-  }
-
-  void mediaType({required BuildContext context}) {
-    showModalBottomSheet(
-      context: context, // Also default
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.18,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddBackFillingBloc>(context).add(
-                        AddBackFillingAddImageEvent(
-                            context: context, mediaType: 1));
-                  },
-                  child: TextWidget(
-                    "Camera",
-                    fontSize: AppFont.font_16,
-                  )),
-              const Divider(),
-              TextButton(
-                  onPressed: () {
-                    BlocProvider.of<AddBackFillingBloc>(context).add(
-                        AddBackFillingAddImageEvent(
-                            context: context, mediaType: 2));
-                  },
-                  child: TextWidget(
-                    "Gallery",
-                    fontSize: AppFont.font_16,
-                  )),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -518,7 +428,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.02,
+      height: MediaQuery.of(context).size.height * 0.009,
     );
   }
 }

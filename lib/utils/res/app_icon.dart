@@ -8,7 +8,7 @@ class AppIcon {
       case Client.mgl:
         return AppIcon.appLogoMGL;
       case Client.pbgpl:
-        return AppIcon.appLogoPurvaBharti;
+        return AppIcon.appLogoPBGPL;
       case Client.unistal:
         return AppIcon.appLogoUnistal;
       case Client.hpoil:
@@ -20,6 +20,7 @@ class AppIcon {
       case Client.jdpl:
       case Client.bcpl:
       case Client.dbpl:
+      case Client.bjpl:
         return AppIcon.vrplLogo;
       case Client.agcl:
         return AppIcon.agclLogo;
@@ -27,6 +28,8 @@ class AppIcon {
         return AppIcon.pjplLogo;
       case Client.urjagati:
         return AppIcon.urjagatiLogo;
+      case Client.hpcl:
+        return AppIcon.hpclLogo;
       default:
         return AppIcon.appLogoUnistal;
     }
@@ -39,6 +42,7 @@ class AppIcon {
       case Client.unistal:
       case Client.hpoil:
       case Client.agcl:
+      case Client.hpcl:
         return AppIcon.smartgasnetLog;
       case Client.vppl:
       case Client.vrpl:
@@ -48,13 +52,14 @@ class AppIcon {
       case Client.dbpl:
       case Client.pjpl:
       case Client.urjagati:
+      case Client.bjpl:
         return AppIcon.pcmsLog;
       default:
         return "";
     }
   }
 
-  static get appLogoPurvaBharti => "assets/logo/pbg_logo.png";
+  static get appLogoPBGPL      => "assets/logo/pbg_logo.png";
   static get appLogoMGL        => "assets/logo/mgl_logo.png";
   static get appLogoUnistal    => "assets/logo/unistal_logo.png";
   static get appLogoIgl        => "assets/logo/igl_logo";
@@ -63,7 +68,8 @@ class AppIcon {
   static get vpplLogo          => "assets/logo/vppl_logo.png";
   static get vrplLogo          => "assets/logo/vrpl_logo.png";
   static get pjplLogo          => "assets/logo/pjpl_logo.png";
-  static get urjagatiLogo          => "assets/logo/urjagati_logo.png";
+  static get urjagatiLogo      => "assets/logo/urjagati_logo.png";
+  static get hpclLogo          => "assets/logo/hpcl_logo.png";
 
   static get colourStrip       => "assets/ic_strip.png";
   static get smartgasnetLog    => "assets/smartgasnet_log.png";

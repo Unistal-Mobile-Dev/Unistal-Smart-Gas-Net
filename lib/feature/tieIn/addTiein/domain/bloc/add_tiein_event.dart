@@ -171,3 +171,61 @@ class AddTieinSubmitDataEvent extends AddTieinEvent {
   @override
   List<Object?> get props => [context];
 }
+class SelectElectrodeDiaE6010Event extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeDiaData electrodeDiaE6010Value;
+  const SelectElectrodeDiaE6010Event({required this.electrodeDiaE6010Value, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeDiaE6010Value, context];
+}
+
+class SelectElectrodeDiaE6010BatchEvent extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeBatchData electrodeDiaE6010BatchValue;
+  const SelectElectrodeDiaE6010BatchEvent({
+    required this.electrodeDiaE6010BatchValue,
+    required this.context,
+  });
+
+  @override
+  List<Object?> get props => [electrodeDiaE6010BatchValue, context];
+}
+
+class SelectElectrodeEiaE7010p1Event extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeDiaData electrodeEiaE8010p1Value;
+  const SelectElectrodeEiaE7010p1Event({required this.electrodeEiaE8010p1Value, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeEiaE8010p1Value, context];
+}
+
+
+class SelectElectrodeEiaE7010p1BatchEvent extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeBatchData electrodeEiaE8010p1BatchValue;
+  const SelectElectrodeEiaE7010p1BatchEvent({required this.electrodeEiaE8010p1BatchValue, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeEiaE8010p1BatchValue, context];
+}
+
+class SelectElectrodeDiaE9045p2Event extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeDiaData electrodeDiaE9045p2Value;
+  const SelectElectrodeDiaE9045p2Event({required this.electrodeDiaE9045p2Value, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeDiaE9045p2Value, context];
+}
+
+
+class SelectElectrodeDiaE9045p2BatchEvent extends AddTieinEvent {
+  final BuildContext context;
+  final ElectrodeBatchData electrodeDiaE9045p2BatchValue;
+  const SelectElectrodeDiaE9045p2BatchEvent({required this.electrodeDiaE9045p2BatchValue, required this.context});
+
+  @override
+  List<Object?> get props => [electrodeDiaE9045p2BatchValue, context];
+}

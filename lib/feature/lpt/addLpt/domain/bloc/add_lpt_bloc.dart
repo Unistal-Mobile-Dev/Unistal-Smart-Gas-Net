@@ -116,19 +116,12 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
       alignmentList = res;
     }
 
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
-
-
-
     var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
         context: event.context,
         userData: userData,
-      type: "welding"
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterndtrt"
         );
     if (resJointNumber != null) {
       jointList = resJointNumber;

@@ -79,6 +79,7 @@ class AddConcreteCoatingHelper {
         required AlignmentModel alignmentData,
         required List<AlignmentModel> multipleAlignmentData,
       required String date,
+      required String reportNumber,
       required String concreteCoatingLength,
       required String chainage,
       required PipeModel pipeData,
@@ -108,6 +109,7 @@ class AddConcreteCoatingHelper {
         "activityDate": date,
         "schema": userData.schema.toString(),
         "weather": weatherData.name.toString(),
+        "report_no": reportNumber.toString(),
         // "alignmentSheet": alignmentData.id.toString(),
         "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "spreadId": userData.spreadId.toString(),
@@ -124,9 +126,8 @@ class AddConcreteCoatingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          context: !context.mounted ? context : context,
-          keyWord: "attachFile",
-          filePath: file.path.toString());
+        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      );
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
