@@ -61,8 +61,8 @@ class AddNdtMutHelper {
 
   static Future<dynamic> submitData(
       {required BuildContext context,
-        required AlignmentModel alignmentData,
-        required List<AlignmentModel> multipleAlignmentData,
+      required AlignmentModel alignmentData,
+      required List<AlignmentModel> multipleAlignmentData,
       required String reportNumber,
       required String date,
       required String activityRemark,
@@ -83,6 +83,26 @@ class AddNdtMutHelper {
       required String operatingFrequency,
       required String leveOfInspection,
       required PipeModel pipeData,
+      required String accRej,
+      required String observation,
+      required String segment,
+      required String pipeThickness,
+      required String pipeDia,
+      required String jointTemperature,
+      required String calibratedRange,
+      required String surfaceCondition,
+      required String couplant,
+      required String referenceStandard,
+      required String transducerFrequency,
+      required String ufdModel,
+      required String referenceDb,
+      required String dimensionTransducer,
+      required String scanningDb,
+      required String calibrationBlock,
+      required String  materialGrade,
+      required String  extentExamination,
+      required String  acceptanceCriteria,
+
       required File file}) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -110,7 +130,11 @@ class AddNdtMutHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "alignment_sheet_id": alignmentIdList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
         "joint_type_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "joint_id":
@@ -148,11 +172,32 @@ class AddNdtMutHelper {
         "angle_ray_input": angleOfRayInput,
         "operating_frequency": operatingFrequency,
         "inspection_level": leveOfInspection,
+        "acc_rej" : accRej,
+        "observation" : observation,
+        "segment" : segment,
+        "pipe_thickness" : pipeThickness,
+        "pipe_dia" : pipeDia,
+        "joint_temperature" : jointTemperature,
+        "calibrated_range" : calibratedRange,
+        "surface_condition" : surfaceCondition,
+        "couplant" : couplant,
+        "reference_standard" : referenceStandard,
+        "transducer_frequency" : transducerFrequency,
+        "ufd_model" : ufdModel,
+        "reference_db" : referenceDb,
+        "dimension_transducer" : dimensionTransducer,
+        "scanning_db" : scanningDb,
+        "calibration_block" : calibrationBlock,
+         "material_grade" : materialGrade,
+         "extent_examination" : extentExamination,
+         "acceptance_criteria" : acceptanceCriteria,
       };
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        urlEndPoint: url,
+        body: json,
+        imageRequestObject: [
+          ImageRequestObject(key: "attach_file", path: file.path.toString())
+        ],
       );
       if (res != null &&
           res['success'] != null &&

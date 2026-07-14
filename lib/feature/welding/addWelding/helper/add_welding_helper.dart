@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/domain/model/marker_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_batch_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
@@ -17,9 +14,10 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddWeldingHelper {
+
+
   static Future<dynamic> textFiledValidation({
     required BuildContext context,
-    // required AlignmentModel alignmentData,
     required List<AlignmentModel> alignmentData,
     required String reportNumber,
     required String date,
@@ -138,7 +136,7 @@ class AddWeldingHelper {
 
   static Future<dynamic> submitData({
     required BuildContext context,
-     required AlignmentModel alignmentData,
+    required AlignmentModel alignmentData,
     required List<AlignmentModel> multipleAlignmentData,
     required String reportNumber,
     required String date,
@@ -217,7 +215,11 @@ class AddWeldingHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+        "alignment_sheet_id": alignmentIdList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
         "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
         "root_welder1": rootWelders1Data.id ?? "",
         "root_welder2": rootWelders2Data.id ?? "",
@@ -239,31 +241,52 @@ class AddWeldingHelper {
         "filler7_welder_two": filler7Welders2Data.id ?? "",
         "filler8_welder_one": filler8Welders1Data.id ?? "",
         "filler8_welder_two": filler8Welders2Data.id ?? "",
-        "left_pipe_id":leftPipeData.id != null ? leftPipeData.id.toString() : "",
-        "right_pipe_id":rightPipeData.id != null ? rightPipeData.id.toString() : "",
-        "joint_id":jointNumberData.id != null ? jointNumberData.id.toString() : "",
-        "joint_type_id":jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "left_pipe_id":
+            leftPipeData.id != null ? leftPipeData.id.toString() : "",
+        "right_pipe_id":
+            rightPipeData.id != null ? rightPipeData.id.toString() : "",
+        "joint_id":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
         "fitup": fitupData.id != null ? fitupData.id.toString() : "",
-        "weld_visual":weldVisualData.id != null ? weldVisualData.id.toString() : "",
-        "strip_welder1":stripWelder1Data.id != null ? stripWelder1Data.id.toString() : "",
-        "strip_welder2":stripWelder2Data.id != null ? stripWelder2Data.id.toString() : "",
-        "capping_welder1": cappingWelder1Data.id != null? cappingWelder1Data.id.toString(): "",
-        "capping_welder2": cappingWelder2Data.id != null? cappingWelder2Data.id.toString(): "",
-        "electrode_dia_e6010": electrodeDiaE6010 != "null" ? electrodeDiaE6010 : "",
-        "electrode_dia_e6010_batch": electrodeDiaE6010Batch != "null" ? electrodeDiaE6010Batch : "",
-        "electrode_dia_e8010p1": electrodeEiaE8010p1 != "null" ? electrodeEiaE8010p1 : "",
-        "electrode_dia_e8010p1_batch": electrodeEiaE8010p1Batch != "null" ? electrodeEiaE8010p1Batch : "",
-        "electrode_dia_e9045p2": electrodeDiaE9045p2 != "null" ? electrodeDiaE9045p2 : "",
-        "electrode_dia_e9045p2_batch": electrodeDiaE9045p2Batch != "null" ? electrodeDiaE9045p2Batch : "",
-        "electrode_dia_e81t8g": electrodeDiaE81t8g != "null" ? electrodeDiaE81t8g : "",
-        "electrode_dia_e81t8g_batch": electrodeDiaE81t8gBatch != "null" ? electrodeDiaE81t8gBatch : "",
+        "weld_visual":
+            weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "strip_welder1":
+            stripWelder1Data.id != null ? stripWelder1Data.id.toString() : "",
+        "strip_welder2":
+            stripWelder2Data.id != null ? stripWelder2Data.id.toString() : "",
+        "capping_welder1": cappingWelder1Data.id != null
+            ? cappingWelder1Data.id.toString()
+            : "",
+        "capping_welder2": cappingWelder2Data.id != null
+            ? cappingWelder2Data.id.toString()
+            : "",
+        "electrode_dia_e6010":
+            electrodeDiaE6010 != "null" ? electrodeDiaE6010 : "",
+        "electrode_dia_e6010_batch":
+            electrodeDiaE6010Batch != "null" ? electrodeDiaE6010Batch : "",
+        "electrode_dia_e8010p1":
+            electrodeEiaE8010p1 != "null" ? electrodeEiaE8010p1 : "",
+        "electrode_dia_e8010p1_batch":
+            electrodeEiaE8010p1Batch != "null" ? electrodeEiaE8010p1Batch : "",
+        "electrode_dia_e9045p2":
+            electrodeDiaE9045p2 != "null" ? electrodeDiaE9045p2 : "",
+        "electrode_dia_e9045p2_batch":
+            electrodeDiaE9045p2Batch != "null" ? electrodeDiaE9045p2Batch : "",
+        "electrode_dia_e81t8g":
+            electrodeDiaE81t8g != "null" ? electrodeDiaE81t8g : "",
+        "electrode_dia_e81t8g_batch":
+            electrodeDiaE81t8gBatch != "null" ? electrodeDiaE81t8gBatch : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "bend_detail": bendDetail ?? "",
       };
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        urlEndPoint: url,
+        body: json,
+        imageRequestObject: [
+          ImageRequestObject(key: "attach_file", path: file.path.toString())
+        ],
       );
       if (res != null &&
           res['success'] != null &&
@@ -279,7 +302,10 @@ class AddWeldingHelper {
         SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: res['data']);
         return null;
-      } else if (res != null && res['success'] != null && res['success'] == 400 && res['data'] != null) {
+      } else if (res != null &&
+          res['success'] != null &&
+          res['success'] == 400 &&
+          res['data'] != null) {
         String resPonse = res['data'].toString();
         SnackBarErrorWidget(!context.mounted ? context : context).show(
             message: resPonse.replaceAll("{", "").toString()
@@ -297,164 +323,5 @@ class AddWeldingHelper {
     }
   }
 
-  static Future<dynamic> fetchWPSType(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getWPSApi;
-      var param = {
-        "schema": userData.schema,
-        "spread_id": userData.spreadId,
-        "section_id": userData.sectionId,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return wpsListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
 
-  static Future<dynamic> fetchElectrodeDia(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getElectrodeDiaBatch;
-      var param = {
-        "schema": userData.schema,
-        "section_id": userData.sectionId,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return electrodeDiaListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchElectrodeBatch(
-      {required BuildContext context, required LoginDataModel userData, required String diaValue}) async {
-    try {
-      String url = APIs.getElectrodeDiaBatch;
-      var param = {
-        "schema": userData.schema,
-        "section_id": userData.sectionId,
-        "dia_value": diaValue,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return electrodeBatchListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchJointType(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getJointTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return jointTypeListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchJointNumberData(
-      {required BuildContext context, required LoginDataModel userData, required String type,
-      }) async {
-    try {
-      String url = APIs.getJointNumberWithTypeApi;
-      var param = {
-        "schema": userData.schema,
-        "section_id": userData.sectionId,
-        "type": type,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return jointNumberListResponse(res['data']['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<List<MarkerTypeModel>?> fetchMarkerType({required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getMarkerTypeApi;
-      var param = {
-        "schema": userData.schema,
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return markerTypeListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-
-  static Future<dynamic> fetchWelderData(
-      {required BuildContext context,
-      required LoginDataModel userData,
-      required WPSModel wpsData}) async {
-    try {
-      String url = APIs.getWelderApi;
-      var param = {
-        "schema": userData.schema,
-        "spread_id": userData.spreadId,
-        "section_id": userData.sectionId,
-        "wps_id": wpsData.id != null ? wpsData.id.toString() : "",
-      };
-      String json = Uri(queryParameters: param).query;
-      var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
-      log("getWelderApi-->$url?$json");
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return welderListResponse(res['data']['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
 }

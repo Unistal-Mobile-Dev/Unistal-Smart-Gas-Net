@@ -81,7 +81,7 @@ class AddSurgerDiverterHelper{
     var res = await ServerRequest.postDataWithFile(
         urlEndPoint: url,
         body: json,
-      imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+      imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
     );
     if (res != null &&
         res['success'] != null &&

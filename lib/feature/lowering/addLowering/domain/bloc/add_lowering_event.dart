@@ -142,6 +142,15 @@ class AddLoweringSubmitDataEvent extends AddLoweringEvent {
   @override
   List<Object?> get props => [context];
 }
+class AddLoweringSelectJobNoEvent extends AddLoweringEvent {
+  final TerrainTypeModel jobNoValue;
+
+  const AddLoweringSelectJobNoEvent({required this.jobNoValue});
+
+  @override
+  List<Object?> get props => [jobNoValue];
+}
+
 class AddLoweringSelectDewateringEvent extends AddLoweringEvent {
   final TerrainTypeModel dewateringValue;
 

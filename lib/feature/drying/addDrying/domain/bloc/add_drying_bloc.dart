@@ -82,26 +82,16 @@ class AddDryingBloc extends Bloc<AddDryingEvent, AddDryingState> {
     file = File("");
     weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    /*var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
+
         type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
             ? AppConfig.instanceInit()!.activitySectionData.appJoint!
             : "afterwelding"

@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/domain/file_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/helper/add_hydrotest_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -81,20 +80,14 @@ class AddHydrotestBloc extends Bloc<AddHydrotestEvent, AddHydrotestState> {
     fileList = await AddHydroTestHelper.fetchFilesData();
     weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           :"afterwelding",

@@ -55,6 +55,7 @@ class AddRouHandover {
      required AlignmentModel alignmentData,
     required List<AlignmentModel> multipleAlignmentData,
     required String reportNumber,
+    required String tenderNo,
     required String date,
     required String typeofGround,
     required String tpIpNOS,
@@ -90,6 +91,7 @@ class AddRouHandover {
         "chainage_to": chainageTo,
         "total_length": totalLength,
         "report_no": reportNumber.toString(),
+        "tender_no": tenderNo.toString(),
         "activity_date": date.toString(),
         "type_of_ground": typeofGround.toString(),
         "ip_tp_no": tpIpNOS.toString(),
@@ -105,7 +107,7 @@ class AddRouHandover {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

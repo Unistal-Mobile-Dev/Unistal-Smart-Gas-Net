@@ -70,6 +70,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _tenderNoController(dataState: dataState),
+            _verticalSpace(),
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),
@@ -120,8 +122,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _reportNumberController(
-      {required FetchAddRouHandoverDataState dataState}) {
+  Widget _reportNumberController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -129,8 +130,14 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddRouHandoverDataState dataState}) {
+  Widget _tenderNoController({required FetchAddRouHandoverDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Tender No",
+      controller: dataState.tenderNoController,
+    );
+  }
+
+  Widget _chainageFromController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -148,8 +155,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
     );
   }
 
-  Widget _chainageToController(
-      {required FetchAddRouHandoverDataState dataState}) {
+  Widget _chainageToController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -180,7 +186,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _typeofGround({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.typeofGround,
+      labelText: _isBJPL ? "TERRAIN DETAILS" :AppString.typeofGround,
       controller: dataState.typeofGroundController,
     );
   }
@@ -188,8 +194,8 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _tpIpNOSController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      textInputType: TextInputType.number,
-      labelText: "IP/TP No.",
+      textInputType: _isBJPL ? TextInputType.text: TextInputType.number,
+      labelText:  _isBJPL ? "DETAIL OF SKIPPING IF ANY" : "IP/TP No.",
       controller: dataState.tpChainageNumberController,
     );
   }
@@ -197,7 +203,9 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   Widget _tpRemarkController({required FetchAddRouHandoverDataState dataState}) {
     return TextFieldWidget(
       maxLine: 2,
-      labelText: "OTHER DETAILS (If Any) Details of Structures, P/L, HT, Crossing",
+      labelText: _isBJPL
+          ? "DETAIL OF HINDRENSE/OBSTACLES"
+          :"OTHER DETAILS (If Any) Details of Structures, P/L, HT, Crossing",
       controller: dataState.tpRemarkController,
     );
   }

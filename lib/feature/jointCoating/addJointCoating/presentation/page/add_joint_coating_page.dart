@@ -127,6 +127,10 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             ],
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
+            _calibarationFrequencyController(dataState: dataState),
+            _verticalSpace(),
+            _elcoMeterController(dataState: dataState),
+            _verticalSpace(),
             _peelTestDropDown(dataState: dataState),
             _verticalSpace(),
             _thicknessCtrl(dataState: dataState),
@@ -302,6 +306,20 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
     return TextFieldWidget(
       labelText: _isURJAGATI || _isGJPL ? "Pre-Heating" : AppString.holidayTestNo,
       controller: dataState.holidayTestNoController,
+    );
+  }
+
+  Widget _calibarationFrequencyController({required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Calibaration Frequency",
+      controller: dataState.calibarationFrequencyController,
+    );
+  }
+
+  Widget _elcoMeterController({required FetchAddJointCoatingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Elco Meter",
+      controller: dataState.elcoMeterController,
     );
   }
 

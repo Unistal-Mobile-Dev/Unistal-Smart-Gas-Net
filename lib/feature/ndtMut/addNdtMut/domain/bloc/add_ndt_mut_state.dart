@@ -23,6 +23,7 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final TextEditingController reportNumberController;
   final TextEditingController activityRemarkController;
   final TextEditingController locationDiscoverDefectController;
+  final TextEditingController ufdModelController;
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
   final File file;
@@ -43,6 +44,26 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
   final TextEditingController operatingFrequencyController;
   final TextEditingController leveOfInspectionController;
   final TextEditingController searchPipeController;
+  final TextEditingController accRejController;
+  final TextEditingController observationController;
+  final TextEditingController segmentController;
+  final TextEditingController pipeThicknessController;
+  final TextEditingController pipeDiaController;
+  final TextEditingController jointTemperatureController;
+  final TextEditingController calibratedRangeController;
+  final TextEditingController surfaceConditionController;
+  final TextEditingController couplantController;
+  final TextEditingController referenceStandardController;
+  final TextEditingController transducerFrequencyController;
+  final TextEditingController referenceDbController;
+  final TextEditingController dimensionTransducerController;
+  final TextEditingController scanningDbController;
+  final TextEditingController calibrationBlockController;
+  final TextEditingController extentExaminationController;
+  final TerrainTypeModel materialGradeValue;
+  final List<TerrainTypeModel> listOfMaterialGrade;
+  final TerrainTypeModel acceptanceCriteriaValue;
+  final List<TerrainTypeModel> listOfAcceptanceCriteria;
   final List<PipeModel> pipeList;
   final bool searchPipeLoader;
 
@@ -77,6 +98,27 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
     required this.pipeList,
     required this.searchPipeLoader,
     required this.searchPipeController,
+    required this.accRejController,
+    required this.observationController,
+    required this.segmentController,
+    required this.pipeThicknessController,
+    required this.pipeDiaController,
+    required this.jointTemperatureController,
+    required this.calibratedRangeController,
+    required this.surfaceConditionController,
+    required this.couplantController,
+    required this.referenceStandardController,
+    required this.transducerFrequencyController,
+    required this.referenceDbController,
+    required this.dimensionTransducerController,
+    required this.scanningDbController,
+    required this.calibrationBlockController,
+    required this.extentExaminationController,
+    required this.materialGradeValue,
+    required this.listOfMaterialGrade,
+    required this.acceptanceCriteriaValue,
+    required this.listOfAcceptanceCriteria,
+    required this.ufdModelController,
   });
 
   @override
@@ -87,7 +129,7 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
         activityRemarkController,
         reportNumberController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         weatherList,
         weatherData,
@@ -111,5 +153,26 @@ class FetchAddNdtMutDataState extends AddNdtMutInitial {
         pipeList,
         searchPipeController,
         searchPipeLoader,
+        accRejController,
+        observationController,
+        segmentController,
+        pipeThicknessController,
+        pipeDiaController,
+        jointTemperatureController,
+        calibratedRangeController,
+        surfaceConditionController,
+        couplantController,
+        referenceStandardController,
+        transducerFrequencyController,
+        referenceDbController,
+        dimensionTransducerController,
+        scanningDbController,
+        calibrationBlockController,
+    extentExaminationController,
+        materialGradeValue,
+        listOfMaterialGrade,
+        acceptanceCriteriaValue,
+        listOfAcceptanceCriteria,
+    ufdModelController,
       ];
 }

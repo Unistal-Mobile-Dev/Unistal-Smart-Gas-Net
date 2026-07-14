@@ -73,7 +73,7 @@ class _AddOFCBlowingPageState extends State<AddOFCBlowingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            if(!_isVPPL)...[
+            if(!(_isVPPL || _isBJPL))...[
               _chainageFromController(dataState: dataState),
               _verticalSpace(),
               _chainageToController(dataState: dataState),

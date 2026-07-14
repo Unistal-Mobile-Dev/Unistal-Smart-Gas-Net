@@ -16,7 +16,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 
 part 'add_sacrificial_anode_event.dart';
 part 'add_sacrificial_anode_state.dart';
@@ -109,24 +108,20 @@ class AddSacrificialAnodeBloc extends Bloc<AddSacrificialAnodeEvent, AddSacrific
     weatherData = WeatherModel();
     tlpTypeValue = TlpTypeModel();
     userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var resTLPType = await AddTestStationBoxHelper.fetchTLPType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var resTLPType = await AddTestStationBoxHelper.fetchTLPType();
     if (resTLPType != null) {
       listOfTLPType = resTLPType;
     }
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       listOfAnodeCondition = resVisual;
     }
-    var resAnodeType = await AddTestStationBoxHelper.fetchAnodeTypeApi(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var resAnodeType = await AddTestStationBoxHelper.fetchAnodeTypeApi();
     if (resAnodeType != null) {
       listOfSacrificialAnode = resAnodeType;
     }

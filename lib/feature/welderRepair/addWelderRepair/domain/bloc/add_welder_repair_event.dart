@@ -118,6 +118,23 @@ class SelectWeatherEvent extends AddWelderRepairEvent {
   List<Object?> get props => [weatherData];
 }
 
+class AddLoweringSelectPipeThicknessEvent extends AddWelderRepairEvent {
+  final ThicknessModel pipeThicknessValue;
+
+  const AddLoweringSelectPipeThicknessEvent({required this.pipeThicknessValue});
+
+  @override
+  List<Object?> get props => [pipeThicknessValue];
+}
+
+class AddWeldingCalculateLengthEvent extends AddWelderRepairEvent {
+  final bool isChainageTo;
+  final String value;
+  const AddWeldingCalculateLengthEvent({required this.isChainageTo, required this.value});
+  @override
+  List<Object?> get props => [isChainageTo, value];
+}
+
 class AddWelderRepairSubmitDataEvent extends AddWelderRepairEvent {
   final BuildContext context;
 

@@ -15,66 +15,7 @@ import 'package:flutter_unistal_smart_gas_net/services/location/location_model.d
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddNdtAutHelper {
-  static Future<dynamic> fetchAutStatusData(
-      {required BuildContext context}) async {
-    try {
-      String url = APIs.getAutStatusApi;
-      var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        List<AutStatusModel> autStatusLIst = [];
-        Map myMap = res['data'];
-        myMap.forEach((key, value) {
-          autStatusLIst.add(AutStatusModel(id: key, value: value));
-        });
-        return autStatusLIst;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
 
-  static Future<dynamic> fetchDefectLayerData(
-      {required BuildContext context}) async {
-    try {
-      String url = APIs.getDefectLayerApi;
-      var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        List<DefectLayerModel> defectLayerList = [];
-        Map myMap = res['data'];
-        myMap.forEach((key, value) {
-          defectLayerList.add(DefectLayerModel(id: key, value: value));
-        });
-        return defectLayerList;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<dynamic> fetchDefectTypeData(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getDefectTypeApi + "?schema=${userData.schema}";
-      var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return defectTypeListResponse(res['data']);
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
 
   static Future<dynamic> submitData(
       {required BuildContext context,
@@ -161,7 +102,7 @@ class AddNdtAutHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

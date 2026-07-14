@@ -52,9 +52,9 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
   final TextEditingController toWidthController;
+  final TextEditingController bottomWidthController;
   final List<TerrainTypeModel> terrainTypeList;
   final TerrainTypeModel terrainTypeData;
-
 
   FetchAddTrenChingDataState({
     required this.isLoader,
@@ -82,6 +82,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
     required this.chainageFromController,
     required this.chainageToController,
     required this.toWidthController,
+    required this.bottomWidthController,
     required this.lengthController,
     required this.terrainTypeList,
     required this.terrainTypeData,
@@ -125,6 +126,7 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         chainageFromController,
         chainageToController,
         toWidthController,
+        bottomWidthController,
         lengthController,
         terrainTypeList,
         terrainTypeData,
@@ -136,8 +138,8 @@ class FetchAddTrenChingDataState extends AddTrenChingInitial {
         toCtrl,
         ipFromCtrl,
         ipToCtrl,
-    provisionOfWarningSignsSafetySignsCtrt,
-   seismicZoneAndCoverCtrl,
-    verificationOfMinimumDepthCtrl,
+        provisionOfWarningSignsSafetySignsCtrt,
+        seismicZoneAndCoverCtrl,
+        verificationOfMinimumDepthCtrl,
       ];
 }

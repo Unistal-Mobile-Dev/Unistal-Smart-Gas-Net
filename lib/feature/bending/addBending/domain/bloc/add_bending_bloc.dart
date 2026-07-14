@@ -165,32 +165,22 @@ class AddBendingBloc extends Bloc<AddBendingEvent, AddBendingState> {
     _pipeData = PipeModel();
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-
-    var resBending = await AddBendingHelper.fetchBendingType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resBending = await AddBendingHelper.fetchBendingType();
     if (resBending != null) {
       _bendingTypeList = resBending;
     }
 
-    var resHoliday = await AddBendingHelper.fetchHolidayData(
-        context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData();
     if (resHoliday != null) {
       _holidayChecksList = resHoliday;
     }
 
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       _visualChecksList = resVisual;
     }

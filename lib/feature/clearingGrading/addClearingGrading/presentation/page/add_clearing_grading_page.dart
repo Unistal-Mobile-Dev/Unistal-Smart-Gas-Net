@@ -26,7 +26,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL;
+  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL  || _isBJPL;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         child: Column(
           children: [
             _buildBasicInfoSection(dataState),
-            if (!(_isVPPL || _isHPCL || _isHPOIL)) _buildGapSection(dataState),
+            if (!(_isVPPL || _isHPCL || _isHPOIL  || _isBJPL)) _buildGapSection(dataState),
             if (!_isMGL) _buildClientSpecificSection(dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -102,6 +102,12 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         _verticalSpace(),
         _lengthController(dataState: dataState),
         _verticalSpace(),
+        if(_isBJPL)...[
+          _machineyController(dataState: dataState),
+          _verticalSpace(),
+          _manpowerController(dataState: dataState),
+          _verticalSpace(),
+        ],
         _terrainDropDown(dataState: dataState),
       ],
     );
@@ -119,7 +125,6 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         children: [
           _gapLengthController(dataState: dataState),
           _verticalSpace(),
-          _gapDescriptionController(dataState: dataState),
         ],
       ),
     );
@@ -136,7 +141,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
           _verticalSpace(),
           _isURJAGATI || _isGJPL  ? SizedBox.shrink(): _buildMarkerSection(dataState),
           _verticalSpace(),
-          _isURJAGATI|| _isGJPL  ? _structureNameController(dataState: dataState):_buildStructureSection(dataState),
+          _isURJAGATI || _isGJPL ? _structureNameController(dataState: dataState):_buildStructureSection(dataState),
         ],
       );
     }
@@ -151,7 +156,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         _verticalSpace(),
         _ipNumberFrom(dataState: dataState),
         _verticalSpace(),
-        if(!(_isHPCL || _isHPOIL))...[
+        if(!(_isHPCL || _isHPOIL || _isBJPL))...[
           _groundTypeController(dataState: dataState),
           _verticalSpace(),
         ],
@@ -185,13 +190,15 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _buildStructureSection(FetchAddClearingGradingDataState dataState) {
     return  DottedBorderWidget(
-      title: "Details of Structure In/Across ROU such as Pipeline, HT etc.",
+      title: _isBJPL ? "Details of Structures/utilities/Crossings(U/G,A/G & O/H).":"Details of Structure In/Across ROU such as Pipeline, HT etc.",
       children: [
         _structureNameController(dataState: dataState),
         _verticalSpace(),
         _ipNumberController(dataState: dataState),
         _verticalSpace(),
         _ipNumberFrom(dataState: dataState),
+        _verticalSpace(),
+        _isBJPL ? _detailsController(dataState: dataState) : SizedBox(),
       ],
     );
   }
@@ -212,9 +219,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   }
 
 
-  Widget _dateController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _dateController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       isRequired: true,
       enabled: true,
@@ -231,9 +236,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _reportNumberController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _reportNumberController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -241,9 +244,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _chainageFromController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _chainageFromController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -261,9 +262,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _chainageToController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _chainageToController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -281,9 +280,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _lengthController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _lengthController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       enabled: false,
       isRequired: true,
@@ -293,9 +290,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _tpIpChainageController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _tpIpChainageController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: "TP No. From",
@@ -303,9 +298,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _tpIpNOSController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _tpIpNOSController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: "TP No. To",
@@ -313,9 +306,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _ipNumberController({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _ipNumberController({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: _isAllClient ? "Chainage From" : "IP No. From",
@@ -323,9 +314,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _ipNumberFrom({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _ipNumberFrom({required FetchAddClearingGradingDataState dataState,}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: _isAllClient ? "Chainage To" : AppString.ipNoTo,
@@ -371,9 +360,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  Widget _alignmentDropdown({
-    required FetchAddClearingGradingDataState dataState,
-  }) {
+  Widget _alignmentDropdown({required FetchAddClearingGradingDataState dataState,}) {
     return DropDownSearchMultiSelectWidget(
       isRequired: true,
       selectedItem: dataState.multipleAlignmentData,
@@ -415,6 +402,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     return DropdownWidget<TerrainTypeModel>(
       hint: _isVPPL || _isHPCL || _isHPOIL
           ? AppString.selectGroundType
+       : _isBJPL ? "Details of Strata(Normal Soil/Rocky/Seismic Clay)"
           : AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
@@ -435,6 +423,29 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
       textInputType: TextInputType.number,
       labelText: AppString.lengthMeter,
       controller: dataState.gapLengthController,
+    );
+  }
+
+  Widget _machineyController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.text,
+      labelText: "Machiney",
+      controller: dataState.machineyController,
+    );
+  }
+
+  Widget _manpowerController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.text,
+      labelText: "Manpower",
+      controller: dataState.manpowerController,
+    );
+  }
+
+  Widget _detailsController({required FetchAddClearingGradingDataState dataState}) {
+    return TextFieldWidget(
+      labelText:  "Details",
+      controller: dataState.detailsController,
     );
   }
 

@@ -270,7 +270,7 @@ class _AddLevellingPageState extends State<AddLevellingPage> {
   Widget _pipeCoverController({required FetchAddLevellingDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: _isVRPL || _isVPPL || _isGJPL ?"Top Cover":AppString.pipeCover,
+      labelText: _isVRPL || _isVPPL ?"Top Cover":AppString.pipeCover,
       controller: dataState.coverController,
     );
   }

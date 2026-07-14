@@ -43,6 +43,9 @@ class AddClearingGradingBloc
   TextEditingController gapLengthController = TextEditingController();
   TextEditingController gapDescriptionController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
+  TextEditingController machineyController = TextEditingController();
+  TextEditingController manpowerController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -102,6 +105,9 @@ class AddClearingGradingBloc
     chainageToController.text = "";
     chainageController.text = "";
     lengthController.text = "";
+    machineyController.text = "";
+    manpowerController.text = "";
+    detailsController.text = "";
     terrainTypeList = [];
     terrainTypeData = TerrainTypeModel();
     file = File("");
@@ -109,24 +115,16 @@ class AddClearingGradingBloc
      groundTypeList = [];
      groundTypeData = GroundTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData();
     if (res != null) {
       groundTypeList = groundTypeRes;
     }
-    var resTerrain = await AddClearingGradingHelper.fetchTerrainData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resTerrain = await DashboardHelper.fetchTerrainData();
     if (resTerrain != null) {
       terrainTypeList = resTerrain;
     }
@@ -255,6 +253,9 @@ class AddClearingGradingBloc
       terrainTypeData: terrainTypeData,
       gapDescription: gapDescriptionController.text.toString(),
       gapLength: gapLengthController.text.toString(),
+      details: detailsController.text.toString(),
+      machiney: machineyController.text.toString(),
+      manpower: manpowerController.text.toString()
     );
     _isLoader = false;
     _eventComplete(emit);
@@ -282,6 +283,9 @@ class AddClearingGradingBloc
       gapLengthController.text = "";
       gapDescriptionController.text = "";
       lengthController.text = "";
+      machineyController.text = "";
+      manpowerController.text = "";
+      detailsController.text = "";
       _weatherData = WeatherModel();
       terrainTypeData = TerrainTypeModel();
       _eventComplete(emit);
@@ -318,6 +322,9 @@ class AddClearingGradingBloc
       lengthController: lengthController,
       groundTypeData: groundTypeData,
       groundTypeList: groundTypeList,
+      detailsController: detailsController,
+      machineyController: machineyController,
+      manpowerController: manpowerController,
     ));
   }
 }

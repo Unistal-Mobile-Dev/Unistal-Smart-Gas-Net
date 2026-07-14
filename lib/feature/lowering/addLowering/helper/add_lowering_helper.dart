@@ -10,18 +10,18 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddLoweringHelper {
-  static Future<dynamic> fetchPipeDiaData(
-      {required BuildContext context,
-      required LoginDataModel userData,
+  static Future<dynamic> fetchPipeDiaData({
       String? type,
       String? searchKeyword}) async {
+    LoginDataModel? userData =  UserInfo.instanceInit()!.userData;
     try {
       String url = APIs.getPipeDiaApi;
       var param = {
-        "schema": userData.schema,
+        "schema": userData!.schema,
       };
       String json = Uri(queryParameters: param).query;
       var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
@@ -59,6 +59,7 @@ class AddLoweringHelper {
       required String makeModel,
       required String testVoltage,
       required String calibarationDate,
+      required String jobNo,
       required String dewatering,
       required String lowerPadding,
       required String paddingMaterial,
@@ -113,6 +114,7 @@ class AddLoweringHelper {
         "lower_clearance": lowerClearance,
         "lower_pipebook": lowerPipebook,
         "nightcap_test": nightCapTest,
+        "job_no": jobNo,
         "padding": padding,
         "alignment_sheet_id": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "holiday_test": holidayChecksData.id != null ? holidayChecksData.id.toString() : "",
@@ -126,7 +128,7 @@ class AddLoweringHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

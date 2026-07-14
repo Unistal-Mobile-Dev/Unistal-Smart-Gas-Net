@@ -2,14 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/helper/add_lowering_helper.dart';
@@ -18,7 +15,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -70,6 +66,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   List<PipeDiaModel> pipeDiaList = [];
   PipeDiaModel pipeDiaData = PipeDiaModel();
 
+  TerrainTypeModel jobNoValue = TerrainTypeModel();
   TerrainTypeModel dewateringValue = TerrainTypeModel();
   TerrainTypeModel paddingValue = TerrainTypeModel();
   TerrainTypeModel paddingMaterialValue = TerrainTypeModel();
@@ -77,6 +74,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
   TerrainTypeModel approvedPipeValue = TerrainTypeModel();
   TerrainTypeModel nightCapValue = TerrainTypeModel();
 
+  List<TerrainTypeModel> listOfJobNo = [];
   List<TerrainTypeModel> listOfDewatering = [];
   List<TerrainTypeModel> listOfPadding = [];
   List<TerrainTypeModel> listOfPaddingMaterial = [];
@@ -98,6 +96,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     on<AddLoweringSelectPipeDiaDataEvent>(_selectPipeDia);
     on<AddLoweringSelectThicknessDataEvent>(_selectThickness);
     on<AddLoweringCalibarationDataEvent>(_selectCabilabrationData);
+    on<AddLoweringSelectJobNoEvent>(_selectJobNo);
     on<AddLoweringSelectDewateringEvent>(_selectDewatering);
     on<AddLoweringSelectPaddingEvent>(_selectPadding);
     on<AddLoweringSelectPaddingMaterialEvent>(_selectPaddingMaterial);
@@ -144,12 +143,14 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     pipeDiaData = PipeDiaModel();
     pipeDiaList = [];
     weatherData = WeatherModel();
+    jobNoValue = TerrainTypeModel();
     dewateringValue = TerrainTypeModel();
     paddingValue = TerrainTypeModel();
     paddingMaterialValue = TerrainTypeModel();
     loweringClearanceValue = TerrainTypeModel();
     approvedPipeValue = TerrainTypeModel();
     nightCapValue = TerrainTypeModel();
+    listOfJobNo=  [];
     listOfDewatering=  [];
     listOfPadding = [];
     listOfPaddingMaterial = [];
@@ -158,28 +159,22 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     listOfNightCap = [];
 
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
+    listOfJobNo             = await DashboardHelper.fetchConstantData(key: "JOBNO");
+    listOfDewatering        = await DashboardHelper.fetchConstantData(key: "DEWATERING");
+    listOfPadding           = await DashboardHelper.fetchConstantData(key: "LOWER_PADDING");
+    listOfPaddingMaterial   = await DashboardHelper.fetchConstantData(key: "PADDING_MATERIAL");
+    listOfLoweringClearance = await DashboardHelper.fetchConstantData(key: "LOWERING_CLEARANCE");
+    listOfApprovedPipe      = await DashboardHelper.fetchConstantData(key: "LOWER_PIPEBOOK");
+    listOfNightCap          = await DashboardHelper.fetchConstantData(key: "NIGHTCAP_TEST");
 
-    listOfDewatering        = await AddClearingGradingHelper.fetchConstantData("DEWATERING");
-    listOfPadding           = await AddClearingGradingHelper.fetchConstantData("LOWER_PADDING");
-    listOfPaddingMaterial   = await AddClearingGradingHelper.fetchConstantData("PADDING_MATERIAL");
-    listOfLoweringClearance = await AddClearingGradingHelper.fetchConstantData("LOWERING_CLEARANCE");
-    listOfApprovedPipe      = await AddClearingGradingHelper.fetchConstantData("LOWER_PIPEBOOK");
-    listOfNightCap          = await AddClearingGradingHelper.fetchConstantData("NIGHTCAP_TEST");
-
-
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           :"afterndtrt",);
@@ -188,22 +183,17 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       jointToList = jointFromList;
     }
 
-    var resHoliday = await AddBendingHelper.fetchHolidayData(
-        context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData();
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
-    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData();
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
-    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData();
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
@@ -302,7 +292,10 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
     thicknessData = event.thicknessData;
     _eventComplete(emit);
   }
-
+  _selectJobNo(AddLoweringSelectJobNoEvent event, emit) {
+    jobNoValue = event.jobNoValue;
+    _eventComplete(emit);
+  }
    _selectDewatering(AddLoweringSelectDewateringEvent event, emit) {
      dewateringValue = event.dewateringValue;
      _eventComplete(emit);
@@ -397,6 +390,7 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       testVoltage: testVoltageController.text.toString(),
       pipeDiaData: pipeDiaData,
       thicknessData: thicknessData,
+      jobNo: jobNoValue.id.toString().isNotEmpty? jobNoValue.id.toString() : "",
       dewatering: dewateringValue.id.toString().isNotEmpty? dewateringValue.id.toString() : "",
       lowerClearance: loweringClearanceValue.id.toString().isNotEmpty? loweringClearanceValue.id.toString() : "",
       lowerPadding: postPaddingCtrl.text.toString(),
@@ -434,6 +428,13 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       weatherData = WeatherModel();
       thicknessData = ThicknessModel();
       pipeDiaData = PipeDiaModel();
+      jobNoValue = TerrainTypeModel();
+      dewateringValue = TerrainTypeModel();
+      paddingValue = TerrainTypeModel();
+      paddingMaterialValue = TerrainTypeModel();
+      loweringClearanceValue = TerrainTypeModel();
+      approvedPipeValue = TerrainTypeModel();
+      nightCapValue = TerrainTypeModel();
       _eventComplete(emit);
     }
   }
@@ -486,6 +487,8 @@ class AddLoweringBloc extends Bloc<AddLoweringEvent, AddLoweringState> {
       dewateringValue: dewateringValue,
       listOfNightCap: listOfNightCap,
       nightCapValue: nightCapValue,
+      jobNoValue: jobNoValue,
+      listOfJobNo: listOfJobNo,
     ));
   }
 

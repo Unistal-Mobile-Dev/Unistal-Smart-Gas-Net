@@ -19,6 +19,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
   final bool isLoader;
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
+  final TextEditingController tenderNoController;
   final TextEditingController typeofGroundController;
   final TextEditingController tpChainageNumberController;
   final TextEditingController tpRemarkController;
@@ -41,6 +42,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
     required this.activityRemarkController,
     required this.bearingAngleController,
     required this.reportNumberController,
+    required this.tenderNoController,
     required this.terrainController,
     required this.typeofGroundController,
     required this.tpChainageNumberController,
@@ -63,6 +65,7 @@ class FetchAddRouHandoverDataState extends AddRouHandoverInitial {
         activityRemarkController,
         bearingAngleController,
         reportNumberController,
+    tenderNoController,
         terrainController,
         typeofGroundController,
         tpChainageNumberController,

@@ -113,28 +113,15 @@ class AddHdpeDuctBloc extends Bloc<AddHdpeDuctEvent, AddHdpeDuctState> {
 
     _userData = UserInfo.instanceInit()!.userData!;
 
-    final jointType = AppConfig.instanceInit()!
-        .activitySectionData
-        .appJoint
-        ?.trim()
-        .isNotEmpty ==
-        true
+    final jointType = AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
         ? AppConfig.instanceInit()!.activitySectionData.appJoint!
         : "afterwelding";
-
-    // Run all independent network calls in parallel instead of sequentially.
-    // Load time drops from (sum of all calls) to (slowest single call).
     final results = await Future.wait([
-      DashboardHelper.fetchWeatherData(
-          context: event.context, userData: userData),
-      AddRouteSurveyHelper.fetchAlignmentData(
-          context: event.context, userData: userData),
-      AddWeldingHelper.fetchJointNumberData(
-          context: event.context, userData: userData, type: jointType),
-      AddHDPEDuctHelper.fetchPaddingData(context: event.context),
+      DashboardHelper.fetchWeatherData(),
+      AddRouteSurveyHelper.fetchAlignmentData(),
+      DashboardHelper.fetchJointNumberData(type: jointType),
+      AddHDPEDuctHelper.fetchPaddingData(),
     ]);
-
-    // Guard against the page being closed while the requests were in flight.
     if (isClosed) return;
 
     weatherList = (results[0] as List<WeatherModel>?) ?? [];

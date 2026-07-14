@@ -147,7 +147,7 @@ android {
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
-            versionCode 2
+            versionCode 3
             versionName "1.0.0-GJPL"
         }
         prodJDPL  {
@@ -240,8 +240,8 @@ android {
             resValue "string", "app_name", "BJPL Steel"
             applicationIdSuffix ".bjpl.smartgasnet.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
+                    appIcon: "@mipmap/vrpl_logo",
+                    appIconRound: "@mipmap/vrpl_logo"
             ]
             def keystorePropertiesFile = rootProject.file('bjpl.properties')
             if (keystorePropertiesFile.exists()) {

@@ -106,21 +106,18 @@ class AddThermitWeldBloc extends Bloc<AddThermitWeldEvent, AddThermitWeldState> 
     continuityCheckValue = VisualChecksModel();
     restorationCheckValue = VisualChecksModel();
     userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
     userData = UserInfo.instanceInit()!.userData!;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resTLPType = await AddTestStationBoxHelper.fetchTLPType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var resTLPType = await AddTestStationBoxHelper.fetchTLPType();
     if (resTLPType != null) {
       listOfTLPType = resTLPType;
     }
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       listOfPinBrazing = resVisual;
       listOfContinuityCheck = listOfPinBrazing;

@@ -366,8 +366,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     _jointTypeList = [];
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
     _isJointNumberLoader = false;
     leftPipeList = [];
     rightPipeList = [];
@@ -375,32 +374,24 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     leftPipeData = PipeModel();
     rightPipeData = PipeModel();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resWPS = await DashboardHelper.fetchWPSType();
     if (resWPS != null) {
       _wpsList = resWPS;
     }
 
-    var resElectrodeDia = await AddWeldingHelper.fetchElectrodeDia(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resElectrodeDia = await DashboardHelper.fetchElectrodeDia();
     if (resElectrodeDia != null) {
       _electrodeDiaE6010DiaList = resElectrodeDia;
       _electrodeEiaE8010p1DiaList = resElectrodeDia;
       _electrodeDiaE9045DiaList = resElectrodeDia;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           : "welding",
@@ -408,8 +399,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     if (resJointNumber != null) {
       _jointNumberList = resJointNumber;
     }
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       _fitupList = resVisual;
     }
@@ -526,8 +516,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     stripWelder2Data = WelderModel();
     _isWelderLoader = true;
     _eventComplete(emit);
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: event.context, userData: userData, wpsData: wpsData);
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: wpsData);
     if (resWelder != null) {
       _welderList = resWelder;
     }
@@ -747,10 +736,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     if (electrodeDiaE6010Value.diaValue != null) {
       isLoaderDiaE6010BatchBatch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
-          diaValue: electrodeDiaE6010Value.diaValue.toString());
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(diaValue: electrodeDiaE6010Value.diaValue.toString());
       if (resElectrodeDia != null) {
         _electrodeDiaE6010BatchList = resElectrodeDia;
       }
@@ -766,10 +752,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     if (electrodeDiaE6010Value.diaValue != null) {
       isLoaderEiaE8010p1BatchBatch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
-          diaValue: electrodeEiaE8010p1Value.diaValue.toString());
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(diaValue: electrodeEiaE8010p1Value.diaValue.toString());
       if (resElectrodeDia != null) {
         _electrodeEiaE8010p1BatchList = resElectrodeDia;
       }
@@ -795,10 +778,7 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     if (electrodeDiaE9045Value.diaValue != null) {
       isLoaderDiaE9045BatchBatch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
-          diaValue: electrodeDiaE9045Value.diaValue.toString());
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(diaValue: electrodeDiaE9045Value.diaValue.toString());
       if (resElectrodeDia != null) {
         _electrodeDiaE9045BatchList = resElectrodeDia;
       }

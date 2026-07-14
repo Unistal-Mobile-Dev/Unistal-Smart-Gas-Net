@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddWelderRepairPage extends StatefulWidget {
   const AddWelderRepairPage({super.key});
@@ -76,6 +76,21 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
+           if(_isBJPL)...[
+             _verticalSpace(),
+             _pipeThicknessDropDown(dataState: dataState),
+             _verticalSpace(),
+             _chainageFromController(dataState: dataState),
+             _verticalSpace(),
+             _chainageToController(dataState: dataState),
+             _verticalSpace(),
+             _rootPassController(dataState: dataState),
+             _verticalSpace(),
+             _hotPassController(dataState: dataState),
+             _verticalSpace(),
+             _otherPassController(dataState: dataState),
+             _verticalSpace(),
+           ],
           /*  _verticalSpace(),
             TextWidget(
               "Electrode/Filler Wire No.",
@@ -98,8 +113,15 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
           /*  _jointTypeDropDown(dataState: dataState),
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
-            _verticalSpace(),
-            _segmentDropdown(dataState: dataState),
+            if(_isBJPL)...[
+              _verticalSpace(),
+              _locationController(dataState: dataState),
+              _verticalSpace(),
+              _proposedLengthController(dataState: dataState),
+            ]else...[
+              _verticalSpace(),
+              _segmentDropdown(dataState: dataState),
+            ],
             _verticalSpace(),
             _wpdTypeDropDown(dataState: dataState),
             _verticalSpace(),
@@ -189,6 +211,79 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
+  Widget _pipeThicknessDropDown({required FetchAddWelderRepairDataState dataState}) {
+    return DropdownWidget<ThicknessModel>(
+        hint: "Pipe Thickness",
+        dropdownValue: dataState.pipeThicknessValue.id != null
+            ? dataState.pipeThicknessValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddWelderRepairBloc>(context)
+              .add(AddLoweringSelectPipeThicknessEvent(pipeThicknessValue: value!));
+        },
+        items: dataState.listOfPipeThickness);
+  }
+
+  Widget _chainageFromController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+      onChanged: (value) {
+        BlocProvider.of<AddWelderRepairBloc>(context).add(
+            AddWeldingCalculateLengthEvent(value: value, isChainageTo: false));
+      },
+    );
+  }
+
+  Widget _chainageToController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
+      onChanged: (value) {
+        BlocProvider.of<AddWelderRepairBloc>(context).add(
+            AddWeldingCalculateLengthEvent(value: value, isChainageTo: true));
+      },
+    );
+  }
+
+  Widget _rootPassController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Root Pass",
+      controller: dataState.rootPassController,
+    );
+  }
+
+  Widget _hotPassController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Hot  Pass",
+      controller: dataState.hotPassController,
+    );
+  }
+
+  Widget _otherPassController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Other Pass",
+      controller: dataState.otherPassController,
+    );
+  }
+
+  Widget _locationController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Location of Defect(mm)",
+      controller: dataState.locationController,
+    );
+  }
+  Widget _proposedLengthController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Proposed Length of Repair",
+      controller: dataState.proposedLengthController,
+    );
+  }
+
   Widget _e6010Controller({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
@@ -197,8 +292,8 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _e8010P1Controller(
-      {required FetchAddWelderRepairDataState dataState}) {
+
+  Widget _e8010P1Controller({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: "E8010P1",
@@ -206,8 +301,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _e9045P2Controller(
-      {required FetchAddWelderRepairDataState dataState}) {
+  Widget _e9045P2Controller({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: "E9045P2",
@@ -223,8 +317,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _e81TM21ABController(
-      {required FetchAddWelderRepairDataState dataState}) {
+  Widget _e81TM21ABController({required FetchAddWelderRepairDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: "E81TM21AB",
@@ -232,8 +325,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _jointTypeDropDown(
-      {required FetchAddWelderRepairDataState dataState}) {
+  Widget _jointTypeDropDown({required FetchAddWelderRepairDataState dataState}) {
     return DropdownWidget<JointTypeModel>(
       isRequired: true,
       hint: AppString.selectJointType,
@@ -248,8 +340,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
     );
   }
 
-  Widget _jointNumberDropDown(
-      {required FetchAddWelderRepairDataState dataState}) {
+  Widget _jointNumberDropDown({required FetchAddWelderRepairDataState dataState}) {
     return dataState.isJointNumberLoader == false
         ? DropdownWidget<JointNumberModel>(
       isRequired: true,

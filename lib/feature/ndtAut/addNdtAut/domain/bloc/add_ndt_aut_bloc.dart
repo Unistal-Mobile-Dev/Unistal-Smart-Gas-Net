@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/aut_status_model.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -128,22 +126,19 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
    pmcList = [];
    pmcData = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
     _userData = UserInfo.instanceInit()!.userData!;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var segmentStatusRes = await AddClearingGradingHelper.fetchSegmentStatusData();
+    var segmentStatusRes =  await DashboardHelper.fetchConstantData(key: "SegmentStatus");
     if (segmentStatusRes.isNotEmpty) {
       ndtAgencyList = segmentStatusRes;
       contractorList = segmentStatusRes;
       pmcList = segmentStatusRes;
     }
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           : "afterwelding",
@@ -151,25 +146,23 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }
-    var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resWPS = await DashboardHelper.fetchWPSType();
     if (resWPS != null) {
       wpsTypeList = resWPS;
     }
 
-    var resDefectType = await AddNdtAutHelper.fetchDefectTypeData(
+    var resDefectType = await DashboardHelper.fetchDefectTypeData(
         context: !event.context.mounted ? event.context : event.context,
         userData: userData);
     if (resDefectType != null) {
       defectTypeList = resDefectType;
     }
-    var resDefectLayer = await AddNdtAutHelper.fetchDefectLayerData(
+    var resDefectLayer = await DashboardHelper.fetchDefectLayerData(
         context: !event.context.mounted ? event.context : event.context);
     if (resDefectLayer != null) {
       defectLayerList = resDefectLayer;
     }
-    var resAut = await AddNdtAutHelper.fetchAutStatusData(
+    var resAut = await DashboardHelper.fetchAutStatusData(
         context: !event.context.mounted ? event.context : event.context);
     if (resAut != null) {
       autStatusList = resAut;
@@ -247,8 +240,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
     isWelderLoader = true;
     _eventComplete(emit);
     selectedWelderList = [];
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: event.context, userData: userData, wpsData: wpsTypeData);
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: wpsTypeData);
     if (resWelder != null) {
       welderList = resWelder;
     }
@@ -334,9 +326,7 @@ class AddNdtAutBloc extends Bloc<AddNdtAutEvent, AddNdtAutState> {
       autStatusData = AutStatusModel();
       selectedDefectLayerList = [];
       selectedDefectTypeList = [];
-      weatherList = await DashboardHelper.fetchWeatherData(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData);
+      weatherList = await DashboardHelper.fetchWeatherData();
       _userData = UserInfo.instanceInit()!.userData!;
     }
 

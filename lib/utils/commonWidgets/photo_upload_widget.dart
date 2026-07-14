@@ -219,9 +219,6 @@ class PhotoUploadWidget extends StatelessWidget {
   }
 }
 
-// ── Dotted border painter ──────────────────────────────────────────────────
-
-// ✅ FIX 1: color bahar se pass hota hai — context yahan nahi chahiye
 class _DottedBorderPainter extends CustomPainter {
   final Color color;
   final double borderRadius;

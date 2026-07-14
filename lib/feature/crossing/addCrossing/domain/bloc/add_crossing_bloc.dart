@@ -184,25 +184,14 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
     crossingTypeList = [];
     crossingTypeData = CrossingTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           : "afterwelding",
@@ -212,14 +201,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       jointToList = jointFromList;
     }
 
-    var resHoliday = await AddBendingHelper.fetchHolidayData(
-        context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData();
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
-    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks();
     if (visualsChecksRes != null) {
       visualsChecksList = visualsChecksRes;
     }
@@ -231,8 +218,7 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
       crossingTypeList = resCrossingType;
     }
 
-    var prePaddingRes = await AddHDPEDuctHelper.fetchPaddingData(
-        context: !event.context.mounted ? event.context : event.context);
+    var prePaddingRes = await AddHDPEDuctHelper.fetchPaddingData();
     if (prePaddingRes != null) {
       prePaddingList = prePaddingRes;
       postPaddingList = prePaddingRes;

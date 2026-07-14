@@ -83,8 +83,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   WelderModel stripWelder1Data = WelderModel();
   WelderModel stripWelder2Data = WelderModel();
 
-  TextEditingController electrodeDiaE81t8gBatchController =
-      TextEditingController();
+  TextEditingController electrodeDiaE81t8gBatchController = TextEditingController();
   TextEditingController electrodeDiaE81t8gController = TextEditingController();
 
   TextEditingController leftPipeNumberController = TextEditingController();
@@ -137,6 +136,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
 
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
+  TextEditingController chainageController = TextEditingController();
 
   List<PipeModel> leftPipeList = [];
   List<PipeModel> rightPipeList = [];
@@ -254,6 +254,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     rightPipeNumberController.text = "";
     chainageFromController.text = "";
     chainageToController.text = "";
+    chainageController.text = "";
     searchLeftPipeController.text = "";
     searchRightPipeController.text = "";
     searchRightPipeLoader = false;
@@ -295,38 +296,29 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     electrodeDiaE9045p2BatchList = [];
 
     userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
     _isJointNumberLoader = false;
     leftPipeList = [];
     rightPipeList = [];
 
     leftPipeData = PipeModel();
     rightPipeData = PipeModel();
-    var resElectrodeDia = await AddWeldingHelper.fetchElectrodeDia(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resElectrodeDia = await DashboardHelper.fetchElectrodeDia();
     if (resElectrodeDia != null) {
       electrodeDiaE6010DiaList = resElectrodeDia;
       electrodeEiaE8010p1DiaList = resElectrodeDia;
     }
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resWPS = await DashboardHelper.fetchWPSType();
     if (resWPS != null) {
       wpsList = resWPS;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type: AppConfig.instanceInit()!
                   .activitySectionData
                   .appJoint
@@ -339,8 +331,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     if (resJointNumber != null) {
       jointNumberList = resJointNumber;
     }
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       fitupList = resVisual;
     }
@@ -407,8 +398,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     welderData = WelderModel();
     isWelderLoader = true;
     _eventComplete(emit);
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: event.context, userData: userData, wpsData: wpsData);
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: wpsData);
     if (resWelder != null) {
       welderList = resWelder;
     }
@@ -577,9 +567,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     if (electrodeDiaE6010Value.diaValue != null) {
       isLoaderDiaE6010BatchBatch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(
           diaValue: electrodeDiaE6010Value.diaValue.toString());
       if (resElectrodeDia != null) {
         electrodeDiaE6010BatchList = resElectrodeDia;
@@ -596,10 +584,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     if (electrodeDiaE6010Value.diaValue != null) {
       isLoaderEiaE8010p1BatchBatch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
-          diaValue: electrodeEiaE8010p1Value.diaValue.toString());
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(diaValue: electrodeEiaE8010p1Value.diaValue.toString());
       if (resElectrodeDia != null) {
         electrodeEiaE8010p1BatchList = resElectrodeDia;
       }
@@ -615,10 +600,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     if (electrodeDiaE9045p2Value.diaValue != null) {
       isLoaderDiaE9045p2Batch = true;
       _eventComplete(emit);
-      var resElectrodeDia = await AddWeldingHelper.fetchElectrodeBatch(
-          context: !event.context.mounted ? event.context : event.context,
-          userData: userData,
-          diaValue: electrodeDiaE9045p2Value.diaValue.toString());
+      var resElectrodeDia = await DashboardHelper.fetchElectrodeBatch(diaValue: electrodeDiaE9045p2Value.diaValue.toString());
       if (resElectrodeDia != null) {
         electrodeDiaE9045p2BatchList = resElectrodeDia;
       }
@@ -688,6 +670,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       weatherData: weatherData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
+      chainage: chainageController.text.toString(),
       reportNumber: reportNumberController.text.toString(),
     );
     isLoader = false;
@@ -738,6 +721,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       stripWelder2Data = WelderModel();
       chainageFromController.text = "";
       chainageToController.text = "";
+      chainageController.text = "";
       rightPipeData = PipeModel();
       leftPipeData = PipeModel();
       _weatherData = WeatherModel();
@@ -834,6 +818,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       weatherList: weatherList,
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
+      chainageController: chainageController,
       leftPipeData: leftPipeData,
       rightPipeData: rightPipeData,
       leftPipeList: leftPipeList,

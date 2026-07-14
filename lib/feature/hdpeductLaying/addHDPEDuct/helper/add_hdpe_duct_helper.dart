@@ -84,7 +84,7 @@ class AddHDPEDuctHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&
@@ -121,8 +121,7 @@ class AddHDPEDuctHelper {
     }
   }
 
-  static Future<dynamic> fetchPaddingData(
-      {required BuildContext context}) async {
+  static Future<dynamic> fetchPaddingData() async {
     try {
       String url = APIs.getPaddingCheckApi;
       var res = await ServerRequest.getData(urlEndPoint: url);

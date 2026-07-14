@@ -73,6 +73,7 @@ class AddTrenChingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String toWidth,
+    required String bottomWidth,
     required String ipFrom,
     required String ipTo,
     required String detailsOfStructure,
@@ -108,6 +109,7 @@ class AddTrenChingHelper {
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
         "top_width": toWidth,
+        "bottom_width": bottomWidth,
         "ip_from": ipFrom.isNotEmpty ? ipFrom : "0",
         "ip_to": ipTo.isNotEmpty ? ipTo : "0",
         "details_of_structure": detailsOfStructure,
@@ -132,7 +134,7 @@ class AddTrenChingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

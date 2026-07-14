@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/hepler/add_tren_ching_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -37,6 +35,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   TextEditingController fromJointIdController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController toWidthController = TextEditingController();
+  TextEditingController bottomWidthController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
   TextEditingController detailsStructureCtrl= TextEditingController();
   TextEditingController mimimumCoverCtrl= TextEditingController();
@@ -110,6 +109,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     fromJointIdController = TextEditingController();
     activityRemarkController = TextEditingController();
     toWidthController = TextEditingController();
+    bottomWidthController = TextEditingController();
     lengthController = TextEditingController();
     detailsStructureCtrl= TextEditingController();
     mimimumCoverCtrl= TextEditingController();
@@ -129,8 +129,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     file = File("");
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     _jointNumberData = JointNumberModel();
@@ -144,20 +143,15 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     toJointData = JointNumberModel();
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var resTerrain = await AddClearingGradingHelper.fetchTerrainData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resTerrain = await DashboardHelper.fetchTerrainData();
     if (resTerrain != null) {
       terrainTypeList = resTerrain;
     }
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
         type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
             ? AppConfig.instanceInit()!.activitySectionData.appJoint!
             : "afterndtrt"
@@ -266,19 +260,6 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _submitData(AddTrenChingSubmitDataEvent event, emit) async {
-/*    var textFiledValidation =  await AddTrenChingHelper.textFiledValidation(context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        fromJointId: fromJointIdController.text.toString(),
-        toJointId: toJointIdController.text.toString(),
-        trenchingDepth:trenchingDepthController.text.toString(),
-        terrainType: terrainController.text.toString(),
-        activityRemark: activityRemarkController.text.toString()
-    );
-    if(textFiledValidation == false){
-      return;
-    }*/
     _isLoader = true;
     _eventComplete(emit);
     var res = await AddTrenChingHelper.submitData(
@@ -298,6 +279,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
       toWidth: toWidthController.text.toString(),
+      bottomWidth: bottomWidthController.text.toString(),
       availabilityOfMimimumCover: mimimumCoverCtrl.text.toString(),
       chainageFromSingle: chainageFromController.text.toString(),
       chainageToSingle: chainageToController.text.toString(),
@@ -323,6 +305,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       fromJointIdController = TextEditingController();
       activityRemarkController = TextEditingController();
       toWidthController = TextEditingController();
+      bottomWidthController = TextEditingController();
       lengthController = TextEditingController();
       detailsStructureCtrl= TextEditingController();
       mimimumCoverCtrl= TextEditingController();
@@ -387,6 +370,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       chainageFromController: chainageFromController,
       chainageToController: chainageToController,
       toWidthController: toWidthController,
+      bottomWidthController: bottomWidthController,
       lengthController: lengthController,
       provisionOfWarningSignsSafetySignsCtrt: provisionOfWarningSignsSafetySignsCtrl,
       seismicZoneAndCoverCtrl: seismicZoneAndCoverCtrl,

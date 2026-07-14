@@ -159,3 +159,21 @@ class AddNdtMutSubmitDataEvent extends AddNdtMutEvent {
   @override
   List<Object?> get props => [context];
 }
+
+class SelectMaterialGradeEvent extends AddNdtMutEvent {
+  final TerrainTypeModel materialGradeValue;
+
+  const SelectMaterialGradeEvent({required this.materialGradeValue});
+
+  @override
+  List<Object?> get props => [materialGradeValue];
+}
+
+class SelectAcceptanceCriteriaEvent extends AddNdtMutEvent {
+  final TerrainTypeModel acceptanceCriteriaValue;
+
+  const SelectAcceptanceCriteriaEvent({required this.acceptanceCriteriaValue});
+
+  @override
+  List<Object?> get props => [acceptanceCriteriaValue];
+}

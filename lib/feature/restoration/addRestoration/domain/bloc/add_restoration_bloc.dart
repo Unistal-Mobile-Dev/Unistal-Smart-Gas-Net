@@ -113,19 +113,14 @@ class AddRestorationBloc
     replacementofTopSoilData = PaddingModel();
     reinstallationBoundaryStonesData = PaddingModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           : "afterwelding",
@@ -134,8 +129,7 @@ class AddRestorationBloc
       jointFromList = resJointNumber;
       jointToList = jointFromList;
     }
-    var resPadding = await AddHDPEDuctHelper.fetchPaddingData(
-        context: !event.context.mounted ? event.context : event.context);
+    var resPadding = await AddHDPEDuctHelper.fetchPaddingData();
     if (resPadding != null) {
       replacementofTopSoilList = resPadding;
       removalOfSurplusMaterialList = resPadding;

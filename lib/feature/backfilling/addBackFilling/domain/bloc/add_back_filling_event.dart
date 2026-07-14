@@ -143,3 +143,12 @@ class AddBackFillingSubmitDataEvent extends AddBackFillingEvent {
   @override
   List<Object?> get props => [context];
 }
+
+class AddLoweringSelectPaddingEvent extends AddBackFillingEvent {
+  final TerrainTypeModel paddingValue;
+
+  const AddLoweringSelectPaddingEvent({required this.paddingValue});
+
+  @override
+  List<Object?> get props => [paddingValue];
+}

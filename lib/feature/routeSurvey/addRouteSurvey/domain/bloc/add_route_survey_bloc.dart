@@ -91,19 +91,14 @@ class AddRouteSurveyBloc
     groundTypeList = [];
     groundTypeData = GroundTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
     _userData = UserInfo.instanceInit()!.userData!;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData();
     if (res != null) {
       groundTypeList = groundTypeRes;
     }

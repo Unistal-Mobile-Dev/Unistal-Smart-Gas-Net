@@ -33,6 +33,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
   final TextEditingController surfaceController;
   final TextEditingController onBodyController;
   final TextEditingController onWeldController;
+  final TextEditingController calibarationFrequencyController;
+  final TextEditingController elcoMeterController;
   final HolidayChecksModel holidayChecksData;
   final List<HolidayChecksModel> holidayCheckList;
   final JointNumberModel fromJointData;
@@ -70,6 +72,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
     required this.dateController,
     required this.activityRemarkController,
     required this.onWeldController,
+    required this.calibarationFrequencyController,
+    required this.elcoMeterController,
     required this.chainageCtrl,
     required this.chainageFromController,
     required this.chainageToController,
@@ -122,6 +126,8 @@ class FetchAddJointCoatingDataState extends AddJointCoatingInitial {
         dateController,
         activityRemarkController,
         onWeldController,
+        calibarationFrequencyController,
+        elcoMeterController,
         chainageCtrl,
         chainageFromController,
         chainageToController,

@@ -30,6 +30,9 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
   final TextEditingController ipNumberController;
   final TextEditingController ipNumberFromController;
   final TextEditingController gapLengthController;
+  final TextEditingController machineyController;
+  final TextEditingController manpowerController;
+  final TextEditingController detailsController;
   final TextEditingController gapDescriptionController;
   final TextEditingController lengthController;
   final AlignmentModel alignmentData;
@@ -70,10 +73,12 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
     required this.terrainTypeList,
     required this.gapDescriptionController,
     required this.gapLengthController,
+    required this.machineyController,
+    required this.manpowerController,
+    required this.detailsController,
     required this.lengthController,
     required this.groundTypeList,
     required this.groundTypeData,
-
   });
 
   @override
@@ -91,7 +96,7 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
         tpRemarkNumberController,
         boundaryLocationController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         file,
         ipNumberFromController,
         ipNumberController,
@@ -103,8 +108,11 @@ class FetchAddClearingGradingDataState extends AddClearingGradingInitial {
         terrainTypeList,
         gapDescriptionController,
         gapLengthController,
+        machineyController,
+        detailsController,
+        manpowerController,
         lengthController,
-    groundTypeList,
-    groundTypeData,
+        groundTypeList,
+        groundTypeData,
       ];
 }

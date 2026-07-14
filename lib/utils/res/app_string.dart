@@ -576,9 +576,9 @@ class AppString {
 
   static get filler8Welders2 => "Filler 8 Welders 2";
 
-  static get selectFitup => "Select Fitup";
+  static get selectFitup => "Fitup";
 
-  static get selectWeldVisual => "Select Weld Visual";
+  static get selectWeldVisual => "Visual";
 
   static get stripWelder1 => "Strip Welder1";
 

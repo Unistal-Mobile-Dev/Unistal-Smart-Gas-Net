@@ -49,12 +49,14 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
   final ThicknessModel thicknessData;
   final List<PipeDiaModel> pipeDialList;
   final PipeDiaModel pipeDiaData;
+  final TerrainTypeModel jobNoValue;
   final TerrainTypeModel dewateringValue;
   final TerrainTypeModel paddingValue;
   final TerrainTypeModel paddingMaterialValue;
   final TerrainTypeModel loweringClearanceValue;
   final TerrainTypeModel approvedPipeValue;
   final TerrainTypeModel nightCapValue;
+  final List<TerrainTypeModel> listOfJobNo;
   final List<TerrainTypeModel> listOfDewatering;
   final List<TerrainTypeModel> listOfPadding;
   final List<TerrainTypeModel> listOfPaddingMaterial;
@@ -109,6 +111,8 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
     required this.listOfLoweringClearance,
     required this.listOfApprovedPipe,
     required this.listOfNightCap,
+    required this.jobNoValue,
+    required this.listOfJobNo,
   });
 
   @override
@@ -159,5 +163,7 @@ class FetchAddLoweringDataState extends AddLoweringInitial {
         listOfLoweringClearance,
         listOfApprovedPipe,
         listOfNightCap,
+        jobNoValue,
+        listOfJobNo,
       ];
 }

@@ -80,28 +80,29 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
               _arableSoil(dataState: dataState),
               _verticalSpace(),
               _trenchProfile(dataState: dataState),
-              if (_isVPPL|| _isVRPL) ...[
+              if (_isVPPL || _isVRPL || _isBJPL) ...[
                 _verticalSpace(),
                 _provisionOfWarningSignsSafetySignsCtrt(dataState: dataState),
                 _verticalSpace(),
-                if(!(_isVRPL))...[
+                if(!(_isVRPL || _isBJPL))...[
                   _verificationOfMinimumDepthCtrl(dataState: dataState),
                   _verticalSpace(),
                   _seismicZoneAndCoverCtrl(dataState: dataState),
                   _verticalSpace(),
                 ]
               ],
-
-              _from(dataState: dataState),
-              _verticalSpace(),
-              _to(dataState: dataState),
-              _verticalSpace(),
+              if(!( _isBJPL))...[
+                _from(dataState: dataState),
+                _verticalSpace(),
+                _to(dataState: dataState),
+                _verticalSpace(),
+              ]
             ],
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!(_isVPPL || _isVRPL || _isHPCL || _isHPOIL)) ...[
+            if (!(_isVPPL || _isVRPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
               _ipFromController(dataState: dataState),
               _verticalSpace(),
               _ipToController(dataState: dataState),
@@ -111,12 +112,15 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
             _toWidthController(dataState: dataState),
-            _verticalSpace(),
-            _lengthController(dataState: dataState),
-            _verticalSpace(),
+            if(_isHPOIL)...[
+              _bottomWidthController(dataState: dataState),
+              _verticalSpace(),
+            ],
             if(!(_isMGL || _isHPCL || _isHPOIL))...[
               _terrainDropDown(dataState: dataState),
               _verticalSpace(),
@@ -336,14 +340,14 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
-      labelText: AppString.trenchingDepth,
+      labelText: _isBJPL ? "Depth(Mtr)": AppString.trenchingDepth,
       controller: dataState.trenchingDepthController,
     );
   }
 
   Widget _terrainDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-      hint: AppString.selectTerrain,
+      hint: _isBJPL ? "TERRAIN CLASSIFICATION/TYPE OF GROUND" :AppString.selectTerrain,
       dropdownValue: dataState.terrainTypeData.id != null
           ? dataState.terrainTypeData
           : null,
@@ -361,8 +365,16 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   Widget _toWidthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: AppString.widthMeter,
+      labelText: _isBJPL ? "Width At Top(Mtr)" : AppString.widthMeter,
       controller: dataState.toWidthController,
+    );
+  }
+
+  Widget _bottomWidthController({required FetchAddTrenChingDataState dataState}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.number,
+      labelText: "Width At Bottom(Mtr)",
+      controller: dataState.bottomWidthController,
     );
   }
 

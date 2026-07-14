@@ -91,6 +91,12 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _electrodeEiaE8010p1BatchDropdown(dataState: dataState),
             _verticalSpace(),
+            if(_isBJPL)...[
+              _electrodeDiaE9045Controller(dataState: dataState),
+              _verticalSpace(),
+              _electrodeDiaE9045BatchController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
             _rigthPipeDropDown(dataState: dataState),
@@ -99,9 +105,13 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            if (_isVPPL || _isHPCL || _isHPOIL) ...[
+            if (_isVPPL || _isHPCL || _isHPOIL || _isBJPL) ...[
               _fitupDropDown(dataState: dataState),
               _verticalSpace(),
+            ],
+            if (!( _isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL)) ...[
+              _bendDetailController(dataState: dataState),
+              _verticalSpace()
             ],
             _rootWelders1Dropdown(dataState: dataState),
             _verticalSpace(),
@@ -115,7 +125,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-            _isMGL || _isVPPL || _isHPCL || _isHPOIL
+            _isMGL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL
                 ? Column(
                     children: [
                       _filler2Welders1Controller(dataState: dataState),
@@ -171,10 +181,6 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             ],
             _weldVisualDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!( _isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL)) ...[
-              _bendDetailController(dataState: dataState),
-              _verticalSpace()
-            ],
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
@@ -844,6 +850,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
       {required FetchAddWeldingDataState dataState}) {
     return DropdownWidget(
       hint: "E9045  Dia",
+      isRequired: true,
       items: dataState.electrodeDiaE9045DiaList,
       dropdownValue: dataState.electrodeDiaE9045Value.diaValue != null
           ? dataState.electrodeDiaE9045Value

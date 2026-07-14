@@ -24,6 +24,7 @@ class AddRouHandoverBloc
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
+  TextEditingController tenderNoController = TextEditingController();
   TextEditingController typeofGroundController = TextEditingController();
   TextEditingController tpChainageNumberController = TextEditingController();
   TextEditingController tpRemarkController = TextEditingController();
@@ -63,6 +64,7 @@ class AddRouHandoverBloc
     emit(AddRouHandoverLoadState());
     dateController.text = "";
     reportNumberController.text = "";
+    tenderNoController.text = "";
     typeofGroundController.text = "";
     tpChainageNumberController.text = "";
     tpRemarkController.text = "";
@@ -79,9 +81,8 @@ class AddRouHandoverBloc
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
@@ -185,6 +186,7 @@ class AddRouHandoverBloc
         alignmentData: alignmentData,
         multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
+        tenderNo: tenderNoController.text.toString(),
         date: dateController.text.toString(),
         typeofGround: typeofGroundController.text.toString(),
         tpIpNOS: tpChainageNumberController.text.toString(),
@@ -203,6 +205,7 @@ class AddRouHandoverBloc
     if (res != null) {
       dateController.text = "";
       reportNumberController.text = "";
+      tenderNoController.text = "";
       typeofGroundController.text = "";
       tpChainageNumberController.text = "";
       tpRemarkController.text = "";
@@ -230,6 +233,7 @@ class AddRouHandoverBloc
       activityRemarkController: activityRemarkController,
       bearingAngleController: bearingAngleController,
       reportNumberController: reportNumberController,
+      tenderNoController: tenderNoController,
       terrainController: terrainController,
       typeofGroundController: typeofGroundController,
       tpChainageNumberController: tpChainageNumberController,

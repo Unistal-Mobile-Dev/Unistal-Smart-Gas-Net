@@ -33,6 +33,14 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final TextEditingController e9045P2Controller;
   final TextEditingController er70s6Controller;
   final TextEditingController e81TM21ABController;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+  final TextEditingController lengthController;
+  final TextEditingController rootPassController;
+  final TextEditingController hotPassController;
+  final TextEditingController otherPassController;
+  final TextEditingController locationController;
+  final TextEditingController proposedLengthController;
   final File file;
   final bool isLoader;
   final List<WeatherModel> weatherList;
@@ -45,6 +53,8 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final VisualChecksModel weldVisualData;
   final bool isJointNumberLoader;
   final bool isWelderLoader;
+  final List<ThicknessModel> listOfPipeThickness;
+  final ThicknessModel pipeThicknessValue;
 
   FetchAddWelderRepairDataState({
     required this.welderData,
@@ -77,6 +87,16 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
     required this.isJointNumberLoader,
     required this.isWelderLoader,
     required this.preHeatingTemperatureController,
+    required this.listOfPipeThickness,
+    required this.pipeThicknessValue,
+    required this.chainageFromController,
+    required this.chainageToController,
+    required this.lengthController,
+    required this.rootPassController,
+    required this.hotPassController,
+    required this.otherPassController,
+    required this.locationController,
+    required this.proposedLengthController,
   });
 
   @override
@@ -88,11 +108,11 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
         segmentStatusList,
         selectedSegmentStatusList,
         dateController,
-    reportNumberController,
+        reportNumberController,
         file,
         activityRemarkController,
         alignmentData,
-    multipleAlignmentData,
+        multipleAlignmentData,
         alignmentList,
         e81TM21ABController,
         e6010Controller,
@@ -106,10 +126,20 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
         jointNumberData,
         jointTypeData,
         jointTypeList,
-    weldVisualList,
-    weldVisualData,
+        weldVisualList,
+        weldVisualData,
         isJointNumberLoader,
         isWelderLoader,
         preHeatingTemperatureController,
+        listOfPipeThickness,
+        pipeThicknessValue,
+        chainageFromController,
+        chainageToController,
+        lengthController,
+        rootPassController,
+        hotPassController,
+        otherPassController,
+        locationController,
+        proposedLengthController,
       ];
 }

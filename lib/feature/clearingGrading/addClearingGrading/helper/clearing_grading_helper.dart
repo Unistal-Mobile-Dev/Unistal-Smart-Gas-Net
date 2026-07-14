@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddClearingGradingHelper {
@@ -71,89 +72,6 @@ class AddClearingGradingHelper {
     }
   }
 
-  static Future<dynamic> fetchTerrainData(
-      {required BuildContext context, required LoginDataModel userData}) async {
-    try {
-      String url = APIs.getTerrianApi + "?schema=${userData.schema}";
-      var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return terrainListResponse(res['data']);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<List<TerrainTypeModel>> fetchManufactureData() async {
-    try {
-      String url = APIs.getConstantApi + "?key=manufacture";
-
-      var res = await ServerRequest.getData(urlEndPoint: url);
-
-      if (res != null && res is Map<String, dynamic>) {
-
-        return res.entries.map((entry) {
-          return TerrainTypeModel(
-            id: entry.key,
-            name: entry.value.toString(),
-          );
-        }).toList();
-
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
-
-  static Future<List<TerrainTypeModel>> fetchConstantData(String key) async {
-    try {
-      String url = APIs.getConstantApi + "?key=$key";
-      var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null && res is Map<String, dynamic>) {
-        return res.entries.map((entry) {
-          return TerrainTypeModel(
-            id: entry.key,
-            name: entry.value.toString(),
-          );
-        }).toList();
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
-
-  static Future<List<TerrainTypeModel>> fetchSegmentStatusData() async {
-    try {
-      String url = APIs.getConstantApi + "?key=SegmentStatus";
-
-      var res = await ServerRequest.getData(urlEndPoint: url);
-
-      if (res != null && res is Map<String, dynamic>) {
-
-        return res.entries.map((entry) {
-          return TerrainTypeModel(
-            id: entry.key,
-            name: entry.value.toString(),
-          );
-        }).toList();
-
-      } else {
-        return [];
-      }
-    } catch (e) {
-      return [];
-    }
-  }
-
   static Future<dynamic> submitData({
     required BuildContext context,
     required AlignmentModel alignmentData,
@@ -175,6 +93,9 @@ class AddClearingGradingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String chainage,
+    required String machiney,
+    required String details,
+    required String manpower,
     required TerrainTypeModel terrainTypeData,
     required String gapLength,
     required String gapDescription,
@@ -219,13 +140,15 @@ class AddClearingGradingHelper {
         // "alignment_sheet_id": alignmentData.id.toString(),
         "alignment_sheet_id":  alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "terrain_id":
-            terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
+        "terrain_id": terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
+        "machiney": machiney.isNotEmpty ? machiney.toString() : "",
+        "manpower": manpower.isNotEmpty ? manpower.toString() : "",
+        "details": details.isNotEmpty ? details.toString() : "",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

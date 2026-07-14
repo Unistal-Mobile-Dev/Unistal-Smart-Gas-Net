@@ -121,14 +121,14 @@ class AddCrossingHelper {
           urlEndPoint: url,
           body: json,
         imageRequestObject: [
-          ImageRequestObject("attach_file", file.path.toString()),
-          ImageRequestObject("stage_inspection", fileStageInspection.path.toString()),
-          ImageRequestObject("pre_hydrotest", filePreHydrotest.path.toString()),
-          ImageRequestObject("restoration", fileRestoration.path.toString()),
-          ImageRequestObject("photo_before", filePhotoBefore.path.toString()),
-          ImageRequestObject("photo_after", filePhotoAfter.path.toString()),
-          ImageRequestObject("video_before", fileVideoBefore.path.toString()),
-          ImageRequestObject("video_after", fileVideoAfter.path.toString()),
+          ImageRequestObject(key: "attach_file",path: file.path.toString()),
+          ImageRequestObject(key: "stage_inspection",path: fileStageInspection.path.toString()),
+          ImageRequestObject(key: "pre_hydrotest",path: filePreHydrotest.path.toString()),
+          ImageRequestObject(key: "restoration",path: fileRestoration.path.toString()),
+          ImageRequestObject(key: "photo_before",path: filePhotoBefore.path.toString()),
+          ImageRequestObject(key: "photo_after",path: filePhotoAfter.path.toString()),
+          ImageRequestObject(key: "video_before",path: fileVideoBefore.path.toString()),
+          ImageRequestObject(key: "video_after",path: fileVideoAfter.path.toString()),
         ],
       );
       if (res != null &&

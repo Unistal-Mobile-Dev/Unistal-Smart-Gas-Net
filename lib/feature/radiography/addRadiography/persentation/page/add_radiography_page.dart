@@ -472,7 +472,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _ndtAgencyDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtStatusModel>(
-      hint: _isVPPL || _isVRPL ? "SIEVERT" : AppString.selectNdtAgency,
+      hint: _isVPPL || _isVRPL ? "SIEVERT" :  _isBJPL ? "MECON/GSPL" : AppString.selectNdtAgency,
       dropdownValue:
           dataState.ndtAgencyData.id != null ? dataState.ndtAgencyData : null,
       onChanged: (value) {
@@ -485,7 +485,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtStatusModel>(
-      hint: _isVPPL || _isVRPL ? "MEIL" : AppString.selectDSPPL,
+      hint: _isVPPL || _isVRPL || _isBJPL ? "MEIL" : AppString.selectDSPPL,
       dropdownValue: dataState.dSPPLAgencyData.id != null
           ? dataState.dSPPLAgencyData
           : null,
@@ -499,7 +499,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _mECONPBGPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtStatusModel>(
-      hint: _isVPPL || _isVRPL ? "EIL" : AppString.selectMECONPBGPL,
+      hint: _isVPPL || _isVRPL  ? "EIL" : _isBJPL ? "CEIL"  : AppString.selectMECONPBGPL,
       dropdownValue:
       dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {

@@ -191,7 +191,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _preheatTempController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL || _isVPPL || _isVRPL
+      labelText: _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL || _isVPPL || _isVRPL || _isBJPL
           ? "Bend Details"
           : AppString.preHeatTemperature,
       controller: dataState.preheatTempController,
@@ -206,6 +206,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
       controller: dataState.chainageFromController,
     );
   }
+  Widget _chainageController({required FetchAddTieinDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainage,
+      controller: dataState.chainageController,
+    );
+  }
+
 
   Widget _chainageToController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(

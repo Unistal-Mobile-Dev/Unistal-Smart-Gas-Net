@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddRouteSurveyHelper {
@@ -61,10 +62,10 @@ class AddRouteSurveyHelper {
     }
   }
 
-  static Future<dynamic> fetchGroundTypeData(
-      {required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchGroundTypeData() async {
+    LoginDataModel? userData =  UserInfo.instanceInit()!.userData;
     try {
-      String url = APIs.getGroundTypeApi + "?schema=${userData.schema}";
+      String url = APIs.getGroundTypeApi + "?schema=${userData!.schema}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null &&
           res['success'] != null &&
@@ -146,7 +147,7 @@ class AddRouteSurveyHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&
@@ -183,12 +184,12 @@ class AddRouteSurveyHelper {
     }
   }
 
-  static Future<dynamic> fetchAlignmentData(
-      {required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchAlignmentData() async {
+    LoginDataModel? userData =  UserInfo.instanceInit()!.userData;
     try {
       String url = APIs.getAlignmentSheetApi;
       var param = {
-        "schema": userData.schema,
+        "schema": userData!.schema,
         "spread_id": userData.spreadId,
         "section_id": userData.sectionId,
       };

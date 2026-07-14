@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/bloc/add_back_filling_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
@@ -76,6 +77,8 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            _paddingDropDown(dataState: dataState),
+            _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
@@ -86,7 +89,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            if(_isVPPL || _isVRPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL)...[
               _slopeBreakerCtrl(dataState: dataState),
               _verticalSpace(),
               _gratingsCtrl(dataState: dataState),
@@ -94,7 +97,7 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
               _antiBuoyancyController(dataState: dataState),
               _verticalSpace(),
             ],
-            if (!(_isHPCL || _isHPOIL || _isVPPL || _isVRPL)) ...[
+            if (!(_isHPCL || _isHPOIL || _isVPPL || _isVRPL || _isBJPL)) ...[
               _recordingPipelineCtrl(dataState: dataState),
               _verticalSpace(),
               _locationCtrl(dataState: dataState),
@@ -194,20 +197,18 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
     );
   }
 
-  Widget _recordingPipelineCtrl(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _recordingPipelineCtrl({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Recording of Pipeline centre line and Level",
       controller: dataState.recordingPipelineCtrl,
     );
   }
 
-  Widget _antiBuoyancyController(
-      {required FetchAddBackFillingDataState dataState}) {
+  Widget _antiBuoyancyController({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
       labelText: _isURJAGATI || _isGJPL
           ? "Anti-Buoyancy Measures"
-          :  _isVPPL || _isVRPL
+          :  _isVPPL || _isVRPL || _isBJPL
           ? "Anti Buoyancy"
           :AppString.antiBuoyancy,
       controller: dataState.antiBuoyancyController,
@@ -216,7 +217,9 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
 
   Widget _gratingsCtrl({required FetchAddBackFillingDataState dataState}) {
     return TextFieldWidget(
-      labelText: _isVPPL || _isVRPL ? "Plastic/Grating/Concrete Slab":"Gratings / Concrete slabs at electrical / other Crossing",
+      labelText: _isVPPL || _isVRPL  || _isBJPL
+          ? "Plastic/Grating/Concrete Slab"
+          :"Gratings / Concrete slabs at electrical / other Crossing",
       controller: dataState.gratingsCtrl,
     );
   }
@@ -241,6 +244,18 @@ class _AddBackFillingPageState extends State<AddBackFillingPage> {
       labelText: "Availability of Minimum cover",
       controller: dataState.minimumCoverCtrl,
     );
+  }
+
+  Widget _paddingDropDown({required FetchAddBackFillingDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Padding",
+        dropdownValue:
+        dataState.paddingValue.id != null ? dataState.paddingValue : null,
+        onChanged: (value) {
+          BlocProvider.of<AddBackFillingBloc>(context)
+              .add(AddLoweringSelectPaddingEvent(paddingValue: value!));
+        },
+        items: dataState.listOfPadding);
   }
 
   Widget _hdpeDuctCtrl({required FetchAddBackFillingDataState dataState}) {

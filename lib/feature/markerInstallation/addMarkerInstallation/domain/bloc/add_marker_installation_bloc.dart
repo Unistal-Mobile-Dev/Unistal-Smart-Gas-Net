@@ -82,16 +82,13 @@ class AddMarkerInstallationBloc extends Bloc<AddMarkerInstallationEvent, AddMark
     jointTypeDataValue = JointTypeModel();
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           : "afterwelding",);
@@ -99,13 +96,12 @@ class AddMarkerInstallationBloc extends Bloc<AddMarkerInstallationEvent, AddMark
       listOfJoint = resJointNumber;
     }
 
-    var resMarkerType = await AddWeldingHelper.fetchMarkerType(context: event.context, userData: userData,);
+    var resMarkerType = await DashboardHelper.fetchMarkerType();
     if (resJointNumber != null) {
       listOfMarkerType = resMarkerType ?? [];
     }
 
-    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+    var resJointType = await DashboardHelper.fetchJointType();
     if (resJointType != null) {
       listOfJointType = resJointType;
     }

@@ -271,21 +271,19 @@ class _AddHdpeDuctPageState extends State<AddHdpeDuctPage> {
   Widget _ductReadingFromController(
       {required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
-      isRequired: _isVPPL || _isVRPL ? false : true,
-      textInputType: _isVPPL || _isVRPL ? TextInputType.text : TextInputType.number,
-      labelText: _isVPPL || _isVRPL ? "Coupler/End Cap/Joint Pit" : AppString.ductReadingFrom,
+      isRequired: _isVPPL || _isVRPL || _isBJPL ? false : true,
+      textInputType: _isVPPL || _isVRPL  || _isBJPL ? TextInputType.text : TextInputType.number,
+      labelText: _isVPPL || _isVRPL  || _isBJPL ? "Coupler/End Cap/Joint Pit" : AppString.ductReadingFrom,
       controller: dataState.ductLengthFromController,
     );
   }
 
-  Widget _ductReadingToController(
-      {required FetchAddHdpeDuctDataState dataState}) {
+  Widget _ductReadingToController({required FetchAddHdpeDuctDataState dataState}) {
     return TextFieldWidget(
-      isRequired: _isVPPL || _isVRPL ? false : true,
-      textInputType:
-          _isVPPL || _isVRPL ? TextInputType.text : TextInputType.number,
-      labelText: _isVPPL || _isVRPL
-          ? "Coupler/Joint Pit GPS Location"
+      isRequired: _isVPPL || _isVRPL || _isBJPL ? false : true,
+      textInputType: _isVPPL || _isVRPL || _isBJPL ? TextInputType.text : TextInputType.number,
+      labelText: _isVPPL || _isVRPL || _isBJPL
+            ? "Coupler/Joint Pit GPS Location"
           : AppString.ductReadingTo,
       controller: dataState.ductLengthToController,
     );

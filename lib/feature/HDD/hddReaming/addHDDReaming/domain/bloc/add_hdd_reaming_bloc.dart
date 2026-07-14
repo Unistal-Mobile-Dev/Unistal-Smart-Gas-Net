@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 
 part 'add_hdd_reaming_event.dart';
 part 'add_hdd_reaming_state.dart';
@@ -106,14 +104,12 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     multipleAlignmentData = [];
     weatherData = WeatherModel();
     userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(context: event.context, userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: event.context, userData: userData);
+    var resJointType = await DashboardHelper.fetchJointType();
     if (resJointType != null) {
       listOfJointType = resJointType;
     }
@@ -163,9 +159,7 @@ class AddHddReamingBloc extends Bloc<AddHddReamingEvent, AddHddReamingState> {
     toJointValue = JointNumberModel();
     isJointNumberLoader = true;
     _eventComplete(emit);
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
         type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
             ? AppConfig.instanceInit()!.activitySectionData.appJoint!
             : "afterwelding");

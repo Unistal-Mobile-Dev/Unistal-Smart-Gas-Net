@@ -80,23 +80,22 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
           _verticalSpace(),
           _groundTypeDropdown(dataState:dataState),
           _verticalSpace(),
-          if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL) ) ...[
+          if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL) ) ...[
             _tpFromField(dataState:dataState),
             _verticalSpace(),
           ],
           _tpNosField(dataState:dataState),
-
           _verticalSpace(),
 
-          if (!(_isMGL)) ...[
+          if (!(_isMGL )) ...[
             _bearingField(dataState:dataState),
             _verticalSpace(),
-            if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL) ) ...[
+            if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
               _terrainField(dataState:dataState),
               _verticalSpace(),
             ],
           ],
-          if (!(_isVPPL || _isHPCL || _isHPOIL)) ...[
+          if (!(_isVPPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
             _buildStructureSection(dataState:dataState),
             _verticalSpace(),
           ],
@@ -153,8 +152,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpNosField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isVPPL || _isHPCL || _isHPOIL ? TextInputType.text : TextInputType.number,
-      labelText: _isVPPL || _isHPCL || _isHPOIL
+      textInputType: _isVPPL || _isHPCL || _isHPOIL || _isBJPL? TextInputType.text : TextInputType.number,
+      labelText: _isVPPL || _isHPCL || _isHPOIL || _isBJPL
           ? "Markers for IP Nos./TP Nos."
           : _isURJAGATI || _isGJPL ? "IP/TP Chainage" : AppString.tpTo,
       controller: dataState.tpChainageNumberController,
@@ -164,9 +163,11 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _bearingField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isVPPL || _isHPCL || _isHPOIL ? TextInputType.text : TextInputType.number,
+      textInputType: _isVPPL || _isHPCL || _isHPOIL || _isBJPL? TextInputType.text : TextInputType.number,
       labelText: _isVPPL || _isHPCL || _isHPOIL
           ? "Details of Structure In/Across ROU Such as P/L, HT Crossings"
+          : _isBJPL
+          ? "Details of Structure/ Monuments In / Across ROW such as Pipeline, HT Line etc. & Restricted ROW"
           : AppString.bearingAngle,
       controller: dataState.bearingAngleController,
     );

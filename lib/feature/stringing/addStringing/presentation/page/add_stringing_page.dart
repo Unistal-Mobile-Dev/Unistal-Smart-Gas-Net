@@ -30,7 +30,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isVRPL  || _isBJPL || _isURJAGATI || _isGJPL || _isMGL;
+  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL || _isMGL;
 
   @override
   void initState() {
@@ -38,7 +38,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
     _client = AppConfig.instanceInit()!.client!;
     BlocProvider.of<AddStringingBloc>(context)
         .add(AddStringingPageLoadEvent(context: context));
-
   }
 
   @override
@@ -65,7 +64,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if (_isVPPL || _isVRPL || _isBJPL) ...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -76,7 +75,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            if (_isAllClient) ...[
+            if (_isAllClient && !_isBJPL) ...[
               _verticalSpace(),
               _corrosionCoatingController(dataState: dataState),
               _verticalSpace(),
@@ -103,7 +102,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-
   Widget _formatNoField() {
     return TextFieldWidget(
       isRequired: true,
@@ -112,7 +110,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
       initialValue: AppConfig.instanceInit()!.activitySectionData.formateNo.toString(),
     );
   }
-
 
   Widget _dateController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
@@ -179,13 +176,10 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _pipeLengthListWidget({
-    required FetchAddStringingDataState dataState,
-  }) {
+  Widget _pipeLengthListWidget({required FetchAddStringingDataState dataState,}) {
     if (dataState.pipeLengthList.isEmpty) {
       return const SizedBox.shrink();
     }
-
     final theme = Theme.of(context);
     return Column(
       children: [
@@ -204,7 +198,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
                 border: Border.all(
                   color: EnvironmentConfig.of(context)!.primaryTheme.withValues(alpha: 0.50),
                 ),
-
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,7 +236,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
                       )
                     ],
                   ),
-
                   _verticalSpace(),
                   Row(
                     children: [
@@ -268,21 +260,17 @@ class _AddStringingPageState extends State<AddStringingPage> {
                           },
                         ),
                       ),
-
                       const SizedBox(width: 2),
-
                       Flexible(
                         child: TextFieldWidget(
                           enabled: false,
                           textInputType: TextInputType.number,
-                          labelText:"Ch To",
+                          labelText: "Ch To",
                           controller:
                           dataState.chainageToController[index],
                         ),
                       ),
-
                       const SizedBox(width: 2),
-
                       Flexible(
                         child: TextFieldWidget(
                           enabled: false,
@@ -301,7 +289,6 @@ class _AddStringingPageState extends State<AddStringingPage> {
           },
         ),
         _verticalSpace(),
-
       ],
     );
   }
@@ -379,7 +366,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
         isRequired: true,
         hint: AppString.selectWeather,
         dropdownValue:
-            dataState.weatherData.id != null ? dataState.weatherData : null,
+        dataState.weatherData.id != null ? dataState.weatherData : null,
         onChanged: (value) {
           BlocProvider.of<AddStringingBloc>(context)
               .add(SelectWeatherEvent(weatherData: value!));
@@ -395,8 +382,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }
 
-  Widget _nameManufactureDropDown(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _nameManufactureDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
         hint: "Name of the Manufacture",
         dropdownValue: dataState.manufactureData.id != null
@@ -418,15 +404,16 @@ class _AddStringingPageState extends State<AddStringingPage> {
           : null,
       onChanged: (value) {
         context.read<AddStringingBloc>().add(
-              SelectWeightCoatingEvent(
-                weightCoatingData: value!,
-              ),
-            );
+          SelectWeightCoatingEvent(
+            weightCoatingData: value!,
+          ),
+        );
       },
       items: dataState.weightCoatingList,
     );
   }
-  Widget _photo({required FetchAddStringingDataState dataState}){
+
+  Widget _photo({required FetchAddStringingDataState dataState}) {
     return PhotoUploadWidget(
       file: dataState.file,
       onTap: () => MediaPickerSheet.show(
@@ -444,15 +431,15 @@ class _AddStringingPageState extends State<AddStringingPage> {
   Widget _button({required FetchAddStringingDataState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
-            text: AppString.submit,
-            height:
-                AppConfig.getDeviceType(context: context) == DeviceType.tablet
-                    ? MediaQuery.of(context).size.height * 0.13
-                    : null,
-            onPressed: () {
-              BlocProvider.of<AddStringingBloc>(context)
-                  .add(AddStringingSubmitDataEvent(context: context));
-            })
+        text: AppString.submit,
+        height:
+        AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13
+            : null,
+        onPressed: () {
+          BlocProvider.of<AddStringingBloc>(context)
+              .add(AddStringingSubmitDataEvent(context: context));
+        })
         : const DottedLoaderWidget();
   }
 

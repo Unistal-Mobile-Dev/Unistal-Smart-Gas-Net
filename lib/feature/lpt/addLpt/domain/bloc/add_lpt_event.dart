@@ -23,7 +23,7 @@ class AddLptSelectDateEvent extends AddLptEvent {
 }
 
 class AddLptSelectAlignmentEvent extends AddLptEvent {
-   final AlignmentModel alignmentData;
+  final AlignmentModel alignmentData;
 
   const AddLptSelectAlignmentEvent({required this.alignmentData});
 
@@ -108,6 +108,15 @@ class AddLptSelectPipeDataEvent extends AddLptEvent {
   List<Object?> get props => [pipeData];
 }
 
+class AddLptSelectPipeThicknessEvent extends AddLptEvent {
+  final ThicknessModel pipeThicknessData;
+
+  const AddLptSelectPipeThicknessEvent({required this.pipeThicknessData});
+
+  @override
+  List<Object?> get props => [pipeThicknessData];
+}
+
 class AddLptSubmitDataEvent extends AddLptEvent {
   final BuildContext context;
 
@@ -115,4 +124,24 @@ class AddLptSubmitDataEvent extends AddLptEvent {
 
   @override
   List<Object?> get props => [context];
+}
+class SelectMEILEvent extends AddLptEvent {
+  final TerrainTypeModel meilData;
+  const SelectMEILEvent({required this.meilData});
+  @override
+  List<Object?> get props => [meilData];
+}
+
+class SelectCEILEvent extends AddLptEvent {
+  final TerrainTypeModel ceilVal;
+  const SelectCEILEvent({required this.ceilVal});
+  @override
+  List<Object?> get props => [ceilVal];
+}
+
+class SelectMECONEvent extends AddLptEvent {
+  final TerrainTypeModel meconeVal;
+  const SelectMECONEvent({required this.meconeVal});
+  @override
+  List<Object?> get props => [meconeVal];
 }

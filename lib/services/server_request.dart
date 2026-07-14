@@ -326,8 +326,9 @@ class ServerRequest {
 }
 
 class ImageRequestObject {
-  String? key;
-  String? path;
+  String? name;   // display label for the UI
+  String? key;    // multipart form field key
+  String? path;   // local file path or existing http url
 
-  ImageRequestObject(this.key, this.path);
+  ImageRequestObject({this.name, this.key, this.path});
 }

@@ -38,28 +38,37 @@ class AddWelderRepairHelper {
     }
   }
 
-  static Future<dynamic> submitData(
-      {required BuildContext context,
-        required AlignmentModel alignmentData,
-        required List<AlignmentModel> multipleAlignmentData,
-      required String date,
-      required String reportNo,
-      required String activityRemark,
-      required WeatherModel weatherData,
-      required LoginDataModel userData,
-      required JointTypeModel jointTypeData,
-      required JointNumberModel jointNumberData,
-      required List<SegmentModel> segmentList,
-      required VisualChecksModel weldVisualData,
-      required WPSModel wpsTypeData,
-      required WelderModel welderData,
-      required String? e6010,
-      required String? e8010P1,
-      required String? e9045P2,
-      required String? er70s6,
-      required String? e81TM21AB,
-      required String? preHeatingTemperature,
-      required File file}) async {
+  static Future<dynamic> submitData({
+    required BuildContext context,
+    required AlignmentModel alignmentData,
+    required List<AlignmentModel> multipleAlignmentData,
+    required String date,
+    required String reportNo,
+    required String activityRemark,
+    required WeatherModel weatherData,
+    required LoginDataModel userData,
+    required JointTypeModel jointTypeData,
+    required JointNumberModel jointNumberData,
+    required List<SegmentModel> segmentList,
+    required VisualChecksModel weldVisualData,
+    required WPSModel wpsTypeData,
+    required WelderModel welderData,
+    required String? e6010,
+    required String? e8010P1,
+    required String? e9045P2,
+    required String? er70s6,
+    required String? e81TM21AB,
+    required String? preHeatingTemperature,
+    required File file,
+    required String chainageFrom,
+    required String chainageTo,
+    required String totalLength,
+    required String rootPass,
+    required String hotPass,
+    required String otherPass,
+    required String location,
+    required String proposedLength,
+  }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
       LocationModel locationData = LocationModel();
@@ -93,39 +102,58 @@ class AddWelderRepairHelper {
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),
         "report_no": reportNo.toString(),
-      //  "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
-       "alignmentSheet": alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "joint_type_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "joint": jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        //  "alignmentSheet": alignmentData.id != null ? alignmentData.id.toString() : "",
+        "alignmentSheet": alignmentIdList
+            .toString()
+            .replaceAll("[", "")
+            .toString()
+            .replaceAll("]", ""),
+        "joint_type_id":
+            jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint":
+            jointNumberData.id != null ? jointNumberData.id.toString() : "",
         "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
         "welderId": welderData.id != null ? welderData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "repairStatus": "",
-        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "weld_visual":
+            weldVisualData.id != null ? weldVisualData.id.toString() : "",
         "preHeatingTemp": preHeatingTemperature.toString(),
         "electrodeFillerE6010": e6010.toString(),
         "electrodeFillerE8010p1": e8010P1.toString(),
         "electrodeFillerE9045p2": e9045P2.toString(),
         "electrodeFillerE81T1m21ab": e81TM21AB.toString(),
         "electrodeFillerEr70s6": er70s6.toString(),
+        "chainage_from": chainageFrom.isNotEmpty ? chainageFrom : "0",
+        "chainage_to": chainageTo.isNotEmpty ? chainageTo : "0",
+        "total_length": totalLength.isNotEmpty ? totalLength : "0",
+        "root_pass": rootPass.isNotEmpty ? rootPass : "",
+        "hot_pass": hotPass.isNotEmpty ? hotPass : "",
+        "other_pass": otherPass.isNotEmpty ? otherPass : "",
+        "location": location.isNotEmpty ? location : "",
+        "proposed_length": proposedLength.isNotEmpty ? proposedLength : "",
       };
       segmentData.addAll(json);
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: segmentData,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        urlEndPoint: url,
+        body: segmentData,
+        imageRequestObject: [
+          ImageRequestObject(key: "attach_file", path: file.path.toString())
+        ],
       );
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context).show(message: res['message']);
+        SnackBarSuccessWidget(!context.mounted ? context : context)
+            .show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
           res['status'] == false &&
           res['message'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['message'].toString());
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: res['message'].toString());
         return null;
       } else if (res != null &&
           res['status'] != null &&
@@ -139,7 +167,8 @@ class AddWelderRepairHelper {
       }
       return null;
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: e.toString());
       return null;
     }
   }

@@ -107,19 +107,14 @@ class AddConcreteCoatingBloc
     _thicknessList = [];
     _thicknessData = ThicknessModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData();
     if (res != null) {
       _thicknessList = thicknessRes;
     }

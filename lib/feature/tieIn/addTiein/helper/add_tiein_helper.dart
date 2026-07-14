@@ -42,6 +42,7 @@ class AddTieinHelper {
     required WeatherModel weatherData,
     required String chainageFrom,
     required String chainageTo,
+    required String chainage,
     required String reportNumber,
   }) async {
     try {
@@ -64,8 +65,9 @@ class AddTieinHelper {
         "spread_id": userData.spreadId.toString(),
         "section_id": userData.sectionId.toString(),
         "report_no": reportNumber,
-        "chainage_from": chainageFrom,
-        "chainage_to": chainageTo,
+        "chainage_from": chainageFrom.isNotEmpty ? chainageFrom: "0",
+        "chainage_to": chainageTo.isNotEmpty ? chainageTo: "0",
+        "chainage": chainage.isNotEmpty ? chainage: "0",
         "activity_date": date.toString(),
         "activity_remarks": activityRemark,
         "latitude": locationData.lat.toString(),
@@ -95,7 +97,7 @@ class AddTieinHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&

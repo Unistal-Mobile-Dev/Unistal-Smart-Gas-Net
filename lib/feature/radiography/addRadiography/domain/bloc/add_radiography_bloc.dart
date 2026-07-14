@@ -149,18 +149,13 @@ class AddRadiographyBloc
     inspectionTechniqueList = [];
     inspectionVal = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-    var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var resWPS = await DashboardHelper.fetchWPSType();
     if (resWPS != null) {
       wpsTypeList = resWPS;
     }
@@ -198,8 +193,8 @@ class AddRadiographyBloc
     }
 
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context, userData: userData,  type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
+        type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
         ? AppConfig.instanceInit()!.activitySectionData.appJoint!
         : "afterwelding"
         );
@@ -207,10 +202,7 @@ class AddRadiographyBloc
       jointNumberList = resJointNumber;
     }
 
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
-        wpsData: WPSModel());
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: WPSModel());
     if (resWelder != null) {
       welderList = resWelder;
     }
@@ -262,8 +254,7 @@ class AddRadiographyBloc
     isWelderLoader = true;
     _eventComplete(emit);
     welderData = WelderModel();
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: event.context, userData: userData, wpsData: wpsTypeData);
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: wpsTypeData);
     if (resWelder != null) {
       welderList = resWelder;
     }

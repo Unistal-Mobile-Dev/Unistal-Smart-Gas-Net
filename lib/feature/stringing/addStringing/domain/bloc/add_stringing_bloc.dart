@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 
 part 'add_stringing_event.dart';
 
@@ -140,11 +138,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     manufactureList = [];
     manufactureData = TerrainTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    _weatherList = await DashboardHelper.fetchWeatherData();
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
@@ -155,13 +150,12 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       _concreteCoatingList = resConcreteCoating;
     }
 
-    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData(
-        context: !event.context.mounted ? event.context : event.context);
+    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData();
     if (peelTestRes != null) {
       weightCoatingList = peelTestRes;
     }
 
-    var manufactureRes = await AddClearingGradingHelper.fetchManufactureData();
+    var manufactureRes = await DashboardHelper.fetchConstantData(key: "manufacture");
     if (manufactureRes.isNotEmpty) {
       manufactureList = manufactureRes;
     }
@@ -223,21 +217,23 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     _searchPipeList = [];
     _searchPipeLoader = false;
     searchPipeController.text =
-        "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
+    "${pipeData.pipeNumber.toString()}|${pipeData.heatNumber.toString()}|${pipeData.pipeLength.toString()}";
     _eventComplete(emit);
   }
 
   _addPipeLength(AddStringingAddPipeLengthEvent event, emit) {
     if (searchPipeController.text.trim().isEmpty) {
       SnackBarErrorWidget(event.context)
-          .show(message: "Please enter pipe length");
+          .show(message: "Please enter pipe number");
       return;
     }
 
+    // Find the pipe matching the text in the search field.
+    // This works whether the user selected from the dropdown or typed manually.
     final matchingPipes = _pipeList
         .where((pipe) =>
-            "${pipe.pipeNumber.toString().trim()}|${pipe.heatNumber.toString().trim()}|${pipe.pipeLength.toString().trim()}" ==
-            searchPipeController.text.trim())
+    "${pipe.pipeNumber.toString().trim()}|${pipe.heatNumber.toString().trim()}|${pipe.pipeLength.toString().trim()}" ==
+        searchPipeController.text.trim())
         .toList();
 
     if (matchingPipes.isEmpty) {
@@ -245,32 +241,57 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
           .show(message: "Pipe number not found, Please check");
       return;
     }
+
+    // Always use the matched pipe (not the stale _pipeData) so the added
+    // record always corresponds to what is shown in the search field.
+    final PipeModel selectedPipe = matchingPipes.first;
+
+    // ✅ Duplicate check: block adding the same pipe twice.
+    final bool isAlreadyAdded = pipeLengthList.any((pipe) =>
+    pipe.id != null && selectedPipe.id != null
+        ? pipe.id == selectedPipe.id
+        : pipe.pipeNumber.toString().trim() ==
+        selectedPipe.pipeNumber.toString().trim());
+
+    if (isAlreadyAdded) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "This pipe number is already added");
+      searchPipeController.text = "";
+      _searchPipeList = [];
+      _eventComplete(emit);
+      return;
+    }
+
     _isLoader = true;
     _eventComplete(emit);
 
+    // First pipe starts from whatever the user typed (or 0.0),
+    // subsequent pipes continue from the last pipe's "Chainage To".
     double chainageFrom =
         double.tryParse(chainageFromController.text.toString()) ?? 0.0;
-    print("chainageFrom--->${chainageFrom}");
 
     if (chainageToControllers.isNotEmpty) {
       chainageFrom = double.tryParse(chainageToControllers.last.text) ?? 0.0;
     }
 
-    double pipeLength = double.tryParse(pipeData.pipeLength.toString()) ?? 0.0;
+    double pipeLength =
+        double.tryParse(selectedPipe.pipeLength.toString()) ?? 0.0;
     double chainageTo = chainageFrom + pipeLength;
 
-    chainageFromController =
-        TextEditingController(text: chainageFrom.toStringAsFixed(2));
-    chainageToController =
-        TextEditingController(text: chainageTo.toStringAsFixed(2));
+    final fromCtrl =
+    TextEditingController(text: chainageFrom.toStringAsFixed(2));
+    final toCtrl = TextEditingController(text: chainageTo.toStringAsFixed(2));
 
-    chainageFromControllers.add(chainageFromController);
-    chainageToControllers.add(chainageToController);
+    chainageFromControllers.add(fromCtrl);
+    chainageToControllers.add(toCtrl);
 
-    formattedPipeChainageList.add(
-        "${pipeData.id} : ${chainageFromController.text.toString()} : ${chainageToController.text.toString()}");
+    formattedPipeChainageList
+        .add("${selectedPipe.id} : ${fromCtrl.text} : ${toCtrl.text}");
 
-    pipeLengthList.add(pipeData);
+    pipeLengthList.add(selectedPipe);
+
+    // Keep _pipeData in sync with the last added pipe.
+    _pipeData = selectedPipe;
 
     searchPipeController.text = "";
     _isLoader = false;

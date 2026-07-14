@@ -7,6 +7,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddConcreteCoatingHelper {
@@ -57,10 +58,10 @@ class AddConcreteCoatingHelper {
     }
   }
 
-  static Future<dynamic> fetchThicknessData(
-      {required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchThicknessData() async {
+    LoginDataModel? userData =  UserInfo.instanceInit()!.userData;
     try {
-      String url = APIs.getPipeThicknessApi + "?schema=${userData.schema}";
+      String url = APIs.getPipeThicknessApi + "?schema=${userData!.schema}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null &&
           res['success'] != null &&
@@ -126,7 +127,7 @@ class AddConcreteCoatingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['status'] != null &&

@@ -50,6 +50,9 @@ class AddJointCoatingBloc
       TextEditingController();
   TextEditingController profileGaugeDetailsController = TextEditingController();
   TextEditingController chainageCtrl = TextEditingController();
+  TextEditingController elcoMeterController = TextEditingController();
+  TextEditingController calibarationFrequencyController =
+      TextEditingController();
 
   List<HolidayChecksModel> holidayCheckList = [];
   List<JointNumberModel> jointFromList = [];
@@ -137,6 +140,8 @@ class AddJointCoatingBloc
     digitalPyrometerDetailsController.text = "";
     humidityMeterDetailsController.text = "";
     chainageCtrl.text = "";
+    calibarationFrequencyController.text = "";
+    elcoMeterController.text = "";
     holidayCheckList = [];
     jointFromList = [];
     jointToList = [];
@@ -168,74 +173,55 @@ class AddJointCoatingBloc
     visualsChecksList = [];
     visualChecksData = VisualChecksModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
-/*    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
-    if (resJointType != null) {
-      jointTypeList = resJointType;
-    }*/
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: event.context, userData: userData,  type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
-        ? AppConfig.instanceInit()!.activitySectionData.appJoint!
-        : "afterndtrt");
+
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
+        type: AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
+            ? AppConfig.instanceInit()!.activitySectionData.appJoint!
+            : "afterndtrt");
     if (resJointNumber != null) {
       jointFromList = resJointNumber;
       jointToList = jointFromList;
     }
 
-    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData();
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
-    var resHoliday = await AddBendingHelper.fetchHolidayData(
-        context: !event.context.mounted ? event.context : event.context);
+    var resHoliday = await AddBendingHelper.fetchHolidayData();
     if (resHoliday != null) {
       holidayCheckList = resHoliday;
     }
 
-    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData( );
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
 
-    var coatingRes = await AddJointCoatingHelper.fetchCoatingTypeData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var coatingRes = await AddJointCoatingHelper.fetchCoatingTypeData();
     if (coatingRes != null) {
       coatingTypeList = coatingRes;
     }
 
-    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData(
-        context: !event.context.mounted ? event.context : event.context);
+    var peelTestRes = await AddHDPEDuctHelper.fetchPaddingData();
     if (peelTestRes != null) {
       peelTestList = peelTestRes;
       surfacePreprationList = peelTestRes;
     }
 
-    var pipeMaterialRes = await AddJointCoatingHelper.fetchPipeMaterialData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var pipeMaterialRes = await AddJointCoatingHelper.fetchPipeMaterialData();
     if (pipeMaterialRes != null) {
       pipeMaterialList = pipeMaterialRes;
     }
 
-    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var visualsChecksRes = await AddBendingHelper.fetchVisualChecks();
     if (visualsChecksRes != null) {
       visualsChecksList = visualsChecksRes;
     }
@@ -436,6 +422,9 @@ class AddJointCoatingBloc
       profileGaugeDetailsController.text = "";
       digitalPyrometerDetailsController.text = "";
       humidityMeterDetailsController.text = "";
+      chainageCtrl.text = "";
+      calibarationFrequencyController.text = "";
+      elcoMeterController.text = "";
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();
@@ -500,6 +489,8 @@ class AddJointCoatingBloc
       digitalPyrometerDetailsController: digitalPyrometerDetailsController,
       humidityMeterDetailsController: humidityMeterDetailsController,
       chainageCtrl: chainageCtrl,
+      calibarationFrequencyController: calibarationFrequencyController,
+      elcoMeterController: elcoMeterController,
       surfacePreprationData: surfacePreprationData,
       surfacePreprationList: surfacePreprationList,
     ));

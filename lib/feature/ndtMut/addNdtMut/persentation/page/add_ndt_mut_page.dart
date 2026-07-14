@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/bloc/add_ndt_mut_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
@@ -76,29 +77,69 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _typeOfFlawDetectorController(dataState: dataState),
-            _verticalSpace(),
-            _angleOfRayInputController(dataState: dataState),
-            _verticalSpace(),
-            _operatingFrequencyController(dataState: dataState),
-            _verticalSpace(),
-            _leveOfInspectionController(dataState: dataState),
-            _verticalSpace(),
+            if(_isBJPL)...[
+              _ufdModelController(dataState: dataState),
+              _verticalSpace(),
+              _materialGradeDropDown(dataState: dataState),
+              _verticalSpace(),
+              _typeOfFlawDetectorController(dataState: dataState),
+              _verticalSpace(),
+              _referenceBlockController(dataState: dataState),
+              _verticalSpace(),
+              _scanningDbController(dataState: dataState),
+              _verticalSpace(),
+              _dimensionTransducerController(dataState: dataState),
+              _verticalSpace(),
+              _referenceDbController(dataState: dataState),
+              _verticalSpace(),
+              _transducerFrequencyController(dataState: dataState),
+              _verticalSpace(),
+              _referenceStandardController(dataState: dataState),
+              _verticalSpace(),
+              _couplantController(dataState: dataState),
+              _verticalSpace(),
+              _surfaceConditionController(dataState: dataState),
+              _verticalSpace(),
+              _calibratedRangeController(dataState: dataState),
+              _verticalSpace(),
+              _extentExaminationController(dataState: dataState),
+              _verticalSpace(),
+              _jointTemperatureController(dataState: dataState),
+              _verticalSpace(),
+              _pipeDiaController(dataState: dataState),
+              _verticalSpace(),
+              _pipeThicknessController(dataState: dataState),
+              _verticalSpace(),
+              _acceptanceCriteriaDropDown(dataState: dataState),
+              _verticalSpace(),
+            ]else...[
+              _angleOfRayInputController(dataState: dataState),
+              _verticalSpace(),
+              _operatingFrequencyController(dataState: dataState),
+              _verticalSpace(),
+              _leveOfInspectionController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _pipeNumberSearchController(dataState: dataState),
             _verticalSpace(),
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-/*            _segmentListBuilder(dataState: dataState),
-            _verticalSpace(),*/
-            _locationDiscoverDefectController(dataState: dataState),
-            _verticalSpace(),
-            _ndtAgencyDropDown(dataState: dataState),
-            _verticalSpace(),
-            _dSPPLDropDown(dataState: dataState),
-            _verticalSpace(),
-            _mECONPBGPLDropDown(dataState: dataState),
+            if(_isBJPL)...[
+              _segmentController(dataState: dataState),
+              _verticalSpace(),
+              _observationController(dataState: dataState),
+              _verticalSpace(),
+              _accRejController(dataState: dataState),
+              _verticalSpace(),
+            ]else...[
+              _locationDiscoverDefectController(dataState: dataState),
+              _verticalSpace(),
+              _ndtAgencyDropDown(dataState: dataState),
+              _verticalSpace(),
+              _dSPPLDropDown(dataState: dataState),
+              _verticalSpace(),
+              _mECONPBGPLDropDown(dataState: dataState),
+            ],
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -177,15 +218,154 @@ class _AddNdtMutPageState extends State<AddNdtMutPage> {
       items: dataState.weatherList
     );
   }
-
-  Widget _typeOfFlawDetectorController(
-      {required FetchAddNdtMutDataState dataState}) {
+  Widget _typeOfFlawDetectorController({required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      labelText: AppString.typeOfFlawDetector,
+      labelText: _isBJPL ?  "Calibration Block" : AppString.typeOfFlawDetector,
       controller: dataState.typeOfFlawDetectorController,
     );
   }
+
+  Widget _ufdModelController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "UFD Model & Sr. No.",
+      controller: dataState.ufdModelController,
+    );
+  }
+
+
+
+  Widget _referenceBlockController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Reference Block",
+      controller: dataState.calibrationBlockController,
+    );
+  }
+
+  Widget _scanningDbController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Scanning Db",
+      controller: dataState.scanningDbController,
+    );
+  }
+
+  Widget _dimensionTransducerController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Type & Dimension of Transducer",
+      controller: dataState.dimensionTransducerController,
+    );
+  }
+
+  Widget _referenceDbController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Reference Db",
+      controller: dataState.referenceDbController,
+    );
+  }
+
+  Widget _transducerFrequencyController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Transducer angle & Frequency",
+      controller: dataState.transducerFrequencyController,
+    );
+  }
+
+  Widget _referenceStandardController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Reference Standard",
+      controller: dataState.referenceStandardController,
+    );
+  }
+  Widget _couplantController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Couplant",
+      controller: dataState.couplantController,
+    );
+  }
+  Widget _surfaceConditionController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Surface Condition",
+      controller: dataState.surfaceConditionController,
+    );
+  }
+  Widget _calibratedRangeController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Calibrated Range",
+      controller: dataState.calibratedRangeController,
+    );
+  }
+  Widget _jointTemperatureController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Joint Temperature",
+      controller: dataState.jointTemperatureController,
+    );
+  }
+  Widget _pipeDiaController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Pipe Dia",
+      controller: dataState.pipeDiaController,
+    );
+  }
+  Widget _pipeThicknessController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Pipe Thickness",
+      controller: dataState.pipeThicknessController,
+    );
+  }
+
+  Widget _segmentController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Segment",
+      controller: dataState.segmentController,
+    );
+  }
+  Widget _observationController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Location Of Discovered Defects",
+      controller: dataState.observationController,
+    );
+  }
+  Widget _accRejController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "ACC/Rej",
+      controller: dataState.accRejController,
+    );
+  }
+
+  Widget _materialGradeDropDown({required FetchAddNdtMutDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Material Grade",
+        dropdownValue: dataState.materialGradeValue.id != null
+            ? dataState.materialGradeValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddNdtMutBloc>(context)
+              .add(SelectMaterialGradeEvent(materialGradeValue: value!));
+        },
+        items: dataState.listOfMaterialGrade);
+  }
+
+  Widget _extentExaminationController({required FetchAddNdtMutDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Extent of Examination",
+      controller: dataState.extentExaminationController,
+    );
+  }
+
+
+  Widget _acceptanceCriteriaDropDown({required FetchAddNdtMutDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Acceptance Criteria",
+        dropdownValue: dataState.acceptanceCriteriaValue.id != null
+            ? dataState.acceptanceCriteriaValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddNdtMutBloc>(context)
+              .add(SelectAcceptanceCriteriaEvent(acceptanceCriteriaValue: value!));
+        },
+        items: dataState.listOfAcceptanceCriteria);
+  }
+
 
   Widget _angleOfRayInputController({required FetchAddNdtMutDataState dataState}) {
     return TextFieldWidget(

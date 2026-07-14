@@ -104,6 +104,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final WeatherModel weatherData;
   final TextEditingController chainageFromController;
   final TextEditingController chainageToController;
+  final TextEditingController chainageController;
   final List<PipeModel> leftPipeList;
   final List<PipeModel> rightPipeList;
 
@@ -213,6 +214,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.weatherData,
     required this.chainageFromController,
     required this.chainageToController,
+    required this.chainageController,
     required this.leftPipeData,
     required this.leftPipeList,
     required this.rightPipeData,
@@ -321,6 +323,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
         weatherData,
         chainageFromController,
         chainageToController,
+    chainageController,
         leftPipeData,
         rightPipeData,
         leftPipeList,

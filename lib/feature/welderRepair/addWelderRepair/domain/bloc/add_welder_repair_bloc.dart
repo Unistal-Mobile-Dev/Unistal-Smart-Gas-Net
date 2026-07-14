@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
@@ -22,8 +24,7 @@ import 'package:intl/intl.dart';
 part 'add_welder_repair_event.dart';
 part 'add_welder_repair_state.dart';
 
-class AddWelderRepairBloc
-    extends Bloc<AddWelderRepairEvent, AddWelderRepairState> {
+class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairState> {
   List<WelderModel> welderList = [];
   WelderModel welderData = WelderModel();
   List<WPSModel> wpsTypeList = [];
@@ -43,8 +44,17 @@ class AddWelderRepairBloc
   TextEditingController e9045P2Controller = TextEditingController();
   TextEditingController er70s6Controller = TextEditingController();
   TextEditingController e81TM21ABController = TextEditingController();
-  TextEditingController preHeatingTemperatureController =
-      TextEditingController();
+  TextEditingController preHeatingTemperatureController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
+  TextEditingController rootPassController = TextEditingController();
+  TextEditingController hotPassController = TextEditingController();
+  TextEditingController otherPassController = TextEditingController();
+  TextEditingController locationController= TextEditingController();
+  TextEditingController proposedLengthController= TextEditingController();
+
+
   File file = File("");
   bool isLoader = false;
   List<WeatherModel> weatherList = [];
@@ -59,11 +69,14 @@ class AddWelderRepairBloc
   List<VisualChecksModel> _weldVisualList = [];
   List<VisualChecksModel> get weldVisualList => _weldVisualList;
 
+  List<ThicknessModel> listOfPipeThickness = [];
+  ThicknessModel pipeThicknessValue = ThicknessModel();
+
+
   bool isJointNumberLoader = false;
   bool isWelderLoader = false;
 
   LoginDataModel _userData = LoginDataModel();
-
   LoginDataModel get userData => _userData;
 
   AddWelderRepairBloc() : super(AddWelderRepairInitial()) {
@@ -72,6 +85,8 @@ class AddWelderRepairBloc
     on<AddWelderRepairSelectAlignmentEvent>(_selectAlignment);
     on<AddWelderRepairMultipleSelectAlignmentEvent>(_selectMultipleAlignment);
     on<SelectWeatherEvent>(_selectWeather);
+    on<AddWeldingCalculateLengthEvent>(_calculateChainage);
+    on<AddLoweringSelectPipeThicknessEvent>(_selectPipeThickness);
     on<AddWelderRepairSelectJointTypeEvent>(_selectJointType);
     on<AddWelderRepairSelectJointNumberEvent>(_selectJointNumber);
     on<AddWelderRepairSelectWeldVisualEvent>(_selectWelderRepairStatus);
@@ -89,9 +104,11 @@ class AddWelderRepairBloc
     jointNumberData = JointNumberModel();
     jointTypeData = JointTypeModel();
     alignmentData =  AlignmentModel();
-    multipleAlignmentData = [];
     weatherData = WeatherModel();
     _weldVisualData = VisualChecksModel();
+    pipeThicknessValue = ThicknessModel();
+    multipleAlignmentData = [];
+    listOfPipeThickness = [];
     weatherList = [];
     alignmentList = [];
     jointTypeList = [];
@@ -109,29 +126,35 @@ class AddWelderRepairBloc
     er70s6Controller.text = "";
     e81TM21ABController.text = "";
     preHeatingTemperatureController.text = "";
+    chainageFromController.text = "";
+    chainageToController.text = "";
+    lengthController.text = "";
+    rootPassController.text = "";
+    hotPassController.text = "";
+    otherPassController.text = "";
+    locationController.text = "";
+    proposedLengthController.text = "";
     isWelderLoader = false;
     isJointNumberLoader = false;
     isLoader = false;
     file = File("");
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointType = await AddWeldingHelper.fetchJointType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var resJointType = await DashboardHelper.fetchJointType();
     if (resJointType != null) {
       jointTypeList = resJointType;
     }
-
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-      context: event.context,
-      userData: userData,
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData();
+    if (thicknessRes != null) {
+      listOfPipeThickness = thicknessRes;
+    }
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           :"afterndtrtreject",
@@ -145,21 +168,13 @@ class AddWelderRepairBloc
     if (resSegment != null) {
       segmentStatusList = resSegment;
     }
-    var resVisual = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resVisual = await AddBendingHelper.fetchVisualChecks();
     if (resVisual != null) {
       _weldVisualList = resVisual;
     }
 
 
-    // var resweldStatus = await AddWelderRepairHelper.fetchWelderRepairStatusData(
-    //     context: !event.context.mounted ? event.context : event.context);
-    // if (resweldStatus != null) {
-    //   welderRepairStatusList = resweldStatus;
-    // }
-
-    var resWPS = await AddWeldingHelper.fetchWPSType(
-        context: !event.context.mounted ? event.context : event.context, userData: userData);
+    var resWPS = await DashboardHelper.fetchWPSType();
     if (resWPS != null) {
       wpsTypeList = resWPS;
     }
@@ -201,6 +216,33 @@ class AddWelderRepairBloc
     _eventComplete(emit);
   }
 
+  _calculateChainage(AddWeldingCalculateLengthEvent event, emit) {
+    bool isChainageTo = event.isChainageTo;
+    String value = event.value;
+    if (value.isEmpty) {
+      lengthController.text = "";
+    } else if (isChainageTo == true &&
+        value.isNotEmpty &&
+        chainageFromController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(value.toString());
+      double chainageFrom =
+      double.parse(chainageFromController.text.toString());
+      lengthController.text = "${chainageTo - chainageFrom}";
+    } else if (isChainageTo == false &&
+        value.isNotEmpty &&
+        chainageToController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(chainageToController.text.toString());
+      double chainageFrom = double.parse(value);
+      lengthController.text = "${chainageTo - chainageFrom}";
+    }
+    _eventComplete(emit);
+  }
+
+  _selectPipeThickness(AddLoweringSelectPipeThicknessEvent event, emit) {
+    pipeThicknessValue = event.pipeThicknessValue;
+    _eventComplete(emit);
+  }
+
   _selectJointType(AddWelderRepairSelectJointTypeEvent event, emit) async {
     jointTypeData = event.jointTypeModel;
     jointNumberList = [];
@@ -214,7 +256,6 @@ class AddWelderRepairBloc
   }
 
   _selectWelderRepairStatus(AddWelderRepairSelectWeldVisualEvent event, emit) {
-
     _weldVisualData = event.weldVisualData;
     _eventComplete(emit);
   }
@@ -234,8 +275,7 @@ class AddWelderRepairBloc
     isWelderLoader = true;
     _eventComplete(emit);
     welderData = WelderModel();
-    var resWelder = await AddWeldingHelper.fetchWelderData(
-        context: event.context, userData: userData, wpsData: wpsTypeData);
+    var resWelder = await DashboardHelper.fetchWelderData(wpsData: wpsTypeData);
     if (resWelder != null) {
       welderList = resWelder;
     }
@@ -289,6 +329,15 @@ class AddWelderRepairBloc
         er70s6: er70s6Controller.text.toString(),
         e81TM21AB: e81TM21ABController.text.toString(),
         preHeatingTemperature: preHeatingTemperatureController.text.toString(),
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
+        totalLength: lengthController.text.toString(),
+        hotPass: hotPassController.text.toString(),
+        otherPass: otherPassController.text.toString(),
+        location: locationController.text.toString(),
+        proposedLength: proposedLengthController.text.toString(),
+        rootPass: rootPassController.text.toString(),
+
         file: file);
     if (res != null) {
       welderData = WelderModel();
@@ -309,13 +358,20 @@ class AddWelderRepairBloc
       er70s6Controller.text = "";
       e81TM21ABController.text = "";
       preHeatingTemperatureController.text = "";
+      chainageFromController.text = "";
+      chainageToController.text = "";
+      lengthController.text = "";
+      rootPassController.text = "";
+      hotPassController.text = "";
+      otherPassController.text = "";
+      locationController.text = "";
+      proposedLengthController.text = "";
       isWelderLoader = false;
       isJointNumberLoader = false;
       isLoader = false;
       file = File("");
       _userData = UserInfo.instanceInit()!.userData!;
-      weatherList = await DashboardHelper.fetchWeatherData(
-          context: !event.context.mounted ? event.context : event.context, userData: userData);
+      weatherList = await DashboardHelper.fetchWeatherData();
     }
 
     isLoader = false;
@@ -354,6 +410,16 @@ class AddWelderRepairBloc
       isJointNumberLoader: isJointNumberLoader,
       preHeatingTemperatureController: preHeatingTemperatureController,
       isWelderLoader: isWelderLoader,
+      listOfPipeThickness: listOfPipeThickness,
+      pipeThicknessValue: pipeThicknessValue,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
+      lengthController: lengthController,
+      hotPassController: hotPassController,
+      otherPassController: otherPassController,
+      rootPassController: rootPassController,
+      locationController: locationController,
+      proposedLengthController: proposedLengthController,
     ));
   }
 }

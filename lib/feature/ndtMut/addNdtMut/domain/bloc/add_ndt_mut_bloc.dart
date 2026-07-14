@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/domain/model/ndt_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/helper/add_ndt_mut_helper.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/dom
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -24,13 +24,34 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController locationDiscoverDefectController =
-      TextEditingController();
+  TextEditingController locationDiscoverDefectController = TextEditingController();
   TextEditingController typeOfFlawDetectorController = TextEditingController();
   TextEditingController angleOfRayInputController = TextEditingController();
   TextEditingController operatingFrequencyController = TextEditingController();
   TextEditingController leveOfInspectionController = TextEditingController();
   TextEditingController searchPipeController = TextEditingController();
+  TextEditingController accRejController = TextEditingController();
+  TextEditingController observationController = TextEditingController();
+  TextEditingController segmentController = TextEditingController();
+  TextEditingController pipeThicknessController = TextEditingController();
+  TextEditingController pipeDiaController = TextEditingController();
+  TextEditingController jointTemperatureController = TextEditingController();
+  TextEditingController calibratedRangeController = TextEditingController();
+  TextEditingController surfaceConditionController = TextEditingController();
+  TextEditingController couplantController = TextEditingController();
+  TextEditingController referenceStandardController = TextEditingController();
+  TextEditingController transducerFrequencyController = TextEditingController();
+  TextEditingController ufdModelController = TextEditingController();
+  TextEditingController referenceDbController = TextEditingController();
+  TextEditingController dimensionTransducerController = TextEditingController();
+  TextEditingController scanningDbController = TextEditingController();
+  TextEditingController calibrationBlockController = TextEditingController();
+  TextEditingController extentExaminationController = TextEditingController();
+
+  TerrainTypeModel materialGradeValue = TerrainTypeModel();
+  List<TerrainTypeModel> listOfMaterialGrade = [];
+  TerrainTypeModel acceptanceCriteriaValue = TerrainTypeModel();
+  List<TerrainTypeModel> listOfAcceptanceCriteria = [];
 
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
@@ -89,6 +110,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     on<AddNdtMutSelectJointNumberDataEvent>(_selectJointNumber);
     on<AddNdtMutSelectNdtAgencyDataEvent>(_selectNdtAgency);
     on<AddNdtMutSelectDspplDataEvent>(_selectDsppl);
+    on<SelectMaterialGradeEvent>(_selectMaterialGrade);
+    on<SelectAcceptanceCriteriaEvent>(_selectAcceptanceCriteria);
     on<AddNdtMutSelectMeconPbgplDataEvent>(_selectMeconPbgpl);
     on<AddNdtMutSelectSegmentDataEvent>(_selectSegment);
     on<AddNdtMutSelectDateEvent>(_selectDate);
@@ -132,19 +155,37 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
     leveOfInspectionController.text = "";
     locationDiscoverDefectController.text = "";
     searchPipeController.text = "";
-    _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    accRejController.text = "";
+    observationController.text = "";
+    segmentController.text = "";
+    pipeThicknessController.text = "";
+    pipeDiaController.text = "";
+    jointTemperatureController.text = "";
+    calibratedRangeController.text = "";
+    surfaceConditionController.text = "";
+    couplantController.text = "";
+    referenceStandardController.text = "";
+    transducerFrequencyController.text = "";
+    ufdModelController.text = "";
+    referenceDbController.text = "";
+    dimensionTransducerController.text = "";
+    scanningDbController.text = "";
+    calibrationBlockController.text = "";
+    extentExaminationController.text = "";
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context: event.context, userData: userData);
+    materialGradeValue = TerrainTypeModel();
+    listOfMaterialGrade = [];
+   acceptanceCriteriaValue = TerrainTypeModel();
+    listOfAcceptanceCriteria = [];
+    _userData = UserInfo.instanceInit()!.userData!;
+    weatherList = await DashboardHelper.fetchWeatherData();
+
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
       type: AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
           ? AppConfig.instanceInit()!.activitySectionData.appJoint!
           :"afterwelding",
@@ -153,6 +194,8 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       jointNumberList = resJointNumber;
     }
 
+    listOfMaterialGrade        = await DashboardHelper.fetchConstantData(key: "materialgrade");
+    listOfAcceptanceCriteria   = await DashboardHelper.fetchConstantData(key: "acceptancecriteria");
 
     var resSegment = await AddNdtMutHelper.fetchSegmentData(
         context: !event.context.mounted ? event.context: event.context, userData: userData);
@@ -236,6 +279,18 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
 
   _selectDsppl(AddNdtMutSelectDspplDataEvent event, emit) {
     dSPPLAgencyData = event.dspplData;
+    _eventComplete(emit);
+  }
+
+
+ _selectMaterialGrade(SelectMaterialGradeEvent event, emit) {
+    materialGradeValue = event.materialGradeValue;
+   _eventComplete(emit);
+  }
+
+
+  _selectAcceptanceCriteria(SelectAcceptanceCriteriaEvent event, emit) {
+    acceptanceCriteriaValue = event.acceptanceCriteriaValue;
     _eventComplete(emit);
   }
 
@@ -357,7 +412,28 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
         operatingFrequency: operatingFrequencyController.text.toString(),
         typeOfFlawDetector: typeOfFlawDetectorController.text.toString(),
         pipeData: pipeData,
-        file: file);
+        file: file,
+      acceptanceCriteria: acceptanceCriteriaValue.id.toString(),
+      accRej: accRejController.text.toString(),
+      calibratedRange: calibratedRangeController.text.toString(),
+      calibrationBlock: calibrationBlockController.text.toString(),
+      couplant: couplantController.text.toString(),
+      dimensionTransducer: dimensionTransducerController.text.toString(),
+      extentExamination: extentExaminationController.text.toString(),
+      jointTemperature: jointTemperatureController.text.toString(),
+      materialGrade: materialGradeValue.id.toString(),
+      observation: observationController.text.toString(),
+      pipeDia: pipeDiaController.text.toString(),
+      pipeThickness: pipeThicknessController.text.toString(),
+      referenceDb: referenceDbController.text.toString(),
+      referenceStandard: referenceStandardController.text.toString(),
+      scanningDb: scanningDbController.text.toString(),
+      segment: segmentController.text.toString(),
+      surfaceCondition: surfaceConditionController.text.toString(),
+      transducerFrequency: transducerFrequencyController.text.toString(),
+      ufdModel: ufdModelController.text.toString(),
+
+    );
     isLoader = false;
     _eventComplete(emit);
     if (res != null) {
@@ -383,6 +459,25 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       leveOfInspectionController.text = "";
       _pipeData = PipeModel();
       searchPipeController.text = "";
+      accRejController.text = "";
+      observationController.text = "";
+      segmentController.text = "";
+      pipeThicknessController.text = "";
+      pipeDiaController.text = "";
+      jointTemperatureController.text = "";
+      calibratedRangeController.text = "";
+      surfaceConditionController.text = "";
+      couplantController.text = "";
+      referenceStandardController.text = "";
+      transducerFrequencyController.text = "";
+      referenceDbController.text = "";
+      dimensionTransducerController.text = "";
+      scanningDbController.text = "";
+      calibrationBlockController.text = "";
+      extentExaminationController.text = "";
+
+      materialGradeValue = TerrainTypeModel();
+      acceptanceCriteriaValue = TerrainTypeModel();
       _eventComplete(emit);
     }
   }
@@ -419,6 +514,27 @@ class AddNdtMutBloc extends Bloc<AddNdtMutEvent, AddNdtMutState> {
       pipeList: pipeList,
       searchPipeLoader: searchPipeLoader,
       searchPipeController: searchPipeController,
+      acceptanceCriteriaValue: acceptanceCriteriaValue,
+      accRejController: accRejController,
+      calibratedRangeController: calibratedRangeController,
+      calibrationBlockController: calibrationBlockController,
+      couplantController: couplantController,
+      dimensionTransducerController: dimensionTransducerController,
+      extentExaminationController: extentExaminationController,
+      jointTemperatureController: jointTemperatureController,
+      listOfAcceptanceCriteria: listOfAcceptanceCriteria,
+      listOfMaterialGrade: listOfMaterialGrade,
+      materialGradeValue: materialGradeValue,
+      observationController: observationController,
+      pipeDiaController: pipeDiaController,
+      pipeThicknessController: pipeThicknessController,
+      referenceDbController: referenceDbController,
+      referenceStandardController: referenceStandardController,
+      scanningDbController: scanningDbController,
+      segmentController: segmentController,
+      surfaceConditionController: surfaceConditionController,
+      transducerFrequencyController: transducerFrequencyController,
+      ufdModelController: ufdModelController,
     ));
   }
 }

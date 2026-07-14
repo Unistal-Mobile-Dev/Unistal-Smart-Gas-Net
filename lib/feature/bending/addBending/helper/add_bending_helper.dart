@@ -9,6 +9,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddBendingHelper {
@@ -159,7 +160,7 @@ class AddBendingHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-        imageRequestObject: [ImageRequestObject("attach_file", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
       );
       if (res != null &&
           res['success'] != null &&
@@ -196,12 +197,12 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchBendingType(
-      {required BuildContext context, required LoginDataModel userData}) async {
+  static Future<dynamic> fetchBendingType() async {
+    LoginDataModel? userData =  UserInfo.instanceInit()!.userData;
     try {
       String url = APIs.getBendingTypeApi;
       var param = {
-        "schema": userData.schema,
+        "schema": userData!.schema,
       };
       String json = Uri(queryParameters: param).query;
       var res = await ServerRequest.getData(urlEndPoint: "$url?$json");
@@ -217,8 +218,7 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchVisualChecks(
-      {required BuildContext context}) async {
+  static Future<dynamic> fetchVisualChecks() async {
     try {
       String url = APIs.getVisualChecksApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
@@ -239,8 +239,7 @@ class AddBendingHelper {
     }
   }
 
-  static Future<dynamic> fetchHolidayData(
-      {required BuildContext context}) async {
+  static Future<dynamic> fetchHolidayData() async {
     try {
       String url = APIs.getHolidayChecksApi;
       var res = await ServerRequest.getData(urlEndPoint: url);

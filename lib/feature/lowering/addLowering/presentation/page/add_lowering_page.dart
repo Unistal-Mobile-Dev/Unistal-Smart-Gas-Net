@@ -84,6 +84,39 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
+            if(_isBJPL)...[
+              _verticalSpace(),
+              _jobNoDropDown(dataState: dataState),
+              _verticalSpace(),
+              _loweringClearanceDropDown(dataState: dataState),
+              _verticalSpace(),
+              _dewateringDropDown(dataState: dataState),
+              _verticalSpace(),
+              _paddingMaterialDropDown(dataState: dataState),
+              _verticalSpace(),
+              _approvedPipeDropDown(dataState: dataState),
+              _verticalSpace(),
+              _verticalSpace(),
+              if(!_isVPPL)...[
+                _holidayDetectorDetailsController(dataState: dataState),
+                _verticalSpace(),
+                _modelController(dataState: dataState),
+                _verticalSpace(),
+                _testVoltageController(dataState: dataState),
+                _verticalSpace(),
+                if (_isMGL || _isVPPL || _isVRPL || _isBJPL) ...[
+                  _calibarationDateController(dataState: dataState),
+                  _verticalSpace(),
+                ],
+                _repairCoatingController(dataState: dataState),
+                _verticalSpace(),
+              if(!_isBJPL)...[
+                _locatinController(dataState: dataState),
+                _verticalSpace(),
+              ],
+
+              ],
+            ],
             if (_isVPPL) ...[
               _dewateringDropDown(dataState: dataState),
               _verticalSpace(),
@@ -106,34 +139,15 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
             _verticalSpace(),
             _lengthController(dataState: dataState),
             _verticalSpace(),
-            if(!_isVPPL)...[
-              _holidayDetectorDetailsController(dataState: dataState),
-              _verticalSpace(),
-              _modelController(dataState: dataState),
-              _verticalSpace(),
-              _testVoltageController(dataState: dataState),
-              _verticalSpace(),
-              if (_isMGL || _isVPPL || _isVRPL) ...[
-                _calibarationDateController(dataState: dataState),
-                _verticalSpace(),
-              ],
-              _repairCoatingController(dataState: dataState),
-              _verticalSpace(),
-              _locatinController(dataState: dataState),
-              _verticalSpace(),
-
-            ],
             _postPaddingController(dataState: dataState),
+            _verticalSpace(),
+            _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
             if (_isMGL || _isVPPL || _isVRPL) ...[
               _holidayChecksDropDown(dataState: dataState),
               _verticalSpace(),
             ],
             _nightCapDropDown(dataState: dataState),
-            _verticalSpace(),
-            _postPaddingCtrl(dataState: dataState),
-            _verticalSpace(),
-            _postPaddingController(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
             _verticalSpace(),
@@ -173,8 +187,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _reportNumberController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _reportNumberController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.reportNumber,
@@ -247,16 +260,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
   }
 
 
-  Widget _postPaddingCtrl({required FetchAddLoweringDataState dataState}) {
-    return TextFieldWidget(
-      labelText:  "Post Padding",
-      controller: dataState.postPaddingCtrl,
-    );
-  }
-
-
-  Widget _holidayDetectorDetailsController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _holidayDetectorDetailsController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.holidayDetectorDetails,
       controller: dataState.holidayDetectorDetailsController,
@@ -272,8 +276,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _testVoltageController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _testVoltageController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
       labelText: AppString.testVoltage,
@@ -291,8 +294,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _calibarationDateController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _calibarationDateController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       enabled: true,
       readOnly: true,
@@ -329,8 +331,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         items: dataState.jointTypeList);
   }
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _fromJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
@@ -345,8 +346,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _toJointNumberDropDown({required FetchAddLoweringDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
@@ -361,8 +361,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _chainageFromController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -388,8 +387,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
     );
   }
 
-  Widget _postPaddingController(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _postPaddingController({required FetchAddLoweringDataState dataState}) {
     return TextFieldWidget(
       labelText: _isURJAGATI || _isGJPL
           ? "Padding"
@@ -398,6 +396,20 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
               : AppString.postPadding,
       controller: dataState.postPaddingController,
     );
+  }
+
+
+  Widget _jobNoDropDown({required FetchAddLoweringDataState dataState}) {
+    return DropdownWidget<TerrainTypeModel>(
+        hint: "Job No",
+        dropdownValue: dataState.jobNoValue.id != null
+            ? dataState.jobNoValue
+            : null,
+        onChanged: (value) {
+          BlocProvider.of<AddLoweringBloc>(context)
+              .add(AddLoweringSelectJobNoEvent(jobNoValue: value!));
+        },
+        items: dataState.listOfJobNo);
   }
 
   Widget _dewateringDropDown({required FetchAddLoweringDataState dataState}) {
@@ -425,8 +437,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         items: dataState.listOfPadding);
   }
 
-  Widget _paddingMaterialDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _paddingMaterialDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
         hint: "Padding Material for Seismic Zone",
         dropdownValue: dataState.paddingMaterialValue.id != null
@@ -440,8 +451,9 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         items: dataState.listOfPaddingMaterial);
   }
 
-  Widget _loweringClearanceDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+
+
+  Widget _loweringClearanceDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
         hint: "Lowering Clearance",
         dropdownValue: dataState.loweringClearanceValue.id != null
@@ -457,8 +469,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
 
   Widget _approvedPipeDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-        hint:
-            "Approved pipe book part A for pipeline lowering section is available",
+        hint: "Approved pipe book part A for pipeline lowering section is available",
         dropdownValue: dataState.approvedPipeValue.id != null
             ? dataState.approvedPipeValue
             : null,
@@ -482,8 +493,7 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
         items: dataState.listOfNightCap);
   }
 
-  Widget _holidayChecksDropDown(
-      {required FetchAddLoweringDataState dataState}) {
+  Widget _holidayChecksDropDown({required FetchAddLoweringDataState dataState}) {
     return DropdownWidget<HolidayChecksModel>(
       isRequired: true,
       hint: _isURJAGATI || _isGJPL

@@ -175,7 +175,7 @@ class AddHindranceHelper {
       final res = await ServerRequest.postDataWithFile(
         urlEndPoint: url,
         body: body,
-        imageRequestObject: [ImageRequestObject("attachmentFile", file.path.toString())],
+        imageRequestObject: [ImageRequestObject(key: "attachmentFile", path: file.path.toString())],
       );
 
       if (res != null && res['status'] == 1) {

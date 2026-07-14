@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling
 import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/helper/add_back_filling_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -47,22 +47,27 @@ class AddBackFillingBloc
   List<JointNumberModel> jointToList = [];
   List<JointTypeModel> jointTypeList = [];
   List<WeatherModel> weatherList = [];
+  List<TerrainTypeModel> listOfPadding= [];
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
   List<AlignmentModel> multipleAlignmentData =  [];
 
   bool isLoader = false;
+  bool isJointNumberLoader = false;
+  File file = File("");
+
+  WeatherModel weatherData = WeatherModel();
   VisualChecksModel plasticGratingData = VisualChecksModel();
   JointNumberModel fromJointData = JointNumberModel();
   JointNumberModel toJointData = JointNumberModel();
   JointTypeModel jointTypeData = JointTypeModel();
-  bool isJointNumberLoader = false;
-  File file = File("");
-  WeatherModel weatherData = WeatherModel();
+  TerrainTypeModel paddingValue = TerrainTypeModel();
+
+
+
 
   LoginDataModel _userData = LoginDataModel();
-
   LoginDataModel get userData => _userData;
 
   List<ThicknessModel> thicknessList = [];
@@ -85,6 +90,7 @@ class AddBackFillingBloc
     on<AddBackFillingSelectThicknessDataEvent>(_selectThickness);
     on<AddBackFillingSelectDateEvent>(_selectDate);
     on<AddBackFillingAddImageEvent>(_selectFile);
+    on<AddLoweringSelectPaddingEvent>(_selectPadding);
     on<AddBackFillingSubmitDataEvent>(_submitData);
   }
 
@@ -111,6 +117,7 @@ class AddBackFillingBloc
     jointTypeList = [];
     weatherList = [];
     alignmentList = [];
+    listOfPadding = [];
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     isLoader = false;
@@ -118,6 +125,7 @@ class AddBackFillingBloc
     fromJointData = JointNumberModel();
     toJointData = JointNumberModel();
     jointTypeData = JointTypeModel();
+    paddingValue = TerrainTypeModel();
     isJointNumberLoader = false;
     file = File("");
     thicknessList = [];
@@ -126,19 +134,14 @@ class AddBackFillingBloc
     pipeDiaList = [];
     weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+    weatherList = await DashboardHelper.fetchWeatherData();
 
-    var res = await AddRouteSurveyHelper.fetchAlignmentData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var res = await AddRouteSurveyHelper.fetchAlignmentData();
     if (res != null) {
       alignmentList = res;
     }
 
-    var resJointNumber = await AddWeldingHelper.fetchJointNumberData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData,
+    var resJointNumber = await DashboardHelper.fetchJointNumberData(
         type: AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
             ? AppConfig.instanceInit()!.activitySectionData.appJoint!
             : "afterndtrt"
@@ -147,23 +150,19 @@ class AddBackFillingBloc
       jointFromList = resJointNumber;
       jointToList = jointFromList;
     }
+    listOfPadding = await DashboardHelper.fetchConstantData(key: "LOWER_PADDING");
 
-    var resPlasticGrating = await AddBendingHelper.fetchVisualChecks(
-        context: !event.context.mounted ? event.context : event.context);
+    var resPlasticGrating = await AddBendingHelper.fetchVisualChecks();
     if (resPlasticGrating != null) {
       plasticGratingList = resPlasticGrating;
     }
 
-    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var thicknessRes = await AddConcreteCoatingHelper.fetchThicknessData();
     if (thicknessRes != null) {
       thicknessList = thicknessRes;
     }
 
-    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData(
-        context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+    var pipeDiaRes = await AddLoweringHelper.fetchPipeDiaData();
     if (pipeDiaRes != null) {
       pipeDiaList = pipeDiaRes;
     }
@@ -269,6 +268,10 @@ class AddBackFillingBloc
         print("Date is not selected");
       }
     }
+  }
+  _selectPadding(AddLoweringSelectPaddingEvent event, emit) {
+    paddingValue = event.paddingValue;
+    _eventComplete(emit);
   }
 
   _selectFile(AddBackFillingAddImageEvent event, emit) async {
@@ -388,6 +391,8 @@ class AddBackFillingBloc
       minimumCoverCtrl: minimumCoverCtrl,
       recordingPipelineCtrl: recordingPipelineCtrl,
       slopeBreakerCtrl: slopeBreakerCtrl,
+      paddingValue: paddingValue,
+      listOfPadding: listOfPadding,
     ));
   }
 }
