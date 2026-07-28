@@ -5,6 +5,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/domain/model/welder_repair_status_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
@@ -68,6 +69,12 @@ class AddWelderRepairHelper {
     required String otherPass,
     required String location,
     required String proposedLength,
+    required PipeModel pipeData,
+    required String actualThk,
+    required String afterGrindingThk,
+    required String result,
+    required String utReports,
+
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -132,6 +139,11 @@ class AddWelderRepairHelper {
         "other_pass": otherPass.isNotEmpty ? otherPass : "",
         "location": location.isNotEmpty ? location : "",
         "proposed_length": proposedLength.isNotEmpty ? proposedLength : "",
+        "pipeId": pipeData.id.toString(),
+         "actual_thk" : actualThk,
+       "after_grinding_thk" : afterGrindingThk,
+       "result" : result,
+       "ut_reports" : utReports,
       };
       segmentData.addAll(json);
       var res = await ServerRequest.postDataWithFile(

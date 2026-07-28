@@ -69,6 +69,26 @@ class AddWelderRepairSelectSegmentEvent extends AddWelderRepairEvent {
   List<Object?> get props => [selectedSegmentList];
 }
 
+class AddConcreteCoatingAddSearchPipeDataEvent extends AddWelderRepairEvent {
+  final BuildContext context;
+  final String keyword;
+
+  const AddConcreteCoatingAddSearchPipeDataEvent(
+      {required this.context, required this.keyword});
+
+  @override
+  List<Object?> get props => [context, keyword];
+}
+
+class AddConcreteCoatingSelectSelectPipeDataEvent extends AddWelderRepairEvent {
+  final PipeModel pipeData;
+
+  const AddConcreteCoatingSelectSelectPipeDataEvent({required this.pipeData});
+
+  @override
+  List<Object?> get props => [pipeData];
+}
+
 class AddWelderRepairSelectWeldVisualEvent extends AddWelderRepairEvent {
   final VisualChecksModel weldVisualData;
 

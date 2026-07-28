@@ -69,6 +69,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
   TextEditingController searchPipeController = TextEditingController();
+  TextEditingController fromController = TextEditingController();
+  TextEditingController toController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
 
@@ -116,6 +118,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     chainageFromController = TextEditingController();
     chainageToController = TextEditingController();
     searchPipeController = TextEditingController();
+    fromController = TextEditingController();
+    toController = TextEditingController();
 
     _pipeData = PipeModel();
     _pipeList = [];
@@ -388,16 +392,6 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
   }
 
   _submitData(AddStringingSubmitDataEvent event, emit) async {
-/*    var textFiledValidation =  await AddStringingHelper.textFiledValidation(context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        concreteCoatingData: concreteCoatingData,
-        pipeData: pipeData,
-        activityRemark: activityRemarkController.text.toString());
-    if(textFiledValidation == false){
-      return;
-    }*/
     _isLoader = true;
     _eventComplete(emit);
     var res = await AddStringingHelper.submitData(
@@ -411,8 +405,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       activityRemark: activityRemarkController.text.toString(),
       userData: userData,
       file: file,
-      chainageFrom: "0",
-      chainageTo: "0",
+      chainageFrom: fromController.text.isNotEmpty ? fromController.text : "0",
+      chainageTo: toController.text.isNotEmpty ? toController.text : "0",
       weatherData: weatherData,
       concreteCoating: weightCoatingData.id == null ? "" : weightCoatingData.id.toString(),
       nameOfManufacture: manufactureData.id == null ? "" : manufactureData.id.toString(),
@@ -425,6 +419,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
     if (res != null) {
       dateController = TextEditingController();
       reportNumberController = TextEditingController();
+      fromController = TextEditingController();
+      toController = TextEditingController();
       activityRemarkController = TextEditingController();
       pipeLengthController = TextEditingController();
       corrosionCoatingCtrl = TextEditingController();
@@ -472,6 +468,8 @@ class AddStringingBloc extends Bloc<AddStringingEvent, AddStringingState> {
       manufactureList: manufactureList,
       weightCoatingData: weightCoatingData,
       weightCoatingList: weightCoatingList,
+      fromCtrl: fromController,
+      toCtrl: toController
     ));
   }
 }

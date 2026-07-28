@@ -186,6 +186,9 @@ class AddWeldingHelper {
     required String chainageFrom,
     required String chainageTo,
     required String bendDetail,
+    required String internalCleaningPipe,
+    required String pigPass,
+    required String thicknessCheck,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -280,6 +283,9 @@ class AddWeldingHelper {
             electrodeDiaE81t8gBatch != "null" ? electrodeDiaE81t8gBatch : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "bend_detail": bendDetail ?? "",
+        "internal_cleaning_pipe": internalCleaningPipe ?? "",
+        "pig_pass": pigPass ?? "",
+        "thickness_check": thicknessCheck ?? "",
       };
       var res = await ServerRequest.postDataWithFile(
         urlEndPoint: url,

@@ -124,7 +124,7 @@ class AddTrenChingHelper {
         "from_joint_id": jointNumberFromModel.id != null ? jointNumberFromModel.id.toString() : "",
         "to_joint_id": jointNumberToModel.id != null ? jointNumberToModel.id.toString() : "",
         "trenching_depth": trenchingDepth,
-        "terrain_type": terrainType,
+        "terrain_type": terrainType.isNotEmpty ? terrainType:"0",
         "latitude": locationData.lat.toString(),
         "longitude": locationData.long.toString(),
         "user_id": userData.userId.toString(),

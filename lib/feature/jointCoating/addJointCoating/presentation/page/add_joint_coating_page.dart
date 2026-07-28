@@ -34,7 +34,8 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL;
+  bool get _isPJPL => _client == Client.pjpl;
+  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL || _isPJPL;
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -82,7 +83,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
-            if(_isHPCL || _isHPOIL || _isVPPL || _isVRPL) ...[
+            if(_isHPCL || _isHPOIL || _isVPPL || _isVRPL || _isPJPL) ...[
               _verticalSpace(),
               _sleeveTypeDropDown(dataState: dataState),
             ],
@@ -102,13 +103,15 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _batchNoController(dataState: dataState),
             _verticalSpace(),
-            _locatinController(dataState: dataState),
-            if(!_isVPPL)...[
+            if(!(_isPJPL))...[
+              _locatinController(dataState: dataState),
               _verticalSpace(),
+            ],
+            if(!(_isVPPL || _isPJPL))...[
               _thicknessDropDown(dataState: dataState),
+              _verticalSpace(),
 
             ],
-            _verticalSpace(),
             _fromJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
            _isURJAGATI || _isGJPL ? _surfaceDropDown(dataState: dataState) : _surfaceController(dataState: dataState) ,
@@ -119,7 +122,7 @@ class _AddJointCoatingPageState extends State<AddJointCoatingPage> {
             _verticalSpace(),
             _visualChecksDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!_isAllClient || _isVPPL || _isVRPL) ...[
+            if (!(_isAllClient || _isVPPL || _isVRPL)) ...[
               _digitalPyrometerDetailsController(dataState: dataState),
               _verticalSpace(),
               _profileGaugeDetailsController(dataState: dataState),

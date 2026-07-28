@@ -30,6 +30,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
+  TextEditingController internalCleaningPipeController = TextEditingController();
+  TextEditingController pigPassController = TextEditingController();
+  TextEditingController thicknessCheckController = TextEditingController();
 
   List<WelderModel> rootWelders1List = [];
   List<WelderModel> rootWelders2List = [];
@@ -257,6 +260,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     chainageController.text = "";
     searchLeftPipeController.text = "";
     searchRightPipeController.text = "";
+     internalCleaningPipeController = TextEditingController();
+     pigPassController = TextEditingController();
+     thicknessCheckController = TextEditingController();
     searchRightPipeLoader = false;
     searchLeftPipeLoader = false;
 
@@ -672,6 +678,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       chainageTo: chainageToController.text.toString(),
       chainage: chainageController.text.toString(),
       reportNumber: reportNumberController.text.toString(),
+      internalCleaningPipe: internalCleaningPipeController.text.toString(),
+      pigPass: pigPassController.text.toString(),
+      thicknessCheck: thicknessCheckController.text.toString(),
     );
     isLoader = false;
     _eventComplete(emit);
@@ -728,6 +737,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       searchLeftPipeController.text = "";
       searchRightPipeController.text = "";
       reportNumberController.text = "";
+       internalCleaningPipeController = TextEditingController();
+       pigPassController = TextEditingController();
+       thicknessCheckController = TextEditingController();
       electrodeDiaE6010Value = ElectrodeDiaData();
       electrodeDiaE6010BatchValue = ElectrodeBatchData();
       electrodeEiaE8010p1Value = ElectrodeDiaData();
@@ -845,6 +857,9 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
       electrodeDiaE9045p2BatchValue: electrodeDiaE9045p2BatchValue,
       electrodeDiaE9045p2List: electrodeDiaE9045p2List,
       electrodeDiaE9045p2Value: electrodeDiaE9045p2Value,
+      thicknessCheckController: thicknessCheckController,
+      pigPassController: pigPassController,
+      internalCleaningPipeController: internalCleaningPipeController,
     ));
   }
 }

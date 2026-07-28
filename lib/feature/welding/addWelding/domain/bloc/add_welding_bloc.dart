@@ -88,6 +88,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
   TextEditingController electrodeDiaE81t8gController = TextEditingController();
   TextEditingController leftPipeNumberController = TextEditingController();
   TextEditingController rightPipeNumberController = TextEditingController();
+   TextEditingController internalCleaningPipeController = TextEditingController();
+   TextEditingController pigPassController = TextEditingController();
+   TextEditingController thicknessCheckController = TextEditingController();
 
   List<VisualChecksModel> _fitupList = [];
 
@@ -342,6 +345,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
     chainageToController.text = "";
     searchLeftPipeController.text = "";
     searchRightPipeController.text = "";
+     internalCleaningPipeController.text = "";
+     pigPassController.text = "";
+     thicknessCheckController.text = "";
     _searchRightPipeLoader = false;
     _searchLeftPipeLoader = false;
     _jointLoader = false;
@@ -851,7 +857,10 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       weatherData: weatherData,
       chainageFrom: chainageFromController.text.toString(),
       chainageTo: chainageToController.text.toString(),
-      bendDetail: bendDetailController.text.toString()
+      bendDetail: bendDetailController.text.toString(),
+      internalCleaningPipe: internalCleaningPipeController.text.toString(),
+      pigPass: pigPassController.text.toString(),
+      thicknessCheck: thicknessCheckController.text.toString(),
     );
     _isLoader = false;
     _eventComplete(emit);
@@ -874,6 +883,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       rightPipeNumberController.text = "";
       searchLeftPipeController.text = "";
       searchRightPipeController.text = "";
+      internalCleaningPipeController.text = "";
+      pigPassController.text = "";
+      thicknessCheckController.text = "";
       _welderData = WelderModel();
       _jointNumberData = JointNumberModel();
       alignmentData = AlignmentModel();
@@ -1034,6 +1046,9 @@ class AddWeldingBloc extends Bloc<AddWeldingEvent, AddWeldingState> {
       electrodeDiaE9045BatchValue: electrodeDiaE9045BatchValue,
       electrodeDiaE9045DiaList: electrodeDiaE9045DiaList,
       electrodeDiaE9045BatchList: electrodeDiaE9045BatchList,
+      internalCleaningPipeController: internalCleaningPipeController,
+      pigPassController: pigPassController,
+      thicknessCheckController: thicknessCheckController,
     ));
   }
 

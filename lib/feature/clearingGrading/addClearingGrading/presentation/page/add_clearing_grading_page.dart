@@ -26,7 +26,8 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL  || _isBJPL;
+  bool get _isPJPL => _client == Client.pjpl;
+  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL  || _isBJPL || _isPJPL;
 
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
         child: Column(
           children: [
             _buildBasicInfoSection(dataState),
-            if (!(_isVPPL || _isHPCL || _isHPOIL  || _isBJPL)) _buildGapSection(dataState),
+            if (!(_isVPPL || _isHPCL || _isHPOIL  || _isBJPL || _isPJPL)) _buildGapSection(dataState),
             if (!_isMGL) _buildClientSpecificSection(dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -76,15 +77,11 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
     );
   }
 
-  //================================================================
-  // BASIC SECTION
-  //================================================================
-
   Widget _buildBasicInfoSection(FetchAddClearingGradingDataState dataState) {
     return Column(
       children: [
         _verticalSpace(),
-        if(_isVPPL || _isVRPL || _isBJPL)...[
+        if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
           _formatNoField(),
           _verticalSpace(),
         ],
@@ -400,7 +397,7 @@ class _AddClearingGradingPageState extends State<AddClearingGradingPage> {
 
   Widget _terrainDropDown({required FetchAddClearingGradingDataState dataState}) {
     return DropdownWidget<TerrainTypeModel>(
-      hint: _isVPPL || _isHPCL || _isHPOIL
+      hint: _isVPPL || _isHPCL || _isHPOIL || _isPJPL
           ? AppString.selectGroundType
        : _isBJPL ? "Details of Strata(Normal Soil/Rocky/Seismic Clay)"
           : AppString.selectTerrain,

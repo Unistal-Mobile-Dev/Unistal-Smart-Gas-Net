@@ -30,7 +30,8 @@ class _AddStringingPageState extends State<AddStringingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL || _isMGL;
+  bool get _isPJPL => _client == Client.pjpl;
+  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL || _isMGL || _isPJPL;
 
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _AddStringingPageState extends State<AddStringingPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if (_isVPPL || _isVRPL || _isBJPL) ...[
+            if (_isVPPL || _isVRPL || _isBJPL || _isPJPL) ...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -79,8 +80,16 @@ class _AddStringingPageState extends State<AddStringingPage> {
               _verticalSpace(),
               _corrosionCoatingController(dataState: dataState),
               _verticalSpace(),
-              _nameManufactureDropDown(dataState: dataState),
-              _verticalSpace(),
+              if(_isPJPL)...[
+                _fromController(dataState: dataState),
+                _verticalSpace(),
+                _toController(dataState: dataState),
+                _verticalSpace(),
+              ],
+              if(!_isPJPL)...[
+                _nameManufactureDropDown(dataState: dataState),
+                _verticalSpace(),
+              ],
               _weightCoatingDropDown(dataState: dataState),
               _verticalSpace(),
             ],
@@ -317,10 +326,9 @@ class _AddStringingPageState extends State<AddStringingPage> {
     );
   }*/
 
-  Widget _concreteCoatingDropDown(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _concreteCoatingDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget<ConcreteCoatingModel>(
-        hint: AppString.selectConcreteCoating,
+        hint: _isPJPL ? "Coating Damage(if any)" : AppString.selectConcreteCoating,
         dropdownValue: dataState.concreteCoatingData.id != null
             ? dataState.concreteCoatingData
             : null,
@@ -374,11 +382,22 @@ class _AddStringingPageState extends State<AddStringingPage> {
         items: dataState.weatherList);
   }
 
-  Widget _corrosionCoatingController(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _corrosionCoatingController({required FetchAddStringingDataState dataState}) {
     return TextFieldWidget(
       labelText: "Type of corrosion coating",
       controller: dataState.corrosionCoatingCtrl,
+    );
+  }
+  Widget _fromController({required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "From",
+      controller: dataState.fromCtrl,
+    );
+  }
+  Widget _toController({required FetchAddStringingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "To",
+      controller: dataState.toCtrl,
     );
   }
 
@@ -395,10 +414,9 @@ class _AddStringingPageState extends State<AddStringingPage> {
         items: dataState.manufactureList);
   }
 
-  Widget _weightCoatingDropDown(
-      {required FetchAddStringingDataState dataState}) {
+  Widget _weightCoatingDropDown({required FetchAddStringingDataState dataState}) {
     return DropdownWidget<PaddingModel>(
-      hint: "Concrete weight coating",
+      hint: _isPJPL ? "Concreate coating" : "Concrete weight coating",
       dropdownValue: dataState.weightCoatingData.id != null
           ? dataState.weightCoatingData
           : null,

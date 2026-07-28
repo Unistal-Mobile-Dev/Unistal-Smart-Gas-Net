@@ -40,8 +40,7 @@ class AddConcreteCoatingMultipleSelectAlignmentEvent extends AddConcreteCoatingE
   List<Object?> get props => [alignmentData];
 }
 
-class AddConcreteCoatingSelectSelectPipeDataEvent
-    extends AddConcreteCoatingEvent {
+class AddConcreteCoatingSelectSelectPipeDataEvent extends AddConcreteCoatingEvent {
   final PipeModel pipeData;
 
   const AddConcreteCoatingSelectSelectPipeDataEvent({required this.pipeData});

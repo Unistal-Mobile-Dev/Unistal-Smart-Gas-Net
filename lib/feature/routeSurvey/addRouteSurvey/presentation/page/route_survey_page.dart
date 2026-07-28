@@ -27,6 +27,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
+  bool get _isPJPL => _client == Client.pjpl;
 
   @override
   void initState() {
@@ -60,7 +61,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       child: Column(
         children: [
           _verticalSpace(),
-          if(_isVPPL || _isVRPL || _isBJPL)...[
+          if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
             _formatNoField(),
             _verticalSpace(),
           ],
@@ -78,24 +79,28 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
           _verticalSpace(),
           _lengthField(dataState:dataState),
           _verticalSpace(),
-          _groundTypeDropdown(dataState:dataState),
-          _verticalSpace(),
-          if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL) ) ...[
+          if(!_isPJPL)...[
+            _groundTypeDropdown(dataState:dataState),
+            _verticalSpace(),
+          ],
+          if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL|| _isPJPL) ) ...[
             _tpFromField(dataState:dataState),
             _verticalSpace(),
           ],
-          _tpNosField(dataState:dataState),
-          _verticalSpace(),
+          if(!_isPJPL)...[
+            _tpNosField(dataState:dataState),
+            _verticalSpace(),
+          ],
 
           if (!(_isMGL )) ...[
             _bearingField(dataState:dataState),
             _verticalSpace(),
-            if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
+            if (!(_isURJAGATI || _isGJPL || _isVPPL || _isHPCL || _isHPOIL || _isBJPL|| _isPJPL)) ...[
               _terrainField(dataState:dataState),
               _verticalSpace(),
             ],
           ],
-          if (!(_isVPPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
+          if (!(_isVPPL || _isHPCL || _isHPOIL || _isBJPL || _isPJPL)) ...[
             _buildStructureSection(dataState:dataState),
             _verticalSpace(),
           ],
@@ -152,7 +157,7 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
 
   Widget _tpNosField({required FetchAddRouteSurveyDataState dataState}) {
     return TextFieldWidget(
-      textInputType: _isVPPL || _isHPCL || _isHPOIL || _isBJPL? TextInputType.text : TextInputType.number,
+      textInputType: _isVPPL || _isHPCL || _isHPOIL || _isBJPL ? TextInputType.text : TextInputType.number,
       labelText: _isVPPL || _isHPCL || _isHPOIL || _isBJPL
           ? "Markers for IP Nos./TP Nos."
           : _isURJAGATI || _isGJPL ? "IP/TP Chainage" : AppString.tpTo,
@@ -168,6 +173,8 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
           ? "Details of Structure In/Across ROU Such as P/L, HT Crossings"
           : _isBJPL
           ? "Details of Structure/ Monuments In / Across ROW such as Pipeline, HT Line etc. & Restricted ROW"
+          : _isPJPL
+          ? "COMMON/INDEPENDENT/RESTRICTED ROU"
           : AppString.bearingAngle,
       controller: dataState.bearingAngleController,
     );
@@ -233,10 +240,6 @@ class _AddRouteSurveyPageState extends State<AddRouteSurveyPage> {
       controller: dataState.activityRemarkController,
     );
   }
-
-  // ---------------------------------------------------------------------------
-  // DROPDOWNS
-  // ---------------------------------------------------------------------------
 
   Widget _alignmentDropdown({required FetchAddRouteSurveyDataState dataState}) {
     return DropDownSearchMultiSelectWidget(

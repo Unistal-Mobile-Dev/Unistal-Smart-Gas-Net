@@ -29,8 +29,9 @@ class AddRadiographyBloc
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
-  TextEditingController locationDiscoverDefectController =
-      TextEditingController();
+  TextEditingController locationDiscoverDefectController = TextEditingController();
+  TextEditingController chainageFromController = TextEditingController();
+  TextEditingController chainageToController = TextEditingController();
   TextEditingController chainageController = TextEditingController();
   TextEditingController filmTypeController = TextEditingController();
   TextEditingController inspectTechniqueController = TextEditingController();
@@ -74,10 +75,12 @@ class AddRadiographyBloc
 
   List<NdtStatusModel> ndtAgencyList = [];
   List<NdtStatusModel> meconPbgplList = [];
+  List<NdtStatusModel> ceilList = [];
   List<NdtStatusModel> dSPPLAgencyList = [];
 
   NdtStatusModel ndtAgencyData = NdtStatusModel();
   NdtStatusModel meconPbgplData = NdtStatusModel();
+  NdtStatusModel ceilValue = NdtStatusModel();
   NdtStatusModel dSPPLAgencyData = NdtStatusModel();
 
   List<NdtSourceModel> ndtSourceList = [];
@@ -97,6 +100,7 @@ class AddRadiographyBloc
     on<AddRadiographySelectNdtAgencyDataEvent>(_selectNdtAgency);
     on<AddRadiographySelectDspplDataEvent>(_selectDsppl);
     on<AddRadiographySelectMeconPbgplDataEvent>(_selectMeconPbgpl);
+    on<AddRadiographySelectCeilValueEvent>(_selectCeilValue);
 
     on<AddRadiographySelectJointTypeDataEvent>(_selectJointType);
     on<AddRadiographySelectJointNumberDataEvent>(_selectJointNumber);
@@ -133,14 +137,18 @@ class AddRadiographyBloc
     weatherData = WeatherModel();
     ndtAgencyList = [];
     meconPbgplList = [];
+    ceilList = [];
     dSPPLAgencyList = [];
     ndtSourceList = [];
     ndtSourceData = NdtSourceModel();
     ndtAgencyData = NdtStatusModel();
     meconPbgplData = NdtStatusModel();
+    ceilValue = NdtStatusModel();
     dSPPLAgencyData = NdtStatusModel();
     chainageController.text = "";
     filmTypeController.text = "";
+     chainageFromController = TextEditingController();
+     chainageToController = TextEditingController();
     inspectTechniqueController.text = "";
     sensivityController.text = "";
     densityController.text = "";
@@ -221,6 +229,7 @@ class AddRadiographyBloc
       ndtAgencyList = resNdtStatus;
       dSPPLAgencyList = resNdtStatus;
       meconPbgplList = resNdtStatus;
+      ceilList = resNdtStatus;
     }
 
     var resNdtSource = await AddNdtMutHelper.fetchNdtSourceData(
@@ -336,6 +345,10 @@ class AddRadiographyBloc
     meconPbgplData = event.meconPbgplData;
     _eventComplete(emit);
   }
+  _selectCeilValue(AddRadiographySelectCeilValueEvent event, emit) {
+    ceilValue = event.ceilValue;
+    _eventComplete(emit);
+  }
 
   _selectSegment(AddRadiographySelectSegmentDataEvent event, emit) async {
     segmentData = segmentList[event.segmentIndex];
@@ -429,9 +442,12 @@ class AddRadiographyBloc
         ndtAgencyData: ndtAgencyData,
         dSPPLAgencyData: dSPPLAgencyData,
         meconPbgplData: meconPbgplData,
+        ceilValue: ceilValue,
         locationDefect: locationDiscoverDefectController.text.toString(),
         ndtSourceData: ndtSourceData,
         chainage: chainageController.text.toString(),
+        chainageFrom: chainageFromController.text.toString(),
+        chainageTo: chainageToController.text.toString(),
         density: densityController.text.toString(),
         equipment: equipmentController.text.toString(),
         filmType: filmTypeController.text.toString(),
@@ -454,10 +470,13 @@ class AddRadiographyBloc
       selectedSegmentList = segmentList;
       ndtAgencyData = NdtStatusModel();
       meconPbgplData = NdtStatusModel();
+      ceilValue = NdtStatusModel();
       dSPPLAgencyData = NdtStatusModel();
       ndtSourceData = NdtSourceModel();
       locationDiscoverDefectController.text = "";
       chainageController.text = "";
+       chainageFromController = TextEditingController();
+       chainageToController = TextEditingController();
       filmTypeController.text = "";
       inspectTechniqueController.text = "";
       inspectionVal = TerrainTypeModel();
@@ -496,6 +515,8 @@ class AddRadiographyBloc
       ndtSourceData: ndtSourceData,
       ndtSourceList: ndtSourceList,
       chainageController: chainageController,
+      chainageFromController: chainageFromController,
+      chainageToController: chainageToController,
       densityController: densityController,
       equipmentController: equipmentController,
       filmTypeController: filmTypeController,
@@ -505,6 +526,8 @@ class AddRadiographyBloc
       wpsTypeList: wpsTypeList,
       inspectionTechniqueList: inspectionTechniqueList,
       inspectionVal: inspectionVal,
+      ceilList: ceilList,
+      ceilValue: ceilValue,
     ));
   }
 }

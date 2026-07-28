@@ -12,12 +12,13 @@ import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/helper/add_welder_repair_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:intl/intl.dart';
 
@@ -36,6 +37,19 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
   AlignmentModel alignmentData = AlignmentModel();
   List<AlignmentModel> multipleAlignmentData =  [];
 
+  PipeModel _pipeData = PipeModel();
+  PipeModel get pipeData => _pipeData;
+
+  List<dynamic> _searchPipeList = [];
+  List<dynamic> get searchPipeList => _searchPipeList;
+
+  List<PipeModel> _pipeList = [];
+  List<PipeModel> get pipeList => _pipeList;
+
+  bool _searchPipeLoader = false;
+  bool get searchPipeLoader => _searchPipeLoader;
+
+  TextEditingController searchPipeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
   TextEditingController activityRemarkController = TextEditingController();
@@ -52,7 +66,11 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
   TextEditingController hotPassController = TextEditingController();
   TextEditingController otherPassController = TextEditingController();
   TextEditingController locationController= TextEditingController();
-  TextEditingController proposedLengthController= TextEditingController();
+  TextEditingController proposedLengthController = TextEditingController();
+  TextEditingController actualThkController= TextEditingController();
+  TextEditingController afterGrindingThkController= TextEditingController();
+  TextEditingController resultController= TextEditingController();
+  TextEditingController utReportsController= TextEditingController();
 
 
   File file = File("");
@@ -94,11 +112,14 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     on<AddWelderRepairSelectWPSTypeEvent>(_selectWpsType);
     on<AddWelderRepairSelectWelderEvent>(_selectWelder);
     on<AddWelderRepairAddImageEvent>(_selectFile);
+    on<AddConcreteCoatingSelectSelectPipeDataEvent>(_selectPipeData);
+    on<AddConcreteCoatingAddSearchPipeDataEvent>(_searchPipeData);
     on<AddWelderRepairSubmitDataEvent>(_submit);
   }
 
   _pageLoad(AddWelderRepairLoadEvent event, emit) async {
     emit(AddWelderRepairPageLoadState());
+    _searchPipeLoader = false;
     welderData = WelderModel();
     wpsTypeData = WPSModel();
     jointNumberData = JointNumberModel();
@@ -117,6 +138,9 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     selectedSegmentStatusList = [];
     welderList = [];
     wpsTypeList = [];
+    _pipeList  = [];
+    _pipeData = PipeModel();
+    searchPipeController.text = "";
     dateController.text = "";
     reportNumberController.text = "";
     activityRemarkController.text = "";
@@ -134,6 +158,10 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     otherPassController.text = "";
     locationController.text = "";
     proposedLengthController.text = "";
+     actualThkController= TextEditingController();
+     afterGrindingThkController= TextEditingController();
+     resultController= TextEditingController();
+     utReportsController= TextEditingController();
     isWelderLoader = false;
     isJointNumberLoader = false;
     isLoader = false;
@@ -304,6 +332,30 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
     _eventComplete(emit);
   }
 
+  _selectPipeData(AddConcreteCoatingSelectSelectPipeDataEvent event, emit) {
+    _pipeData = event.pipeData;
+    _searchPipeList = [];
+    searchPipeController.text = pipeData.pipeNumber.toString();
+    _eventComplete(emit);
+  }
+
+  _searchPipeData(AddConcreteCoatingAddSearchPipeDataEvent event, emit) async {
+    _pipeList = [];
+    _searchPipeLoader = true;
+    _eventComplete(emit);
+    var resPipe = await AddStringingHelper.fetchPipeData(
+        context: event.context,
+        userData: userData,
+        searchKeyword: event.keyword.toString(),
+        type: "");
+    if (resPipe != null) {
+      _pipeList = resPipe;
+      _searchPipeList = pipeList;
+    }
+    _searchPipeLoader = false;
+    _eventComplete(emit);
+  }
+
   _submit(AddWelderRepairSubmitDataEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
@@ -337,8 +389,13 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
         location: locationController.text.toString(),
         proposedLength: proposedLengthController.text.toString(),
         rootPass: rootPassController.text.toString(),
-
-        file: file);
+        pipeData: pipeData,
+        actualThk: actualThkController.text.toString(),
+        afterGrindingThk: afterGrindingThkController.text.toString(),
+        result: resultController.text.toString(),
+        utReports: utReportsController.text.toString(),
+        file: file,
+    );
     if (res != null) {
       welderData = WelderModel();
       wpsTypeData = WPSModel();
@@ -350,6 +407,7 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       _weldVisualData = VisualChecksModel();
       selectedSegmentStatusList = [];
       dateController.text = "";
+      searchPipeController.text = "";
       reportNumberController.text = "";
       activityRemarkController.text = "";
       e6010Controller.text = "";
@@ -366,10 +424,15 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       otherPassController.text = "";
       locationController.text = "";
       proposedLengthController.text = "";
+      actualThkController= TextEditingController();
+      afterGrindingThkController= TextEditingController();
+      resultController= TextEditingController();
+      utReportsController= TextEditingController();
       isWelderLoader = false;
       isJointNumberLoader = false;
       isLoader = false;
       file = File("");
+      _pipeData = PipeModel();
       _userData = UserInfo.instanceInit()!.userData!;
       weatherList = await DashboardHelper.fetchWeatherData();
     }
@@ -420,6 +483,13 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
       rootPassController: rootPassController,
       locationController: locationController,
       proposedLengthController: proposedLengthController,
+      searchPipeLoader: searchPipeLoader,
+      searchPipeList: searchPipeList,
+      searchPipeController: searchPipeController,
+      actualThkController: actualThkController,
+      afterGrindingThkController: afterGrindingThkController,
+      resultController: resultController,
+      utReportsController: utReportsController,
     ));
   }
 }

@@ -12,7 +12,6 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddRadioGraphyPage extends StatefulWidget {
   const AddRadioGraphyPage({super.key});
@@ -30,7 +29,10 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   bool get _isHPCL => _client == Client.hpcl;
   bool get _isHPOIL => _client == Client.hpoil;
   bool get _isGJPL => _client == Client.gjpl;
+  bool get _isBCPL => _client == Client.bcpl;
+  bool get _isJDPL => _client == Client.jdpl;
   bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isPJPL => _client == Client.pjpl;
   bool get _isMGL => _client == Client.mgl;
 
   @override
@@ -68,7 +70,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -94,11 +96,15 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _densityController(dataState: dataState),
             _verticalSpace(),
-            _chainageController(dataState: dataState),
-            _verticalSpace(),
-
-            /*          _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
+            if(_isPJPL)...[
+              _chainageFromController(dataState: dataState),
+              _verticalSpace(),
+              _chainageToController(dataState: dataState),
+              _verticalSpace(),
+            ]else...[
+              _chainageController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
             _segmentListBuilder(dataState: dataState),
@@ -107,6 +113,10 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             _verticalSpace(),
             _dSPPLDropDown(dataState: dataState),
             _verticalSpace(),
+            if(_isPJPL || _isBJPL)...[
+              _ceilDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
             _mECONPBGPLDropDown(dataState: dataState),
             _verticalSpace(),
             _activityRemark(dataState: dataState),
@@ -193,7 +203,9 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _ndtSourceDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtSourceModel>(
       isRequired: true,
-      hint: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL ? "Source":AppString.selectRtSource,
+      hint: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL || _isPJPL
+          ? "Source"
+          :AppString.selectRtSource,
       dropdownValue: dataState.ndtSourceData.id != null ? dataState.ndtSourceData : null,
       onChanged: (value) {
         BlocProvider.of<AddRadiographyBloc>(context)
@@ -211,11 +223,28 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
       controller: dataState.chainageController,
     );
   }
-
+  Widget _chainageFromController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageFrom,
+      controller: dataState.chainageFromController,
+    );
+  }
+  Widget _chainageToController({required FetchAddRadiographyDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      textInputType: TextInputType.number,
+      labelText: AppString.chainageTo,
+      controller: dataState.chainageToController,
+    );
+  }
   Widget _filmTypeController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
-      labelText: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL? "Film": AppString.filmType,
+      labelText: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL
+          ? "Film"
+          : AppString.filmType,
       controller: dataState.filmTypeController,
     );
   }
@@ -258,7 +287,9 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
   Widget _equipmentController({required FetchAddRadiographyDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
-      labelText: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL? "Penetrameter":AppString.equipment,
+      labelText: _isVPPL || _isVRPL || _isURJAGATI || _isHPCL || _isHPOIL || _isPJPL
+          ? "Penetrameter"
+          :AppString.equipment,
       controller: dataState.equipmentController,
     );
   }
@@ -361,41 +392,32 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
                         fontWeight: FontWeight.w700,
                         color: AppColor.black,
                       ),
-                      AppConfig.instanceInit()!.client == Client.vppl ||
-                      AppConfig.instanceInit()!.client == Client.urjagati
-                          || AppConfig.instanceInit()!.client == Client.vrpl
-                          || AppConfig.instanceInit()!.client == Client.bjpl
-                          || AppConfig.instanceInit()!.client == Client.gjpl
-                          || AppConfig.instanceInit()!.client == Client.bcpl
-                          || AppConfig.instanceInit()!.client == Client.jdpl
+                      _isVPPL || _isURJAGATI || _isVRPL || _isBJPL || _isGJPL || _isBCPL || _isJDPL
                           ? _welderMultiSelectDropDown(
-                              welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],
-
-                              welderList: segmentData
-                                  .segmentWelderList![welderIndex].welderList!,
-                              index: index,
-                              welderIndex: welderIndex)
+                          welderData: segmentData.segmentWelderList![welderIndex].multipleWelderData ?? [],
+                          welderList: segmentData.segmentWelderList![welderIndex].welderList!,
+                          index: index,
+                          welderIndex: welderIndex)
                           : _welderDropDown(
-                              welderData: segmentData
-                                  .segmentWelderList![welderIndex].welderData!,
-                              welderList: segmentData
-                                  .segmentWelderList![welderIndex].welderList!,
-                              index: index,
-                              welderIndex: welderIndex),
+                          welderData: segmentData.segmentWelderList![welderIndex].welderData!,
+                          welderList: segmentData.segmentWelderList![welderIndex].welderList!,
+                          index: index,
+                          welderIndex: welderIndex),
                       _verticalSpace(),
                     ],
                   );
                 })
             : const SizedBox.shrink(),
-         AppConfig.instanceInit()!.client == Client.vppl
-             ? SizedBox.shrink()
-             : TextFieldWidget(
-          isRequired: false,
-          labelText: "${segmentData.remark}",
-          controller: segmentData.remarkController,
-        ),
-        _verticalSpace(),
-        const Divider(),
+
+          if(!(_isVPPL || _isPJPL))...[
+            TextFieldWidget(
+              isRequired: false,
+              labelText: "${segmentData.remark}",
+              controller: segmentData.remarkController,
+            ), _verticalSpace(),
+            const Divider(),
+          ],
+
       ],
     );
   }
@@ -410,10 +432,8 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
           return Row(
             children: [
               Radio(
-                value:
-                    segmentData.segmentStatusList![index].groupType.toString(),
-                groupValue: segmentData.segmentStatusList![index].selectedValue
-                    .toString(),
+                value: segmentData.segmentStatusList![index].groupType.toString(),
+                groupValue: segmentData.segmentStatusList![index].selectedValue.toString(),
                 onChanged: (val) {
                   BlocProvider.of<AddRadiographyBloc>(context).add(
                       AddRadiographySelectSegmentDataEvent(
@@ -485,7 +505,7 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _dSPPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtStatusModel>(
-      hint: _isVPPL || _isVRPL || _isBJPL ? "MEIL" : AppString.selectDSPPL,
+      hint: _isVPPL || _isVRPL || _isBJPL || _isPJPL ? "MEIL" : AppString.selectDSPPL,
       dropdownValue: dataState.dSPPLAgencyData.id != null
           ? dataState.dSPPLAgencyData
           : null,
@@ -499,7 +519,11 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
 
   Widget _mECONPBGPLDropDown({required FetchAddRadiographyDataState dataState}) {
     return DropdownWidget<NdtStatusModel>(
-      hint: _isVPPL || _isVRPL  ? "EIL" : _isBJPL ? "CEIL"  : AppString.selectMECONPBGPL,
+      hint: _isVPPL || _isVRPL
+          ? "EIL"
+          : _isPJPL
+          ? "MECON/GSPL"
+          : AppString.selectMECONPBGPL,
       dropdownValue:
       dataState.meconPbgplData.id != null ? dataState.meconPbgplData : null,
       onChanged: (value) {
@@ -507,6 +531,19 @@ class _AddRadioGraphyPageState extends State<AddRadioGraphyPage> {
             AddRadiographySelectMeconPbgplDataEvent(meconPbgplData: value!));
       },
       items: dataState.meconPbgplList
+    );
+  }
+
+  Widget _ceilDropDown({required FetchAddRadiographyDataState dataState}) {
+    return DropdownWidget<NdtStatusModel>(
+        hint:  "CEIL",
+        dropdownValue:
+        dataState.ceilValue.id != null ? dataState.ceilValue : null,
+        onChanged: (value) {
+          BlocProvider.of<AddRadiographyBloc>(context).add(
+              AddRadiographySelectCeilValueEvent(ceilValue: value!));
+        },
+        items: dataState.ceilList
     );
   }
 

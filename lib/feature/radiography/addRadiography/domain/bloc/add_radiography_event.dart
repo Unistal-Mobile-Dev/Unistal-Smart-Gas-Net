@@ -192,6 +192,14 @@ class AddRadiographySelectMeconPbgplDataEvent extends AddRadiographyEvent {
   @override
   List<Object?> get props => [meconPbgplData];
 }
+class AddRadiographySelectCeilValueEvent extends AddRadiographyEvent {
+  final NdtStatusModel ceilValue;
+
+  const AddRadiographySelectCeilValueEvent({required this.ceilValue});
+
+  @override
+  List<Object?> get props => [ceilValue];
+}
 
 class AddRadiographySelectNdtSourceDataEvent extends AddRadiographyEvent {
   final NdtSourceModel ndtSourceData;

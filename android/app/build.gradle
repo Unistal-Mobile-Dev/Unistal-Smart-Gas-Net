@@ -56,200 +56,208 @@ android {
             resValue "string", "app_name", "PBG Steel"
             applicationIdSuffix ".purvabhartisteel.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher",
-                    appIconRound: "@mipmap/ic_launcher"
+                    appIcon: "@mipmap/pbg_logo",
+                    appIconRound: "@mipmap/pbg_logo"
             ]
-            def keystorePropertiesFile = rootProject.file('mgl.properties')
+            def keystorePropertiesFile = rootProject.file('purvaBharti.properties')
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
-            versionCode 1
-            versionName "1.0.0-pbgpl"
+            versionCode 11
+            versionName "1.0.6-pbgpl"
         }
-        prodMGL {
-            resValue "string", "app_name", "MGL Steel"
-            applicationIdSuffix ".mglsteel.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_mgl",
-                    appIconRound: "@mipmap/ic_launcher_mgl"
-            ]
-            def keystorePropertiesFile = rootProject.file('mgl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 1
-            versionName "1.0.0-mgl"
-        }
-        prodIGL {
-            resValue "string", "app_name", "IGL Steel"
-            applicationIdSuffix ".iglsmartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_igl",
-                    appIconRound: "@mipmap/ic_launcher_igl"
-            ]
-            def keystorePropertiesFile = rootProject.file('igl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 1
-            versionName "1.0.1-IGL"
-        }
-        prodHPOIL {
-            resValue "string", "app_name", "HPOIL STEEL"
-            applicationIdSuffix ".hpoil.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/hp_oil_logo",
-                    appIconRound: "@mipmap/hp_oil_logo"
-            ]
-            versionCode 1
-            versionName "1.0.0-HPOIL"
-            def keystorePropertiesFile = rootProject.file('hpoil.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-        }
-        prodVPPL {
-            resValue "string", "app_name", "VPPL Steel"
-            applicationIdSuffix ".vppl.plcms.Smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vppl_logo",
-                    appIconRound: "@mipmap/vppl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('vppl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 2
-            versionName "1.0.0-VPPL"
-        }
-        prodVRPL  {
-            resValue "string", "app_name", "VRPL Steel"
-            applicationIdSuffix ".vrpl.plcms.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_logo",
-                    appIconRound: "@mipmap/vrpl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('vrpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 2
-            versionName "1.0.0-VRPL"
-        }
-        prodGJPL {
-            resValue "string", "app_name", "GJPL Steel"
-            applicationIdSuffix ".gjpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vppl_logo",
-                    appIconRound: "@mipmap/vppl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('gjpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 3
-            versionName "1.0.0-GJPL"
-        }
-        prodJDPL  {
-            resValue "string", "app_name", "JDPL STEEL"
-            applicationIdSuffix ".jdpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_logo",
-                    appIconRound: "@mipmap/vrpl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('jdpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 1
-            versionName "1.0.0-JDPL"
-        }
-        prodBCPL  {
-            resValue "string", "app_name", "BCPL Steel"
-            applicationIdSuffix ".brcpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/vrpl_logo",
-                    appIconRound: "@mipmap/vrpl_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('brcpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 5
-            versionName "1.0.0-BCPL"
-        }
-        prodAGCL  {
-            resValue "string", "app_name", "AGCL Steel"
-            applicationIdSuffix ".agcl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/agcl_logo",
-                    appIconRound: "@mipmap/agcl_logo"
-            ]
-            versionCode 1
-            versionName "1.0.0-AGCL"
-        }
-        prodDBPL  {
-            resValue "string", "app_name", "DBPL Steel"
-            applicationIdSuffix ".dbpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('dbpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 2
-            versionName "1.0.0-DBPL"
-        }
-        prodPJPL  {
-            resValue "string", "app_name", "PJPL Steel"
-            applicationIdSuffix ".pjpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('pjpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 1
-            versionName "1.0.0-PJPL"
-        }
-        prodUrjagati  {
-            resValue "string", "app_name", "Urjagati Steel"
-            applicationIdSuffix ".urjagati.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/urjagati_logo",
-                    appIconRound: "@mipmap/urjagati_logo"
-            ]
-            versionCode 1
-            versionName "1.0.0-Urjagati"
-        }
-        prodHPCL  {
-            resValue "string", "app_name", "HPCL Steel"
-            applicationIdSuffix ".hpcl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/hpcl_logo",
-                    appIconRound: "@mipmap/hpcl_logo"
-            ]
-            versionCode 1
-            versionName "1.0.0-HPCL"
-        }
-        prodBJPL  {
-            resValue "string", "app_name", "BJPL Steel"
-            applicationIdSuffix ".bjpl.smartgasnet.app"
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
-            ]
-            def keystorePropertiesFile = rootProject.file('bjpl.properties')
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-            }
-            versionCode 2
-            versionName "1.0.0-BJPL"
-        }
+//        prodMGL {
+//            resValue "string", "app_name", "MGL Steel"
+//            applicationIdSuffix ".mglsteel.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/mgl_logo",
+//                    appIconRound: "@mipmap/mgl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('new_mgl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 2
+//            versionName "1.0.0-mgl"
+//        }
+//        prodIGL {
+//            resValue "string", "app_name", "IGL Steel"
+//            applicationIdSuffix ".iglsmartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/ic_launcher_igl",
+//                    appIconRound: "@mipmap/ic_launcher_igl"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('igl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 1
+//            versionName "1.0.1-IGL"
+//        }
+//        prodHPOIL {
+//            resValue "string", "app_name", "HPOIL STEEL"
+//            applicationIdSuffix ".hpoil.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/hp_oil_logo",
+//                    appIconRound: "@mipmap/hp_oil_logo"
+//            ]
+//            versionCode 1
+//            versionName "1.0.0-HPOIL"
+//            def keystorePropertiesFile = rootProject.file('hpoil.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//        }
+//        prodVPPL {
+//            resValue "string", "app_name", "VPPL Steel"
+//            applicationIdSuffix ".vppl.plcms.Smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vppl_logo",
+//                    appIconRound: "@mipmap/vppl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('vppl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 2
+//            versionName "1.0.0-VPPL"
+//        }
+//        prodVRPL  {
+//            resValue "string", "app_name", "VRPL Steel"
+//            applicationIdSuffix ".vrpl.plcms.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vrpl_logo",
+//                    appIconRound: "@mipmap/vrpl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('vrpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 2
+//            versionName "1.0.0-VRPL"
+//        }
+//        prodGJPL {
+//            resValue "string", "app_name", "GJPL Steel"
+//            applicationIdSuffix ".gjpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vppl_logo",
+//                    appIconRound: "@mipmap/vppl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('gjpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 3
+//            versionName "1.0.0-GJPL"
+//        }
+//        prodJDPL  {
+//            resValue "string", "app_name", "JDPL STEEL"
+//            applicationIdSuffix ".jdpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vrpl_logo",
+//                    appIconRound: "@mipmap/vrpl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('jdpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 1
+//            versionName "1.0.0-JDPL"
+//        }
+//        prodBCPL  {
+//            resValue "string", "app_name", "BCPL Steel"
+//            applicationIdSuffix ".brcpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/vrpl_logo",
+//                    appIconRound: "@mipmap/vrpl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('brcpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 5
+//            versionName "1.0.0-BCPL"
+//        }
+//        prodAGCL  {
+//            resValue "string", "app_name", "AGCL Steel"
+//            applicationIdSuffix ".agcl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/agcl_logo",
+//                    appIconRound: "@mipmap/agcl_logo"
+//            ]
+//            versionCode 1
+//            versionName "1.0.0-AGCL"
+//        }
+//        prodDBPL  {
+//            resValue "string", "app_name", "DBPL Steel"
+//            applicationIdSuffix ".dbpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/unistal_logo",
+//                    appIconRound: "@mipmap/unistal_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('dbpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 2
+//            versionName "1.0.0-DBPL"
+//        }
+//        prodPJPL  {
+//            resValue "string", "app_name", "PJPL Steel"
+//            applicationIdSuffix ".pjpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/pjpl_logo",
+//                    appIconRound: "@mipmap/pjpl_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('pjpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 1
+//            versionName "1.0.0-PJPL"
+//        }
+//        prodUrjagati  {
+//            resValue "string", "app_name", "Urjagati Steel"
+//            applicationIdSuffix ".urjagati.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/unistal_logo",
+//                    appIconRound: "@mipmap/unistal_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('urjagati.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 1
+//            versionName "1.0.0-Urjagati"
+//        }
+//        prodHPCL  {
+//            resValue "string", "app_name", "HPCL Steel"
+//            applicationIdSuffix ".hpcl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/unistal_logo",
+//                    appIconRound: "@mipmap/unistal_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('hpcl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 1
+//            versionName "1.0.0-HPCL"
+//        }
+//        prodBJPL  {
+//            resValue "string", "app_name", "BJPL Steel"
+//            applicationIdSuffix ".bjpl.smartgasnet.app"
+//            manifestPlaceholders = [
+//                    appIcon: "@mipmap/unistal_logo",
+//                    appIconRound: "@mipmap/unistal_logo"
+//            ]
+//            def keystorePropertiesFile = rootProject.file('bjpl.properties')
+//            if (keystorePropertiesFile.exists()) {
+//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//            }
+//            versionCode 2
+//            versionName "1.0.0-BJPL"
+//        }
 
     }
 

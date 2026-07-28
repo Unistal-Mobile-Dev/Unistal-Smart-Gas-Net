@@ -20,6 +20,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
   final TextEditingController dateController;
   final TextEditingController reportNumberController;
   final TextEditingController corrosionCoatingCtrl;
+  final TextEditingController fromCtrl;
+  final TextEditingController toCtrl;
   final TextEditingController activityRemarkController;
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
@@ -69,6 +71,8 @@ class FetchAddStringingDataState extends AddStringingInitial {
     required this.manufactureList,
     required this.manufactureData,
     required this.corrosionCoatingCtrl,
+    required this.fromCtrl,
+    required this.toCtrl,
   });
 
   @override
@@ -99,5 +103,7 @@ class FetchAddStringingDataState extends AddStringingInitial {
         manufactureList,
         manufactureData,
     corrosionCoatingCtrl,
+    fromCtrl,
+    toCtrl,
       ];
 }

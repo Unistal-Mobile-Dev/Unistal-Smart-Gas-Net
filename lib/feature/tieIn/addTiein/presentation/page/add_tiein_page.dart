@@ -22,22 +22,16 @@ class _AddTieinPageState extends State<AddTieinPage> {
   late final Client _client;
 
   bool get _isVPPL => _client == Client.vppl;
-
   bool get _isVRPL => _client == Client.vrpl;
-
   bool get _isBJPL => _client == Client.bjpl;
-
   bool get _isHPCL => _client == Client.hpcl;
-
   bool get _isHPOIL => _client == Client.hpoil;
-
   bool get _isGJPL => _client == Client.gjpl;
-
   bool get _isURJAGATI => _client == Client.urjagati;
-
+  bool get _isPJPL => _client == Client.pjpl;
   bool get _isMGL => _client == Client.mgl;
 
-  bool get _isAllClient => _isVPPL || _isURJAGATI || _isGJPL;
+
 
   @override
   void initState() {
@@ -71,7 +65,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
             child: Column(
           children: [
             _verticalSpace(),
-            if (_isVPPL || _isVRPL || _isBJPL) ...[
+            if (_isVPPL || _isVRPL || _isBJPL || _isPJPL) ...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -85,10 +79,15 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _wpsDropDown(dataState: dataState),
             _verticalSpace(),
-            _chainageFromController(dataState: dataState),
-            _verticalSpace(),
-            _chainageToController(dataState: dataState),
-            _verticalSpace(),
+            if(_isPJPL)...[
+              _chainageController(dataState: dataState),
+              _verticalSpace(),
+            ]else...[
+              _chainageFromController(dataState: dataState),
+              _verticalSpace(),
+              _chainageToController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _electrodeDiaE6010Controller(dataState: dataState),
             _verticalSpace(),
             _electrodeDiaE6010BatchController(dataState: dataState),
@@ -97,10 +96,18 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _electrodeEiaE7010p1BatchController(dataState: dataState),
             _verticalSpace(),
-            if (_isVPPL || _isVRPL) ...[
+            if (_isVPPL || _isVRPL || _isPJPL) ...[
               _electrodeDiaE9045p2Controller(dataState: dataState),
               _verticalSpace(),
               _electrodeDiaE9045p2BatchController(dataState: dataState),
+              _verticalSpace(),
+            ],
+            if(_isPJPL)...[
+              _internalCleaningPipeController(dataState: dataState),
+              _verticalSpace(),
+              _pigPassController(dataState: dataState),
+              _verticalSpace(),
+              _thicknessCheckController(dataState: dataState),
               _verticalSpace(),
             ],
             _leftPipeDropDown(dataState: dataState),
@@ -117,7 +124,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
             _verticalSpace(),
             _rootWelders2Dropdown(dataState: dataState),
             _verticalSpace(),
-            if(_isVPPL || _isVRPL)...[
+            if(_isVPPL || _isVRPL || _isPJPL)...[
               _hotWelders1Controller(dataState: dataState),
               _verticalSpace(),
               _hotWelders2Controller(dataState: dataState),
@@ -191,7 +198,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
   Widget _preheatTempController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      labelText: _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL || _isVPPL || _isVRPL || _isBJPL
+      labelText: _isURJAGATI || _isGJPL || _isHPCL || _isHPOIL || _isVPPL || _isVRPL || _isBJPL || _isPJPL
           ? "Bend Details"
           : AppString.preHeatTemperature,
       controller: dataState.preheatTempController,
@@ -214,7 +221,26 @@ class _AddTieinPageState extends State<AddTieinPage> {
       controller: dataState.chainageController,
     );
   }
+  Widget _internalCleaningPipeController({required FetchAddTieinDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Internal Cleaning Pipe",
+      controller: dataState.internalCleaningPipeController,
+    );
+  }
 
+  Widget _pigPassController({required FetchAddTieinDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Pig Pass",
+      controller: dataState.pigPassController,
+    );
+  }
+
+  Widget _thicknessCheckController({required FetchAddTieinDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Arc Strike removal by grinding DP, MP test & Thickness Check",
+      controller: dataState.thicknessCheckController,
+    );
+  }
 
   Widget _chainageToController({required FetchAddTieinDataState dataState}) {
     return TextFieldWidget(
@@ -632,7 +658,7 @@ class _AddTieinPageState extends State<AddTieinPage> {
 
   Widget _electrodeEiaE7010p1Controller({required FetchAddTieinDataState dataState}) {
     return DropdownWidget(
-      hint: _isURJAGATI || _isGJPL || _isVPPL || _isVRPL
+      hint: _isURJAGATI || _isGJPL || _isVPPL || _isVRPL || _isPJPL
           ? "E8010 Dia"
           : AppString.electrodeDiaE7010P1,
       items: dataState.electrodeEiaE8010p1DiaList,

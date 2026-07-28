@@ -190,19 +190,6 @@ class AddRouteSurveyBloc
   }
 
   _submitData(AddRouteSurveySubmitDataEvent event, emit) async {
-/*    var textFiledValidation =  await AddRouteSurveyHelper.textFiledValidation(context: event.context,
-        alignmentData: alignmentData,
-        reportNumber: reportNumberController.text.toString(),
-        date: dateController.text.toString(),
-        tpIpChainage: tpChainageController.text.toString(),
-        tpIpNOS: tpChainageNumberController.text.toString(),
-        tpIpRemark:tpRemarkNumberController.text.toString(),
-        bearing: bearingAngleController.text.toString(),
-        terrain: terrainController.text.toString(),
-        activityRemark: activityRemarkController.text.toString());
-    if(textFiledValidation == false){
-      return;
-    }*/
     _isLoader = true;
     _eventComplete(emit);
     var res = await AddRouteSurveyHelper.submitData(

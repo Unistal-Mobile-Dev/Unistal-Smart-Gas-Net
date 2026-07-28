@@ -78,6 +78,10 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
   final TextEditingController rightPipeNumberController;
   final TextEditingController searchJointController;
   final TextEditingController bendDetailController;
+  final TextEditingController internalCleaningPipeController;
+  final TextEditingController pigPassController;
+  final TextEditingController thicknessCheckController;
+
 
   final WelderModel rootWelders1Data;
   final WelderModel rootWelders2Data;
@@ -248,6 +252,9 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
     required this.electrodeDiaE9045BatchValue,
     required this.electrodeDiaE9045DiaList,
     required this.electrodeDiaE9045BatchList,
+    required this.internalCleaningPipeController,
+    required this.pigPassController,
+    required this.thicknessCheckController,
   });
 
   @override
@@ -360,5 +367,8 @@ class FetchAddWeldingDataState extends AddWeldingInitial {
         electrodeDiaE9045BatchValue,
         electrodeDiaE9045DiaList,
         electrodeDiaE9045BatchList,
+        internalCleaningPipeController,
+        pigPassController,
+        thicknessCheckController,
       ];
 }

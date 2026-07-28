@@ -128,10 +128,13 @@ class AddRadiographyHelper {
     required NdtStatusModel ndtAgencyData,
     required NdtStatusModel dSPPLAgencyData,
     required NdtStatusModel meconPbgplData,
+    required NdtStatusModel ceilValue,
     required String locationDefect,
     required List<SegmentModel> selectedSegmentList,
     required NdtSourceModel ndtSourceData,
     required File file,
+    required String chainageFrom,
+    required String chainageTo,
     required String chainage,
     required String filmType,
     required TerrainTypeModel inspectTechnique,
@@ -178,25 +181,23 @@ class AddRadiographyHelper {
         "alignment_sheet_id":alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
         "joint_type_id":
             jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "joint_id":
-            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "joint_id": jointNumberData.id != null ? jointNumberData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "ndt_agency_status":
-            ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
-        "contractor_agency_status":
-            dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
-        "pmc_agency_status":
-            meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
-        "rt_source":
-            ndtSourceData.id != null ? ndtSourceData.id.toString() : "",
+        "ndt_agency_status": ndtAgencyData.id != null ? ndtAgencyData.id.toString() : "",
+        "contractor_agency_status": dSPPLAgencyData.id != null ? dSPPLAgencyData.id.toString() : "",
+        "pmc_agency_status": meconPbgplData.id != null ? meconPbgplData.id.toString() : "",
+        "ceil": ceilValue.id != null ? ceilValue.id.toString() : "",
+        "rt_source": ndtSourceData.id != null ? ndtSourceData.id.toString() : "",
         "segments": jsonEncode(data),
         "defects": locationDefect,
         "flaw_detector_type": filmType,
         "inspection_technique":  inspectTechnique.id != null ? inspectTechnique.id.toString() : "",
         "sensivity": sensivity,
         "density": density,
-        "chainage": chainage,
         "equipment": equipment,
+        "chainage_from": chainageFrom.isNotEmpty ? chainageFrom: "0",
+        "chainage_to": chainageTo.isNotEmpty ? chainageTo: "0",
+        "chainage": chainage.isNotEmpty ? chainage: "0",
       };
       print("json--->${json}");
       var res = await ServerRequest.postDataWithFile(

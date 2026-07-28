@@ -14,7 +14,7 @@ class SnackBarSuccessWidget {
         fontSize: AppFont.font_14,
         color: AppColor.white,
       ),
-      backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
+      backgroundColor: Colors.green,
     ));
   }
 }

@@ -24,6 +24,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
+  bool get _isPJPL => _client == Client.pjpl;
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -70,8 +71,10 @@ class _AddRouHandoverPageState extends State<AddRouHandoverPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            _tenderNoController(dataState: dataState),
-            _verticalSpace(),
+            if(!_isPJPL)...[
+              _tenderNoController(dataState: dataState),
+              _verticalSpace(),
+            ],
             _chainageFromController(dataState: dataState),
             _verticalSpace(),
             _chainageToController(dataState: dataState),

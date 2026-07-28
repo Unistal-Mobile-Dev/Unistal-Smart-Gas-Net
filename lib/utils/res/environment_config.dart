@@ -49,6 +49,7 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://pjpl.plcms.net/";
       case EnvironmentFlavours.prodUrjagati:
         return "https://urjagati.smartgasnet.com/";
+    //    return "https://urjagatidev.smartgasnet.com/";
       case EnvironmentFlavours.prodHPCL:
         return "https://hpcl.smartgasnet.com/";
       case EnvironmentFlavours.prodBJPL:

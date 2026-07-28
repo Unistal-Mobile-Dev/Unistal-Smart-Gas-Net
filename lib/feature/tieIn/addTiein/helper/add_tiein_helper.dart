@@ -44,6 +44,9 @@ class AddTieinHelper {
     required String chainageTo,
     required String chainage,
     required String reportNumber,
+    required String internalCleaningPipe,
+    required String pigPass,
+    required String thicknessCheck,
   }) async {
     try {
       var location = await LocationHelper.getLocation(context: context);
@@ -93,6 +96,9 @@ class AddTieinHelper {
         "electrode_dia_e8010p1_batch": electrodeEiaE7010p1Batch.isNotEmpty ? electrodeEiaE7010p1Batch : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "preheat_temp": preHeatTempreture.toString(),
+        "internal_cleaning_pipe": internalCleaningPipe ?? "",
+        "pig_pass": pigPass ?? "",
+        "thickness_check": thicknessCheck ?? "",
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,

@@ -34,9 +34,11 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final JointNumberModel jointNumberData;
   final List<NdtStatusModel> ndtAgencyList;
   final List<NdtStatusModel> meconPbgplList;
+  final List<NdtStatusModel> ceilList;
   final List<NdtStatusModel> dSPPLAgencyList;
   final NdtStatusModel ndtAgencyData;
   final NdtStatusModel meconPbgplData;
+  final NdtStatusModel ceilValue;
   final NdtStatusModel dSPPLAgencyData;
   final List<NdtSourceModel> ndtSourceList;
   final NdtSourceModel ndtSourceData;
@@ -50,6 +52,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
   final List<WPSModel> wpsTypeList;
   final List<TerrainTypeModel> inspectionTechniqueList;
   final TerrainTypeModel inspectionVal;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
 
   FetchAddRadiographyDataState({
     required this.isLoader,
@@ -72,7 +76,9 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.dSPPLAgencyList,
     required this.locationDiscoverDefectController,
     required this.meconPbgplData,
+    required this.ceilValue,
     required this.meconPbgplList,
+    required this.ceilList,
     required this.ndtAgencyData,
     required this.ndtAgencyList,
     required this.ndtSourceData,
@@ -87,6 +93,8 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
     required this.wpsTypeList,
     required this.inspectionTechniqueList,
     required this.inspectionVal,
+    required this.chainageFromController,
+    required this.chainageToController,
   });
 
   @override
@@ -111,7 +119,9 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
         dSPPLAgencyList,
         locationDiscoverDefectController,
         meconPbgplData,
+    ceilValue,
         meconPbgplList,
+    ceilList,
         ndtAgencyData,
         ndtAgencyList,
         ndtSourceList,
@@ -126,6 +136,7 @@ class FetchAddRadiographyDataState extends AddRadiographyInitial {
         wpsTypeList,
         inspectionTechniqueList,
         inspectionVal,
-
+        chainageFromController,
+        chainageToController,
       ];
 }

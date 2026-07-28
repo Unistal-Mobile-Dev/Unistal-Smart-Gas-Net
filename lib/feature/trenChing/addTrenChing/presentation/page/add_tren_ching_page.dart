@@ -27,6 +27,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
+  bool get _isPJPL => _client == Client.pjpl;
 
   @override
   void initState() {
@@ -60,7 +61,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -72,7 +73,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!(_isHPCL || _isHPOIL)) ...[
+            if (!(_isHPCL || _isHPOIL || _isPJPL)) ...[
               _detailsStructure(dataState: dataState),
               _verticalSpace(),
               _mimimumCover(dataState: dataState),
@@ -80,8 +81,8 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
               _arableSoil(dataState: dataState),
               _verticalSpace(),
               _trenchProfile(dataState: dataState),
+              _verticalSpace(),
               if (_isVPPL || _isVRPL || _isBJPL) ...[
-                _verticalSpace(),
                 _provisionOfWarningSignsSafetySignsCtrt(dataState: dataState),
                 _verticalSpace(),
                 if(!(_isVRPL || _isBJPL))...[
@@ -102,7 +103,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _toJointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            if (!(_isVPPL || _isVRPL || _isHPCL || _isHPOIL || _isBJPL)) ...[
+            if (!(_isVPPL || _isVRPL || _isHPCL || _isHPOIL || _isBJPL || _isPJPL)) ...[
               _ipFromController(dataState: dataState),
               _verticalSpace(),
               _ipToController(dataState: dataState),
@@ -112,16 +113,17 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
             _verticalSpace(),
             _chainageToController(dataState: dataState),
             _verticalSpace(),
-            _lengthController(dataState: dataState),
-            _verticalSpace(),
             _trenchingDepthController(dataState: dataState),
             _verticalSpace(),
+            _lengthController(dataState: dataState),
+            _verticalSpace(),
             _toWidthController(dataState: dataState),
+            _verticalSpace(),
             if(_isHPOIL)...[
               _bottomWidthController(dataState: dataState),
               _verticalSpace(),
             ],
-            if(!(_isMGL || _isHPCL || _isHPOIL))...[
+            if(!(_isMGL || _isHPCL || _isHPOIL || _isPJPL))...[
               _terrainDropDown(dataState: dataState),
               _verticalSpace(),
             ],
@@ -173,8 +175,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageFromController(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageFromController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -187,8 +188,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _chainageToController(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _chainageToController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -280,8 +280,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
         : const DottedLoaderWidget();
   }*/
 
-  Widget _fromJointNumberDropDown(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _fromJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
@@ -296,8 +295,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
     );
   }
 
-  Widget _toJointNumberDropDown(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _toJointNumberDropDown({required FetchAddTrenChingDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
@@ -335,8 +333,7 @@ class _AddTrenChingPageState extends State<AddTrenChingPage> {
         : const DottedLoaderWidget();
   }*/
 
-  Widget _trenchingDepthController(
-      {required FetchAddTrenChingDataState dataState}) {
+  Widget _trenchingDepthController({required FetchAddTrenChingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,

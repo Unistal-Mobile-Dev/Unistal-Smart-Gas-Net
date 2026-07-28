@@ -41,6 +41,10 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final TextEditingController otherPassController;
   final TextEditingController locationController;
   final TextEditingController proposedLengthController;
+  final TextEditingController actualThkController;
+  final TextEditingController afterGrindingThkController;
+  final TextEditingController resultController;
+  final TextEditingController utReportsController;
   final File file;
   final bool isLoader;
   final List<WeatherModel> weatherList;
@@ -55,6 +59,10 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
   final bool isWelderLoader;
   final List<ThicknessModel> listOfPipeThickness;
   final ThicknessModel pipeThicknessValue;
+  final List<dynamic> searchPipeList;
+  final bool searchPipeLoader;
+  final TextEditingController searchPipeController;
+
 
   FetchAddWelderRepairDataState({
     required this.welderData,
@@ -97,6 +105,13 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
     required this.otherPassController,
     required this.locationController,
     required this.proposedLengthController,
+    required this.searchPipeList,
+    required this.searchPipeLoader,
+    required this.searchPipeController,
+    required this.actualThkController,
+    required this.afterGrindingThkController,
+    required this.resultController,
+    required this.utReportsController,
   });
 
   @override
@@ -141,5 +156,12 @@ class FetchAddWelderRepairDataState extends AddWelderRepairInitial {
         otherPassController,
         locationController,
         proposedLengthController,
+        searchPipeList,
+        searchPipeLoader,
+        searchPipeController,
+    actualThkController,
+    afterGrindingThkController,
+    resultController,
+    utReportsController,
       ];
 }

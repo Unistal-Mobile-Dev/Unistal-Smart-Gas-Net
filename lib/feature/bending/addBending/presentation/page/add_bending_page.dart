@@ -29,6 +29,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
+  bool get _isPJPL => _client == Client.pjpl;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -79,6 +80,18 @@ class _AddBendingPageState extends State<AddBendingPage> {
             _verticalSpace(),
             _chainageController(dataState: dataState),
             _verticalSpace(),
+            _bendNumberController(dataState: dataState),
+            _verticalSpace(),
+            _bendingTypeDropDown(dataState: dataState),
+            _verticalSpace(),
+            _bendAngleDegreeController(dataState: dataState),
+            _verticalSpace(),
+            _bendAngleMinuteController(dataState: dataState),
+            _verticalSpace(),
+            _bendAngleSecondController(dataState: dataState),
+            _verticalSpace(),
+            _bendTpNumber(dataState: dataState),
+            _verticalSpace(),
             _visualChecksDropDown(dataState: dataState),
             _verticalSpace(),
             _gaugingChecksDropDown(dataState: dataState),
@@ -87,18 +100,7 @@ class _AddBendingPageState extends State<AddBendingPage> {
             _verticalSpace(),
             _holidayChecksDropDown(dataState: dataState),
             _verticalSpace(),
-            _bendingTypeDropDown(dataState: dataState),
-            _verticalSpace(),
-            _bendNumberController(dataState: dataState),
-            _verticalSpace(),
-            _bendTpNumber(dataState: dataState),
-            _verticalSpace(),
-            _bendAngleDegreeController(dataState: dataState),
-            _verticalSpace(),
-            _bendAngleMinuteController(dataState: dataState),
-            _verticalSpace(),
-            _bendAngleSecondController(dataState: dataState),
-            _verticalSpace(),
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),

@@ -28,7 +28,8 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
   bool get _isMGL => _client == Client.mgl;
-  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL;
+  bool get _isPJPL => _client == Client.pjpl;
+  bool get _isAllClient => _isVPPL || _isVRPL || _isBJPL || _isURJAGATI || _isGJPL || _isPJPL;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -91,21 +92,27 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _electrodeEiaE8010p1BatchDropdown(dataState: dataState),
             _verticalSpace(),
-            if(_isBJPL)...[
+            if(_isBJPL || _isPJPL)...[
               _electrodeDiaE9045Controller(dataState: dataState),
               _verticalSpace(),
               _electrodeDiaE9045BatchController(dataState: dataState),
+              _verticalSpace(),
+            ],
+            if(_isPJPL)...[
+              _internalCleaningPipeController(dataState: dataState),
+              _verticalSpace(),
+              _pigPassController(dataState: dataState),
+              _verticalSpace(),
+              _thicknessCheckController(dataState: dataState),
               _verticalSpace(),
             ],
             _leftPipeDropDown(dataState: dataState),
             _verticalSpace(),
             _rigthPipeDropDown(dataState: dataState),
             _verticalSpace(),
-/*            _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
             _verticalSpace(),
-            if (_isVPPL || _isHPCL || _isHPOIL || _isBJPL) ...[
+            if (_isVPPL || _isHPCL || _isHPOIL || _isBJPL || _isPJPL) ...[
               _fitupDropDown(dataState: dataState),
               _verticalSpace(),
             ],
@@ -125,7 +132,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
             _verticalSpace(),
             _filler1Welders2Controller(dataState: dataState),
             _verticalSpace(),
-            _isMGL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL
+            _isMGL || _isVPPL || _isHPCL || _isHPOIL|| _isBJPL || _isPJPL
                 ? Column(
                     children: [
                       _filler2Welders1Controller(dataState: dataState),
@@ -881,8 +888,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
         : DottedLoaderWidget();
   }
 
-  Widget _electrodeDiaE9045p2Controller(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045p2Controller({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -891,8 +897,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE9045p2BatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE9045p2BatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE9045p2Batch,
@@ -900,8 +905,7 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       textInputType: TextInputType.number,
@@ -910,14 +914,34 @@ class _AddWeldingPageState extends State<AddWeldingPage> {
     );
   }
 
-  Widget _electrodeDiaE81t8gBatchController(
-      {required FetchAddWeldingDataState dataState}) {
+  Widget _electrodeDiaE81t8gBatchController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       labelText: AppString.electrodeDiaE81t8gBatch,
       controller: dataState.electrodeDiaE81t8gBatchController,
     );
   }
+  Widget _internalCleaningPipeController({required FetchAddWeldingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Internal Cleaning Pipe",
+      controller: dataState.internalCleaningPipeController,
+    );
+  }
+
+  Widget _pigPassController({required FetchAddWeldingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Pig Pass",
+      controller: dataState.pigPassController,
+    );
+  }
+
+  Widget _thicknessCheckController({required FetchAddWeldingDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Arc Strike removal by grinding DP, MP test & Thickness Check",
+      controller: dataState.thicknessCheckController,
+    );
+  }
+
 
   Widget _bendDetailController({required FetchAddWeldingDataState dataState}) {
     return TextFieldWidget(

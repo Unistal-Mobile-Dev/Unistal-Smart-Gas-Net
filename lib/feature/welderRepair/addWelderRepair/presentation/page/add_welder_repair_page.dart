@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/
 import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
 
 class AddWelderRepairPage extends StatefulWidget {
   const AddWelderRepairPage({super.key});
@@ -30,6 +32,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
   bool get _isHPOIL => _client == Client.hpoil;
   bool get _isGJPL => _client == Client.gjpl;
   bool get _isURJAGATI => _client == Client.urjagati;
+  bool get _isPJPL => _client == Client.pjpl;
   bool get _isMGL => _client == Client.mgl;
 
   @override
@@ -65,7 +68,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
         child: Column(
           children: [
             _verticalSpace(),
-            if(_isVPPL || _isVRPL || _isBJPL)...[
+            if(_isVPPL || _isVRPL || _isBJPL || _isPJPL)...[
               _formatNoField(),
               _verticalSpace(),
             ],
@@ -76,6 +79,7 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
             _alignmentDropdown(dataState: dataState),
             _verticalSpace(),
             _weatherDropDown(dataState: dataState),
+            _verticalSpace(),
            if(_isBJPL)...[
              _verticalSpace(),
              _pipeThicknessDropDown(dataState: dataState),
@@ -91,50 +95,40 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
              _otherPassController(dataState: dataState),
              _verticalSpace(),
            ],
-          /*  _verticalSpace(),
-            TextWidget(
-              "Electrode/Filler Wire No.",
-              color: EnvironmentConfig.of(context)!.primaryTheme,
-              fontWeight: FontWeight.w600,
-            ),
-            const Divider(),
-            _e6010Controller(dataState: dataState),
-            _verticalSpace(),
-            _e8010P1Controller(dataState: dataState),
-            _verticalSpace(),
-            _e9045P2Controller(dataState: dataState),
-            _verticalSpace(),
-            _er70s6Controller(dataState: dataState),
-            _verticalSpace(),
-            _e81TM21ABController(dataState: dataState),
-            _verticalSpace(),
-            const Divider(),*/
-            _verticalSpace(),
-          /*  _jointTypeDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _jointNumberDropDown(dataState: dataState),
+            _verticalSpace(),
             if(_isBJPL)...[
-              _verticalSpace(),
               _locationController(dataState: dataState),
               _verticalSpace(),
               _proposedLengthController(dataState: dataState),
-            ]else...[
               _verticalSpace(),
+            ]else if(!(_isPJPL))...[
               _segmentDropdown(dataState: dataState),
+              _verticalSpace(),
+              _wpdTypeDropDown(dataState: dataState),
+              _verticalSpace(),
+              _welderDropDown(dataState: dataState),
+              _verticalSpace(),
+              _preHeatingTemperatureController(dataState: dataState),
+              _verticalSpace(),
+              _weldVisualDropDown(dataState: dataState),
+              _verticalSpace(),
+              _activityRemark(dataState: dataState),
+              _verticalSpace(),
+              _photo(dataState: dataState),
+              _verticalSpace(),
+            ]else if(_isPJPL)...[
+              _pipeDropDown(dataState: dataState),
+              _verticalSpace(),
+              _thicknessController(dataState: dataState),
+              _verticalSpace(),
+              _resultController(dataState: dataState),
+              _verticalSpace(),
+              _utReportsController(dataState: dataState),
+              _verticalSpace(),
             ],
-            _verticalSpace(),
-            _wpdTypeDropDown(dataState: dataState),
-            _verticalSpace(),
-            _welderDropDown(dataState: dataState),
-            _verticalSpace(),
-            _preHeatingTemperatureController(dataState: dataState),
-            _verticalSpace(),
-            _weldVisualDropDown(dataState: dataState),
-            _verticalSpace(),
-            _activityRemark(dataState: dataState),
-            _verticalSpace(),
-            _photo(dataState: dataState),
-            _verticalSpace(),
+
+
             _verticalSpace(),
             _button(dataState: dataState),
           ],
@@ -173,6 +167,39 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
       isRequired: true,
       labelText: AppString.reportNumber,
       controller: dataState.reportNumberController,
+    );
+  }
+
+  Widget _thicknessController({required FetchAddWelderRepairDataState dataState}) {
+    return DottedBorderWidget(
+      title: 'Thickness Test (mm)',
+        children: [
+          TextFieldWidget(
+            labelText: "Actual Thk",
+            controller: dataState.actualThkController,
+          ),
+          _verticalSpace(),
+          TextFieldWidget(
+            labelText: "After Grinding Thk.",
+             controller: dataState.afterGrindingThkController,
+          ),
+        ],
+    );
+  }
+
+  Widget _resultController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "Result",
+      controller: dataState.resultController,
+    );
+  }
+
+
+
+  Widget _utReportsController({required FetchAddWelderRepairDataState dataState}) {
+    return TextFieldWidget(
+      labelText: "DPT/UT Reports(if required)",
+      controller: dataState.utReportsController,
     );
   }
 
@@ -357,6 +384,23 @@ class _AddWelderRepairPageState extends State<AddWelderRepairPage> {
           )
         : const DottedLoaderWidget();
   }
+  Widget _pipeDropDown({required FetchAddWelderRepairDataState dataState}) {
+    return SearchTextField(
+        isLoader: dataState.searchPipeLoader,
+        onChange: (value) {
+          BlocProvider.of<AddWelderRepairBloc>(context).add(
+              AddConcreteCoatingAddSearchPipeDataEvent(
+                  keyword: value, context: context));
+        },
+        onClick: (value) {
+          BlocProvider.of<AddWelderRepairBloc>(context).add(
+              AddConcreteCoatingSelectSelectPipeDataEvent(pipeData: value));
+        },
+        controller: dataState.searchPipeController,
+        label: AppString.selectPipeNumber,
+        list: dataState.searchPipeList);
+  }
+
 
   Widget _weldVisualDropDown({required FetchAddWelderRepairDataState dataState}) {
     return DropdownWidget<VisualChecksModel>(

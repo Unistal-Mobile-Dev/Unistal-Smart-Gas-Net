@@ -19,9 +19,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final AlignmentModel alignmentData;
   final List<AlignmentModel> multipleAlignmentData;
   final bool isLoader;
-  final TextEditingController preheatTempController;
-  final TextEditingController dateController;
-  final TextEditingController activityRemarkController;
+
   final List<WPSModel> wpsList;
   final WPSModel wpsData;
   final List<WelderModel> welderList;
@@ -56,9 +54,6 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final List<WelderModel> stripWelder1List;
   final List<WelderModel> stripWelder2List;
 
-  final TextEditingController electrodeDiaE81t8gBatchController;
-  final TextEditingController electrodeDiaE81t8gController;
-
   final List<VisualChecksModel> fitupList;
   final VisualChecksModel fitupData;
 
@@ -69,12 +64,8 @@ class FetchAddTieinDataState extends AddTieinInitial {
 
   final List<JointTypeModel> jointTypeList;
   final JointTypeModel jointTypeData;
-
   final bool isJointNumberLoader;
-
-  final TextEditingController leftPipeNumberController;
-  final TextEditingController rightPipeNumberController;
-
+  final bool searchLeftPipeLoader;
   final WelderModel rootWelders1Data;
   final WelderModel rootWelders2Data;
   final WelderModel hotWelders1Data;
@@ -102,9 +93,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final WelderModel stripWelder2Data;
   final List<WeatherModel> weatherList;
   final WeatherModel weatherData;
-  final TextEditingController chainageFromController;
-  final TextEditingController chainageToController;
-  final TextEditingController chainageController;
+
   final List<PipeModel> leftPipeList;
   final List<PipeModel> rightPipeList;
 
@@ -112,7 +101,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final PipeModel rightPipeData;
 
   final List<dynamic> searchLeftPipeList;
-  final bool searchLeftPipeLoader;
+
   final TextEditingController searchLeftPipeController;
 
   final List<dynamic> searchRightPipeList;
@@ -134,6 +123,19 @@ class FetchAddTieinDataState extends AddTieinInitial {
   final ElectrodeBatchData electrodeDiaE9045p2BatchValue;
   final List<ElectrodeDiaData> electrodeDiaE9045p2List;
   final List<ElectrodeBatchData> electrodeDiaE9045p2BatchList;
+  final TextEditingController chainageFromController;
+  final TextEditingController chainageToController;
+  final TextEditingController chainageController;
+  final TextEditingController electrodeDiaE81t8gBatchController;
+  final TextEditingController electrodeDiaE81t8gController;
+  final TextEditingController leftPipeNumberController;
+  final TextEditingController rightPipeNumberController;
+  final TextEditingController internalCleaningPipeController;
+  final TextEditingController pigPassController;
+  final TextEditingController thicknessCheckController;
+  final TextEditingController preheatTempController;
+  final TextEditingController dateController;
+  final TextEditingController activityRemarkController;
 
   FetchAddTieinDataState({
     required this.isLoader,
@@ -241,6 +243,9 @@ class FetchAddTieinDataState extends AddTieinInitial {
     required this.electrodeDiaE9045p2BatchValue,
     required this.electrodeDiaE9045p2List,
     required this.electrodeDiaE9045p2BatchList,
+    required this.internalCleaningPipeController,
+    required this.pigPassController,
+    required this.thicknessCheckController,
   });
 
   @override
@@ -323,7 +328,7 @@ class FetchAddTieinDataState extends AddTieinInitial {
         weatherData,
         chainageFromController,
         chainageToController,
-    chainageController,
+        chainageController,
         leftPipeData,
         rightPipeData,
         leftPipeList,
@@ -350,5 +355,8 @@ class FetchAddTieinDataState extends AddTieinInitial {
         electrodeDiaE9045p2BatchValue,
         electrodeDiaE9045p2List,
         electrodeDiaE9045p2BatchList,
+        internalCleaningPipeController,
+        pigPassController,
+        thicknessCheckController,
       ];
 }

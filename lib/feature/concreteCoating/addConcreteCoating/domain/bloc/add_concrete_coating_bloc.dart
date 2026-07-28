@@ -17,8 +17,7 @@ import '../../../../stringing/addStringing/domain/model/pipe_model.dart';
 part 'add_concrete_coating_event.dart';
 part 'add_concrete_coating_state.dart';
 
-class AddConcreteCoatingBloc
-    extends Bloc<AddConcreteCoatingEvent, AddConcreteCoatingState> {
+class AddConcreteCoatingBloc extends Bloc<AddConcreteCoatingEvent, AddConcreteCoatingState> {
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
