@@ -6,6 +6,7 @@ import 'package:flutter_unistal_smart_gas_net/localDataBase/preferences_name.dar
 import 'package:flutter_unistal_smart_gas_net/localDataBase/shared_preferences_utils.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_navigator.dart';
 import 'package:mime/mime.dart';
 
@@ -31,11 +32,10 @@ class ServerRequest {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final token = AppConfig.instanceInit()?.loginData.token ?? "";
-          options.headers["Authorization"] = token;
-          header.forEach((key, value) {
-            options.headers.putIfAbsent(key, () => value);
-          });
+          final token = UserInfo.instanceInit()?.userData?.token ?? "";
+          if (token.isNotEmpty) {
+            options.headers["Authorization"] = token;
+          }
 
           log("══════════════════════════════════════════════");
           log("REQUEST");

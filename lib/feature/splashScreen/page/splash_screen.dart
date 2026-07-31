@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -35,6 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
       checkForUpdate();
     });
     pageOpen();
+    _getData();
   }
 
   Future<void> checkForUpdate() async {
@@ -69,6 +73,25 @@ class _SplashScreenState extends State<SplashScreen> {
     } on PlatformException catch (e) {
       debugPrint("PlatformException: ${e.message}");
     }
+  }
+
+  Future<LoginDataModel?> _getData() async {
+    try {
+      String? userJson = await SharedPreferencesUtils.getString(key: PreferencesName.userInfo?? "");
+      if (userJson != '') {
+        Map<String, dynamic> userMap = jsonDecode(userJson);
+        LoginDataModel loginModel = LoginDataModel.fromJson(userMap);
+        print("userMap-->${userMap}");
+        final appConfig = AppConfig.instanceInit();
+        if (appConfig != null) {
+          await appConfig.setLoginData(newLoginData: loginModel);
+        }
+        return loginModel;
+      }
+    } catch (e) {
+      debugPrint("Error in _getData: $e");
+    }
+    return null;
   }
 
   pageOpen() async {
