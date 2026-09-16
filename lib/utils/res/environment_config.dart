@@ -30,7 +30,8 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.prodMGL:
         return "https://mgl.smartgasnet.com/";
       case EnvironmentFlavours.prodHPOIL:
-        return "https://hpoil.smartgasnet.com/";
+       // return "https://hpoil.smartgasnet.com/";
+        return "http://gis.hpoilgas.in/";
       case EnvironmentFlavours.prodVPPL:
         return "https://vppl.plcms.net/";
       case EnvironmentFlavours.prodVRPL:

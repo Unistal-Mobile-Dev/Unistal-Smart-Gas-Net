@@ -118,8 +118,10 @@ class LocationHelper {
       if (kDebugMode) {
         print(location.toString());
       }
+      print(location.toString());
       return responseLocationData(location);
     } catch (e) {
+      print("e.toString()${e.toString()}");
       return null;
     }
   }

@@ -147,8 +147,11 @@ class _AddLoweringPageState extends State<AddLoweringPage> {
               _holidayChecksDropDown(dataState: dataState),
               _verticalSpace(),
             ],
-            _nightCapDropDown(dataState: dataState),
-            _verticalSpace(),
+            if (!_isURJAGATI) ...[
+              _nightCapDropDown(dataState: dataState),
+              _verticalSpace(),
+            ],
+
             _activityRemark(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),

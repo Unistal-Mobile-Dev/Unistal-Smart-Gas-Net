@@ -115,16 +115,13 @@ class AddWelderRepairHelper {
             .replaceAll("[", "")
             .toString()
             .replaceAll("]", ""),
-        "joint_type_id":
-            jointTypeData.id != null ? jointTypeData.id.toString() : "",
-        "joint":
-            jointNumberData.id != null ? jointNumberData.id.toString() : "",
+        "joint_type_id": jointTypeData.id != null ? jointTypeData.id.toString() : "",
+        "joint": jointNumberData.id != null ? jointNumberData.id.toString() : "",
         "wpsId": wpsTypeData.id != null ? wpsTypeData.id.toString() : "",
         "welderId": welderData.id != null ? welderData.id.toString() : "",
         "weather": weatherData.id != null ? weatherData.id.toString() : "",
         "repairStatus": "",
-        "weld_visual":
-            weldVisualData.id != null ? weldVisualData.id.toString() : "",
+        "weld_visual": weldVisualData.id != null ? weldVisualData.id.toString() : "",
         "preHeatingTemp": preHeatingTemperature.toString(),
         "electrodeFillerE6010": e6010.toString(),
         "electrodeFillerE8010p1": e8010P1.toString(),
@@ -137,7 +134,7 @@ class AddWelderRepairHelper {
         "root_pass": rootPass.isNotEmpty ? rootPass : "",
         "hot_pass": hotPass.isNotEmpty ? hotPass : "",
         "other_pass": otherPass.isNotEmpty ? otherPass : "",
-        "location": location.isNotEmpty ? location : "",
+        "location": location != null ? location.toString() : "",
         "proposed_length": proposedLength.isNotEmpty ? proposedLength : "",
         "pipeId": pipeData.id.toString(),
          "actual_thk" : actualThk,
