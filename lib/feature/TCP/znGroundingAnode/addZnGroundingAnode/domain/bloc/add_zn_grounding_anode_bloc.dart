@@ -1,23 +1,5 @@
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/helper/add_test_station_box_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/helper/add_zn_grounding_anode_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/helper/dashboard_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 part 'add_zn_grounding_anode_event.dart';
 part 'add_zn_grounding_anode_state.dart';
 
@@ -221,12 +203,12 @@ class AddZnGroundingAnodeBloc extends Bloc<AddZnGroundingAnodeEvent, AddZnGround
 
   _selectFile(AddZnGroundingAnodeAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }

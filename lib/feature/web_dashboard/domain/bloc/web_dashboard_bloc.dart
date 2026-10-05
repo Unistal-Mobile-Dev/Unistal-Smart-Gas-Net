@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/activity_section_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/web_dashboard/domain/bloc/web_dashboard_event.dart';

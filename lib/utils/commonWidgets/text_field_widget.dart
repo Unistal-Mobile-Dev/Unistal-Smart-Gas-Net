@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'input_decoration_style.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -59,7 +58,7 @@ class TextFieldWidget extends StatelessWidget {
         .of(context)
         .colorScheme
         .surfaceContainerHighest
-        .withOpacity(0.4)
+        .withValues(alpha:0.4)
         : Colors.grey.shade100;
 
     return TextFormField(
@@ -85,6 +84,7 @@ class TextFieldWidget extends StatelessWidget {
         context,
         labelText: labelText,
         isRequired: isRequired,
+          suffixIcon : suffixIcon
       ).copyWith(
         fillColor: enabled ? enabledFill : disabledFill,
         counterText: "",

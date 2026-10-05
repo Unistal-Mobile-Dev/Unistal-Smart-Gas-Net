@@ -1,3 +1,7 @@
+import 'package:flutter_unistal_smart_gas_net/utils/HiveDatabase/hive_box_name.dart';
+import 'package:hive/hive.dart';
+part 'activity_section_model.g.dart';
+
 List<ActivitySectionData> activitySectionListResponse(var json) {
   return List<ActivitySectionData>.from(
       json.map((x) => ActivitySectionData.fromJson(x)));
@@ -32,26 +36,66 @@ class ActivitySectionModel {
   }
 }
 
-class ActivitySectionData {
+@HiveType(typeId: HiveTypeId.activitySectionId)
+class ActivitySectionData extends HiveObject {
+  @HiveField(0)
   String? activityType;
+
+  @HiveField(1)
   String? sortOrder;
+
+  @HiveField(2)
   String? weightage;
+
+  @HiveField(3)
   String? formateNo;
+
+  @HiveField(4)
   String? id;
+
+  @HiveField(5)
   String? createdAt;
+
+  @HiveField(6)
   String? status;
+
+  @HiveField(7)
   String? spreadId;
+
+  @HiveField(8)
   String? activityName;
+
+  @HiveField(9)
   String? activityCode;
+
+  @HiveField(10)
   String? spreadName;
+
+  @HiveField(11)
   String? sectionName;
+
+  @HiveField(12)
   String? sectionId;
+
+  @HiveField(13)
   String? activityId;
+
+  @HiveField(14)
   String? modelName;
+
+  @HiveField(15)
   String? updatedAt;
+
+  @HiveField(16)
   String? scope;
+
+  @HiveField(17)
   String? startDate;
+
+  @HiveField(18)
   String? endDate;
+
+  @HiveField(19)
   String? appJoint;
 
   ActivitySectionData(

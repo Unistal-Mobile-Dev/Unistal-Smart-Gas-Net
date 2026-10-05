@@ -10,9 +10,9 @@ class HindranceNextIdModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['next_id'] = this.nextId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['next_id'] = nextId;
     return data;
   }
   @override

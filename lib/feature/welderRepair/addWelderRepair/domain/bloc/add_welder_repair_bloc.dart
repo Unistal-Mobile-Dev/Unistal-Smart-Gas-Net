@@ -1,27 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/domain/model/segment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/helper/add_radiography_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/helper/add_welder_repair_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 part 'add_welder_repair_event.dart';
 part 'add_welder_repair_state.dart';
 
@@ -318,12 +296,12 @@ class AddWelderRepairBloc extends Bloc<AddWelderRepairEvent, AddWelderRepairStat
 
   _selectFile(AddWelderRepairAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }

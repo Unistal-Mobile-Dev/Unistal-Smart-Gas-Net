@@ -108,7 +108,7 @@ class InputDecorationStyle {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
           color: isDark
-              ? primaryColor.withOpacity(0.6)
+              ? primaryColor.withValues(alpha:0.6)
               : primaryColor,
           width: 1.2,
         ),

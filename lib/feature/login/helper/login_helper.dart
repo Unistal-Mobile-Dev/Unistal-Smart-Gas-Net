@@ -1,13 +1,5 @@
-import 'dart:convert';
-
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
-
-import '../domain/models/login_model.dart';
 
 class LoginHelper {
   static Future<dynamic> textFieldValidation(

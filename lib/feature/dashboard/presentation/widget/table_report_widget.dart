@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/card_backgound.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class TabletReportWidget extends StatelessWidget {
   const TabletReportWidget({super.key});

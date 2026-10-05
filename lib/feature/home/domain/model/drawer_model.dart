@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'ActivitySectionModel.dart';
+import 'activity_section_model.dart';
 
 class DrawerModel {
   Widget widget;

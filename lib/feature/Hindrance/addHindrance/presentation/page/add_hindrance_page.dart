@@ -3,10 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/bloc/add_hindrance_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/bloc/add_hindrance_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/bloc/add_hindrance_state.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/model/hindrance_category_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_pop_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/image_widget.dart';
 
 class AddHindrancePage extends StatefulWidget {
   const AddHindrancePage({super.key});
@@ -21,11 +17,6 @@ class _AddHindrancePageState extends State<AddHindrancePage> {
   bool get _isVPPL => _client == Client.vppl;
   bool get _isVRPL => _client == Client.vrpl;
   bool get _isBJPL => _client == Client.bjpl;
-  bool get _isHPCL => _client == Client.hpcl;
-  bool get _isHPOIL => _client == Client.hpoil;
-  bool get _isGJPL => _client == Client.gjpl;
-  bool get _isURJAGATI => _client == Client.urjagati;
-  bool get _isMGL => _client == Client.mgl;
 
   @override
   void initState() {

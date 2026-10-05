@@ -1,28 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/holidy_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/helper/add_bending_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/domain/model/crossing_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/helper/add_crossing_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/helper/add_hdpe_duct_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/coating_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/domain/model/pipe_material_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/domain/model/pipe_dia_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/helper/add_welding_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 part 'add_crossing_event.dart';
 part 'add_crossing_state.dart';
 
@@ -349,12 +326,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
   _selectFile(AddCrossingAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
@@ -365,12 +342,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectStageInspection(AddCrossingStageInspectionEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        fileStageInspection = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        fileStageInspection = photo;
      }
@@ -381,12 +358,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectPreHydrotest(AddCrossingPreHydrotestEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        filePreHydrotest = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        filePreHydrotest = photo;
      }
@@ -397,12 +374,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectRestoration(AddCrossingRestorationEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        fileRestoration = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        fileRestoration = photo;
      }
@@ -413,12 +390,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectPhotoBefore(AddCrossingPhotoBeforeEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        filePhotoBefore = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        filePhotoBefore = photo;
      }
@@ -429,12 +406,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectPhotoAfter(AddCrossingPhotoAfterEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        filePhotoAfter = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        filePhotoAfter = photo;
      }
@@ -445,12 +422,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectVideoBefore(AddCrossingVideoBeforeEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        fileVideoBefore = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        fileVideoBefore = photo;
      }
@@ -461,12 +438,12 @@ class AddCrossingBloc extends Bloc<AddCrossingEvent, AddCrossingState> {
 
  _selectVideoAfter(AddCrossingVideoAfterEvent event, emit) async {
    if (event.mediaType == 1) {
-     var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+     var photo = await MediaPickerHelper.imagePiker(context: event.context);
      if (photo != null) {
        fileVideoAfter = photo;
      }
    } else {
-     var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+     var photo = await MediaPickerHelper.filePiker(context: event.context);
      if (photo != null) {
        fileVideoAfter = photo;
      }

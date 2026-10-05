@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/bloc/add_concrete_coating_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+
 
 class AddConcreteCoatingPage extends StatefulWidget {
   const AddConcreteCoatingPage({super.key});

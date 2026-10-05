@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/splashScreen/page/splash_screen.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/multi_provider_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_navigator.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
-import 'ExportFile/app_export_file.dart';
-import 'utils/res/app_theme.dart';
 
 class Root extends StatefulWidget {
   final Client client;

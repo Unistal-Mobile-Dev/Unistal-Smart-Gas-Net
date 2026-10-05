@@ -1,22 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/domain/model/thickness_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/helper/add_concrete_coating_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/helper/add_lpt_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/helper/add_stringing_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
 
 part 'add_lpt_event.dart';
 
@@ -274,12 +257,12 @@ class AddLptBloc extends Bloc<AddLptEvent, AddLptState> {
 
   _selectFile(AddLptAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }

@@ -1,8 +1,5 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
-import 'input_decoration_style.dart';
 
 class DropDownSearchMultiSelectWidget extends StatelessWidget {
   final List<dynamic> items;
@@ -111,7 +108,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
               ),
             ),
             tileColor: isSelected
-                ? primaryColor.withOpacity(isDark ? 0.2 : 0.08) // ✅
+                ? primaryColor.withValues(alpha:isDark ? 0.2 : 0.08) // ✅
                 : Colors.transparent,
           );
         },

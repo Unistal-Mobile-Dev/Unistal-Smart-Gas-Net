@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/services/location/location_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/services/location/location_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddClearingGradingHelper {
   static Future<dynamic> textFiledValidation({
@@ -72,116 +64,116 @@ class AddClearingGradingHelper {
     }
   }
 
-  static Future<dynamic> submitData({
-    required BuildContext context,
-    required AlignmentModel alignmentData,
-    required List<AlignmentModel> multipleAlignmentData,
-    required String reportNumber,
-    required String date,
-    required String tpIpChainage,
-    required String ipNumber,
-    required String ipNumberFrom,
-    required String tpIpNOS,
-    required String tpIpRemark,
-    required String structureDetail,
-    required String boundaryLocation,
-    required String activityRemark,
-    required LoginDataModel userData,
-    required File file,
-    required String groundType,
-    required WeatherModel weatherData,
-    required String chainageFrom,
-    required String chainageTo,
-    required String chainage,
-    required String machiney,
-    required String details,
-    required String manpower,
-    required TerrainTypeModel terrainTypeData,
-    required String gapLength,
-    required String gapDescription,
-  }) async {
-    try {
-      var location = await LocationHelper.getLocation(context: context);
-      LocationModel locationData = LocationModel();
-      if (location != null) {
-        locationData = location;
-      } else {
-        return null;
-      }
-
-      List<dynamic> alignmentIdList = [];
-      for (var alignmentId in multipleAlignmentData) {
-        alignmentIdList.add(alignmentId.id);
-      }
-
-      String url = APIs.addCGinsertApi;
-      var json = {
-        "schema": userData.schema.toString(),
-        "spread_id": userData.spreadId.toString(),
-        "section_id": userData.sectionId.toString(),
-        "chainage_from": chainageFrom,
-        "chainage_to": chainageTo,
-        "chainage": chainage,
-        "report_no": reportNumber.toString(),
-        "activity_date": date.toString(),
-        "tp_ip_from": tpIpChainage.toString(),
-        "tp_ip_to": tpIpNOS.toString(),
-        "ip_no_from": ipNumber.toString(),
-        "ip_no_to": ipNumberFrom.toString(),
-        "ground_type": groundType.toString(),
-        "structure_detail": structureDetail.toString(),
-        "boundary_location": boundaryLocation.toString(),
-        "gap_length": gapLength.toString(),
-        "gap_description": gapDescription.toString(),
-        "activity_remarks": activityRemark,
-        "latitude": locationData.lat.toString(),
-        "longitude": locationData.long.toString(),
-        "user_id": userData.userId.toString(),
-        // "alignment_sheet_id": alignmentData.id.toString(),
-        "alignment_sheet_id":  alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
-        "weather": weatherData.id != null ? weatherData.id.toString() : "",
-        "terrain_id": terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
-        "machiney": machiney.isNotEmpty ? machiney.toString() : "",
-        "manpower": manpower.isNotEmpty ? manpower.toString() : "",
-        "details": details.isNotEmpty ? details.toString() : "",
-      };
-      var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-        imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
-      );
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        SnackBarSuccessWidget(!context.mounted ? context : context)
-            .show(message: res['data']);
-        return res;
-      } else if (res != null &&
-          res['success'] != null &&
-          res['success'] == 415 &&
-          res['data'] != null) {
-        SnackBarErrorWidget(!context.mounted ? context : context)
-            .show(message: res['data']);
-        return null;
-      } else if (res != null &&
-          res['success'] != null &&
-          res['success'] == 400 &&
-          res['data'] != null) {
-        String resPonse = res['data'].toString();
-        SnackBarErrorWidget(!context.mounted ? context : context).show(
-            message: resPonse.replaceAll("{", "").toString()
-              ..replaceAll("}", ""));
-        return null;
-      } else {
-        SnackBarErrorWidget(!context.mounted ? context : context)
-            .show(message: "Internal Server Error");
-        return null;
-      }
-    } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context)
-          .show(message: e.toString());
-      return null;
-    }
-  }
+  // static Future<dynamic> submitData({
+  //   required BuildContext context,
+  //   required AlignmentModel alignmentData,
+  //   required List<AlignmentModel> multipleAlignmentData,
+  //   required String reportNumber,
+  //   required String date,
+  //   required String tpIpChainage,
+  //   required String ipNumber,
+  //   required String ipNumberFrom,
+  //   required String tpIpNOS,
+  //   required String tpIpRemark,
+  //   required String structureDetail,
+  //   required String boundaryLocation,
+  //   required String activityRemark,
+  //   required LoginDataModel userData,
+  //   required File file,
+  //   required String groundType,
+  //   required WeatherModel weatherData,
+  //   required String chainageFrom,
+  //   required String chainageTo,
+  //   required String chainage,
+  //   required String machiney,
+  //   required String details,
+  //   required String manpower,
+  //   required TerrainTypeModel terrainTypeData,
+  //   required String gapLength,
+  //   required String gapDescription,
+  // }) async {
+  //   try {
+  //     var location = await LocationHelper.getLocation(context: context);
+  //     LocationModel locationData = LocationModel();
+  //     if (location != null) {
+  //       locationData = location;
+  //     } else {
+  //       return null;
+  //     }
+  //
+  //     List<dynamic> alignmentIdList = [];
+  //     for (var alignmentId in multipleAlignmentData) {
+  //       alignmentIdList.add(alignmentId.id);
+  //     }
+  //
+  //     String url = APIs.addCGinsertApi;
+  //     var json = {
+  //       "schema": userData.schema.toString(),
+  //       "spread_id": userData.spreadId.toString(),
+  //       "section_id": userData.sectionId.toString(),
+  //       "chainage_from": chainageFrom,
+  //       "chainage_to": chainageTo,
+  //       "chainage": chainage,
+  //       "report_no": reportNumber.toString(),
+  //       "activity_date": date.toString(),
+  //       "tp_ip_from": tpIpChainage.toString(),
+  //       "tp_ip_to": tpIpNOS.toString(),
+  //       "ip_no_from": ipNumber.toString(),
+  //       "ip_no_to": ipNumberFrom.toString(),
+  //       "ground_type": groundType.toString(),
+  //       "structure_detail": structureDetail.toString(),
+  //       "boundary_location": boundaryLocation.toString(),
+  //       "gap_length": gapLength.toString(),
+  //       "gap_description": gapDescription.toString(),
+  //       "activity_remarks": activityRemark,
+  //       "latitude": locationData.lat.toString(),
+  //       "longitude": locationData.long.toString(),
+  //       "user_id": userData.userId.toString(),
+  //       // "alignment_sheet_id": alignmentData.id.toString(),
+  //       "alignment_sheet_id":  alignmentIdList.toString().replaceAll("[", "").toString().replaceAll("]", ""),
+  //       "weather": weatherData.id != null ? weatherData.id.toString() : "",
+  //       "terrain_id": terrainTypeData.id != null ? terrainTypeData.id.toString() : "",
+  //       "machiney": machiney.isNotEmpty ? machiney.toString() : "",
+  //       "manpower": manpower.isNotEmpty ? manpower.toString() : "",
+  //       "details": details.isNotEmpty ? details.toString() : "",
+  //     };
+  //     var res = await ServerRequest.postDataWithFile(
+  //         urlEndPoint: url,
+  //         body: json,
+  //       imageRequestObject: [ImageRequestObject(key: "attach_file",path: file.path.toString())],
+  //     );
+  //     if (res != null &&
+  //         res['success'] != null &&
+  //         res['success'] == 200 &&
+  //         res['data'] != null) {
+  //       SnackBarSuccessWidget(!context.mounted ? context : context)
+  //           .show(message: res['data']);
+  //       return res;
+  //     } else if (res != null &&
+  //         res['success'] != null &&
+  //         res['success'] == 415 &&
+  //         res['data'] != null) {
+  //       SnackBarErrorWidget(!context.mounted ? context : context)
+  //           .show(message: res['data']);
+  //       return null;
+  //     } else if (res != null &&
+  //         res['success'] != null &&
+  //         res['success'] == 400 &&
+  //         res['data'] != null) {
+  //       String resPonse = res['data'].toString();
+  //       SnackBarErrorWidget(!context.mounted ? context : context).show(
+  //           message: resPonse.replaceAll("{", "").toString()
+  //             ..replaceAll("}", ""));
+  //       return null;
+  //     } else {
+  //       SnackBarErrorWidget(!context.mounted ? context : context)
+  //           .show(message: "Internal Server Error");
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     SnackBarErrorWidget(!context.mounted ? context : context)
+  //         .show(message: e.toString());
+  //     return null;
+  //   }
+  // }
 }

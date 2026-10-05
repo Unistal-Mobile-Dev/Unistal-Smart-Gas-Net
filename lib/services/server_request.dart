@@ -13,7 +13,6 @@ import 'package:mime/mime.dart';
 class ServerRequest {
   static final Dio _dio = Dio();
 
-
   static final Map<String, dynamic> header = {
     "Content-Type": "application/x-www-form-urlencoded",
   };
@@ -149,12 +148,19 @@ class ServerRequest {
   static Future<dynamic> getData({
     required String urlEndPoint,
     Map<String, dynamic>? headers,
+    bool showNoInternetPopup = true,
   }) async {
     try {
-      final context = AppNavigator.navigatorKey.currentContext;
-      if (context != null) {
-        if (await ConnectivityHelper.allConnectivityCheck(context: context) ==
-            false) {
+      if (showNoInternetPopup) {
+        final context = AppNavigator.navigatorKey.currentContext;
+        if (context != null &&
+            await ConnectivityHelper.allConnectivityCheck(context: context) ==
+                false) {
+          return null;
+        }
+      } else {
+        // Silent check, koi popup nahi
+        if (!await ConnectivityHelper.checkInterNetConnect()) {
           return null;
         }
       }
@@ -217,7 +223,6 @@ class ServerRequest {
         key: PreferencesName.baseUrl,
       );
 
-      // merge static header + custom header for the temp client
       final mergedHeaders = <String, dynamic>{...header};
       if (headers != null) mergedHeaders.addAll(headers);
 
@@ -237,36 +242,46 @@ class ServerRequest {
   }
 
   // ================= POST WITH FILE =================
+  // throwOnNetworkError = true  -> net ki problem par DioException throw hogi
+  //                               (offline sync ise use karta hai)
+  // throwOnNetworkError = false -> purana behaviour (baaki screens ke liye)
   static Future<dynamic> postDataWithFile({
     required String urlEndPoint,
     required Map<String, dynamic> body,
     required List<ImageRequestObject> imageRequestObject,
     Map<String, dynamic>? headers,
+    bool throwOnNetworkError = false,
   }) async {
     try {
       final formData = FormData.fromMap(body);
+
       for (var element in imageRequestObject) {
-        if (element.path!.isNotEmpty && !element.path!.startsWith("http")) {
-          final mimeTypeData =
-          lookupMimeType(element.path!, headerBytes: [0xFF, 0xD8])
-              ?.split('/');
-          if (mimeTypeData != null && mimeTypeData.length == 2) {
-            formData.files.add(
-              MapEntry(
-                element.key!,
-                await MultipartFile.fromFile(
-                  element.path!,
-                  contentType: DioMediaType(mimeTypeData[0], mimeTypeData[1]),
-                ),
-              ),
-            );
-          }
-        } else {
-          body[element.key!] = element.path;
+        final path = element.path ?? "";
+        final key = element.key ?? "";
+        if (path.isEmpty || key.isEmpty) continue;
+
+        // Already server pe hai (http url) -> sirf text field bhejo
+        if (path.startsWith("http")) {
+          formData.fields.add(MapEntry(key, path));
+          continue;
         }
+
+        // Extension se sahi type nikalo (.pdf, .jpg, .png, .doc)
+        final mime = lookupMimeType(path)?.split('/');
+
+        formData.files.add(
+          MapEntry(
+            key,
+            await MultipartFile.fromFile(
+              path,
+              contentType: (mime != null && mime.length == 2)
+                  ? DioMediaType(mime[0], mime[1])
+                  : null, // type na mile to bhi file jayegi
+            ),
+          ),
+        );
       }
 
-      // start with multipart content type, then layer custom headers on top
       final fileHeaders = <String, dynamic>{
         "Content-Type": "multipart/form-data",
       };
@@ -279,11 +294,23 @@ class ServerRequest {
       );
       return response.data;
     } on DioException catch (e) {
+      // Net ki problem hai aur caller ne maanga hai -> throw karo
+      if (throwOnNetworkError && _isNetworkError(e)) rethrow;
       return _handleException(e);
     }
   }
 
-  // ================= COOKIE (like old updateCookie) =================
+  // ================= NETWORK ERROR CHECK =================
+  // Ye error internet ki wajah se aaya ya nahi?
+  static bool _isNetworkError(DioException e) {
+    return e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.sendTimeout ||
+        e.type == DioExceptionType.receiveTimeout ||
+        e.type == DioExceptionType.connectionError ||
+        (e.type == DioExceptionType.unknown && e.error is SocketException);
+  }
+
+  // ================= COOKIE =================
   static void updateCookie(Response response) {
     final rawCookie = response.headers.value('set-cookie');
     if (rawCookie != null) {
@@ -311,9 +338,12 @@ class ServerRequest {
   }
 
   // ================= FILE COMPRESS =================
+  // FIX: PNG / non-jpg file par crash nahi hoga, original path wapas milega
   static Future<String> fileCompress({required File file}) async {
     final filePath = file.path;
-    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    final lastIndex = filePath.toLowerCase().lastIndexOf(RegExp(r'\.jp'));
+    if (lastIndex == -1) return filePath;
+
     final splitted = filePath.substring(0, lastIndex);
     final outPath = '${splitted}_out${filePath.substring(lastIndex)}';
     final result = await FlutterImageCompress.compressAndGetFile(
@@ -321,14 +351,14 @@ class ServerRequest {
       outPath,
       quality: 70,
     );
-    return result!.path;
+    return result?.path ?? filePath;
   }
 }
 
 class ImageRequestObject {
-  String? name;   // display label for the UI
-  String? key;    // multipart form field key
-  String? path;   // local file path or existing http url
+  String? name; // display label for the UI
+  String? key; // multipart form field key
+  String? path; // local file path or existing http url
 
   ImageRequestObject({this.name, this.key, this.path});
 }

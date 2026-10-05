@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/phone_home_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/tablet_home_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

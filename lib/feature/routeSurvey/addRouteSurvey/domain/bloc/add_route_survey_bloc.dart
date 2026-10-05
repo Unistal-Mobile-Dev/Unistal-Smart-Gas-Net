@@ -1,27 +1,17 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 part 'add_route_survey_event.dart';
+
 part 'add_route_survey_state.dart';
 
-class AddRouteSurveyBloc
-    extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> {
-  bool _isLoader = false;
+class AddRouteSurveyBloc extends Bloc<AddRouteSurveyEvent, AddRouteSurveyState> {
 
+  bool _isLoader = false;
   bool get isLoader => _isLoader;
 
   List<AlignmentModel> alignmentList = [];
   AlignmentModel alignmentData = AlignmentModel();
-  List<AlignmentModel> multipleAlignmentData =  [];
+  List<AlignmentModel> multipleAlignmentData = [];
 
   TextEditingController dateController = TextEditingController();
   TextEditingController reportNumberController = TextEditingController();
@@ -34,26 +24,25 @@ class AddRouteSurveyBloc
   TextEditingController chainageFromController = TextEditingController();
   TextEditingController chainageToController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
-  TextEditingController structureController= TextEditingController();
-  TextEditingController chainageController= TextEditingController();
-  TextEditingController detailController= TextEditingController();
+  TextEditingController structureController = TextEditingController();
+  TextEditingController chainageController = TextEditingController();
+  TextEditingController detailController = TextEditingController();
 
   LoginDataModel _userData = LoginDataModel();
-
   LoginDataModel get userData => _userData;
 
   File file = File("");
 
-  List<WeatherModel> _weatherList = [];
 
-  List<WeatherModel> get weatherList => _weatherList;
-
-  WeatherModel _weatherData = WeatherModel();
-
-  WeatherModel get weatherData => _weatherData;
+  WeatherModel weatherData = WeatherModel();
+  List<WeatherModel> weatherList = [];
 
   List<GroundTypeModel> groundTypeList = [];
   GroundTypeModel groundTypeData = GroundTypeModel();
+
+  Client get _client => AppConfig.instanceInit()!.client ?? Client.vppl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+
 
   AddRouteSurveyBloc() : super(AddRouteSurveyInitial()) {
     on<AddRouteSurveyPageLoadEvent>(_pageLoadEvent);
@@ -79,28 +68,39 @@ class AddRouteSurveyBloc
     chainageFromController.text = "";
     chainageToController.text = "";
     lengthController.text = "";
-    structureController= TextEditingController();
-    chainageController= TextEditingController();
-    detailController= TextEditingController();
+    structureController = TextEditingController();
+    chainageController = TextEditingController();
+    detailController = TextEditingController();
     _isLoader = false;
     alignmentList = [];
     file = File("");
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
-    _weatherData = WeatherModel();
+    weatherData = WeatherModel();
     groundTypeList = [];
     groundTypeData = GroundTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData();
-    _userData = UserInfo.instanceInit()!.userData!;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData();
-    if (res != null) {
-      alignmentList = res;
-    }
-
-    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData();
-    if (res != null) {
-      groundTypeList = groundTypeRes;
+    if(_isURJAGATI){
+      if (await ConnectivityHelper.checkInterNetConnect()) {
+        weatherList = await DashboardHelper.fetchWeatherData();
+        alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+        groundTypeList = await AddRouteSurveyHelper.fetchGroundTypeData();
+      } else {
+        weatherList = HiveDataBase.weatherBox!.values.toList();
+        alignmentList = HiveDataBase.alignmentBox!.values.toList();
+        groundTypeList = HiveDataBase.groundTypeBox!.values.toList();
+        if (event.context.mounted) {
+          showDialog(
+            context: event.context,
+            barrierDismissible: true,
+            builder: (_) => const OfflineConnectivityPopWidget(),
+          );
+        }
+      }
+    }else{
+      weatherList = await DashboardHelper.fetchWeatherData();
+      alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+      groundTypeList = await AddRouteSurveyHelper.fetchGroundTypeData();
     }
 
     _eventComplete(emit);
@@ -111,11 +111,11 @@ class AddRouteSurveyBloc
     _eventComplete(emit);
   }
 
-  _selectMultipleAlignment(AddRouteSurveyMultipleSelectAlignmentEvent event, emit) {
+  _selectMultipleAlignment(
+      AddRouteSurveyMultipleSelectAlignmentEvent event, emit) {
     multipleAlignmentData = event.alignmentData;
     _eventComplete(emit);
   }
-
 
   _selectGroundType(AddRouteSurveySelectGroundTypeEvent event, emit) {
     groundTypeData = event.groundTypeData;
@@ -123,33 +123,42 @@ class AddRouteSurveyBloc
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData = event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
   _calculateChainage(CalculateLengthEvent event, emit) {
-    bool isChainageTo =  event.isChainageTo;
-    String value =  event.value;
+    bool isChainageTo = event.isChainageTo;
+    String value = event.value;
 
-    if(value.isEmpty) {
+    if (value.isEmpty) {
       lengthController.text = "";
-    } else if(isChainageTo == true && value.isNotEmpty && chainageFromController.text.toString().isNotEmpty){
-      double chainageTo =  double.parse(value.toString());
-      double chainageFrom =  double.parse(chainageFromController.text.toString());
-      if(chainageTo < chainageFrom){
+    } else if (isChainageTo == true &&
+        value.isNotEmpty &&
+        chainageFromController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(value.toString());
+      double chainageFrom =
+          double.parse(chainageFromController.text.toString());
+      if (chainageTo < chainageFrom) {
         lengthController.text = "";
-        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
-      }else {
+        SnackBarErrorWidget(event.context).show(
+            message:
+                "Chainage TO must be greater than or equal to Chainage FROM");
+      } else {
         lengthController.text = "${chainageTo - chainageFrom}";
       }
-    } else if(isChainageTo == false && value.isNotEmpty && chainageToController.text.toString().isNotEmpty){
-      double chainageTo =  double.parse(chainageToController.text.toString());
-      double chainageFrom =  double.parse(value);
-      if(chainageTo < chainageFrom){
+    } else if (isChainageTo == false &&
+        value.isNotEmpty &&
+        chainageToController.text.toString().isNotEmpty) {
+      double chainageTo = double.parse(chainageToController.text.toString());
+      double chainageFrom = double.parse(value);
+      if (chainageTo < chainageFrom) {
         lengthController.text = "";
-        SnackBarErrorWidget(event.context).show(message: "Chainage TO must be greater than or equal to Chainage FROM");
-      }else {
-        lengthController.text =  "${chainageTo - chainageFrom}";
+        SnackBarErrorWidget(event.context).show(
+            message:
+                "Chainage TO must be greater than or equal to Chainage FROM");
+      } else {
+        lengthController.text = "${chainageTo - chainageFrom}";
       }
     }
     _eventComplete(emit);
@@ -175,12 +184,12 @@ class AddRouteSurveyBloc
 
   _selectFile(AddRouteSurveyAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
@@ -192,9 +201,8 @@ class AddRouteSurveyBloc
   _submitData(AddRouteSurveySubmitDataEvent event, emit) async {
     _isLoader = true;
     _eventComplete(emit);
-    var res = await AddRouteSurveyHelper.submitData(
+    bool done = await RecordHelper.submitRouteSurvey(
       context: event.context,
-      alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
@@ -216,7 +224,7 @@ class AddRouteSurveyBloc
     );
     _isLoader = false;
     _eventComplete(emit);
-    if (res != null) {
+    if (done) {
       dateController.text = "";
       reportNumberController.text = "";
       tpChainageController.text = "";
@@ -228,10 +236,10 @@ class AddRouteSurveyBloc
       chainageToController.text = "";
       lengthController.text = "";
       _isLoader = false;
-      alignmentData =  AlignmentModel();
+      alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       file = File("");
-      _weatherData = WeatherModel();
+      weatherData = WeatherModel();
       groundTypeData = GroundTypeModel();
       _eventComplete(emit);
     }

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/model/hindrance_category_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/activity_section_model.dart';
 
 abstract class AddHindranceState extends Equatable {
   const AddHindranceState();

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/home/domain/bloc/home_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/widget/home_drawer_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_bar_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class PhoneHomeWidget extends StatefulWidget {
   const PhoneHomeWidget({super.key});

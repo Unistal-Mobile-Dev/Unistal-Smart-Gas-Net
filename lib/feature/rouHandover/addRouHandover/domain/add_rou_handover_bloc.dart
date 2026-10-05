@@ -1,14 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/helper/add_rou_handover_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 part 'add_rou_handover_event.dart';
 part 'add_rou_handover_state.dart';
 
@@ -39,15 +30,13 @@ class AddRouHandoverBloc
 
   LoginDataModel get userData => _userData;
 
-  List<WeatherModel> _weatherList = [];
-
-  List<WeatherModel> get weatherList => _weatherList;
-
-  WeatherModel _weatherData = WeatherModel();
-
-  WeatherModel get weatherData => _weatherData;
+  List<WeatherModel> weatherList = [];
+  WeatherModel weatherData = WeatherModel();
 
   File file = File("");
+
+  Client get _client => AppConfig.instanceInit()!.client ?? Client.vppl;
+  bool get _isURJAGATI => _client == Client.urjagati;
 
   AddRouHandoverBloc() : super(AddRouHandoverInitial()) {
     on<AddRouHandoverLoadEvent>(_pageLoadEvent);
@@ -73,7 +62,7 @@ class AddRouHandoverBloc
     activityRemarkController.text = "";
     _isLoader = false;
     file = File("");
-    _weatherData = WeatherModel();
+    weatherData = WeatherModel();
     chainageFromController.text = "";
     chainageToController.text = "";
     lengthController.text = "";
@@ -81,16 +70,30 @@ class AddRouHandoverBloc
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData();
-    var res = await AddRouteSurveyHelper.fetchAlignmentData();
-    if (res != null) {
-      alignmentList = res;
+    if(_isURJAGATI){
+      if (await ConnectivityHelper.checkInterNetConnect()) {
+        weatherList = await DashboardHelper.fetchWeatherData();
+        alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+      } else {
+        weatherList = HiveDataBase.weatherBox!.values.toList();
+        alignmentList = HiveDataBase.alignmentBox!.values.toList();
+        if (event.context.mounted) {
+          showDialog(
+            context: event.context,
+            barrierDismissible: true,
+            builder: (_) => const OfflineConnectivityPopWidget(),
+          );
+        }
+      }
+    }else{
+      weatherList = await DashboardHelper.fetchWeatherData();
+      alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
     }
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData = event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -151,12 +154,12 @@ class AddRouHandoverBloc
 
   _selectFile(AddRouHandoverAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
@@ -181,9 +184,8 @@ class AddRouHandoverBloc
     }*/
     _isLoader = true;
     _eventComplete(emit);
-    var res = await AddRouHandover.submitData(
+    bool done = await RecordHelper.submitRouHandover(
         context: event.context,
-        alignmentData: alignmentData,
         multipleAlignmentData: multipleAlignmentData,
         reportNumber: reportNumberController.text.toString(),
         tenderNo: tenderNoController.text.toString(),
@@ -191,8 +193,6 @@ class AddRouHandoverBloc
         typeofGround: typeofGroundController.text.toString(),
         tpIpNOS: tpChainageNumberController.text.toString(),
         tpIpRemark: tpRemarkController.text.toString(),
-        bearing: bearingAngleController.text.toString(),
-        terrain: terrainController.text.toString(),
         activityRemark: activityRemarkController.text.toString(),
         userData: userData,
         file: file,
@@ -202,7 +202,7 @@ class AddRouHandoverBloc
         weatherData: weatherData);
     _isLoader = false;
     _eventComplete(emit);
-    if (res != null) {
+    if (done) {
       dateController.text = "";
       reportNumberController.text = "";
       tenderNoController.text = "";
@@ -220,7 +220,7 @@ class AddRouHandoverBloc
       chainageToController.text = "";
       lengthController.text = "";
       file = File("");
-      _weatherData = WeatherModel();
+      weatherData = WeatherModel();
       _eventComplete(emit);
     }
   }

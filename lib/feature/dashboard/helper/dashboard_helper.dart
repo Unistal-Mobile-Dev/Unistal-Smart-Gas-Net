@@ -1,21 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/domain/model/lpt_status_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/domain/model/marker_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/aut_status_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/defect_layer_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/domain/model/defect_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_batch_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/electrode_dia_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/welder_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/wps_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 
 class DashboardHelper {
 
@@ -25,16 +10,18 @@ class DashboardHelper {
     try {
       String url = APIs.getWeatherApi + "?schema=${userData!.schema}";
       var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null &&
-          res['success'] != null &&
-          res['success'] == 200 &&
-          res['data'] != null) {
-        return weatherListResponse(res['data']);
+      if (res != null && res['success'] != null && res['success'] == 200 && res['data'] != null) {
+        final List<WeatherModel> weatherList = weatherListResponse(res['data']);
+        if (HiveDataBase.weatherBox != null && HiveDataBase.weatherBox!.isOpen) {
+          await HiveDataBase.weatherBox!.clear();
+          await HiveDataBase.weatherBox!.addAll(weatherList);
+        }
+        return weatherList;
       } else {
-        return null;
+        return [];
       }
     } catch (e) {
-      return null;
+      return [];
     }
   }
 
@@ -321,7 +308,15 @@ class DashboardHelper {
           res['success'] != null &&
           res['success'] == 200 &&
           res['data'] != null) {
-        return terrainListResponse(res['data']);
+      //  return terrainListResponse(res['data']);
+        if (res != null && res['success'] == 200 && res['data'] != null) {
+          final List<TerrainTypeModel> terrainTypeList = terrainListResponse(res['data']);
+          if (HiveDataBase.terrainTypeBox != null && HiveDataBase.terrainTypeBox!.isOpen && terrainTypeList.isNotEmpty) {
+            await HiveDataBase.terrainTypeBox!.clear();
+            await HiveDataBase.terrainTypeBox!.addAll(terrainTypeList);
+          }
+          return terrainTypeList;
+        }
       } else {
         return null;
       }

@@ -1,16 +1,5 @@
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/editHindrance/helper/edit_hindrance_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/presentation/page/view_hindrance_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/widget/phone_dashboard_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 import 'edit_hindrance_event.dart';
 import 'edit_hindrance_state.dart';
 
@@ -67,7 +56,7 @@ class EditHindranceBloc extends Bloc<EditHindranceEvent, EditHindranceState> {
     resolutionNotesCtrl = TextEditingController();
 
     _userData = UserInfo.instanceInit()!.userData!;
-     hindranceListData = await  AppConfig.instanceInit()!.hindranceListData;
+     hindranceListData = AppConfig.instanceInit()!.hindranceListData;
     hindranceId =  hindranceListData.id.toString();
     dateCtrl.text = hindranceListData.fromDate.toString();
     hindranceCategoryCtrl.text = hindranceListData.hindranceCategoryName.toString();

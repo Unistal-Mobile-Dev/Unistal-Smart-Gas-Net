@@ -10,6 +10,7 @@ class SearchTextField extends StatelessWidget {
   final TextEditingController? controller;
   final int? maxLines;
   final bool? isLoader;
+  final Widget? suffixIcon;
 
   const SearchTextField(
       {super.key,
@@ -20,7 +21,9 @@ class SearchTextField extends StatelessWidget {
       this.maxLines,
       this.isLoader,
       required this.list,
-      this.controller});
+      this.controller,
+      this.suffixIcon,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class SearchTextField extends StatelessWidget {
             labelText: label,
             isRequired: true,
             controller: controller,
+            suffixIcon: suffixIcon,
             onChanged: (keyWord) {
               onChange.call(keyWord);
             }),

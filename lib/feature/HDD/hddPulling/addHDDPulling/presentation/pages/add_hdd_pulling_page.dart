@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/domain/bloc/add_hdd_pulling_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/widget/dotted_border_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddHddPullingPage extends StatefulWidget {
   const AddHddPullingPage({super.key});
@@ -23,11 +15,6 @@ class _AddHddPullingPageState extends State<AddHddPullingPage> {
   bool get _isVPPL => _client == Client.vppl;
   bool get _isVRPL => _client == Client.vrpl;
   bool get _isBJPL => _client == Client.bjpl;
-  bool get _isHPCL => _client == Client.hpcl;
-  bool get _isHPOIL => _client == Client.hpoil;
-  bool get _isGJPL => _client == Client.gjpl;
-  bool get _isURJAGATI => _client == Client.urjagati;
-  bool get _isMGL => _client == Client.mgl;
 
   @override
   void initState() {

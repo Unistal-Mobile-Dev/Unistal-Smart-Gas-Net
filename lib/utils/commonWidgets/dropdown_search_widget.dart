@@ -1,8 +1,6 @@
-import 'package:dropdown_search/dropdown_search.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
-import 'input_decoration_style.dart';
 
 class DropDownSearchWidget<T> extends StatelessWidget {
   final List<T> items;
@@ -36,7 +34,7 @@ class DropDownSearchWidget<T> extends StatelessWidget {
         ? theme.colorScheme.surfaceContainerHighest
         : Colors.white;
     final disabledFill = isDark
-        ? theme.colorScheme.surfaceContainerHighest.withOpacity(0.4)
+        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.4)
         : Colors.grey.shade100;
 
     return DropdownSearch<T>(
@@ -79,7 +77,7 @@ class DropDownSearchWidget<T> extends StatelessWidget {
               ),
             ),
             tileColor: isSelected
-                ? primaryColor.withOpacity(isDark ? 0.2 : 0.08) // ✅
+                ? primaryColor.withValues(alpha:isDark ? 0.2 : 0.08) // ✅
                 : Colors.transparent,
             trailing: isSelected
                 ? Icon(Icons.check, color: primaryColor, size: 18)

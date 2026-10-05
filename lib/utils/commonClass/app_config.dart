@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/domain/model/HindranceListModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AppConfig {
   static AppConfig? instance;
@@ -53,7 +49,7 @@ class AppConfig {
   }
 
   setLoginData({required LoginDataModel newLoginData}) {
-    this.loginData = newLoginData;
+    loginData = newLoginData;
   }
 
   void setDashboardLink({required String link}) {

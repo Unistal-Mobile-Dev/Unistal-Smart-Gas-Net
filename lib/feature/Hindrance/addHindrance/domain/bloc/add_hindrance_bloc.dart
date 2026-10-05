@@ -1,15 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/domain/model/hindrance_category_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/helper/add_hindrance_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 import 'add_hindrance_event.dart';
 import 'add_hindrance_state.dart';
 
@@ -176,7 +166,7 @@ class AddHindranceBloc extends Bloc<AddHindranceEvent, AddHindranceState> {
 
   _selectCameraCapture(SelectCameraCaptureEvent event, emit) async {
     var photoPath = await DashboardHelper.cameraCapture();
-    log("photo-->${photoPath}");
+    log("photo-->$photoPath");
     if (photoPath != null) {
       file = photoPath;
     }
@@ -185,7 +175,7 @@ class AddHindranceBloc extends Bloc<AddHindranceEvent, AddHindranceState> {
 
   _selectGalleryCapture(SelectGalleryCaptureEvent event, emit) async {
     var photoPath = await DashboardHelper.galleryCapture();
-    log("photo-->${photoPath}");
+    log("photo-->$photoPath");
     if (photoPath != null) {
       file = photoPath;
     }

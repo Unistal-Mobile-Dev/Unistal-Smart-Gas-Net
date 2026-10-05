@@ -23,6 +23,7 @@ class _SectionIdPageState extends State<SectionIdPage> {
 
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<SectionIdBloc>(context)
         .add(SectionIdPageLoadEvent(context: context));
 

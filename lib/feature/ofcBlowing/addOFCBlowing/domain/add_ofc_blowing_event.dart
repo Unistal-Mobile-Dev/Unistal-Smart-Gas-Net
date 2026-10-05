@@ -58,7 +58,7 @@ class SelectFromJointEvent extends AddOFCBlowingEvent {
 
 class SelectToJointEvent extends AddOFCBlowingEvent {
   final JointNumberModel toJointValue;
-  SelectToJointEvent({required this.toJointValue});
+  const SelectToJointEvent({required this.toJointValue});
   @override
   List<Object?> get props => [toJointValue];
 }

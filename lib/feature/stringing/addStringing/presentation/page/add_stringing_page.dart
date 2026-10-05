@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/domain/model/padding_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/bloc/add_stringing_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/concrete_coating_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/domain/model/pipe_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/searchTextFieldWidget/presentation/widgets/search_text_field.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddStringingPage extends StatefulWidget {
   const AddStringingPage({super.key});
@@ -168,12 +158,46 @@ class _AddStringingPageState extends State<AddStringingPage> {
                 }
               },
               onClick: (value) {
+                print("value----${dataState.searchPipeController.text}");
                 BlocProvider.of<AddStringingBloc>(context)
                     .add(AddStringingSelectPipeDataEvent(pipeData: value));
               },
               controller: dataState.searchPipeController,
               label: AppString.selectPipeNumber,
-              list: dataState.searchPipeList),
+              list: dataState.searchPipeList,
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.qr_code_scanner,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
+              ),
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+
+                final scanResult = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PipeQRScannerWidget()),
+                );
+
+                if (!mounted || scanResult == null) return;
+
+                final pipeNumber = _getPipeNumberFromQr(scanResult);
+                if (pipeNumber.isEmpty) {
+                  SnackBarErrorWidget(context).show(message: "Invalid QR code");
+                  return;
+                }
+
+                // 1. Field mein pipe number auto-fill
+                dataState.searchPipeController.text = pipeNumber;
+                dataState.searchPipeController.selection =
+                    TextSelection.collapsed(offset: pipeNumber.length);
+
+                // 2. Wahi search event jo typing par chalta hai
+                BlocProvider.of<AddStringingBloc>(context).add(
+                  AddStringingSearchPipeDataEvent(keyword: pipeNumber, context: context),
+                );
+              },
+            ),
+          ),
         ),
         ButtonWidget(
             text: AppString.add,
@@ -183,6 +207,23 @@ class _AddStringingPageState extends State<AddStringingPage> {
             })
       ],
     );
+  }
+  /// "Pipe id:12|Pipe:PN12"  →  "PN12"
+  String _getPipeNumberFromQr(dynamic data) {
+    final text = data.toString().trim();
+
+    for (final part in text.split('|')) {
+      final index = part.indexOf(':');
+      if (index == -1) continue;
+
+      final key = part.substring(0, index).trim().toLowerCase();
+      final value = part.substring(index + 1).trim();
+
+      if (key == 'pipe' && value.isNotEmpty) return value;
+    }
+
+    // Agar QR mein sirf pipe number ho, jaise "PN12"
+    return text.contains(':') ? '' : text;
   }
 
   Widget _pipeLengthListWidget({required FetchAddStringingDataState dataState,}) {

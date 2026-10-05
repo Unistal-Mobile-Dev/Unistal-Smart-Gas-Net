@@ -1,10 +1,18 @@
+import 'package:flutter_unistal_smart_gas_net/utils/HiveDatabase/hive_box_name.dart';
+import 'package:hive/hive.dart';
+part 'ground_type_model.g.dart';
+
+
 List<GroundTypeModel> groundTypeListResponse(var json) {
   return List<GroundTypeModel>.from(
       json.map((x) => GroundTypeModel.fromJson(x)));
 }
 
+@HiveType(typeId: HiveTypeId.groundTypeId)
 class GroundTypeModel {
+  @HiveField(0)
   String? id;
+  @HiveField(1)
   String? name;
 
   GroundTypeModel({this.id, this.name});

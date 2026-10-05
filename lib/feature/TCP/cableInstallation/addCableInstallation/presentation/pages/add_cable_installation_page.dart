@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/domain/bloc/add_cable_installation_bloc.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/domain/model/tlp_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/domain/model/visual_checks_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/dropdown_multiselection_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/photo_upload_widget.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class AddCableInstallationPage extends StatefulWidget {
   const AddCableInstallationPage({super.key});
@@ -22,11 +15,6 @@ class _AddCableInstallationPageState extends State<AddCableInstallationPage> {
   bool get _isVPPL => _client == Client.vppl;
   bool get _isVRPL => _client == Client.vrpl;
   bool get _isBJPL => _client == Client.bjpl;
-  bool get _isHPCL => _client == Client.hpcl;
-  bool get _isHPOIL => _client == Client.hpoil;
-  bool get _isGJPL => _client == Client.gjpl;
-  bool get _isURJAGATI => _client == Client.urjagati;
-  bool get _isMGL => _client == Client.mgl;
 
   @override
   void initState() {

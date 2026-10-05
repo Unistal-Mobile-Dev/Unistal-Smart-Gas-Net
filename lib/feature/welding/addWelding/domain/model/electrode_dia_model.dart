@@ -15,15 +15,15 @@ class ElectrodeDiaModel {
     if (json['data'] != null) {
       data = <ElectrodeDiaData>[];
       json['data'].forEach((v) {
-        data!.add(new ElectrodeDiaData.fromJson(v));
+        data!.add(ElectrodeDiaData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['error'] = this.error;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['error'] = error;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -43,9 +43,9 @@ class ElectrodeDiaData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['dia_value'] = this.diaValue;
-    data['batch_numbers'] = this.batchNumbers;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['dia_value'] = diaValue;
+    data['batch_numbers'] = batchNumbers;
     return data;
   }
   @override

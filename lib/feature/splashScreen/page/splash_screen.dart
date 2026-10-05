@@ -1,14 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/app_update_message_widget.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -77,43 +71,74 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<LoginDataModel?> _getData() async {
     try {
-      String? userJson = await SharedPreferencesUtils.getString(key: PreferencesName.userInfo?? "");
-      if (userJson != '') {
-        Map<String, dynamic> userMap = jsonDecode(userJson);
-        LoginDataModel loginModel = LoginDataModel.fromJson(userMap);
-        print("userMap-->${userMap}");
-        final appConfig = AppConfig.instanceInit();
-        if (appConfig != null) {
-          await appConfig.setLoginData(newLoginData: loginModel);
-        }
-        return loginModel;
-      }
+      final String userJson =
+      await SharedPreferencesUtils.getString(key: PreferencesName.userInfo);
+      if (userJson.isEmpty) return null;
+
+      final Map<String, dynamic> saved = jsonDecode(userJson);
+      final loginModel = loginResponse(saved['user']);   // same parser as login
+      loginModel.token = saved['token'] ?? "";
+
+      await AppConfig.instanceInit()?.setLoginData(newLoginData: loginModel);
+      AppConfig.instanceInit()?.roleType = loginModel.roleType;
+      UserInfo.instanceInit()?.userData = loginModel;
+
+      return loginModel;
     } catch (e) {
       debugPrint("Error in _getData: $e");
+      return null;
     }
-    return null;
   }
 
-  pageOpen() async {
-    String userName =
-        await SharedPreferencesUtils.getString(key: PreferencesName.userName);
-    if (userName.isEmpty) {
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.pushAndRemoveUntil(
-          !context.mounted ? context : context,
+  Future<void> pageOpen() async {
+    final String userName = await SharedPreferencesUtils.getString(key: PreferencesName.userName,);
+    final String password = await SharedPreferencesUtils.getString(key: PreferencesName.password,);
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String version = packageInfo.version;
+    final String buildNumber = packageInfo.buildNumber;
+
+    AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)",);
+    final String oldVersion = await SharedPreferencesUtils.getString(key: PreferencesName.buildNumber,);
+
+    print("newVersion -- $buildNumber");
+    print("oldVersion -- $oldVersion");
+    print("username -- $userName");
+    print("password available -- ${password.isNotEmpty}");
+
+    Timer(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+
+      if (oldVersion == buildNumber && userName.isNotEmpty && password.isNotEmpty) {
+        if (_isURJAGATI) {
+          final user = await _getData();
+          if (!mounted) return;
+
+          if (user == null) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const LoginScreenPage()),
+            );
+            return;
+          }
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const HomePage()),
+                (route) => false,
+          );
+        } else {
+          final loginBloc = BlocProvider.of<LoginBloc>(context);
+          loginBloc.add(LoginSetPasswordEvent(password: password));
+          loginBloc.add(LoginSetEmailEvent(emailId: userName));
+          loginBloc.add(LoginSubmitDataEvent(context: context, isLoginPage: false));
+        }
+      } else {
+        Navigator.pushReplacement(
+          context,
           MaterialPageRoute(builder: (_) => const LoginScreenPage()),
-          (route) => false);
-    } else {
-      String password = await SharedPreferencesUtils.getString(key: PreferencesName.password);
-      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
-          .add(LoginSetPasswordEvent(password: password));
-      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
-          .add(LoginSetEmailEvent(emailId: userName));
-      BlocProvider.of<LoginBloc>(!context.mounted ? context : context).add(
-          LoginSubmitDataEvent(
-              context: !context.mounted ? context : context,
-              isLoginPage: false));
-    }
+        );
+      }
+    });
   }
 
   @override

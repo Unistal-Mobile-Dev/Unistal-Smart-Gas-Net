@@ -1,60 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/addHindrance/presentation/page/add_hindrance_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/Hindrance/viewHindrance/presentation/page/view_hindrance_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/concreteCoating/addConcreteCoating/presentation/page/add_concrete_coating_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/crossing/addCrossing/presentation/page/add_crossing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hdpeDutTesting/addHDPEDuctTesting/presentation/page/add_hdpe_duct_testing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hdpeductLaying/addHDPEDuct/persentation/page/add_hdpe_duct_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/hydrotest/addHydrotest/presentation/page/add_hydrotest_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/jointCoating/addJointCoating/presentation/page/add_joint_coating_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/levelling/addLevelling/presentation/page/add_levelling_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lowering/addLowering/presentation/page/add_lowering_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/lpt/addLpt/presentation/page/add_lpt_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/markerInstallation/addMarkerInstallation/presentation/pages/add_marker_installation_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ndtAut/addNdtAut/presentation/page/add_ndt_aut_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ndtMut/addNdtMut/persentation/page/add_ndt_mut_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ofcBlowing/addOFCBlowing/presentation/page/add_ofc_blowing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/ofcSplicing/addOfcSplicing/persentation/page/add_ofc_splicing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/postHydrotest/addPostHydrotest/presentation/page/add_post_hydrotest_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/preHydrotest/addPreHydrotest/presentation/page/add_pre_hydrotest_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/radiography/addRadiography/persentation/page/add_radiography_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/restoration/addRestoration/presentation/page/add_restoration_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/soilResistivity/addSoilResistivity/presentation/page/add_soil_resistivity_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/tieIn/addTiein/presentation/page/add_tiein_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welderRepair/addWelderRepair/presentation/page/add_welder_repair_page.dart';
-
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-
-/* ===================== MAINLINE ===================== */
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/presentation/page/route_survey_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/rouHandover/addRouHandover/presentation/page/add_rou_handover_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/presentation/page/add_clearing_grading_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/presentation/page/add_tren_ching_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/stringing/addStringing/presentation/page/add_stringing_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/bending/addBending/presentation/page/add_bending_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/presentation/page/add_welding_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/backfilling/addBackFilling/presentation/page/add_back_filling_page.dart';
-
-/* ===================== TCP ===================== */
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/pinBrazzing/addPinBrazzing/presentation/pages/add_pin_brazzing.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/cableInstallation/addCableInstallation/presentation/pages/add_cable_installation_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/znGroundingAnode/addZnGroundingAnode/presentation/pages/add_zn_grounding_anode_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/testStationBoxs/addTestStationBoxs/presentation/pages/test_station_box_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/thermitWeld/addThermitWeld/presentation/pages/add_thermit_weld_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/surgeDiverter/addSurgeDiverter/presentation/pages/add_surge_diverter_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/ssd/addSSD/presentation/pages/add_ssd_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/polarisationCoupan/addPolarisationCoupan/presentation/pages/add_polarisation_coupan_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/TCP/sacrificialAnode/addSacrificialAnode/presentation/pages/add_sacrificial_anode_page.dart';
-
-/* ===================== HDD ===================== */
-import 'package:flutter_unistal_smart_gas_net/feature/HDD/pilotDrill/addPilotDrill/presentation/pages/add_pilot_drill_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddReaming/addHDDReaming/presentation/pages/add_hdd_reaming_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCleanPass/addHDDCleanPass/presentation/pages/add_hdd_clean_pass_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddPulling/addHDDPulling/presentation/pages/add_hdd_pulling_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/HDD/hddCrossing/addHDDCrossing/presentation/pages/add_hdd_crossing_page.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/record/presentation/widget/BackFillingRecordWidget.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/record/presentation/widget/ClearGradeRecordWidget.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/record/presentation/widget/RouHandoverRecordWidget.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/record/presentation/widget/RouteSurveyRecordWidget.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/record/presentation/widget/TrenchingRecordWidget.dart';
 
 class HomeHelper {
   /* ===================== API ===================== */
@@ -62,6 +12,10 @@ class HomeHelper {
   static Future<List<ActivitySectionData>?> activityBySectionApi({
     required LoginDataModel userData,
   }) async {
+
+    if (!await ConnectivityHelper.checkInterNetConnect()) {
+      return _loadFromHive();
+    }
     try {
       String url = APIs.activityBySection;
       Map<String, String> para = {
@@ -71,22 +25,35 @@ class HomeHelper {
       };
 
       String json = Uri(queryParameters: para).query;
-      var res = await ServerRequest.getData(urlEndPoint: url + json);
+      var res = await ServerRequest.getData(urlEndPoint: url + json, showNoInternetPopup: false,);
 
-      if (res != null && res['success'] == 200 && res['data'] != null) {
-        final list = (res['data'] as List)
+      if (res != null && res['success'] == 200 && res['error'] == false && res['data'] != null) {
+        List<ActivitySectionData> list = (res['data'] as List)
             .map((e) => ActivitySectionData.fromJson(e))
             .toList();
-
-        AppConfig.instanceInit()
-            ?.setListActivityData(newListOfActivitySection: list);
-
+        AppConfig.instanceInit()?.setListActivityData(newListOfActivitySection: list);
+        if (HiveDataBase.activitySectionBox != null && HiveDataBase.activitySectionBox!.isOpen) {
+          await HiveDataBase.activitySectionBox!.clear();
+          await HiveDataBase.activitySectionBox!.addAll(list);
+        }
         return list;
       }
-      return null;
-    } catch (_) {
-      return null;
+      // API ne galat response diya → Hive se
+      return _loadFromHive();
+    } catch (e) {
+      debugPrint("activityBySectionApi error: $e");
+      // Error aaya → Hive se
+      return _loadFromHive();
     }
+  }
+
+  static List<ActivitySectionData>? _loadFromHive() {
+    final box = HiveDataBase.activitySectionBox;
+    if (box == null || !box.isOpen || box.isEmpty) return null;
+
+    final cached = box.values.toList();
+    AppConfig.instanceInit()?.setListActivityData(newListOfActivitySection: cached);
+    return cached;
   }
 
   /* ===================== DRAWER ===================== */
@@ -96,7 +63,14 @@ class HomeHelper {
   }) async {
     try {
       final drawerList = <DrawerModel>[];
-      final activities = AppConfig.instanceInit()?.listOfActivitySection ?? [];
+      List<ActivitySectionData> activities =
+          AppConfig.instanceInit()?.listOfActivitySection ?? [];
+
+    // 2. Khaali ho to Hive se lo (offline case)
+      if (activities.isEmpty) {
+        activities = _loadFromHive() ?? [];
+        debugPrint("fetchDrawerList: loaded ${activities.length} from Hive");
+      }
 
       // final activeActivities = activities.where((e) => e.status == "1" || e.status == "0").toList();
       final activeActivities =
@@ -206,6 +180,40 @@ class HomeHelper {
               page: const ViewHindrancePage(),
               activityData:ActivitySectionData(),
             ),
+          ],
+        ),
+      );
+      drawerList.add(
+        _groupItem(
+          label: "Records",
+          icon: Icons.cloud_upload_outlined,
+          sublist: [
+            _sub(
+              label: "ROUTE SURVEY",
+              page: const RouteSurveyRecordWidget(),
+              activityData: ActivitySectionData(),
+            ),
+            _sub(
+              label: "ROU HANDOVER",
+              page: const RouHandoverRecordWidget(),
+              activityData: ActivitySectionData(),
+            ),
+            _sub(
+              label: "CLEARING AND GRADING",
+              page: const ClearGradeRecordWidget(),
+              activityData: ActivitySectionData(),
+            ),
+            _sub(
+              label: "TRENCHING",
+              page: const TrenchingRecordWidget(),
+              activityData: ActivitySectionData(),
+            ),
+            _sub(
+              label: "BACKFILLING",
+              page: const BackFillingRecordWidget(),
+              activityData: ActivitySectionData(),
+            ),
+
           ],
         ),
       );

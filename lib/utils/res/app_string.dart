@@ -1,13 +1,14 @@
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
-
-import 'enums.dart';
-
 class AppString {
   static get appName => "Smart Gas Net";
 
   static String companyName = "© Unistal Systems Pvt. Ltd.";
 
   static get googleApiKey => "AIzaSyAiFoe5ZuDbEVu0B3wyCrQsODy0lFQTxZ0";
+
+
+  static get formSaveMessage =>
+      "Form is saved in mobile successfully. Are you in a good internet area then UPLOAD NOW or SAVE. If saved, goto record send click on upload icon when you are in a good Internet Zone";
+
 
   static get name => "Name";
 

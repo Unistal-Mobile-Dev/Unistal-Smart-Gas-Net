@@ -1,14 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/dashboard/presentation/page/dashboard_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/helper/home_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -34,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<Widget> get pageWidgetList => _pageWidgetList;
 
-  LoginDataModel _userData = UserInfo.instance!.userData!;
+  LoginDataModel _userData = LoginDataModel();
 
   LoginDataModel get userData => _userData;
 
@@ -68,6 +59,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<ActivitySectionData> _listFilterActivityData = [];
   List<ActivitySectionData> get listFilterActivityData => _listFilterActivityData;
 
+  Client get _client => AppConfig.instanceInit()!.client ?? Client.vppl;
+  bool get _isURJAGATI => _client == Client.urjagati;
+
   HomeBloc() : super(HomeInitial()) {
     on<HomePageLoadEvent>(_pageLoad);
     on<HomeDrawerItemSelectedEvent>(_drawerItemSelected);
@@ -90,12 +84,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _title = "Dashboard";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
-    _listActivityData = await HomeHelper.activityBySectionApi(userData: userData) ?? [];
-    _drawerList = (await HomeHelper.fetchDrawerList(context: event.context))!;
+    if (_isURJAGATI) {
+      if (await ConnectivityHelper.checkInterNetConnect()) {
+        _listActivityData =
+            await HomeHelper.activityBySectionApi(userData: userData) ?? [];
 
-    // HomeHelper.checkAppUpdate(context: !event.context.mounted ? event.context : event.context);
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String version = packageInfo.version;
+        // Offline use ke liye save karo
+        if (_listActivityData.isNotEmpty) {
+          await HiveDataBase.activitySectionBox?.clear();
+          await HiveDataBase.activitySectionBox?.addAll(_listActivityData);
+        }
+      } else {
+        _listActivityData =
+            HiveDataBase.activitySectionBox?.values.toList() ?? [];
+      }
+      debugPrint("activity count -> ${_listActivityData.length}");
+    }
+    _drawerList = (await HomeHelper.fetchDrawerList(context: event.context))!;
 
     _eventCompleted(emit);
   }
@@ -154,7 +159,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         for (int j = 0; j < tempList[i].sublist.length; j++) {
           if (j == event.index) {
             tempList[i].sublist[j].isSelected = event.isSelected;
-            _childWidget = tempList[i].sublist[j].widget!;
+            _childWidget = tempList[i].sublist[j].widget;
             _title = tempList[i].sublist[j].label.toString();
             _actionButtonWidget = tempList[i].sublist[j].actionButtonWidget ??
                 const SizedBox.shrink();

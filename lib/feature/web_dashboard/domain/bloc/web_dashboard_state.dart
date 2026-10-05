@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/ActivitySectionModel.dart';
+import 'package:flutter_unistal_smart_gas_net/feature/home/domain/model/activity_section_model.dart';
 
 class WebDashboardState  extends Equatable{
   @override

@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/home/presentation/page/home_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/helper/login_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/web_dashboard/presenation/web_dashboard_page.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -40,9 +31,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   String get appLogo => _appLogo;
 
-  LoginDataModel _loginData = LoginDataModel();
-
-  LoginDataModel get loginData => _loginData;
+  LoginDataModel loginData = LoginDataModel();
 
   TextEditingController userNameTextFiledController = TextEditingController();
   TextEditingController passwordTextFieldController = TextEditingController();
@@ -83,14 +72,38 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     ].contains(role);
   }
 
+  /// Login ke baad user + token save karta hai, taaki splash pe restore ho sake.
+  Future<void> _saveUserSession(dynamic user, String token) async {
+    final value = jsonEncode({'user': user, 'token': token});
+    await SharedPreferencesUtils.setString(
+      key: PreferencesName.userInfo,
+      value: value,
+    );
+    debugPrint("userInfo saved -> $value");
+  }
+
+  /// Sirf successful login pe credentials + build number save karo.
+  Future<void> _saveCredentials() async {
+    await SharedPreferencesUtils.setString(
+        key: PreferencesName.userName, value: email);
+    await SharedPreferencesUtils.setString(
+        key: PreferencesName.password, value: password);
+
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    await SharedPreferencesUtils.setString(
+      key: PreferencesName.buildNumber,
+      value: packageInfo.buildNumber,
+    );
+    AppConfig.instanceInit()?.setBuildNumber(
+      buildNumber: "${packageInfo.buildNumber}(${packageInfo.version})",
+    );
+  }
+
   _submitLoginData(LoginSubmitDataEvent event, emit) async {
     bool isUrjaGati = await  AppConfig.instanceInit()!.client == Client.urjagati;
-    if (await ConnectivityHelper.allConnectivityCheck(context: event.context) ==
-        false) {
-      return;
-    }
 
-    _loginData = LoginDataModel();
+
+    loginData = LoginDataModel();
     var textFieldValidationCheck = await LoginHelper.textFieldValidation(
         emilId: email,
         password: password,
@@ -103,25 +116,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           password: password,
           context: !event.context.mounted ? event.context : event.context);
       _isLoader = false;
+      SharedPreferencesUtils.setString(key: PreferencesName.userName, value: email.toString());
+      SharedPreferencesUtils.setString(key: PreferencesName.password, value: password.toString());
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      String version = packageInfo.version;
+      String buildNumber = packageInfo.buildNumber;
+      await SharedPreferencesUtils.setString(key: PreferencesName.buildNumber, value: packageInfo.buildNumber,);
+      AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
       _eventCompleted(emit);
      // if (res != null && (res['roleId'] == null || res['roleId'] == "43"|| res['roleId'] == "44")) {
       if (res != null && isUrjaGati == true && res['user']['roleId'] == null) {
-        _loginData = loginResponse(res['user']);
-
+        loginData = loginResponse(res['user']);
         String token = res['token'] ?? "";
-        _loginData.token = token;
-
-        SharedPreferencesUtils.setString(key: PreferencesName.userName, value: email.toString());
-        SharedPreferencesUtils.setString(key: PreferencesName.password, value: password.toString());
-
+        loginData.token = token;
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
 
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        await _saveCredentials();
+        await _saveUserSession(res['user'], token);
 
-        String version = packageInfo.version;
-        String buildNumber = packageInfo.buildNumber;
-        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
         var dashboardLink = await LoginHelper.loginURL(
           context: event.context,
           token: res['token'],
@@ -148,11 +162,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     } else if (res != null) {
 
-        _loginData = loginResponse(res['user']);
+        loginData = loginResponse(res['user']);
 
         String token = res['token'] ?? "";
-        _loginData.token = token;
-        if (!isAllowedRole(_loginData.roleType ?? RoleType.unknown)) {
+        loginData.token = token;
+        if (!isAllowedRole(loginData.roleType ?? RoleType.unknown)) {
           SnackBarErrorWidget(event.context)
               .show(message: "Invalid user");
           return;
@@ -163,14 +177,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         UserInfo.instanceInit()?.userData = loginData;
-
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-        String version = packageInfo.version;
-        String buildNumber = packageInfo.buildNumber;
-
-        AppConfig.instanceInit()?.setBuildNumber(buildNumber: "$buildNumber($version)");
-
+        await _saveCredentials();
+        await _saveUserSession(res['user'], token);
         Navigator.pushAndRemoveUntil(
           event.context,
           MaterialPageRoute(builder: (_) => const HomePage()),

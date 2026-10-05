@@ -3,7 +3,6 @@ import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_bloc.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_unistal_smart_gas_net/feature/login/domain/bloc/login_state.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;

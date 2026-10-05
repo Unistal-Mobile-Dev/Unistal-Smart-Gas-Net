@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/app_config.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/app_string.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
+import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget child;

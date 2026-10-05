@@ -1,17 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/domain/model/joint_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/trenChing/addTrenChing/hepler/add_tren_ching_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/welding/addWelding/domain/model/joint_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
-
 part 'add_tren_ching_event.dart';
 part 'add_tren_ching_state.dart';
 
@@ -65,13 +53,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   File file = File("");
 
-  List<WeatherModel> _weatherList = [];
+  List<WeatherModel> weatherList = [];
 
-  List<WeatherModel> get weatherList => _weatherList;
-
-  WeatherModel _weatherData = WeatherModel();
-
-  WeatherModel get weatherData => _weatherData;
+  WeatherModel weatherData = WeatherModel();
 
   List<JointNumberModel> jointFromList = [];
   List<JointNumberModel> jointToList = [];
@@ -127,9 +111,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _isLoader = false;
     alignmentList = [];
     file = File("");
-    _weatherData = WeatherModel();
-    _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData();
+    weatherData = WeatherModel();
+    weatherList = await DashboardHelper.fetchWeatherData();
     alignmentData = AlignmentModel();
     multipleAlignmentData = [];
     _jointNumberData = JointNumberModel();
@@ -143,14 +126,9 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     toJointData = JointNumberModel();
     jointTypeData = JointTypeModel();
     isJointNumberLoader = false;
-    var res = await AddRouteSurveyHelper.fetchAlignmentData();
-    if (res != null) {
-      alignmentList = res;
-    }
-    var resTerrain = await DashboardHelper.fetchTerrainData();
-    if (resTerrain != null) {
-      terrainTypeList = resTerrain;
-    }
+    _userData = UserInfo.instanceInit()!.userData!;
+    alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+    terrainTypeList = await DashboardHelper.fetchTerrainData();
     var resJointNumber = await DashboardHelper.fetchJointNumberData(
         type:  AppConfig.instanceInit()!.activitySectionData.appJoint?.trim().isNotEmpty == true
             ? AppConfig.instanceInit()!.activitySectionData.appJoint!
@@ -165,7 +143,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData = event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -245,12 +223,12 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
 
   _selectFile(AddTrenChingAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
@@ -262,9 +240,8 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
   _submitData(AddTrenChingSubmitDataEvent event, emit) async {
     _isLoader = true;
     _eventComplete(emit);
-    var res = await AddTrenChingHelper.submitData(
+    bool done = await RecordHelper.submitTrenching(
       context: event.context,
-      alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
@@ -296,7 +273,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     );
     _isLoader = false;
     _eventComplete(emit);
-    if (res != null) {
+    if (done) {
       dateController = TextEditingController();
       reportNumberController = TextEditingController();
       toJointIdController = TextEditingController();
@@ -324,7 +301,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
       alignmentData = AlignmentModel();
       multipleAlignmentData = [];
       file = File("");
-      _weatherData = WeatherModel();
+      weatherData = WeatherModel();
       fromJointData = JointNumberModel();
       toJointData = JointNumberModel();
       jointTypeData = JointTypeModel();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
 class LogOutPopWidget extends StatelessWidget {
   final String? logOutMessage;
@@ -65,10 +64,10 @@ class LogOutPopWidget extends StatelessWidget {
     return TextButton(
         style: ButtonStyle(
             padding:
-                MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
+                WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
-                MaterialStateProperty.all<Color>(EnvironmentConfig.of(context)!.primaryTheme),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                WidgetStateProperty.all<Color>(EnvironmentConfig.of(context)!.primaryTheme),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: EnvironmentConfig.of(context)!.primaryTheme)))),

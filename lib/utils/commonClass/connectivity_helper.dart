@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/gps_setting_permission_pop_widget.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonWidgets/internet_connectivity_pop_widget.dart';
@@ -106,12 +106,12 @@ class ConnectivityHelper {
 
   static Future<bool> checkInterNetConnect() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return true;
-      }
+      final result = await InternetAddress.lookup('google.com')
+          .timeout(const Duration(seconds: 5));
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException {
       return false;
-    } on SocketException catch (_) {
+    } on TimeoutException {
       return false;
     }
   }

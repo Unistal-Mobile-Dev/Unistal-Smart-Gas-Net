@@ -30,11 +30,7 @@ class _AddHddCleanPassPageState extends State<AddHddCleanPassPage> {
   bool get _isVPPL => _client == Client.vppl;
   bool get _isVRPL => _client == Client.vrpl;
   bool get _isBJPL => _client == Client.bjpl;
-  bool get _isHPCL => _client == Client.hpcl;
-  bool get _isHPOIL => _client == Client.hpoil;
-  bool get _isGJPL => _client == Client.gjpl;
-  bool get _isURJAGATI => _client == Client.urjagati;
-  bool get _isMGL => _client == Client.mgl;
+
 
   @override
   void initState() {

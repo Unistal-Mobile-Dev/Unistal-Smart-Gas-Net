@@ -1,16 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unistal_smart_gas_net/ExportFile/app_export_file.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/helper/clearing_grading_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/clearingGrading/addClearingGrading/model/terrain_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/login/domain/models/login_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/alignment_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/ground_type_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/domain/model/weather_model.dart';
-import 'package:flutter_unistal_smart_gas_net/feature/routeSurvey/addRouteSurvey/helper/add_route_survey_helper.dart';
-import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
-import 'package:intl/intl.dart';
 
 part 'add_clearing_grading_event.dart';
 part 'add_clearing_grading_state.dart';
@@ -53,19 +42,17 @@ class AddClearingGradingBloc
 
   File file = File("");
 
-  List<WeatherModel> _weatherList = [];
-
-  List<WeatherModel> get weatherList => _weatherList;
-
-  WeatherModel _weatherData = WeatherModel();
-
-  WeatherModel get weatherData => _weatherData;
+  List<WeatherModel> weatherList = [];
+  WeatherModel weatherData = WeatherModel();
 
   List<GroundTypeModel> groundTypeList = [];
   GroundTypeModel groundTypeData = GroundTypeModel();
 
   List<TerrainTypeModel> terrainTypeList = [];
   TerrainTypeModel terrainTypeData = TerrainTypeModel();
+
+  Client get _client => AppConfig.instanceInit()!.client ?? Client.vppl;
+  bool get _isURJAGATI => _client == Client.urjagati;
 
   AddClearingGradingBloc() : super(AddClearingGradingInitial()) {
     on<AddClearingGradingPageLoadEvent>(_pageLoadEvent);
@@ -111,29 +98,41 @@ class AddClearingGradingBloc
     terrainTypeList = [];
     terrainTypeData = TerrainTypeModel();
     file = File("");
-    _weatherData = WeatherModel();
+    weatherData = WeatherModel();
      groundTypeList = [];
      groundTypeData = GroundTypeModel();
     _userData = UserInfo.instanceInit()!.userData!;
-    _weatherList = await DashboardHelper.fetchWeatherData();
-    var res = await AddRouteSurveyHelper.fetchAlignmentData();
-    if (res != null) {
-      alignmentList = res;
-    }
-    var groundTypeRes = await AddRouteSurveyHelper.fetchGroundTypeData();
-    if (res != null) {
-      groundTypeList = groundTypeRes;
-    }
-    var resTerrain = await DashboardHelper.fetchTerrainData();
-    if (resTerrain != null) {
-      terrainTypeList = resTerrain;
-    }
 
+    if(_isURJAGATI){
+      if (await ConnectivityHelper.checkInterNetConnect()) {
+        weatherList = await DashboardHelper.fetchWeatherData();
+        alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+        groundTypeList = await AddRouteSurveyHelper.fetchGroundTypeData();
+        terrainTypeList = await DashboardHelper.fetchTerrainData();
+      } else {
+        weatherList = HiveDataBase.weatherBox!.values.toList();
+        alignmentList = HiveDataBase.alignmentBox!.values.toList();
+        groundTypeList = HiveDataBase.groundTypeBox!.values.toList();
+        terrainTypeList = HiveDataBase.terrainTypeBox!.values.toList();
+        if (event.context.mounted) {
+          showDialog(
+            context: event.context,
+            barrierDismissible: true,
+            builder: (_) => const OfflineConnectivityPopWidget(),
+          );
+        }
+      }
+    }else{
+      weatherList = await DashboardHelper.fetchWeatherData();
+      alignmentList = await AddRouteSurveyHelper.fetchAlignmentData();
+      groundTypeList = await AddRouteSurveyHelper.fetchGroundTypeData();
+      terrainTypeList = await DashboardHelper.fetchTerrainData();
+    }
     _eventComplete(emit);
   }
 
   _selectWeather(SelectWeatherEvent event, emit) {
-    _weatherData = event.weatherData;
+    weatherData = event.weatherData;
     _eventComplete(emit);
   }
 
@@ -205,12 +204,12 @@ class AddClearingGradingBloc
 
   _selectFile(AddClearingGradingAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
-      var photo = await AddRouteSurveyHelper.imagePiker(context: event.context);
+      var photo = await MediaPickerHelper.imagePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
     } else {
-      var photo = await AddRouteSurveyHelper.filePiker(context: event.context);
+      var photo = await MediaPickerHelper.filePiker(context: event.context);
       if (photo != null) {
         file = photo;
       }
@@ -222,15 +221,14 @@ class AddClearingGradingBloc
   _submitData(AddClearingGradingSubmitDataEvent event, emit) async {
     _isLoader = true;
     _eventComplete(emit);
-    var res = await AddClearingGradingHelper.submitData(
+    bool done = await RecordHelper.submitClearGrade(
       context: event.context,
-      alignmentData: alignmentData,
       multipleAlignmentData: multipleAlignmentData,
       reportNumber: reportNumberController.text.toString(),
       date: dateController.text.toString(),
       tpIpChainage: tpChainageController.text.toString(),
       tpIpNOS: tpChainageNumberController.text.toString(),
-      tpIpRemark: tpRemarkNumberController.text.toString(),
+ //     tpIpRemark: tpRemarkNumberController.text.toString(),
       structureDetail: structureNameController.text.toString(),
       boundaryLocation: boundaryLocationController.text.toString(),
       activityRemark: activityRemarkController.text.toString(),
@@ -259,7 +257,7 @@ class AddClearingGradingBloc
     );
     _isLoader = false;
     _eventComplete(emit);
-    if (res != null) {
+    if (done) {
       dateController.text = "";
       reportNumberController.text = "";
       tpChainageController.text = "";
@@ -286,7 +284,7 @@ class AddClearingGradingBloc
       machineyController.text = "";
       manpowerController.text = "";
       detailsController.text = "";
-      _weatherData = WeatherModel();
+      weatherData = WeatherModel();
       terrainTypeData = TerrainTypeModel();
       _eventComplete(emit);
     }

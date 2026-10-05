@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_unistal_smart_gas_net/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/commonClass/user_info.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/app_color.dart';
 import 'package:flutter_unistal_smart_gas_net/utils/res/environment_config.dart';
 
-class AppBarWidget extends StatelessWidget
-    implements PreferredSizeWidget {
+class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final String? title;
   final bool? boolLeading;
   final Widget? leading;
@@ -26,23 +26,35 @@ class AppBarWidget extends StatelessWidget
   );
 
   @override
+  State<AppBarWidget> createState() => _AppBarWidgetState();
+}
+
+class _AppBarWidgetState extends State<AppBarWidget> {
+  /// Runs once when the widget is created, not on every rebuild.
+  late final Future<bool> _isOnline =
+  ConnectivityHelper.checkInterNetConnect();
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     final double logoSize = size.width * 0.10;
     final double titleFont = size.width * 0.032;
     final double subTitleFont = size.width * 0.022;
+    final double logoGap = size.width * 0.02;
+
+    final userData = UserInfo.instance!.userData!;
 
     return AppBar(
-      automaticallyImplyLeading: boolLeading ?? true,
+      automaticallyImplyLeading: widget.boolLeading ?? true,
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
       elevation: 0,
       centerTitle: true,
-      leading: leading,
-      actions: actions,
-      bottom: tabBar,
+      leading: widget.leading,
+      actions: widget.actions,
+      bottom: widget.tabBar,
 
       flexibleSpace: Container(
         decoration: BoxDecoration(
@@ -61,14 +73,19 @@ class AppBarWidget extends StatelessWidget
 
       title: Row(
         children: [
-          /// LEFT LOGO
-          _logoContainer(
-            context,
-            UserInfo.instance!.userData!.projectLogo,
-            logoSize,
+          /// LEFT LOGO (shown only when online)
+          FutureBuilder<bool>(
+            future: _isOnline,
+            builder: (context, snapshot) {
+              if (snapshot.data != true) return const SizedBox.shrink();
+              return Row(
+                children: [
+                  _logoContainer(context, userData.projectLogo, logoSize),
+                  SizedBox(width: logoGap),
+                ],
+              );
+            },
           ),
-
-          SizedBox(width: size.width * 0.02),
 
           /// CENTER CONTENT
           Expanded(
@@ -78,7 +95,7 @@ class AppBarWidget extends StatelessWidget
               children: [
                 /// PAGE TITLE
                 Text(
-                  title ?? "",
+                  widget.title ?? "",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -90,7 +107,10 @@ class AppBarWidget extends StatelessWidget
                 ),
 
                 SizedBox(height: size.height * 0.002),
-                Text("${UserInfo.instance!.userData!.piplineName}",
+
+                /// PIPELINE NAME
+                Text(
+                  "${userData.piplineName}",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -100,13 +120,14 @@ class AppBarWidget extends StatelessWidget
                     color: AppColor.white,
                   ),
                 ),
+
                 SizedBox(height: size.height * 0.002),
 
                 /// SECTION INFO
                 Text(
-                  "(${UserInfo.instance!.userData!.sectionName}"
-                      " | Dia - ${UserInfo.instance!.userData!.diameter}"
-                      "(${UserInfo.instance!.userData!.diauom}))",
+                  "(${userData.sectionName}"
+                      " | Dia - ${userData.diameter}"
+                      "(${userData.diauom}))",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -120,13 +141,18 @@ class AppBarWidget extends StatelessWidget
             ),
           ),
 
-          SizedBox(width: size.width * 0.02),
-
-          /// RIGHT LOGO
-          _logoContainer(
-            context,
-            UserInfo.instance!.userData!.smartLogo,
-            logoSize,
+          /// RIGHT LOGO (shown only when online)
+          FutureBuilder<bool>(
+            future: _isOnline,
+            builder: (context, snapshot) {
+              if (snapshot.data != true) return const SizedBox.shrink();
+              return Row(
+                children: [
+                  SizedBox(width: logoGap),
+                  _logoContainer(context, userData.smartLogo, logoSize),
+                ],
+              );
+            },
           ),
 
           SizedBox(width: size.width * 0.01),
@@ -145,9 +171,7 @@ class AppBarWidget extends StatelessWidget
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withOpacity(0.15)
-            : Colors.white,
+        color: isDark ? Colors.white.withValues(alpha: 0.15) : Colors.white,
         borderRadius: BorderRadius.circular(size * 0.2),
       ),
       padding: const EdgeInsets.all(3),
