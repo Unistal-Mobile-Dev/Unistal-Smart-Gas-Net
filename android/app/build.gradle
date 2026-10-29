@@ -38,34 +38,34 @@ android {
 
     flavorDimensions "default"
     productFlavors {
-//        prodUnistal {
-//            resValue "string", "app_name", "Unistal Steel"
-//            applicationIdSuffix ".unistalsmartgasnet.app"
-//            manifestPlaceholders = [
-//                    appIcon: "@mipmap/ic_launcher_unistal",
-//                    appIconRound: "@mipmap/ic_launcher_unistal"
-//            ]
-//            def keystorePropertiesFile = rootProject.file('unistal.properties')
-//            if (keystorePropertiesFile.exists()) {
-//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-//            }
-//            versionCode 1
-//            versionName "1.0.0-unistal"
-//        }
-//        prodPBGPL {
-//            resValue "string", "app_name", "PBG Steel"
-//            applicationIdSuffix ".purvabhartisteel.app"
-//            manifestPlaceholders = [
-//                    appIcon: "@mipmap/pbg_logo",
-//                    appIconRound: "@mipmap/pbg_logo"
-//            ]
-//            def keystorePropertiesFile = rootProject.file('purvaBharti.properties')
-//            if (keystorePropertiesFile.exists()) {
-//                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-//            }
-//            versionCode 11
-//            versionName "1.0.6-pbgpl"
-//        }
+        prodUnistal {
+            resValue "string", "app_name", "Unistal Steel"
+            applicationIdSuffix ".unistalsmartgasnet.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_unistal",
+                    appIconRound: "@mipmap/ic_launcher_unistal"
+            ]
+            def keystorePropertiesFile = rootProject.file('unistal.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+            versionCode 1
+            versionName "1.0.0-unistal"
+        }
+        prodPBGPL {
+            resValue "string", "app_name", "PBG Steel"
+            applicationIdSuffix ".purvabhartisteel.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/pbg_logo",
+                    appIconRound: "@mipmap/pbg_logo"
+            ]
+            def keystorePropertiesFile = rootProject.file('purvaBharti.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+            versionCode 11
+            versionName "1.0.6-pbgpl"
+        }
         prodMGL {
             resValue "string", "app_name", "MGL Steel"
             applicationIdSuffix ".mglsteel.app"

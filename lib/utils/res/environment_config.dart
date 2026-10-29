@@ -24,7 +24,7 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.prodUnistal:
         return "https://unistaldev.plcms.net/";
       case EnvironmentFlavours.prodPBGPL:
-        return "https://pbgpl.smartgasnet.com/";
+        return "https://pbgpluat.smartgasnet.com/";
       case EnvironmentFlavours.prodIGL:
         return "https://igl.smartgasnet.com/";
       case EnvironmentFlavours.prodMGL:
@@ -50,7 +50,7 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://pjpl.plcms.net/";
       case EnvironmentFlavours.prodUrjagati:
        // return "https://urjagati.smartgasnet.com/";
-        return "https://urjagatidev.smartgasnet.com/";
+        return "https://urjagati.smartgasnet.com/";
       case EnvironmentFlavours.prodHPCL:
         return "https://hpcl.smartgasnet.com/";
       case EnvironmentFlavours.prodBJPL:

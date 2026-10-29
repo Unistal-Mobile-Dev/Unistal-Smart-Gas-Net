@@ -80,10 +80,11 @@ flutter:
       fonts:
         - asset: fonts/Rubik-Regular.ttf
 
-jnnnflutter_icons:
-  android: "urjagati_logo"
+flutter_launcher_icons:
+  android: "pbg_logo"
   ios: true
-  image_path: "assets/logo/urjagati_logo.png"
+  remove_alpha_ios: true
+  image_path: "assets/logo/pbg_logo.png"
   min_sdk_android: 21
 
 

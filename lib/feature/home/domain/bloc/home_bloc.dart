@@ -99,6 +99,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             HiveDataBase.activitySectionBox?.values.toList() ?? [];
       }
       debugPrint("activity count -> ${_listActivityData.length}");
+    } else{
+      _listActivityData =
+          await HomeHelper.activityBySectionApi(userData: userData) ?? [];
     }
     _drawerList = (await HomeHelper.fetchDrawerList(context: event.context))!;
 
