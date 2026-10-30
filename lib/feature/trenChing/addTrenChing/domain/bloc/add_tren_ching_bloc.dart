@@ -104,7 +104,7 @@ class AddTrenChingBloc extends Bloc<AddTrenChingEvent, AddTrenChingState> {
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+        context: event.context, userData: userData) ?? [];
     _alignmentData = AlignmentModel();
     _jointNumberData = JointNumberModel();
     _jointNumberList = [];

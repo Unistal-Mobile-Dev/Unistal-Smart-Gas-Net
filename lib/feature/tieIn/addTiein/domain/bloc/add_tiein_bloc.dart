@@ -318,7 +318,7 @@ class AddTieinBloc extends Bloc<AddTieinEvent, AddTieinState> {
     _weatherData = WeatherModel();
     _userData = UserInfo.instanceInit()!.userData!;
     _weatherList = await DashboardHelper.fetchWeatherData(
-        context: event.context, userData: userData);
+        context: event.context, userData: userData) ?? [];
     _isJointNumberLoader = false;
     leftPipeList = [];
     rightPipeList = [];

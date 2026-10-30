@@ -105,7 +105,7 @@ class AddLevellingBloc extends Bloc<AddLevellingEvent, AddLevellingState> {
 
     weatherList = await DashboardHelper.fetchWeatherData(
         context: !event.context.mounted ? event.context : event.context,
-        userData: userData);
+        userData: userData)?? [];
 
     var res = await AddRouteSurveyHelper.fetchAlignmentData(
         context: !event.context.mounted ? event.context : event.context,

@@ -87,7 +87,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com"
-        minSdk = 23
+        minSdkVersion = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
